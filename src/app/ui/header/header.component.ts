@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { WindowRef } from 'src/app/services/window-ref.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
