@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RegistrationNumberComponent } from './components/form_fields/registration-number/registration-number.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    RegistrationNumberComponent
+  ],
   imports: [
     CommonModule
   ]
