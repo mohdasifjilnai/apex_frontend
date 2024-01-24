@@ -1,0 +1,17 @@
+<nav class="navbar navbar-section navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+          <img *ngIf="!env.artivatic_flag" src="assets/RB-logo/logo_rb.svg" class="logo-img img-fluid" alt="logo">
+          <img *ngIf="env.artivatic_flag" src="assets/RB-logo/av_logo.png" class="logo-img img-fluid" alt="logo">
+      </a>
+   
+      <ul class="navbar-nav d-flex justify-content-end ">
+        
+
+          <li class="nav-item class_login">
+              <span #widgetId></span>
+          </li>
+      </ul>
+   
+  </div>
+</nav>
