@@ -5,6 +5,7 @@ import { UiRoutingModule } from './ui-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
   ],
   imports: [
     CommonModule,
-    UiRoutingModule
+    UiRoutingModule,
+    MatRadioModule
   ],
   exports: [
     BreadcrumbComponent,
