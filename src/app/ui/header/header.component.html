@@ -1,17 +1,54 @@
 <nav class="navbar navbar-section navbar-expand-lg navbar-dark">
-  <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-          <img *ngIf="!env.artivatic_flag" src="assets/RB-logo/logo_rb.svg" class="logo-img img-fluid" alt="logo">
-          <img *ngIf="env.artivatic_flag" src="assets/RB-logo/av_logo.png" class="logo-img img-fluid" alt="logo">
-      </a>
-   
-      <ul class="navbar-nav d-flex justify-content-end ">
-        
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img *ngIf="!env.artivatic_flag" src="assets/RB-logo/logo_rb.svg" class="logo-img img-fluid" alt="logo">
+            <img *ngIf="env.artivatic_flag" src="assets/RB-logo/av_logo.png" class="logo-img img-fluid" alt="logo">
+        </a>
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false">
+			<span class="line"></span>
+			<span class="line"></span>
+			<span class="line"></span>
+		</button> -->
+        <!-- <div class="collapse navbar-collapse" id="collapsibleNavbar" aria-expanded="false" data-toggle="collapse"> -->
+        <ul class="navbar-nav d-flex justify-content-end ">
+            <!-- <li class="nav-item dedicated_support" *ngIf="!d2dFlag">
+                <a class="nav-link support_deliver disable-mb " target="_blank" href="{{env['oldPlatform']}}">
+                    <img src="assets/icons/switchOld.svg">
+                    &nbsp; <span>Switch to old</span>
+                </a>
+                <a class="nav-link support_deliver disable-web mobile-pad-remove" target="_blank" href="{{env['oldPlatform']}}">
+                    <img src="assets/icons/old_version.svg">
+                </a>
+            </li> -->
+            <li class="nav-item dedicated_support">
+                <a class="nav-link support_deliver disable-mb" target="_blank" routerLink="/dedicated-support-contacts">
+                    <img src="assets/icons/call.svg">
+                    &nbsp; <span>Dedicated Support</span>
+                </a>
+                <a class="nav-link support_deliver disable-web" target="_blank"
+                    routerLink="/dedicated-support-contacts">
+                    <img src="assets/icons/call.svg"> &nbsp;
+                </a>
+            </li>
 
-          <li class="nav-item class_login">
-              <span #widgetId></span>
-          </li>
-      </ul>
-   
-  </div>
+            <!--QR -->
+            <li class="nav-item dedicated_support" *ngIf="!qrDisabled">
+                <a class="nav-link support_deliver disable-mb " target="_blank" routerLink="/qr-code">
+                    <img src="assets/images/QR.svg">
+                    &nbsp; <span>My QR Code</span>
+                </a>
+                <a class="nav-link support_deliver disable-web" target="_blank" routerLink="/qr-code">
+                    <img src="assets/images/QR.svg"> &nbsp;
+                </a>
+            </li>
+
+            <li class="nav-item class_login">
+                <span #widgetId></span>
+            </li>
+        </ul>
+        <!-- </div> -->
+        <!-- <div class="">
+
+        </div> -->
+    </div>
 </nav>
