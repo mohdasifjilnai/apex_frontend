@@ -1,7 +1,7 @@
 <nav class="navbar navbar-section navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img *ngIf="!env.artivatic_flag" src="./assets/icon/RB-logo.svg" class="logo-img img-fluid" alt="logo" width="147.5px" height="45px">
+            <img *ngIf="!env.artivatic_flag" src="/assets/icon/RB-logo.svg" class="logo-img img-fluid" alt="logo" width="147.5px" height="45px">
             <img *ngIf="env.artivatic_flag" src="assets/RB-logo/av_logo.png" class="logo-img img-fluid" alt="logo">
         </a>
         <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false">
@@ -22,7 +22,7 @@
             </li> -->
             <li class="nav-item dedicated_support">
                 <a class="nav-link support_deliver disable-mb" target="_blank" routerLink="/dedicated-support-contacts">
-                    <img src="./assets/icon/support.svg">
+                    <img src="/assets/icon/support.svg">
                     &nbsp; <span>Dedicated Support</span>
                 </a>
                 <a class="nav-link support_deliver disable-web" target="_blank"
@@ -48,7 +48,8 @@
 
             <li class="nav-item class_login">
                 <a class="nav-link support_deliver disable-mb" target="_blank" routerLink="/dedicated-support-contacts">
-                    <img src="./assets/icon/profile.svg">
+                    <span #widgetId></span>
+                    <img src="/assets/icon/profile.svg">
                 </a>
             </li>
         </ul>
