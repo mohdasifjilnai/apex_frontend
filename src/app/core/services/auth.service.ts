@@ -65,7 +65,7 @@ export class AuthService {
         localStorage.removeItem('code');
         this.loggedIn.next(false);
 
-        window.location.href = environment.partner_v2;
+        // window.location.href = environment.partner_v2;
     }
 
 
