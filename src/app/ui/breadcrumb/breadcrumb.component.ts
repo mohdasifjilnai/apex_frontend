@@ -7,7 +7,6 @@ import { Breadcrumb } from './breadcrumb';
 
 @Component({
   selector: 'app-breadcrumb',
- 
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
@@ -17,9 +16,8 @@ export class BreadcrumbComponent implements OnInit {
   breadcrumbs$: Observable<Breadcrumb[]>;
 
   constructor(private readonly breadcrumbService: BreadcrumbService) {
+    // get breadcrumb label data
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
-    console.log( this.breadcrumbs$);
-    
   }
 
   ngOnInit(): void {

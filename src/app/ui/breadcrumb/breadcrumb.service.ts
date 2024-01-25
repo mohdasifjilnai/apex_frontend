@@ -31,7 +31,7 @@ export class BreadcrumbService {
     });
   }
 
-  private addBreadcrumb(route: ActivatedRouteSnapshot, parentUrl: string[], breadcrumbs: Breadcrumb[]) {
+  private addBreadcrumb(route: ActivatedRouteSnapshot|null, parentUrl: string[], breadcrumbs: Breadcrumb[]) {
     if (route) {
       // Construct the route URL
       const routeUrl = parentUrl.concat(route.url.map(url => url.path));
@@ -54,10 +54,10 @@ export class BreadcrumbService {
           breadcrumbs.push(breadcrumb);
         }
       }
-      console.log(route);
+      console.log(route.firstChild);
       
       // Add another element for the next route part
-      this.addBreadcrumb(route, routeUrl, breadcrumbs);
+      this.addBreadcrumb(route.firstChild, routeUrl, breadcrumbs);
     }
   }
 
