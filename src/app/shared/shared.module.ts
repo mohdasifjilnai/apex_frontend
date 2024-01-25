@@ -14,7 +14,8 @@ import { VehicleTypeComponent } from './components/form_fields/vehicle-type/vehi
     CommonModule
   ],
   exports:[
-    VehicleTypeComponent
+    VehicleTypeComponent,
+    RegistrationNumberComponent
   ]
 })
 export class SharedModule { }

@@ -54,8 +54,7 @@ export class BreadcrumbService {
           breadcrumbs.push(breadcrumb);
         }
       }
-      console.log(route.firstChild);
-      
+    
       // Add another element for the next route part
       this.addBreadcrumb(route.firstChild, routeUrl, breadcrumbs);
     }
