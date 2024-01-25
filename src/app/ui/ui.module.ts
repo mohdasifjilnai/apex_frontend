@@ -12,17 +12,16 @@ import {MatRadioModule} from '@angular/material/radio';
   declarations: [
     HeaderComponent,
     LayoutComponent,
-    BreadcrumbComponent
+    // BreadcrumbComponent
   ],
   imports: [
     CommonModule,
     UiRoutingModule,
     MatRadioModule
   ],
-  exports: [
-    BreadcrumbComponent,
-    HeaderComponent,
- 
-  ],
+  // exports: [
+  //   BreadcrumbComponent,
+   
+  // ],
 })
 export class UiModule { }
