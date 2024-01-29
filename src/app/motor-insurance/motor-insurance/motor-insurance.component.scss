@@ -5,11 +5,16 @@
     border-radius: 20px;
     border: 1px solid white;
     background: white;
+    height: 70vh;
 
     .motor-insurance {
       margin-top: 80px;
       color: #5989DE;
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 35px;
+    }
+    .container{
+      margin-top: 10em;
     }
   }
 }
@@ -17,5 +22,14 @@
 .vehicle-submission {
   width: 300px;
   height: 48px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.registration-quote{
+  font-size: 22px;
+  font-weight: 500;
+}
+.registration-without-no{
+  font-size: 10px;
+  font-weight: 600;
 }

@@ -2,12 +2,13 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import "bootstrap/dist/css/bootstrap.css";
 @import 'bootstrap/scss/bootstrap';
-@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,600,700");
 
 /* You can add global styles to this file, and also import other style files */
 html,
 body {
     height: 100%;
+    overflow-x: hidden;
 }
 * {
     font-family: 'Montserrat' !important;

@@ -2,27 +2,31 @@
     <app-breadcrumb></app-breadcrumb>
 
     <div class="body-content">
+        <div class="container">
         <div class="col-12 text-center">
             <h1 class="motor-insurance">Motor Insurance</h1>
         </div>
-        <div class="col-12 text-center">
-            <h2>Gear Up for Protection! Choose Your Customer's Vehicle Type</h2>
+        <div class="col-12 text-center mt-4">
+            <h2 class="registration-quote">Gear Up for Protection! Choose Your Customer's Vehicle Type</h2>
         </div>
-        <div>
-            <app-vehicle-type></app-vehicle-type>
-        </div>
-        <div class="col-12 mt-4">
-            <form [formGroup]="motorInsurance" class="d-flex justify-content-center">
-                <app-registration-number></app-registration-number>
-            </form>
-        </div>
-        <div class="col-12 text-center">
-            <button class="submit-btn vehicle-submission">Get Vehicle Details</button>
-        </div>
-        <div class="col-12 text-center">
-            <a>
-                <p class="text-primary mb-3 mt-3">Proceed without Vehicle Number</p>
-            </a>
+        <form [formGroup]="motorInsurance">
+            <div>
+                <app-vehicle-type></app-vehicle-type>
+            </div>
+            <div class="col-12 mt-4">
+                <div class="d-flex justify-content-center">
+                    <app-registration-number></app-registration-number>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <button class="submit-btn vehicle-submission">Get Vehicle Details</button>
+            </div>
+            <div class="col-12 text-center">
+                <a>
+                    <p class="text-primary mb-3 mt-3 registration-without-no">Proceed without Vehicle Number</p>
+                </a>
+            </div>
+        </form>
         </div>
     </div>
 </div>
