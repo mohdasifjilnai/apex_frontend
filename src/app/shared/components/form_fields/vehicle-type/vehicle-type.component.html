@@ -1,1 +1,7 @@
-<p>vehicle-type works!</p>
+<div class="row d-flex justify-content-center gap-5 mt-4">
+    <div class="col-4 two-wheeler" *ngFor="let vehicle of vehicleTypeList">
+            <a>
+                <img src={{vehicle?.imageUrl}} alt={{vehicle?.imageInformation}}>
+            </a>
+    </div>
+</div>
