@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class AuthService {
+   
 
     public loggedIn = new BehaviorSubject<boolean>(false);
     public userExecutiveCode = new BehaviorSubject<string>('');
@@ -69,7 +70,9 @@ export class AuthService {
     }
 
 
-
+    getTokenFromStorage() {
+        return localStorage.getItem('token')
+      }
 }
 
 
