@@ -1,0 +1,17 @@
+[
+    {
+      "optionName": "Two Wheeler",
+      "imageUrl": "/assets/icon/two-wheeler.svg",
+      "imageInformation": "Two Wheeler"
+    },
+    {
+      "optionName": "Private Car",
+      "imageUrl": "/assets/icon/private-car.svg",
+      "imageInformation": "Private Car"
+    },
+    {
+      "optionName": "Commercial Vehicle",
+      "imageUrl": "/assets/icon/commercial-vehicle.svg",
+      "imageInformation": "Commercial Vehicle"
+    }
+  ]
