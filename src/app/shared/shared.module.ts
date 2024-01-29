@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RegistrationNumberComponent } from './components/form_fields/registration-number/registration-number.component';
 import { VehicleTypeComponent } from './components/form_fields/vehicle-type/vehicle-type.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,11 +14,15 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports:[
     VehicleTypeComponent,
-    RegistrationNumberComponent
+    RegistrationNumberComponent,
+    
+    
   ]
 })
 export class SharedModule { }

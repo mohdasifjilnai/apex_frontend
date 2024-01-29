@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BreadcrumbComponent } from 'src/app/ui/breadcrumb/breadcrumb.component';
 
 @Component({
@@ -9,6 +10,11 @@ import { BreadcrumbComponent } from 'src/app/ui/breadcrumb/breadcrumb.component'
 })
 export class MotorInsuranceComponent implements OnInit {
 
+
+  motorInsurance: FormGroup = new FormGroup({
+    registration_number: new FormControl('', Validators.required),
+  
+  });
   constructor() { }
 
   ngOnInit(): void {
