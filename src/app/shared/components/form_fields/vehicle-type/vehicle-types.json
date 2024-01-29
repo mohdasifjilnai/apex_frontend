@@ -1,4 +1,5 @@
-[
+{
+  "vehicleTypeList" : [
     {
       "optionName": "Two Wheeler",
       "imageUrl": "/assets/icon/two-wheeler.svg",
@@ -15,3 +16,5 @@
       "imageInformation": "Commercial Vehicle"
     }
   ]
+}
+
