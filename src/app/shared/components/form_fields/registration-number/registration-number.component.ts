@@ -13,6 +13,7 @@ export class RegistrationNumberComponent implements OnInit {
 
   form!: FormGroup;
   @Input('required') isRequired = false;
+  
   constructor(private ctrlContainer: FormGroupDirective) {}
 
   ngOnInit(): void {
