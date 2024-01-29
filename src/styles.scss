@@ -2,115 +2,142 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import "bootstrap/dist/css/bootstrap.css";
 @import 'bootstrap/scss/bootstrap';
+
 /* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
-body { margin: 0;}
-* {
-    font-family: Montserrat !important;
-    font-size: 14px;
-    .mat-icon{
-        font-family: 'Material Icons' !important;
-    }
+html,
+body {
+    height: 100%;
 }
-.addition-row{
+
+body {
+    margin: 0;
+}
+
+.addition-row {
     padding: 0px 25px;
     // margin-top: 11px !important;
 }
+
 th.mat-header-cell:first-of-type {
     padding-left: 0px !important;
 }
+
 th.mat-header-cell:last-of-type {
     padding: 0px !important;
 }
+
 // Material custom css
 .custom-mat-form-field.mat-form-field-appearance-outline {
     width: 100%;
+
     .mat-form-field-prefix,
     .mat-form-field-suffix {
         top: -6px;
     }
+
     .mat-form-field-infix {
         top: -6px;
         padding: 8px 0;
     }
+
     .mat-form-field-outline {
         height: 40px;
     }
+
     .mat-form-field-outline-start {
         border-radius: 50px 0 0 50px !important;
         width: 25px !important;
     }
+
     .mat-form-field-outline-end {
         border-radius: 0 50px 50px 0 !important;
         width: 25px !important;
     }
+
     .mat-form-field-flex {
         height: 40px;
     }
+
     .mat-select-arrow-wrapper {
         transform: none;
     }
+
     .mat-form-field-outline-thick {
         color: #DFDFDF;
     }
+
     /* datepicker icon colcor */
     .mat-datepicker-toggle-default-icon {
         color: #FF6A00 !important;
     }
 }
+
 .custom-mat-form-field.custom-datpicker .mat-form-field-suffix {
     top: 0 !important;
 }
+
 /* To change mat-checkbox background color after checkbox is checked the background color should be blue-clr */
 .custom-mat-checkbox.mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .custom-mat-checkbox.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: #0066AF;
     border-radius: 5px;
 }
+
 .custom-mat-checkbox .mat-checkbox-layout {
     white-space: normal !important;
 }
+
 .custom-mat-checkbox .mat-checkbox-layout .mat-checkbox-label {
     line-height: 2;
 }
+
 .custom-mat-checkbox .mat-checkbox-inner-container {
     width: 24px;
     height: 24px;
 }
+
 .custom-mat-checkbox.mat-accent .mat-checkbox-frame {
     border: 1px solid #9C9C9C;
     border-radius: 5px;
 }
+
 .custom-mat-checkbox.mat-checkbox-checked.mat-accent .mat-checkbox-frame {
     border: 1px solid #0066AF;
     border-radius: 5px;
 }
+
 /* custom radion button css */
 /* radio button css */
 .custom-radio-btn .custom-radio-button-margin {
     width: 48%;
     margin-bottom: 15px;
 }
+
 .custom-radio-btn .mat-accent {
     padding: 4px 0px;
 }
+
 .custom-radio-btn .mat-radio-checked .mat-radio-outer-circle {
     background: #1478F6;
     border: #1478F6 !important;
 }
+
 .custom-radio-btn .mat-radio-inner-circle {
     display: none;
 }
+
 @media screen and (min-width: 1366) {
     .container {
         max-width: 1350px !important;
     }
 }
+
 @media only screen and (max-width: 768px) {
-    .addition-row{
+    .addition-row {
         padding: 0px 5px !important;
     }
 }
+
 // Font faces
 @font-face {
     font-family: 'Montserrat';
@@ -120,6 +147,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-BoldItalic.woff2') format('woff2'),
@@ -128,6 +156,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-ExtraBoldItalic.woff2') format('woff2'),
@@ -136,6 +165,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-LightItalic.woff2') format('woff2'),
@@ -144,6 +174,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-ThinItalic.woff2') format('woff2'),
@@ -152,6 +183,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-ExtraLightItalic.woff2') format('woff2'),
@@ -160,6 +192,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Italic.woff2') format('woff2'),
@@ -168,6 +201,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Black.woff2') format('woff2'),
@@ -176,6 +210,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-SemiBoldItalic.woff2') format('woff2'),
@@ -184,6 +219,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-MediumItalic.woff2') format('woff2'),
@@ -192,6 +228,7 @@ th.mat-header-cell:last-of-type {
     font-style: italic;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-ExtraBold.woff2') format('woff2'),
@@ -200,6 +237,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Regular.woff2') format('woff2'),
@@ -208,6 +246,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Medium.woff2') format('woff2'),
@@ -216,6 +255,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Bold.woff2') format('woff2'),
@@ -224,6 +264,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
@@ -232,6 +273,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-ExtraLight.woff2') format('woff2'),
@@ -240,6 +282,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Thin.woff2') format('woff2'),
@@ -248,6 +291,7 @@ th.mat-header-cell:last-of-type {
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Montserrat';
     src: url('/assets/fonts/Montserrat-Light.woff2') format('woff2'),
@@ -255,4 +299,22 @@ th.mat-header-cell:last-of-type {
     font-weight: 300;
     font-style: normal;
     font-display: swap;
+}
+
+.submit-btn {
+    flex-wrap: wrap;
+    background-color: #fd7e14;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 12px;
+    width: 150px;
+    border: 1px solid #fd7e14;
+    padding: 5px 15px 5px 15px;
+}
+
+
+.submit-btn:hover {
+    background-color: #f7a663;
+    border: 1px solid #f7a663;
 }

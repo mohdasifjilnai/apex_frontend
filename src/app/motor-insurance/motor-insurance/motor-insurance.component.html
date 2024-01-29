@@ -1,10 +1,6 @@
-
 <div class="row main-container">
     <app-breadcrumb></app-breadcrumb>
-    <form [formGroup]="motorInsurance">
-        <app-registration-number></app-registration-number>
-    </form>
-   
+
     <div class="body-content">
         <div class="col-12 text-center">
             <h1 class="motor-insurance">Motor Insurance</h1>
@@ -14,6 +10,19 @@
         </div>
         <div>
             <app-vehicle-type></app-vehicle-type>
+        </div>
+        <div class="col-12 mt-4">
+            <form [formGroup]="motorInsurance" class="d-flex justify-content-center">
+                <app-registration-number></app-registration-number>
+            </form>
+        </div>
+        <div class="col-12 text-center">
+            <button class="submit-btn vehicle-submission">Get Vehicle Details</button>
+        </div>
+        <div class="col-12 text-center">
+            <a>
+                <p class="text-primary mb-3 mt-3">Proceed without Vehicle Number</p>
+            </a>
         </div>
     </div>
 </div>

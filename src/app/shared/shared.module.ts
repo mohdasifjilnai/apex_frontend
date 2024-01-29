@@ -9,6 +9,8 @@ import { RTOComponent } from './components/form_fields/rto/rto.component';
 import { RegistrationYearComponent } from './components/form_fields/registration-year/registration-year.component';
 import { PreviousInsurerComponent } from './components/form_fields/previous-insurer/previous-insurer.component';
 import { PolicyExpiredDateComponent } from './components/form_fields/policy-expired-date/policy-expired-date.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -26,9 +28,11 @@ import { PolicyExpiredDateComponent } from './components/form_fields/policy-expi
     CommonModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
-  exports:[
+  exports: [
     VehicleTypeComponent,
     RegistrationNumberComponent,
     VehicleComponent,
@@ -36,7 +40,7 @@ import { PolicyExpiredDateComponent } from './components/form_fields/policy-expi
     RegistrationYearComponent,
     PreviousInsurerComponent,
     PolicyExpiredDateComponent
-    
+
   ]
 })
 export class SharedModule { }

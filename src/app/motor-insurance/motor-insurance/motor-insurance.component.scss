@@ -1,16 +1,21 @@
 .main-container {
-    padding: 40px;
-  
-    .body-content {
-      border-radius: 20px;
-      border: 1px solid white;
-      background: white;
-  
-      .motor-insurance {
-        margin-top: 80px;
-        color: #5989DE;
-        font-weight: 500;
-      }
+  padding: 40px;
+
+  .body-content {
+    border-radius: 20px;
+    border: 1px solid white;
+    background: white;
+
+    .motor-insurance {
+      margin-top: 80px;
+      color: #5989DE;
+      font-weight: 500;
     }
   }
-  
+}
+
+.vehicle-submission {
+  width: 300px;
+  height: 48px;
+  font-size: 16px;
+}
