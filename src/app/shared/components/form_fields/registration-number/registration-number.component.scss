@@ -1,13 +1,15 @@
-  ::ng-deep {
-    .mat-form-field-infix {
-      width: 450px !important;
-    }
-    .mat-form-field-label {
-      font-size: 14px!important;
-      font-weight: 500 !important;
-    }
-    .mat-form-field-label-wrapper{
-      top: -8px !important;
+  .registration-number{
+    ::ng-deep {
+      .mat-form-field-infix {
+        width: 450px !important;
+      }
+      .mat-form-field-label {
+        font-size: 14px!important;
+        font-weight: 500 !important;
+      }
+      .mat-form-field-label-wrapper{
+        top: -8px !important;
+      }
     }
   }
 

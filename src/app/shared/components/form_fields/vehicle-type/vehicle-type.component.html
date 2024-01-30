@@ -1,7 +1,7 @@
 <div class="row d-flex justify-content-center gap-5 mt-4">
-    <div class="col-4 two-wheeler" *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList">
+    <div class="col-4 two-wheeler cursor-pointer" *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList" (click)="selectVehicle(vehicle)">
             <a>
-                <img src={{vehicle?.imageUrl}} alt={{vehicle?.imageInformation}}>
+                <img src={{vehicle?.imageUrl}} alt={{vehicle?.imageInformation}} [ngClass]="{'vehicleTypeSelected': selectedVehicleType === vehicle}">
             </a>
     </div>
 </div>

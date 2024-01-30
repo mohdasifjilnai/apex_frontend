@@ -10,12 +10,21 @@ import vehicleTypeList from '../vehicle-type/vehicle-types.json'
 })
 export class VehicleTypeComponent implements OnInit {
   vehicleTypeListData = vehicleTypeList;
- 
-  
+  selectedVehicleType: any;
 
-  constructor(private http: HttpClient) {}
+
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-   
+    // Initialize selectedVehicleType to "Private Car" by default
+    this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(vehicle => vehicle.optionName === 'Private Car');
+    console.log(this.selectedVehicleType)
+  }
+
+  selectVehicle(vehicle: any) {
+    this.selectedVehicleType = vehicle;
+    console.log(this.selectedVehicleType)
+
   }
 }
