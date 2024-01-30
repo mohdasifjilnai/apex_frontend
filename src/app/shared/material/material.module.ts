@@ -62,12 +62,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatPaginatorModule,
         MatSortModule,
         MatExpansionModule,
-        MatRadioModule,
+        MatRadioGroup,
         MatSlideToggleModule,
         MatProgressBarModule,
         MatIconModule,
         MatTabsModule,
-        MatRadioModule,
+    
         MatTooltipModule,
         
     ],
@@ -105,7 +105,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatIconModule,
         MatTableModule,
         MatTooltipModule,
-        
+        MatRadioGroup
     ],
     providers: [
 
