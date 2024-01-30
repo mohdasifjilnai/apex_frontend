@@ -10,8 +10,7 @@ const routes: Routes = [
     component: MotorInsuranceComponent,
     data: {
       breadcrumb: [
-        { name: 'Main', path: ['motor'] },
-       
+        { name: 'Motor Insurance', path: ['motor'] },
       ],
     },
     
@@ -21,8 +20,8 @@ const routes: Routes = [
     component: QuotesComponent,
     data: {
       breadcrumb: [
-        { name: 'Main', path: ['quotes'] },
-       
+        { name: 'Motor Insurance', path: ['motor'] },
+        { name: 'Quotes Listing', path: ['quotes'] },
       ],
     },
     
