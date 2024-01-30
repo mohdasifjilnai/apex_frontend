@@ -6,7 +6,6 @@ ul {
       margin: 0;
       padding: 0;
       margin-left: 42px !important;
-      border-bottom: 3px solid #0066b0;
       width: fit-content;
       position: relative;
     }
@@ -63,5 +62,9 @@ ul {
     width: 100%;
     margin-top: -3px;
     opacity: 0.5;
+  }
+  .breadcrumb-title{
+    font-size: 14px;
+    font-weight: 600;
   }
   

@@ -10,10 +10,11 @@ import { BreadcrumbComponent } from 'src/app/ui/breadcrumb/breadcrumb.component'
   styleUrls: ['./motor-insurance.component.scss']
 })
 export class MotorInsuranceComponent implements OnInit {
-
+  withoutVehicleNumber:boolean = false
 
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', Validators.required),
+    vehicle:new FormControl('',Validators.required)
   
   });
   constructor(private router: Router) { }
@@ -21,10 +22,12 @@ export class MotorInsuranceComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-
 //  get vehicle detials submit event
   getVehicleDetails(){
     this.router.navigate(['/motor/quotes'])
+  }
+
+  getVehicleNumber(){
+    this.withoutVehicleNumber = !this.withoutVehicleNumber
   }
 }

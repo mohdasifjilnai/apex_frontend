@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { ControlContainer, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registration-number',
@@ -14,7 +14,8 @@ export class RegistrationNumberComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(private ctrlContainer: FormGroupDirective,private fb : FormBuilder) {
+  }
 
   ngOnInit(): void {
     // add form control for the registration number
