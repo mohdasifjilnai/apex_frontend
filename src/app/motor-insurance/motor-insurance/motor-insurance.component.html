@@ -15,11 +15,11 @@
             </div>
             <div class="col-12 mt-4">
                 <div class="d-flex justify-content-center">
-                    <app-registration-number></app-registration-number>
+                    <app-registration-number  [required]="true"></app-registration-number>
                 </div>
             </div>
             <div class="col-12 text-center">
-                <button class="submit-btn vehicle-submission" type="button" (click)="getVehicleDetails()">Get Vehicle Details</button>
+                <button class="submit-btn vehicle-submission" type="submit" (click)="getVehicleDetails()">Get Vehicle Details</button>
             </div>
             <div class="col-12 text-center">
                 <a>

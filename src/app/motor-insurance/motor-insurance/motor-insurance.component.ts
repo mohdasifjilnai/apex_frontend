@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BreadcrumbComponent } from 'src/app/ui/breadcrumb/breadcrumb.component';
 
 @Component({
@@ -15,15 +16,15 @@ export class MotorInsuranceComponent implements OnInit {
     registration_number: new FormControl('', Validators.required),
   
   });
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
 
 
-
+//  get vehicle detials submit event
   getVehicleDetails(){
-    
+    this.router.navigate(['/motor/quotes'])
   }
 }
