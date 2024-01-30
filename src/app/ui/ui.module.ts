@@ -6,22 +6,19 @@ import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
 
 import {MatRadioModule} from '@angular/material/radio';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     LayoutComponent,
-    // BreadcrumbComponent
+    BreadcrumbComponent
   ],
   imports: [
     CommonModule,
     UiRoutingModule,
     MatRadioModule
   ],
-  // exports: [
-  //   BreadcrumbComponent,
-   
-  // ],
 })
 export class UiModule { }

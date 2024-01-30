@@ -4,6 +4,7 @@
       <img src="/assets/icon/right-arrow.svg" class="mx-2">
         <li *ngFor="let breadcrumb of breadcrumbs$ | async"> 
           <a [routerLink]="breadcrumb.url" class="breadcrumb-title">{{ breadcrumb.label }}</a>
+          <img src="/assets/icon/right-arrow.svg" class="mx-2">
         </li>
       </ul>
       <!-- <ul class="ab"></ul> -->
