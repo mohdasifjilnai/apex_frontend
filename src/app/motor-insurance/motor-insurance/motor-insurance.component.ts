@@ -20,4 +20,10 @@ export class MotorInsuranceComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+
+
+  getVehicleDetails(){
+    
+  }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MotorInsuranceComponent } from './motor-insurance/motor-insurance.component';
+import { QuotesComponent } from './quotes/quotes.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,18 @@ const routes: Routes = [
        
       ],
     },
+    
+  },
+  {
+    path: 'quotes',
+    component: QuotesComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Main', path: ['quotes'] },
+       
+      ],
+    },
+    
   },
 ];
 
