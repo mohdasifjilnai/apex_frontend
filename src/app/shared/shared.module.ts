@@ -9,9 +9,9 @@ import { RTOComponent } from './components/form_fields/rto/rto.component';
 import { RegistrationYearComponent } from './components/form_fields/registration-year/registration-year.component';
 import { PreviousInsurerComponent } from './components/form_fields/previous-insurer/previous-insurer.component';
 import { PolicyExpiredDateComponent } from './components/form_fields/policy-expired-date/policy-expired-date.component';
-
 import { SuccessDialogComponent } from './components/dialog-components/success-dialog/success-dialog.component';
 import { FailureDialogComponent } from './components/dialog-components/failure-dialog/failure-dialog.component';
+import { MultiSelectDropDownComponent } from './components/form_fields/multi-select-drop-down/multi-select-drop-down.component';
 import { MaterialModule } from './material/material.module';
 
 @NgModule({
@@ -25,6 +25,7 @@ import { MaterialModule } from './material/material.module';
     PolicyExpiredDateComponent,
     SuccessDialogComponent,
     FailureDialogComponent,
+    MultiSelectDropDownComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +44,7 @@ import { MaterialModule } from './material/material.module';
     PolicyExpiredDateComponent,
     SuccessDialogComponent,
     FailureDialogComponent,
+    MultiSelectDropDownComponent,
     MaterialModule
   ],
 })

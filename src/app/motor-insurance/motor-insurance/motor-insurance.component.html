@@ -15,6 +15,11 @@
         <div>
           <app-vehicle-type></app-vehicle-type>
         </div>
+        <div class="col-12 mt-4">
+            <multi-select-drop-down
+              [multi_select_cities]="multi_select_cities"
+            ></multi-select-drop-down>
+          </div>
         <div class="col-12 mt-4" *ngIf="!withoutVehicleNumber">
           <div class="d-flex justify-content-center">
             <app-registration-number

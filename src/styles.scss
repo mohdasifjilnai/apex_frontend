@@ -358,3 +358,49 @@ th.mat-header-cell:last-of-type {
 .mat-form-field-appearance-outline .mat-form-field-outline-end {
   border-radius: 0 15px 15px 0 !important;
 }
+.cursor-pointer{
+    cursor: pointer;
+}
+.mat-form-field-label {
+    font-size: 14px!important;
+    font-weight: 500 !important;
+  }
+  .mat-form-field-label-wrapper{
+    top: -8px !important;
+  }
+
+   /*[START]this css add for multi select drop down*/
+   .mat-pseudo-checkbox {
+    width: 16px;
+    height: 16px;
+    border: none !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    box-sizing: border-box  !important;
+    position: relative !important;
+    flex-shrink: 0 !important;
+    transition: none !important
+}
+ .mat-pseudo-checkbox::after {
+    color: #3f51b5 !important;
+    left: 19.5rem !important;
+}
+.mat-option{
+    padding: 0 0px !important
+}
+.mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
+    background: #ced4da00 !important;
+}
+/*[END]this css add for multi select drop down*/
+
+  /* [START]Set down arraow  */
+  .mat-select-arrow {
+    border-left: 15px solid transparent !important;
+    border-right: none !important;
+    border-top: 10px solid transparent !important;
+    border-image-source: url("/assets/icon/down-arrow.svg") !important;
+    border-image-repeat: stretch !important;
+  }
+  /* [END]Set down arraow */
