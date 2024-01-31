@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatRadioGroup, MatRadioModule } from '@angular/material/radio';
+import {  MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -37,11 +37,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [],
   imports: [
-    // CommonModule,
+    CommonModule,
     MatSlideToggleModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,
@@ -64,7 +65,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatPaginatorModule,
     MatSortModule,
     MatExpansionModule,
-    MatRadioGroup,
+    // MatRadioGroup,
     MatSlideToggleModule,
     MatProgressBarModule,
     MatIconModule,
@@ -77,6 +78,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatInputModule,
     MatDialogModule,
     MatTableModule,
@@ -106,7 +108,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule,
     MatTableModule,
     MatTooltipModule,
-    MatRadioGroup,
+    // MatRadioGroup,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },

@@ -12,7 +12,9 @@ import { ChooseIDVComponent } from './choose-idv/choose-idv.component';
 import { AddOnsComponent } from './add-ons/add-ons.component';
 import { QuotesListingComponent } from './quotes-listing/quotes-listing.component';
 import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-breakup-card.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule,
+    MatCardModule
   ],
 })
 export class MotorInsuranceModule {}

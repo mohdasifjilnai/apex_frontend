@@ -9,11 +9,10 @@ import { RTOComponent } from './components/form_fields/rto/rto.component';
 import { RegistrationYearComponent } from './components/form_fields/registration-year/registration-year.component';
 import { PreviousInsurerComponent } from './components/form_fields/previous-insurer/previous-insurer.component';
 import { PolicyExpiredDateComponent } from './components/form_fields/policy-expired-date/policy-expired-date.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+
 import { SuccessDialogComponent } from './components/dialog-components/success-dialog/success-dialog.component';
 import { FailureDialogComponent } from './components/dialog-components/failure-dialog/failure-dialog.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -32,9 +31,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
+    MaterialModule
   ],
   exports: [
     VehicleTypeComponent,
@@ -44,9 +41,9 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     RegistrationYearComponent,
     PreviousInsurerComponent,
     PolicyExpiredDateComponent,
-    MatSelectModule,
     SuccessDialogComponent,
     FailureDialogComponent,
+    MaterialModule
   ],
 })
 export class SharedModule {}
