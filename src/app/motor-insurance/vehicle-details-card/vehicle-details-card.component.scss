@@ -1,4 +1,31 @@
 .vehicle-card{
     border: 1px solid #EAEAEA;
     border-radius: 20px 20px 12px 12px;
+    .vehicle-card-heading{
+        color: #282828;
+        font-size: 12px;
+        opacity: 50%;
+        font-weight: 600;
+        margin:0 5px 0 5px;
+    }
+    .vehicle-card-heading-details{
+        width:15%;
+    }
+    .vehicle-card-data{
+        margin:-15px 5px 0 5px;
+    }
+    .vehicle-card-heading-details-data{
+        color: #282828;
+        font-size: 14px;
+        opacity: 100%;
+        font-weight: 600;
+        width:15%
+    }
+    .edit-button{
+        background-color: #F5F8FE;
+        color: #5384EA;
+        font-size: 11px;
+        font-weight: 600;
+        border:none;
+    }
 }
