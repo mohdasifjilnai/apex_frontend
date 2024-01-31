@@ -13,9 +13,6 @@
             <div>
                 <app-vehicle-type></app-vehicle-type>
             </div> 
-            <div  class="col-12 mt-4">
-                <app-rto  [cities]="cities"></app-rto>
-            </div>
             <div class="col-12 mt-4" *ngIf="!withoutVehicleNumber">
                 <div class="d-flex justify-content-center">
                     <app-registration-number  [required]="true"></app-registration-number>

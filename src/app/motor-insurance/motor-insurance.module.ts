@@ -12,6 +12,7 @@ import { ChooseIDVComponent } from './choose-idv/choose-idv.component';
 import { AddOnsComponent } from './add-ons/add-ons.component';
 import { QuotesListingComponent } from './quotes-listing/quotes-listing.component';
 import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-breakup-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -31,7 +32,8 @@ import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-brea
     MotorInsuranceRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ]
 })
 export class MotorInsuranceModule { }

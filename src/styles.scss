@@ -10,12 +10,13 @@ body {
     height: 100%;
     overflow-x: hidden;
 }
+
 * {
     font-family: 'Montserrat' !important;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+}
 
 body {
     margin: 0;
@@ -326,13 +327,16 @@ th.mat-header-cell:last-of-type {
     background-color: #f7a663;
     border: 1px solid #f7a663;
 }
-.cursor-pointer{
+
+.cursor-pointer {
     cursor: pointer;
 }
+
 .mat-form-field-label {
-    font-size: 14px!important;
+    font-size: 14px !important;
     font-weight: 500 !important;
-  }
-  .mat-form-field-label-wrapper{
+}
+
+.mat-form-field-label-wrapper {
     top: -8px !important;
-  }
+}
