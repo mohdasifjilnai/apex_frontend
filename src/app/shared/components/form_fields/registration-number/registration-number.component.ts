@@ -1,5 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-registration-number',
@@ -10,12 +17,13 @@ import { ControlContainer, FormBuilder, FormControl, FormGroup, FormGroupDirecti
   ],
 })
 export class RegistrationNumberComponent implements OnInit {
-
   form!: FormGroup;
   @Input('required') isRequired = false;
-  
-  constructor(private ctrlContainer: FormGroupDirective,private fb : FormBuilder) {
-  }
+
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private fb: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     // add form control for the registration number
@@ -23,7 +31,7 @@ export class RegistrationNumberComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'registration_number',
-        new FormControl(null, Validators.required)
+        new FormControl(null, Validators.required),
       );
     } else {
       this.form.addControl('registration_number', new FormControl());
@@ -31,8 +39,7 @@ export class RegistrationNumberComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-     // remove form control for the registration number
+    // remove form control for the registration number
     this.form.removeControl('registration_number');
   }
-
 }

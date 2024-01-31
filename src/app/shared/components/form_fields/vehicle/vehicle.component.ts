@@ -1,5 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle',
@@ -13,8 +20,7 @@ export class VehicleComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
 
-  constructor(private ctrlContainer: FormGroupDirective) {
-   }
+  constructor(private ctrlContainer: FormGroupDirective) {}
 
   ngOnInit(): void {
     /**
@@ -24,7 +30,7 @@ export class VehicleComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'vehicle',
-        new FormControl(null, Validators.required)
+        new FormControl(null, Validators.required),
       );
     } else {
       this.form.addControl('vehicle', new FormControl());
@@ -35,7 +41,6 @@ export class VehicleComponent implements OnInit {
     /**
      * remove form control for the vehicle
      */
-   this.form.removeControl('vehicle');
- }
-
+    this.form.removeControl('vehicle');
+  }
 }

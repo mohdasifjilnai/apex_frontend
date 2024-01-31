@@ -3,23 +3,23 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(public auth: AuthService) {}
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>  {
-   
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
     request = request.clone({
       setHeaders: {
-        authorization: `Bearer ${this.auth.getTokenFromStorage()}`
-      }
-     
+        authorization: `Bearer ${this.auth.getTokenFromStorage()}`,
+      },
     });
-    return next.handle(request)
-  }  
+    return next.handle(request);
+  }
 }

@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-rto',
@@ -7,7 +13,7 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validator
   styleUrls: ['./rto.component.scss'],
 })
 export class RTOComponent implements OnInit {
-  @Input() cities:any[] = [];
+  @Input() cities: any[] = [];
   @Input('required') isRequired = false;
 
   form!: FormGroup;
@@ -16,13 +22,13 @@ export class RTOComponent implements OnInit {
 
   ngOnInit(): void {
     /**
-    *add form control for the RTO city
-    */  
+     *add form control for the RTO city
+     */
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
         'rto_city',
-        new FormControl(null, Validators.required)
+        new FormControl(null, Validators.required),
       );
     } else {
       this.form.addControl('rto_city', new FormControl());
@@ -32,7 +38,7 @@ export class RTOComponent implements OnInit {
   ngOnDestroy(): void {
     /**
      * remove form control for the RTO city
-    */
+     */
     this.form.removeControl('rto_city');
   }
 }

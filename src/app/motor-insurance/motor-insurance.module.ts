@@ -14,8 +14,6 @@ import { QuotesListingComponent } from './quotes-listing/quotes-listing.componen
 import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-breakup-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
-
-
 @NgModule({
   declarations: [
     MotorInsuranceComponent,
@@ -25,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ChooseIDVComponent,
     AddOnsComponent,
     QuotesListingComponent,
-    PremiumBreakupCardComponent
+    PremiumBreakupCardComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    MatDialogModule
-  ]
+    MatDialogModule,
+  ],
 })
-export class MotorInsuranceModule { }
+export class MotorInsuranceModule {}

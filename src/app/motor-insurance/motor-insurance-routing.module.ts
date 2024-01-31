@@ -3,17 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { MotorInsuranceComponent } from './motor-insurance/motor-insurance.component';
 import { QuotesComponent } from './quotes/quotes.component';
 
-
 const routes: Routes = [
   {
     path: '',
     component: MotorInsuranceComponent,
     data: {
-      breadcrumb: [
-        { name: 'Motor Insurance', path: ['motor'] },
-      ],
+      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
     },
-    
   },
   {
     path: 'quotes',
@@ -24,12 +20,11 @@ const routes: Routes = [
         { name: 'Quotes Listing', path: ['quotes'] },
       ],
     },
-    
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MotorInsuranceRoutingModule { }
+export class MotorInsuranceRoutingModule {}

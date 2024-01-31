@@ -8,10 +8,9 @@ import { Breadcrumb } from './breadcrumb';
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss']
+  styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-
   @Input('progress') progress: any;
   breadcrumbs$: Observable<Breadcrumb[]>;
 
@@ -20,9 +19,5 @@ export class BreadcrumbComponent implements OnInit {
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
   }
 
-  ngOnInit(): void {
-  }
-
-
-
+  ngOnInit(): void {}
 }

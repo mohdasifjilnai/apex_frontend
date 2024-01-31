@@ -8,9 +8,8 @@ describe('RTOComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RTOComponent ]
-    })
-    .compileComponents();
+      declarations: [RTOComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RTOComponent);
     component = fixture.componentInstance;

@@ -10,14 +10,15 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('../motor-insurance/motor-insurance.module').then((m) => m.MotorInsuranceModule),
+          import('../motor-insurance/motor-insurance.module').then(
+            (m) => m.MotorInsuranceModule,
+          ),
       },
-      
     ],
   },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class UiRoutingModule { }
+export class UiRoutingModule {}

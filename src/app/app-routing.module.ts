@@ -5,12 +5,11 @@ const routes: Routes = [
   {
     path: 'motor',
     loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
- 
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

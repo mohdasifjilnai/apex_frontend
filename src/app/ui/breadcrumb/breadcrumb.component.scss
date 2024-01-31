@@ -1,70 +1,68 @@
-
 // css for the breadcrumb
 ul {
-    & {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      margin-left: 42px !important;
-      width: fit-content;
-      position: relative;
-    }
-  
-    li {
-      & {
-        display: inline;
-      }
-  
-      &:before {
-        // content: url("../../../assets/icons/Vector.svg");
-        margin: 0 12px;
-      }
-  
-      &:first-child:before {
-        content: "";
-        margin: 0;
-      }
-    }
-  }
-  
-  a {
-    // font-family: 'Lato';
-    // font-style: normal;
-    // font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 500;
-    color: #282828;
-    text-decoration: none;
-  }
-  
-  ::ng-deep {
-    .mdc-linear-progress {
-      margin-left: 34px;
-    }
-  
-    .mat-mdc-progress-bar {
-      --mdc-linear-progress-active-indicator-color: #0066b0 !important;
-    }
-    .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
-      background-color: #e6e6e6 !important;
-    }
-  }
-  .bread {
-    border-bottom: #0066b0;
-  }
-  .ab {
-    border: 2px solid #d4d4d4;
+  & {
     list-style: none;
     margin: 0;
     padding: 0;
     margin-left: 42px !important;
-    width: 100%;
-    margin-top: -3px;
-    opacity: 0.5;
+    width: fit-content;
+    position: relative;
   }
-  .breadcrumb-title{
-    font-size: 14px;
-    font-weight: 600;
+
+  li {
+    & {
+      display: inline;
+    }
+
+    &:before {
+      // content: url("../../../assets/icons/Vector.svg");
+      margin: 0 12px;
+    }
+
+    &:first-child:before {
+      content: "";
+      margin: 0;
+    }
   }
-  
+}
+
+a {
+  // font-family: 'Lato';
+  // font-style: normal;
+  // font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #282828;
+  text-decoration: none;
+}
+
+::ng-deep {
+  .mdc-linear-progress {
+    margin-left: 34px;
+  }
+
+  .mat-mdc-progress-bar {
+    --mdc-linear-progress-active-indicator-color: #0066b0 !important;
+  }
+  .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+    background-color: #e6e6e6 !important;
+  }
+}
+.bread {
+  border-bottom: #0066b0;
+}
+.ab {
+  border: 2px solid #d4d4d4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-left: 42px !important;
+  width: 100%;
+  margin-top: -3px;
+  opacity: 0.5;
+}
+.breadcrumb-title {
+  font-size: 14px;
+  font-weight: 600;
+}

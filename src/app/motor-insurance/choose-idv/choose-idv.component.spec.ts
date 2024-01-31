@@ -8,9 +8,8 @@ describe('ChooseIDVComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChooseIDVComponent ]
-    })
-    .compileComponents();
+      declarations: [ChooseIDVComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ChooseIDVComponent);
     component = fixture.componentInstance;

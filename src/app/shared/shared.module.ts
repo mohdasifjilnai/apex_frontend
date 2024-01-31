@@ -15,8 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { SuccessDialogComponent } from './components/dialog-components/success-dialog/success-dialog.component';
 import { FailureDialogComponent } from './components/dialog-components/failure-dialog/failure-dialog.component';
 
-
-
 @NgModule({
   declarations: [
     RegistrationNumberComponent,
@@ -27,7 +25,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     PreviousInsurerComponent,
     PolicyExpiredDateComponent,
     SuccessDialogComponent,
-    FailureDialogComponent
+    FailureDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +34,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   exports: [
     VehicleTypeComponent,
@@ -48,7 +46,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     PolicyExpiredDateComponent,
     MatSelectModule,
     SuccessDialogComponent,
-    FailureDialogComponent
-  ]
+    FailureDialogComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

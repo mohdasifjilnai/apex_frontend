@@ -8,9 +8,8 @@ describe('PolicyExpiredDateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PolicyExpiredDateComponent ]
-    })
-    .compileComponents();
+      declarations: [PolicyExpiredDateComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PolicyExpiredDateComponent);
     component = fixture.componentInstance;
