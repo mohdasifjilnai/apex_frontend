@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for fetching JSON
-import vehicleTypeList from '../vehicle-type/vehicle-types.json'
+import vehicleTypeList from '../../json/vehicle-types.json'
 
 
 @Component({
