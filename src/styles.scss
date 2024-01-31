@@ -329,3 +329,10 @@ th.mat-header-cell:last-of-type {
 .cursor-pointer{
     cursor: pointer;
 }
+.mat-form-field-label {
+    font-size: 14px!important;
+    font-weight: 500 !important;
+  }
+  .mat-form-field-label-wrapper{
+    top: -8px !important;
+  }

@@ -11,6 +11,7 @@ import { PreviousInsurerComponent } from './components/form_fields/previous-insu
 import { PolicyExpiredDateComponent } from './components/form_fields/policy-expired-date/policy-expired-date.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { SuccessDialogComponent } from './components/dialog-components/success-dialog/success-dialog.component';
 import { FailureDialogComponent } from './components/dialog-components/failure-dialog/failure-dialog.component';
 
@@ -35,6 +36,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule
   ],
   exports: [
     VehicleTypeComponent,
@@ -44,6 +46,7 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
     RegistrationYearComponent,
     PreviousInsurerComponent,
     PolicyExpiredDateComponent,
+    MatSelectModule,
     SuccessDialogComponent,
     FailureDialogComponent
   ]

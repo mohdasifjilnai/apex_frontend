@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BreadcrumbComponent } from 'src/app/ui/breadcrumb/breadcrumb.component';
+import city from './city-name.json'
 
 
 @Component({
@@ -10,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./motor-insurance.component.scss']
 })
 export class MotorInsuranceComponent implements OnInit {
+
+  cities:any = city
   withoutVehicleNumber:boolean = false
 
   motorInsurance: FormGroup = new FormGroup({
@@ -17,7 +21,8 @@ export class MotorInsuranceComponent implements OnInit {
     vehicle:new FormControl('',Validators.required)
   
   });
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+  }
 
   ngOnInit(): void {
   }

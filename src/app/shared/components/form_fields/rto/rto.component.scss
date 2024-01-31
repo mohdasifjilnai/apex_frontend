@@ -1,0 +1,25 @@
+.drop-down-fields {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 300px !important;
+    }
+  }
+}
+
+/* Set top-lef and bottom-left corner radius */
+:host ::ng-deep .mat-form-field-outline-start {
+  border-radius: 15px 0 0 15px !important;
+  min-width: 15px !important;
+}
+
+/* Set top-right and bottom-right corner radius */
+:host ::ng-deep .mat-form-field-outline-end {
+  border-radius: 0 15px 15px 0 !important;
+}
+::ng-deep .mat-select-arrow {
+  border-left: 15px solid transparent !important;
+  border-right: none !important;
+  border-top: 10px solid transparent !important;
+  border-image-source: url("/assets/icon/down-arrow.svg") !important;
+  border-image-repeat: stretch !important;
+}

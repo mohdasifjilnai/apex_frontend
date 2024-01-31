@@ -1,1 +1,8 @@
-<p>rto works!</p>
+<mat-form-field appearance="outline" class="drop-down-fields">
+  <mat-label>Select RTO/City</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let key of cities" [value]="key.value">
+      {{ key.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
