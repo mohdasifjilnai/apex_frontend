@@ -1,21 +1,15 @@
 .vehicle-number {
-  margin-left: 65px !important;
-  position: absolute;
+  position: relative;
   ::ng-deep {
     .mat-form-field-infix {
       width: 300px !important;
     }
-    .mat-form-field-label {
-      font-size: 14px !important;
-      font-weight: 500 !important;
-    }
-    .mat-form-field-label-wrapper {
-      top: -8px !important;
-    }
+  }
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 16px; // Adjust the right distance according to your design
+    transform: translateY(-50%);
   }
 }
-.search-icon {
-  top: 1.2em;
-  position: relative;
-  left: 22em;
-}
+

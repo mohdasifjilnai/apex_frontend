@@ -20,6 +20,9 @@ export class MotorInsuranceComponent implements OnInit {
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', Validators.required),
     vehicle: new FormControl('', Validators.required),
+    rto_city: new FormControl('',Validators.required),
+    registration_year: new FormControl('',Validators.required),
+    previous_insurer:new FormControl('',Validators.required)
   });
   constructor(private router: Router) { 
   }

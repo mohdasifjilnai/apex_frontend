@@ -1,1 +1,9 @@
-<p>previous-insurer works!</p>
+<mat-form-field appearance="outline" class="previous-insurer">
+    <mat-label>Select Previous Insurer</mat-label>
+    <mat-select formControlName="previous_insurer">
+      <mat-option *ngFor="let insurer of insurerList" [value]="insurer?.id">
+        {{ insurer?.insurer }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  

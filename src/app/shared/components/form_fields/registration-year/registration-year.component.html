@@ -1,1 +1,9 @@
-<p>registration-year works!</p>
+<mat-form-field appearance="outline" class="registration-year">
+    <mat-label>Select Registration Year</mat-label>
+    <mat-select formControlName="registration_year">
+      <mat-option *ngFor="let year of yearList" [value]="year?.id">
+        {{ year?.year }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  

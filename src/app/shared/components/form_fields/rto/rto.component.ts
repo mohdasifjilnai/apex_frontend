@@ -11,6 +11,9 @@ import {
   selector: 'app-rto',
   templateUrl: './rto.component.html',
   styleUrls: ['./rto.component.scss'],
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective },
+  ],
 })
 export class RTOComponent implements OnInit {
   @Input() cities: any[] = [];
