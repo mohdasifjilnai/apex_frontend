@@ -13,6 +13,7 @@ import { SuccessDialogComponent } from './components/dialog-components/success-d
 import { FailureDialogComponent } from './components/dialog-components/failure-dialog/failure-dialog.component';
 import { MultiSelectDropDownComponent } from './components/form_fields/multi-select-drop-down/multi-select-drop-down.component';
 import { MaterialModule } from './material/material.module';
+import { AmountFormatPipe } from './pipe/amount-format.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MaterialModule } from './material/material.module';
     PolicyExpiredDateComponent,
     SuccessDialogComponent,
     FailureDialogComponent,
-    MultiSelectDropDownComponent
+    MultiSelectDropDownComponent,
+    AmountFormatPipe
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { MaterialModule } from './material/material.module';
     SuccessDialogComponent,
     FailureDialogComponent,
     MultiSelectDropDownComponent,
-    MaterialModule
+    MaterialModule,
+    AmountFormatPipe
   ],
 })
 export class SharedModule {}

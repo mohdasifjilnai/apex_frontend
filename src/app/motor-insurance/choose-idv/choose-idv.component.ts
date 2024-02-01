@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./choose-idv.component.scss'],
 })
 export class ChooseIDVComponent implements OnInit {
+  investedAmount: number = 600000;
   constructor() {}
 
   ngOnInit(): void {}
+
+  /**
+   * onSliderRangeAmount function get value from slider
+   */
+  onSliderRangeAmount(event: any) {}
 }
