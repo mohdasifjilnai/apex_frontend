@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline" class="manufacture-date">
+  <mat-label>Manufacture Date</mat-label>
+  <input
+    matInput
+    [matDatepicker]="manufactureDate"
+    placeholder="Manufacture Date"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="manufactureDate"
+  ></mat-datepicker-toggle>
+  <mat-datepicker #manufactureDate></mat-datepicker>
+</mat-form-field>

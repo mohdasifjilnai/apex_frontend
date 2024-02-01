@@ -14,6 +14,8 @@ import { FailureDialogComponent } from './components/dialog-components/failure-d
 import { MultiSelectDropDownComponent } from './components/form_fields/multi-select-drop-down/multi-select-drop-down.component';
 import { MaterialModule } from './material/material.module';
 import { AmountFormatPipe } from './pipe/amount-format.pipe';
+import { RegistrationDateComponent } from './components/form_fields/registration-date/registration-date.component';
+import { ManufactureDateComponent } from './components/form_fields/manufacture-date/manufacture-date.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +29,16 @@ import { AmountFormatPipe } from './pipe/amount-format.pipe';
     SuccessDialogComponent,
     FailureDialogComponent,
     MultiSelectDropDownComponent,
-    AmountFormatPipe
+    AmountFormatPipe,
+    RegistrationDateComponent,
+    ManufactureDateComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
   ],
   exports: [
     VehicleTypeComponent,
@@ -48,7 +52,9 @@ import { AmountFormatPipe } from './pipe/amount-format.pipe';
     FailureDialogComponent,
     MultiSelectDropDownComponent,
     MaterialModule,
-    AmountFormatPipe
+    AmountFormatPipe,
+    RegistrationDateComponent,
+    ManufactureDateComponent,
   ],
 })
 export class SharedModule {}

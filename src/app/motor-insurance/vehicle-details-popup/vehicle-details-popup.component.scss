@@ -4,3 +4,17 @@
   font-size: 14px;
   font-weight: 600;
 }
+.vehicle-details-popup-header {
+  font-size: 16px;
+  font-weight: 600;
+}
+.vehicle-details-dropdown {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 300px !important;
+    }
+  }
+}
+::ng-deep .mat-dialog-container {
+  border-radius: 30px !important;
+}

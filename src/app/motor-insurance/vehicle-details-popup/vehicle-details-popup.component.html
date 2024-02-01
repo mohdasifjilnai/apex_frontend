@@ -1,13 +1,139 @@
-<div class="row">
-  <h1 mat-dialog-title>{{ data.title }}</h1>
-  <div mat-dialog-content>
-    <p>{{ data.content }}</p>
-  </div>
-  <div mat-dialog-actions>
-    <div class="col-12">
-      <button class="submit-btn vehicle-submission" type="submit" (click)="onClose()">
-        Get Vehicle Details
-      </button>
+<form [formGroup]="vehicleDetailsForm">
+  <div>
+    <!-- Dialog title -->
+    <h1 mat-dialog-title>
+      <div class="vehicle-details-popup-header">
+        <p>Please verify the fetched vehicle details.</p>
+      </div>
+    </h1>
+    <!-- Dialog content -->
+    <div mat-dialog-content>
+      <div class="row">
+        <!-- Make/Model dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Make/Model</mat-label>
+            <mat-select formControlName="vehicle_model">
+              <mat-option *ngFor="let model of modelList" [value]="model?.id">
+                {{ model?.modelName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- variant dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Variant</mat-label>
+            <mat-select formControlName="vehicle_variant">
+              <mat-option
+                *ngFor="let variant of variantList"
+                [value]="variant?.id"
+              >
+                {{ variant?.modelName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- vehicle fuel dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Fuel</mat-label>
+            <mat-select formControlName="vehicle_fuel">
+              <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.id">
+                {{ fuel?.fuelName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Registration City dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Registration City</mat-label>
+            <mat-select formControlName="registration_city">
+              <mat-option *ngFor="let city of cityList" [value]="city?.id">
+                {{ city?.cityName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Registration Date -->
+        <div class="col-6">
+          <app-registration-date></app-registration-date>
+        </div>
+        <!-- Manufacture Date  -->
+        <div class="col-6">
+          <app-manufacture-date></app-manufacture-date>
+        </div>
+        <!-- Used Car/ RC Transfer dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Used Car/ RC Transfer</mat-label>
+            <mat-select formControlName="user_car">
+              <mat-option *ngFor="let rc of rcList" [value]="rc?.id">
+                {{ rc?.rcName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Type of Expiring Policy dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Type of Expiring Policy</mat-label>
+            <mat-select formControlName="policy_expiry">
+              <mat-option
+                *ngFor="let expiry of expiryList"
+                [value]="expiry?.id"
+              >
+                {{ expiry?.expiryName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Expiry -->
+        <div class="col-6">
+          <app-policy-expired-date></app-policy-expired-date>
+        </div>
+        <!-- Previous Insurer dropdown -->
+        <div class="col-6">
+          <app-previous-insurer></app-previous-insurer>
+        </div>
+        <!-- Is Previous Policy Claimed dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Is Previous Policy Claimed?</mat-label>
+            <mat-select formControlName="previous_claimed">
+              <mat-option
+                *ngFor="let claimed of claimedList"
+                [value]="claimed?.id"
+              >
+                {{ claimed?.claimedName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Previous Year NCB Discount dropdown -->
+        <div class="col-6">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+            <mat-label>Previous Year NCB Discount</mat-label>
+            <mat-select formControlName="ncb_discount">
+              <mat-option *ngFor="let ncb of ncbList" [value]="ncb?.id">
+                {{ ncb?.ncbName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <div class="col-12 mb-4">
+        <button
+          class="submit-btn vehicle-submission"
+          type="submit"
+          (click)="onClose()"
+        >
+          Above details are correct
+        </button>
+      </div>
     </div>
   </div>
-</div>
+</form>

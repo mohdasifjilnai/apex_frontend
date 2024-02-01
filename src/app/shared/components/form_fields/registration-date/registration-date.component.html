@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline" class="registration-date">
+  <mat-label>Registration Date</mat-label>
+  <input
+    matInput
+    [matDatepicker]="registrationDate"
+    placeholder="Registration Date"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="registrationDate"
+  ></mat-datepicker-toggle>
+  <mat-datepicker #registrationDate></mat-datepicker>
+</mat-form-field>
