@@ -411,67 +411,22 @@ th.mat-header-cell:last-of-type {
     color: #ffb171;
   }
    .mat-slider-thumb {
-    background-color: #ffb171 !important;
+    background-color: #fff !important;
     cursor: pointer;
-    bottom: -11px !important; /* Set the desired color for the slider thumb */
+    bottom: -16px !important; /* Set the desired color for the slider thumb */
   }
    .mat-slider-thumb-label {
-    background-color: #ffb171 !important; /* Set the desired color for the slider thumb */
+    background-color: #fff !important; /* Set the desired color for the slider thumb */
   }
-  
-   .mat-slider-track-fill {
-    height: 10px !important;
-    background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
-  }
-  
-   .mat-slider-track-background {
-    background-color: #d9d9d9 !important; /* Set the desired color for the background portion of the slider track */
-  }
-  .mat-slider-track-wrapper {
-    border-radius: 20px !important;
-    height: 6px !important; /* Set the desired height for the track */
-  }
-  
-   .mat-slider-track-fill {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-  
-   .mat-slider-track-background {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-   .mat-slider-horizontal {
-    height: 30px !important;
-    padding: 0;
-    margin-top: -20px !important;
-  }
-    .mat-form-field-appearance-outline
-    .mat-form-field-outline
-    .mat-focused {
-    color: white;
-  }
-/*[END] Set mat slider */ 
-::ng-deep .mat-select-arrow {
-  border-left: 15px solid transparent !important;
-  border-right: none !important;
-  border-top: 10px solid transparent !important;
-  border-image-source: url("/assets/icon/down-arrow.svg") !important;
-  border-image-repeat: stretch !important;
-}
+  .mat-slider-thumb{
+    border-left: 30px solid transparent !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top: 30px solid transparent !important;
+    border-image-source: url("/assets/icon/slider.svg") !important;
+    border-image-repeat: stretch !important;
 
-/*[START] Set mat slider */ 
- .mat-slider {
-    width: 100%;
-    color: #ffb171;
   }
-   .mat-slider-thumb {
-    background-color: #ffb171 !important;
-    cursor: pointer;
-    bottom: -11px !important; /* Set the desired color for the slider thumb */
-  }
-   .mat-slider-thumb-label {
-    background-color: #ffb171 !important; /* Set the desired color for the slider thumb */
-  }
-  
    .mat-slider-track-fill {
     height: 10px !important;
     background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
@@ -495,7 +450,7 @@ th.mat-header-cell:last-of-type {
    .mat-slider-horizontal {
     height: 30px !important;
     padding: 0;
-    margin-top: -20px !important;
+    margin-top: -38px !important;
   }
     .mat-form-field-appearance-outline
     .mat-form-field-outline
