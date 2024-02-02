@@ -1,10 +1,12 @@
 <div class="idv-range">
-  <div class="card m-4">
+  <div class="card my-2">
     <div class="main-card-body">
       <div class="card-body">
         <div class="range-flex">
           <div class="small-amount-value tag-text">Choose IDV</div>
-          <div class="small-amount-value tag-value">{{ event.value |amountFormat }}</div>
+          <div class="small-amount-value tag-value">
+            {{ event.value | amountFormat }}
+          </div>
         </div>
         <mat-slider
           class="custom-slider"

@@ -1,1 +1,25 @@
-<p>add-ons works!</p>
+<div class="add-ons">
+  <div class="card border rounded my-2">
+    <div class="card-header">
+      <div class="header-text">
+        <span class="add-ons-header-text"> Add Ons </span>
+        <span
+          class="tag-right clear-all-text text-light-blue"
+          (click)="clearAllChecked()"
+        >
+          Clear All
+        </span>
+      </div>
+    </div>
+    <div class="card-body">
+      <section
+        class="my-2"
+        *ngFor="let listValue of add_ons_list"
+      >
+        <mat-checkbox [(ngModel)]="listValue.checked">{{
+          listValue["value"]
+        }}</mat-checkbox>
+      </section>
+    </div>
+  </div>
+</div>
