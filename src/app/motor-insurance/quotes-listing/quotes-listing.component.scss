@@ -1,0 +1,60 @@
+.quotation-listing {
+  .comprehensive-card {
+    border: 1px solid #eaeaea;
+    border-radius: 16px 16px 0 0;
+    margin: 5px 0 0px 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  .comprehensive-tab {
+    margin: 20px 25px 20px 25px;
+    .idv-amount {
+      color: #282828;
+      font-weight: 600;
+      font-size: 12px;
+      opacity: 50%;
+    }
+    .idv-choose-amount {
+      color: #282828;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: 100%;
+    }
+    .premium-breakup-amount {
+      background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
+      color: #ffffff;
+      border-radius: 100px;
+      width: 121px;
+      height: 34px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .premium-breakup {
+      color: #5384ea;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+  .comprehensive-key-features {
+    border: 1px solid #eaeaea;
+    border-radius: 0 0 16px 16px;
+    margin: 0px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background: linear-gradient(0deg, #eaeaea, #eaeaea),
+      linear-gradient(0deg, #f5f8fe, #f5f8fe);
+    .key-features-text {
+      color: #535353;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .key-features-value {
+      color: #47be88;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .comprehensive-key-features-value {
+      margin: 10px 25px 10px 25px;
+    }
+  }
+}
