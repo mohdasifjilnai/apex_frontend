@@ -1,0 +1,24 @@
+version: '3'
+services:
+  nginx:
+      image: nginx:latest
+      ports:
+        - 9001:80
+      volumes:
+        - ./config/nginx:/etc/nginx/conf.d  
+      depends_on:
+        - web
+
+services:
+  web:
+    #build: .
+    image: registry.gitlab.renewbuy.in/apex/apex_frontend:latest
+    container_name: apex-frontend
+    volumes:
+      #- env settings 
+      - logs-volume:/var/log/apex-frontend
+    expose:
+      - 9001
+
+volumes:
+  logs-volume:
