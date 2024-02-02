@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-vehicle-details-popup',
@@ -24,11 +25,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
   expiryList: any;
   claimedList: any;
   ncbList: any;
+  editVehicleDetails: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private FormBuilder: FormBuilder
+    private FormBuilder: FormBuilder,
+    private sharedData: SharedDataService
   ) {
     /**
      * Initialize the form using FormBuilder
@@ -126,6 +129,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
         ncbName: '35%',
       },
     ];
+
+    this.sharedData.getVehicleDetails.subscribe((res) => {
+      if (res === 'edit') {
+        this.editVehicleDetails = false;
+      }
+    });
   }
 
   onClose(): void {

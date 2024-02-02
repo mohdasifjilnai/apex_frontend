@@ -2,8 +2,21 @@
   <div>
     <!-- Dialog title -->
     <h1 mat-dialog-title>
-      <div class="vehicle-details-popup-header">
-        <p>Please verify the fetched vehicle details.</p>
+      <div class="vehicle-details-popup-header d-flex justify-content-between">
+        <p>
+          {{
+            editVehicleDetails
+              ? "Please verify the fetched vehicle details."
+              : "Edit Vehicle Details"
+          }}
+        </p>
+        <img
+          src="/assets/icon/cross.svg"
+          class="cursor-pointer"
+          alt="close"
+          *ngIf="!editVehicleDetails"
+          (click)="onClose()"
+        />
       </div>
     </h1>
     <!-- Dialog content -->
@@ -131,7 +144,7 @@
           type="submit"
           (click)="onClose()"
         >
-          Above details are correct
+          {{ editVehicleDetails ? "Above details are correct" : "Save" }}
         </button>
       </div>
     </div>
