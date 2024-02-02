@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 
 @Component({
   selector: 'app-vehicle-details-card',
@@ -16,7 +17,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   ngOnInit(): void {}
 
   openDialog(edit: string): void {
-    this.matDialog.openDialog();
+    this.matDialog.openDialog({ title: ``}, VehicleDetailsPopupComponent)  
     this.sharedData.sendVehicleEditData(edit);
   }
 }

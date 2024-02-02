@@ -11,7 +11,7 @@ import { SseService } from './core/services/sse.service';
 export class AppComponent {
   title = 'apex_frontend';
   connectionData:any;
-  evtSource:any;
+  eventSource:any;
   
   constructor(private sseService: SseService) {
     /**
@@ -28,18 +28,18 @@ export class AppComponent {
       () => {
         console.log('==> complete');
       });
-  //   this.evtSource = new EventSource("http://localhost:8099/sse.php", { withCredentials: true });
+  //   this.eventSource = new EventSource("http://localhost:8099/sse.php", { withCredentials: true });
 
-  //   this.evtSource.onmessage = (e: { data: any; }) => {
+  //   this.eventSource.onmessage = (e: { data: any; }) => {
   //     console.log('connection message');
   //      console.log(e.data);
   //  }
-  //  this.evtSource.onerror = (e: any) => {
+  //  this.eventSource.onerror = (e: any) => {
   //     console.log('connection error');
   //      console.log(e);
-  //      this.evtSource.close();
+  //      this.eventSource.close();
   //  }
-  //  this.evtSource.onopen = (e: any) => {
+  //  this.eventSource.onopen = (e: any) => {
   //     console.log('connection open');
   //      console.log(e);
   //  }

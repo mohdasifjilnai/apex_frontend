@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { VehicleDetailsPopupComponent } from 'src/app/motor-insurance/vehicle-details-popup/vehicle-details-popup.component';
+
 
 function _window(): any {
   return window;
@@ -17,11 +17,11 @@ export class WindowRef {
   /**
    * This Function open the vehicle Details popup
    */
-  openDialog(): void {
+  openDialog(data:any,component:any): void {
     /**
      * Open the dialog using the MatDialog service
      */
-    const dialogRef = this.dialog.open(VehicleDetailsPopupComponent, {
+    const dialogRef = this.dialog.open(component, {
       /**
        * Set the width of the dialog
        */

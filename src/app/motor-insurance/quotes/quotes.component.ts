@@ -12,6 +12,6 @@ export class QuotesComponent implements OnInit {
   constructor(public matDialog: WindowRef) {}
 
   ngOnInit(): void {
-    this.matDialog.openDialog();
+    this.matDialog.openDialog({ title: ``}, VehicleDetailsPopupComponent)
   }
 }
