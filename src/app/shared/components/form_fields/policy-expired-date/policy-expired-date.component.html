@@ -1,6 +1,11 @@
 <mat-form-field appearance="outline" class="expiry-date">
   <mat-label>Select Policy Expired Date</mat-label>
-  <input matInput [matDatepicker]="expiryDate" placeholder="policy expiry date">
+  <input
+    matInput
+    [matDatepicker]="expiryDate"
+    placeholder="policy expiry date"
+    formControlName="policy_expiry_date"
+  />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
   <mat-datepicker #expiryDate></mat-datepicker>
 </mat-form-field>

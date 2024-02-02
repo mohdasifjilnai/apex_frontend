@@ -42,6 +42,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: ['', Validators.required],
       previous_claimed: ['', Validators.required],
       ncb_discount: ['', Validators.required],
+      manufacture_date: ['', Validators.required],
+      registration_date: ['', Validators.required],
+      previous_insurer: ['', Validators.required],
     });
 
     /**
