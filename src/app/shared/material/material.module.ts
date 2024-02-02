@@ -66,7 +66,6 @@ let matModuleArray=[
   // MatRadioGroup,
   MatSlideToggleModule,
   MatProgressBarModule,
-  MatIconModule,
   MatTabsModule,
   MatTooltipModule,
   MatSliderModule

@@ -7,7 +7,7 @@
     overflow-y: hidden;
   }
   .comprehensive-tab {
-    margin: 20px 25px 20px 25px;
+    margin: 20px 25px 0px 25px;
     .idv-amount {
       color: #282828;
       font-weight: 600;
@@ -28,6 +28,7 @@
       height: 34px;
       text-align: center;
       font-weight: 600;
+      padding-top:5px;
     }
     .premium-breakup {
       color: #5384ea;
