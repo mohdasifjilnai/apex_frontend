@@ -66,12 +66,16 @@
   margin-bottom: 20px;
 
   .small-amount-value {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 12px;
     line-height: 17px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 0px 5px;
-    color: #535353;
+    opacity: 50%;
+    color: #282828;
+  }
+  .amount-format-text{
+    opacity: 100% !important;
   }
 }

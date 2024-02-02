@@ -415,77 +415,11 @@ th.mat-header-cell:last-of-type {
   background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
 }
 
-   .mat-slider-track-fill {
-    height: 10px !important;
-    background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
-  }
-  
-   .mat-slider-track-background {
-    background-color: #d9d9d9 !important; /* Set the desired color for the background portion of the slider track */
-  }
-  .mat-slider-track-wrapper {
-    border-radius: 20px !important;
-    height: 6px !important; /* Set the desired height for the track */
-  }
-  
-   .mat-slider-track-fill {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-  
-   .mat-slider-track-background {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-   .mat-slider-horizontal {
-    height: 30px !important;
-    padding: 0;
-    margin-top: -38px !important;
-  }
-    .mat-form-field-appearance-outline
-    .mat-form-field-outline
-    .mat-focused {
-    color: white;
-  }
-/*[END] Set mat slider */ 
-::ng-deep .mat-select-arrow {
-  border-left: 15px solid transparent !important;
-  border-right: none !important;
-  border-top: 10px solid transparent !important;
-  border-image-source: url("/assets/icon/down-arrow.svg") !important;
-  border-image-repeat: stretch !important;
+.mat-slider-track-fill {
+  height: 10px !important;
+  background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
 }
 
-  
-   .mat-slider-track-fill {
-    height: 10px !important;
-    background-color: #ffb171 !important; /* Set the desired color for the filled portion of the slider track */
-  }
-  
-   .mat-slider-track-background {
-    background-color: #d9d9d9 !important; /* Set the desired color for the background portion of the slider track */
-  }
-  .mat-slider-track-wrapper {
-    border-radius: 20px !important;
-    height: 6px !important; /* Set the desired height for the track */
-  }
-  
-   .mat-slider-track-fill {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-  
-   .mat-slider-track-background {
-    height: 100% !important; /* Set the height to 100% to fill the entire track height */
-  }
-   .mat-slider-horizontal {
-    height: 30px !important;
-    padding: 0;
-    margin-top: -38px !important;
-  }
-    .mat-form-field-appearance-outline
-    .mat-form-field-outline
-    .mat-focused {
-    color: white;
-  }
-/*[END] Set mat slider */ 
 .mat-slider-track-background {
   background-color: #d9d9d9 !important; /* Set the desired color for the background portion of the slider track */
 }
@@ -504,11 +438,12 @@ th.mat-header-cell:last-of-type {
 .mat-slider-horizontal {
   height: 30px !important;
   padding: 0;
-  margin-top: -38px !important;
+  margin-top: -55px !important;
 }
 .mat-form-field-appearance-outline .mat-form-field-outline .mat-focused {
   color: white;
 }
+
 /*[END] Set mat slider */
 .tag-right {
   float: right;
@@ -527,24 +462,20 @@ th.mat-header-cell:last-of-type {
 mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   background-color: #fff !important;
-  border: 1px solid #5384ea !important;
+  border: 1px solid #5989de !important;
   border-radius: 4px !important;
 }
 .mat-checkbox-checkmark-path {
-  stroke: #5384ea !important;
+  stroke: #5989de !important;
 }
 .mat-checkbox-background,
 .mat-checkbox-frame {
-  border: 1px solid #dee2e6 !important;
+  border: 1px solid #ababab !important;
   border-radius: 4px !important;
 }
 .mat-checkbox-layout .mat-checkbox-label {
-  font-weight: 500 ;
+  font-weight: 500;
   color: #666666 !important;
 }
 
 /*[END] mat check box css*/
-
-.mat-form-field {
-  font-size: 14px !important;
-}
