@@ -10,7 +10,7 @@ build:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY    
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) .
+    - DOCKER_BUILDKIT=0 docker build -t $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) .
     - docker push $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H)
     - docker tag $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
