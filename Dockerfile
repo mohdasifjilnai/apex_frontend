@@ -12,8 +12,8 @@ ENV RB_GITLAB_TOKEN=${RB_GITLAB_TOKEN}
 RUN $(npm bin)/ng build --aot --build-optimizer --vendor-chunk=true --configuration=development
 
 # Create a production-ready Nginx image
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+#FROM nginx:alpine
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the built Angular app from the build stage to the Nginx image
 COPY --from=build /ng-kmt/dist/apex-frontend /usr/share/nginx/html
