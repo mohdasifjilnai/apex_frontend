@@ -13,6 +13,7 @@ import { AddOnsComponent } from './add-ons/add-ons.component';
 import { QuotesListingComponent } from './quotes-listing/quotes-listing.component';
 import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-breakup-card.component';
 import { MatCardModule } from '@angular/material/card';
+import { ProposalComponent } from './proposal/proposal.component';
 
 
 
@@ -26,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
     AddOnsComponent,
     QuotesListingComponent,
     PremiumBreakupCardComponent,
+    ProposalComponent,
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MotorInsuranceComponent } from './motor-insurance/motor-insurance.component';
 import { QuotesComponent } from './quotes/quotes.component';
+import { ProposalComponent } from './proposal/proposal.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,17 @@ const routes: Routes = [
       breadcrumb: [
         { name: 'Motor Insurance', path: ['motor'] },
         { name: 'Quotes Listing', path: ['quotes'] },
+      ],
+    },
+  },
+  {
+    path: 'quotes/proposal',
+    component: ProposalComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Motor Insurance', path: ['motor'] },
+        { name: 'Quotes Listing', path: ['quotes'] },
+        { name: 'Proposal Form', path: ['quotes/proposal'] },
       ],
     },
   },

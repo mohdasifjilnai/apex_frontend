@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quotes-listing',
@@ -6,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quotes-listing.component.scss'],
 })
 export class QuotesListingComponent implements OnInit {
-  constructor() {}
+  constructor(private router : Router) {}
 
   ngOnInit(): void {}
+
+  getProposalDetails() {
+    this.router.navigate(['/motor/quotes/proposal']);
+  }
+  
 }
