@@ -13,7 +13,7 @@ RUN $(npm bin)/ng build --aot --build-optimizer --vendor-chunk=true --configurat
 
 # Create a production-ready Nginx image
  FROM nginx:alpine
- COPY ./config/nginx/default.conf /etc/nginx/conf.d/default.conf
+ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the built Angular app from the build stage to the Nginx image
  COPY --from=build /ng-kmt/dist/apex-frontend /usr/share/nginx/html
