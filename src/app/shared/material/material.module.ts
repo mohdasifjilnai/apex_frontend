@@ -68,7 +68,9 @@ let matModuleArray=[
   MatProgressBarModule,
   MatTabsModule,
   MatTooltipModule,
-  MatSliderModule
+  MatSliderModule,
+  MatAutocompleteModule,
+  
 ]
 @NgModule({
   declarations: [],

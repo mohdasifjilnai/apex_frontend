@@ -1,12 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
-  FormBuilder,
+
   FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle',
@@ -19,8 +21,46 @@ import {
 export class VehicleComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+   /**
+    * MMV is use for (Make Model Variant)
+    * filteredMMV used for the filter MMV data
+    */
+  filteredMMV!: Observable<any[]>;
+  @ViewChild(MatAutocompleteTrigger)
+  autocomplete!: MatAutocompleteTrigger;
+  /**
+   * mmv array 
+   */
+  mmv: any = [
+    {
+      "rb_mmv_id": 8432,
+      "rb_make_name": "TUNWAL",
+      "rb_model_name": "LITHINO LI 2.0",
+      "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
+    },
+    {
+      "rb_mmv_id": 8435,
+      "rb_make_name": "rr",
+      "rb_model_name": "MINI LITHINO LI",
+      "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
+    },
+    {
+      "rb_mmv_id": 8432,
+      "rb_make_name": "ee",
+      "rb_model_name": "LITHINO LI 2.0",
+      "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
+    },
+    {
+      "rb_mmv_id": 8435,
+      "rb_make_name": "ww",
+      "rb_model_name": "MINI LITHINO LI",
+      "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
+    }
+  ];
 
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(private ctrlContainer: FormGroupDirective) {
+  
+  }
 
   ngOnInit(): void {
     /**
@@ -35,12 +75,35 @@ export class VehicleComponent implements OnInit {
     } else {
       this.form.addControl('vehicle', new FormControl());
     }
+
+    /**
+     * when input field value changes than valueChanges is used
+     */
+    this.filteredMMV = this.form.controls['vehicle'].valueChanges
+      .pipe(
+        startWith(''),
+        map(name =>{  
+        return name ? this.filterMMV(name) : this.mmv.slice()})
+      );
   }
+
+  /**
+   * 
+   * @param name filterMMV used for filter MMV data
+   * @returns 
+   */
+  filterMMV(name: string) {
+    
+    return this.mmv.filter((state: { rb_make_name: string; }) =>
+      state.rb_make_name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+
 
   ngOnDestroy(): void {
     /**
      * remove form control for the vehicle
      */
     this.form.removeControl('vehicle');
+   
   }
 }

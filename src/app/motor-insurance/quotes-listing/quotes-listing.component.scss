@@ -58,4 +58,9 @@
       margin: 10px 25px 10px 25px;
     }
   }
+ 
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar{
+  background-color: #FF943D !important;
 }
