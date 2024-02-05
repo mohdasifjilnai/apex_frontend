@@ -17,6 +17,7 @@ import { AmountFormatPipe } from './pipe/amount-format.pipe';
 import { RegistrationDateComponent } from './components/form_fields/registration-date/registration-date.component';
 import { ManufactureDateComponent } from './components/form_fields/manufacture-date/manufacture-date.component';
 import { ErrorDialogComponent } from './components/dialog-components/error-dialog/error-dialog.component';
+import { ProceedInspectionComponent } from './components/dialog-components/proceed-inspection/proceed-inspection.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ErrorDialogComponent } from './components/dialog-components/error-dialo
     RegistrationDateComponent,
     ManufactureDateComponent,
     ErrorDialogComponent,
+    ProceedInspectionComponent,
   ],
   imports: [
     CommonModule,
