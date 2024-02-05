@@ -456,6 +456,12 @@ th.mat-header-cell:last-of-type {
 .text-light-blue {
   color: #5384ea !important;
 }
+.text-light-green{
+  color: #47BE88;
+}
+.text-red{
+  color:  #F64140;
+}
 /*[END] text color*/
 
 /*[START] mat check box css*/
@@ -527,3 +533,6 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 }
 
 
+.mat-form-field {
+  font-size: 14px !important;
+}

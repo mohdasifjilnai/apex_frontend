@@ -1,21 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
 @Component({
-  selector: 'app-failure-dialog',
-  templateUrl: './failure-dialog.component.html',
+  selector: 'app-error-dialog',
+  templateUrl: './error-dialog.component.html',
   styleUrls: [
-    './failure-dialog.component.scss',
+    './error-dialog.component.scss',
     '../success-dialog/success-dialog.component.scss',
   ],
 })
-export class FailureDialogComponent implements OnInit {
+export class ErrorDialogComponent implements OnInit {
   constructor(
-    public dialogRef: MatDialogRef<FailureDialogComponent>,
+    public dialogRef: MatDialogRef<ErrorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {}
+
   /**
    * this fucntion use for close pop up
    */

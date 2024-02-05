@@ -3,22 +3,28 @@ services:
   nginx:
       image: nginx:latest
       ports:
-        - 9001:80
+        - 8000:8000
       volumes:
-        - ./config/nginx:/etc/nginx/conf.d  
+        - ./config/nginx:/etc/nginx/conf.d
       depends_on:
         - web
-
-services:
+      networks:
+        - dev-apex-network
   web:
     #build: .
     image: registry.gitlab.renewbuy.in/apex/apex_frontend:latest
     container_name: apex-frontend
     volumes:
-      #- env settings 
+      #- env settings
       - logs-volume:/var/log/apex-frontend
+        #- ./config/nginx:/etc/nginx/conf.d
     expose:
       - 9001
-
+    networks:
+      - dev-apex-network
 volumes:
   logs-volume:
+  static-root:
+networks:
+   dev-apex-network:
+      name: dev-apex-network
