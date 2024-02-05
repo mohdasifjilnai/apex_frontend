@@ -9,18 +9,22 @@
         margin:0 5px 0 5px;
     }
     .vehicle-card-heading-details{
-        width:15%;
         opacity: 50%;
     }
+    .variant-heading{
+        width:16%;
+    }
+    .vehicle-card-heading-width{
+        width:12%;
+    }
     .vehicle-card-data{
-        margin:-15px 5px 0 5px;
+        margin:-5px 5px 10px 5px;
     }
     .vehicle-card-heading-details-data{
         color: #282828;
         font-size: 14px;
         opacity: 100%;
         font-weight: 600;
-        width:14%
     }
     .edit-button{
         background-color: #F5F8FE;
