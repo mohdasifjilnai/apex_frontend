@@ -477,5 +477,53 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   font-weight: 500;
   color: #666666 !important;
 }
-
 /*[END] mat check box css*/
+
+
+//mat accordian scss
+
+// Common styles for mat-expansion-panels
+.mat-expansion-panel:not(.mat-expanded) {
+  border-radius: 8px !important;
+  margin: 16px 0;
+}
+
+.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.mat-expansion-panel-header {
+  background-color: rgba(#5384ea, 0.1) !important;
+  border-radius: 14px;
+  transition: background-color 0.3s ease; // Smooth transition on hover
+}
+
+.mat-expansion-panel-header-title {
+  color: #5384ea;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+// Hover styles for mat-expansion-panel-header
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled="true"]),
+.mat-expansion-panel.mat-expanded .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+  background-color: rgba(#5384ea, 0.1);
+}
+
+// Expanded header styles
+.mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
+  border-radius: 14px !important;
+  height: 50px !important;
+}
+
+// Remove box-shadow for mat-expansion-panels
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
+// Custom styles for the expansion indicator
+::ng-deep .mat-expansion-indicator::after {
+  color: #5384ea;
+}
+
+

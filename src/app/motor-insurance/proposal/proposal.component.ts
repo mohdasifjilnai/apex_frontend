@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./proposal.component.scss']
 })
 export class ProposalComponent implements OnInit {
+  panelOpenState = false;
 
   constructor() { }
 

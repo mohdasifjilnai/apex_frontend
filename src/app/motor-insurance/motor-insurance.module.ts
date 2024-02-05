@@ -14,6 +14,11 @@ import { QuotesListingComponent } from './quotes-listing/quotes-listing.componen
 import { PremiumBreakupCardComponent } from './premium-breakup-card/premium-breakup-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { ProposalComponent } from './proposal/proposal.component';
+import { CkycComponent } from './ckyc/ckyc.component';
+import { VehicleOwnerDetailsComponent } from './vehicle-owner-details/vehicle-owner-details.component';
+import { NomineeDetailsComponent } from './nominee-details/nominee-details.component';
+import { ProposalVehicleDetailsComponent } from './proposal-vehicle-details/proposal-vehicle-details.component';
+import { PreviousPolicyDetailsComponent } from './previous-policy-details/previous-policy-details.component';
 
 
 
@@ -28,6 +33,11 @@ import { ProposalComponent } from './proposal/proposal.component';
     QuotesListingComponent,
     PremiumBreakupCardComponent,
     ProposalComponent,
+    CkycComponent,
+    VehicleOwnerDetailsComponent,
+    NomineeDetailsComponent,
+    ProposalVehicleDetailsComponent,
+    PreviousPolicyDetailsComponent,
   ],
   imports: [
     CommonModule,
