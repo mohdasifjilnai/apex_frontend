@@ -10,6 +10,6 @@ export class QuotesComponent implements OnInit {
   constructor(public matDialog: WindowRef) {}
 
   ngOnInit(): void {
-    this.matDialog.openDialog({ title: ``}, VehicleDetailsPopupComponent)
+     this.matDialog.openDialog({ title: ``}, VehicleDetailsPopupComponent)
   }
 }
