@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-previous-insurer',
@@ -20,7 +21,7 @@ export class PreviousInsurerComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
 
-  constructor(private ctrlContainer: FormGroupDirective) {
+  constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {
     this.insurerList = [
       {
         "rb_insurer_id": 1,
@@ -150,7 +151,11 @@ export class PreviousInsurerComponent implements OnInit {
     } else {
       this.form.addControl('previous_insurer', new FormControl());
     }
+
   }
+
+
+
   ngOnDestroy(): void {
     /**
      * remove form control for the Previous Insurer

@@ -30,6 +30,7 @@ export class VehicleComponent implements OnInit {
   filteredMMV!: Observable<any[]>;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
+  mmvList:any;
   /**
    * mmv array 
    */
@@ -78,17 +79,27 @@ export class VehicleComponent implements OnInit {
       this.form.addControl('vehicle', new FormControl());
     }
 
-    /**
-     * when input field value changes than valueChanges is used
-     */
-    this.filteredMMV = this.form.controls['vehicle'].valueChanges
+    // if(this.mmvList){
+    //   this.form.controls['vehicle'].valueChanges.subscribe((val: any) => {
+    //     console.log(val);
+        
+    // });
+    // }
+      /**
+           * when input field value changes than valueChanges is used
+           */
+      this.filteredMMV = this.form.controls['vehicle'].valueChanges
       .pipe(
         startWith(''),
         map(name =>{  
-        return name ? this.filterMMV(name) : this.mmv.slice()})
+       
+        this.getVehicleMMV(name)
+        return name ? this.filterMMV(name) : this.mmvList.slice()
+      }
+        )
       );
 
-    this.getVehicleMMV()
+    
   }
 
   /**
@@ -98,14 +109,19 @@ export class VehicleComponent implements OnInit {
    */
   filterMMV(name: string) {
     
-    return this.mmv.filter((state: { rb_make_name: string; }) =>
+    return this.mmvList.filter((state: { rb_make_name: string; }) =>
       state.rb_make_name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
 
-  getVehicleMMV(){
+  getVehicleMMV(name:any){
     this.apiservice.getRequestedResponse(ApiConstants.get_vehicle_mmv).subscribe((res)=>{
-        console.log(res);
+        if(res){
+          this.mmvList = res;
+          // this.filteredMMV = this.mmvList;
+         
+        }
+       
     })
   }
 

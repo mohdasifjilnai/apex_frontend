@@ -6,6 +6,8 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-rto',
@@ -16,12 +18,13 @@ import {
   ],
 })
 export class RTOComponent implements OnInit {
-  @Input() cities: any[] = [];
+  // @Input() cities: any[] = [];
   @Input('required') isRequired = false;
 
   form!: FormGroup;
+  rtoList:any;
 
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {}
 
   ngOnInit(): void {
     /**
@@ -36,6 +39,17 @@ export class RTOComponent implements OnInit {
     } else {
       this.form.addControl('rto_city', new FormControl());
     }
+    this.getRTOData();
+  }
+
+
+  getRTOData(){
+    this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
+      if(res){
+         this.rtoList = res;
+      }
+     
+  })
   }
 
   ngOnDestroy(): void {
