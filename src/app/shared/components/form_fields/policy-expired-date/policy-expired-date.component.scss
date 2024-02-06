@@ -1,8 +1,15 @@
 .expiry-date {
-    ::ng-deep {
-      .mat-form-field-infix {
-        width: 260px !important;
-      }
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 260px !important;
     }
   }
-  
+}
+::ng-deep .mat-datepicker-actions {
+  justify-content: center !important;
+}
+
+.datepicker-text {
+  font-size: 12px;
+  font-weight: 500;
+}

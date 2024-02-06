@@ -7,5 +7,15 @@
     formControlName="policy_expiry_date"
   />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
-  <mat-datepicker #expiryDate></mat-datepicker>
+  <mat-datepicker #expiryDate>
+    <mat-datepicker-actions>
+      <div class="datepicker-footer" #expiryDate>
+        <div class="mt-3">
+          <span class="text-orange datepicker-text" matDatepickerApply
+            >I don't know the previous policy details</span>
+        </div>
+      </div>
+      <!-- <button mat-button (click)="expiryDate.close()">Close</button> -->
+    </mat-datepicker-actions>
+  </mat-datepicker>
 </mat-form-field>
