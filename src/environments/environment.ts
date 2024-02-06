@@ -5,7 +5,7 @@ export const environment = {
   amsurl: 'https://accounts.rbstaging.in/',
 
   artivatic_flag: false,
-  partner_v2: 'https://partners.rbstaging.in/v2/',
+  partner_v2: 'https://dev-apex.rbstaging.in/',
 
   profile_redirection: 'https://partners.rbstaging.in',
 };
