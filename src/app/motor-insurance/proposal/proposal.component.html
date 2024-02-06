@@ -1,44 +1,34 @@
 <div class="row m-4">
-  <div class="col-4">Insurer details</div>
-  <div class="col-8">
-    <mat-accordion>
+  <div class="col-3">
+    <app-insurance-details></app-insurance-details>
+  </div>
+  <div class="col-9">
+    <mat-accordion multi="true">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> CKYC </mat-panel-title>
         </mat-expansion-panel-header>
         <app-ckyc></app-ckyc>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-vehicle-owner-details></app-vehicle-owner-details>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Nominee Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-nominee-details></app-nominee-details>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-proposal-vehicle-details></app-proposal-vehicle-details>
       </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Previous Policy Details </mat-panel-title>
         </mat-expansion-panel-header>

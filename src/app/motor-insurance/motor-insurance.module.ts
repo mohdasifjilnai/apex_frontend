@@ -19,6 +19,7 @@ import { VehicleOwnerDetailsComponent } from './vehicle-owner-details/vehicle-ow
 import { NomineeDetailsComponent } from './nominee-details/nominee-details.component';
 import { ProposalVehicleDetailsComponent } from './proposal-vehicle-details/proposal-vehicle-details.component';
 import { PreviousPolicyDetailsComponent } from './previous-policy-details/previous-policy-details.component';
+import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 
 
 
@@ -38,6 +39,7 @@ import { PreviousPolicyDetailsComponent } from './previous-policy-details/previo
     NomineeDetailsComponent,
     ProposalVehicleDetailsComponent,
     PreviousPolicyDetailsComponent,
+    InsuranceDetailsComponent,
   ],
   imports: [
     CommonModule,
