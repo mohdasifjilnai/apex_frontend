@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline" class="previous-insurer">
+<!-- <mat-form-field appearance="outline" class="previous-insurer">
     <mat-label>Select Previous Insurer</mat-label>
     <mat-select formControlName="previous_insurer">
       <mat-option *ngFor="let insurer of insurerList" [value]="insurer?.rb_insurer_id">
@@ -6,4 +6,15 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  
+   -->
+
+
+   <mat-form-field class="previous-insurer" appearance="outline">
+    <mat-label>Search Previous Insurer</mat-label>
+    <input matInput placeholder="Search Previous Insurer" aria-label="previous_insurer" #autoCompleteInput [matAutocomplete]="auto" formControlName="previous_insurer">
+    <mat-autocomplete #auto="matAutocomplete" >
+      <mat-option *ngFor="let insurer of filteredInsurerList | async" [value]="insurer.rb_insurer_name">
+        <span>{{ insurer.rb_insurer_name }}</span> 
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>

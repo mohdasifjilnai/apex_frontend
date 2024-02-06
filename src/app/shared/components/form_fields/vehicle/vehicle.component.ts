@@ -34,32 +34,32 @@ export class VehicleComponent implements OnInit {
   /**
    * mmv array 
    */
-  mmv: any = [
-    {
-      "rb_mmv_id": 8432,
-      "rb_make_name": "TUNWAL",
-      "rb_model_name": "LITHINO LI 2.0",
-      "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
-    },
-    {
-      "rb_mmv_id": 8435,
-      "rb_make_name": "rr",
-      "rb_model_name": "MINI LITHINO LI",
-      "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
-    },
-    {
-      "rb_mmv_id": 8432,
-      "rb_make_name": "ee",
-      "rb_model_name": "LITHINO LI 2.0",
-      "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
-    },
-    {
-      "rb_mmv_id": 8435,
-      "rb_make_name": "ww",
-      "rb_model_name": "MINI LITHINO LI",
-      "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
-    }
-  ];
+  // mmv: any = [
+  //   {
+  //     "rb_mmv_id": 8432,
+  //     "rb_make_name": "TUNWAL",
+  //     "rb_model_name": "LITHINO LI 2.0",
+  //     "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
+  //   },
+  //   {
+  //     "rb_mmv_id": 8435,
+  //     "rb_make_name": "rr",
+  //     "rb_model_name": "MINI LITHINO LI",
+  //     "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
+  //   },
+  //   {
+  //     "rb_mmv_id": 8432,
+  //     "rb_make_name": "ee",
+  //     "rb_model_name": "LITHINO LI 2.0",
+  //     "rb_variant_name": "(28AH) 28AH LEAD ACID BATTERY"
+  //   },
+  //   {
+  //     "rb_mmv_id": 8435,
+  //     "rb_make_name": "ww",
+  //     "rb_model_name": "MINI LITHINO LI",
+  //     "rb_variant_name": "(48V)28AH LEAD ACID BATTERY"
+  //   }
+  // ];
 
   constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {
   
@@ -85,19 +85,7 @@ export class VehicleComponent implements OnInit {
         
     // });
     // }
-      /**
-           * when input field value changes than valueChanges is used
-           */
-      this.filteredMMV = this.form.controls['vehicle'].valueChanges
-      .pipe(
-        startWith(''),
-        map(name =>{  
-       
-        this.getVehicleMMV(name)
-        return name ? this.filterMMV(name) : this.mmvList.slice()
-      }
-        )
-      );
+    this.getVehicleMMV('');
 
     
   }
@@ -109,17 +97,45 @@ export class VehicleComponent implements OnInit {
    */
   filterMMV(name: string) {
     
-    return this.mmvList.filter((state: { rb_make_name: string; }) =>
-      state.rb_make_name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+    return this.apiservice.getRequestedResponse(`${ApiConstants.get_vehicle_mmv}?product_name=private_car&search_element=${name}`).subscribe((res)=>{
+      if(res){
+        this.mmvList = res;
+        // this.filteredMMV = this.mmvList;
+         /**
+         * when input field value changes than valueChanges is used
+         */
+    this.filteredMMV = this.form.controls['vehicle'].valueChanges
+    .pipe(
+      startWith(''),
+      map(name =>{  
+     
+      return name ? this.filterMMV(name) : this.mmvList
+    }
+      )
+    );
+      }
+     
+  })
   }
 
 
   getVehicleMMV(name:any){
-    this.apiservice.getRequestedResponse(ApiConstants.get_vehicle_mmv).subscribe((res)=>{
+    this.apiservice.getRequestedResponse(`${ApiConstants.get_vehicle_mmv}?product_name=private_car`).subscribe((res)=>{
         if(res){
           this.mmvList = res;
           // this.filteredMMV = this.mmvList;
-         
+           /**
+           * when input field value changes than valueChanges is used
+           */
+      this.filteredMMV = this.form.controls['vehicle'].valueChanges
+      .pipe(
+        startWith(''),
+        map(name =>{  
+       
+        return name ? this.filterMMV(name) : this.mmvList
+      }
+        )
+      );
         }
        
     })

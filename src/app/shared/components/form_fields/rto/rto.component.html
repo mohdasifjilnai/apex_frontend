@@ -1,8 +1,20 @@
-<mat-form-field appearance="outline" class="drop-down-fields">
+<!-- <mat-form-field appearance="outline" class="drop-down-fields">
   <mat-label>Select RTO/City</mat-label>
   <mat-select formControlName="rto_city">
     <mat-option *ngFor="let rto of rtoList" [value]="rto?.value">
       {{ rto.city_name }}
     </mat-option>
   </mat-select>
+</mat-form-field> -->
+
+
+<mat-form-field class="drop-down-fields" appearance="outline">
+  <mat-label>Search RTO/City</mat-label>
+  <input matInput placeholder="Search RTO/City" aria-label="rto_city" #autoCompleteInput [matAutocomplete]="auto" formControlName="rto_city">
+  <mat-autocomplete #auto="matAutocomplete" >
+    <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto.display_name">
+      <span>{{ rto.display_name }}</span> 
+    </mat-option>
+  </mat-autocomplete>
 </mat-form-field>
+

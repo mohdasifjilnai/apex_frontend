@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -6,6 +6,8 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -23,6 +25,10 @@ export class RTOComponent implements OnInit {
 
   form!: FormGroup;
   rtoList:any;
+
+  filteredRtoList!: Observable<any[]>;
+  @ViewChild(MatAutocompleteTrigger)
+  autocomplete!: MatAutocompleteTrigger;
 
   constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {}
 
@@ -47,6 +53,46 @@ export class RTOComponent implements OnInit {
     this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
       if(res){
          this.rtoList = res;
+               /**
+           * when input field value changes than valueChanges is used
+           */
+      this.filteredRtoList = this.form.controls['rto_city'].valueChanges
+      .pipe(
+        startWith(''),
+        map(name =>{  
+       
+        return name ? this.filterRTO(name) : this.rtoList
+      }
+        )
+      );
+      }
+     
+  })
+  }
+
+   /**
+   * 
+   * @param name filterMMV used for filter MMV data
+   * @returns 
+   */
+   filterRTO(name: string) {
+    
+    return this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
+      if(res){
+        this.rtoList = res;
+        // this.filteredMMV = this.mmvList;
+         /**
+         * when input field value changes than valueChanges is used
+         */
+    this.filteredRtoList = this.form.controls['rto_city'].valueChanges
+    .pipe(
+      startWith(''),
+      map(name =>{  
+     
+      return name ? this.filterRTO(name) : this.rtoList
+    }
+      )
+    );
       }
      
   })
