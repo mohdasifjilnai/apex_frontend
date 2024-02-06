@@ -6,8 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ckyc.component.scss']
 })
 export class CkycComponent implements OnInit {
+  kycList:any
 
-  constructor() { }
+  constructor() {
+    this.kycList = [ 
+      {
+        id:1,
+        name:"Yes"
+      },
+      {
+        id:2,
+        name:"No"
+      }
+    ]
+   }
 
   ngOnInit(): void {
   }

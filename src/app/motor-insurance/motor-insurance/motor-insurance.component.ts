@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import city from './city-name.json';
 import multi_select_city from './multi-select.json';
+import { ApiService } from 'src/app/core/services/api.service';
+import { ApiConstants } from 'src/app/api.constant';
 
 @Component({
   selector: 'app-motor-insurance',
@@ -23,16 +25,39 @@ export class MotorInsuranceComponent implements OnInit {
     previous_insurer: new FormControl('', Validators.required),
   });
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  //  get vehicle detials submit event
+  /**
+   * get vehicle detials submit event
+   */
+
   getVehicleDetails() {
     this.router.navigate(['/motor/quotes']);
+    this.getVehicleDetailsInfo();
+
   }
 
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
+  }
+
+  /**
+   * Retrieves vehicle details information by making a request to the API with a specific registration number.
+   * Uses the ApiService to fetch the requested response and subscribes to the observable.
+   */
+
+  getVehicleDetailsInfo() {
+    const regn_no = this.motorInsurance.controls['registration_number']?.value
+    if(regn_no){
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.registration_number}?regn_no=${regn_no}`
+        )
+        .subscribe((res: any) => {});
+
+    }
   }
 }

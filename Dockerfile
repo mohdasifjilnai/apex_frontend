@@ -19,7 +19,7 @@ RUN $(npm bin)/ng build --aot --build-optimizer --vendor-chunk=true --configurat
  COPY --from=build /ng-kmt/dist/apex_frontend /usr/share/nginx/html
 
 # Expose port 80 for Nginx
-EXPOSE 80
+EXPOSE 5000
 
 # Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

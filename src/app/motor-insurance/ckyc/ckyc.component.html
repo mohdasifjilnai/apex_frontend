@@ -1,1 +1,14 @@
-<p>ckyc works!</p>
+<div class="row">
+    <div class="col-4 mt-3">
+        <label class="kyc-header">Do you have CKYC Number?</label>
+        <div>
+        <mat-radio-group aria-label="Select an option">
+            <mat-radio-button *ngFor="let kyc of kycList" value="{{kyc?.id}}" [checked]="kyc?.name === 'Yes'" [ngClass]="{
+                'is-kyc': kyc?.name === 'No'
+              }">{{kyc?.name}}</mat-radio-button>
+          </mat-radio-group>      
+        </div>    
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4"></div>
+</div>

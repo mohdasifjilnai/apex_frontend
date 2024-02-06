@@ -38,8 +38,8 @@ export class RegistrationNumberComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    // remove form control for the registration number
-    this.form.removeControl('registration_number');
-  }
+  // ngOnDestroy(): void {
+  //   // remove form control for the registration number
+  //   this.form.removeControl('registration_number');
+  // }
 }
