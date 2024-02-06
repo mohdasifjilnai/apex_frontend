@@ -17,17 +17,17 @@ export class AppComponent {
     /**
      * service call for the server side event handling
      */
-    this.sseService.getServerSentEvent('http://localhost:9090/ds/dyn/edit/getStatus?status=-403830982')
-      .subscribe(ev => {
-        console.log(ev);
-        this.connectionData.push(ev.data);
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        console.log('==> complete');
-      });
+    // this.sseService.getServerSentEvent('http://localhost:9090/ds/dyn/edit/getStatus?status=-403830982')
+    //   .subscribe(ev => {
+    //     console.log(ev);
+    //     this.connectionData.push(ev.data);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   },
+    //   () => {
+    //     console.log('==> complete');
+    //   });
   //   this.eventSource = new EventSource("http://localhost:8099/sse.php", { withCredentials: true });
 
   //   this.eventSource.onmessage = (e: { data: any; }) => {

@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable, map, startWith } from 'rxjs';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -58,7 +60,7 @@ export class VehicleComponent implements OnInit {
     }
   ];
 
-  constructor(private ctrlContainer: FormGroupDirective) {
+  constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {
   
   }
 
@@ -85,6 +87,8 @@ export class VehicleComponent implements OnInit {
         map(name =>{  
         return name ? this.filterMMV(name) : this.mmv.slice()})
       );
+
+    this.getVehicleMMV()
   }
 
   /**
@@ -98,6 +102,12 @@ export class VehicleComponent implements OnInit {
       state.rb_make_name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
+
+  getVehicleMMV(){
+    this.apiservice.getRequestedResponse(ApiConstants.get_vehicle_mmv).subscribe((res)=>{
+        console.log(res);
+    })
+  }
 
   ngOnDestroy(): void {
     /**

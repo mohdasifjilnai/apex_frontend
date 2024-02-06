@@ -1,4 +1,8 @@
 export class ApiConstants {
+
   //get Role
-  // public static get_role: string = `/api-prod/v1/account/admin-role/get_role/`
+  public static get_vehicle_mmv: string = `/api/v1/vehicle_search/?product_name=two_wheeler`
+
+
 }
+

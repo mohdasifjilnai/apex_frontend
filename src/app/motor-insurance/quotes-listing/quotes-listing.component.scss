@@ -28,7 +28,7 @@
       height: 34px;
       text-align: center;
       font-weight: 600;
-      padding-top:5px;
+      padding-top: 5px;
     }
     .premium-breakup {
       color: #5384ea;
@@ -58,9 +58,55 @@
       margin: 10px 25px 10px 25px;
     }
   }
- 
+  .comprehensive-no-quotes-information {
+    background-color: #e4edff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    margin: 5px 0 0px 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  .comprehensive-no-quotes-information-text {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 100%;
+    color: #282828;
+  }
+  .comprehensive-know-more-text {
+    color: #5384ea;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .comprehensive-no-quotes-information-card {
+    padding: 12px 12px 0px 12px;
+  }
+  .comprehensive-know-more-option {
+    border: 1px solid #eaeaea;
+  }
+  .insurer-no-quotes-reasons {
+    font-size: 12px;
+    font-weight: 600;
+    color: #282828;
+  }
+  .insurer-no-quotes-reasons-value{
+    font-size: 12px;
+    font-weight: 500;
+    color: #282828;
+  }
+  .insurer-no-quotes-reasons-warning{
+    font-size: 12px;
+    font-weight: 500;
+    color: #F64140;
+  }
+  .comprehensive-no-quotes-card{
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    margin: 5px 0 0px 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
 }
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar{
-  background-color: #FF943D !important;
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: #ff943d !important;
 }

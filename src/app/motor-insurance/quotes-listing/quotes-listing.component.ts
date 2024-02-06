@@ -9,10 +9,19 @@ import { Router } from '@angular/router';
 export class QuotesListingComponent implements OnInit {
   constructor(private router : Router) {}
 
+
+  noQuotesInformation:any;
+  
   ngOnInit(): void {}
 
   getProposalDetails() {
     this.router.navigate(['/motor/quotes/proposal']);
+  }
+  /**
+   * this function is used for the no quotes information details
+   */
+  noQuotes(){
+    this.noQuotesInformation = !this.noQuotesInformation
   }
   
 }
