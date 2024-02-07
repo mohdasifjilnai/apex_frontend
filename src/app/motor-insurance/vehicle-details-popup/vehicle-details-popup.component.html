@@ -26,25 +26,33 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Make/Model</mat-label>
-            <mat-select formControlName="vehicle_model">
-              <mat-option *ngFor="let model of modelList" [value]="model?.id">
-                {{ model?.modelName }}
+            <input matInput placeholder="Search Make/Model" aria-label="vehicle_model" #autoCompleteInput [matAutocomplete]="auto" formControlName="vehicle_model">
+            <mat-autocomplete #auto="matAutocomplete" >
+              <mat-option *ngFor="let mmData of filteredPopupMMV | async" [value]="mmData.rb_make_name">
+                <span>{{ mmData.rb_make_name }}</span> |
+                <span>{{ mmData.rb_model_name }}</span> 
               </mat-option>
-            </mat-select>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <!-- variant dropdown -->
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Variant</mat-label>
-            <mat-select formControlName="vehicle_variant">
+            <!-- <mat-select formControlName="vehicle_variant">
               <mat-option
                 *ngFor="let variant of variantList"
                 [value]="variant?.id"
               >
                 {{ variant?.modelName }}
               </mat-option>
-            </mat-select>
+            </mat-select> -->
+            <!-- <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInputVariant [matAutocomplete]="auto" formControlName="vehicle_variant">
+            <mat-autocomplete #auto="matAutocomplete" >
+              <mat-option *ngFor="let variantData of filteredPopupVariant | async" [value]="variantData.rb_variant_name">
+                <span>{{ variantData.rb_variant_name }} tttt</span> 
+              </mat-option>
+            </mat-autocomplete> -->
           </mat-form-field>
         </div>
         <!-- vehicle fuel dropdown -->
