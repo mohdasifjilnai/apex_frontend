@@ -32,6 +32,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   editVehicleDetails: boolean = true;
   vehcileType:any;
   mmvList:any;
+  rtoList:any;
     /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -41,7 +42,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
     autocomplete!: MatAutocompleteTrigger;
 
     filteredPopupVariant!: Observable<any[]>;
- 
+    @ViewChild(MatAutocompleteTrigger)
+    autocompleteVariant!: MatAutocompleteTrigger;
+
+
+    filteredRtoList!: Observable<any[]>;
+    
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -101,12 +107,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
     /**
      * Sample data for the Registration City dropdown list
      */
-    this.cityList = [
-      {
-        id: 1,
-        cityName: 'Delhi',
-      },
-    ];
+    // this.cityList = [
+    //   {
+    //     id: 1,
+    //     cityName: 'Delhi',
+    //   },
+    // ];
 
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
@@ -158,10 +164,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.sharedData.getSelectedVehicleType.subscribe((res) => {
       this.vehcileType = res;
       this.getVehicleMMVPopup('', this.vehcileType);
+      this.getRTOData()
     });
-    // setTimeout(() => {
-    //   this.getVehicleMMV('',this.vehcileType)
-    // }, 1000);
   }
 
   onClose(): void {
@@ -254,5 +258,55 @@ export class VehicleDetailsPopupComponent implements OnInit {
           );
         }
       });
+  }
+
+
+  getRTOData(){
+    this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
+      if(res){
+         this.rtoList = res;
+               /**
+           * when input field value changes than valueChanges is used
+           */
+      this.filteredRtoList = this.vehicleDetailsForm.controls['registration_city'].valueChanges
+      .pipe(
+        debounceTime(1000),
+        startWith(''),
+        map(name =>{  
+       
+        return name ? this.filterRTO(name) : this.rtoList
+      }
+        )
+      );
+      }
+     
+  })
+  }
+
+   /**
+   * 
+   * @param name filterMMV used for filter MMV data
+   * @returns 
+   */
+   filterRTO(name: string) {
+    
+    return this.apiservice.getRequestedResponse(`${ApiConstants.get_rto_list}?search_element=${name}`).subscribe((res)=>{
+      if(res){
+        this.rtoList = res;
+         /**
+         * when input field value changes than valueChanges is used
+         */
+    this.filteredRtoList = this.vehicleDetailsForm.controls['registration_city'].valueChanges
+    .pipe(
+      startWith(''),
+      map(name =>{  
+     
+      return name ? this.filterRTO(name) : this.rtoList
+    }
+      )
+    );
+      }
+     
+  })
   }
 }

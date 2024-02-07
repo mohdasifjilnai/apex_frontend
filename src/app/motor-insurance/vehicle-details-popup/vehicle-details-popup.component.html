@@ -39,20 +39,13 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Variant</mat-label>
-            <!-- <mat-select formControlName="vehicle_variant">
-              <mat-option
-                *ngFor="let variant of variantList"
-                [value]="variant?.id"
-              >
-                {{ variant?.modelName }}
-              </mat-option>
-            </mat-select> -->
-            <!-- <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInputVariant [matAutocomplete]="auto" formControlName="vehicle_variant">
-            <mat-autocomplete #auto="matAutocomplete" >
+           
+            <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInput [matAutocomplete]="autoVariant" formControlName="vehicle_variant">
+            <mat-autocomplete #autoVariant="matAutocomplete" >
               <mat-option *ngFor="let variantData of filteredPopupVariant | async" [value]="variantData.rb_variant_name">
-                <span>{{ variantData.rb_variant_name }} tttt</span> 
+                <span>{{variantData.rb_variant_name}}</span> 
               </mat-option>
-            </mat-autocomplete> -->
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <!-- vehicle fuel dropdown -->
@@ -70,20 +63,26 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Registration City</mat-label>
-            <mat-select formControlName="registration_city">
+            <!-- <mat-select formControlName="registration_city">
               <mat-option *ngFor="let city of cityList" [value]="city?.id">
                 {{ city?.cityName }}
               </mat-option>
-            </mat-select>
+            </mat-select> -->
+            <input matInput placeholder="Search Registration City" aria-label="registration_city" #autoCompleteInput [matAutocomplete]="autoRegistrationCity" formControlName="registration_city">
+            <mat-autocomplete #autoRegistrationCity="matAutocomplete" >
+              <mat-option *ngFor="let cityData of filteredRtoList | async" [value]="cityData.display_name">
+                <span>{{cityData.display_name}}</span> 
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <!-- Registration Date -->
         <div class="col-6">
-          <app-registration-date [required]="true"></app-registration-date>
+          <app-registration-date ></app-registration-date>
         </div>
         <!-- Manufacture Date  -->
         <div class="col-6">
-          <app-manufacture-date [required]="true"></app-manufacture-date>
+          <app-manufacture-date ></app-manufacture-date>
         </div>
         <!-- Used Car/ RC Transfer dropdown -->
         <div class="col-6">
