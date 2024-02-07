@@ -13,13 +13,27 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   styleUrls: ['./quotes-listing.component.scss'],
 })
 export class QuotesListingComponent implements OnInit {
-  initiateQuotes: any;
-  constructor(
-    private router: Router,
-    private apiService: ApiService,
-    public matDialog: MatDialog
-  ) {
-    this.postListInitiateQuotes(initiate_quotes_payload);
+  initiateQuotes:any;
+  showComprehensiveDiv = true;
+  individualSelected = 'Individual';
+  lowHighSelected = 'low';
+  initiateQuotesJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: PremiumBreakupComponent,
+    widthObtained: '75%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: false,
+    classObtained: 'initiate-quotes-class',
+  };
+  constructor(private router : Router,private apiService:ApiService,public matDialog: WindowRef ) {
+    this.postListInitiateQuotes(initiate_quotes_payload)
   }
 
   noQuotesInformation: any;
@@ -39,37 +53,65 @@ export class QuotesListingComponent implements OnInit {
    * get initiate quotes list
    */
 
-  postListInitiateQuotes(data: any) {
-    this.apiService
-      .postRequestedResponse(ApiConstants.initiate_quotes, data)
-      .subscribe((res: any) => {
-        this.initiateQuotes = res;
-      });
-  }
-
-  /**
-   * Open premium breakup modal
-   */
-  openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent) {
-    this.matDialog.open(PremiumBreakupComponent, {
-      panelClass: 'initiate-quotes-class',
-      data: {
-        initiateQuotes,
-      },
-      position: {
-        top: `${event.clientY}px`,
-        left: `${event.clientX}px`,
-      },
-    });
-  }
-  showComprehensiveDiv = true;
-  individualSelected = 'Individual';
-  lowHighSelected = 'low';
-  onComprehensiveTabChange(event: MatTabChangeEvent): void {
-    if (event.index === 1) {
-      this.showComprehensiveDiv = false;
-    } else {
-      this.showComprehensiveDiv = true;
+     postListInitiateQuotes(data:any) {
+        this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
+          this.initiateQuotes=res;
+          console.log(res,'res')
+        })
     }
-  }
+   
+    onComprehensiveTabChange(event: MatTabChangeEvent): void {
+      if (event.index === 1) {
+        this.showComprehensiveDiv = false;
+      } else {
+        this.showComprehensiveDiv = true;
+      }
+    }
+
+    /**
+     * Open premium breakup modal
+     */ 
+     openPremiumBreakupModal(initiateQuotes:any,event: MouseEvent){  
+      this.openPremiumBreakup(initiateQuotes)    
+      // this.matDialog.open(PremiumBreakupComponent, {
+      //   panelClass:'initiate-quotes-class',
+      //   data: {
+      //     initiateQuotes
+      //   },
+      //   position: {
+      //     top: `${event.clientY}px`,
+      //     left: `${event.clientX}px`
+      //   }
+      // });
+     }
+     /**
+   * this fucntion use vehicle premium breakup modal
+   */ 
+     openPremiumBreakup(ObjData: any) {
+      let resWidth;
+      let resTop;
+      if (window.screen.width <= 767) {
+        resWidth = '95%';
+        resTop = '5%';
+      } else {
+        resWidth = '75%';
+        resTop = '5%';
+      }
+  
+      const obj: any = {
+        modalName: this.initiateQuotesJSON['modalName'],
+        width: this.initiateQuotesJSON['widthObtained'],
+        height: this.initiateQuotesJSON['heightObtained'],
+        classNameObtained: this.initiateQuotesJSON['classObtained'],
+        isOutSideClose: this.initiateQuotesJSON['isOutSideClose'],
+        minWidth: resWidth,
+        dataInfo: {
+          data: ObjData,
+          top: resTop,
+        },
+      };
+  
+      this.matDialog.openDialog(obj);
+    }
+  
 }
