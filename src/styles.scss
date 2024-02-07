@@ -544,4 +544,12 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .initiate-quotes-class{
   margin-left: 1229px !important;
   margin-top: 351px !important;
+      .mat-dialog-container {
+        border-radius: 16px !important;
+        overflow: unset !important;
+        width: 286px !important;
+      }
+      .mat-dialog-content {
+        overflow: unset !important;
+      }
 }

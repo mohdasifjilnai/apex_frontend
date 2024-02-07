@@ -1,80 +1,71 @@
-
-::ng-deep {
-  .mat-dialog-container {
-    border-radius: 16px !important;
-    overflow: unset !important;
-    width: 286px !important;
+.premium-breakup-main-dialog {
+  .insurer-logo {
+    width: 100px;
+    height: 50px;
+    border-radius: 4px;
   }
-  .mat-dialog-content {
-    overflow: unset !important;
+  .premium-brealup-header {
+    position: relative;
+    left: 163px;
+    bottom: 60px;
   }
-}
-.insurer-logo {
-  width: 100px;
-  height: 50px;
-  border-radius: 4px;
-}
-.premium-brealup-header {
-  position: relative;
-  left: 163px;
-  bottom: 60px;
-}
-.cover-text {
-  width: 100px;
-  font-size: 12px;
-  color: #282828;
-  opacity: 58%;
-}
-.cover-amount {
-  width: 100px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #282828;
-  position: relative;
-  top: -10px;
-  left: 16px;
-}
-.own-damage-text,
-.own-damage-amount {
-  font-size: 11px;
+  .cover-text {
+    width: 100px;
+    font-size: 12px;
+    color: #282828;
+    opacity: 58%;
+  }
+  .cover-amount {
+    width: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #282828;
+    position: relative;
+    top: -10px;
+    left: 16px;
+  }
+  .own-damage-text,
+  .own-damage-amount {
+    font-size: 11px;
 
-  color: #282828;
-}
-.text-bold {
-  font-weight: 600;
-}
-.share-group,
-.download-group {
-  width: 114px;
-  height: 32px;
-  border-radius: 9px;
-  padding-right: 11px;
-  padding-top: 6px;
-}
-.light-blue {
-  background-color: #5384ea45;
-}
-.download-group {
-  background-color: #47be8857;
-  position: relative;
-  left: 10px;
-}
-.light-green {
-  background-color: #47be8857;
-}
-.share-icon,
-.download-icon,
-.whatsapp-icon,
-.sms-icon,
-.mail-icon {
-  width: 12px;
-  height: 22px;
-}
-.share-text,
-.download-text {
-  font-size: 11px;
-  font-weight: 600;
-  position: relative;
-  bottom: -2px;
-  left: 6px;
+    color: #282828;
+  }
+  .text-bold {
+    font-weight: 600;
+  }
+  .share-group,
+  .download-group {
+    width: 114px;
+    height: 32px;
+    border-radius: 9px;
+    padding-right: 11px;
+    padding-top: 6px;
+  }
+  .light-blue {
+    background-color: #5384ea45;
+  }
+  .download-group {
+    background-color: #47be8857;
+    position: relative;
+    left: 10px;
+  }
+  .light-green {
+    background-color: #47be8857;
+  }
+  .share-icon,
+  .download-icon,
+  .whatsapp-icon,
+  .sms-icon,
+  .mail-icon {
+    width: 12px;
+    height: 22px;
+  }
+  .share-text,
+  .download-text {
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+    bottom: -2px;
+    left: 6px;
+  }
 }
