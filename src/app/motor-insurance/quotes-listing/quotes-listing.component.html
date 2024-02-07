@@ -17,9 +17,9 @@
                  </div>
                  <div class="col-2">
                     <p class="mt-1 premium-breakup-amount cursor-pointer" (click)="getProposalDetails()">
-                        &#8377; 24,000
+                        &#8377; {{initiateQuotes.fe_final_premium}}
                     </p>
-                    <p class="premium-breakup">
+                    <p class="premium-breakup" (click)="openPremiumBreakupModal(initiateQuotes,$event)">
                         Premium Breakup
                     </p>
                  </div>

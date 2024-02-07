@@ -8,5 +8,8 @@ export class ApiConstants {
   public static get_rto_list:string = `/api/v1/rto_search/`
 
   public static get_previous_insurer:string = `/api/v1/insurer_search/`
+
+  // Initiate quotes List
+  public static initiate_quotes :string=`/api/v1/initiate_quotes/`
 }
 

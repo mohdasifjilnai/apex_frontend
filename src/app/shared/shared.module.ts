@@ -18,6 +18,7 @@ import { RegistrationDateComponent } from './components/form_fields/registration
 import { ManufactureDateComponent } from './components/form_fields/manufacture-date/manufacture-date.component';
 import { ErrorDialogComponent } from './components/dialog-components/error-dialog/error-dialog.component';
 import { ProceedInspectionComponent } from './components/dialog-components/proceed-inspection/proceed-inspection.component';
+import { PremiumBreakupComponent } from './components/dialog-components/premium-breakup/premium-breakup.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ProceedInspectionComponent } from './components/dialog-components/proce
     ManufactureDateComponent,
     ErrorDialogComponent,
     ProceedInspectionComponent,
+    PremiumBreakupComponent,
   ],
   imports: [
     CommonModule,
