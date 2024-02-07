@@ -109,8 +109,132 @@
   .insurer-logo{
       width: 146px;
   }
+  
+}
+.toggle-btn{
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+    background-color: #ff943d !important;
+  }
+  ::ng-deep .mat-tab-labels {
+    width: 40%;
+  }
 }
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
-  background-color: #ff943d !important;
+.quotesDropdown{
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline{
+    top: 1.00em !important;
+    bottom: 6px;
+  }
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 10px 0 0 10px !important;
+    background-color: #F5F8FE;
+    width: 10px !important;
+    color: #F5F8FE;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 0 10px 10px 0 !important;
+    background-color: #F5F8FE;
+    width: 10px !important;
+    color: #F5F8FE;
+}
+::ng-deep .mat-select-value {
+  color: #5384EA;
+  font-size: 12px;
+  font-weight: 600;
+}
+::ng-deep .mat-select{
+  padding: 0 6px !important;
+}
+::ng-deep .mat-select-arrow-wrapper{
+  height: 3px !important;
+}
+::ng-deep .mat-select-arrow{
+  border-image-source: url(/assets/icon/dropdown.svg) !important;
+}
+::ng-deep .mat-form-field{
+  width: 100%;
+}
+::ng-deep .mat-button{
+  margin-top: 12px;
+  background-color: #F5F8FE;
+  border-radius: 10px;
+  border:1px solid #F5F8FE;
+  width: 100%;
+  color: #5384EA;
+}
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 30px;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color:#FFB171;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Optional styles for the slider */
+.slider:before {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.slider:after {
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  line-height: 26px;
+  left: 32px;
+  bottom: 2px;
+  transition: .4s;
+}
+
+input:checked + .slider:after {
+  left: unset;
+  right: 35px;
+  font-size: 12px;
+  top:0px;
+}
+.gst{
+  font-size: 12px;
+  font-weight: 600;
+  color: #282828;
+}
+.inc-gst{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
 }
