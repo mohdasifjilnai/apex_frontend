@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
+
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.scss'],
 })
 export class QuotesComponent implements OnInit {
+  withoutVehicleNumber:any
   vehicleDetailsJSON: {
     modalName: any;
     widthObtained: string;
@@ -22,10 +25,13 @@ export class QuotesComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
-  constructor(public matDialog: WindowRef) {}
+  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService) {}
 
   ngOnInit(): void {
-    this.openVehicleDetailsPopup(null);
+    this.withoutVehicleNumber=this.sharedDataService.setDataLocalStorage('getItem','withoutVehicleNumber')
+    if(this.withoutVehicleNumber=='false'){
+      this.openVehicleDetailsPopup(null);
+    }
   }
    /**
    * this fucntion use vehicle vehicle details modal

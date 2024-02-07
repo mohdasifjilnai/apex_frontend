@@ -73,16 +73,6 @@ export class QuotesListingComponent implements OnInit {
      */ 
      openPremiumBreakupModal(initiateQuotes:any,event: MouseEvent){  
       this.openPremiumBreakup(initiateQuotes)    
-      // this.matDialog.open(PremiumBreakupComponent, {
-      //   panelClass:'initiate-quotes-class',
-      //   data: {
-      //     initiateQuotes
-      //   },
-      //   position: {
-      //     top: `${event.clientY}px`,
-      //     left: `${event.clientX}px`
-      //   }
-      // });
      }
      /**
    * this fucntion use vehicle premium breakup modal

@@ -6,7 +6,6 @@ import multi_select_city from './multi-select.json';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
 @Component({
   selector: 'app-motor-insurance',
 
@@ -28,10 +27,10 @@ export class MotorInsuranceComponent implements OnInit {
     policy_expiry_date: new FormControl('')
   });
 
-  constructor(private router: Router, private apiService: ApiService,private sharedata: SharedDataService) {}
+  constructor(private router: Router, private apiService: ApiService,private sharedDataService:SharedDataService) {}
 
   ngOnInit(): void {
-    this.sharedata.getSelectedvehicle.subscribe((res) => {
+    this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
     });
   }
@@ -41,13 +40,13 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    console.log(this.motorInsurance);
-    
-    this.router.navigate(['/motor/quotes']);
-    this.getVehicleDetailsInfo(this.vehcileType);
-
+    this.sharedDataService.setDataLocalStorage('setItem','withoutVehicleNumber',`${this.withoutVehicleNumber}`)
+    if(!this.withoutVehicleNumber){
+      this.getVehicleDetailsInfo('');
+    }else{
+      this.router.navigate(['/motor/quotes']);
+    }
   }
-
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
   }
@@ -66,7 +65,8 @@ export class MotorInsuranceComponent implements OnInit {
         )
         .subscribe((res: any) => {
           if(res){
-            this.sharedata.selectedVehicleType(vehicleType);
+            this.sharedDataService.selectedVehicleType(vehicleType);
+            this.router.navigate(['/motor/quotes']);
           }
         });
 
