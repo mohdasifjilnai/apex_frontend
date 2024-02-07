@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -129,6 +129,7 @@ export class VehicleComponent implements OnInit {
            */
       this.filteredMMV = this.form.controls['vehicle'].valueChanges
       .pipe(
+        debounceTime(1000),
         startWith(''),
         map(name =>{  
        

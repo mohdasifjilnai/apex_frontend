@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -58,6 +58,7 @@ export class RTOComponent implements OnInit {
            */
       this.filteredRtoList = this.form.controls['rto_city'].valueChanges
       .pipe(
+        debounceTime(1000),
         startWith(''),
         map(name =>{  
        
@@ -77,10 +78,9 @@ export class RTOComponent implements OnInit {
    */
    filterRTO(name: string) {
     
-    return this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
+    return this.apiservice.getRequestedResponse(`${ApiConstants.get_rto_list}?search_element=${name}`).subscribe((res)=>{
       if(res){
         this.rtoList = res;
-        // this.filteredMMV = this.mmvList;
          /**
          * when input field value changes than valueChanges is used
          */

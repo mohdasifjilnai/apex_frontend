@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -189,7 +189,7 @@ export class PreviousInsurerComponent implements OnInit {
    */
    filterInsurer(name: string) {
     
-    return this.apiservice.getRequestedResponse(ApiConstants.get_previous_insurer).subscribe((res)=>{
+    return this.apiservice.getRequestedResponse(`${ApiConstants.get_previous_insurer}?search_element=${name}`).subscribe((res)=>{
       if(res){
         this.insurerList = res;
         // this.filteredMMV = this.mmvList;
@@ -198,6 +198,7 @@ export class PreviousInsurerComponent implements OnInit {
          */
     this.filteredInsurerList = this.form.controls['previous_insurer'].valueChanges
     .pipe(
+      debounceTime(1000),
       startWith(''),
       map(name =>{  
      
