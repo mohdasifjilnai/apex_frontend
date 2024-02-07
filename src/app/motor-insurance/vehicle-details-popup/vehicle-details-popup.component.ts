@@ -7,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -26,12 +28,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
   claimedList: any;
   ncbList: any;
   editVehicleDetails: boolean = true;
+  vehcileType:any;
+  mmvList:any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private FormBuilder: FormBuilder,
-    private sharedData: SharedDataService
+    private sharedData: SharedDataService,
+    private apiservice: ApiService,
   ) {
     /**
      * Initialize the form using FormBuilder
@@ -136,10 +141,35 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     });
   }
+  ngOnInit(): void {
+    this.sharedData.getSelectedVehicleType.subscribe((res) => {
+      this.vehcileType = res;
+    });
+    setTimeout(() => {
+      this.getVehicleMMV('',this.vehcileType)
+    }, 1000);
+  }
 
   onClose(): void {
     this.dialogRef.close();
   }
 
-  ngOnInit(): void {}
+
+  getVehicleMMV(name: any, vehicletype: any) {
+    console.log(vehicletype);
+    
+    this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.mmvList = res;
+          console.log(res);
+          this.modelList = res;
+        }
+      });
+  }
+
+ 
 }

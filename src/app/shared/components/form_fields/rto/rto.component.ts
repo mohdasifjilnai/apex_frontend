@@ -46,6 +46,11 @@ export class RTOComponent implements OnInit {
       this.form.addControl('rto_city', new FormControl());
     }
     this.getRTOData();
+
+    // this.form.controls['rto_city'].valueChanges.subscribe((val: any) => {
+    //     console.log(val);
+        
+    // });
   }
 
 

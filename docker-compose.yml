@@ -1,17 +1,6 @@
 version: '3'
 services:
-  nginx:
-      image: nginx:latest
-      ports:
-        - 8000:8000
-      volumes:
-        - ./config/nginx:/etc/nginx/conf.d
-      depends_on:
-        - web
-      networks:
-        - dev-apex-network
   web:
-    #build: .
     image: registry.gitlab.renewbuy.in/apex/apex_frontend:latest
     container_name: apex-frontend
     volumes:
@@ -20,6 +9,8 @@ services:
         #- ./config/nginx:/etc/nginx/conf.d
     expose:
       - 9001
+    ports:
+      - "9001:9001"    
     networks:
       - dev-apex-network
 volumes:
@@ -27,4 +18,4 @@ volumes:
   static-root:
 networks:
    dev-apex-network:
-      name: dev-apex-network
+     external: true

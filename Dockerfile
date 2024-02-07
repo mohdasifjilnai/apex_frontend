@@ -22,4 +22,4 @@ RUN $(npm bin)/ng build --aot --build-optimizer --vendor-chunk=true --configurat
 # EXPOSE 5000
 
 # Start Nginx in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]

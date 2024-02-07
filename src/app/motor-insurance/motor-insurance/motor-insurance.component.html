@@ -1,6 +1,4 @@
 <div class="row main-container">
-  <!-- <app-breadcrumb></app-breadcrumb> -->
-
   <div class="body-content">
     <div class="container">
       <div class="col-12 text-center">
@@ -28,10 +26,10 @@
             <app-vehicle [required]="true"></app-vehicle>
           </div>
           <div class="col-4" *ngIf="withoutVehicleNumber">
-            <app-rto ></app-rto>
+            <app-rto [required]="true"></app-rto>
           </div>
           <div class="col-4" *ngIf="withoutVehicleNumber">
-            <app-registration-year></app-registration-year>
+            <app-registration-year [required]="true"></app-registration-year>
           </div>
           <div class="col-4" *ngIf="withoutVehicleNumber">
             <app-previous-insurer></app-previous-insurer>
