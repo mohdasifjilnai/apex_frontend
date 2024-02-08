@@ -1,8 +1,7 @@
 .registration-year {
-    ::ng-deep {
-      .mat-form-field-infix {
-        width: 300px !important;
-      }
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 300px !important;
     }
   }
-  
+}

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChooseIDVComponent implements OnInit {
   investedAmount: number = 600000;
+  currentAmount:number=0;
   constructor() {}
 
   ngOnInit(): void {}
@@ -14,5 +15,7 @@ export class ChooseIDVComponent implements OnInit {
   /**
    * onSliderRangeAmount function get value from slider
    */
-  onSliderRangeAmount(event: any) {}
+  onSliderRangeAmount(event: any) {
+    this.currentAmount=event?.value
+  }
 }

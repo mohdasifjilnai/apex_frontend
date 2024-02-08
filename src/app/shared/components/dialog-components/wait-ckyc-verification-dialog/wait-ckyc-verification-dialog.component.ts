@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./wait-ckyc-verification-dialog.component.scss'],
 })
 export class WaitCkycVerificationDialogComponent implements OnInit {
-  isWaitingTime:boolean=false
+  isWaitingTime: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -14,13 +14,13 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.isWaitingTime=true
+      this.isWaitingTime = true;
     }, 5000);
   }
-    /**
+  /**
    * this fucntion use for close pop up
    */
-     onClose(): void {
-      this.dialogRef.close();
-    }
+  onClose(): void {
+    this.dialogRef.close();
+  }
 }
