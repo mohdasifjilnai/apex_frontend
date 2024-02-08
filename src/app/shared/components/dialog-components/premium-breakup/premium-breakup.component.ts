@@ -11,7 +11,6 @@ export class PremiumBreakupComponent implements OnInit {
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.dialogRef.disableClose=false
     this.initiateQuotes=data['initiateQuotes']    
   }
 
