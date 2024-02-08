@@ -1,0 +1,25 @@
+.enter-otp {
+  font-size: 16px;
+  font-weight: 500;
+}
+.otp-header {
+  font-size: 14px;
+  font-weight: 500;
+}
+.disabled-resent-otp {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.custom-otp-input {
+  ::ng-deep input:focus {
+    outline-style: solid !important;
+    outline-color: #ffb171 !important;
+  }
+}
+.otp-submission{
+    width: 310px;
+}
+.resend-otp-msg{
+    width: 90% !important;
+}

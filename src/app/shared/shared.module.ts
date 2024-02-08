@@ -20,6 +20,8 @@ import { ErrorDialogComponent } from './components/dialog-components/error-dialo
 import { ProceedInspectionComponent } from './components/dialog-components/proceed-inspection/proceed-inspection.component';
 import { PremiumBreakupComponent } from './components/dialog-components/premium-breakup/premium-breakup.component';
 import { WaitCkycVerificationDialogComponent } from './components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
+import { OtpComponent } from './components/dialog-components/otp/otp.component';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { WaitCkycVerificationDialogComponent } from './components/dialog-compone
     ProceedInspectionComponent,
     PremiumBreakupComponent,
     WaitCkycVerificationDialogComponent,
+    OtpComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +50,7 @@ import { WaitCkycVerificationDialogComponent } from './components/dialog-compone
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    NgOtpInputModule
   ],
   exports: [
     VehicleTypeComponent,
