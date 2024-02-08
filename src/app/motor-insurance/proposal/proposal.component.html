@@ -5,8 +5,8 @@
   <div class="col-9">
     <mat-accordion multi="true">
       <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> CKYC </mat-panel-title>
+        <mat-expansion-panel-header (click)="openWaitCkycModal($event)">
+          <mat-panel-title > CKYC </mat-panel-title>
         </mat-expansion-panel-header>
         <app-ckyc></app-ckyc>
       </mat-expansion-panel>

@@ -19,6 +19,7 @@ import { ManufactureDateComponent } from './components/form_fields/manufacture-d
 import { ErrorDialogComponent } from './components/dialog-components/error-dialog/error-dialog.component';
 import { ProceedInspectionComponent } from './components/dialog-components/proceed-inspection/proceed-inspection.component';
 import { PremiumBreakupComponent } from './components/dialog-components/premium-breakup/premium-breakup.component';
+import { WaitCkycVerificationDialogComponent } from './components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PremiumBreakupComponent } from './components/dialog-components/premium-
     ErrorDialogComponent,
     ProceedInspectionComponent,
     PremiumBreakupComponent,
+    WaitCkycVerificationDialogComponent,
   ],
   imports: [
     CommonModule,

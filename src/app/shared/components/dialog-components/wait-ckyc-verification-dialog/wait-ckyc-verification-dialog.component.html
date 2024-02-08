@@ -1,0 +1,55 @@
+<div class="row" *ngIf="!isWaitingTime">
+  <div class="col-12 text-center">
+    <img
+      src="/assets/gif/verification.gif"
+      class="verification-gif-image"
+      alt="close"
+    />
+  </div>
+  <div class="col-12">
+    <p class="text-center wait-ckyc-text">
+      <span class="wait-text-font">Please wait a few minutes for the</span>
+      <br />
+      <span class="verification-text-font"
+        ><strong>CKYC Verification</strong> to be completed</span
+      >
+    </p>
+  </div>
+</div>
+
+<div class="row" *ngIf="isWaitingTime">
+  <div class="col-12">
+    <p class="review-fetch-text">
+      Please review the data we have fetched after CKYC Verification
+    </p>
+  </div>
+  <div class="col-12">
+    <table class="ckyc-data-table">
+      <tr class="ckyc-data-table ckyc-data-table-header">
+        <td>Full Name</td>
+        <td>Gender</td>
+        <td>Date of Birth</td>
+      </tr>
+      <tr class="ckyc-data-table ckyc-data-table-row">
+        <td>Shyamal Garg</td>
+        <td>Male</td>
+        <td>10-03-1998</td>
+      </tr>
+      <tr class="ckyc-data-table ckyc-data-table-header space-tr ">
+        <td>Owner Type</td>
+        <td>Contact Number</td>
+        <td>Email</td>
+      </tr>
+      <tr class="ckyc-data-table ckyc-data-table-row space-tr ">
+        <td>Individual</td>
+        <td>9876543210</td>
+        <td>shyamalgarg@gmail.com</td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-12 proceed-btn">
+    <button class="submit-btn " type="submit" (click)="onClose()">
+        Proceed
+    </button>
+  </div>
+</div>
