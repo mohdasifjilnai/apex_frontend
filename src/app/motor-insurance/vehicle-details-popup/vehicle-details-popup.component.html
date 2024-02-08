@@ -24,9 +24,10 @@
       <div class="row">
         <!-- Make/Model dropdown -->
         <div class="col-6">
+       
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Make/Model</mat-label>
-            <input matInput placeholder="Search Make/Model" aria-label="vehicle_model" #autoCompleteInput [matAutocomplete]="auto" formControlName="vehicle_model">
+            <input matInput placeholder="Search Make/Model" aria-label="vehicle_model" #autoCompleteInput [matAutocomplete]="auto" [formControl]="vehicle_model">
             <mat-autocomplete #auto="matAutocomplete" >
               <mat-option *ngFor="let mmData of filteredPopupMMV | async" [value]="mmData.rb_make_name">
                 <span>{{ mmData.rb_make_name }}</span> |
@@ -40,7 +41,7 @@
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Variant</mat-label>
            
-            <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInput [matAutocomplete]="autoVariant" formControlName="vehicle_variant">
+            <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInput [matAutocomplete]="autoVariant" [formControl]="vehicle_variant">
             <mat-autocomplete #autoVariant="matAutocomplete" >
               <mat-option *ngFor="let variantData of filteredPopupVariant | async" [value]="variantData.rb_variant_name">
                 <span>{{variantData.rb_variant_name}}</span> 
@@ -63,12 +64,8 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Registration City</mat-label>
-            <!-- <mat-select formControlName="registration_city">
-              <mat-option *ngFor="let city of cityList" [value]="city?.id">
-                {{ city?.cityName }}
-              </mat-option>
-            </mat-select> -->
-            <input matInput placeholder="Search Registration City" aria-label="registration_city" #autoCompleteInput [matAutocomplete]="autoRegistrationCity" formControlName="registration_city">
+          
+            <input matInput placeholder="Search Registration City" aria-label="registration_city" #autoCompleteInput [matAutocomplete]="autoRegistrationCity" [formControl]="registration_city">
             <mat-autocomplete #autoRegistrationCity="matAutocomplete" >
               <mat-option *ngFor="let cityData of filteredRtoList | async" [value]="cityData.display_name">
                 <span>{{cityData.display_name}}</span> 
@@ -157,3 +154,5 @@
     </div>
   </div>
 </form>
+
+

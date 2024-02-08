@@ -38,7 +38,9 @@ export class QuotesListingComponent implements OnInit {
 
   noQuotesInformation: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   getProposalDetails() {
     this.router.navigate(['/motor/quotes/proposal']);
@@ -54,10 +56,10 @@ export class QuotesListingComponent implements OnInit {
    */
 
      postListInitiateQuotes(data:any) {
-        this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
-          this.initiateQuotes=res;
-          console.log(res,'res')
-        })
+        // this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
+        //   this.initiateQuotes=res;
+        //   console.log(res,'res')
+        // })
     }
    
     onComprehensiveTabChange(event: MatTabChangeEvent): void {

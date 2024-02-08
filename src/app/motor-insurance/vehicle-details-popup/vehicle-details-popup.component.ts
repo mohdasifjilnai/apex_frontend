@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
+  FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
@@ -33,27 +34,42 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehcileType:any;
   mmvList:any;
   rtoList:any;
+
+
+  vehicle_model = new FormControl()
+  vehicle_variant = new FormControl()
+  registration_city = new FormControl();
+
+
+  // filteredOptions!: Observable<string[]>;
+  
     /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
    */
-    filteredPopupMMV!: Observable<any[]>;
+    filteredPopupMMV!: any;
     @ViewChild(MatAutocompleteTrigger)
     autocomplete!: MatAutocompleteTrigger;
 
-    filteredPopupVariant!: Observable<any[]>;
+    filteredPopupVariant!: any;
     @ViewChild(MatAutocompleteTrigger)
     autocompleteVariant!: MatAutocompleteTrigger;
 
+    vehicleTypeValue:any;
 
-    filteredRtoList!: Observable<any[]>;
-    
+    filteredRtoList!: any;
+    @ViewChild(MatAutocompleteTrigger)
+    autocompleteRTO!: MatAutocompleteTrigger;
+
+    // filteredPopupFuel!: any;
+    // @ViewChild(MatAutocompleteTrigger)
+    // autocompleteFuel!: MatAutocompleteTrigger;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private FormBuilder: FormBuilder,
-    private sharedData: SharedDataService,
+    private sharedDataService: SharedDataService,
     private apiservice: ApiService,
   ) {
     /**
@@ -72,54 +88,33 @@ export class VehicleDetailsPopupComponent implements OnInit {
       registration_date: ['', Validators.required],
       previous_insurer: ['', Validators.required],
     });
-
-    /**
-     * Sample data for the Make/Model dropdown list
-     */
-    
-    // this.modelList = [
-    //   {
-    //     id: 1,
-    //     modelName: 'Maruti Ciaz',
-    //   },
-    // ];
-
-    /**
-     * Sample data for the Variant dropdown list
-     */
-    // this.variantList = [
-    //   {
-    //     id: 1,
-    //     modelName: 'Maruti Ciaz',
-    //   },
-    // ];
+  //   this.sharedData.getRegistrationValue.subscribe((data) => {
+  //     this.registrationNumberData = data;
+  //     console.log(this.registrationNumberData);
+      
+  // });
 
     /**
      * Sample data for the Fuel dropdown list
      */
-    this.fuelList = [
-      {
-        id: 1,
-        fuelName: 'CNG',
-      },
-    ];
-
-    /**
-     * Sample data for the Registration City dropdown list
-     */
-    // this.cityList = [
+    // this.fuelList = [
     //   {
     //     id: 1,
-    //     cityName: 'Delhi',
+    //     fuelName: 'Petrol',
     //   },
     // ];
 
+  
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
      */
     this.rcList = [
       {
         id: 1,
+        rcName: 'Yes',
+      }, 
+      {
+        id: 2,
         rcName: 'No',
       },
     ];
@@ -154,34 +149,38 @@ export class VehicleDetailsPopupComponent implements OnInit {
       },
     ];
 
-    this.sharedData.getVehicleDetails.subscribe((res) => {
+    this.sharedDataService.getVehicleDetails.subscribe((res) => {
       if (res === 'edit') {
         this.editVehicleDetails = false;
       }
     });
   }
+  registrationNumberData:any;
   ngOnInit(): void {
-    this.sharedData.getSelectedVehicleType.subscribe((res) => {
-      this.vehcileType = res;
-      this.getVehicleMMVPopup('', this.vehcileType);
-      this.getRTOData()
-    });
+  this.getVehicleMMVPopup('');
+  this.getRTOData()
   }
 
   onClose(): void {
+
+    console.log(this.vehicleDetailsForm);
+    console.log(this.vehicle_model);
+    
     this.dialogRef.close();
   }
 
 
-  getVehicleMMVPopup(name: any, vehicletype: any) {
+  getVehicleMMVPopup(name: any) {
+    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage('getItem','vehicleType')  
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}`
       )
       .subscribe((res) => {
         if (res) {
           this.modelList = res;
           this.variantList = res;
+          this.fuelList = res;
           // this.filteredMMV = this.mmvList;
           /**
            * when input field value changes than valueChanges is used
@@ -193,7 +192,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
               return name ? this.filterMMVPopup(name) : this.modelList;
             })
           );
-
+          
           this.filteredPopupVariant = this.vehicleDetailsForm.controls['vehicle_variant'].valueChanges.pipe(
             debounceTime(1000),
             startWith(''),
@@ -201,6 +200,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
               return name ? this.filterVariantPopup(name) : this.variantList;
             })
           );
+
+          // this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
+          //   debounceTime(1000),
+          //   startWith(''),
+          //   map((name) => {
+          //     return name ? this.filterFuelPopup(name) : this.fuelList;
+          //   })
+          // );
         }
       });
   }
@@ -215,7 +222,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     filterMMVPopup(name: string) {
       return this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
+          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
         )
         .subscribe((res) => {
           if (res) {
@@ -234,6 +241,33 @@ export class VehicleDetailsPopupComponent implements OnInit {
         });
     }
 
+      /**
+   *
+   * @param name filterMMV used for filter MMV data
+   * @returns
+   */
+      // filterFuelPopup(name: string) {
+      //   return this.apiservice
+      //     .getRequestedResponse(
+      //       `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+      //     )
+      //     .subscribe((res) => {
+      //       if (res) {
+      //         this.fuelList = res;
+      //         // this.filteredMMV = this.mmvList;
+      //         /**
+      //          * when input field value changes than valueChanges is used
+      //          */
+      //         this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
+      //           startWith(''),
+      //           map((name) => {
+      //             return name ? this.filterFuelPopup(name) : this.fuelList;
+      //           })
+      //         );
+      //       }
+      //     });
+      // }
+
    /**
    *
    * @param name filterMMV used for filter MMV data
@@ -242,7 +276,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    filterVariantPopup(name: string) {
     return this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
       )
       .subscribe((res) => {
         if (res) {
@@ -279,7 +313,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
         )
       );
       }
-     
+    
+ 
+    console.log(this.registrationNumberData);
+      // registrationNumberData
+      // for(let i=0;i<=this.rtoList.length-1;i++){
+      //   if(this.rtoList[i].rb_rto_code == this.registrationNumberData.rto_code){
+      //     this.registration_city.setValue(this.rtoList[i].display_name)
+      //   }
+      // }
+      // console.log(this.registration_city);
+    
+      // this.registration_city.setValue("Gurugram (HR26)")
   })
   }
 
@@ -309,4 +354,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
      
   })
   }
+
+
+  
 }

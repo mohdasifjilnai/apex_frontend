@@ -8,6 +8,7 @@ export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getSelectedVehicleType :Subject<any> = new Subject();
+  getRegistrationValue :Subject<any> = new Subject();
   constructor() {}
 
   sendVehicleEditData(data: any) {
@@ -27,6 +28,13 @@ export class SharedDataService {
     */
      selectedVehicleType(data:any){
       this.getSelectedVehicleType.next(data);
+    }
+
+    /**
+     * registration number data
+     */
+    registrationNumberData(data:any){
+      this.getRegistrationValue.next(data);
     }
   /**
    *  this method use set data in local storage

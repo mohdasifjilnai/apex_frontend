@@ -17,6 +17,7 @@ export class MotorInsuranceComponent implements OnInit {
   multi_select_cities: any = multi_select_city;
   withoutVehicleNumber: boolean = false;
   vehcileType = 'private_car';
+  vehicleTypeValue:any;
 
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('',Validators.required),
@@ -33,6 +34,7 @@ export class MotorInsuranceComponent implements OnInit {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
     });
+    
   }
 
   /**
@@ -57,6 +59,7 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetailsInfo(vehicleType:any) {
+    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage('getItem','vehicleType')  
     const regn_no = this.motorInsurance.controls['registration_number']?.value
     if(regn_no){
       this.apiService
@@ -65,7 +68,7 @@ export class MotorInsuranceComponent implements OnInit {
         )
         .subscribe((res: any) => {
           if(res){
-            this.sharedDataService.selectedVehicleType(vehicleType);
+            this.sharedDataService.registrationNumberData(res);
             this.router.navigate(['/motor/quotes']);
           }
         });
