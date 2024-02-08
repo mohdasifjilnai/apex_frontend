@@ -11,5 +11,9 @@ export class ApiConstants {
 
   // Initiate quotes List
   public static initiate_quotes :string=`/api/v1/initiate_quotes/`
+
+  //addons end point
+
+  public static addons :string = `/api/v1/addon/`
 }
 

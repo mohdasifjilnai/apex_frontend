@@ -14,10 +14,10 @@
     <div class="card-body">
       <section
         class="my-2"
-        *ngFor="let listValue of add_ons_list"
+        *ngFor="let listValue of addonList"
       >
         <mat-checkbox [(ngModel)]="listValue.checked">{{
-          listValue["value"]
+          listValue?.rb_addon_name
         }}</mat-checkbox>
       </section>
     </div>
