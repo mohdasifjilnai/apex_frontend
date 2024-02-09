@@ -6,10 +6,31 @@
   background-color: #edf2fc;
   height: 100vh;
   overflow-x: hidden;
+  .motor-insurance {
+      
+    color: #5989de;
+    font-weight: 600;
+    font-size: 35px;
+  }
+}
+.motor-insurance { 
+  display: none;
 }
 .main-body {
   margin: 0px 40px 0px 40px;
   border-radius: 20px;
   border: 1px solid white;
   background: white;
+}
+@media screen and (max-width: 768px) {
+  .breadcrumb{
+    display: none;
+  }
+  .motor-insurance { 
+    display: block;
+  }
+  .main-body{
+    margin: 0;
+  }
+
 }

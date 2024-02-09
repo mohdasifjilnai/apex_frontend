@@ -1,7 +1,38 @@
-.two-wheeler {
-  width: 12%;
+
+.all-vehicle{
+  display: flex;
+  justify-content: center;
+  .two-wheeler {
+    text-align: center;
+    // width: 20%;
+  }
+  .vehicleTypeSelected {
+    border-radius: 20px;
+    outline: 1px solid #28b8e2;
+  }
+  .vehicle-card{
+    // background-color: red;
+    padding: 15px;
+    border-radius: 20px;
+    display: block;
+    .vehicle-name{
+      font-size: 13px;
+      font-weight: 500;
+      color: #535353;
+      text-decoration: none;
+    }
+  }
 }
-.vehicleTypeSelected {
-  border-radius: 20px;
-  outline: 1px solid #28b8e2;
+
+
+@media screen and (max-width: 768px) {
+  .vehicle-card{
+    display: table-caption;
+  }
+  .vehicle-name{
+    margin-left: 0px !important;
+  }
+
+ 
+
 }

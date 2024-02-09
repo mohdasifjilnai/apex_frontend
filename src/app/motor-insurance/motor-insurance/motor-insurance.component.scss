@@ -2,17 +2,13 @@
 .main-container {
   padding-top: 0px;
   .body-content {
-    height: 70vh;
-
+    height: 100%;
     .motor-insurance {
-      margin-top: 80px;
       color: #5989de;
       font-weight: 600;
       font-size: 35px;
     }
-    .container {
-      margin-top: 10em;
-    }
+   
   }
 }
 
@@ -23,8 +19,9 @@
   font-weight: 600;
 }
 .vehicle-quote {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 500;
+  line-height: 22px;
 }
 .without-vehicle-no {
   font-size: 12px;
@@ -33,3 +30,20 @@
 .vehicle-submitted {
   margin-top: 60px;
 }
+@media screen and (max-width: 768px) {
+  .container{
+    padding: 2rem !important;
+  }
+  .motor-insurance{
+    display: none;
+  }
+  .vehicle-submission{
+    position: relative;
+    bottom: -85px;
+    left: 0px;
+    margin-bottom: 0 !important;
+  }
+ 
+
+}
+

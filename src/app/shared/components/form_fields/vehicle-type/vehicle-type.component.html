@@ -1,15 +1,16 @@
-<div class="row d-flex justify-content-center gap-5 mt-4">
+<div class="all-vehicle mt-4">
   <div
-    class="col-4 two-wheeler cursor-pointer"
+    class="two-wheeler cursor-pointer ms-4"
     *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList"
     (click)="selectVehicle(vehicle)"
   >
-    <a>
+    <span class="vehicle-card" [style.backgroundColor]="vehicle?.backgroundColor" [ngClass]="{ vehicleTypeSelected: selectedVehicleType === vehicle }">
       <img
         src="{{ vehicle?.imageUrl }}"
         alt="{{ vehicle?.imageInformation }}"
-        [ngClass]="{ vehicleTypeSelected: selectedVehicleType === vehicle }"
-      />
-    </a>
+        
+      /><span class="vehicle-name ms-3 mt-2">{{vehicle?.optionName}}</span>
+    </span>
   </div>
+
 </div>

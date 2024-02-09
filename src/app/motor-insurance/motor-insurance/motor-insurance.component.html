@@ -1,13 +1,14 @@
 <div class="row main-container">
-  <div class="body-content">
-    <div class="container">
+  <!-- <app-breadcrumb></app-breadcrumb> -->
+  <div class="body-content ">
+    <div class="container  p-5">
       <div class="col-12 text-center">
         <h1 class="motor-insurance">Motor Insurance</h1>
       </div>
-      <div class="col-12 text-center mt-4">
-        <h2 class="vehicle-quote">
+      <div class="col-12 text-center">
+        <span class="vehicle-quote">
           Gear Up for Protection! Choose Your Customer's Vehicle Type
-        </h2>
+        </span>
       </div>
       <form [formGroup]="motorInsurance">
         <div>
@@ -15,36 +16,40 @@
         </div>
         <div class="row mt-4">
           <div class="col-12" *ngIf="!withoutVehicleNumber">
-            <div class="d-flex justify-content-center">
+            <div class="text-center">
               <app-registration-number
                 [required]="true"
               ></app-registration-number>
             </div>
           </div>
           <!-- Fields Without Vehicle Number  -->
-          <div class="col-4" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
             <app-vehicle [required]="true"></app-vehicle>
           </div>
-          <div class="col-4" *ngIf="withoutVehicleNumber">
-            <app-rto [required]="true"></app-rto>
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+            <app-rto ></app-rto>
           </div>
-          <div class="col-4" *ngIf="withoutVehicleNumber">
-            <app-registration-year [required]="true"></app-registration-year>
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+            <app-registration-year></app-registration-year>
           </div>
-          <div class="col-4" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
             <app-previous-insurer></app-previous-insurer>
           </div>
-          <div class="col-4" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
             <app-policy-expired-date></app-policy-expired-date>
           </div>
           <div
             [ngClass]="{
               'col-12': !withoutVehicleNumber,
-              'col-4': withoutVehicleNumber,
+              'col-lg-4 col-md-4 col-12': withoutVehicleNumber,
               'text-center': !withoutVehicleNumber
             }"
           >
             <button
+            [ngClass]="{
+              'w-100': withoutVehicleNumber,
+              'me-2': withoutVehicleNumber
+            }"
               class="submit-btn vehicle-submission"
               type="submit"
               (click)="getVehicleDetails()"
@@ -54,7 +59,7 @@
           </div>
         </div>
         <!-- </div> -->
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mb-5">
           <a>
             <span
               class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"

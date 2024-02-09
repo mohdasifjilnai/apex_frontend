@@ -1,8 +1,16 @@
 .registration-number {
-  margin-left: 65px !important;
+  // margin-left: 65px !important;
   ::ng-deep {
     .mat-form-field-infix {
       width: 450px !important;
     }
   }
+}
+@media screen and (max-width: 768px) {
+  ::ng-deep .mat-form-field {
+    width: 100% !important;
+  }
+
+ 
+
 }
