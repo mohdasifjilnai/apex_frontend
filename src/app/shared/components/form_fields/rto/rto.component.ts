@@ -20,17 +20,22 @@ import { ApiService } from 'src/app/core/services/api.service';
   ],
 })
 export class RTOComponent implements OnInit {
-  // @Input() cities: any[] = [];
   @Input('required') isRequired = false;
 
   form!: FormGroup;
-  rtoList:any;
+  rtoList: any;
+  rto_city = new FormControl();
 
-  filteredRtoList!: Observable<any[]>;
+  filteredRtoList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
+  rtoDataNotAvailable: any = '';
+  rtoId: any;
 
-  constructor(private ctrlContainer: FormGroupDirective,private apiservice:ApiService) {}
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private apiservice: ApiService
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -40,67 +45,87 @@ export class RTOComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'rto_city',
-        new FormControl(null, Validators.required),
+        new FormControl(null, Validators.required)
       );
     } else {
       this.form.addControl('rto_city', new FormControl());
     }
     this.getRTOData();
-
-    // this.form.controls['rto_city'].valueChanges.subscribe((val: any) => {
-    //     console.log(val);
-        
-    // });
   }
 
-
-  getRTOData(){
-    this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
-      if(res){
-         this.rtoList = res;
-               /**
+  getRTOData() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.get_rto_list)
+      .subscribe((res) => {
+        if (res) {
+          this.rtoList = res;
+          this.rtoDataNotAvailable = '';
+          /**
            * when input field value changes than valueChanges is used
            */
-      this.filteredRtoList = this.form.controls['rto_city'].valueChanges
-      .pipe(
-        debounceTime(1000),
-        startWith(''),
-        map(name =>{  
-       
-        return name ? this.filterRTO(name) : this.rtoList
-      }
-        )
-      );
-      }
-     
-  })
+
+          if (res.length > 0) {
+            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : this.rtoList;
+              })
+            );
+            this.rtoDataNotAvailable = '';
+          } else {
+            this.rtoDataNotAvailable = res.message;
+            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : ['No data'];
+              })
+            );
+          }
+        }
+      });
   }
 
-   /**
-   * 
+  /**
+   *
    * @param name filterMMV used for filter MMV data
-   * @returns 
+   * @returns
    */
-   filterRTO(name: string) {
-    
-    return this.apiservice.getRequestedResponse(`${ApiConstants.get_rto_list}?search_element=${name}`).subscribe((res)=>{
-      if(res){
-        this.rtoList = res;
-         /**
-         * when input field value changes than valueChanges is used
-         */
-    this.filteredRtoList = this.form.controls['rto_city'].valueChanges
-    .pipe(
-      startWith(''),
-      map(name =>{  
-     
-      return name ? this.filterRTO(name) : this.rtoList
-    }
+  filterRTO(name: string) {
+    return this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.get_rto_list}?search_element=${name}`
       )
-    );
-      }
-     
-  })
+      .subscribe((res) => {
+        if (res) {
+          this.rtoList = res;
+          this.rtoDataNotAvailable = '';
+          /**
+           * when input field value changes than valueChanges is used
+           */
+
+          if (res.length > 0) {
+            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : this.rtoList;
+              })
+            );
+            this.rtoDataNotAvailable = '';
+          } else {
+            this.rtoDataNotAvailable = res.message;
+            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : ['No data'];
+              })
+            );
+          }
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -108,5 +133,18 @@ export class RTOComponent implements OnInit {
      * remove form control for the RTO city
      */
     this.form.removeControl('rto_city');
+  }
+
+  displayRto(data?: any) {
+    if (data != null && data != 'No data') {
+      this.rtoId = data.rb_rto_id;
+      return data ? data.display_name : undefined;
+    }
+  }
+
+  rtoBlankData(data: any) {
+    if (data == '') {
+      this.getRTOData();
+    }
   }
 }

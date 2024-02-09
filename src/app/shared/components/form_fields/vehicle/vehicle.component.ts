@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -27,11 +27,15 @@ export class VehicleComponent implements OnInit {
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
    */
-  filteredMMV!: Observable<any[]>;
+  filteredMMV!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
   mmvList: any;
   vehcileType = 'private_car';
+  mmvDataNotAvailable = '';
+  vehicle = new FormControl();
+  mmvListValue: any;
+  mmvId: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -45,20 +49,13 @@ export class VehicleComponent implements OnInit {
      */
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
-      this.form.addControl(
-        'vehicle',
-        new FormControl(null, Validators.required)
-      );
+      // this.form.addControl(
+      //   'vehicle',
+      //   new FormControl(null, Validators.required)
+      // );
     } else {
-      this.form.addControl('vehicle', new FormControl());
+      // this.form.addControl('vehicle', new FormControl());
     }
-
-    // if(this.mmvList){
-    //   this.form.controls['vehicle'].valueChanges.subscribe((val: any) => {
-    //     console.log(val);
-
-    // });
-    // }
 
     this.sharedata.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -81,20 +78,39 @@ export class VehicleComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.mmvList = res;
-          // this.filteredMMV = this.mmvList;
+          this.mmvDataNotAvailable = '';
+
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-            startWith(''),
-            map((name) => {
-              return name ? this.filterMMV(name) : this.mmvList;
-            })
-          );
+          if (res.length > 0) {
+            this.filteredMMV = this.vehicle.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMV(name) : this.mmvList;
+              })
+            );
+            this.mmvDataNotAvailable = '';
+          } else {
+            this.mmvDataNotAvailable = res.message;
+            this.filteredMMV = this.vehicle.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMV(name) : ['No data'];
+              })
+            );
+          }
         }
       });
   }
 
+  vehcileMMV(data: any) {
+    if (data == '') {
+      this.getVehicleMMV('', this.vehcileType);
+    }
+  }
   getVehicleMMV(name: any, vehicletype: any) {
     this.apiservice
       .getRequestedResponse(
@@ -103,17 +119,30 @@ export class VehicleComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.mmvList = res;
+          this.mmvDataNotAvailable = '';
           // this.filteredMMV = this.mmvList;
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-            debounceTime(1000),
-            startWith(''),
-            map((name) => {
-              return name ? this.filterMMV(name) : this.mmvList;
-            })
-          );
+          if (res.length > 0) {
+            this.filteredMMV = this.vehicle.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMV(name) : this.mmvList;
+              })
+            );
+            this.mmvDataNotAvailable = '';
+          } else {
+            this.mmvDataNotAvailable = res.message;
+            this.filteredMMV = this.vehicle.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMV(name) : ['No data'];
+              })
+            );
+          }
         }
       });
   }
@@ -122,6 +151,13 @@ export class VehicleComponent implements OnInit {
     /**
      * remove form control for the vehicle
      */
-    this.form.removeControl('vehicle');
+    // this.form.removeControl('vehicle');
+  }
+
+  displayVehicle(data?: any) {
+    if (data != null && data != 'No data') {
+      this.mmvId = data.rb_mmv_id;
+      return data ? data.rb_make_name : undefined;
+    }
   }
 }

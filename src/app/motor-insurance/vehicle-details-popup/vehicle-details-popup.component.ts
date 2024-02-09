@@ -31,46 +31,38 @@ export class VehicleDetailsPopupComponent implements OnInit {
   claimedList: any;
   ncbList: any;
   editVehicleDetails: boolean = true;
-  vehcileType:any;
-  mmvList:any;
-  rtoList:any;
+  vehcileType: any;
+  mmvList: any;
+  rtoList: any;
 
-
-  vehicle_model = new FormControl()
-  vehicle_variant = new FormControl()
+  vehicle_model = new FormControl();
+  vehicle_variant = new FormControl();
   registration_city = new FormControl();
 
-
-  // filteredOptions!: Observable<string[]>;
-  
-    /**
+  /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
    */
-    filteredPopupMMV!: any;
-    @ViewChild(MatAutocompleteTrigger)
-    autocomplete!: MatAutocompleteTrigger;
+  filteredPopupMMV!: any;
+  @ViewChild(MatAutocompleteTrigger)
+  autocomplete!: MatAutocompleteTrigger;
 
-    filteredPopupVariant!: any;
-    @ViewChild(MatAutocompleteTrigger)
-    autocompleteVariant!: MatAutocompleteTrigger;
+  filteredPopupVariant!: any;
+  @ViewChild(MatAutocompleteTrigger)
+  autocompleteVariant!: MatAutocompleteTrigger;
 
-    vehicleTypeValue:any;
+  vehicleTypeValue: any;
 
-    filteredRtoList!: any;
-    @ViewChild(MatAutocompleteTrigger)
-    autocompleteRTO!: MatAutocompleteTrigger;
-
-    // filteredPopupFuel!: any;
-    // @ViewChild(MatAutocompleteTrigger)
-    // autocompleteFuel!: MatAutocompleteTrigger;
+  filteredRtoList!: any;
+  @ViewChild(MatAutocompleteTrigger)
+  autocompleteRTO!: MatAutocompleteTrigger;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private FormBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
-    private apiservice: ApiService,
+    private apiservice: ApiService
   ) {
     /**
      * Initialize the form using FormBuilder
@@ -88,23 +80,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       registration_date: ['', Validators.required],
       previous_insurer: ['', Validators.required],
     });
-  //   this.sharedData.getRegistrationValue.subscribe((data) => {
-  //     this.registrationNumberData = data;
-  //     console.log(this.registrationNumberData);
-      
-  // });
 
-    /**
-     * Sample data for the Fuel dropdown list
-     */
-    // this.fuelList = [
-    //   {
-    //     id: 1,
-    //     fuelName: 'Petrol',
-    //   },
-    // ];
-
-  
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
      */
@@ -112,7 +88,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       {
         id: 1,
         rcName: 'Yes',
-      }, 
+      },
       {
         id: 2,
         rcName: 'No',
@@ -155,23 +131,21 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     });
   }
-  registrationNumberData:any;
+  registrationNumberData: any;
   ngOnInit(): void {
-  this.getVehicleMMVPopup('');
-  this.getRTOData()
+    this.getVehicleMMVPopup('');
+    this.getRTOData();
   }
 
   onClose(): void {
-
-    console.log(this.vehicleDetailsForm);
-    console.log(this.vehicle_model);
-    
     this.dialogRef.close();
   }
 
-
   getVehicleMMVPopup(name: any) {
-    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage('getItem','vehicleType')  
+    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
+      'getItem',
+      'vehicleType'
+    );
     this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}`
@@ -181,99 +155,95 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.modelList = res;
           this.variantList = res;
           this.fuelList = res;
-          // this.filteredMMV = this.mmvList;
+
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredPopupMMV = this.vehicleDetailsForm.controls['vehicle_model'].valueChanges.pipe(
+          this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+            'vehicle_model'
+          ].valueChanges.pipe(
             debounceTime(1000),
             startWith(''),
             map((name) => {
               return name ? this.filterMMVPopup(name) : this.modelList;
             })
           );
-          
-          this.filteredPopupVariant = this.vehicleDetailsForm.controls['vehicle_variant'].valueChanges.pipe(
+
+          this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+            'vehicle_variant'
+          ].valueChanges.pipe(
             debounceTime(1000),
             startWith(''),
             map((name) => {
               return name ? this.filterVariantPopup(name) : this.variantList;
             })
           );
-
-          // this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
-          //   debounceTime(1000),
-          //   startWith(''),
-          //   map((name) => {
-          //     return name ? this.filterFuelPopup(name) : this.fuelList;
-          //   })
-          // );
         }
       });
   }
 
-
-
-    /**
+  /**
    *
    * @param name filterMMV used for filter MMV data
    * @returns
    */
-    filterMMVPopup(name: string) {
-      return this.apiservice
-        .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
-        )
-        .subscribe((res) => {
-          if (res) {
-            this.modelList = res;
-            // this.filteredMMV = this.mmvList;
-            /**
-             * when input field value changes than valueChanges is used
-             */
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls['vehicle_model'].valueChanges.pipe(
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMVPopup(name) : this.modelList;
-              })
-            );
-          }
-        });
-    }
+  filterMMVPopup(name: string) {
+    return this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.modelList = res;
+          // this.filteredMMV = this.mmvList;
+          /**
+           * when input field value changes than valueChanges is used
+           */
+          this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+            'vehicle_model'
+          ].valueChanges.pipe(
+            startWith(''),
+            map((name) => {
+              return name ? this.filterMMVPopup(name) : this.modelList;
+            })
+          );
+        }
+      });
+  }
 
-      /**
+  /**
    *
    * @param name filterMMV used for filter MMV data
    * @returns
    */
-      // filterFuelPopup(name: string) {
-      //   return this.apiservice
-      //     .getRequestedResponse(
-      //       `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
-      //     )
-      //     .subscribe((res) => {
-      //       if (res) {
-      //         this.fuelList = res;
-      //         // this.filteredMMV = this.mmvList;
-      //         /**
-      //          * when input field value changes than valueChanges is used
-      //          */
-      //         this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
-      //           startWith(''),
-      //           map((name) => {
-      //             return name ? this.filterFuelPopup(name) : this.fuelList;
-      //           })
-      //         );
-      //       }
-      //     });
-      // }
+  // filterFuelPopup(name: string) {
+  //   return this.apiservice
+  //     .getRequestedResponse(
+  //       `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+  //     )
+  //     .subscribe((res) => {
+  //       if (res) {
+  //         this.fuelList = res;
+  //         // this.filteredMMV = this.mmvList;
+  //         /**
+  //          * when input field value changes than valueChanges is used
+  //          */
+  //         this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
+  //           startWith(''),
+  //           map((name) => {
+  //             return name ? this.filterFuelPopup(name) : this.fuelList;
+  //           })
+  //         );
+  //       }
+  //     });
+  // }
 
-   /**
+  /**
    *
    * @param name filterMMV used for filter MMV data
    * @returns
    */
-   filterVariantPopup(name: string) {
+  filterVariantPopup(name: string) {
     return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
@@ -284,7 +254,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredPopupVariant = this.vehicleDetailsForm.controls['vehicle_model'].valueChanges.pipe(
+          this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+            'vehicle_model'
+          ].valueChanges.pipe(
             startWith(''),
             map((name) => {
               return name ? this.filterVariantPopup(name) : this.variantList;
@@ -294,67 +266,64 @@ export class VehicleDetailsPopupComponent implements OnInit {
       });
   }
 
-
-  getRTOData(){
-    this.apiservice.getRequestedResponse(ApiConstants.get_rto_list).subscribe((res)=>{
-      if(res){
-         this.rtoList = res;
-               /**
+  getRTOData() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.get_rto_list)
+      .subscribe((res) => {
+        if (res) {
+          this.rtoList = res;
+          /**
            * when input field value changes than valueChanges is used
            */
-      this.filteredRtoList = this.vehicleDetailsForm.controls['registration_city'].valueChanges
-      .pipe(
-        debounceTime(1000),
-        startWith(''),
-        map(name =>{  
-       
-        return name ? this.filterRTO(name) : this.rtoList
-      }
-        )
-      );
-      }
-    
- 
-    console.log(this.registrationNumberData);
-      // registrationNumberData
-      // for(let i=0;i<=this.rtoList.length-1;i++){
-      //   if(this.rtoList[i].rb_rto_code == this.registrationNumberData.rto_code){
-      //     this.registration_city.setValue(this.rtoList[i].display_name)
-      //   }
-      // }
-      // console.log(this.registration_city);
-    
-      // this.registration_city.setValue("Gurugram (HR26)")
-  })
+          this.filteredRtoList = this.vehicleDetailsForm.controls[
+            'registration_city'
+          ].valueChanges.pipe(
+            debounceTime(1000),
+            startWith(''),
+            map((name) => {
+              return name ? this.filterRTO(name) : this.rtoList;
+            })
+          );
+        }
+
+        console.log(this.registrationNumberData);
+        // registrationNumberData
+        // for(let i=0;i<=this.rtoList.length-1;i++){
+        //   if(this.rtoList[i].rb_rto_code == this.registrationNumberData.rto_code){
+        //     this.registration_city.setValue(this.rtoList[i].display_name)
+        //   }
+        // }
+        // console.log(this.registration_city);
+
+        // this.registration_city.setValue("Gurugram (HR26)")
+      });
   }
 
-   /**
-   * 
+  /**
+   *
    * @param name filterMMV used for filter MMV data
-   * @returns 
+   * @returns
    */
-   filterRTO(name: string) {
-    
-    return this.apiservice.getRequestedResponse(`${ApiConstants.get_rto_list}?search_element=${name}`).subscribe((res)=>{
-      if(res){
-        this.rtoList = res;
-         /**
-         * when input field value changes than valueChanges is used
-         */
-    this.filteredRtoList = this.vehicleDetailsForm.controls['registration_city'].valueChanges
-    .pipe(
-      startWith(''),
-      map(name =>{  
-     
-      return name ? this.filterRTO(name) : this.rtoList
-    }
+  filterRTO(name: string) {
+    return this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.get_rto_list}?search_element=${name}`
       )
-    );
-      }
-     
-  })
+      .subscribe((res) => {
+        if (res) {
+          this.rtoList = res;
+          /**
+           * when input field value changes than valueChanges is used
+           */
+          this.filteredRtoList = this.vehicleDetailsForm.controls[
+            'registration_city'
+          ].valueChanges.pipe(
+            startWith(''),
+            map((name) => {
+              return name ? this.filterRTO(name) : this.rtoList;
+            })
+          );
+        }
+      });
   }
-
-
-  
 }

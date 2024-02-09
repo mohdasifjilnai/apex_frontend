@@ -1,12 +1,30 @@
+<mat-form-field class="vehicle-number" appearance="outline">
+  <mat-label>Search Vehicle</mat-label>
+  <input
+    matInput
+    placeholder="Search Vehicle"
+    aria-label="vehicle"
+    (ngModelChange)="vehcileMMV($event)"
+    #autoCompleteInput
+    [matAutocomplete]="autoVehicle"
+    [formControl]="vehicle"
+  />
+  <mat-autocomplete
+    #autoVehicle="matAutocomplete"
+    [displayWith]="displayVehicle.bind(this)"
+  >
+    <span *ngIf="mmvDataNotAvailable == ''">
+      <mat-option *ngFor="let mmvData of filteredMMV | async" [value]="mmvData">
+        <span>{{ mmvData.rb_make_name }}</span> |
+        <span>{{ mmvData.rb_model_name }}</span> |
+        <span>{{ mmvData.rb_variant_name }}</span>
+      </mat-option>
+    </span>
 
-        <mat-form-field class="vehicle-number" appearance="outline">
-          <mat-label>Search Vehicle</mat-label>
-          <input matInput placeholder="Search Vehicle" aria-label="vehicle" #autoCompleteInput [matAutocomplete]="auto" formControlName="vehicle">
-          <mat-autocomplete #auto="matAutocomplete" >
-            <mat-option *ngFor="let mmvData of filteredMMV | async" [value]="mmvData.rb_make_name">
-              <span>{{ mmvData.rb_make_name }}</span> |
-              <span>{{ mmvData.rb_model_name }}</span> |
-              <span>{{ mmvData.rb_variant_name }}</span>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+    <span *ngIf="mmvDataNotAvailable">
+      <mat-option *ngFor="let mmvData of filteredMMV | async" [value]="mmvData">
+        <span>{{ mmvData }}</span>
+      </mat-option>
+    </span>
+  </mat-autocomplete>
+</mat-form-field>
