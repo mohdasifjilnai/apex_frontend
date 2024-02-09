@@ -1,1 +1,103 @@
-<p>vehicle-owner-details works!</p>
+<form [formGroup]="owenerVehicleDetailsForm">
+  <div class="row mt-3">
+    <div class="col-4">
+      <app-owner-full-name [required]="true"></app-owner-full-name>
+    </div>
+    <div class="col-4">
+      <app-owner-contact [required]="true"></app-owner-contact>
+    </div>
+    <div class="col-4">
+      <app-owner-email [required]="true"></app-owner-email>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label class="proposal-header">Occupation Type</mat-label>
+        <mat-select formControlName="ownner_occupation_type">
+          <mat-option
+            *ngFor="let occupation of occupationList"
+            [value]="occupation?.id"
+          >
+            {{ occupation?.ncbName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <input
+          matInput
+          placeholder="Enter GSTIN"
+          formControlName="owner_gstin"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <input
+          matInput
+          placeholder="Enter Additional Contact Number"
+          formControlName="additional_contact"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <app-owner-gender></app-owner-gender>
+    </div>
+    <div class="col-4">
+      <label class="maritalStatus-header">Marital Status</label>
+      <div>
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button
+            *ngFor="let maritalStatus of maritalStatusList"
+            value="{{ maritalStatus?.id }}"
+            [checked]="maritalStatus?.name === 'Single'"
+            [ngClass]="{
+              maritalStatus: maritalStatus?.name === 'Married'
+            }"
+            >{{ maritalStatus?.name }}</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+    </div>
+    <hr class="mt-4" />
+  </div>
+  <div class="col-12">
+    <app-owner-communication-address
+      [required]="true"
+    ></app-owner-communication-address>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <mat-form-field class="mat-input-custom" appearance="outline">
+        <mat-label class="proposal-header">Pincode</mat-label>
+        <input
+          matInput
+          placeholder="Pincode"
+          aria-label="pincode"
+          #autoCompleteInput
+          [matAutocomplete]="pincodeAuto"
+          formControlName="owner_pincode"
+        />
+        <mat-autocomplete #pincodeAuto="matAutocomplete">
+          <mat-option
+            *ngFor="let pincode of filteredPincodeList | async"
+            [value]="pincode.display_name"
+          >
+            <span>{{ pincode.display_name }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <app-owner-city [required]="true"></app-owner-city>
+    </div>
+    <div class="col-4">
+      <app-owner-state [required]="true"></app-owner-state>
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="submit-btn owner-vehicle-submission" type="submit">
+      Save
+    </button>
+  </div>
+</form>

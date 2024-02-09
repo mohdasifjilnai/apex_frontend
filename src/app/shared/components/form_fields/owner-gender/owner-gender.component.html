@@ -1,0 +1,14 @@
+<label class="gender-header">Choose Gender</label>
+<div>
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button
+      *ngFor="let gender of genderList"
+      value="{{ gender?.id }}"
+      [checked]="gender?.name === 'Male'"
+      [ngClass]="{
+        'is-gender': gender?.name === 'Female'
+      }"
+      >{{ gender?.name }}</mat-radio-button
+    >
+  </mat-radio-group>
+</div>

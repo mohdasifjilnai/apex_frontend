@@ -1,0 +1,19 @@
+<mat-form-field class="mat-input-custom" appearance="outline">
+  <mat-label>State</mat-label>
+  <input
+    matInput
+    placeholder="state"
+    aria-label="state"
+    #autoCompleteInput
+    [matAutocomplete]="stateAuto"
+    formControlName="owner_state"
+  />
+  <mat-autocomplete #stateAuto="matAutocomplete">
+    <mat-option
+      *ngFor="let state of filteredStateList | async"
+      [value]="state.display_name"
+    >
+      <span>{{ state.display_name }}</span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

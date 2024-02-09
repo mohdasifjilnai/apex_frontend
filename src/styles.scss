@@ -72,6 +72,7 @@ th.mat-header-cell:last-of-type {
   }
 }
 
+
 .custom-mat-form-field.custom-datpicker .mat-form-field-suffix {
   top: 0 !important;
 }
@@ -100,6 +101,11 @@ th.mat-header-cell:last-of-type {
 .custom-mat-checkbox.mat-accent .mat-checkbox-frame {
   border: 1px solid #9c9c9c;
   border-radius: 5px;
+}
+.mat-input-custom {
+  .mat-form-field-infix {
+    width: 350px !important;
+  }
 }
 
 .custom-mat-checkbox.mat-checkbox-checked.mat-accent .mat-checkbox-frame {

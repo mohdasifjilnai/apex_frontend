@@ -22,6 +22,13 @@ import { PremiumBreakupComponent } from './components/dialog-components/premium-
 import { WaitCkycVerificationDialogComponent } from './components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 import { OtpComponent } from './components/dialog-components/otp/otp.component';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { OwnerFullNameComponent } from './components/form_fields/owner-full-name/owner-full-name.component';
+import { OwnerContactComponent } from './components/form_fields/owner-contact/owner-contact.component';
+import { OwnerEmailComponent } from './components/form_fields/owner-email/owner-email.component';
+import { OwnerGenderComponent } from './components/form_fields/owner-gender/owner-gender.component';
+import { OwnerCommunicationAddressComponent } from './components/form_fields/owner-communication-address/owner-communication-address.component';
+import { OwnerCityComponent } from './components/form_fields/owner-city/owner-city.component';
+import { OwnerStateComponent } from './components/form_fields/owner-state/owner-state.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +50,13 @@ import { NgOtpInputModule } from 'ng-otp-input';
     PremiumBreakupComponent,
     WaitCkycVerificationDialogComponent,
     OtpComponent,
+    OwnerFullNameComponent,
+    OwnerContactComponent,
+    OwnerEmailComponent,
+    OwnerGenderComponent,
+    OwnerCommunicationAddressComponent,
+    OwnerCityComponent,
+    OwnerStateComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +81,13 @@ import { NgOtpInputModule } from 'ng-otp-input';
     AmountFormatPipe,
     RegistrationDateComponent,
     ManufactureDateComponent,
+    OwnerFullNameComponent,
+    OwnerContactComponent,
+    OwnerEmailComponent,
+    OwnerGenderComponent,
+    OwnerCommunicationAddressComponent,
+    OwnerCityComponent,
+    OwnerStateComponent,
   ],
 })
 export class SharedModule {}
