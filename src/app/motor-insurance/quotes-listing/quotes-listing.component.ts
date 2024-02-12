@@ -5,13 +5,11 @@ import { ApiConstants } from '../../api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PremiumBreakupComponent } from '../../shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {
-  MatBottomSheet,
-} from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -47,6 +45,9 @@ export class QuotesListingComponent implements OnInit {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
 
+  quotesListing: FormGroup = new FormGroup({
+    proposalType: new FormControl('', Validators.required),
+  });
   noQuotesInformation: any;
 
   ngOnInit(): void {
@@ -59,6 +60,9 @@ export class QuotesListingComponent implements OnInit {
       .subscribe((res: any) => {
         if (res) {
           this.proposalList = res;
+          this.quotesListing.patchValue({
+            proposalType: 1,
+          });
         }
       });
   }

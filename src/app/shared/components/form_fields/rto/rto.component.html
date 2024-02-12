@@ -7,7 +7,7 @@
     (ngModelChange)="rtoBlankData($event)"
     #autoCompleteInput
     [matAutocomplete]="autoRTO"
-    [formControl]="rto_city"
+    formControlName="rto_city"
   />
   <mat-autocomplete
     #autoRTO="matAutocomplete"

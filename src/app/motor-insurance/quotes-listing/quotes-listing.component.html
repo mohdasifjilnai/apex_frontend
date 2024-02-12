@@ -1,3 +1,5 @@
+
+<form [formGroup]="quotesListing">
 <div class="row">
   <div class="col-lg-4 col-md-4 col-12 toggle-btn">
     <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)">
@@ -13,12 +15,12 @@
     <div class="row quotesDropdown">
       <div class="col-lg-3 col-4">
         <mat-form-field appearance="outline">
-          <mat-select>
+          <mat-select formControlName="proposalType" class="text-transform-data">
             <mat-option
               *ngFor="let proposalData of proposalList"
               [value]="proposalData.proposer_id"
             >
-              <span>{{ proposalData.proposer_name }}</span>
+              <span class="text-transform-data">{{ proposalData.proposer_name }}</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -495,3 +497,5 @@
   <p>Some more tab content</p>
   <p>...</p>
 </div>
+
+</form>

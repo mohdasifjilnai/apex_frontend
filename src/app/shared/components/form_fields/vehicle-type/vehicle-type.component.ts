@@ -19,13 +19,13 @@ export class VehicleTypeComponent implements OnInit {
     this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(
       (vehicle) => vehicle.optionName === 'Private Car'
     );
-    this.sharedata.setDataLocalStorage('setItem','vehicleType',`private_car`)
-    
+    localStorage.setItem('vehicleType',`private_car`)
   }
 
   selectVehicle(vehicle: any) {
     this.selectedVehicleType = vehicle;
-    this.sharedata.setDataLocalStorage('setItem','vehicleType',`${this.selectedVehicleType.optionNameValue}`)
+  
+    localStorage.setItem('vehicleType',`${this.selectedVehicleType.optionNameValue}`)
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
   }
 }

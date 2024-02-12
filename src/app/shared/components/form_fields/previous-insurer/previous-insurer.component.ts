@@ -23,7 +23,7 @@ export class PreviousInsurerComponent implements OnInit {
   insurerList: any;
   form!: FormGroup;
   @Input('required') isRequired = false;
-  previous_insurer = new FormControl();
+
   filteredInsurerList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
@@ -62,7 +62,9 @@ export class PreviousInsurerComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredInsurerList = this.previous_insurer.valueChanges.pipe(
+            this.filteredInsurerList = this.form.controls[
+              'previous_insurer'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -72,7 +74,9 @@ export class PreviousInsurerComponent implements OnInit {
             this.previousInsurerNoData = '';
           } else {
             this.previousInsurerNoData = res.message;
-            this.filteredInsurerList = this.previous_insurer.valueChanges.pipe(
+            this.filteredInsurerList = this.form.controls[
+              'previous_insurer'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -102,7 +106,9 @@ export class PreviousInsurerComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredInsurerList = this.previous_insurer.valueChanges.pipe(
+            this.filteredInsurerList = this.form.controls[
+              'previous_insurer'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -112,7 +118,9 @@ export class PreviousInsurerComponent implements OnInit {
             this.previousInsurerNoData = '';
           } else {
             this.previousInsurerNoData = res.message;
-            this.filteredInsurerList = this.previous_insurer.valueChanges.pipe(
+            this.filteredInsurerList = this.form.controls[
+              'previous_insurer'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {

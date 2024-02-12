@@ -28,7 +28,7 @@ export class QuotesComponent implements OnInit {
   constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService) {}
 
   ngOnInit(): void {
-    this.withoutVehicleNumber=this.sharedDataService.setDataLocalStorage('getItem','withoutVehicleNumber')
+    this.withoutVehicleNumber=localStorage.getItem('withoutVehicleNumber')
     if(this.withoutVehicleNumber=='false'){
       this.openVehicleDetailsPopup(null);
     }

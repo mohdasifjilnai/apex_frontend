@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
+import { debounceTime, map, startWith, tap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -33,7 +33,7 @@ export class VehicleComponent implements OnInit {
   mmvList: any;
   vehcileType = 'private_car';
   mmvDataNotAvailable = '';
-  vehicle = new FormControl();
+  // vehicle = new FormControl();
   mmvListValue: any;
   mmvId: any;
 
@@ -48,13 +48,15 @@ export class VehicleComponent implements OnInit {
      * add form control for the vehicle
      */
     this.form = this.ctrlContainer.form;
+    // console.log(this.vehicle);
+    console.log(this.form);
     if (this.isRequired) {
-      // this.form.addControl(
-      //   'vehicle',
-      //   new FormControl(null, Validators.required)
-      // );
+      this.form.addControl(
+        'vehicle',
+        new FormControl(null, Validators.required)
+      );
     } else {
-      // this.form.addControl('vehicle', new FormControl());
+      this.form.addControl('vehicle', new FormControl());
     }
 
     this.sharedata.getSelectedvehicle.subscribe((res) => {
@@ -84,7 +86,7 @@ export class VehicleComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredMMV = this.vehicle.valueChanges.pipe(
+            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -94,7 +96,7 @@ export class VehicleComponent implements OnInit {
             this.mmvDataNotAvailable = '';
           } else {
             this.mmvDataNotAvailable = res.message;
-            this.filteredMMV = this.vehicle.valueChanges.pipe(
+            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -125,7 +127,7 @@ export class VehicleComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredMMV = this.vehicle.valueChanges.pipe(
+            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -135,7 +137,7 @@ export class VehicleComponent implements OnInit {
             this.mmvDataNotAvailable = '';
           } else {
             this.mmvDataNotAvailable = res.message;
-            this.filteredMMV = this.vehicle.valueChanges.pipe(
+            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -151,7 +153,7 @@ export class VehicleComponent implements OnInit {
     /**
      * remove form control for the vehicle
      */
-    // this.form.removeControl('vehicle');
+    this.form.removeControl('vehicle');
   }
 
   displayVehicle(data?: any) {

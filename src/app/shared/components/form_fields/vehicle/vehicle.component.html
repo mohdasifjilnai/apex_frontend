@@ -7,7 +7,7 @@
     (ngModelChange)="vehcileMMV($event)"
     #autoCompleteInput
     [matAutocomplete]="autoVehicle"
-    [formControl]="vehicle"
+    formControlName="vehicle"
   />
   <mat-autocomplete
     #autoVehicle="matAutocomplete"

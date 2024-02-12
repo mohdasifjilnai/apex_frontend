@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -24,7 +24,6 @@ export class RTOComponent implements OnInit {
 
   form!: FormGroup;
   rtoList: any;
-  rto_city = new FormControl();
 
   filteredRtoList!: any;
   @ViewChild(MatAutocompleteTrigger)
@@ -65,7 +64,9 @@ export class RTOComponent implements OnInit {
            */
 
           if (res.length > 0) {
-            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+            this.filteredRtoList = this.form.controls[
+              'rto_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -75,7 +76,9 @@ export class RTOComponent implements OnInit {
             this.rtoDataNotAvailable = '';
           } else {
             this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+            this.filteredRtoList = this.form.controls[
+              'rto_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -106,7 +109,9 @@ export class RTOComponent implements OnInit {
            */
 
           if (res.length > 0) {
-            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+            this.filteredRtoList = this.form.controls[
+              'rto_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -116,7 +121,9 @@ export class RTOComponent implements OnInit {
             this.rtoDataNotAvailable = '';
           } else {
             this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.rto_city.valueChanges.pipe(
+            this.filteredRtoList = this.form.controls[
+              'rto_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {

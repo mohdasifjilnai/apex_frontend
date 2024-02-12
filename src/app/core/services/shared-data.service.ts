@@ -34,52 +34,10 @@ export class SharedDataService {
   selectedVehicleType(data: any) {
     this.getSelectedVehicleType.next(data);
   }
-
+  
   /**
-   *  this method use set data in local storage
+   * registration number base api
    */
-  setDataLocalStorage(type: string = '', key: string = '', value: string = '') {
-    let getItemValue;
-    switch (type) {
-      case 'setItem':
-        localStorage.setItem(key, value);
-        break;
-      case 'getItem':
-        getItemValue = localStorage.getItem(key);
-        break;
-      case 'removeItem':
-        localStorage.removeItem(key);
-        break;
-      default:
-        localStorage.clear();
-    }
-    return getItemValue;
-  }
-
-  /**
-   *  this method use set data in local storage
-   */
-  setDataSessionStorage(
-    type: string = '',
-    key: string = '',
-    value: string = ''
-  ) {
-    let getItemValue;
-    switch (type) {
-      case 'setItem':
-        sessionStorage.setItem(key, value);
-        break;
-      case 'getItem':
-        getItemValue = sessionStorage.getItem(key);
-        break;
-      case 'removeItem':
-        sessionStorage.removeItem(key);
-        break;
-      default:
-        sessionStorage.clear();
-    }
-    return getItemValue;
-  }
 
   vehicleDetails() {
     this.regNumber = sessionStorage.getItem('registrationNumber');

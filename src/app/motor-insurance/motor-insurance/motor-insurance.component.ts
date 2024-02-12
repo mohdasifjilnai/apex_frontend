@@ -6,6 +6,7 @@ import multi_select_city from './multi-select.json';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+
 @Component({
   selector: 'app-motor-insurance',
 
@@ -21,9 +22,9 @@ export class MotorInsuranceComponent implements OnInit {
 
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', Validators.required),
-    vehicle: new FormControl('', Validators.required),
-    rto_city: new FormControl('', Validators.required),
-    registration_year: new FormControl('', Validators.required),
+    vehicle: new FormControl(''),
+    rto_city: new FormControl(''),
+    registration_year: new FormControl(''),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
@@ -45,11 +46,9 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    this.sharedDataService.setDataLocalStorage(
-      'setItem',
-      'withoutVehicleNumber',
-      `${this.withoutVehicleNumber}`
-    );
+    localStorage.setItem('withoutVehicleNumber',
+    `${this.withoutVehicleNumber}`)
+  
     if (!this.withoutVehicleNumber) {
       this.getVehicleDetailsInfo('');
     } else {
@@ -58,6 +57,29 @@ export class MotorInsuranceComponent implements OnInit {
   }
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
+    if (this.withoutVehicleNumber) {
+      this.motorInsurance.get('registration_number')?.setValidators([]);
+      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
+      this.motorInsurance.get('vehicle')?.setValidators([Validators.required]);
+      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+      this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
+      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+      this.motorInsurance
+        .get('registration_year')
+        ?.setValidators([Validators.required]);
+      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+    } else {
+      this.motorInsurance
+        .get('registration_number')
+        ?.setValidators([Validators.required]);
+      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
+      this.motorInsurance.get('vehicle')?.setValidators([]);
+      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+      this.motorInsurance.get('rto_city')?.setValidators([]);
+      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_year')?.setValidators([]);
+      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+    }
   }
 
   /**
@@ -66,18 +88,14 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetailsInfo(vehicleType: any) {
-    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
-      'getItem',
-      'vehicleType'
-    );
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    
     const regn_no = this.motorInsurance.controls['registration_number']?.value;
 
     if (regn_no) {
-      this.sharedDataService.setDataSessionStorage(
-        'setItem',
-        'registrationNumber',
-        `${regn_no}`
-      );
+      sessionStorage.setItem('registrationNumber',
+      `${regn_no}`)
+   
       this.sharedDataService.vehicleDetails();
     }
   }

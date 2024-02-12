@@ -143,10 +143,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   changeRegNumber: any;
   registrationNumber: any;
   ngOnInit(): void {
-    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
-      'getItem',
-      'vehicleType'
-    );
+    this.vehicleTypeValue = localStorage.getItem('vehicleType')
+    
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
     });
@@ -155,11 +153,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getVehicleMMVPopup('');
       this.getRTOData();
     }, 2000);
-
-    let regNumber = this.sharedDataService.setDataSessionStorage(
-      'getItem',
-      'registrationNumber'
-    );
+    
+    let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
       this.sharedDataService.vehicleDetails();
     }

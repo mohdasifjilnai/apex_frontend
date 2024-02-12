@@ -1,7 +1,7 @@
 <div class="row main-container">
   <!-- <app-breadcrumb></app-breadcrumb> -->
-  <div class="body-content ">
-    <div class="container  p-5">
+  <div class="body-content">
+    <div class="container p-5">
       <div class="col-12 text-center">
         <h1 class="motor-insurance">Motor Insurance</h1>
       </div>
@@ -27,10 +27,10 @@
             <app-vehicle [required]="true"></app-vehicle>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
-            <app-rto ></app-rto>
+            <app-rto [required]="true"></app-rto>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
-            <app-registration-year></app-registration-year>
+            <app-registration-year [required]="true"></app-registration-year>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
             <app-previous-insurer></app-previous-insurer>
@@ -46,11 +46,13 @@
             }"
           >
             <button
-            [ngClass]="{
-              'me-2': withoutVehicleNumber
-            }"
+              [ngClass]="{
+                'me-2': withoutVehicleNumber,
+                'disabled-btn': motorInsurance.invalid
+              }"
               class="submit-btn vehicle-submission"
               type="submit"
+              [disabled]="motorInsurance.invalid"
               (click)="getVehicleDetails()"
             >
               Get Vehicle Details
@@ -64,9 +66,13 @@
               class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
               (click)="getVehicleNumber()"
             >
-              {{ withoutVehicleNumber ? 'Proceed with Vehicle Number' : 'Proceed without Vehicle Number' }}
+              {{
+                withoutVehicleNumber
+                  ? "Proceed with Vehicle Number"
+                  : "Proceed without Vehicle Number"
+              }}
             </span>
-          </a>          
+          </a>
         </div>
       </form>
     </div>

@@ -14,7 +14,7 @@ export class AddOnsComponent implements OnInit {
   constructor(private apiService :ApiService, private sharedDataService: SharedDataService) {}
 
   ngOnInit(): void {
-    let vehicleTypeValue = this.sharedDataService.setDataLocalStorage('getItem','vehicleType')
+    let vehicleTypeValue = localStorage.getItem('vehicleType')
     if(vehicleTypeValue){
       this.getAddonList(vehicleTypeValue)
     }
