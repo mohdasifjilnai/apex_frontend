@@ -30,6 +30,8 @@ import { OwnerCommunicationAddressComponent } from './components/form_fields/own
 import { OwnerCityComponent } from './components/form_fields/owner-city/owner-city.component';
 import { OwnerStateComponent } from './components/form_fields/owner-state/owner-state.component';
 import { UploadDocumentComponent } from './components/form_fields/upload-document/upload-document.component';
+import { EngineNumberComponent } from './components/form_fields/engine-number/engine-number.component';
+import { ChasisNumberComponent } from './chasis-number/chasis-number.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { UploadDocumentComponent } from './components/form_fields/upload-documen
     OwnerCityComponent,
     OwnerStateComponent,
     UploadDocumentComponent,
+    EngineNumberComponent,
+    ChasisNumberComponent,
   ],
   imports: [
     CommonModule,
@@ -90,7 +94,9 @@ import { UploadDocumentComponent } from './components/form_fields/upload-documen
     OwnerCommunicationAddressComponent,
     OwnerCityComponent,
     OwnerStateComponent,
-    UploadDocumentComponent
+    UploadDocumentComponent,
+    EngineNumberComponent,
+    ChasisNumberComponent
   ],
 })
 export class SharedModule {}

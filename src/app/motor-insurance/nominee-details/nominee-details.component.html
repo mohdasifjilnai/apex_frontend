@@ -1,1 +1,39 @@
-<p>nominee-details works!</p>
+<form [formGroup]="nominneForm">
+  <div class="row mt-3">
+    <div class="col-4">
+      <app-owner-full-name
+        [required]="true"
+        [formControlName]="'nominne_full_Name'"
+      ></app-owner-full-name>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="date-of-birth">
+        <mat-label>Select Date of Birth</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dateOfBirth"
+          placeholder="Date of Birth"
+          formControlName="date_of_birth"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="dateOfBirth"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #dateOfBirth> </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Select Relationship</mat-label>
+        <mat-select formControlName="nominne_relation">
+          <mat-option
+            *ngFor="let relation of relationshipList"
+            [value]="relation?.id"
+          >
+            {{ relation?.fuelName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

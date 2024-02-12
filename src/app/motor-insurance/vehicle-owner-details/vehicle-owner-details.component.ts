@@ -16,7 +16,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   autocomplete!: MatAutocompleteTrigger;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
-    full_name: new FormControl('', Validators.required),
+    owner_full_Name: new FormControl('', Validators.required),
     owner_email: new FormControl('', Validators.required),
     contact_number: new FormControl('', Validators.required),
     owner_gstin: new FormControl('', Validators.required),

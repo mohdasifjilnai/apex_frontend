@@ -19,6 +19,7 @@ import {
 export class OwnerFullNameComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() formControlName: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
