@@ -20,5 +20,10 @@ export class ApiConstants {
   public static fetch_ckyc_data:string=`/api/v1/fetch_ckyc_data/`
 
   public static document_type:string=`/api/v1/document_type/`
+
+  /**
+   * proposal type api end point
+   */
+  public static proposal_type:string = `/api/v1/proposer_type/`
 }
 

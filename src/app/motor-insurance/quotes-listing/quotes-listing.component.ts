@@ -13,10 +13,11 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   styleUrls: ['./quotes-listing.component.scss'],
 })
 export class QuotesListingComponent implements OnInit {
-  initiateQuotes:any;
+  initiateQuotes: any;
   showComprehensiveDiv = true;
-  individualSelected = 'Individual';
+  individualSelected: any;
   lowHighSelected = 'low';
+  proposalList: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -32,16 +33,29 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: false,
     classObtained: 'initiate-quotes-class',
   };
-  constructor(private router : Router,private apiService:ApiService,public matDialog: WindowRef ) {
-    this.postListInitiateQuotes(initiate_quotes_payload)
+  constructor(
+    private router: Router,
+    private apiService: ApiService,
+    public matDialog: WindowRef
+  ) {
+    this.postListInitiateQuotes(initiate_quotes_payload);
   }
 
   noQuotesInformation: any;
 
   ngOnInit(): void {
-    
+    this.getProposalType();
   }
 
+  getProposalType() {
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.proposal_type}`)
+      .subscribe((res: any) => {
+        if (res) {
+          this.proposalList = res;
+        }
+      });
+  }
   getProposalDetails() {
     this.router.navigate(['/motor/quotes/proposal']);
   }
@@ -55,55 +69,54 @@ export class QuotesListingComponent implements OnInit {
    * get initiate quotes list
    */
 
-     postListInitiateQuotes(data:any) {
-        // this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
-        //   this.initiateQuotes=res;
-        //   console.log(res,'res')
-        // })
+  postListInitiateQuotes(data: any) {
+    // this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
+    //   this.initiateQuotes=res;
+    //   console.log(res,'res')
+    // })
+  }
+
+  onComprehensiveTabChange(event: MatTabChangeEvent): void {
+    if (event.index === 1) {
+      this.showComprehensiveDiv = false;
+    } else {
+      this.showComprehensiveDiv = true;
     }
-   
-    onComprehensiveTabChange(event: MatTabChangeEvent): void {
-      if (event.index === 1) {
-        this.showComprehensiveDiv = false;
-      } else {
-        this.showComprehensiveDiv = true;
-      }
+  }
+
+  /**
+   * Open premium breakup modal
+   */
+  openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent) {
+    this.openPremiumBreakup(initiateQuotes);
+  }
+  /**
+   * this fucntion use vehicle premium breakup modal
+   */
+  openPremiumBreakup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '75%';
+      resTop = '5%';
     }
 
-    /**
-     * Open premium breakup modal
-     */ 
-     openPremiumBreakupModal(initiateQuotes:any,event: MouseEvent){  
-      this.openPremiumBreakup(initiateQuotes)    
-     }
-     /**
-   * this fucntion use vehicle premium breakup modal
-   */ 
-     openPremiumBreakup(ObjData: any) {
-      let resWidth;
-      let resTop;
-      if (window.screen.width <= 767) {
-        resWidth = '95%';
-        resTop = '5%';
-      } else {
-        resWidth = '75%';
-        resTop = '5%';
-      }
-  
-      const obj: any = {
-        modalName: this.initiateQuotesJSON['modalName'],
-        width: this.initiateQuotesJSON['widthObtained'],
-        height: this.initiateQuotesJSON['heightObtained'],
-        classNameObtained: this.initiateQuotesJSON['classObtained'],
-        isOutSideClose: this.initiateQuotesJSON['isOutSideClose'],
-        minWidth: resWidth,
-        dataInfo: {
-          data: ObjData,
-          top: resTop,
-        },
-      };
-  
-      this.matDialog.openDialog(obj);
-    }
-  
+    const obj: any = {
+      modalName: this.initiateQuotesJSON['modalName'],
+      width: this.initiateQuotesJSON['widthObtained'],
+      height: this.initiateQuotesJSON['heightObtained'],
+      classNameObtained: this.initiateQuotesJSON['classObtained'],
+      isOutSideClose: this.initiateQuotesJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
+  }
 }

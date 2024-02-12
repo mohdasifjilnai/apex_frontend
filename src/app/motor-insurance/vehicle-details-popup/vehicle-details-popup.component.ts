@@ -34,10 +34,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehcileType: any;
   mmvList: any;
   rtoList: any;
-
+  fuelData: any;
   vehicle_model = new FormControl();
   vehicle_variant = new FormControl();
   registration_city = new FormControl();
+  mmDataNotAvailable = '';
+  mmId: any;
+  variantDataNotAvailable = '';
+  variantId: any;
+  rtoDataNotAvailable = '';
+  rtoId: any;
 
   /**
    * MMV is use for (Make Model Variant)
@@ -56,6 +62,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   filteredRtoList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocompleteRTO!: MatAutocompleteTrigger;
+
+  registrationNumberValue: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -131,10 +139,30 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     });
   }
-  registrationNumberData: any;
+  withRegistrationNumber: any;
+  changeRegNumber: any;
+  registrationNumber: any;
   ngOnInit(): void {
-    this.getVehicleMMVPopup('');
-    this.getRTOData();
+    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
+      'getItem',
+      'vehicleType'
+    );
+    this.sharedDataService.regNumberData.subscribe((numberData) => {
+      this.registrationNumber = numberData;
+    });
+
+    setTimeout(() => {
+      this.getVehicleMMVPopup('');
+      this.getRTOData();
+    }, 2000);
+
+    let regNumber = this.sharedDataService.setDataSessionStorage(
+      'getItem',
+      'registrationNumber'
+    );
+    if (regNumber) {
+      this.sharedDataService.vehicleDetails();
+    }
   }
 
   onClose(): void {
@@ -142,10 +170,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   getVehicleMMVPopup(name: any) {
-    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
-      'getItem',
-      'vehicleType'
-    );
     this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}`
@@ -155,29 +179,63 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.modelList = res;
           this.variantList = res;
           this.fuelList = res;
+          this.mmDataNotAvailable = '';
+          this.fuelData = Object.values(
+            this.fuelList.reduce(
+              (
+                data: any,
+                obj: {
+                  fuel: any;
+                  id: any;
+                }
+              ) => ({ ...data, [obj.fuel]: obj }),
+              {}
+            )
+          );
 
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-            'vehicle_model'
-          ].valueChanges.pipe(
-            debounceTime(1000),
-            startWith(''),
-            map((name) => {
-              return name ? this.filterMMVPopup(name) : this.modelList;
-            })
-          );
+          this.vehicleDetailsForm.patchValue({
+            vehicle_fuel: this.registrationNumber.fuel_type,
+          });
 
-          this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-            'vehicle_variant'
-          ].valueChanges.pipe(
-            debounceTime(1000),
-            startWith(''),
-            map((name) => {
-              return name ? this.filterVariantPopup(name) : this.variantList;
-            })
-          );
+          if (res.length > 0) {
+            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMVPopup(name) : this.modelList;
+              })
+            );
+            this.mmDataNotAvailable = '';
+            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterVariantPopup(name) : this.variantList;
+              })
+            );
+            this.variantDataNotAvailable = '';
+          } else {
+            this.mmDataNotAvailable = res.message;
+            this.variantDataNotAvailable = res.message;
+            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMVPopup(name) : ['No data'];
+              })
+            );
+
+            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterVariantPopup(name) : ['No data'];
+              })
+            );
+          }
         }
       });
   }
@@ -199,44 +257,29 @@ export class VehicleDetailsPopupComponent implements OnInit {
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-            'vehicle_model'
-          ].valueChanges.pipe(
-            startWith(''),
-            map((name) => {
-              return name ? this.filterMMVPopup(name) : this.modelList;
-            })
-          );
+          if (res.length > 0) {
+            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMVPopup(name) : this.modelList;
+              })
+            );
+            this.mmDataNotAvailable = '';
+          } else {
+            this.mmDataNotAvailable = res.message;
+
+            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterMMVPopup(name) : ['No data'];
+              })
+            );
+          }
         }
       });
   }
-
-  /**
-   *
-   * @param name filterMMV used for filter MMV data
-   * @returns
-   */
-  // filterFuelPopup(name: string) {
-  //   return this.apiservice
-  //     .getRequestedResponse(
-  //       `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
-  //     )
-  //     .subscribe((res) => {
-  //       if (res) {
-  //         this.fuelList = res;
-  //         // this.filteredMMV = this.mmvList;
-  //         /**
-  //          * when input field value changes than valueChanges is used
-  //          */
-  //         this.filteredPopupFuel = this.vehicleDetailsForm.controls['vehicle_fuel'].valueChanges.pipe(
-  //           startWith(''),
-  //           map((name) => {
-  //             return name ? this.filterFuelPopup(name) : this.fuelList;
-  //           })
-  //         );
-  //       }
-  //     });
-  // }
 
   /**
    *
@@ -254,14 +297,25 @@ export class VehicleDetailsPopupComponent implements OnInit {
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-            'vehicle_model'
-          ].valueChanges.pipe(
-            startWith(''),
-            map((name) => {
-              return name ? this.filterVariantPopup(name) : this.variantList;
-            })
-          );
+          if (res.length > 0) {
+            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+              startWith(''),
+              map((name) => {
+                return name ? this.filterVariantPopup(name) : this.variantList;
+              })
+            );
+
+            this.variantDataNotAvailable = '';
+          } else {
+            this.variantDataNotAvailable = res.message;
+            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterVariantPopup(name) : ['No data'];
+              })
+            );
+          }
         }
       });
   }
@@ -275,27 +329,33 @@ export class VehicleDetailsPopupComponent implements OnInit {
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredRtoList = this.vehicleDetailsForm.controls[
-            'registration_city'
-          ].valueChanges.pipe(
-            debounceTime(1000),
-            startWith(''),
-            map((name) => {
-              return name ? this.filterRTO(name) : this.rtoList;
-            })
-          );
+          if (res.length > 0) {
+            this.rtoDataNotAvailable = '';
+            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : this.rtoList;
+              })
+            );
+            for (let i = 0; i <= this.rtoList.length - 1; i++) {
+              if (
+                this.rtoList[i].rb_rto_code == this.registrationNumber.rto_code
+              ) {
+                this.registration_city.patchValue(this.rtoList[i]);
+              }
+            }
+          } else {
+            this.rtoDataNotAvailable = res.message;
+            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : ['No data'];
+              })
+            );
+          }
         }
-
-        console.log(this.registrationNumberData);
-        // registrationNumberData
-        // for(let i=0;i<=this.rtoList.length-1;i++){
-        //   if(this.rtoList[i].rb_rto_code == this.registrationNumberData.rto_code){
-        //     this.registration_city.setValue(this.rtoList[i].display_name)
-        //   }
-        // }
-        // console.log(this.registration_city);
-
-        // this.registration_city.setValue("Gurugram (HR26)")
       });
   }
 
@@ -315,15 +375,62 @@ export class VehicleDetailsPopupComponent implements OnInit {
           /**
            * when input field value changes than valueChanges is used
            */
-          this.filteredRtoList = this.vehicleDetailsForm.controls[
-            'registration_city'
-          ].valueChanges.pipe(
-            startWith(''),
-            map((name) => {
-              return name ? this.filterRTO(name) : this.rtoList;
-            })
-          );
+          if (res.length > 0) {
+            this.rtoDataNotAvailable = '';
+            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : this.rtoList;
+              })
+            );
+          } else {
+            this.rtoDataNotAvailable = res.message;
+            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+              debounceTime(1000),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterRTO(name) : ['No data'];
+              })
+            );
+          }
         }
       });
+  }
+
+  displayMakeModel(data?: any) {
+    if (data != null && data != 'No data') {
+      this.mmId = data.rb_mmv_id;
+      return data ? data.rb_make_name : undefined;
+    }
+  }
+  vehcileMM(data: any) {
+    if (data == '') {
+      this.getVehicleMMVPopup('');
+    }
+  }
+
+  displayVariant(data?: any) {
+    if (data != null && data != 'No data') {
+      this.variantId = data.rb_mmv_id;
+      return data ? data.rb_variant_name : undefined;
+    }
+  }
+  vehcileVariant(data: any) {
+    if (data == '') {
+      this.getVehicleMMVPopup('');
+    }
+  }
+
+  displayRegistration(data?: any) {
+    if (data != null && data != 'No data') {
+      this.rtoId = data.rb_rto_id;
+      return data ? data.display_name : undefined;
+    }
+  }
+  vehcileRegistration(data: any) {
+    if (data == '') {
+      this.getRTOData();
+    }
   }
 }

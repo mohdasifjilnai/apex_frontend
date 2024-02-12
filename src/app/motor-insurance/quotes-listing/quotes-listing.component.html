@@ -13,9 +13,13 @@
     <div class="row quotesDropdown">
       <div class="col-lg-3">
         <mat-form-field appearance="outline">
-          <mat-select [(value)]="individualSelected">
-            <mat-option value="Individual">Individual</mat-option>
-            <mat-option value="Corporate">Corporate</mat-option>
+          <mat-select>
+            <mat-option
+              *ngFor="let proposalData of proposalList"
+              [value]="proposalData.proposer_id"
+            >
+              <span>{{ proposalData.proposer_name }}</span>
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -158,7 +162,197 @@
             <span class="insurer-no-quotes-reasons-value">
               Error in calculate: UW Service Messages => UW status is
               <span class="insurer-no-quotes-reasons-warning"> DECLINING </span>
-              the loading screen
+              the loading screen<div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 toggle-btn">
+                  <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)">
+                    <mat-tab label="Comprehensive">
+                      <ng-template mat-tab-label> Comprehensive </ng-template>
+                    </mat-tab>
+                    <mat-tab label="Third Party"
+                      ><ng-template mat-tab-label> Third Party </ng-template></mat-tab
+                    >
+                  </mat-tab-group>
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-12">
+                  <div class="row quotesDropdown">
+                    <div class="col-lg-3">
+                      <mat-form-field appearance="outline">
+                        <mat-select>
+                          <mat-option
+                            *ngFor="let proposalData of proposalList"
+                            [value]="proposalData.proposer_id"
+                          >
+                            <span>{{ proposalData.proposer_name }}</span>
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                      <mat-form-field appearance="outline">
+                        <mat-select [(value)]="lowHighSelected">
+                          <mat-option value="low">Sort: Low to High</mat-option>
+                          <mat-option value="high">High to Low</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-3">
+                      <button mat-button>
+                        <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
+                        Share Quotes
+                      </button>
+                    </div>
+                    <div class="col-lg-2 inc-gst">
+                      <span class="gst me-2 mt-1">Inc. GST</span>
+                      <label class="toggle">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="quotation-listing" *ngIf="showComprehensiveDiv">
+                <br />
+                <div class="row comprehensive-card">
+                  <div class="col-12 mt-4 d-flex comprehensive-tab">
+                    <div class="row d-flex w-100">
+                      <div class="col-2">
+                        <img
+                          src="/assets/images/ICICI-logo.svg"
+                          class="insurer-logo"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col-8">
+                        <p class="idv-amount mb-0">
+                          IDV (&#8377; 4,98,500- &#8377; 7,00,000)
+                        </p>
+                        <p class="idv-choose-amount">&#8377; 6,00,000</p>
+                      </div>
+                      <div class="col-2">
+                        <p
+                          class="mt-1 premium-breakup-amount cursor-pointer"
+                          (click)="getProposalDetails()"
+                        >
+                          &#8377; {{ initiateQuotes?.fe_final_premium }}
+                        </p>
+                        <p
+                          class="premium-breakup"
+                          (click)="openPremiumBreakupModal(initiateQuotes, $event)"
+                        >
+                          Premium Breakup
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row comprehensive-key-features">
+                  <div class="col-12 d-flex comprehensive-key-features-value">
+                    <div class="row w-100 d-flex">
+                      <div class="col-2 key-features-text">Key Features:</div>
+                      <div class="col-2 key-features-value">
+                        <img src="assets/icon/insurer-key-feature.svg" />
+                        Maximum Cashless Garages
+                      </div>
+                      <div class="col-2 key-features-value">
+                        <img src="assets/icon/insurer-key-feature.svg" />
+                        PSU Provider
+                      </div>
+                      <div class="col-2 key-features-value">
+                        <img src="assets/icon/insurer-key-feature.svg" />
+                        24x7 RSA
+                      </div>
+                      <div class="col-2 key-features-value">
+                        <img src="assets/icon/insurer-key-feature.svg" />
+                        Quick Claim Settlement
+                      </div>
+                      <div class="col-2 key-features-value">
+                        <img src="assets/icon/insurer-key-feature.svg" />
+                        Over Night Repair
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row w-100 comprehensive-no-quotes-information">
+                  <div class="col-12 d-flex">
+                    <div class="row d-flex w-100 no-quotes-information-card">
+                      <div class="col-10 comprehensive-no-quotes-information-text">
+                        <img src="/assets/icon/quotes-warning.svg" alt="" />
+                        Some of the Insurance providers didn’t produce quotes for the selected
+                        category
+                      </div>
+                      <div class="col-2">
+                        <p
+                          class="comprehensive-know-more-text tag-right cursor-pointer"
+                          (click)="noQuotes()"
+                        >
+                          Know More
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row comprehensive-no-quotes-card" *ngIf="noQuotesInformation">
+                  <div class="col-12">
+                    <div class="row d-flex w-100 no-quotes-information-card">
+                      <div class="col-10 comprehensive-no-quotes-information-text">
+                        <img src="/assets/icon/quotes-warning.svg" alt="" />
+                        Some of the Insurance providers didn’t produce quotes for the selected
+                        category
+                      </div>
+                      <div class="col-2">
+                        <p
+                          class="comprehensive-know-more-text tag-right cursor-pointer"
+                          (click)="noQuotes()"
+                        >
+                          View Less
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row d-flex w-100 mb-2">
+                      <div class="col-12 comprehensive-no-quotes-information-text">
+                        <img src="/assets/images/no-quotes-insurer.svg" alt="" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="insurer-no-quotes-reasons mb-0">
+                          Following are the possible reasons
+                        </p>
+                        <p class="mb-0">
+                          <span class="insurer-no-quotes-reasons"> ICICI Lombard: </span>
+                          <span class="insurer-no-quotes-reasons-value">
+                            Error in calculate: UW Service Messages => UW status is
+                            <span class="insurer-no-quotes-reasons-warning"> DECLINING </span>
+                            the loading screen
+                          </span>
+                        </p>
+                        <p class="mb-0">
+                          <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
+                          <span class="insurer-no-quotes-reasons-value">
+                            Previous Policy Expiry Date is mandatory
+                          </span>
+                        </p>
+                        <p class="mb-1">
+                          <span class="insurer-no-quotes-reasons"> IFFCO TOKIO: </span>
+                          <span class="insurer-no-quotes-reasons-value">
+                            RTO declined Zero NCB
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+              </div>
+              <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
+                <br />
+                <p>Some more tab content</p>
+                <p>...</p>
+              </div>
+              
             </span>
           </p>
           <p class="mb-0">

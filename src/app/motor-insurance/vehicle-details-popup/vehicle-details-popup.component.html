@@ -24,15 +24,38 @@
       <div class="row">
         <!-- Make/Model dropdown -->
         <div class="col-6">
-       
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Make/Model</mat-label>
-            <input matInput placeholder="Search Make/Model" aria-label="vehicle_model" #autoCompleteInput [matAutocomplete]="auto" [formControl]="vehicle_model">
-            <mat-autocomplete #auto="matAutocomplete" >
-              <mat-option *ngFor="let mmData of filteredPopupMMV | async" [value]="mmData.rb_make_name">
-                <span>{{ mmData.rb_make_name }}</span> |
-                <span>{{ mmData.rb_model_name }}</span> 
-              </mat-option>
+            <input
+              matInput
+              placeholder="Search Make/Model"
+              (ngModelChange)="vehcileMM($event)"
+              aria-label="vehicle_model"
+              #autoCompleteInput
+              [matAutocomplete]="autoMakeModel"
+              [formControl]="vehicle_model"
+            />
+            <mat-autocomplete
+              #autoMakeModel="matAutocomplete"
+              [displayWith]="displayMakeModel.bind(this)"
+            >
+              <span *ngIf="mmDataNotAvailable == ''">
+                <mat-option
+                  *ngFor="let mmData of filteredPopupMMV | async"
+                  [value]="mmData"
+                >
+                  <span>{{ mmData.rb_make_name }}</span> |
+                  <span>{{ mmData.rb_model_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="mmDataNotAvailable">
+                <mat-option
+                  *ngFor="let mmData of filteredPopupMMV | async"
+                  [value]="mmData"
+                >
+                  <span>{{ mmData.rb_blank }} </span>
+                </mat-option>
+              </span>
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -40,12 +63,36 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Variant</mat-label>
-           
-            <input matInput placeholder="Search Variant" aria-label="vehicle_variant" #autoCompleteInput [matAutocomplete]="autoVariant" [formControl]="vehicle_variant">
-            <mat-autocomplete #autoVariant="matAutocomplete" >
-              <mat-option *ngFor="let variantData of filteredPopupVariant | async" [value]="variantData.rb_variant_name">
-                <span>{{variantData.rb_variant_name}}</span> 
-              </mat-option>
+
+            <input
+              matInput
+              placeholder="Search Variant"
+              aria-label="vehicle_variant"
+              (ngModelChange)="vehcileVariant($event)"
+              #autoCompleteInput
+              [matAutocomplete]="autoVariant"
+              [formControl]="vehicle_variant"
+            />
+            <mat-autocomplete
+              #autoVariant="matAutocomplete"
+              [displayWith]="displayVariant.bind(this)"
+            >
+              <span *ngIf="variantDataNotAvailable == ''">
+                <mat-option
+                  *ngFor="let variantData of filteredPopupVariant | async"
+                  [value]="variantData"
+                >
+                  <span>{{ variantData.rb_variant_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="variantDataNotAvailable">
+                <mat-option
+                  *ngFor="let variantData of filteredPopupVariant | async"
+                  [value]="variantData"
+                >
+                  <span>{{ variantData }}</span>
+                </mat-option>
+              </span>
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -54,8 +101,8 @@
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Fuel</mat-label>
             <mat-select formControlName="vehicle_fuel">
-              <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.id">
-                {{ fuel?.fuelName }}
+              <mat-option *ngFor="let fuel of fuelData" [value]="fuel?.fuel">
+                {{ fuel?.fuel }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -64,22 +111,46 @@
         <div class="col-6">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Registration City</mat-label>
-          
-            <input matInput placeholder="Search Registration City" aria-label="registration_city" #autoCompleteInput [matAutocomplete]="autoRegistrationCity" [formControl]="registration_city">
-            <mat-autocomplete #autoRegistrationCity="matAutocomplete" >
-              <mat-option *ngFor="let cityData of filteredRtoList | async" [value]="cityData.display_name">
-                <span>{{cityData.display_name}}</span> 
-              </mat-option>
+
+            <input
+              matInput
+              placeholder="Search Registration City"
+              (ngModelChange)="vehcileRegistration($event)"
+              aria-label="registration_city"
+              #autoCompleteInput
+              [matAutocomplete]="autoRegistrationCity"
+              [formControl]="registration_city"
+            />
+            <mat-autocomplete
+              #autoRegistrationCity="matAutocomplete"
+              [displayWith]="displayRegistration.bind(this)"
+            >
+              <span *ngIf="rtoDataNotAvailable == ''">
+                <mat-option
+                  *ngFor="let cityData of filteredRtoList | async"
+                  [value]="cityData"
+                >
+                  <span>{{ cityData.display_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="rtoDataNotAvailable">
+                <mat-option
+                  *ngFor="let cityData of filteredRtoList | async"
+                  [value]="cityData"
+                >
+                  <span>{{ cityData }}</span>
+                </mat-option>
+              </span>
             </mat-autocomplete>
           </mat-form-field>
         </div>
         <!-- Registration Date -->
         <div class="col-6">
-          <app-registration-date ></app-registration-date>
+          <app-registration-date></app-registration-date>
         </div>
         <!-- Manufacture Date  -->
         <div class="col-6">
-          <app-manufacture-date ></app-manufacture-date>
+          <app-manufacture-date></app-manufacture-date>
         </div>
         <!-- Used Car/ RC Transfer dropdown -->
         <div class="col-6">
@@ -154,5 +225,3 @@
     </div>
   </div>
 </form>
-
-

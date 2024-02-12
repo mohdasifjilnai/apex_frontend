@@ -17,24 +17,27 @@ export class MotorInsuranceComponent implements OnInit {
   multi_select_cities: any = multi_select_city;
   withoutVehicleNumber: boolean = false;
   vehcileType = 'private_car';
-  vehicleTypeValue:any;
+  vehicleTypeValue: any;
 
   motorInsurance: FormGroup = new FormGroup({
-    registration_number: new FormControl('',Validators.required),
-    vehicle: new FormControl('',Validators.required),
-    rto_city: new FormControl('',Validators.required),
-    registration_year: new FormControl('',Validators.required),
+    registration_number: new FormControl('', Validators.required),
+    vehicle: new FormControl('', Validators.required),
+    rto_city: new FormControl('', Validators.required),
+    registration_year: new FormControl('', Validators.required),
     previous_insurer: new FormControl(''),
-    policy_expiry_date: new FormControl('')
+    policy_expiry_date: new FormControl(''),
   });
 
-  constructor(private router: Router, private apiService: ApiService,private sharedDataService:SharedDataService) {}
+  constructor(
+    private router: Router,
+    private apiService: ApiService,
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
     });
-    
   }
 
   /**
@@ -42,10 +45,14 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    this.sharedDataService.setDataLocalStorage('setItem','withoutVehicleNumber',`${this.withoutVehicleNumber}`)
-    if(!this.withoutVehicleNumber){
+    this.sharedDataService.setDataLocalStorage(
+      'setItem',
+      'withoutVehicleNumber',
+      `${this.withoutVehicleNumber}`
+    );
+    if (!this.withoutVehicleNumber) {
       this.getVehicleDetailsInfo('');
-    }else{
+    } else {
       this.router.navigate(['/motor/quotes']);
     }
   }
@@ -58,21 +65,20 @@ export class MotorInsuranceComponent implements OnInit {
    * Uses the ApiService to fetch the requested response and subscribes to the observable.
    */
 
-  getVehicleDetailsInfo(vehicleType:any) {
-    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage('getItem','vehicleType')  
-    const regn_no = this.motorInsurance.controls['registration_number']?.value
-    if(regn_no){
-      this.apiService
-        .getRequestedResponse(
-          `${ApiConstants.registration_number}?regn_no=${regn_no}`
-        )
-        .subscribe((res: any) => {
-          if(res){
-            this.sharedDataService.registrationNumberData(res);
-            this.router.navigate(['/motor/quotes']);
-          }
-        });
+  getVehicleDetailsInfo(vehicleType: any) {
+    this.vehicleTypeValue = this.sharedDataService.setDataLocalStorage(
+      'getItem',
+      'vehicleType'
+    );
+    const regn_no = this.motorInsurance.controls['registration_number']?.value;
 
+    if (regn_no) {
+      this.sharedDataService.setDataSessionStorage(
+        'setItem',
+        'registrationNumber',
+        `${regn_no}`
+      );
+      this.sharedDataService.vehicleDetails();
     }
   }
 }
