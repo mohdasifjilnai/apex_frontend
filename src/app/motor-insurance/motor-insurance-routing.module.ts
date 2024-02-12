@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MotorInsuranceComponent } from './motor-insurance/motor-insurance.component';
 import { QuotesComponent } from './quotes/quotes.component';
 import { ProposalComponent } from './proposal/proposal.component';
-
+import {VehicleInspectionComponent} from './vehicle-inspection/vehicle-inspection.component'
 const routes: Routes = [
   {
     path: '',
@@ -30,6 +30,18 @@ const routes: Routes = [
         { name: 'Motor Insurance', path: ['motor'] },
         { name: 'Quotes Listing', path: ['motor/quotes'] },
         { name: 'Proposal Form', path: [''] },
+      ],
+    },
+  },
+  {
+    path: 'quotes/inspection',
+    component: VehicleInspectionComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Motor Insurance', path: ['motor'] },
+        { name: 'Quotes Listing', path: ['motor/quotes'] },
+        { name: 'Proposal Form', path: ['motor/quotes/proposal']},
+        { name: 'Vehicle Inspection', path: ['']},
       ],
     },
   },
