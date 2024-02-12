@@ -7,7 +7,8 @@
     overflow-y: hidden;
   }
   .comprehensive-tab {
-    margin: 20px 25px 0px 25px;
+    background-color: #fff;
+    // margin: 20px 25px 0px 25px;
     .idv-amount {
       color: #282828;
       font-weight: 600;
@@ -24,11 +25,11 @@
       background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
       color: #ffffff;
       border-radius: 100px;
+      padding: 7px 20px;
       width: 121px;
       height: 34px;
-      text-align: center;
+      text-align: end;
       font-weight: 600;
-      padding-top: 5px;
     }
     .premium-breakup {
       color: #5384ea;
@@ -59,8 +60,11 @@
       margin: 10px 25px 10px 25px;
     }
   }
+  .res-comprehensive-key-features{
+    display: none;
+  }
   .comprehensive-no-quotes-information {
-    background-color: #e4edff;
+    background-color: #fff;
     border: 1px solid #eaeaea;
     border-radius: 12px;
     margin: 5px 0 0px 0;
@@ -106,18 +110,41 @@
     overflow-x: hidden;
     overflow-y: hidden;
   }
-  .insurer-logo{
-      width: 146px;
+  .changeIDV-sort-btn{
+    display: none;
   }
+ 
   
 }
 .toggle-btn{
   ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
     background-color: #ff943d !important;
+    width: 50%;
   }
   ::ng-deep .mat-tab-labels {
-    width: 40%;
+    // width: 40%;
   }
+  ::ng-deep .mat-tab-label-active{
+    color: #FFB171 !important;
+        font-weight: 600;
+  }
+  .count{
+    padding: 4px 8px 4px 8px;
+    margin-left: 10px;
+    // color: #FF943D;
+    background-color: #FF943D26;
+    border-radius: 100px;
+    font-weight: 600;
+  }
+  .third-party-count{
+    padding: 4px 8px 4px 8px;
+    margin-left: 10px;
+    // color: #282828;
+    background-color: #F6F6F6;
+    border-radius: 100px;
+    font-weight: 600;
+  }
+
 }
 
 .quotesDropdown{
@@ -138,7 +165,7 @@
     color: #F5F8FE;
 }
 ::ng-deep .mat-select-value {
-  color: #5384EA;
+  color: #5384EA !important;
   font-size: 12px;
   font-weight: 600;
 }
@@ -154,6 +181,7 @@
 ::ng-deep .mat-form-field{
   width: 100%;
 }
+
 ::ng-deep .mat-button{
   margin-top: 12px;
   background-color: #F5F8FE;
@@ -237,4 +265,119 @@ input:checked + .slider:after {
   margin-top: 20px;
 }
 
+
+}
+@media screen and (max-width: 768px) {
+  .toggle-btn{
+    ::ng-deep .mat-tab-label{
+      padding: 0px 15px !important;
+      width: 50%;
+    }
+  }
+  .sort-dropdown{
+    display: none;
+  }
+  .quotesDropdown{
+    ::ng-deep .mat-select-value {
+      color: #5384EA !important;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex{
+      padding: 0 !important;
+    }
+    ::ng-deep .mat-button{
+      font-size: 10px;
+      padding: 0 !important;
+    }
+    .gst{
+      font-size: 10px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 2px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    .toggle{
+      width: 43px;
+      height: 19px;
+    }
+    
+  }
+  .quotation-listing{
+    .comprehensive-key-features{
+      display: none;
+    }
+    .res-comprehensive-key-features {
+      border: 1px solid #eaeaea;
+      border-radius: 0 0 16px 16px;
+      margin: 0px;
+      background:#ffff;
+      padding: 10px;
+      display: block;
+      .key-features{
+        display: flex;
+        flex-wrap: inherit;
+        padding: 0 !important;
+        .comprehensive-key-features-value {
+          color: #47BE88;
+          background-color: #47BE881A;
+          border-radius: 100px;
+          padding: 4px 8px 4px 8px;
+          font-size: 10px;
+          font-weight: 600;
+        }
+        
+      }
+      
+    }
+    
+      .warning-img{
+        width: 16px;
+        height: 14px;
+      }
+      .comprehensive-no-quotes-information-text{
+        font-size: 9px;
+      }
+      .changeIDV-sort-btn{
+        display: block;
+        background-color: #5384EA;
+        padding: 15px;
+        border-radius: 50px;
+        position: fixed;
+        bottom: 150px;
+        width: 90%;
+        opacity: 50;
+          
+        
+        .fixed-btn{
+          font-size: 11px;
+          font-weight: 600;
+          color: #fff;
+          cursor: pointer;
+          .pipe{
+            // display: flex;
+            // justify-content: center;
+            // align-items: center;
+            min-height: 10%;
+            font-weight: 500 !important;
+            font-size: -webkit-xx-large;
+        }
+          .icons{
+            width: 14px;
+            height: 14px;
+          }
+        }
+        
+      }
+    
+  }
+ 
+  
 }

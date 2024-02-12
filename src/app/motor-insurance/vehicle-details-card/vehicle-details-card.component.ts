@@ -24,6 +24,8 @@ export class VehicleDetailsCardComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
+  showLess: boolean=true;
+  viewText:string='More'
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService
@@ -62,5 +64,13 @@ export class VehicleDetailsCardComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  viewLess(text:any){
+    // console.log(text)
+    this.showLess=!this.showLess;
+    this.viewText='More'
+    if(text=='More'){
+      this.viewText='Less'
+    }
   }
 }

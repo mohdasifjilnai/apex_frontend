@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-choose-idv',
@@ -18,4 +19,10 @@ export class ChooseIDVComponent implements OnInit {
   onSliderRangeAmount(event: any) {
     this.currentAmount=event?.value
   }
+
+
+  // cancelChangeIDv(event: MouseEvent): void {
+  //   this.bottomSheetRef.dismiss();
+  //   event.preventDefault();
+  // }
 }

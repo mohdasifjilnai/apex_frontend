@@ -1,0 +1,17 @@
+
+.quotes-page{
+    margin: 1.5rem!important;
+}
+@media screen and (max-width: 768px) {
+    .quotes-page{
+        background-color: #edf2fc !important;
+        padding: 0px 8px 8px 8px;
+        // margin-top: -2px;
+        margin:-2px 0 !important;
+    }
+    .choose-idv{
+        display: none;
+    }
+   
+  
+  }

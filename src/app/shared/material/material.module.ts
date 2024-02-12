@@ -34,6 +34,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+
 let matModuleArray=[
   CommonModule,
   MatSlideToggleModule,
@@ -70,6 +72,7 @@ let matModuleArray=[
   MatTooltipModule,
   MatSliderModule,
   MatAutocompleteModule,
+  MatBottomSheetModule
   
 ]
 @NgModule({

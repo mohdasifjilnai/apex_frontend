@@ -1,21 +1,15 @@
 .vehicle-card{
     border: 1px solid #EAEAEA;
     border-radius: 20px 20px 12px 12px;
+    display: block;
     .vehicle-card-heading{
         color: #282828;
         font-size: 12px;
-        
         font-weight: 600;
         margin:0 5px 0 5px;
     }
     .vehicle-card-heading-details{
         opacity: 50%;
-    }
-    .variant-heading{
-        width:16%;
-    }
-    .vehicle-card-heading-width{
-        width:12%;
     }
     .vehicle-card-data{
         margin:-5px 5px 10px 5px;
@@ -33,6 +27,64 @@
         font-weight: 600;
         width:80px;
         border:none;
-        padding:5px;
+        padding:10px;
+        border-radius: 8px;
     }
 }
+.res-vehicle-card{
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .vehicle-card{
+        display: none;
+    }
+    .res-vehicle-card{
+        padding: 0px !important;
+        display: block;
+        .vehicle-card-heading{
+            color: #282828;
+            font-size: 12px;
+            font-weight: 600;
+            // margin:0 5px 0 5px;
+            border: 1px solid #EAEAEA;
+            border-radius: 20px 20px 12px 12px;
+            background-color: #fff;
+            padding: 15px;
+        }
+        .vehicle-card-heading-details{
+            opacity: 50%;
+        }
+        .vehicle-card-data{
+            margin:-5px 5px 10px 5px;
+        }
+        .vehicle-card-heading-details-data{
+            color: #282828;
+            font-size: 14px;
+            opacity: 100%;
+            font-weight: 600;
+        }
+        .edit-button{
+            background-color: #F5F8FE;
+            color: #5384EA;
+            font-size: 11px;
+            font-weight: 600;
+            width:80px;
+            border:none;
+            padding:10px;
+            border-radius: 8px;
+        }
+        
+    }
+    .view-less{
+        border-radius: 0px 0px 16px 16px;
+        border: 1px solid #EAEAEA;
+        background-color: #CBCFD8B2;
+        color: #5384EA;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 0px 5px 0px;
+        margin-top: -15px;
+        cursor: pointer;
+    }
+    
+  }

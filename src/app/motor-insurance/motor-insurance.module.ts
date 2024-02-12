@@ -47,7 +47,6 @@ import { InsuranceDetailsComponent } from './insurance-details/insurance-details
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    
   ],
 })
 export class MotorInsuranceModule {}

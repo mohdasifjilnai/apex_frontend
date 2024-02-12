@@ -7,6 +7,11 @@ import { PremiumBreakupComponent } from '../../shared/components/dialog-componen
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import {
+  MatBottomSheet,
+} from '@angular/material/bottom-sheet';
+
+import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -36,7 +41,8 @@ export class QuotesListingComponent implements OnInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
-    public matDialog: WindowRef
+    public matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet
   ) {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -64,6 +70,9 @@ export class QuotesListingComponent implements OnInit {
    */
   noQuotes() {
     this.noQuotesInformation = !this.noQuotesInformation;
+  }
+  openBottomSheet(): void {
+    this.bottomSheet.open(ChooseIDVComponent);
   }
   /**
    * get initiate quotes list

@@ -1,17 +1,17 @@
 <div class="row">
-  <div class="col-lg-4 col-md-4 col-sm-12 toggle-btn">
+  <div class="col-lg-4 col-md-4 col-12 toggle-btn">
     <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)">
       <mat-tab label="Comprehensive">
-        <ng-template mat-tab-label> Comprehensive </ng-template>
+        <ng-template mat-tab-label> Comprehensive <span class="count">20</span></ng-template>
       </mat-tab>
       <mat-tab label="Third Party"
-        ><ng-template mat-tab-label> Third Party </ng-template></mat-tab
+        ><ng-template mat-tab-label> Third Party<span class="third-party-count">10</span> </ng-template></mat-tab
       >
     </mat-tab-group>
   </div>
-  <div class="col-lg-8 col-md-6 col-sm-12">
+  <div class="col-lg-8 col-md-6 col-12">
     <div class="row quotesDropdown">
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-4">
         <mat-form-field appearance="outline">
           <mat-select>
             <mat-option
@@ -23,7 +23,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-4 sort-dropdown">
         <mat-form-field appearance="outline">
           <mat-select [(value)]="lowHighSelected">
             <mat-option value="low">Sort: Low to High</mat-option>
@@ -31,13 +31,13 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-3 col-4">
         <button mat-button>
           <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
           Share Quotes
         </button>
       </div>
-      <div class="col-lg-2 inc-gst">
+      <div class="col-lg-2 col-4 inc-gst">
         <span class="gst me-2 mt-1">Inc. GST</span>
         <label class="toggle">
           <input type="checkbox" checked />
@@ -48,40 +48,40 @@
   </div>
 </div>
 <div class="quotation-listing" *ngIf="showComprehensiveDiv">
-  <br />
   <div class="row comprehensive-card">
-    <div class="col-12 mt-4 d-flex comprehensive-tab">
-      <div class="row d-flex w-100">
-        <div class="col-2">
+    <div class="comprehensive-tab p-2">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-12">
           <img
-            src="/assets/images/ICICI-logo.svg"
+            src="/assets/images/sbi-insurer.svg"
             class="insurer-logo"
             alt=""
           />
         </div>
-        <div class="col-8">
-          <p class="idv-amount mb-0">
+        <div class="col-lg-6 col-md-6 col-6">
+          <p class="idv-amount mb-0 mt-2">
             IDV (&#8377; 4,98,500- &#8377; 7,00,000)
           </p>
-          <p class="idv-choose-amount">&#8377; 6,00,000</p>
+          <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
         </div>
-        <div class="col-2">
-          <p
-            class="mt-1 premium-breakup-amount cursor-pointer"
+        <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
+          <span
+            class="premium-breakup-amount cursor-pointer"
             (click)="getProposalDetails()"
           >
-            &#8377; {{ initiateQuotes?.fe_final_premium }}
-          </p>
-          <p
-            class="premium-breakup"
+            &#8377;  2000 {{ initiateQuotes?.fe_final_premium }}
+          </span><br>
+          <span
+            class="premium-breakup pt-2"
             (click)="openPremiumBreakupModal(initiateQuotes, $event)"
           >
             Premium Breakup
-          </p>
+          </span>
         </div>
       </div>
     </div>
   </div>
+   <!-- comprehensive key feature web view -->
   <div class="row comprehensive-key-features">
     <div class="col-12 d-flex comprehensive-key-features-value">
       <div class="row w-100 d-flex">
@@ -109,16 +109,124 @@
       </div>
     </div>
   </div>
+
+  <!-- comprehensive key feature mobile view -->
+  <div class="row res-comprehensive-key-features">
+    <span class="key-features">
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Maximum Cashless Garages
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Quick Claim Settlement
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        24x7 RSA
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Over Night Repair
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        PSU Provider
+      </div>
+    </span>
+  </div>
   <br />
-  <div class="row w-100 comprehensive-no-quotes-information">
-    <div class="col-12 d-flex">
-      <div class="row d-flex w-100 no-quotes-information-card">
-        <div class="col-10 comprehensive-no-quotes-information-text">
-          <img src="/assets/icon/quotes-warning.svg" alt="" />
-          Some of the Insurance providers didn’t produce quotes for the selected
-          category
+  <div class="row comprehensive-card">
+    <div class="comprehensive-tab p-2">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-12">
+          <img
+            src="/assets/images/hdfc.svg"
+            class="insurer-logo"
+            alt=""
+            width="60"
+            height="40"
+          />
         </div>
-        <div class="col-2">
+        <div class="col-lg-6 col-md-6 col-6">
+          <p class="idv-amount mb-0 mt-2">
+            IDV (&#8377; 4,98,500- &#8377; 7,00,000)
+          </p>
+          <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
+        </div>
+        <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
+          <span
+            class="premium-breakup-amount cursor-pointer"
+            (click)="getProposalDetails()"
+          >
+            &#8377;  2000 {{ initiateQuotes?.fe_final_premium }}
+          </span><br>
+          <span
+            class="premium-breakup pt-2"
+            (click)="openPremiumBreakupModal(initiateQuotes, $event)"
+          >
+            Premium Breakup
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- comprehensive key feature web view -->
+  <div class="row comprehensive-key-features">
+    <div class="col-12 d-flex comprehensive-key-features-value">
+      <div class="row w-100 d-flex">
+        <div class="col-2 key-features-text">Key Features:</div>
+        <div class="col-2 key-features-value">
+          <img src="assets/icon/insurer-key-feature.svg" />
+          Maximum Cashless Garages
+        </div>
+        <div class="col-2 key-features-value">
+          <img src="assets/icon/insurer-key-feature.svg" />
+          PSU Provider
+        </div>
+        <div class="col-2 key-features-value">
+          <img src="assets/icon/insurer-key-feature.svg" />
+          24x7 RSA
+        </div>
+        <div class="col-2 key-features-value">
+          <img src="assets/icon/insurer-key-feature.svg" />
+          Quick Claim Settlement
+        </div>
+        <div class="col-2 key-features-value">
+          <img src="assets/icon/insurer-key-feature.svg" />
+          Over Night Repair
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- comprehensive key feature mobile view -->
+  <div class="row res-comprehensive-key-features">
+    <span class="key-features">
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Maximum Cashless Garages
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Quick Claim Settlement
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        24x7 RSA
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        Over Night Repair
+      </div>
+      <div class="comprehensive-key-features-value me-2 mb-2">
+        PSU Provider
+      </div>
+    </span>
+  </div>
+  <br>
+  <div class="w-100 comprehensive-no-quotes-information">
+    <div >
+      <div class="row no-quotes-information-card">
+        <div class="col-lg-8 col-8  d-flex">
+          <img src="/assets/icon/quotes-warning.svg" alt="" class="warning-img mt-1"/>
+          <span class="comprehensive-no-quotes-information-text ms-2">
+            Some of the Insurance providers didn’t produce quotes for the selected
+          category
+          </span>
+        </div>
+        <div class="col-lg-4 col-4">
           <p
             class="comprehensive-know-more-text tag-right cursor-pointer"
             (click)="noQuotes()"
@@ -372,7 +480,16 @@
     </div>
   </div>
   <br />
+  <div class="changeIDV-sort-btn">
+    <div class="row">
+      <div class="fixed-btn col-4 d-flex justify-content-between" (click)="openBottomSheet()">Change IDV <div class="pipe"> | </div></div>
+      <div class="fixed-btn col-4 d-flex justify-content-between"><img src="/assets/icon/addOn.svg" alt="" class="icons me-3"/>Addons<div class="pipe"> | </div></div>
+      <div class="fixed-btn col-4"><img src="/assets/icon/sort.svg" alt="" class="icons me-3"/>Sort</div>
+    </div>
+
 </div>
+</div>
+
 <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
   <br />
   <p>Some more tab content</p>

@@ -79,3 +79,115 @@
     opacity: 100% !important;
   }
 }
+.idv-range-res{
+  display: none;
+  input[type="range"] {
+    outline: none;
+    width: 100%;
+    background: linear-gradient(180deg, #ffb171 100%, #ff943d 100%) !important;
+  }
+
+  /* Styling the track in WebKit browsers */
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 16px;
+    -webkit-appearance: none;
+    color: #ffb171 !important;
+    margin-top: 0px;
+    border: none !important;
+    outline: none;
+  }
+
+  /* Styling the thumb */
+  input[type="range"]::-webkit-slider-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    /* Move background-color property to the thumb selector */
+    background: #000000 !important;
+    background: linear-gradient(180deg, #ffb171 100%, #ff943d 100%) !important;
+    box-shadow: 1px 1px 1px #d6c8c8; 
+    cursor: pointer;
+  }
+
+  .range-slider {
+    overflow: hidden;
+    width: 100%;
+    color: #ffb171 !important;
+    background-color: red !important;
+    background: linear-gradient(
+      0deg,
+      rgba(255, 177, 113, 1) 100%,
+      rgba(255, 148, 61, 1) 100%
+    ) !important;
+  }
+  .main-card-body {
+    background-color: #FFFFFF !important;
+  }
+  .changeIdv-card {
+    border: none !important;
+    .header{
+      .change-text{
+        font-size: 14px;
+        font-weight: 600;
+        color: #535353;
+      }
+    }
+    .cancel-btn{
+      color: #FFB171;
+      font-size: 14px;
+      font-weight: 600;
+      background-color: #fff;
+      border: none;
+    }
+  }
+  
+}
+.amount-value {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29.26px;
+  color: #4f5361;
+  display: flex;
+  padding: 5px 2px 0px 7px;
+  text-align: center;
+}
+
+.range-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  bottom: 0px;
+  margin-bottom: 20px;
+
+  .small-amount-value {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 17px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0px 5px;
+    opacity: 50%;
+    color: #282828;
+  }
+  .amount-format-text{
+    opacity: 100% !important;
+  }
+ 
+}
+::ng-deep .mat-bottom-sheet-container{
+  
+  padding: 0 !important;
+  padding-bottom: 10px !important;
+  border-radius: 20px 20px 0px 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .idv-range{
+    display: none;
+  }
+  .idv-range-res{
+    display: block;
+  }
+}
