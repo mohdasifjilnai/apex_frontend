@@ -433,3 +433,27 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     border-radius: 23px;
   }
 }
+
+/*[START] mat radio button */
+
+.mat-radio-inner-circle {
+  background-color: #ffb171 !important;
+}
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #ffb171 !important;
+}
+.mat-radio-outer-circle {
+  border-color: #bababa !important;
+}
+.mat-radio-checked {
+  .mat-radio-label {
+    .mat-radio-label-content {
+      color: #282828 !important;
+    }
+  }
+}
+.mat-radio-label-content {
+  color: #bababa !important;
+}
+
+/*[END] mat radio button */

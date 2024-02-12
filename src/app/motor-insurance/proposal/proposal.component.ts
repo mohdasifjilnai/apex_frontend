@@ -33,7 +33,7 @@ export class ProposalComponent implements OnInit {
  * open wait ckyc modal popup
  */ 
   openWaitCkycModal(event:any){    
-    this.openWaitCkycVerificationPopup(null)
+    // this.openWaitCkycVerificationPopup(null)
   }
 
 

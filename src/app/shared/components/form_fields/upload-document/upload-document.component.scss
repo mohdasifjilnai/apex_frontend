@@ -1,0 +1,27 @@
+/* Hide the default file input */
+input[type="file"] {
+    display: none;
+  }
+  
+  /* Style the label to look like a button */
+  .lable-file-input {
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ccccccc4;
+    border-radius: 12px;
+    width: 366px;
+    height: 53px;
+  }
+  
+.upload-doc-image {
+    float: right;
+    position: relative;
+    bottom: 25px;
+}
+.file-input-text{
+    position: relative;
+    top: 10px;
+    color: #212529ad;
+}
+

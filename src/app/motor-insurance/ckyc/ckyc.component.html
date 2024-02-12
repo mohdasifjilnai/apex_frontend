@@ -1,14 +1,121 @@
-<div class="row">
-    <div class="col-4 mt-3">
+<div class="cky-form">
+  <form
+    [formGroup]="ckycFormGroup"
+    (ngSubmit)="submitCkycFormGroup(ckycFormGroup.valid)"
+    novalidate
+  >
+    <div class="row">
+      <div class="col-4 mt-3">
         <label class="kyc-header">Do you have CKYC Number?</label>
         <div>
-        <mat-radio-group aria-label="Select an option">
-            <mat-radio-button *ngFor="let kyc of kycList" value="{{kyc?.id}}" [checked]="kyc?.name === 'Yes'" [ngClass]="{
-                'is-kyc': kyc?.name === 'No'
-              }">{{kyc?.name}}</mat-radio-button>
-          </mat-radio-group>      
-        </div>    
+          <mat-radio-group
+            aria-label="Select an option"
+            class="ckyc_number"
+            formControlName="ckyc_id"
+            (change)="checkKycNumber($event)"
+          >
+            <mat-radio-button
+              *ngFor="let ckyc of ckycList"
+              [value]="ckyc?.id"
+              [ngClass]="{
+                'is-kyc': ckyc?.name === 'No'
+              }"
+              >{{ ckyc?.name }}</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+      </div>
+      <ng-container *ngIf="!isCheckKyc">
+        <div class="col-4 mt-3">
+          <mat-form-field
+            appearance="outline"
+            class="document-list mat-input-custom"
+          >
+            <mat-label>Select Document Type</mat-label>
+            <mat-select formControlName="document_type">
+              <mat-option
+                *ngFor="let document of documentList"
+                [value]="document?.document_id"
+              >
+                {{ document?.document_name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="ckycFormGroup.get('document_type')?.hasError('required')"
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4 mt-3">
+          <mat-form-field
+            appearance="outline"
+            class="document_number mat-input-custom"
+          >
+            <mat-label>Enter Document Number</mat-label>
+            <input
+              matInput
+              aria-label="document_number"
+              formControlName="document_number"
+            />
+            <mat-error
+              *ngIf="ckycFormGroup.get('document_number')?.hasError('required')"
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="outline" class="mat-input-custom">
+            <input
+              class="input-field-pad"
+              matInput
+              formControlName="dob"
+              appOnlyNumbers
+              [matDatepicker]="ckyc_dob"
+              [min]="minDate"
+              [max]="maxDate"
+              placeholder="DD/MM/YYYY"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="ckyc_dob"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #ckyc_dob></mat-datepicker>
+            <mat-error *ngIf="ckycFormGroup.get('dob')?.hasError('required')">
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <div class="doc-upload">
+            <app-upload-document [required]="true"></app-upload-document>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isCheckKyc">
+        <div class="col-4 mt-3">
+          <mat-form-field
+            appearance="outline"
+            class="CKYC_Number mat-input-custom"
+          >
+            <mat-label>Enter CKYC Number</mat-label>
+            <input matInput aria-label="CKYC_Number" formControlName="CKYC_Number" />
+            <mat-error
+              *ngIf="ckycFormGroup.get('CKYC_Number')?.hasError('required')"
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </ng-container>
     </div>
-    <div class="col-4"></div>
-    <div class="col-4"></div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <button class="submit-btn owner-vehicle-submission" type="submit">
+          Fetch Details
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

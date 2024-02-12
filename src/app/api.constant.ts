@@ -15,5 +15,10 @@ export class ApiConstants {
   //addons end point
 
   public static addons :string = `/api/v1/addon/`
+ 
+  // fetch ckyc data
+  public static fetch_ckyc_data:string=`/api/v1/fetch_ckyc_data/`
+
+  public static document_type:string=`/api/v1/document_type/`
 }
 
