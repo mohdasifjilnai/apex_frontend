@@ -32,6 +32,7 @@ import { OwnerStateComponent } from './components/form_fields/owner-state/owner-
 import { UploadDocumentComponent } from './components/form_fields/upload-document/upload-document.component';
 import { EngineNumberComponent } from './components/form_fields/engine-number/engine-number.component';
 import { ChasisNumberComponent } from './chasis-number/chasis-number.component';
+import { ShareQuotesComponent } from './components/dialog-components/share-quotes/share-quotes.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ChasisNumberComponent } from './chasis-number/chasis-number.component';
     UploadDocumentComponent,
     EngineNumberComponent,
     ChasisNumberComponent,
+    ShareQuotesComponent,
   ],
   imports: [
     CommonModule,

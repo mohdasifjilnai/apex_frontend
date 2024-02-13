@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-import {WaitCkycVerificationDialogComponent} from '../../shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component'
+import { WaitCkycVerificationDialogComponent } from '../../shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 @Component({
   selector: 'app-proposal',
   templateUrl: './proposal.component.html',
-  styleUrls: ['./proposal.component.scss']
+  styleUrls: ['./proposal.component.scss'],
 })
 export class ProposalComponent implements OnInit {
   panelOpenState = false;
@@ -23,24 +23,20 @@ export class ProposalComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'wait-ckyc-verification-class',
   };
-  constructor(public matDialog: WindowRef) { 
-    
-  }
+  constructor(public matDialog: WindowRef) {}
 
-  ngOnInit(): void {
-  }
-/**
- * open wait ckyc modal popup
- */ 
-  openWaitCkycModal(event:any){    
+  ngOnInit(): void {}
+  /**
+   * open wait ckyc modal popup
+   */
+  openWaitCkycModal(event: any) {
     // this.openWaitCkycVerificationPopup(null)
   }
 
-
   /**
    * this fucntion use wait ckyc verification modal
-   */ 
-   openWaitCkycVerificationPopup(ObjData: any) {
+   */
+  openWaitCkycVerificationPopup(ObjData: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -66,5 +62,4 @@ export class ProposalComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-
 }

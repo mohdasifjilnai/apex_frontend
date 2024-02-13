@@ -15,6 +15,7 @@ import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
+import {ShareQuotesComponent} from '../../shared/components/dialog-components/share-quotes/share-quotes.component'
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -40,6 +41,21 @@ export class QuotesListingComponent implements OnInit {
     topObtained: 'auto',
     isOutSideClose: false,
     classObtained: 'initiate-quotes-class',
+  };
+  shareQuotesJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: ShareQuotesComponent,
+    widthObtained: '75%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'share-qoutes-class',
   };
   constructor(
     private router: Router,
@@ -115,12 +131,22 @@ export class QuotesListingComponent implements OnInit {
    * Open premium breakup modal
    */
   openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent) {
-    this.openPremiumBreakup(initiateQuotes);
+    this.openModal(initiateQuotes,this.initiateQuotesJSON);
   }
   /**
-   * this fucntion use vehicle premium breakup modal
+   * share qoutes open pop up modal function
+   */ 
+
+  shareQuotesOpen(shareData:any,jsonData:any){
+    this.openModal(shareData,jsonData)
+
+  }
+
+
+  /**
+   * this fucntion use open pop up modal
    */
-  openPremiumBreakup(ObjData: any) {
+   openModal(ObjData: any,jsonData:any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -132,11 +158,11 @@ export class QuotesListingComponent implements OnInit {
     }
 
     const obj: any = {
-      modalName: this.initiateQuotesJSON['modalName'],
-      width: this.initiateQuotesJSON['widthObtained'],
-      height: this.initiateQuotesJSON['heightObtained'],
-      classNameObtained: this.initiateQuotesJSON['classObtained'],
-      isOutSideClose: this.initiateQuotesJSON['isOutSideClose'],
+      modalName: jsonData['modalName'],
+      width: jsonData['widthObtained'],
+      height: jsonData['heightObtained'],
+      classNameObtained: jsonData['classObtained'],
+      isOutSideClose: jsonData['isOutSideClose'],
       minWidth: resWidth,
       dataInfo: {
         data: ObjData,

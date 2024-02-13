@@ -1,0 +1,55 @@
+<!-- Dialog title -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-10">
+      <p class="header-share-text share-text-color">Share selected quotes</p>
+      <p class="header-share-text bank-text-color">SBI General,HDFC ERGO</p>
+    </div>
+    <div class="col-2">
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose()"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
+  </div>
+</div>
+<!-- Dialog content -->
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-10">
+      <mat-form-field appearance="outline" class="mat-input-share-social-media">
+        <mat-label>Enter WhatsApp Number</mat-label>
+        <input matInput aria-label="whatsApp_number" placeholder="Enter WhatsApp Number" />
+        <img
+          src="/assets/icon/whatsapp.svg"
+          class="social-media-image whatsapp-image"
+          alt="close"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-10">
+      <mat-form-field appearance="outline" class="mat-input-share-social-media">
+        <mat-label>Enter Contact Number</mat-label>
+        <input matInput aria-label="contact_number" placeholder="Enter Contact Number"/>
+        <img
+          src="/assets/icon/sms.svg"
+          class="social-media-image sms-image"
+          alt="close"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-10">
+      <mat-form-field appearance="outline" class="mat-input-share-social-media">
+        <mat-label>Enter Email</mat-label>
+        <input matInput aria-label="email" placeholder="Enter Email"/>
+        <img
+          src="/assets/icon/mail.svg"
+          class="social-media-image mail-image"
+          alt="close"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+</div>
