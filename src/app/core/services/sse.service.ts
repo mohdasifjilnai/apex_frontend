@@ -18,7 +18,8 @@ export class SseService {
       eventSource.onerror = (ev) => {
         console.log('EventSource failed.', ev);
       };
-      eventSource.addEventListener('message', event => {
+     
+      eventSource.addEventListener('premium', event => {
         this.zone.run(() => {
           observer.next(event);
         });

@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { Router } from '@angular/router';
+import { SseService } from './sse.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,15 @@ export class SharedDataService {
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData: Subject<any> = new Subject();
+  quotionListing : Subject<any> = new Subject();
   regNumber: any;
-  constructor(private apiService: ApiService, private router: Router) {}
+  connectionData:any = [];
+  vehicleType:any;
+  transactionId:any;
+  quotesId:any;
+  constructor(private apiService: ApiService, private router: Router,private sseService: SseService) {
+    this.vehicleType = localStorage.getItem('vehicleType');
+  }
 
   sendVehicleEditData(data: any) {
     this.getVehicleDetails.next(data);
@@ -55,18 +63,89 @@ export class SharedDataService {
   }
 
   getQuotationListing(data: any) {
+    // '{ "customer_type": "INDIVIDUAL", "vehicle_type": "four_wheeler", "rb_mmv_id": 1219, 
+    // "rb_rto_code": "HR26", "registration_month": 1, "registration_year": 2024, 
+    // "previous_policy_exp_date": "2024-02-09", "previous_year_ncb": 0,
+    //  "is_ownership_transfer": false, "is_claimed": false, 
+    //  "business_type": "New", "selected_addons": ["string"]}';
+
+    // "transaction_id": "",
+    // "customer_type": "INDIVIDUAL",
+    // "vehicle_type": "",
+    // "rb_mmv_id": 1219,
+    // "rb_rto_code": "HR26",
+    // "registration_month": 1,
+    // "registration_year": 2024,
+    // "tenure": "",
+    // "tp_tenure": "",
+    // "previous_insurer_code": "",
+    // "previous_policy_exp_date": "2024-02-09",
+    // "previous_year_ncb": 0,
+    // "is_ownership_transfer": false,
+    // "is_claimed": false,
+    // "business_type": "New",
+    // "selected_addons": [
+    //   "string"
+    // ],
+    // "quote_request_id": "string"
     let quotesData = {
-      transaction_id: data,
-      rb_mmv_id: data,
-      rb_rto_code: data.rto_code,
-      registration_month: data,
-      registration_year: data,
-      previous_insurer_code: data.prev_insurer,
-      previous_policy_exp_date: data,
-      previous_year_ncb: data,
-      is_ownership_transfer: data,
-      is_claimed: data,
-      selected_addons: data,
+      // transaction_id: data,
+      // rb_mmv_id: 1219,
+      // rb_rto_code: data.rto_code,
+      // registration_month: 1,
+      // registration_year: 2024,
+      // previous_insurer_code: "",
+      // previous_policy_exp_date: "2024-02-09",
+      // previous_year_ncb: 0,
+      // is_ownership_transfer: false,
+      // business_type: "New",
+      // is_claimed: false,
+      // selected_addons: [],
+      // customer_type : 'INDIVIDUAL',
+      // "vehicle_type": this.vehicleType
+      "customer_type": "INDIVIDUAL",
+      "vehicle_type": "four_wheeler",
+      "rb_mmv_id": 1219,
+      "rb_rto_code": "HR26",
+      "registration_month": 1,
+      "registration_year": 2024,
+      "previous_policy_exp_date": "2024-02-09",
+      "previous_year_ncb": 0,
+      "is_ownership_transfer": false,
+      "is_claimed": false,
+      "business_type": "New",
+      "selected_addons": [
+          "string"
+      ]
     };
+
+    this.apiService
+    .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
+    .subscribe((res) => {
+      console.log(res)
+      this.transactionId = res.transaction_id;
+      this.quotesId  = res.quote_request_id;
+       /**
+     * service call for the server side event handling
+     */
+    // let data = {"premium_details": {"od_premium_details": {"basic_od_premium": 9310.0, "ncb_discount": 0.0}, "tp_premium_details": {"basic_tp_premium": 10640.0}, "total_gst": 3749.0, "gross_premium": 20825.0, "total_premium": 24574.0}, "error_message": null, "insurer_logo": "https://rbdev-apex.s3.ap-south-1.amazonaws.com/insurer/ICICI-logo.svg", "insurer_name": "ICICI Lombard General Insurance", "transaction_id": "21706c29-b30a-4936-b6a2-33cc4a3ddc50", "quote_request_id": "109088935"}
+     
+    this.sseService.getServerSentEvent(`/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`)
+    .subscribe(ev => {
+      console.log(ev.data);
+      let dataEvent = JSON.parse(ev.data);
+      this.connectionData = []
+      this.connectionData.push(dataEvent) 
+      console.log(this.connectionData)
+      this.quotionListing.next(this.connectionData)
+    
+    },
+    (error) => {
+      console.log(error);
+    },
+    () => {
+      console.log('==> complete');
+    });
+    });
   }
 }

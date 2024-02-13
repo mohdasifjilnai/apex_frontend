@@ -13,7 +13,8 @@ export class PremiumBreakupComponent implements OnInit {
     public bottomSheetRef: MatBottomSheetRef<PremiumBreakupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.initiateQuotes = data['initiateQuotes'];
+    this.initiateQuotes=data.data  
+   
   }
 
   ngOnInit(): void {}

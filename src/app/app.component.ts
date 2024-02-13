@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SseService } from './core/services/sse.service';
-// const EventSource: any = window['EventSource'];
+const EventSource: any = window['EventSource'];
 // import { NgZone } from "@angular/core";
 
 @Component({
@@ -17,17 +17,22 @@ export class AppComponent {
     /**
      * service call for the server side event handling
      */
-    // this.sseService.getServerSentEvent('http://localhost:9090/ds/dyn/edit/getStatus?status=-403830982')
-    //   .subscribe(ev => {
-    //     console.log(ev);
-    //     this.connectionData.push(ev.data);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    //   () => {
-    //     console.log('==> complete');
-    //   });
+    this.sseService.getServerSentEvent('/api/v1/fetch_quotes/eb785541-636d-4259-8a5e-0595c542f67d/20240213141256356091')
+      .subscribe(ev => {
+        console.log(ev);
+        this.connectionData.push(ev.data);
+        console.log(this.connectionData)
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        console.log('==> complete');
+      });
+
+
+
+
   //   this.eventSource = new EventSource("http://localhost:8099/sse.php", { withCredentials: true });
 
   //   this.eventSource.onmessage = (e: { data: any; }) => {

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-6 col-4">
       <div class="d-flex justify-content-start">
-        <img src="/assets/images/ICICI-logo.svg" class="insurer-logo" />
+        <img src="{{initiateQuotes.insurer_logo}}" class="insurer-logo" />
       </div>
     </div>
     <div class="col-lg-6 col-6">
@@ -21,12 +21,12 @@
   <div class="row">
     <div class="col-6">
       <p class="d-flex justify-content-start own-damage-text text-bold">
-        Own Damage
+        Own Damage  
       </p>
     </div>
     <div class="col-6">
       <p class="d-flex justify-content-end own-damage-amount text-bold">
-        &#8377; 0
+        <!-- &#8377;  -->
       </p>
     </div>
     <div class="col-6">
@@ -35,15 +35,17 @@
       </p>
     </div>
     <div class="col-4 offset-2">
-      <p class="d-flex justify-content-end own-damage-amount">&#8377; 0</p>
+      <p class="d-flex justify-content-end own-damage-amount">
+        &#8377; {{initiateQuotes.premium_details.od_premium_details.basic_od_premium}}
+      </p>
     </div>
     <div class="col-6">
       <p class="d-flex justify-content-start own-damage-text">
-        NCB Discount (20%)
+        NCB Discount 
       </p>
     </div>
     <div class="col-4 offset-2">
-      <p class="d-flex justify-content-end own-damage-amount">&#8377; 14,456</p>
+      <p class="d-flex justify-content-end own-damage-amount">&#8377;  {{initiateQuotes.premium_details.od_premium_details.ncb_discount}}</p>
     </div>
     <div class="col-6">
       <p class="d-flex justify-content-start own-damage-text">
@@ -51,7 +53,9 @@
       </p>
     </div>
     <div class="col-4 offset-2">
-      <p class="d-flex justify-content-end own-damage-amount">&#8377; 0</p>
+      <p class="d-flex justify-content-end own-damage-amount">
+        <!-- &#8377; 0 -->
+      </p>
     </div>
   </div>
   <div class="row">
@@ -62,7 +66,7 @@
     </div>
     <div class="col-4 offset-2">
       <p class="d-flex justify-content-end own-damage-amount text-bold">
-        &#8377; 6,00,000
+        <!-- &#8377; 6,00,000 -->
       </p>
     </div>
     <div class="col-6">
@@ -71,7 +75,7 @@
       </p>
     </div>
     <div class="col-4 offset-2">
-      <p class="d-flex justify-content-end own-damage-amount">&#8377; 14,456</p>
+      <p class="d-flex justify-content-end own-damage-amount">&#8377;  {{initiateQuotes.premium_details.od_premium_details.basic_od_premium}}</p>
     </div>
   </div>
   <div class="row">
@@ -82,7 +86,7 @@
     </div>
     <div class="col-4 offset-2">
       <p class="d-flex justify-content-end own-damage-amount text-bold">
-        &#8377; 0
+        &#8377; {{initiateQuotes.premium_details.total_gst}}
       </p>
     </div>
     <div class="col-6">
@@ -92,7 +96,7 @@
     </div>
     <div class="col-4 offset-2">
       <p class="d-flex justify-content-end own-damage-amount text-bold">
-        &#8377; 0
+        &#8377; {{initiateQuotes.premium_details.total_premium}}
       </p>
     </div>
   </div>

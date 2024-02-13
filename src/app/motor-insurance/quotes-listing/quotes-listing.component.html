@@ -69,88 +69,92 @@
     </div>
   </div>
   <div class="quotation-listing" *ngIf="showComprehensiveDiv">
-    <div class="row comprehensive-card">
-      <div class="comprehensive-tab p-2">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-12">
-            <img
-              src="/assets/images/sbi-insurer.svg"
-              class="insurer-logo"
-              alt=""
-            />
-          </div>
-          <div class="col-lg-6 col-md-6 col-6">
-            <p class="idv-amount mb-0 mt-2">
-              IDV (&#8377; 4,98,500- &#8377; 7,00,000)
-            </p>
-            <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
-          </div>
-          <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
-            <span
-              class="premium-breakup-amount cursor-pointer"
-              (click)="getProposalDetails()"
-            >
-              &#8377; 2000 {{ initiateQuotes?.fe_final_premium }} </span
-            ><br />
-            <span
-              class="premium-breakup pt-2"
-              (click)="openPremiumBreakupModal(initiateQuotes, $event)"
-            >
-              Premium Breakup
-            </span>
+    <div *ngFor="let quotes Of quotationData">
+      <div class="row comprehensive-card">
+        <div class="comprehensive-tab p-2">
+          <div class="row" >
+            <div class="col-lg-4 col-md-4 col-12">
+              <img
+                src="{{quotes.insurer_logo}}"
+                class="insurer-logo"
+                alt=""
+              />
+            </div>
+            <!-- {{quotes.insurer_name}} -->
+            <div class="col-lg-6 col-md-6 col-6">
+              <p class="idv-amount mb-0 mt-2">
+                IDV (&#8377; 4,98,500- &#8377; 7,00,000)
+              </p>
+              <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
+            </div>
+            <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
+              <span
+                class="premium-breakup-amount cursor-pointer"
+                (click)="getProposalDetails()"
+              >
+                &#8377; {{quotes.premium_details.total_premium}}  </span
+              ><br />
+              <span
+                class="premium-breakup pt-2"
+                (click)="openPremiumBreakupModal(quotes, $event)"
+              >
+                Premium Breakup
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- comprehensive key feature web view -->
-    <div class="row comprehensive-key-features">
-      <div class="col-12 d-flex comprehensive-key-features-value">
-        <div class="row w-100 d-flex">
-          <div class="col-2 key-features-text">Key Features:</div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
+      <!-- comprehensive key feature web view -->
+      <div class="row comprehensive-key-features">
+        <div class="col-12 d-flex comprehensive-key-features-value">
+          <div class="row w-100 d-flex">
+            <div class="col-2 key-features-text">Key Features:</div>
+            <div class="col-2 key-features-value">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              Maximum Cashless Garages
+            </div>
+            <div class="col-2 key-features-value">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              PSU Provider
+            </div>
+            <div class="col-2 key-features-value">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              24x7 RSA
+            </div>
+            <div class="col-2 key-features-value">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              Quick Claim Settlement
+            </div>
+            <div class="col-2 key-features-value">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              Over Night Repair
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- comprehensive key feature mobile view -->
+      <div class="row res-comprehensive-key-features">
+        <span class="key-features">
+          <div class="comprehensive-key-features-value me-2 mb-2">
             Maximum Cashless Garages
           </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            PSU Provider
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            24x7 RSA
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
+          <div class="comprehensive-key-features-value me-2 mb-2">
             Quick Claim Settlement
           </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
+          <div class="comprehensive-key-features-value me-2 mb-2">24x7 RSA</div>
+          <div class="comprehensive-key-features-value me-2 mb-2">
             Over Night Repair
           </div>
-        </div>
+          <div class="comprehensive-key-features-value me-2 mb-2">
+            PSU Provider
+          </div>
+        </span>
       </div>
     </div>
-
-    <!-- comprehensive key feature mobile view -->
-    <div class="row res-comprehensive-key-features">
-      <span class="key-features">
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Maximum Cashless Garages
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Quick Claim Settlement
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">24x7 RSA</div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Over Night Repair
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          PSU Provider
-        </div>
-      </span>
-    </div>
+   
     <br />
-    <div class="row comprehensive-card">
+    <!-- <div class="row comprehensive-card">
       <div class="comprehensive-tab p-2">
         <div class="row">
           <div class="col-lg-4 col-md-4 col-12">
@@ -184,9 +188,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- comprehensive key feature web view -->
-    <div class="row comprehensive-key-features">
+    <!-- <div class="row comprehensive-key-features">
       <div class="col-12 d-flex comprehensive-key-features-value">
         <div class="row w-100 d-flex">
           <div class="col-2 key-features-text">Key Features:</div>
@@ -212,7 +216,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- comprehensive key feature mobile view -->
     <div class="row res-comprehensive-key-features">

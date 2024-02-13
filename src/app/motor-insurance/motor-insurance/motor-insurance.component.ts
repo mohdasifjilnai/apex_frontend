@@ -21,14 +21,18 @@ export class MotorInsuranceComponent implements OnInit {
   vehicleTypeValue: any;
 
   motorInsurance: FormGroup = new FormGroup({
-    registration_number: new FormControl('', Validators.required),
+    registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
     registration_year: new FormControl(''),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
+  // Validators.pattern(new RegExp('/^[ A-Za-z0-9-]*$/'))
 
+  // Validators.pattern(
+  //   new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
+  // ),
   constructor(
     private router: Router,
     private apiService: ApiService,

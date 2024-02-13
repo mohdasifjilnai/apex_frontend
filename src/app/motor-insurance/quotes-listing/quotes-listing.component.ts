@@ -16,6 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
 import {ShareQuotesComponent} from '../../shared/components/dialog-components/share-quotes/share-quotes.component'
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -27,6 +28,7 @@ export class QuotesListingComponent implements OnInit {
   individualSelected: any;
   lowHighSelected = 'low';
   proposalList: any;
+  quotationData:any ;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -61,7 +63,8 @@ export class QuotesListingComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     public matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private sharedDataService: SharedDataService,
   ) {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -73,6 +76,11 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProposalType();
+    this.sharedDataService.quotionListing.subscribe((quotes) => {
+     
+      this.quotationData = quotes;
+      console.log(this.quotationData)
+    });
   }
 
   getProposalType() {
