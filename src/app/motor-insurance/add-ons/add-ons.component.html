@@ -23,3 +23,30 @@
     </div>
   </div>
 </div>
+<div class="add-ons-res">
+  <div class="header">
+    <div class="d-flex justify-content-between ps-3 pe-3 pt-3">
+      <span class="change-text">Addons</span>
+      <img src="/assets/icon/cross.svg" alt="" class="cross-icon me-3" (click)="cancelChangeIDv($event)"/>
+    </div>
+
+  </div>
+  <hr>
+  <div class="m-2">
+    
+    <div class="card-body">
+      <section
+        class="my-2"
+        *ngFor="let listValue of addonList"
+      >
+        <mat-checkbox [(ngModel)]="listValue.checked">{{
+          listValue?.rb_addon_name
+        }}</mat-checkbox>
+      </section>
+    </div>
+    <div class="d-flex p-3">
+      <button   class="cancel-btn col-6" (click)="clearAllChecked()">Clear All</button>
+      <button   class="submit-btn col-6">Apply</button>
+    </div>
+  </div>
+</div>

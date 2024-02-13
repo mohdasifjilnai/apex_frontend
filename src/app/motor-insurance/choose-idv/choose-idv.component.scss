@@ -132,6 +132,9 @@
         font-weight: 600;
         color: #535353;
       }
+      .cross-icon{
+        cursor: pointer;
+      }
     }
     .cancel-btn{
       color: #FFB171;
@@ -139,6 +142,7 @@
       font-weight: 600;
       background-color: #fff;
       border: none;
+      height: 36px;
     }
   }
   
@@ -179,7 +183,6 @@
 ::ng-deep .mat-bottom-sheet-container{
   
   padding: 0 !important;
-  padding-bottom: 10px !important;
   border-radius: 20px 20px 0px 0px;
 }
 

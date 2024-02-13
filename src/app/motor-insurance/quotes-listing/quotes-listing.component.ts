@@ -6,10 +6,14 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { PremiumBreakupComponent } from '../../shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet, MatBottomSheetConfig,
+} from '@angular/material/bottom-sheet';
 
 import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AddOnsComponent } from '../add-ons/add-ons.component';
+import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -75,8 +79,18 @@ export class QuotesListingComponent implements OnInit {
   noQuotes() {
     this.noQuotesInformation = !this.noQuotesInformation;
   }
-  openBottomSheet(): void {
+  openChangeIDV(): void {
     this.bottomSheet.open(ChooseIDVComponent);
+  }
+  openAddons(): void {
+    this.bottomSheet.open(AddOnsComponent);
+  }
+  openSort(dropdownType:any): void {
+    console.log(dropdownType)
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: dropdownType, // Pass your data here
+    };
+    this.bottomSheet.open(QuotesDropdownComponent,bottomSheetConfig);
   }
   /**
    * get initiate quotes list

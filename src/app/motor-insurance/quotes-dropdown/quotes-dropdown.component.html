@@ -1,0 +1,21 @@
+<div class="quotes-dropdown">
+    <div class="header">
+        <div class="d-flex justify-content-between ps-4 pe-2 pt-3">
+          <span class="change-text">{{data}}</span>
+          <img src="/assets/icon/cross.svg" alt="" class="cross-icon me-3" (click)="cancelChangeIDv($event)"/>
+        </div>
+    </div>
+    <hr>
+    <div class="dropdown-list p-3" *ngIf="data=='Addons'">
+        <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1">Low to High</mat-radio-button><hr style="border:1px solid #D4E7EF;">
+            <mat-radio-button value="2">High to Low</mat-radio-button>
+          </mat-radio-group>
+    </div>
+    <div class="dropdown-list p-3" *ngIf="data=='Owner Type'">
+        <mat-radio-group aria-label="Select an option" *ngFor="let proposalData of proposalList"
+        >
+            <mat-radio-button [value]="proposalData.proposer_id">{{ proposalData.proposer_name | titlecase}}</mat-radio-button><hr>
+          </mat-radio-group>
+    </div>
+</div>

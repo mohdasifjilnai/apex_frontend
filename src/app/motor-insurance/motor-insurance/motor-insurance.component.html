@@ -11,37 +11,37 @@
         </span>
       </div>
       <form [formGroup]="motorInsurance">
-        <div>
+        <div >
           <app-vehicle-type></app-vehicle-type>
         </div>
         <div class="row mt-4">
           <div class="col-12" *ngIf="!withoutVehicleNumber">
-            <div class="text-center">
+            <div class="d-flex justify-content-center">
               <app-registration-number
                 [required]="true"
               ></app-registration-number>
             </div>
           </div>
           <!-- Fields Without Vehicle Number  -->
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
             <app-vehicle [required]="true"></app-vehicle>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
-            <app-rto [required]="true"></app-rto>
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
+            <app-rto ></app-rto>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
-            <app-registration-year [required]="true"></app-registration-year>
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
+            <app-registration-year></app-registration-year>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
             <app-previous-insurer></app-previous-insurer>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
             <app-policy-expired-date></app-policy-expired-date>
           </div>
           <div
             [ngClass]="{
               'col-12': !withoutVehicleNumber,
-              'col-lg-4 col-md-4 col-12': withoutVehicleNumber,
+              'col-lg-4 col-md-6 col-12': withoutVehicleNumber,
               'text-center': !withoutVehicleNumber
             }"
           >

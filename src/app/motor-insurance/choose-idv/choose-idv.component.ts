@@ -9,7 +9,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 export class ChooseIDVComponent implements OnInit {
   investedAmount: number = 600000;
   currentAmount:number=0;
-  constructor() {}
+  constructor(public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>) {}
 
   ngOnInit(): void {}
 
@@ -21,8 +21,8 @@ export class ChooseIDVComponent implements OnInit {
   }
 
 
-  // cancelChangeIDv(event: MouseEvent): void {
-  //   this.bottomSheetRef.dismiss();
-  //   event.preventDefault();
-  // }
+  cancelChangeIDv(event: MouseEvent): void {
+    this.bottomSheetRef.dismiss();
+    event.preventDefault();
+  }
 }

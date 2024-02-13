@@ -1,0 +1,43 @@
+.quotes-dropdown{
+    .header{
+        .change-text{
+          font-size: 14px;
+          font-weight: 600;
+          color: #535353;
+        }
+        .cross-icon{
+          cursor: pointer;
+        }
+    }
+    .dropdown-list{
+        ::ng-deep .mat-radio-label{
+            display:flex ;
+            width:100%;
+            font-size:0.5em;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+        }
+        ::ng-deep .mat-radio-button{
+            display: flex !important;
+        }
+        ::ng-deep .mat-radio-label-content{
+            font-size: 14px;
+            font-weight: 500;
+            color: #666666;
+        }
+        ::ng-deep .mat-radio-outer-circle{
+            width: 24px;
+            height: 24px;
+            border-color:#5384EA !important;
+        }
+        ::ng-deep .mat-radio-inner-circle{
+            width: 24px;
+            height: 24px;
+            background-color:#5384EA !important;
+        }
+        hr{
+            border:1px solid #D4E7EF;
+        }
+    }
+    
+}

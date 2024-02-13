@@ -3,6 +3,7 @@ import add_ons_list from './add-ons-list.json'
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ApiConstants } from 'src/app/api.constant';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 @Component({
   selector: 'app-add-ons',
   templateUrl: './add-ons.component.html',
@@ -11,7 +12,7 @@ import { ApiConstants } from 'src/app/api.constant';
 export class AddOnsComponent implements OnInit {
   add_ons_list:any=add_ons_list;
   addonList:any;
-  constructor(private apiService :ApiService, private sharedDataService: SharedDataService) {}
+  constructor(private apiService :ApiService, private sharedDataService: SharedDataService,public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>) {}
 
   ngOnInit(): void {
     let vehicleTypeValue = localStorage.getItem('vehicleType')
@@ -36,5 +37,9 @@ export class AddOnsComponent implements OnInit {
           this.addonList = res
         });
 
+    }
+    cancelChangeIDv(event: MouseEvent): void {
+      this.bottomSheetRef.dismiss();
+      event.preventDefault();
     }
 }

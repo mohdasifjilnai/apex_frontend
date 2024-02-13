@@ -14,10 +14,35 @@
     font-weight: 600;
     font-size: 14px;
   }
+  .header{
+    .change-text{
+      font-size: 14px;
+      font-weight: 600;
+      color: #535353;
+    }
+    .cross-icon{
+      cursor: pointer;
+    }
+  }
+  
+}
+.add-ons-res{
+  display: none;
+  .cancel-btn{
+    color: #FFB171;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fff;
+    border: none;
+    height: 36px;
+  }
 }
 @media screen and (max-width: 768px) {
   .add-ons{
     display: none;
+  }
+  .add-ons-res{
+    display: block;
   }
 }
 

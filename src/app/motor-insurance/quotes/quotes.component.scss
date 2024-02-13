@@ -1,6 +1,7 @@
 
 .quotes-page{
     margin: 1.5rem!important;
+    
 }
 @media screen and (max-width: 768px) {
     .quotes-page{
@@ -10,6 +11,9 @@
         margin:-2px 0 !important;
     }
     .choose-idv{
+        display: none;
+    }
+    .addons{
         display: none;
     }
    

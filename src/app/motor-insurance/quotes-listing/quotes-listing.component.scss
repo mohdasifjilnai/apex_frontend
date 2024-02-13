@@ -264,6 +264,12 @@ input:checked + .slider:after {
   justify-content: space-between;
   margin-top: 20px;
 }
+.owner-type-res{
+  display: none;
+}
+.owner-type{
+  display: block;
+}
 
 
 }
@@ -307,6 +313,12 @@ input:checked + .slider:after {
     .toggle{
       width: 43px;
       height: 19px;
+    }
+    .owner-type-res{
+      display: block;
+    }
+    .owner-type{
+      display: none;
     }
     
   }
