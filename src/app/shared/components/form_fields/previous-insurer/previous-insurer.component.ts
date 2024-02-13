@@ -23,7 +23,8 @@ export class PreviousInsurerComponent implements OnInit {
   insurerList: any;
   form!: FormGroup;
   @Input('required') isRequired = false;
-
+  @Input() previousInsurer!:string
+  previous_insurer = new FormControl();
   filteredInsurerList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;

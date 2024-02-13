@@ -17,6 +17,14 @@
     left: 10px !important;
   }
 }
+.proposal-registration-number {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 350px !important;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
   ::ng-deep .mat-form-field {
     width: 100% !important;

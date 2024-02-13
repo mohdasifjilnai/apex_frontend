@@ -1,31 +1,88 @@
 <form [formGroup]="proposalVehilceDetailsForm">
-    <div class="row mt-3">
-        <div class="col-4">
-            <app-registration-number
-                [required]="true"
-              ></app-registration-number>
-        </div>
-        <div class="col-4">
-            <app-engine-number [required]="true"></app-engine-number>
-        </div>
-        <div class="col-4">
-            <app-chasis-number [required]="true"></app-chasis-number>
-        </div>
-        <div class="col-4">
-            <app-registration-date [required]="true"></app-registration-date>
-        </div>
-        <div class="col-4">
-            <app-manufacture-date [required]="true"></app-manufacture-date>
-        </div>
-        <div class="col-4">
-            <mat-form-field appearance="outline" class="registration-number">
-                <mat-label>Vehicle Color</mat-label>
-                <input
-                  matInput
-                  placeholder="Enter Vehicle Colour"
-                  formControlName="vehicle_colour"
-                />
-              </mat-form-field>
-        </div>
+  <div class="row mt-3">
+    <div class="col-4">
+      <app-registration-number
+        [required]="true"
+        [registrationNumber]="'proposal-registration-number'"
+      ></app-registration-number>
     </div>
+    <div class="col-4">
+      <app-engine-number [required]="true"></app-engine-number>
+    </div>
+    <div class="col-4">
+      <app-chasis-number [required]="true"></app-chasis-number>
+    </div>
+    <div class="col-4">
+      <app-registration-date
+        [required]="true"
+        [customRegistrationDate]="'proposal-registration-date'"
+      ></app-registration-date>
+    </div>
+    <div class="col-4">
+      <app-manufacture-date
+        [required]="true"
+        [customManufactureDate]="'proposal-manufacture-date'"
+      ></app-manufacture-date>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Vehicle Color</mat-label>
+        <input
+          matInput
+          placeholder="Enter Vehicle Colour"
+          formControlName="vehicle_colour"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <div class="d-flex">
+        <p class="is-financed mx-1">Is your Vehicle Financed?</p>
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckChecked"
+            checked
+          />
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="col-12">
+        <app-vehicle-registration-address [required]="true"></app-vehicle-registration-address>
+    </div>
+    <div class="col-4">
+        <mat-form-field class="mat-input-custom" appearance="outline">
+            <mat-label class="proposal-header">Pincode</mat-label>
+            <input
+              matInput
+              placeholder="Enter Pincode"
+              aria-label="pincode"
+              #autoCompleteInput
+              [matAutocomplete]="pincodeAuto"
+              formControlName="vehicle_pincode"
+            />
+            <mat-autocomplete #pincodeAuto="matAutocomplete">
+              <mat-option
+                *ngFor="let pincode of filteredPincodeList | async"
+                [value]="pincode.display_name"
+              >
+                <span>{{ pincode.display_name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+    </div>
+    <div class="col-4">
+      <app-owner-city [required]="true" [formControlName]="'vehilce_city'"></app-owner-city>
+    </div>
+    <div class="col-4">
+      <app-owner-state [required]="true" [formControlName]="'vehicle_state'"></app-owner-state>
+    </div>
+    <div class="col-12">
+        <button class="submit-btn owner-vehicle-submission" type="submit">
+          Save & Continue
+        </button>
+      </div>
+  </div>
 </form>

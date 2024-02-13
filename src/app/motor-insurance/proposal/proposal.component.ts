@@ -23,7 +23,14 @@ export class ProposalComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'wait-ckyc-verification-class',
   };
-  constructor(public matDialog: WindowRef) {}
+  isCkycLoaded: boolean = false;
+  showVehicleOwnerDetails: boolean = false;
+  showNomineeDetails: boolean = false;
+  showVehicleDetails: boolean = false;
+  showPreviousPolicyDetails: boolean = false;
+  constructor(public matDialog: WindowRef) { 
+    
+  }
 
   ngOnInit(): void {}
   /**
@@ -62,4 +69,20 @@ export class ProposalComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
+
+  loadCkyc(expansionName:string) {
+    if(expansionName === 'ckyc'){
+      this.isCkycLoaded = true;
+    }else if(expansionName === 'Vehicle Owner Details'){
+      this.showVehicleOwnerDetails = true
+    }else if(expansionName === 'Nominee Details'){
+      this.showNomineeDetails = true
+    }else if(expansionName === 'Vehicle Details'){
+      this.showVehicleDetails = true
+    }else if(expansionName === 'Previous Policy Details'){
+      this.showPreviousPolicyDetails = true
+    }
+  }
+  
+
 }

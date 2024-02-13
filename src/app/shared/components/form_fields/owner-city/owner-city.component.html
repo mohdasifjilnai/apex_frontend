@@ -6,7 +6,7 @@
     aria-label="city"
     #autoCompleteInput
     [matAutocomplete]="cityAuto"
-    formControlName="owner_city"
+    [formControlName]="formControlName"
   />
   <mat-autocomplete #cityAuto="matAutocomplete">
     <mat-option

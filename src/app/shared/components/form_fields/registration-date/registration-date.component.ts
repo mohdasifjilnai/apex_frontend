@@ -18,6 +18,8 @@ import {
 export class RegistrationDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() customRegistrationDate!:string
+  
   constructor(private ctrlContainer: FormGroupDirective) {}
 
   ngOnInit(): void {

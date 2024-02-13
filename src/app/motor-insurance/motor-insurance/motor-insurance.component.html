@@ -19,6 +19,7 @@
             <div class="d-flex justify-content-center">
               <app-registration-number
                 [required]="true"
+                [registrationNumber]="'registration-number'"
               ></app-registration-number>
             </div>
           </div>
@@ -32,11 +33,11 @@
           <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
             <app-registration-year></app-registration-year>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
-            <app-previous-insurer></app-previous-insurer>
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlName]="'previous_insurer'"></app-previous-insurer>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
-            <app-policy-expired-date></app-policy-expired-date>
+          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber">
+            <app-policy-expired-date [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>
           </div>
           <div
             [ngClass]="{

@@ -19,6 +19,7 @@ import {
 export class RegistrationNumberComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() registrationNumber!: string 
 
   constructor(
     private ctrlContainer: FormGroupDirective,

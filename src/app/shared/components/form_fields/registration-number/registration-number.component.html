@@ -1,4 +1,7 @@
-<mat-form-field appearance="outline" class="registration-number">
+<!-- <mat-label class="subHeading"
+  >Registration Number<span *ngIf="isRequired" class="star">*</span></mat-label
+> -->
+<mat-form-field appearance="outline" [class]="registrationNumber">
   <mat-label>Registration Number</mat-label>
   <input
     matInput

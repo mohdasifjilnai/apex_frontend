@@ -18,6 +18,7 @@ import {
 export class ManufactureDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input()customManufactureDate!:string
 
   constructor(private ctrlContainer: FormGroupDirective) {}
 

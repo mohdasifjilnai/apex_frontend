@@ -4,35 +4,39 @@
   </div>
   <div class="col-9">
     <mat-accordion multi="true">
-      <mat-expansion-panel>
+      <mat-expansion-panel (opened)="loadCkyc('ckyc')">
         <mat-expansion-panel-header (click)="openWaitCkycModal($event)">
-          <mat-panel-title > CKYC </mat-panel-title>
+          <mat-panel-title> CKYC </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-ckyc></app-ckyc>
+        <app-ckyc *ngIf="isCkycLoaded"></app-ckyc>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      
+      <mat-expansion-panel (opened)="loadCkyc('Vehicle Owner Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-vehicle-owner-details></app-vehicle-owner-details>
+        <app-vehicle-owner-details *ngIf="showVehicleOwnerDetails"></app-vehicle-owner-details>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      
+      <mat-expansion-panel (opened)="loadCkyc('Nominee Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Nominee Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-nominee-details></app-nominee-details>
+        <app-nominee-details *ngIf="showNomineeDetails"></app-nominee-details>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      
+      <mat-expansion-panel (opened)="loadCkyc('Vehicle Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-proposal-vehicle-details></app-proposal-vehicle-details>
+        <app-proposal-vehicle-details *ngIf="showVehicleDetails"></app-proposal-vehicle-details>
       </mat-expansion-panel>
-      <mat-expansion-panel>
+      
+      <mat-expansion-panel (opened)="loadCkyc('Previous Policy Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Previous Policy Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-previous-policy-details></app-previous-policy-details>
+        <app-previous-policy-details *ngIf="showPreviousPolicyDetails"></app-previous-policy-details>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

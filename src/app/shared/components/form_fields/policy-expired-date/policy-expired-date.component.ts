@@ -18,6 +18,7 @@ import {
 export class PolicyExpiredDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() policyExpiryDate!:string
 
   constructor(private ctrlContainer: FormGroupDirective) {}
 

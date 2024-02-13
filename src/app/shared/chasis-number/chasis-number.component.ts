@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chasis-number',
   templateUrl: './chasis-number.component.html',
-  styleUrls: ['./chasis-number.component.scss']
+  styleUrls: ['./chasis-number.component.scss'],
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective },
+  ],
 })
 export class ChasisNumberComponent implements OnInit {
   chassisForm!: FormGroup;

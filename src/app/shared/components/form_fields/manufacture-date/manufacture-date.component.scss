@@ -1,7 +1,14 @@
 .manufacture-date {
   ::ng-deep {
     .mat-form-field-infix {
-      width: 260px !important;
+      width: 265px !important;
+    }
+  }
+}
+.proposal-manufacture-date {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 315px !important;
     }
   }
 }

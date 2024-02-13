@@ -6,7 +6,7 @@
     aria-label="state"
     #autoCompleteInput
     [matAutocomplete]="stateAuto"
-    formControlName="owner_state"
+    [formControlName]="formControlName"
   />
   <mat-autocomplete #stateAuto="matAutocomplete">
     <mat-option

@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 export class OwnerStateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() formControlName: any;
   filteredStateList!: Observable<any[]>;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;

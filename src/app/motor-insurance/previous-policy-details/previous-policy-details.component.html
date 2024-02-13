@@ -1,1 +1,109 @@
-<p>previous-policy-details works!</p>
+<form [formGroup]="previousPolicyDetailsForm">
+  <div class="row mt-3">
+    <div class="col-4">
+      <app-previous-insurer
+        [previousInsurer]="'proposal-previous-insurer'"
+        [required]="true"
+      ></app-previous-insurer>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Previous Policy</mat-label>
+        <input
+          matInput
+          placeholder="Enter Previous Policy Number"
+          formControlName="prev_policy_number"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <app-policy-expired-date
+        [policyExpiryDate]="'proposal-expiry-date'"
+        [required]="true"
+      ></app-policy-expired-date>
+    </div>
+    <hr />
+    <div class="col-12">
+      <label>PA Exclusion Details</label>
+    </div>
+    <div class="col-4 mt-1">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label class="proposal-header">Select Opt-Out Reason</mat-label>
+        <mat-select formControlName="opt_out_reason">
+          <mat-option *ngFor="let opt of optReasonList" [value]="opt?.id">
+            {{ opt?.optReasonName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label class="proposal-header"
+          >Select CPA Insurance Company</mat-label
+        >
+        <mat-select formControlName="cpa_insurance_company">
+          <mat-option *ngFor="let opt of optReasonList" [value]="opt?.id">
+            {{ opt?.optReasonName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="cpa-date">
+        <mat-label>Select CPA Policy Start Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="cpaPolicyStartDate"
+          placeholder="Manufacture Date"
+          formControlName="cpa_policy_start_date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="cpaPolicyStartDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #cpaPolicyStartDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="cpa-date">
+        <mat-label>Select CPA Policy End Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="cpaPolicyEndDate"
+          placeholder="Manufacture Date"
+          formControlName="cpa_policy_end_date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="cpaPolicyEndDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #cpaPolicyEndDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Enter CPA Policy Number</mat-label>
+        <input
+          matInput
+          placeholder="Enter Previous Policy Number"
+          formControlName="cpa_policy_number"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Enter CPA Sum Insured</mat-label>
+        <input
+          matInput
+          placeholder="Enter Previous Policy Number"
+          formControlName="cpa_sum_insured"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <button class="submit-btn previous-vehicle-submission" type="submit">
+        Confirm & Review
+      </button>
+    </div>
+  </div>
+</form>

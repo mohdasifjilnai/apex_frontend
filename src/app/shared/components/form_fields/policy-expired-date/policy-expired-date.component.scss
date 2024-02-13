@@ -5,6 +5,13 @@
     }
   }
 }
+.proposal-expiry-date {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 315px !important;
+    }
+  }
+}
 ::ng-deep .mat-datepicker-actions {
   justify-content: center !important;
 }
