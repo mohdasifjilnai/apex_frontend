@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -35,6 +35,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatBottomSheetModule, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
+import {MatDialogRef} from '@angular/material/dialog';
+
 
 let matModuleArray=[
   CommonModule,
@@ -87,6 +89,11 @@ let matModuleArray=[
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 5000, verticalPosition: 'top' },
     },
+    {
+      provide: MAT_DIALOG_DATA, useValue: {}
+      
+    },
+    {provide: MatDialogRef,useValue:{}}
   ],
 })
 export class MaterialModule {}

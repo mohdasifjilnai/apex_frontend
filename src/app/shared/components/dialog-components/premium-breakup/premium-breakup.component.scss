@@ -5,24 +5,20 @@
     border-radius: 4px;
   }
   .premium-brealup-header {
-    position: relative;
-    left: 163px;
-    bottom: 60px;
+    // position: relative;
+    // left: 163px;
+    // bottom: 60px;
   }
   .cover-text {
-    width: 100px;
     font-size: 12px;
     color: #282828;
-    opacity: 58%;
+    opacity: 50%;
   }
   .cover-amount {
-    width: 100px;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
     color: #282828;
-    position: relative;
-    top: -10px;
-    left: 16px;
+    line-height: 19.4%;
   }
   .own-damage-text,
   .own-damage-amount {
@@ -67,5 +63,41 @@
     position: relative;
     bottom: -2px;
     left: 6px;
+  }
+  .cross-btn {
+    display: none;
+  }
+  .share-download-btn {
+    display: block;
+  }
+  .share-download-btn-res {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .premium-brealdown-res {
+    display: block;
+  }
+  .premium-breakup-main-dialog {
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    .cross-btn {
+      display: block;
+    }
+    .share-download-btn {
+      display: none;
+    }
+    .share-download-btn-res {
+      display: block;
+      ::ng-deep .mat-button {
+        width: 100%;
+        border-radius: 12px;
+      }
+      .share-icon {
+        width: 20px;
+        height: 18px;
+      }
+    }
   }
 }

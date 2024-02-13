@@ -130,16 +130,20 @@ export class QuotesListingComponent implements OnInit {
   /**
    * Open premium breakup modal
    */
-  openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent) {
-    this.openModal(initiateQuotes,this.initiateQuotesJSON);
+  openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent): void {
+    // this.openPremiumBreakup(initiateQuotes);
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: initiateQuotes, // Pass your data here
+    };
+    if (window.innerWidth <= 768) {
+      this.bottomSheet.open(PremiumBreakupComponent);
+    } else {
+      this.openModal(initiateQuotes,this.initiateQuotesJSON);
+    }
   }
-  /**
-   * share qoutes open pop up modal function
-   */ 
 
   shareQuotesOpen(shareData:any,jsonData:any){
     this.openModal(shareData,jsonData)
-
   }
 
 
@@ -153,7 +157,7 @@ export class QuotesListingComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '75%';
+      resWidth = '100%';
       resTop = '5%';
     }
 

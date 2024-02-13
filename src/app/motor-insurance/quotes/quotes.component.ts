@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-quotes',
@@ -25,12 +26,17 @@ export class QuotesComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
-  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService) {}
+  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService,public bottomSheet: MatBottomSheet) {}
 
   ngOnInit(): void {
     this.withoutVehicleNumber=localStorage.getItem('withoutVehicleNumber')
     if(this.withoutVehicleNumber=='false'){
-      this.openVehicleDetailsPopup(null);
+      if (window.innerWidth <= 768) {
+        this.bottomSheet.open(VehicleDetailsPopupComponent);
+      } else {
+        this.openVehicleDetailsPopup(null);
+      }
+      
     }
   }
    /**

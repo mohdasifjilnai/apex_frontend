@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
@@ -28,13 +29,19 @@ export class VehicleDetailsCardComponent implements OnInit {
   viewText:string='More'
   constructor(
     private matDialog: WindowRef,
-    private sharedData: SharedDataService
+    private sharedData: SharedDataService,
+    public bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {}
 
   openDialog(edit: string): void {
-    this.openVehicleDetailsPopup(null)
+    if (window.innerWidth <= 768) {
+      this.bottomSheet.open(VehicleDetailsPopupComponent);
+    } else {
+      this.openVehicleDetailsPopup(null)
+    }
+    
     this.sharedData.sendVehicleEditData(edit);
   }
   /**

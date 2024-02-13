@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
@@ -67,7 +68,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private FormBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>,
   ) {
     /**
      * Initialize the form using FormBuilder
@@ -158,11 +160,21 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   onClose(): void {
-    this.dialogRef.close();
+    
+    if (window.innerWidth <= 768) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
   }
 
   updateVehicleDetail() {
-    this.dialogRef.close();
+    if (window.innerWidth <= 768) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
+    
   }
 
   getVehicleMMVPopup(name: any) {

@@ -1,5 +1,5 @@
-<form [formGroup]="vehicleDetailsForm">
-  <div>
+<form [formGroup]="vehicleDetailsForm" class="edit-vehicle-details">
+  <div >
     <!-- Dialog title -->
     <h1 mat-dialog-title>
       <div class="vehicle-details-popup-header d-flex justify-content-between">
@@ -18,12 +18,13 @@
           (click)="onClose()"
         />
       </div>
+      <hr>
     </h1>
     <!-- Dialog content -->
     <div mat-dialog-content>
-      <div class="row">
+      <div class="row vehicle-details-form">
         <!-- Make/Model dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Make/Model</mat-label>
             <input
@@ -60,7 +61,7 @@
           </mat-form-field>
         </div>
         <!-- variant dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Variant</mat-label>
 
@@ -97,7 +98,7 @@
           </mat-form-field>
         </div>
         <!-- vehicle fuel dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Fuel</mat-label>
             <mat-select formControlName="vehicle_fuel">
@@ -108,7 +109,7 @@
           </mat-form-field>
         </div>
         <!-- Registration City dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Registration City</mat-label>
 
@@ -145,15 +146,15 @@
           </mat-form-field>
         </div>
         <!-- Registration Date -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <app-registration-date [customRegistrationDate]="'registration-date'"></app-registration-date>
         </div>
         <!-- Manufacture Date  -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <app-manufacture-date [customManufactureDate]="'manufacture-date'"></app-manufacture-date>
         </div>
         <!-- Used Car/ RC Transfer dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Used Car/ RC Transfer</mat-label>
             <mat-select formControlName="user_car">
@@ -164,7 +165,7 @@
           </mat-form-field>
         </div>
         <!-- Type of Expiring Policy dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Type of Expiring Policy</mat-label>
             <mat-select formControlName="policy_expiry">
@@ -178,15 +179,15 @@
           </mat-form-field>
         </div>
         <!-- Expiry -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <app-policy-expired-date [required]="true" [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>
         </div>
         <!-- Previous Insurer dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <app-previous-insurer [required]="true" [previousInsurer]="'previous-insurer'"></app-previous-insurer>
         </div>
         <!-- Is Previous Policy Claimed dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Is Previous Policy Claimed?</mat-label>
             <mat-select formControlName="previous_claimed">
@@ -200,7 +201,7 @@
           </mat-form-field>
         </div>
         <!-- Previous Year NCB Discount dropdown -->
-        <div class="col-6">
+        <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Previous Year NCB Discount</mat-label>
             <mat-select formControlName="ncb_discount">
@@ -211,11 +212,12 @@
           </mat-form-field>
         </div>
       </div>
+      
     </div>
-    <div mat-dialog-actions>
-      <div class="col-12 mb-4">
-        <button
-          class="submit-btn vehicle-submission"
+    <div  >
+      <div class="row ">
+        <button mat-button
+          class="submit-btn mb-4 vehicle-submission col-12"
           type="submit"
           (click)="updateVehicleDetail()"
         >

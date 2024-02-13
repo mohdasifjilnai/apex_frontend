@@ -142,6 +142,13 @@ th.mat-header-cell:last-of-type {
   .addition-row {
     padding: 0px 5px !important;
   }
+  .initiate-quotes-class {
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+    width: 0% !important;
+    max-width: 0% !important;
+    min-width: 0% !important;
+  }
 }
 
 .submit-btn {
@@ -176,7 +183,7 @@ th.mat-header-cell:last-of-type {
 
 /* Set top-left and bottom-left corner radius */
 .mat-form-field-appearance-outline .mat-form-field-outline-start {
-  border-radius: 50px 0 0 50px !important;
+  border-radius: 15px 0 0 15px !important;
   min-width: 15px !important;
 }
 /* Set top-right and bottom-right corner radius */
@@ -398,11 +405,12 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 }
 // this class use for premium breakup pop up modal
 .initiate-quotes-class {
-  margin-left: 630px !important;
-  margin-top: 380px !important;
-  width: 0% !important;
-  max-width: 0% !important;
-  min-width: 0% !important;
+  // margin-left: 630px !important;
+  // margin-top: 380px !important;
+  // width: 0% !important;
+  // max-width: 0% !important;
+  // min-width: 0% !important;
+
   .mat-dialog-container {
     border-radius: 16px !important;
     overflow: unset !important;
@@ -412,6 +420,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
+
 .vehicle-details-class {
   margin-left: 30% !important;
   .mat-dialog-container {
@@ -488,4 +497,8 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     display: flex !important;
   }
   
+}
+.disabled-btn:hover {
+  background: #d6d6d6;
+  border: 1px solid #d6d6d6;
 }

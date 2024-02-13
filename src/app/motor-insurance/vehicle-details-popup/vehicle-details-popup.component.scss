@@ -1,17 +1,49 @@
-.vehicle-submission {
-  width: 300px;
-  height: 48px;
-  font-size: 14px;
-  font-weight: 600;
-}
-.vehicle-details-popup-header {
-  font-size: 16px;
-  font-weight: 600;
-}
-.vehicle-details-dropdown {
-  ::ng-deep {
-    .mat-form-field-infix {
-      width: 300px !important;
+
+ .edit-vehicle-details{
+  overflow-x: hidden;
+  .vehicle-submission {
+    width: 300px;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    bottom: 10px;
+  }
+  .vehicle-details-popup-header {
+    padding: 15px 15px 0 15px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .vehicle-details-dropdown {
+    ::ng-deep {
+      .mat-form-field-infix {
+        width: 300px !important;
+      }
     }
   }
+ }
+
+@media screen and (max-width: 768px) {
+  .edit-vehicle-details{
+
+    .vehicle-details-form{
+      padding: 0px 15px 15px 15px;
+      ::ng-deep .mat-form-field{
+        width: 100% !important;
+      }
+      ::ng-deep .mat-button{
+        width: 100%;
+       
+      }
+      
+    }
+    .submit-btn{
+      width: 90%;
+      margin: auto;
+      border-radius: 12px;
+      background-color: linear-gradient(90deg, #FFB171 100%, #FF943D 10%);
+    }
+  }
+  
 }
+
