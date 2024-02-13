@@ -5,4 +5,10 @@
     placeholder="Enter Registration Number (DL-01-AB-1234)"
     formControlName="registration_number"
   />
+  <mat-error
+    *ngIf="form.controls['registration_number']?.hasError('required')"
+    class="ms-4"
+  >
+    This is a required field.
+  </mat-error>
 </mat-form-field>

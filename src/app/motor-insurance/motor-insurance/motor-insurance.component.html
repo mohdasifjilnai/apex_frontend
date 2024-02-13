@@ -11,7 +11,7 @@
         </span>
       </div>
       <form [formGroup]="motorInsurance">
-        <div >
+        <div>
           <app-vehicle-type></app-vehicle-type>
         </div>
         <div class="row mt-4">
@@ -27,7 +27,7 @@
             <app-vehicle [required]="true"></app-vehicle>
           </div>
           <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
-            <app-rto ></app-rto>
+            <app-rto></app-rto>
           </div>
           <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber">
             <app-registration-year></app-registration-year>
@@ -47,8 +47,8 @@
           >
             <button
               [ngClass]="{
-                'me-2': withoutVehicleNumber,
-                'disabled-btn': motorInsurance.invalid
+                'me-3': withoutVehicleNumber,
+                'disabled-btn mb-2': motorInsurance.invalid
               }"
               class="submit-btn vehicle-submission"
               type="submit"

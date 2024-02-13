@@ -7,7 +7,8 @@ import { PremiumBreakupComponent } from '../../shared/components/dialog-componen
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
-  MatBottomSheet, MatBottomSheetConfig,
+  MatBottomSheet,
+  MatBottomSheetConfig,
 } from '@angular/material/bottom-sheet';
 
 import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
@@ -85,12 +86,11 @@ export class QuotesListingComponent implements OnInit {
   openAddons(): void {
     this.bottomSheet.open(AddOnsComponent);
   }
-  openSort(dropdownType:any): void {
-    console.log(dropdownType)
+  openSort(dropdownType: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: dropdownType, // Pass your data here
     };
-    this.bottomSheet.open(QuotesDropdownComponent,bottomSheetConfig);
+    this.bottomSheet.open(QuotesDropdownComponent, bottomSheetConfig);
   }
   /**
    * get initiate quotes list
