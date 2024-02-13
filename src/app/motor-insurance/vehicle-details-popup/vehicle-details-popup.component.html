@@ -33,7 +33,7 @@
               aria-label="vehicle_model"
               #autoCompleteInput
               [matAutocomplete]="autoMakeModel"
-              [formControl]="vehicle_model"
+              formControlName="vehicle_model"
             />
             <mat-autocomplete
               #autoMakeModel="matAutocomplete"
@@ -71,7 +71,7 @@
               (ngModelChange)="vehcileVariant($event)"
               #autoCompleteInput
               [matAutocomplete]="autoVariant"
-              [formControl]="vehicle_variant"
+              formControlName="vehicle_variant"
             />
             <mat-autocomplete
               #autoVariant="matAutocomplete"
@@ -119,7 +119,7 @@
               aria-label="registration_city"
               #autoCompleteInput
               [matAutocomplete]="autoRegistrationCity"
-              [formControl]="registration_city"
+              formControlName="registration_city"
             />
             <mat-autocomplete
               #autoRegistrationCity="matAutocomplete"
@@ -217,7 +217,7 @@
         <button
           class="submit-btn vehicle-submission"
           type="submit"
-          (click)="onClose()"
+          (click)="updateVehicleDetail()"
         >
           {{ editVehicleDetails ? "Above details are correct" : "Save" }}
         </button>

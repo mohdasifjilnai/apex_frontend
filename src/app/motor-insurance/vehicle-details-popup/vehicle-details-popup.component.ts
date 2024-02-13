@@ -35,9 +35,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
   mmvList: any;
   rtoList: any;
   fuelData: any;
-  vehicle_model = new FormControl();
-  vehicle_variant = new FormControl();
-  registration_city = new FormControl();
   mmDataNotAvailable = '';
   mmId: any;
   variantDataNotAvailable = '';
@@ -143,8 +140,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   changeRegNumber: any;
   registrationNumber: any;
   ngOnInit(): void {
-    this.vehicleTypeValue = localStorage.getItem('vehicleType')
-    
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
     });
@@ -153,7 +150,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getVehicleMMVPopup('');
       this.getRTOData();
     }, 2000);
-    
+
     let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
       this.sharedDataService.vehicleDetails();
@@ -161,6 +158,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   onClose(): void {
+    this.dialogRef.close();
+  }
+
+  updateVehicleDetail() {
     this.dialogRef.close();
   }
 
@@ -196,7 +197,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           });
 
           if (res.length > 0) {
-            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+              'vehicle_model'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -204,7 +207,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
               })
             );
             this.mmDataNotAvailable = '';
-            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+              'vehicle_variant'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -215,7 +220,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           } else {
             this.mmDataNotAvailable = res.message;
             this.variantDataNotAvailable = res.message;
-            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+              'vehicle_model'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -223,7 +230,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
               })
             );
 
-            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+              'vehicle_variant'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -253,7 +262,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+              'vehicle_model'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -264,7 +275,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           } else {
             this.mmDataNotAvailable = res.message;
 
-            this.filteredPopupMMV = this.vehicle_model.valueChanges.pipe(
+            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+              'vehicle_model'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -293,7 +306,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
            * when input field value changes than valueChanges is used
            */
           if (res.length > 0) {
-            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+              'vehicle_variant'
+            ].valueChanges.pipe(
               startWith(''),
               map((name) => {
                 return name ? this.filterVariantPopup(name) : this.variantList;
@@ -303,7 +318,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.variantDataNotAvailable = '';
           } else {
             this.variantDataNotAvailable = res.message;
-            this.filteredPopupVariant = this.vehicle_variant.valueChanges.pipe(
+            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+              'vehicle_variant'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -326,7 +343,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
            */
           if (res.length > 0) {
             this.rtoDataNotAvailable = '';
-            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+            this.filteredRtoList = this.vehicleDetailsForm.controls[
+              'registration_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -337,12 +356,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
               if (
                 this.rtoList[i].rb_rto_code == this.registrationNumber.rto_code
               ) {
-                this.registration_city.patchValue(this.rtoList[i]);
+                this.vehicleDetailsForm.patchValue({
+                  registration_city: this.rtoList[i],
+                });
               }
             }
           } else {
             this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+            this.filteredRtoList = this.vehicleDetailsForm.controls[
+              'registration_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -372,7 +395,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
            */
           if (res.length > 0) {
             this.rtoDataNotAvailable = '';
-            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+            this.filteredRtoList = this.vehicleDetailsForm.controls[
+              'registration_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {
@@ -381,7 +406,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
           } else {
             this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.registration_city.valueChanges.pipe(
+            this.filteredRtoList = this.vehicleDetailsForm.controls[
+              'registration_city'
+            ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
               map((name) => {

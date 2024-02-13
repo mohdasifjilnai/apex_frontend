@@ -34,7 +34,7 @@ export class SharedDataService {
   selectedVehicleType(data: any) {
     this.getSelectedVehicleType.next(data);
   }
-  
+
   /**
    * registration number base api
    */
@@ -48,8 +48,25 @@ export class SharedDataService {
       .subscribe((res: any) => {
         if (res) {
           this.regNumberData.next(res);
+          this.getQuotationListing(res);
           this.router.navigate(['/motor/quotes']);
         }
       });
+  }
+
+  getQuotationListing(data: any) {
+    let quotesData = {
+      transaction_id: data,
+      rb_mmv_id: data,
+      rb_rto_code: data.rto_code,
+      registration_month: data,
+      registration_year: data,
+      previous_insurer_code: data.prev_insurer,
+      previous_policy_exp_date: data,
+      previous_year_ncb: data,
+      is_ownership_transfer: data,
+      is_claimed: data,
+      selected_addons: data,
+    };
   }
 }
