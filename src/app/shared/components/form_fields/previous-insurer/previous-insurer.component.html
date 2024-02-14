@@ -30,4 +30,10 @@
       </mat-option>
     </span>
   </mat-autocomplete>
+  <mat-error
+    *ngIf="form.controls['previous_insurer']?.hasError('required')"
+    class="ms-4"
+  >
+    This is a required field.
+  </mat-error>
 </mat-form-field>

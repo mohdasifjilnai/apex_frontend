@@ -14,6 +14,24 @@
           placeholder="Enter Previous Policy Number"
           formControlName="prev_policy_number"
         />
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm.controls['prev_policy_number']?.hasError(
+              'required'
+            )
+          "
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm
+              .get('prev_policy_number')
+              ?.hasError('pattern')
+          "
+        >
+          Invalid Policy Number
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">
@@ -82,20 +100,38 @@
     </div>
     <div class="col-4">
       <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>Enter CPA Policy Number</mat-label>
+        <mat-label>CPA Policy Number</mat-label>
         <input
           matInput
-          placeholder="Enter Previous Policy Number"
+          placeholder="Enter CPA Policy Number"
           formControlName="cpa_policy_number"
         />
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm.controls['cpa_policy_number']?.hasError(
+              'required'
+            )
+          "
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm
+              .get('cpa_policy_number')
+              ?.hasError('pattern')
+          "
+        >
+          Invalid Entries
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>Enter CPA Sum Insured</mat-label>
+        <mat-label>CPA Sum Insured</mat-label>
         <input
           matInput
-          placeholder="Enter Previous Policy Number"
+          placeholder="Enter CPA Sum Insured"
           formControlName="cpa_sum_insured"
         />
       </mat-form-field>

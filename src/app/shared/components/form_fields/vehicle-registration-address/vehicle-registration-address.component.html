@@ -7,4 +7,24 @@
     placeholder="Enter Address"
     formControlName="vehicle_registration_addres"
   />
+  <mat-error
+    *ngIf="
+      vehilceRegistrationForm.controls['vehicle_registration_addres']?.hasError(
+        'required'
+      )
+    "
+    class="ms-4"
+  >
+    Invalid Address
+  </mat-error>
+  <mat-error
+    *ngIf="
+      vehilceRegistrationForm.controls['vehicle_registration_addres']?.hasError(
+        'pattern'
+      )
+    "
+    class="ms-4"
+  >
+    Invalid Address
+  </mat-error>
 </mat-form-field>

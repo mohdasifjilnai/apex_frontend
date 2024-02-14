@@ -10,12 +10,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   optReasonList: any;
 
   previousPolicyDetailsForm: FormGroup = new FormGroup({
-    prev_policy_number: new FormControl('', Validators.required),
+    prev_policy_number: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9]+$/)]),
     opt_out_reason: new FormControl('', Validators.required),
     cpa_insurance_company: new FormControl('', Validators.required),
     cpa_policy_start_date: new FormControl('', Validators.required),
     cpa_policy_end_date: new FormControl('', Validators.required),
-    cpa_policy_number: new FormControl('', Validators.required),
+    cpa_policy_number: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9]+$/)]),
     cpa_sum_insured: new FormControl('', Validators.required),
     previous_insurer: new FormControl('', Validators.required),
   });

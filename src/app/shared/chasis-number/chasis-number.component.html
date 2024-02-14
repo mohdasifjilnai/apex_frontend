@@ -1,9 +1,29 @@
 <mat-form-field appearance="outline" class="mat-input-custom">
-    <mat-label>Chassis Number</mat-label>
-    <input
-      matInput
-      placeholder="Enter Registration Number (DL-01-AB-1234)"
-      formControlName="chassis_number"
-    />
-  </mat-form-field>
-  
+  <mat-label>Chassis Number</mat-label>
+  <input
+    matInput
+    placeholder="Enter Registration Number (DL-01-AB-1234)"
+    formControlName="chassis_number"
+  />
+  <mat-error
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('required')"
+    class="ms-4"
+  >
+    This is a required field.
+  </mat-error>
+  <mat-error
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('pattern')"
+  >
+    Invalid Entries
+  </mat-error>
+  <mat-error
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
+  >
+    Exceeded max limit
+  </mat-error>
+  <mat-error
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('minlength')"
+  >
+    Cannot be less than 17 Characters
+  </mat-error>
+</mat-form-field>

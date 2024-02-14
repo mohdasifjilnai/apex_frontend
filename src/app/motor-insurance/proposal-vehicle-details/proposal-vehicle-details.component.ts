@@ -1,31 +1,67 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-proposal-vehicle-details',
   templateUrl: './proposal-vehicle-details.component.html',
-  styleUrls: ['./proposal-vehicle-details.component.scss']
+  styleUrls: ['./proposal-vehicle-details.component.scss'],
 })
 export class ProposalVehicleDetailsComponent implements OnInit {
   filteredPincodeList!: Observable<any[]>;
+  agreementList: any;
+  filteredFinancierList!: any;
+  financerList: any;
 
-  proposalVehilceDetailsForm:FormGroup = new FormGroup({
-    registration_number: new FormControl('',Validators.required),
-    vehicle_colour: new FormControl('',Validators.required),
-    engine_number: new FormControl('',Validators.required),
-    chassis_number: new FormControl('',Validators.required),
-    registration_date: new FormControl('',Validators.required),
-    manufacture_date: new FormControl('',Validators.required),
-    vehicle_pincode: new FormControl('',Validators.required),
-    vehilce_city:new FormControl('',Validators.required),
-    vehicle_state: new FormControl('',Validators.required),
-    previous_insurer: new FormControl('',Validators.required)
-  })
+  proposalVehilceDetailsForm: FormGroup = new FormGroup({
+    registration_number: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        /^([A-Z]{2}-\d{2}-[A-Z0-9]{2}-\d{4}|[A-Z]{2}-\d{2}-\d{4}|[A-Z]{2}-\d{2}-[A-Z]{3}-\d{4}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{1,2}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{2})$/
+      ),
+    ]),
+    vehicle_colour: new FormControl('', Validators.required),
+    engine_number: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]+$/),
+    ]),
+    chassis_number: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
+      ),
+      Validators.minLength(17),
+      Validators.maxLength(25),
+    ]),
+    registration_date: new FormControl('', Validators.required),
+    manufacture_date: new FormControl('', Validators.required),
+    vehicle_pincode: new FormControl('', Validators.required),
+    vehilce_city: new FormControl('', Validators.required),
+    vehicle_state: new FormControl('', Validators.required),
+    previous_insurer: new FormControl('', Validators.required),
+    financer: new FormControl('', Validators.required),
+  });
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private apiservice: ApiService) {
+    this.agreementList = [
+      {
+        id: 1,
+        agreementName: '',
+      },
+    ];
+    this.financerList = [
+      {
+        id: 1,
+        financerName: '',
+      },
+    ];
   }
 
+  ngOnInit(): void {}
+
+  filterInsurer(name: string) {}
+
+  proposalFinancierBlankData(data: any) {}
 }

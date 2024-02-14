@@ -29,6 +29,26 @@
           placeholder="Enter GSTIN"
           formControlName="owner_gstin"
         />
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['owner_gstin']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['owner_gstin']?.hasError(
+              'pattern'
+            )
+          "
+          class="ms-4"
+        >
+          Invalid GSTIN
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">
@@ -38,6 +58,26 @@
           placeholder="Enter Additional Contact Number"
           formControlName="additional_contact"
         />
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['additional_contact']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['additional_contact']?.hasError(
+              'pattern'
+            )
+          "
+          class="ms-4"
+        >
+          Invalid Additional Contact
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">
@@ -86,6 +126,38 @@
             <span>{{ pincode.display_name }}</span>
           </mat-option>
         </mat-autocomplete>
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['owner_pincode']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['owner_pincode']?.hasError(
+              'pattern'
+            )
+          "
+          class="ms-4"
+        >
+          Invalid Additional Contact
+        </mat-error>
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['owner_pincode'].hasError(
+              'minlength'
+            ) ||
+            owenerVehicleDetailsForm.controls['owner_pincode'].hasError(
+              'maxlength'
+            )
+          "
+        >
+          Pincode must be 6 digits long.
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">

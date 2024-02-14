@@ -8,3 +8,10 @@
   font-size: 14px;
   font-weight: 600;
 }
+.financier {
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 300px !important;
+    }
+  }
+}

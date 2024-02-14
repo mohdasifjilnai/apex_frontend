@@ -5,4 +5,16 @@
     placeholder="Enter Contact Number"
     formControlName="contact_number"
   />
+  <mat-error
+    *ngIf="form.controls['contact_number']?.hasError('required')"
+    class="ms-4"
+  >
+    This is a required field.
+  </mat-error>
+  <mat-error
+    *ngIf="form.controls['contact_number']?.hasError('pattern')"
+    class="ms-4"
+  >
+    Invalid Contact Number
+  </mat-error>
 </mat-form-field>

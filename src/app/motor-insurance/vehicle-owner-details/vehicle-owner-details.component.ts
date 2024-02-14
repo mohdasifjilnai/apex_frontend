@@ -16,16 +16,45 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   autocomplete!: MatAutocompleteTrigger;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
-    owner_full_Name: new FormControl('', Validators.required),
-    owner_email: new FormControl('', Validators.required),
-    contact_number: new FormControl('', Validators.required),
-    owner_gstin: new FormControl('', Validators.required),
-    additional_contact: new FormControl('', Validators.required),
-    owner_pincode: new FormControl('', Validators.required),
+    owner_full_Name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z\s]*$/),
+    ]),
+    owner_email: new FormControl('', [
+      Validators.required,
+      Validators.pattern('/^.+@.+..+.com$/'),
+    ]),
+    contact_number: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$'),
+      Validators.minLength(10),
+      Validators.maxLength(10),
+    ]),
+    owner_gstin: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')
+      ),
+    ]),
+    additional_contact: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$'),
+      Validators.minLength(10),
+      Validators.maxLength(10),
+    ]),
+    owner_pincode: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$'),
+      Validators.minLength(6),
+      Validators.maxLength(6),
+    ]),
     owner_city: new FormControl('', Validators.required),
     owner_state: new FormControl('', Validators.required),
     ownner_occupation_type: new FormControl('', Validators.required),
-    owner_communication_addres: new FormControl('', Validators.required),
+    owner_communication_addres: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]+$/),
+    ]),
   });
 
   constructor() {

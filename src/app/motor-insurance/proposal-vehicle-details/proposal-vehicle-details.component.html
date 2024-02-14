@@ -32,6 +32,16 @@
           placeholder="Enter Vehicle Colour"
           formControlName="vehicle_colour"
         />
+        <mat-error
+          *ngIf="
+            proposalVehilceDetailsForm.controls['vehicle_colour']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-12">
@@ -47,42 +57,148 @@
           />
         </div>
       </div>
-      <hr>
-    </div>
-    <div class="col-12">
-        <app-vehicle-registration-address [required]="true"></app-vehicle-registration-address>
-    </div>
-    <div class="col-4">
-        <mat-form-field class="mat-input-custom" appearance="outline">
-            <mat-label class="proposal-header">Pincode</mat-label>
-            <input
-              matInput
-              placeholder="Enter Pincode"
-              aria-label="pincode"
-              #autoCompleteInput
-              [matAutocomplete]="pincodeAuto"
-              formControlName="vehicle_pincode"
-            />
-            <mat-autocomplete #pincodeAuto="matAutocomplete">
-              <mat-option
-                *ngFor="let pincode of filteredPincodeList | async"
-                [value]="pincode.display_name"
-              >
-                <span>{{ pincode.display_name }}</span>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-    </div>
-    <div class="col-4">
-      <app-owner-city [required]="true" [formControlName]="'vehilce_city'"></app-owner-city>
-    </div>
-    <div class="col-4">
-      <app-owner-state [required]="true" [formControlName]="'vehicle_state'"></app-owner-state>
-    </div>
-    <div class="col-12">
-        <button class="submit-btn owner-vehicle-submission" type="submit">
-          Save & Continue
-        </button>
+      <hr />
+      <div class="col-12">
+        <label>Financer Details</label>
       </div>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="mat-input-custom" appearance="outline">
+        <mat-label>Select Financer</mat-label>
+        <input
+          matInput
+          placeholder="Search Financer"
+          (ngModelChange)="proposalFinancierBlankData($event)"
+          aria-label="financer"
+          #autoCompleteInput
+          [matAutocomplete]="autoFinancier"
+          formControlName="financer"
+        />
+        <mat-autocomplete #autoFinancier="matAutocomplete">
+          <span>
+            <mat-option
+              *ngFor="let financier of filteredFinancierList | async"
+              [value]="financier"
+            >
+              <span>{{ financier.rb_financier_name }}</span>
+            </mat-option>
+          </span>
+          <span>
+            <mat-option
+              *ngFor="let financier of filteredFinancierList | async"
+              [value]="financier"
+            >
+              <span>{{ financier }}</span>
+            </mat-option>
+          </span>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="
+            proposalVehilceDetailsForm.controls['financer']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label class="proposal-header">Agreement Type</mat-label>
+        <mat-select formControlName="agreement_type">
+          <mat-option
+            *ngFor="let agreement of agreementList"
+            [value]="agreement?.id"
+          >
+            {{ agreement?.agreementName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label class="proposal-header">Financer City/Branch</mat-label>
+        <mat-select formControlName="financer_city">
+          <mat-option
+            *ngFor="let financer of financerList"
+            [value]="financer?.id"
+          >
+            {{ financer?.financerName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <div class="d-flex">
+        <p class="is-financed mx-1">
+          Is your Vehicle Registration address same as Communication Address?
+        </p>
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckChecked"
+            checked
+          />
+        </div>
+      </div>
+      <hr />
+    </div>
+    <div class="col-12">
+      <app-vehicle-registration-address
+        [required]="true"
+      ></app-vehicle-registration-address>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="mat-input-custom" appearance="outline">
+        <mat-label class="proposal-header">Pincode</mat-label>
+        <input
+          matInput
+          placeholder="Enter Pincode"
+          aria-label="pincode"
+          #autoCompleteInput
+          [matAutocomplete]="pincodeAuto"
+          formControlName="vehicle_pincode"
+        />
+        <mat-error
+          *ngIf="
+            proposalVehilceDetailsForm.controls['vehicle_pincode']?.hasError(
+              'required'
+            )
+          "
+          class="ms-4"
+        >
+          This is a required field.
+        </mat-error>
+        <mat-autocomplete #pincodeAuto="matAutocomplete">
+          <mat-option
+            *ngFor="let pincode of filteredPincodeList | async"
+            [value]="pincode.display_name"
+          >
+            <span>{{ pincode.display_name }}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <app-owner-city
+        [required]="true"
+        [formControlName]="'vehilce_city'"
+      ></app-owner-city>
+    </div>
+    <div class="col-4">
+      <app-owner-state
+        [required]="true"
+        [formControlName]="'vehicle_state'"
+      ></app-owner-state>
+    </div>
+    <div class="col-12">
+      <button class="submit-btn owner-vehicle-submission" type="submit">
+        Save & Continue
+      </button>
+    </div>
   </div>
 </form>

@@ -11,4 +11,10 @@
     [for]="manufactureDate"
   ></mat-datepicker-toggle>
   <mat-datepicker #manufactureDate></mat-datepicker>
+  <mat-error
+    *ngIf="form.controls['manufacture_date']?.hasError('required')"
+    class="ms-4"
+  >
+    This is a required field.
+  </mat-error>
 </mat-form-field>
