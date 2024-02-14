@@ -19,7 +19,7 @@ export class SseService {
         console.log('EventSource failed.', ev);
       };
      
-      eventSource.addEventListener('premium', event => {
+      eventSource.addEventListener('quotes', event => {
         this.zone.run(() => {
           observer.next(event);
         });

@@ -24,6 +24,7 @@ export class SharedDataService {
   ownershipTransfer = false;
   claimedData = false;
   allQuotes: any;
+  quotesValue: any;
 
   constructor(
     private apiService: ApiService,
@@ -77,32 +78,19 @@ export class SharedDataService {
     let registrationYear = registrationValue.getFullYear();
 
     let quotesData = {
-      // customer_type: this.customerType,
-      // vehicle_type: "four_wheeler",
-      // rb_mmv_id: 1219,
-      // rb_rto_code: data.rto_code,
-      // registration_month: registrationMonth,
-      // registration_year: registrationYear,
-      // previous_insurer_code: '',
-      // previous_policy_exp_date: data.policy_expire_date,
-      // previous_year_ncb: 0,
-      // is_ownership_transfer: this.ownershipTransfer,
-      // is_claimed: this.claimedData,
-      // business_type: 'New',
-      // selected_addons: [],
-
-      customer_type: 'INDIVIDUAL',
-      vehicle_type: 'four_wheeler',
+      customer_type: this.customerType,
+      vehicle_type: this.vehicleType,
       rb_mmv_id: 1219,
-      rb_rto_code: 'HR26',
+      rb_rto_code: data.rto_code,
       registration_month: 1,
       registration_year: 2024,
-      previous_policy_exp_date: '2024-02-09',
+      previous_insurer_code: '',
+      previous_policy_exp_date: data.policy_expire_date,
       previous_year_ncb: 0,
-      is_ownership_transfer: false,
-      is_claimed: false,
+      is_ownership_transfer: this.ownershipTransfer,
+      is_claimed: this.claimedData,
       business_type: 'New',
-      selected_addons: ['string'],
+      selected_addons: [],
     };
 
     this.apiService
@@ -113,8 +101,6 @@ export class SharedDataService {
         /**
          * service call for the server side event handling
          */
-        // let data = {"premium_details": {"od_premium_details": {"basic_od_premium": 9310.0, "ncb_discount": 0.0}, "tp_premium_details": {"basic_tp_premium": 10640.0}, "total_gst": 3749.0, "gross_premium": 20825.0, "total_premium": 24574.0}, "error_message": null, "insurer_logo": "https://rbdev-apex.s3.ap-south-1.amazonaws.com/insurer/ICICI-logo.svg", "insurer_name": "ICICI Lombard General Insurance", "transaction_id": "21706c29-b30a-4936-b6a2-33cc4a3ddc50", "quote_request_id": "109088935"}
-
         this.sseService
           .getServerSentEvent(
             `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
@@ -122,11 +108,25 @@ export class SharedDataService {
           .subscribe(
             (ev) => {
               let dataEvent = JSON.parse(ev.data);
-              this.allQuotes = dataEvent;
-              this.connectionData = [];
 
               this.connectionData.push(dataEvent);
-              this.quotationListing.next(this.connectionData);
+
+              this.allQuotes = this.connectionData;
+
+              this.quotesValue = this.connectionData;
+              this.allQuotes = Object.values(
+                this.quotesValue.reduce(
+                  (
+                    data: any,
+                    obj: {
+                      insurer_name: any;
+                    }
+                  ) => ({ ...data, [obj.insurer_name]: obj }),
+                  {}
+                )
+              );
+           
+              this.quotationListing.next(this.allQuotes);
             },
             (error) => {
               console.log(error);

@@ -80,7 +80,7 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.quotationListing.subscribe((quotes) => {
      
       this.quotationData = quotes;
-      console.log(this.quotationData)
+   
     });
   }
 

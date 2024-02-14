@@ -30,15 +30,15 @@ export class OwnerFullNameComponent implements OnInit {
     /**
      * add form control for the full_name
      */
-
+  
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'full_name',
+        'full_Name',
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('full_name', new FormControl());
+      this.form.addControl('full_Name', new FormControl());
     }
   }
 
@@ -46,6 +46,6 @@ export class OwnerFullNameComponent implements OnInit {
     /**
      * remove form control for the full_name
      */
-    this.form.removeControl('full_name');
+    this.form.removeControl('full_Name');
   }
 }
