@@ -254,64 +254,41 @@
           <div class="col-lg-4 col-4">
             <p
               class="comprehensive-know-more-text tag-right cursor-pointer"
-              (click)="noQuotes()"
+              (click)="noQuotes(knowMoreText)"
             >
-              Know More
+              {{ knowMoreText }}
             </p>
           </div>
         </div>
-      </div>
-    </div>
-    <br />
-    <div class="row comprehensive-no-quotes-card" *ngIf="noQuotesInformation">
-      <div class="col-12">
-        <div class="row d-flex w-100 no-quotes-information-card">
-          <div class="col-10 comprehensive-no-quotes-information-text">
-            <img src="/assets/icon/quotes-warning.svg" alt="" />
-            Some of the Insurance providers didn’t produce quotes for the
-            selected category
-          </div>
-          <div class="col-2">
-            <p
-              class="comprehensive-know-more-text tag-right cursor-pointer"
-              (click)="noQuotes()"
-            >
-              View Less
-            </p>
-          </div>
-        </div>
-        <div class="row d-flex w-100 mb-2">
-          <div class="col-12 comprehensive-no-quotes-information-text">
-            <img src="/assets/images/no-quotes-insurer.svg" alt="" />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <p class="insurer-no-quotes-reasons mb-0">
-              Following are the possible reasons
-            </p>
-            <p class="mb-0">
-              <span class="insurer-no-quotes-reasons"> ICICI Lombard: </span>
-              <span class="insurer-no-quotes-reasons-value">
-                Error in calculate: UW Service Messages => UW status is
-                <span class="insurer-no-quotes-reasons-warning">
-                  DECLINING
+        <div *ngIf="noQuotesInformation">
+          <div class="row p-4">
+            <div class="col-12">
+              <p class="insurer-no-quotes-reasons mb-0">
+                Following are the possible reasons
+              </p>
+              <p class="mb-0">
+                <span class="insurer-no-quotes-reasons"> ICICI Lombard: </span>
+                <span class="insurer-no-quotes-reasons-value">
+                  Error in calculate: UW Service Messages => UW status is
+                  <span class="insurer-no-quotes-reasons-warning">
+                    DECLINING
+                  </span>
+                  the loading screen
                 </span>
-                the loading screen
-              </span>
-            </p>
-            <p class="mb-0">
-              <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
-              <span class="insurer-no-quotes-reasons-value">
-                Previous Policy Expiry Date is mandatory
-              </span>
-            </p>
-            <p class="mb-1">
-              <span class="insurer-no-quotes-reasons"> IFFCO TOKIO: </span>
-              <span class="insurer-no-quotes-reasons-value">
-                RTO declined Zero NCB
-              </span>
-            </p>
+              </p>
+              <p class="mb-0">
+                <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
+                <span class="insurer-no-quotes-reasons-value">
+                  Previous Policy Expiry Date is mandatory
+                </span>
+              </p>
+              <p class="mb-1">
+                <span class="insurer-no-quotes-reasons"> IFFCO TOKIO: </span>
+                <span class="insurer-no-quotes-reasons-value">
+                  RTO declined Zero NCB
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -59,6 +59,7 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
+  knowMoreText: string='Know More';
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -101,7 +102,12 @@ export class QuotesListingComponent implements OnInit {
   /**
    * this function is used for the no quotes information details
    */
-  noQuotes() {
+  noQuotes(text:any) {
+    if(text=='View Less'){
+      this.knowMoreText='Know More'
+    }else{
+      this.knowMoreText='View Less'
+    }
     this.noQuotesInformation = !this.noQuotesInformation;
   }
   openChangeIDV(): void {

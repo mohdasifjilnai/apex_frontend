@@ -34,6 +34,9 @@
 .res-vehicle-card{
     display: none;
 }
+.vehicle-inspection{
+    display: none;
+}
 @media screen and (max-width: 768px) {
     .vehicle-card{
         display: none;
@@ -85,6 +88,21 @@
         padding: 5px 0px 5px 0px;
         margin-top: -15px;
         cursor: pointer;
+    }
+    .vehicle-inspection{
+        display: block;
+        background-color: #5384EA0F;
+        border-radius: 12px;
+        .icon{
+            width: 17px;
+            height: 22px;
+        }
+        .details{
+            font-size: 11px;
+            font-weight: 500;
+            color: #5384EA;
+            line-height: 15px;
+        }
     }
     
   }
