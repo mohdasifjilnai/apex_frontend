@@ -6,6 +6,25 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {MatDatepicker} from '@angular/material/datepicker';
+import * as _moment from 'moment';
+import {default as _rollupMoment, Moment} from 'moment';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-registration-year',
@@ -14,40 +33,32 @@ import {
   viewProviders: [
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
-  yearList: any;
   @Input('required') isRequired = false;
   constructor(private ctrlContainer: FormGroupDirective) {
-    this.yearList = [
-      {
-        id: 1,
-        year: '2019',
-      },
-      {
-        id: 2,
-        year: '2020',
-      },
-      {
-        id: 3,
-        year: '2021',
-      },
-      {
-        id: 4,
-        year: '2022',
-      },
-      {
-        id: 5,
-        year: '2023',
-      },
-      {
-        id: 6,
-        year: '2024',
-      },
-    ];
+    
   }
 
+  ctrlValue:any
+  chosenYearHandler(normalizedYear: Moment) {
+    this.ctrlValue = this.form.controls['registration_year'].value
+    this.ctrlValue.year(normalizedYear.year())
+    this.form.controls['registration_year'].setValue(this.ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    this.ctrlValue = this.form.controls['registration_year'].value;
+    this.ctrlValue.month(normalizedMonth.month());
+    this.form.controls['registration_year'].setValue(this.ctrlValue);
+    datepicker.close();
+  }
   ngOnInit(): void {
     /**
      *add form control for the Registration Year
@@ -56,10 +67,10 @@ export class RegistrationYearComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'registration_year',
-        new FormControl(null, Validators.required)
+        new FormControl(moment(), Validators.required)
       );
     } else {
-      this.form.addControl('registration_year', new FormControl());
+      this.form.addControl('registration_year', new FormControl(moment()));
     }
   }
 

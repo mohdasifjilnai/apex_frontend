@@ -63,66 +63,31 @@ export class SharedDataService {
   }
 
   getQuotationListing(data: any) {
-    // '{ "customer_type": "INDIVIDUAL", "vehicle_type": "four_wheeler", "rb_mmv_id": 1219, 
-    // "rb_rto_code": "HR26", "registration_month": 1, "registration_year": 2024, 
-    // "previous_policy_exp_date": "2024-02-09", "previous_year_ncb": 0,
-    //  "is_ownership_transfer": false, "is_claimed": false, 
-    //  "business_type": "New", "selected_addons": ["string"]}';
-
-    // "transaction_id": "",
-    // "customer_type": "INDIVIDUAL",
-    // "vehicle_type": "",
-    // "rb_mmv_id": 1219,
-    // "rb_rto_code": "HR26",
-    // "registration_month": 1,
-    // "registration_year": 2024,
-    // "tenure": "",
-    // "tp_tenure": "",
-    // "previous_insurer_code": "",
-    // "previous_policy_exp_date": "2024-02-09",
-    // "previous_year_ncb": 0,
-    // "is_ownership_transfer": false,
-    // "is_claimed": false,
-    // "business_type": "New",
-    // "selected_addons": [
-    //   "string"
-    // ],
-    // "quote_request_id": "string"
+  
     let quotesData = {
-      // transaction_id: data,
-      // rb_mmv_id: 1219,
-      // rb_rto_code: data.rto_code,
-      // registration_month: 1,
-      // registration_year: 2024,
-      // previous_insurer_code: "",
-      // previous_policy_exp_date: "2024-02-09",
-      // previous_year_ncb: 0,
-      // is_ownership_transfer: false,
-      // business_type: "New",
-      // is_claimed: false,
-      // selected_addons: [],
-      // customer_type : 'INDIVIDUAL',
-      // "vehicle_type": this.vehicleType
-      "customer_type": "INDIVIDUAL",
-      "vehicle_type": "four_wheeler",
-      "rb_mmv_id": 1219,
-      "rb_rto_code": "HR26",
-      "registration_month": 1,
-      "registration_year": 2024,
-      "previous_policy_exp_date": "2024-02-09",
-      "previous_year_ncb": 0,
-      "is_ownership_transfer": false,
-      "is_claimed": false,
-      "business_type": "New",
-      "selected_addons": [
-          "string"
-      ]
+    
+      transaction_id : '',
+      customer_type : 'INDIVIDUAL',
+      vehicle_type : this.vehicleType,
+      rb_mmv_id : 1219,
+      rb_rto_code : data.rto_code,
+      registration_month : 1,
+      registration_year : 2024,
+      tenure : '',
+      tp_tenure : '',
+      previous_insurer_code : '',
+      previous_policy_exp_date : "2024-02-09",
+      previous_year_ncb : 0,
+      is_ownership_transfer : false,
+      is_claimed : false,
+      business_type : 'New',
+      selected_addons : [],
+      quote_request_id : ''
     };
 
     this.apiService
     .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
     .subscribe((res) => {
-      console.log(res)
       this.transactionId = res.transaction_id;
       this.quotesId  = res.quote_request_id;
        /**
@@ -132,11 +97,9 @@ export class SharedDataService {
      
     this.sseService.getServerSentEvent(`/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`)
     .subscribe(ev => {
-      console.log(ev.data);
       let dataEvent = JSON.parse(ev.data);
       this.connectionData = []
       this.connectionData.push(dataEvent) 
-      console.log(this.connectionData)
       this.quotionListing.next(this.connectionData)
     
     },

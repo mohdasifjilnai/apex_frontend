@@ -1,9 +1,12 @@
 <mat-form-field appearance="outline" class="registration-year">
     <mat-label>Select Registration Year</mat-label>
-    <mat-select formControlName="registration_year">
-      <mat-option *ngFor="let year of yearList" [value]="year?.id">
-        {{ year?.year }}
-      </mat-option>
-    </mat-select>
+    <input matInput [matDatepicker]="registrationYear" placeholder="Month and Year" formControlName="registration_year">
+    <mat-datepicker-toggle matSuffix [for]="registrationYear"></mat-datepicker-toggle>
+    <mat-datepicker #registrationYear
+                    startView="multi-year"
+                    (yearSelected)="chosenYearHandler($event)"
+                    (monthSelected)="chosenMonthHandler($event, registrationYear)"
+                    >
+    </mat-datepicker>
   </mat-form-field>
   

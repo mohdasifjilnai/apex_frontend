@@ -6,7 +6,10 @@ import multi_select_city from './multi-select.json';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import * as _moment from 'moment';
+import {default as _rollupMoment, Moment} from 'moment';
 
+const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
 
@@ -24,7 +27,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
-    registration_year: new FormControl(''),
+    registration_year: new FormControl(moment()),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });

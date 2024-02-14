@@ -143,7 +143,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationNumber: any;
   ngOnInit(): void {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-
+ 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
     });
@@ -207,6 +207,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.vehicleDetailsForm.patchValue({
             vehicle_fuel: this.registrationNumber.fuel_type,
           });
+          this.vehicleDetailsForm.patchValue({
+            registration_date : new Date(this.registrationNumber.registration_date)
+          })
 
           if (res.length > 0) {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
