@@ -72,8 +72,8 @@
     <div *ngFor="let quotes Of quotationData">
       <div class="row comprehensive-card">
         <div class="comprehensive-tab p-2">
-          <div class="row" >
-            <div class="col-lg-4 col-md-4 col-12">
+          <div class="row ps-3" >
+            <div class="col-lg-2 col-md-4 col-12">
               <img
                 [src]="quotes.insurer_logo"
                 class="insurer-logo"
@@ -81,24 +81,24 @@
               />
             </div>
             <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-6 col-md-6 col-6">
+            <div class="col-lg-8 col-md-8 col-6">
               <p class="idv-amount mb-0 mt-2">
                 IDV (&#8377; 4,98,500- &#8377; 7,00,000)
               </p>
               <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
             </div>
-            <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
+            <div class="col-lg-2 col-md-2 col-6 mt-2">
               <span
                 class="premium-breakup-amount cursor-pointer"
                 (click)="getProposalDetails()"
               >
                 &#8377; {{quotes.premium_details.total_premium}}  </span
-              ><br />
+              ><br>
               <span
-                class="premium-breakup pt-2"
+                class="premium-breakup"
                 (click)="openPremiumBreakupModal(quotes, $event)"
               >
-                Premium Breakup
+                <span class="pt-2">Premium Breakup</span>
               </span>
             </div>
           </div>
@@ -154,99 +154,17 @@
     </div>
    
     <br />
-    <!-- <div class="row comprehensive-card">
-      <div class="comprehensive-tab p-2">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-12">
-            <img
-              src="/assets/images/hdfc.svg"
-              class="insurer-logo"
-              alt=""
-              width="60"
-              height="40"
-            />
-          </div>
-          <div class="col-lg-6 col-md-6 col-6">
-            <p class="idv-amount mb-0 mt-2">
-              IDV (&#8377; 4,98,500- &#8377; 7,00,000)
-            </p>
-            <p class="idv-choose-amount mt-1">&#8377; 6,00,000</p>
-          </div>
-          <div class="col-lg-2 col-md-2 col-6 text-end mt-2">
-            <span
-              class="premium-breakup-amount cursor-pointer"
-              (click)="getProposalDetails()"
-            >
-              &#8377; 2000 {{ initiateQuotes?.fe_final_premium }} </span
-            ><br />
-            <span
-              class="premium-breakup pt-2"
-              (click)="openPremiumBreakupModal(initiateQuotes, $event)"
-            >
-              Premium Breakup
-            </span>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- comprehensive key feature web view -->
-    <!-- <div class="row comprehensive-key-features">
-      <div class="col-12 d-flex comprehensive-key-features-value">
-        <div class="row w-100 d-flex">
-          <div class="col-2 key-features-text">Key Features:</div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            Maximum Cashless Garages
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            PSU Provider
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            24x7 RSA
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            Quick Claim Settlement
-          </div>
-          <div class="col-2 key-features-value">
-            <img src="assets/icon/insurer-key-feature.svg" />
-            Over Night Repair
-          </div>
-        </div>
-      </div>
-    </div> -->
 
-    <!-- comprehensive key feature mobile view -->
-    <div class="row res-comprehensive-key-features">
-      <span class="key-features">
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Maximum Cashless Garages
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Quick Claim Settlement
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">24x7 RSA</div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          Over Night Repair
-        </div>
-        <div class="comprehensive-key-features-value me-2 mb-2">
-          PSU Provider
-        </div>
-      </span>
-    </div>
-    <br />
     <div class="w-100 comprehensive-no-quotes-information">
       <div>
-        <div class="row no-quotes-information-card">
+        <div class="row no-quotes-information-card" *ngIf="!noQuotesInformation">
           <div class="col-lg-8 col-8 d-flex">
             <img
               src="/assets/icon/quotes-warning.svg"
               alt=""
               class="warning-img mt-1"
             />
-            <span class="comprehensive-no-quotes-information-text ms-2">
+            <span class="comprehensive-no-quotes-information-text ms-2 my-1">
               Some of the Insurance providers didn’t produce quotes for the
               selected category
             </span>
@@ -261,7 +179,28 @@
           </div>
         </div>
         <div *ngIf="noQuotesInformation">
-          <div class="row p-4">
+          <div class="row no-quotes-information-card-white">
+            <div class="col-lg-8 col-8 d-flex">
+              <img
+                src="/assets/icon/quotes-warning.svg"
+                alt=""
+                class="warning-img mt-1"
+              />
+              <span class="comprehensive-no-quotes-information-text ms-3 my-1">
+                Some of the Insurance providers didn’t produce quotes for the
+                selected category
+              </span>
+            </div>
+            <div class="col-lg-4 col-4">
+              <p
+                class="comprehensive-know-more-text tag-right cursor-pointer"
+                (click)="noQuotes(knowMoreText)"
+              >
+                {{ knowMoreText }}
+              </p>
+            </div>
+          </div>
+          <div class="row ps-5 pe-4 pt-2 pb-4">
             <div class="col-12">
               <p class="insurer-no-quotes-reasons mb-0">
                 Following are the possible reasons

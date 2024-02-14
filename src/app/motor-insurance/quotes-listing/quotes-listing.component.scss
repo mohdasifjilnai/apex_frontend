@@ -15,6 +15,7 @@
       font-size: 12px;
       opacity: 50%;
     }
+    
     .idv-choose-amount {
       color: #282828;
       font-weight: 600;
@@ -36,6 +37,7 @@
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
+      margin-top: 10px !important;
     }
   }
   .comprehensive-key-features {
@@ -84,6 +86,19 @@
   }
   .no-quotes-information-card {
     padding: 12px 12px 0px 12px;
+    background-color: #F5F8FE;
+    .warning-img{
+      width: 22px;
+      height: 18px;
+    }
+  }
+  .no-quotes-information-card-white {
+    padding: 12px 12px 0px 12px;
+    background-color: #fff;
+    .warning-img{
+      width: 22px;
+      height: 18px;
+    }
   }
   .comprehensive-know-more-option {
     border: 1px solid #eaeaea;
@@ -316,8 +331,11 @@
       display: none;
     }
   }
-  .quotation-listing {
-    .comprehensive-key-features {
+  .quotation-listing{
+    .no-quotes-information-card{
+      background-color: #fff;
+    }
+    .comprehensive-key-features{
       display: none;
     }
     .res-comprehensive-key-features {
@@ -384,4 +402,5 @@
 .insurer-logo {
   width: 146px;
   height: 40px;
+  
 }

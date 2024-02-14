@@ -1,6 +1,13 @@
 .add-ons{
+  .add-ons-card{
+    border: 1px solid #EAEAEA;
+    border-radius: 16px;
+  }
+  
   .card-header{
+    border-radius: 16px 16px 0px 0px;
     background-color: #fff !important;
+
   }  
   span:hover {
     cursor: pointer;
