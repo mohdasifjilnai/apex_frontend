@@ -1,7 +1,7 @@
 <form [formGroup]="owenerVehicleDetailsForm">
   <div class="row mt-3">
     <div class="col-4">
-      <app-owner-full-name [required]="true" [formControlName]="'owner_full_Name'"></app-owner-full-name>
+      <app-owner-full-name [required]="true" ></app-owner-full-name>
     </div>
     <div class="col-4">
       <app-owner-contact [required]="true"></app-owner-contact>
@@ -89,10 +89,10 @@
       </mat-form-field>
     </div>
     <div class="col-4">
-      <app-owner-city [required]="true" [formControlName]="'owner_city'"></app-owner-city>
+      <!-- <app-owner-city [required]="true" [formControlName]="'owner_city'"></app-owner-city> -->
     </div>
     <div class="col-4">
-      <app-owner-state [required]="true" [formControlName]="'owner_state'"></app-owner-state>
+      <!-- <app-owner-state [required]="true" [formControlName]="'owner_state'"></app-owner-state> -->
     </div>
   </div>
   <div class="col-12">

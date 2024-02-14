@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  ControlContainer,
   FormControl,
   FormGroup,
   FormGroupDirective,
@@ -10,6 +11,9 @@ import {
   selector: 'app-owner-communication-address',
   templateUrl: './owner-communication-address.component.html',
   styleUrls: ['./owner-communication-address.component.scss'],
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective },
+  ],
 })
 export class OwnerCommunicationAddressComponent implements OnInit {
   form!: FormGroup;

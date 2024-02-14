@@ -77,7 +77,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProposalType();
-    this.sharedDataService.quotionListing.subscribe((quotes) => {
+    this.sharedDataService.quotationListing.subscribe((quotes) => {
      
       this.quotationData = quotes;
       console.log(this.quotationData)
