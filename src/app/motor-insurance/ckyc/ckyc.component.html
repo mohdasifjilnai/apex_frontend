@@ -32,7 +32,7 @@
             class="document-list mat-input-custom"
           >
             <mat-label>Select Document Type</mat-label>
-            <mat-select formControlName="document_type">
+            <mat-select formControlName="document_type" placeholder="Select Document Type">
               <mat-option
                 *ngFor="let document of documentList"
                 [value]="document?.document_id"
@@ -54,9 +54,11 @@
           >
             <mat-label>Enter Document Number</mat-label>
             <input
+              id-automation="documentNumber"
               matInput
               aria-label="document_number"
               formControlName="document_number"
+              placeholder="Enter Document Number"
             />
             <mat-error
               *ngIf="ckycFormGroup.get('document_number')?.hasError('required')"
@@ -67,7 +69,9 @@
         </div>
         <div class="col-4">
           <mat-form-field appearance="outline" class="mat-input-custom">
+            <mat-label>Select Date of Birth</mat-label>
             <input
+              id-automation="dob"
               class="input-field-pad"
               matInput
               formControlName="dob"
@@ -75,7 +79,7 @@
               [matDatepicker]="ckyc_dob"
               [min]="minDate"
               [max]="maxDate"
-              placeholder="DD/MM/YYYY"
+              placeholder="Select Date of Birth"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -100,7 +104,12 @@
             class="CKYC_Number mat-input-custom"
           >
             <mat-label>Enter CKYC Number</mat-label>
-            <input matInput aria-label="CKYC_Number" formControlName="CKYC_Number" />
+            <input
+              id-automation="ckycNumber"
+              matInput
+              aria-label="CKYC_Number"
+              formControlName="CKYC_Number"
+            />
             <mat-error
               *ngIf="ckycFormGroup.get('CKYC_Number')?.hasError('required')"
             >

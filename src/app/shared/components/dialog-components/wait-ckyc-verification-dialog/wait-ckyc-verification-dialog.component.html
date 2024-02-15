@@ -31,9 +31,9 @@
         <td>Date of Birth</td>
       </tr>
       <tr class="ckyc-data-table ckyc-data-table-row">
-        <td>Shyamal Garg</td>
-        <td>Male</td>
-        <td>10-03-1998</td>
+        <td>{{ ckycData["first_name"] }} {{ ckycData["last_name"] }}</td>
+        <td>{{ ckycData["gender"] }}</td>
+        <td>{{ ckycData["dob"] }}</td>
       </tr>
       <tr class="ckyc-data-table ckyc-data-table-header space-tr">
         <td>Owner Type</td>
@@ -41,9 +41,9 @@
         <td>Email</td>
       </tr>
       <tr class="ckyc-data-table ckyc-data-table-row space-tr">
-        <td>Individual</td>
-        <td>9876543210</td>
-        <td>shyamalgarg@gmail.com</td>
+        <td>{{ ckycData["proposer_type"] }}</td>
+        <td>{{ ckycData["mobile_number"] }}</td>
+        <td>{{ ckycData["email"] }}</td>
       </tr>
     </table>
   </div>

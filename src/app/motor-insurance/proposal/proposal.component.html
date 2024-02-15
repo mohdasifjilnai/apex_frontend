@@ -5,7 +5,7 @@
   <div class="col-9">
     <mat-accordion multi="true">
       <mat-expansion-panel (opened)="loadCkyc('ckyc')">
-        <mat-expansion-panel-header (click)="openWaitCkycModal($event)">
+        <mat-expansion-panel-header>
           <mat-panel-title> CKYC </mat-panel-title>
         </mat-expansion-panel-header>
         <app-ckyc *ngIf="isCkycLoaded"></app-ckyc>

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiConstants } from '../../api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { DatePipe } from '@angular/common';
+import { WaitCkycVerificationDialogComponent } from 'src/app/shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -18,10 +20,26 @@ export class CkycComponent implements OnInit {
   documentList: any;
   minDate = new Date();
   maxDate = new Date();
+  waitCkycVerificationJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: WaitCkycVerificationDialogComponent,
+    widthObtained: '75%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'wait-ckyc-verification-class',
+  };
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private matDialog: WindowRef
   ) {
     this.ckycList = [
       {
@@ -36,16 +54,16 @@ export class CkycComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.isCheckKyc==false){
+    if (this.isCheckKyc == false) {
       this.withOutCkycNumber();
     }
     this.setCalenderRange();
     this.getDocumentType();
   }
 
-   /**
+  /**
    *  with out ckyc number get value from form controler
-   */ 
+   */
   withOutCkycNumber() {
     this.ckycFormGroup = this.formBuild.group({
       ckyc_id: [2],
@@ -56,7 +74,7 @@ export class CkycComponent implements OnInit {
   }
   /**
    *  with ckyc number get value from form controler
-   */ 
+   */
   withCkycNumber() {
     this.ckycFormGroup = this.formBuild.group({
       ckyc_id: [1],
@@ -64,8 +82,7 @@ export class CkycComponent implements OnInit {
     });
   }
   submitCkycFormGroup(isValid: boolean) {
-    if (isValid && this.ckycFormGroup.get('ckyc_id')?.value==2) {
-       
+    if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
       let body = {
         proposal_id: 2332,
         proposer_type: 'individual',
@@ -83,9 +100,7 @@ export class CkycComponent implements OnInit {
           this.ckycFormGroup.get('document_type')?.value
         ),
       };
-      this.apiService
-        .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
-        .subscribe((res) => {});
+      this.openWaitCkycVerificationPopup(body);
     }
   }
   /**
@@ -128,7 +143,7 @@ export class CkycComponent implements OnInit {
   /**
    * get ckyc number
    */
-  checkKycNumber(event: any) {    
+  checkKycNumber(event: any) {
     if (event.value == 1) {
       this.withCkycNumber();
       this.isCheckKyc = true;
@@ -136,5 +151,35 @@ export class CkycComponent implements OnInit {
       this.withOutCkycNumber();
       this.isCheckKyc = false;
     }
+  }
+
+  /**
+   * this fucntion use wait ckyc verification modal
+   */
+  openWaitCkycVerificationPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '75%';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.waitCkycVerificationJSON['modalName'],
+      width: this.waitCkycVerificationJSON['widthObtained'],
+      height: this.waitCkycVerificationJSON['heightObtained'],
+      classNameObtained: this.waitCkycVerificationJSON['classObtained'],
+      isOutSideClose: this.waitCkycVerificationJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }
