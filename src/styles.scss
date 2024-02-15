@@ -149,6 +149,9 @@ th.mat-header-cell:last-of-type {
     max-width: 0% !important;
     min-width: 0% !important;
   }
+  .cdk-global-overlay-wrapper {
+    align-items: flex-end !important;
+  }
 }
 
 .submit-btn {
@@ -179,6 +182,11 @@ th.mat-header-cell:last-of-type {
 
 .mat-form-field-label-wrapper {
   top: -8px !important;
+}
+
+.cdk-global-overlay-wrapper {
+  justify-content: center !important;
+  // align-items: center !important;
 }
 
 /* Set top-left and bottom-left corner radius */

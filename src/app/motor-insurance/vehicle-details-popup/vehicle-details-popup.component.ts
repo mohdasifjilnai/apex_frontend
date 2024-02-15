@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
@@ -19,6 +19,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
   selector: 'app-vehicle-details-popup',
   templateUrl: './vehicle-details-popup.component.html',
   styleUrls: ['./vehicle-details-popup.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class VehicleDetailsPopupComponent implements OnInit {
   vehicleDetailsForm!: FormGroup;

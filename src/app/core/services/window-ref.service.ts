@@ -56,7 +56,6 @@ export class WindowRef {
   //   dialogRef.afterClosed().subscribe((result) => {});
   // }
 
-
   
   /**
    *  this fucntion use for all pop up modal open 

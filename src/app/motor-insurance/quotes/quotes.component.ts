@@ -3,6 +3,7 @@ import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-d
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-quotes',
@@ -20,13 +21,13 @@ export class QuotesComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: VehicleDetailsPopupComponent,
-    widthObtained: '75%',
-    heightObtained: 'auto',
-    topObtained: 'auto',
+    widthObtained: '100%',
+    heightObtained: '77%',
+    topObtained: '5%',
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
-  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService,public bottomSheet: MatBottomSheet) {}
+  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService,public bottomSheet: MatBottomSheet,public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.withoutVehicleNumber=localStorage.getItem('withoutVehicleNumber')
@@ -49,7 +50,7 @@ export class QuotesComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '75%';
+      resWidth = '900px';
       resTop = '5%';
     }
 

@@ -53,9 +53,9 @@ export class QuotesListingComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: ShareQuotesComponent,
-    widthObtained: '75%',
-    heightObtained: 'auto',
-    topObtained: 'auto',
+    widthObtained: '100%',
+    heightObtained: '77%',
+    topObtained: '0',
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
@@ -172,7 +172,7 @@ export class QuotesListingComponent implements OnInit {
       resTop = '5%';
     } else {
       resWidth = '100%';
-      resTop = '5%';
+      resTop = '0';
     }
 
     const obj: any = {

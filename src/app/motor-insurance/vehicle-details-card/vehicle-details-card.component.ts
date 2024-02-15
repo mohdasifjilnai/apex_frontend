@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
@@ -19,9 +20,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: VehicleDetailsPopupComponent,
-    widthObtained: '75%',
-    heightObtained: 'auto',
-    topObtained: 'auto',
+    widthObtained: '100%',
+    heightObtained: '77%',
+    topObtained: '5%',
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
@@ -30,7 +31,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {}
@@ -41,9 +43,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     } else {
       this.openVehicleDetailsPopup(null)
     }
-    
     this.sharedData.sendVehicleEditData(edit);
   }
+
   /**
    * this fucntion use vehicle details open pop up modal
    */ 
@@ -54,7 +56,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '75%';
+      resWidth = '900px';
       resTop = '5%';
     }
     const obj: any = {
@@ -73,7 +75,6 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.matDialog.openDialog(obj);
   }
   viewLess(text:any){
-    // console.log(text)
     this.showLess=!this.showLess;
     this.viewText='More'
     if(text=='More'){

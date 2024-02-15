@@ -8,6 +8,8 @@ import { ApiConstants } from 'src/app/api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
 
 const moment = _rollupMoment || _moment;
 @Component({
@@ -15,6 +17,14 @@ const moment = _rollupMoment || _moment;
 
   templateUrl: './motor-insurance.component.html',
   styleUrls: ['./motor-insurance.component.scss'],
+  animations: [
+    trigger('slideDown', [
+      state('void', style({ transform: 'translateY(100%)', opacity: 0 })),
+      transition(':enter, :leave', [
+        animate('0.5s ease-in-out')
+      ]),
+    ]),
+  ],
 })
 export class MotorInsuranceComponent implements OnInit {
   cities: any = city;

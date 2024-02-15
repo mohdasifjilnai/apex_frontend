@@ -1,8 +1,11 @@
 
 .main-container {
   padding-top: 0px;
+  background-color: #edf2fc;
   .body-content {
     height: 100%;
+    background-color: #fff;
+    border-radius: 48px 48px 0px 0px;
     .motor-insurance {
       color: #5989de;
       font-weight: 600;
@@ -10,6 +13,11 @@
     }
    
   }
+  
+}
+.res-header-icon {
+  display: none;
+
 }
 
 .vehicle-submission {
@@ -44,7 +52,9 @@
     left: 0px;
     margin-bottom: 0 !important;
   }
- 
+  .res-header-icon { 
+    display: block;
+  }
 
 }
 

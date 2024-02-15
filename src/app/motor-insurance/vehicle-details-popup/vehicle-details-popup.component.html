@@ -1,15 +1,15 @@
 <form [formGroup]="vehicleDetailsForm" class="edit-vehicle-details">
   <div >
     <!-- Dialog title -->
-    <h1 mat-dialog-title>
+    <div mat-dialog-title class="row  ">
       <div class="vehicle-details-popup-header d-flex justify-content-between">
-        <p>
+        <span>
           {{
             editVehicleDetails
               ? "Please verify the fetched vehicle details."
               : "Edit Vehicle Details"
           }}
-        </p>
+        </span>
         <img
           src="/assets/icon/cross.svg"
           class="cursor-pointer"
@@ -18,8 +18,8 @@
           (click)="onClose()"
         />
       </div>
-      <hr>
-    </h1>
+      <hr class="line">
+    </div>
     <!-- Dialog content -->
     <div mat-dialog-content>
       <div class="row vehicle-details-form">
@@ -211,19 +211,20 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div class="col-lg-6  col-12">
+          <button mat-button
+            class="submit-btn mb-4 vehicle-submission "
+            type="submit"
+            (click)="updateVehicleDetail()"
+          >
+            {{ editVehicleDetails ? "Above details are correct" : "Save" }}
+          </button>
+        </div>
       </div>
       
     </div>
     <div  >
-      <div class="row ">
-        <button mat-button
-          class="submit-btn mb-4 vehicle-submission col-12"
-          type="submit"
-          (click)="updateVehicleDetail()"
-        >
-          {{ editVehicleDetails ? "Above details are correct" : "Save" }}
-        </button>
-      </div>
+      
     </div>
   </div>
 </form>

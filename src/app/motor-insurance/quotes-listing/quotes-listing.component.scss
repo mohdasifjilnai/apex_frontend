@@ -134,13 +134,21 @@
     background-color: #ff943d !important;
     width: 50%;
   }
-  ::ng-deep .mat-tab-labels {
-    // width: 40%;
+  ::ng-deep .mat-tab-label {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0 !important;
+    color: #282828;
+    min-width: auto !important;
+    width: 50%;
   }
   ::ng-deep .mat-tab-label-active {
     color: #ffb171 !important;
     font-weight: 600;
+    font-size: 12px;
+    width: 50%;
   }
+
   .count {
     padding: 4px 8px 4px 8px;
     margin-left: 10px;
@@ -201,71 +209,11 @@
     border: 1px solid #f5f8fe;
     width: 100%;
     color: #5384ea;
+    font-size: 11px;
+    padding: 0 !important;
+    font-weight: 600;
   }
-  .toggle {
-    position: relative;
-    display: inline-block;
-    width: 54px;
-    height: 30px;
-  }
-
-  .toggle input {
-    display: none;
-  }
-
-  .slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: pointer;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 34px;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 24px;
-    width: 22px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-
-  input:checked + .slider {
-    background-color: #ffb171;
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-
-  /* Optional styles for the slider */
-  .slider:before {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
-
-  .slider:after {
-    position: absolute;
-    color: #fff;
-    font-size: 12px;
-    line-height: 26px;
-    left: 32px;
-    bottom: 2px;
-    transition: 0.4s;
-  }
-
-  input:checked + .slider:after {
-    left: unset;
-    right: 35px;
-    font-size: 12px;
-    top: 0px;
-  }
+  
   .gst {
     font-size: 12px;
     font-weight: 600;
@@ -275,6 +223,24 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+
+    ::ng-deep .mat-slide-toggle-thumb{
+      width: 12px !important;
+      height: 12px !important;
+      background-color: #FFFFFF;
+    }
+    ::ng-deep .mat-slide-toggle-thumb-container{
+      top: 2.8px !important;
+      left: 5px !important;
+    }
+    ::ng-deep .mat-slide-toggle-bar{
+      width: 36px;
+      height: 18px;
+    }
+    ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+      background-color: #FFB171;
+
+    }
   }
   .owner-type-res {
     display: none;
