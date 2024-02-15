@@ -32,7 +32,7 @@
             class="document-list mat-input-custom"
           >
             <mat-label>Select Document Type</mat-label>
-            <mat-select formControlName="document_type" placeholder="Select Document Type">
+            <mat-select formControlName="document_type" placeholder="Select Document Type" (ngModelChange)="getDocumentTypeValue($event)">
               <mat-option
                 *ngFor="let document of documentList"
                 [value]="document?.document_id"
@@ -65,6 +65,9 @@
             >
               This is a required field.
             </mat-error>
+            <mat-error *ngIf="ckycFormGroup.get('document_number')?.hasError('validDOC')">
+              Please enter the valid {{documentName}} number
+          </mat-error>
           </mat-form-field>
         </div>
         <div class="col-4">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
@@ -12,6 +12,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   occupationList: any;
   maritalStatusList: any;
   filteredPincodeList!: Observable<any[]>;
+  @Input() fetchCkycData: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
 
@@ -77,5 +78,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.fetchCkycData)
+  }
 }

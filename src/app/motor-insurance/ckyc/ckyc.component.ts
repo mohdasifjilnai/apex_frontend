@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ApiConstants } from '../../api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { DatePipe } from '@angular/common';
@@ -15,9 +20,12 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 })
 export class CkycComponent implements OnInit {
   ckycFormGroup!: FormGroup;
+  @Output() afterProceedGetData = new EventEmitter<any>();
   ckycList: any;
   isCheckKyc: boolean = false;
   documentList: any;
+  documentName: any;
+  numberRegex: any;
   minDate = new Date();
   maxDate = new Date();
   waitCkycVerificationJSON: {
@@ -68,7 +76,10 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup = this.formBuild.group({
       ckyc_id: [2],
       document_type: ['', [Validators.required]],
-      document_number: ['', [Validators.required]],
+      document_number: [
+        '',
+        [Validators.required,this.documentNumberValidator.bind(this)],
+      ],
       dob: ['', [Validators.required]],
     });
   }
@@ -180,6 +191,40 @@ export class CkycComponent implements OnInit {
       },
     };
 
-    this.matDialog.openDialog(obj);
+    this.matDialog.openDialog(obj).subscribe((data)=>{
+      this.afterProceedGetData.emit(data);
+    })
+  }
+/**
+* get current document value
+*/  
+  getDocumentTypeValue(event: any) {
+    this.documentName = this.filterDocumentType(event);
+    this.ckycFormGroup.patchValue({
+      document_number: '' 
+    })
+  }
+/**
+ *   document validator function
+ */  
+  documentNumberValidator(control: FormControl) {
+    if (this.documentName == 'PAN') {
+      this.numberRegex = /^[A-Za-z]{5}\d{4}[A-Za-z]$/;
+    }
+    if (this.documentName == 'AADHAR') {
+      this.numberRegex = /^\d{12}$/;
+    }
+    if (
+      this.documentName == 'Driving License' ||
+      this.documentName == 'Voter ID' ||
+      this.documentName == 'Passport Number '
+    ) {
+      this.numberRegex = /^[A-Za-z0-9]*$/;
+    }
+    if (!this.numberRegex?.test(control.value) && control.value != '') {
+      return { validDOC: true };
+    }
+
+    return null;
   }
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-import { WaitCkycVerificationDialogComponent } from '../../shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 @Component({
   selector: 'app-proposal',
   templateUrl: './proposal.component.html',
   styleUrls: ['./proposal.component.scss'],
 })
 export class ProposalComponent implements OnInit {
+  fetchCkycData:any;
+  proceedData:any
   panelOpenState = false;
   isCkycLoaded: boolean = false;
   showVehicleOwnerDetails: boolean = false;
@@ -32,6 +33,13 @@ export class ProposalComponent implements OnInit {
       this.showPreviousPolicyDetails = true
     }
   }
-  
+
+
+  /**
+   * get ckyc data 
+   */ 
+  getProceedData(data:any){
+  this.proceedData=data
+  }
 
 }

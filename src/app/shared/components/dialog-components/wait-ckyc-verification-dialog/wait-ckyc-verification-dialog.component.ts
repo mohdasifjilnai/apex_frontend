@@ -43,4 +43,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   onClose(): void {
     this.dialogRef.close();
   }
+
+  onProceedData(resData:any){
+    this.dialogRef.close(resData);
+  }
 }
