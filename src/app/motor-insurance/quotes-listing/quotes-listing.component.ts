@@ -38,7 +38,7 @@ export class QuotesListingComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: PremiumBreakupComponent,
-    widthObtained: '75%',
+    widthObtained: '500px',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: false,

@@ -22,7 +22,7 @@ export class QuotesComponent implements OnInit {
   } = {
     modalName: VehicleDetailsPopupComponent,
     widthObtained: '100%',
-    heightObtained: '77%',
+    heightObtained: 'auto',
     topObtained: '5%',
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',

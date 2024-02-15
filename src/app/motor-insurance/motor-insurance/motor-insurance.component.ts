@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import city from './city-name.json';
@@ -9,6 +9,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import * as _moment from 'moment';
 import {default as _rollupMoment, Moment} from 'moment';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 
 const moment = _rollupMoment || _moment;
@@ -18,7 +19,7 @@ const moment = _rollupMoment || _moment;
   templateUrl: './motor-insurance.component.html',
   styleUrls: ['./motor-insurance.component.scss'],
   animations: [
-    trigger('slideDown', [
+    trigger('slideUp', [
       state('void', style({ transform: 'translateY(100%)', opacity: 0 })),
       transition(':enter, :leave', [
         animate('0.5s ease-in-out')
@@ -49,7 +50,8 @@ export class MotorInsuranceComponent implements OnInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +60,9 @@ export class MotorInsuranceComponent implements OnInit {
     });
   }
 
+  isResponsive(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 767px)');
+  }
   /**
    * get vehicle detials submit event
    */

@@ -22,6 +22,9 @@
       font-size: 14px;
       opacity: 100%;
     }
+    .premium-btn{
+      text-align: center;
+    }
     .premium-breakup-amount {
       background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
       color: #ffffff;
@@ -275,21 +278,7 @@
     .gst {
       font-size: 10px;
     }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 14px;
-      width: 14px;
-      left: 2px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    .toggle {
-      width: 43px;
-      height: 19px;
-    }
+   
     .owner-type-res {
       display: block;
     }
@@ -304,6 +293,12 @@
     .comprehensive-key-features{
       display: none;
     }
+    .comprehensive-tab{
+      .premium-btn{
+        text-align: end;
+      }
+    }
+    
     .res-comprehensive-key-features {
       border: 1px solid #eaeaea;
       border-radius: 0 0 16px 16px;
