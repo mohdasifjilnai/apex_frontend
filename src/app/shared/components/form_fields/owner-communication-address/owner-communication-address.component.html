@@ -4,6 +4,8 @@
     matInput
     placeholder="Enter Address"
     formControlName="owner_communication_addres"
+    id-automation="owner_communication_address"
+    appAlphaNumeric
   />
   <mat-error
     *ngIf="form.controls['owner_communication_addres']?.hasError('required')"

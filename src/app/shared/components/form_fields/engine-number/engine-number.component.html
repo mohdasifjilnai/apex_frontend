@@ -4,6 +4,9 @@
     matInput
     placeholder="Enter Engine Number"
     formControlName="engine_number"
+    class="text-uppercase"
+    id-automation="engine_number"
+    appAlphaNumeric
   />
   <mat-error
     *ngIf="engineForm.controls['engine_number']?.hasError('required')"

@@ -7,8 +7,8 @@
     matInput
     placeholder="Enter Registration Number (DL-01-AB-1234)"
     formControlName="registration_number"
-    maxlength="11"
-    minlength="8"
+    id-automation="registration_number"
+    class="text-uppercase"
   />
   <mat-error *ngIf="form.controls['registration_number']?.hasError('required')">
     This is a required field.
@@ -23,7 +23,7 @@
   <mat-error
   *ngIf="form.get('registration_number')?.hasError('pattern')"
 >
-  Invalid Entries
+  Invalid Registration Number
 </mat-error>
   <!-- <mat-error *ngIf="form.controls['registration_number'].invalid && form.controls['insurer_email'].touched">
   Invalid Email Format

@@ -28,6 +28,8 @@
           matInput
           placeholder="Enter GSTIN"
           formControlName="owner_gstin"
+          appAlphaNumeric
+          id-automation="owner_gstin"
         />
         <mat-error
           *ngIf="
@@ -57,6 +59,8 @@
           matInput
           placeholder="Enter Additional Contact Number"
           formControlName="additional_contact"
+          appNumbersOnly
+          id-automation="additional_contact"
         />
         <mat-error
           *ngIf="
@@ -117,6 +121,8 @@
           #autoCompleteInput
           [matAutocomplete]="pincodeAuto"
           formControlName="owner_pincode"
+          id-automation="owner_pincode"
+          appNumbersOnly
         />
         <mat-autocomplete #pincodeAuto="matAutocomplete">
           <mat-option
@@ -144,7 +150,7 @@
           "
           class="ms-4"
         >
-          Invalid Additional Contact
+          Invalid Owner Pincode
         </mat-error>
         <mat-error
           *ngIf="

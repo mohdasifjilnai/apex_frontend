@@ -34,6 +34,11 @@ import { EngineNumberComponent } from './components/form_fields/engine-number/en
 import { ChasisNumberComponent } from './chasis-number/chasis-number.component';
 import { ShareQuotesComponent } from './components/dialog-components/share-quotes/share-quotes.component';
 import { VehicleRegistrationAddressComponent } from './components/form_fields/vehicle-registration-address/vehicle-registration-address.component';
+import { NoSpecialCharacterWithSpaceDirective } from './directives/no-special-character-with-space.directive';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { AlphabetOnlyDirective } from './directives/alphabet-only.directive';
+import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
+import { NumberWithDecimalDirective } from './directives/number-with-decimal.directive';
 
 @NgModule({
   declarations: [
@@ -67,6 +72,11 @@ import { VehicleRegistrationAddressComponent } from './components/form_fields/ve
     ChasisNumberComponent,
     ShareQuotesComponent,
     VehicleRegistrationAddressComponent,
+    NoSpecialCharacterWithSpaceDirective,
+    NumbersOnlyDirective,
+    AlphabetOnlyDirective,
+    AlphaNumericDirective,
+    NumberWithDecimalDirective
   ],
   imports: [
     CommonModule,

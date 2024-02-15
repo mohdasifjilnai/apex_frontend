@@ -4,6 +4,8 @@
     matInput
     placeholder="Enter Registration Number (DL-01-AB-1234)"
     formControlName="chassis_number"
+    class="text-uppercase"
+    id-automation="chassis_number"
   />
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('required')"
@@ -14,7 +16,7 @@
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('pattern')"
   >
-    Invalid Entries
+    Invalid Chassis Number
   </mat-error>
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
