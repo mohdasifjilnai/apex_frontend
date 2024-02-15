@@ -80,6 +80,11 @@ export class VehicleComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.mmvList = res;
+          for (let i = 0; i <= this.mmvList.length - 1; i++) {
+            this.mmvList[
+              i
+            ].displayMMV = `${this.mmvList[i].rb_make_name} | ${this.mmvList[i].rb_model_name} | ${this.mmvList[i].rb_variant_name}`;
+          }
           this.mmvDataNotAvailable = '';
 
           /**
@@ -121,6 +126,11 @@ export class VehicleComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.mmvList = res;
+          for (let i = 0; i <= this.mmvList.length - 1; i++) {
+            this.mmvList[
+              i
+            ].displayMMV = `${this.mmvList[i].rb_make_name} | ${this.mmvList[i].rb_model_name} | ${this.mmvList[i].rb_variant_name}`;
+          }
           this.mmvDataNotAvailable = '';
           // this.filteredMMV = this.mmvList;
           /**
@@ -159,7 +169,7 @@ export class VehicleComponent implements OnInit {
   displayVehicle(data?: any) {
     if (data != null && data != 'No data') {
       this.mmvId = data.rb_mmv_id;
-      return data ? data.rb_make_name : undefined;
+      return data ? data.displayMMV : undefined;
     }
   }
 }

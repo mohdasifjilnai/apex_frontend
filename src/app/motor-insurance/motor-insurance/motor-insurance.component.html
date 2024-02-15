@@ -46,7 +46,7 @@
               'text-center': !withoutVehicleNumber
             }"
           >
-            <button
+            <button id="getVehicleDetailsId"
               [ngClass]="{
                 'me-3': withoutVehicleNumber,
                 'disabled-btn mb-2': motorInsurance.invalid
@@ -65,6 +65,7 @@
           <a>
             <span
               class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
+              id="withoutVehicleNumberText"
               (click)="getVehicleNumber()"
             >
               {{
