@@ -190,4 +190,10 @@ export class QuotesListingComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
+  /**
+   * get proposer type in proposal list
+   */ 
+  getProposarType(event:any){
+    localStorage.setItem('proposerType',this.proposalList.filter((res:any)=>res.proposer_id==event)[0]['proposer_name'])
+  }
 }

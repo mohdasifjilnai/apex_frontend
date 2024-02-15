@@ -28,6 +28,8 @@ export class CkycComponent implements OnInit {
   numberRegex: any;
   minDate = new Date();
   maxDate = new Date();
+  proposerType:any
+  dobPlaceholder:String='Select Date of Birth'
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -67,6 +69,8 @@ export class CkycComponent implements OnInit {
     }
     this.setCalenderRange();
     this.getDocumentType();
+    this.proposerType=localStorage.getItem('proposerType');
+    (this.proposerType=='individual')?this.dobPlaceholder:this.dobPlaceholder='Select Date of Incorporation';
   }
 
   /**

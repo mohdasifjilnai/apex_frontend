@@ -72,7 +72,7 @@
         </div>
         <div class="col-4">
           <mat-form-field appearance="outline" class="mat-input-custom">
-            <mat-label>Select Date of Birth</mat-label>
+            <mat-label>{{dobPlaceholder}}</mat-label>
             <input
               id-automation="dob"
               class="input-field-pad"
@@ -82,7 +82,7 @@
               [matDatepicker]="ckyc_dob"
               [min]="minDate"
               [max]="maxDate"
-              placeholder="Select Date of Birth"
+              placeholder={{dobPlaceholder}}
             />
             <mat-datepicker-toggle
               matSuffix
@@ -94,7 +94,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-4">
+        <div class="col-4" *ngIf="proposerType=='individual'">
           <div class="doc-upload">
             <app-upload-document [required]="true"></app-upload-document>
           </div>
