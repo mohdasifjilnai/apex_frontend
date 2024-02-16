@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class PreviousPolicyDetailsComponent implements OnInit {
   optReasonList: any;
+  @Input()fetchVehicleDetails:any
 
   previousPolicyDetailsForm: FormGroup = new FormGroup({
     prev_policy_number: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9]+$/)]),
@@ -30,8 +31,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
+  /**
+   * Navigate to the Proposal Review page
+   * Using Angular router to navigate to the specified route
+   */
   navigateToProposalReview(){
     this.router.navigate(['/motor/quotes/proposal/review']);
   }

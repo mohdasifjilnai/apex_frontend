@@ -1,4 +1,4 @@
-<form [formGroup]="owenerVehicleDetailsForm" (ngSubmit)="submitFormGroup()">
+<form [formGroup]="owenerVehicleDetailsForm" (ngSubmit)="getVehicleDetails(owenerVehicleDetailsForm?.valid)" novalidate>
   <div class="row mt-3">
     <div class="col-lg-4 col-md-4 col-12">
       <app-owner-full-name
@@ -21,7 +21,7 @@
             *ngFor="let occupation of occupationList"
             [value]="occupation?.id"
           >
-            {{ occupation?.ncbName }}
+            {{ occupation?.occupationName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -89,14 +89,14 @@
           Invalid Additional Contact
         </mat-error>
       </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-md-4 col-12">
-      <app-owner-gender></app-owner-gender>
+  </div>
+    <div class="col-4">
+      <app-owner-gender [required]="true"></app-owner-gender>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
       <label class="maritalStatus-header">Marital Status</label>
       <div>
-        <mat-radio-group aria-label="Select an option">
+        <mat-radio-group aria-label="Select an option" formControlName="marital_status">
           <mat-radio-button
             *ngFor="let maritalStatus of maritalStatusList"
             value="{{ maritalStatus?.id }}"

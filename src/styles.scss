@@ -516,19 +516,3 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   background: #d6d6d6;
   border: 1px solid #d6d6d6;
 }
-
-// checkbox custom css
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
-.mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: #5989de !important;
-  border: 1px solid #5989de !important;
-  border-radius: 4px !important;
-}
-.mat-checkbox-checkmark-path {
-  stroke: white !important;
-}
-.mat-checkbox-frame,
-.mat-checkbox-background,
-.mat-checkbox-anim-unchecked-checked .mat-checkbox-anim-checked-unchecked {
-  transform: scale(1.5);
-}

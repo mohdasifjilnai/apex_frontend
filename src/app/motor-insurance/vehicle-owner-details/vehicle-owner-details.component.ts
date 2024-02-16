@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
@@ -13,6 +20,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   occupationList: any;
   maritalStatusList: any;
   filteredPincodeList!: Observable<any[]>;
+  @Output() afterProceedGetData = new EventEmitter<any>();
   @Input() fetchCkycData: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
@@ -24,7 +32,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ]),
     owner_email: new FormControl('', [
       Validators.required,
-      Validators.pattern('/^.+@.+..+.com$/'),
+      Validators.pattern(/^.+@.+[.].+$/),
     ]),
     contact_number: new FormControl('', [
       Validators.required,
@@ -57,13 +65,15 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.required,
       Validators.pattern(/^[a-zA-Z0-9]+$/),
     ]),
+    marital_status: new FormControl('', Validators.required),
+    gender: new FormControl('', Validators.required),
   });
 
   constructor() {
     this.occupationList = [
       {
         id: 1,
-        occupationName: '',
+        occupationName: 'Software Developer',
       },
     ];
 
@@ -80,7 +90,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.fetchCkycData)
+  }
+  getVehicleDetails(isValid: any) {
+    if (isValid) {
+      const formValues = this.owenerVehicleDetailsForm.value;
+      this.afterProceedGetData.emit(formValues);
+    }
   }
   submitFormGroup() {
     

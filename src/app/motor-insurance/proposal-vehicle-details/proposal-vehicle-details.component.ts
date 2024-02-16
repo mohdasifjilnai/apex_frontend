@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
@@ -15,6 +15,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   agreementList: any;
   filteredFinancierList!: any;
   financerList: any;
+  @Input() fetchNomineeDetails:any;
+  @Output() afterProceedGetData = new EventEmitter<any>();
+
 
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
@@ -62,7 +65,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   filterInsurer(name: string) {}
 
@@ -70,5 +74,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   submitFormGroup() {
     this.afterFormSubmit.emit('Proposer Vehicle details Form Submited');
+  }
+  getProposalVehicleData(isValid:any){
+    const formValues = this.proposalVehilceDetailsForm.value;
+    this.afterProceedGetData.emit(formValues)
   }
 }

@@ -1,6 +1,6 @@
 <label class="gender-header">Choose Gender</label>
 <div>
-  <mat-radio-group aria-label="Select an option">
+  <mat-radio-group aria-label="Select an option" formArrayName="gender">
     <mat-radio-button
       *ngFor="let gender of genderList"
       value="{{ gender?.id }}"

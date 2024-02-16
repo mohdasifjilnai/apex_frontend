@@ -15,28 +15,28 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-vehicle-owner-details *ngIf="showVehicleOwnerDetails" [fetchCkycData]="proceedData"></app-vehicle-owner-details>
+        <app-vehicle-owner-details *ngIf="showVehicleOwnerDetails" [fetchCkycData]="proceedData" (afterProceedGetData)="getProceedData($event)"></app-vehicle-owner-details>
       </mat-expansion-panel>
       
       <mat-expansion-panel (opened)="loadCkyc('Nominee Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Nominee Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-nominee-details *ngIf="showNomineeDetails"></app-nominee-details>
+        <app-nominee-details *ngIf="showNomineeDetails" [fetchOwnerVehicleDetails]="proceedData" (afterProceedGetData)="getProceedData($event)"></app-nominee-details>
       </mat-expansion-panel>
       
       <mat-expansion-panel (opened)="loadCkyc('Vehicle Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-proposal-vehicle-details *ngIf="showVehicleDetails"></app-proposal-vehicle-details>
+        <app-proposal-vehicle-details *ngIf="showVehicleDetails" [fetchNomineeDetails]="proceedData" (afterProceedGetData)="getProceedData($event)"></app-proposal-vehicle-details>
       </mat-expansion-panel>
       
       <mat-expansion-panel (opened)="loadCkyc('Previous Policy Details')">
         <mat-expansion-panel-header>
           <mat-panel-title> Previous Policy Details </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-previous-policy-details *ngIf="showPreviousPolicyDetails"></app-previous-policy-details>
+        <app-previous-policy-details *ngIf="showPreviousPolicyDetails" [fetchVehicleDetails]="proceedData"></app-previous-policy-details>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
