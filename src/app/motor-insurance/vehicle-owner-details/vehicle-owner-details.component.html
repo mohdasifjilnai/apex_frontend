@@ -24,6 +24,7 @@
     </div>
     <div class="col-4">
       <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Enter GSTIN</mat-label>
         <input
           matInput
           placeholder="Enter GSTIN"
@@ -55,6 +56,7 @@
     </div>
     <div class="col-4">
       <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Enter Additional Contact Number</mat-label>
         <input
           matInput
           placeholder="Enter Additional Contact Number"
@@ -167,15 +169,18 @@
       </mat-form-field>
     </div>
     <div class="col-4">
-      <!-- <app-owner-city [required]="true" [formControlName]="'owner_city'"></app-owner-city> -->
+      <app-owner-city [required]="true" [formControlName]="'owner_city'"></app-owner-city>
     </div>
     <div class="col-4">
-      <!-- <app-owner-state [required]="true" [formControlName]="'owner_state'"></app-owner-state> -->
+      <app-owner-state [required]="true" [formControlName]="'owner_state'"></app-owner-state>
     </div>
   </div>
-  <div class="col-12">
-    <button class="submit-btn owner-vehicle-submission" type="submit">
-      Save
-    </button>
+  <div class="row">
+    <div class="col-4">
+      <button class="submit-btn owner-vehicle-submission" type="submit">
+        Save & Continue
+      </button>
+    </div>
+    
   </div>
 </form>

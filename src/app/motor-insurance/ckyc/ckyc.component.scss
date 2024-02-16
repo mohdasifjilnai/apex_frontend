@@ -1,11 +1,18 @@
-.is-kyc{
+.cky-form{
+    .is-kyc{
     margin-left: 75px;
-}
-.kyc-header{
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 50%;
-}
-.doc-upload {
-    margin-left: 11px;
+    }
+    .kyc-header{
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 50%;
+    }   
+    ::ng-deep {
+        .mat-form-field{
+            width: 100%;
+        }
+        .mat-form-field-label-wrapper{
+            left: 10px;
+          }
+    }
 }

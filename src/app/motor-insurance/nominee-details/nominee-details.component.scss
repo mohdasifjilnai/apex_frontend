@@ -1,7 +1,13 @@
 .date-of-birth {
     ::ng-deep {
-      .mat-form-field-infix {
-        width: 300px !important;
+      .mat-form-field{
+        width: 100% !important;
       }
     }
-  }
+}
+.owner-vehicle-submission {
+  width: 100%;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+}
