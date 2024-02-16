@@ -1,4 +1,4 @@
-<div class="row m-4">
+<div class="row m-4 proposal-page">
   <div class="col-lg-3 col-md-4">
     <app-insurance-details></app-insurance-details>
   </div>
@@ -39,5 +39,106 @@
         <app-previous-policy-details *ngIf="showPreviousPolicyDetails"></app-previous-policy-details>
       </mat-expansion-panel>
     </mat-accordion>
+  </div>
+</div>
+<div class="res-proposal-page p-2">
+  <div >
+    <app-vehicle-details-card></app-vehicle-details-card>
+  </div>
+  <div >
+    <app-insurance-details></app-insurance-details>
+  </div>
+  <div class="stepper p-2 mt-3">
+    <div class="ckyc" *ngIf="step1">
+      <div class="row">
+        <div class="col-2">
+          <img src="/assets/icon/step-1.svg" alt="" class="step-icon"/>
+        </div>
+        <div class="col-10">
+          <div class="d-grid">
+            <span class="step-text">Step 1/5</span>
+            <span class="step-header-text">CKYC Details</span>
+            <img src="/assets/icon/stepper-1.svg" alt="" class="stepper-icon"/>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <app-ckyc  (afterProceedGetData)="getProceedData($event)"></app-ckyc>
+      </div>
+    </div>
+    <div class="Vehicle-Owner-Details" *ngIf="step2">
+      <div class="row">
+        <div class="col-2">
+          <img src="/assets/icon/step-2.svg" alt="" class="step-icon"/>
+        </div>
+        <div class="col-10">
+          <div class="d-grid">
+            <span class="step-text">Step 2/5</span>
+            <span class="step-header-text">Vehicle Owner Details</span>
+            <img src="/assets/icon/stepper-2.svg" alt="" class="stepper-icon"/>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <app-vehicle-owner-details  (afterFormSubmit)="vehicleOwnerDetailsData($event)"></app-vehicle-owner-details>
+      </div>
+    </div>
+    <div class="Nominee-Details" *ngIf="step3">
+      <div class="row">
+        <div class="col-2">
+          <img src="/assets/icon/step-3.svg" alt="" class="step-icon"/>
+        </div>
+        <div class="col-10">
+          <div class="d-grid">
+            <span class="step-text">Step 3/5</span>
+            <span class="step-header-text">Nominee Details</span>
+            <img src="/assets/icon/stepper-3.svg" alt="" class="stepper-icon"/>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <app-nominee-details  (afterFormSubmit)="nomineeDetailsData($event)"></app-nominee-details>
+      </div>
+    </div>
+    <div class="Vehicle-Details" *ngIf="step4">
+      <div class="row">
+        <div class="col-2">
+          <img src="/assets/icon/step-4.svg" alt="" class="step-icon"/>
+        </div>
+        <div class="col-10">
+          <div class="d-grid">
+            <span class="step-text">Step 4/5</span>
+            <span class="step-header-text">Vehicle Details</span>
+            <img src="/assets/icon/stepper-4.svg" alt="" class="stepper-icon"/>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <app-proposal-vehicle-details  (afterFormSubmit)="proposerVehicleDetailsData($event)"></app-proposal-vehicle-details>
+      </div>
+    </div>
+    <div class="Previous Policy Details" *ngIf="step5">
+      <div class="row">
+        <div class="col-2">
+          <img src="/assets/icon/step-5.svg" alt="" class="step-icon"/>
+        </div>
+        <div class="col-10">
+          <div class="d-grid">
+            <span class="step-text">Step 5/5</span>
+            <span class="step-header-text">Previous Policy Details</span>
+            <img src="/assets/icon/stepper-5.svg" alt="" class="stepper-icon"/>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-5">
+        <app-previous-policy-details  ></app-previous-policy-details>
+      </div>
+    </div>
+    
   </div>
 </div>

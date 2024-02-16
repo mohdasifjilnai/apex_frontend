@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./vehicle-owner-details.component.scss'],
 })
 export class VehicleOwnerDetailsComponent implements OnInit {
+  @Output() afterFormSubmit = new EventEmitter<any>();
   occupationList: any;
   maritalStatusList: any;
   filteredPincodeList!: Observable<any[]>;
@@ -80,5 +81,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.fetchCkycData)
+  }
+  submitFormGroup() {
+    
+    this.afterFormSubmit.emit('Vehicle-owner-details Form Submited');
   }
 }

@@ -6,6 +6,9 @@
         font-size: 14px;
         font-weight: 500;
         opacity: 50%;
+    }
+    .doc-upload{
+        margin-bottom: 15px;
     }   
     ::ng-deep {
         .mat-form-field{
@@ -14,5 +17,12 @@
         .mat-form-field-label-wrapper{
             left: 10px;
           }
+    }
+}
+@media screen and (max-width: 768px) {
+    .cky-form{
+        .owner-vehicle-submission{
+            margin-top: 20px;
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NomineeDetailsComponent implements OnInit {
   relationshipList:any
-
+  @Output() afterFormSubmit = new EventEmitter<any>();
   nominneForm:FormGroup = new FormGroup({
     nominne_full_Name:new FormControl('',Validators.required),
     date_of_birth:new FormControl('',Validators.required),
@@ -29,6 +29,9 @@ export class NomineeDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+  submitFormGroup() {
+    this.afterFormSubmit.emit('Nominee-details Form Submited');
   }
 
 }

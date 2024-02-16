@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { DatePipe } from '@angular/common';
 import { WaitCkycVerificationDialogComponent } from 'src/app/shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -49,7 +50,8 @@ export class CkycComponent implements OnInit {
     private formBuild: FormBuilder,
     private apiService: ApiService,
     private datePipe: DatePipe,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet,
   ) {
     this.ckycList = [
       {
@@ -116,6 +118,7 @@ export class CkycComponent implements OnInit {
         ),
       };
       this.openWaitCkycVerificationPopup(body);
+      
     }
   }
   /**

@@ -1,3 +1,4 @@
+
 .insurer-header {
   font-size: 14px;
   font-weight: 500;
@@ -77,4 +78,54 @@
 }
 .policy {
   line-height: 0;
+
+}
+.res-insurance-details{
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .insurer-details{
+      display: none;
+  }
+  .res-insurance-details{
+    display: block;
+
+    .details-card{
+      background-color: #fff;
+      border-radius: 16px;
+      border: 1px solid #EAEAEA;
+      .plan-text{
+        font-size: 11px;
+        font-weight: 600;
+        color: #282828;
+        opacity: 50%
+      }
+      .plan-value{
+        font-size: 12px;
+        font-weight: 600;
+        color: #282828;
+      }
+    }
+     
+     
+      .view-less{
+        border-radius: 0px 0px 16px 16px;
+        border: 1px solid #F5F8FE;
+        background-color: #F5F8FE;
+        color: #5384EA;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 0px 5px 0px;
+        margin-top: -15px;
+        cursor: pointer;
+        .pipe {
+          // display: flex;
+          // justify-content: center;
+          // align-items: center;
+          min-height: 10%;
+          font-weight: 500 !important;
+          font-size: -webkit-xx-large;
+        }
+    }
+  }
 }

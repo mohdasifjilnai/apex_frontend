@@ -14,6 +14,11 @@ export class ProposalComponent implements OnInit {
   showNomineeDetails: boolean = false;
   showVehicleDetails: boolean = false;
   showPreviousPolicyDetails: boolean = false;
+  step1: boolean=true;
+  step2: boolean=false;
+  step3: boolean=false;
+  step4: boolean=false;
+  step5: boolean=false;
   constructor(public matDialog: WindowRef) { 
     
   }
@@ -40,6 +45,27 @@ export class ProposalComponent implements OnInit {
    */ 
   getProceedData(data:any){
   this.proceedData=data
+  if(data){
+    this.step1=false
+    this.step2=true
   }
-
+  }
+  vehicleOwnerDetailsData(data:any){
+    if(data){
+      this.step2=false
+      this.step3=true
+    }
+  }
+  nomineeDetailsData(data:any){
+    if(data){
+      this.step3=false
+      this.step4=true
+    }
+  }
+  proposerVehicleDetailsData(data:any){
+    if(data){
+      this.step4=false
+      this.step5=true
+    }
+  }
 }

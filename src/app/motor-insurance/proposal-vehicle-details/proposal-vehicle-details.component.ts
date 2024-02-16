@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
   styleUrls: ['./proposal-vehicle-details.component.scss'],
 })
 export class ProposalVehicleDetailsComponent implements OnInit {
+  @Output() afterFormSubmit = new EventEmitter<any>();
   filteredPincodeList!: Observable<any[]>;
   agreementList: any;
   filteredFinancierList!: any;
@@ -66,4 +67,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   filterInsurer(name: string) {}
 
   proposalFinancierBlankData(data: any) {}
+
+  submitFormGroup() {
+    this.afterFormSubmit.emit('Proposer Vehicle details Form Submited');
+  }
 }

@@ -23,32 +23,37 @@
       Please review the data we have fetched after CKYC Verification
     </p>
   </div>
-  <div class="col-12">
-    <table class="ckyc-data-table">
-      <tr class="ckyc-data-table ckyc-data-table-header">
-        <td>Full Name</td>
-        <td>Gender</td>
-        <td>Date of Birth</td>
-      </tr>
-      <tr class="ckyc-data-table ckyc-data-table-row">
-        <td>{{ ckycData["first_name"] }} {{ ckycData["last_name"] }}</td>
-        <td>{{ ckycData["gender"] }}</td>
-        <td>{{ ckycData["dob"] }}</td>
-      </tr>
-      <tr class="ckyc-data-table ckyc-data-table-header space-tr">
-        <td>Owner Type</td>
-        <td>Contact Number</td>
-        <td>Email</td>
-      </tr>
-      <tr class="ckyc-data-table ckyc-data-table-row space-tr">
-        <td>{{ ckycData["proposer_type"] }}</td>
-        <td>{{ ckycData["mobile_number"] }}</td>
-        <td>{{ ckycData["email"] }}</td>
-      </tr>
-    </table>
+  <div class="ckyc-data">
+    <div class="row">
+      <div class="  col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Full Name</span>
+        <span class="details-value">{{ ckycData["first_name"] | titlecase}} {{ ckycData["last_name"] | titlecase}}</span>
+      </div>
+      <div class=" col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Gender</span>
+        <span class="details-value">{{ ckycData["gender"] | titlecase}}</span>
+      </div>
+      <div class="  col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Date of Birth</span>
+        <span class="details-value">{{ ckycData["dob"] }}</span>
+      </div>
+      <div class="  col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Owner Type</span>
+        <span class="details-value">{{ ckycData["proposer_type"] | titlecase}}</span>
+      </div>
+      <div class=" col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Contact Number</span>
+        <span class="details-value">{{ ckycData["mobile_number"] }}</span>
+      </div>
+      <div class=" col-lg-4 col-md-4 col-6 d-grid">
+        <span class="details-header">Email</span>
+        <span class="details-value">{{ ckycData["email"] }}</span>
+      </div>
+      
+    </div>
   </div>
   <div class="col-12 proceed-btn">
-    <button class="submit-btn" type="submit" (click)="onProceedData(ckycData)">
+    <button class="submit-btn w-100" type="submit" (click)="onProceedData(ckycData)">
       Proceed
     </button>
   </div>

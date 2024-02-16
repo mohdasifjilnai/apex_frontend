@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
@@ -28,14 +29,26 @@ export class VehicleDetailsCardComponent implements OnInit {
   };
   showLess: boolean=true;
   viewText:string='More'
+  ProposalURL: boolean=false;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
     public bottomSheet: MatBottomSheet,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {
+   
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.url.subscribe(segments => {
+      const proposalSegment = segments.find(segment => segment.path === 'proposal');
+      if (proposalSegment) {
+        const proposalValue = proposalSegment.path;
+        this.ProposalURL=true
+      }
+    });
+  }
 
   openDialog(edit: string): void {
     if (window.innerWidth <= 768) {

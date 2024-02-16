@@ -152,6 +152,14 @@ th.mat-header-cell:last-of-type {
   .cdk-global-overlay-wrapper {
     align-items: flex-end !important;
   }
+  .wait-ckyc-verification-class {
+    margin-left: 0 !important;
+    margin-bottom: 75% !important;
+    margin-top: 0 !important;
+    .mat-dialog-container {
+      border-radius: 23px;
+    }
+  }
 }
 
 .submit-btn {
@@ -441,8 +449,8 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   }
 }
 .wait-ckyc-verification-class {
-  margin-left: 50% !important;
-  margin-top: 10% !important;
+  margin-left: 50% ;
+  margin-top: 10%;
   .mat-dialog-container {
     width: 612px;
     border-radius: 23px;
