@@ -4,6 +4,7 @@ import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { Router } from '@angular/router';
 import { SseService } from './sse.service';
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,7 @@ export class SharedDataService {
    * registration number base api
    */
 
-  vehicleDetails() {
+  vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
     this.apiService
       .getRequestedResponse(
@@ -66,22 +67,26 @@ export class SharedDataService {
       .subscribe((res: any) => {
         if (res) {
           this.regNumberData.next(res);
-          this.getQuotationListing(res);
+          this.getQuotationListing(res, data);
           this.router.navigate(['/motor/quotes']);
         }
       });
   }
 
-  getQuotationListing(data: any) {
-    let registrationValue = new Date(data.registration_date);
-    let registrationMonth = registrationValue.getMonth() + 1;
-    let registrationYear = registrationValue.getFullYear();
+  getQuotationListing(data: any, value: any) {
+    let registrationValue;
+    let registrationMonth;
+    let registrationYear;
+
+    registrationValue = new Date(data.registration_date);
+    registrationMonth = registrationValue.getMonth() + 1;
+    registrationYear = registrationValue.getFullYear();
 
     let quotesData = {
       customer_type: this.customerType,
       vehicle_type: this.vehicleType,
       rb_mmv_id: 1219,
-      rb_rto_code: data.rto_code,
+      rb_rto_code: data?.rto_code,
       registration_month: 1,
       registration_year: 2024,
       previous_insurer_code: '',
@@ -125,7 +130,7 @@ export class SharedDataService {
                   {}
                 )
               );
-           
+
               this.quotationListing.next(this.allQuotes);
             },
             (error) => {
@@ -136,5 +141,26 @@ export class SharedDataService {
             }
           );
       });
+  }
+
+  vehicleMMVDetails(formData: any, data: any) {
+    let mmvData = formData.value;
+    let policyExpiryDate;
+    if (mmvData.policy_expiry_date != '') {
+      policyExpiryDate = moment(mmvData.policy_expiry_date).format(
+        'YYYY-MM-DD'
+      );
+    } else {
+      policyExpiryDate = '';
+    }
+
+    let mmvValues = {
+      rb_mmv_id: mmvData.vehicle,
+      rto_code: mmvData.rto_city.rb_rto_id,
+      registration_date: mmvData.registration_year,
+      previous_insurer: mmvData.previous_insurer,
+      policy_expire_date: policyExpiryDate,
+    };
+    this.getQuotationListing(mmvValues, data);
   }
 }

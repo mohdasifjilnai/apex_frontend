@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" class="registration-year">
     <mat-label>Select Registration Date</mat-label>
-    <input matInput id="registrationYearId" [matDatepicker]="registrationYear" placeholder="Month and Year" formControlName="registration_year">
+    <input matInput id-automation="registrationYearId" [matDatepicker]="registrationYear" placeholder="Month and Year" formControlName="registration_year">
     <mat-datepicker-toggle matSuffix [for]="registrationYear"></mat-datepicker-toggle>
     <mat-datepicker #registrationYear
                     startView="multi-year"

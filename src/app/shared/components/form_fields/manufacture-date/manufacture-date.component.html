@@ -11,7 +11,13 @@
     matSuffix
     [for]="manufactureDate"
   ></mat-datepicker-toggle>
-  <mat-datepicker #manufactureDate></mat-datepicker>
+  <mat-datepicker
+    #manufactureDate
+    startView="multi-year"
+    (yearSelected)="chosenYearManufacture($event)"
+    (monthSelected)="chosenMonthManufacture($event, manufactureDate)"
+  >
+  </mat-datepicker>
   <mat-error
     *ngIf="form.controls['manufacture_date']?.hasError('required')"
     class="ms-4"

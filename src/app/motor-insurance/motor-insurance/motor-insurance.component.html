@@ -1,6 +1,6 @@
 <div class="row main-container">
-  <div class="res-header-icon text-center mb-3 ">
-    <img  src="/assets/icon/responsive-header-icon.svg" alt=""/>
+  <div class="res-header-icon text-center mb-3">
+    <img src="/assets/icon/responsive-header-icon.svg" alt="" />
   </div>
   <!-- <app-breadcrumb></app-breadcrumb> -->
   <div class="body-content">
@@ -64,7 +64,8 @@
               'text-center': !withoutVehicleNumber
             }"
           >
-            <button id="getVehicleDetailsId"
+            <button
+              id-automation="getVehicleDetailsId"
               [ngClass]="{
                 'me-3': withoutVehicleNumber,
                 'disabled-btn mb-2': motorInsurance.invalid
@@ -83,7 +84,7 @@
           <span>
             <span
               class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
-              id="withoutVehicleNumberText"
+              id-automation="withoutVehicleNumberText"
               (click)="getVehicleNumber()"
             >
               {{

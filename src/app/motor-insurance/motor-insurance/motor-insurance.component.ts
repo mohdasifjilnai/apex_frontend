@@ -21,9 +21,7 @@ const moment = _rollupMoment || _moment;
   animations: [
     trigger('slideUp', [
       state('void', style({ transform: 'translateY(100%)', opacity: 0 })),
-      transition(':enter, :leave', [
-        animate('0.5s ease-in-out')
-      ]),
+      transition(':enter, :leave', [animate('0.5s ease-in-out')]),
     ]),
   ],
 })
@@ -42,11 +40,7 @@ export class MotorInsuranceComponent implements OnInit {
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
-  // Validators.pattern(new RegExp('/^[ A-Za-z0-9-]*$/'))
 
-  // Validators.pattern(
-  //   new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
-  // ),
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -68,12 +62,15 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    localStorage.setItem('withoutVehicleNumber',
-    `${this.withoutVehicleNumber}`)
-  
+    localStorage.setItem(
+      'withoutVehicleNumber',
+      `${this.withoutVehicleNumber}`
+    );
+
     if (!this.withoutVehicleNumber) {
-      this.getVehicleDetailsInfo('');
+      this.getVehicleDetailsInfo();
     } else {
+      this.sharedDataService.vehicleMMVDetails(this.motorInsurance, 'mmv');
       this.router.navigate(['/motor/quotes']);
     }
   }
@@ -109,16 +106,15 @@ export class MotorInsuranceComponent implements OnInit {
    * Uses the ApiService to fetch the requested response and subscribes to the observable.
    */
 
-  getVehicleDetailsInfo(vehicleType: any) {
+  getVehicleDetailsInfo() {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    
+
     const regn_no = this.motorInsurance.controls['registration_number']?.value;
 
     if (regn_no) {
-      sessionStorage.setItem('registrationNumber',
-      `${regn_no}`)
-   
-      this.sharedDataService.vehicleDetails();
+      sessionStorage.setItem('registrationNumber', `${regn_no}`);
+
+      this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
 }

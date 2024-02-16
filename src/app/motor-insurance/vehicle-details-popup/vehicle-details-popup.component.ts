@@ -1,4 +1,11 @@
-import { Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   ControlContainer,
   FormBuilder,
@@ -10,6 +17,7 @@ import {
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -43,6 +51,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   variantId: any;
   rtoDataNotAvailable = '';
   rtoId: any;
+  ncbDiscountData = true;
 
   /**
    * MMV is use for (Make Model Variant)
@@ -70,7 +79,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     private FormBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
-    public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>,
+    public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>
   ) {
     /**
      * Initialize the form using FormBuilder
@@ -84,7 +93,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: ['', Validators.required],
       previous_claimed: ['', Validators.required],
       ncb_discount: ['', Validators.required],
-      manufacture_date: ['', Validators.required],
+      manufacture_date: [moment(), Validators.required],
       registration_date: ['', Validators.required],
       previous_insurer: ['', Validators.required],
     });
@@ -119,6 +128,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.claimedList = [
       {
         id: 1,
+        claimedName: 'Yes',
+      },
+      {
+        id: 2,
         claimedName: 'No',
       },
     ];
@@ -144,7 +157,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationNumber: any;
   ngOnInit(): void {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
- 
+
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
     });
@@ -156,12 +169,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
-      this.sharedDataService.vehicleDetails();
+      this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
 
   onClose(): void {
-    
     if (window.innerWidth <= 768) {
       this.bottomSheetRef.dismiss();
     } else {
@@ -175,7 +187,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
-    
   }
 
   getVehicleMMVPopup(name: any) {
@@ -209,8 +220,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
             vehicle_fuel: this.registrationNumber.fuel_type,
           });
           this.vehicleDetailsForm.patchValue({
-            registration_date : new Date(this.registrationNumber.registration_date)
-          })
+            registration_date: new Date(
+              this.registrationNumber.registration_date
+            ),
+          });
 
           if (res.length > 0) {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
@@ -469,6 +482,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehcileRegistration(data: any) {
     if (data == '') {
       this.getRTOData();
+    }
+  }
+
+  claimedPolicy(data: any) {
+   
+    if (data.value.claimedName == 'No') {
+      this.ncbDiscountData = true;
+    } else {
+      this.ncbDiscountData = false;
     }
   }
 }

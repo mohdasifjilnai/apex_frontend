@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -6,14 +7,26 @@ import { Observable } from 'rxjs';
 })
 export class SseService {
   private eventSource!: EventSource;
-
-  constructor(private zone: NgZone) {}
+  routerEvents:any;
+  currentPageUrl:any;
+  constructor(private zone: NgZone,private router: Router) {
+    this.routerEvents = this.router.events.subscribe(
+      (event:any)=>{
+        if(event instanceof NavigationEnd){
+          this.currentPageUrl = event.url;
+        }
+      }
+    )
+  }
 
   getServerSentEvent(url: string): Observable<MessageEvent> {
     return new Observable(observer => {
       const eventSource = this.getEventSource(url);
       eventSource.onopen = (ev) => {
         console.log('Connection to server opened.', ev);
+        if(this.currentPageUrl != "/motor/quotes"){
+            eventSource.close()
+        }
       };
       eventSource.onerror = (ev) => {
         console.log('EventSource failed.', ev);

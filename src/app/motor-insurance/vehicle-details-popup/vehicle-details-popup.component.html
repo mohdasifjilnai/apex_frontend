@@ -1,7 +1,7 @@
 <form [formGroup]="vehicleDetailsForm" class="edit-vehicle-details">
-  <div >
+  <div>
     <!-- Dialog title -->
-    <div mat-dialog-title class="row  ">
+    <div mat-dialog-title class="row">
       <div class="vehicle-details-popup-header d-flex justify-content-between">
         <span>
           {{
@@ -18,7 +18,7 @@
           (click)="onClose()"
         />
       </div>
-      <hr class="line">
+      <hr class="line" />
     </div>
     <!-- Dialog content -->
     <div mat-dialog-content>
@@ -147,11 +147,15 @@
         </div>
         <!-- Registration Date -->
         <div class="col-lg-6 col-md-6 col-12">
-          <app-registration-date [customRegistrationDate]="'registration-date'"></app-registration-date>
+          <app-registration-date
+            [customRegistrationDate]="'registration-date'"
+          ></app-registration-date>
         </div>
         <!-- Manufacture Date  -->
         <div class="col-lg-6 col-md-6 col-12">
-          <app-manufacture-date [customManufactureDate]="'manufacture-date'"></app-manufacture-date>
+          <app-manufacture-date
+            [customManufactureDate]="'manufacture-date'"
+          ></app-manufacture-date>
         </div>
         <!-- Used Car/ RC Transfer dropdown -->
         <div class="col-lg-6 col-md-6 col-12">
@@ -180,21 +184,27 @@
         </div>
         <!-- Expiry -->
         <div class="col-lg-6 col-md-6 col-12">
-          <app-policy-expired-date [required]="true" [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>
+          <app-policy-expired-date
+            [required]="true"
+            [policyExpiryDate]="'expiry-date'"
+          ></app-policy-expired-date>
         </div>
         <!-- Previous Insurer dropdown -->
         <div class="col-lg-6 col-md-6 col-12">
-          <app-previous-insurer [required]="true" [previousInsurer]="'previous-insurer'"></app-previous-insurer>
+          <app-previous-insurer
+            [required]="true"
+            [previousInsurer]="'previous-insurer'"
+          ></app-previous-insurer>
         </div>
         <!-- Is Previous Policy Claimed dropdown -->
         <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Is Previous Policy Claimed?</mat-label>
-            <mat-select formControlName="previous_claimed">
-              <mat-option
-                *ngFor="let claimed of claimedList"
-                [value]="claimed?.id"
-              >
+            <mat-select
+              formControlName="previous_claimed"
+              (selectionChange)="claimedPolicy($event)"
+            >
+              <mat-option *ngFor="let claimed of claimedList" [value]="claimed">
                 {{ claimed?.claimedName }}
               </mat-option>
             </mat-select>
@@ -204,16 +214,20 @@
         <div class="col-lg-6 col-md-6 col-12">
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Previous Year NCB Discount</mat-label>
-            <mat-select formControlName="ncb_discount">
+            <mat-select
+              formControlName="ncb_discount"
+              [disabled]="ncbDiscountData"
+            >
               <mat-option *ngFor="let ncb of ncbList" [value]="ncb?.id">
                 {{ ncb?.ncbName }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-lg-6  col-12">
-          <button mat-button
-            class="submit-btn mb-4 vehicle-submission "
+        <div class="col-lg-6 col-12">
+          <button
+            mat-button
+            class="submit-btn mb-4 vehicle-submission"
             type="submit"
             (click)="updateVehicleDetail()"
           >
@@ -221,10 +235,7 @@
           </button>
         </div>
       </div>
-      
     </div>
-    <div  >
-      
-    </div>
+    <div></div>
   </div>
 </form>

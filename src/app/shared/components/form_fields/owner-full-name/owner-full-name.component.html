@@ -1,4 +1,4 @@
 <mat-form-field appearance="outline" class="mat-input-custom">
-  <mat-label>Full Name</mat-label>
-  <input matInput placeholder="Enter Full Name" [formControlName]="formControlName" ngDefaultControl id-automation="full_name" appAlphabetOnly/>
+  <mat-label>{{label}}</mat-label>
+  <input matInput placeholder="Enter {{label}}" [formControlName]="formControlNameData" ngDefaultControl id-automation="full_name" appAlphabetOnly/>
 </mat-form-field>

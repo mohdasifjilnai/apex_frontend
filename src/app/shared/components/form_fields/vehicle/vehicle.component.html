@@ -2,7 +2,7 @@
   <mat-label>Search Vehicle</mat-label>
   <input
     matInput
-    id="searchVehicle"
+    id-automation="searchVehicle"
     placeholder="Search Vehicle"
     aria-label="vehicle"
     (ngModelChange)="vehcileMMV($event)"
@@ -15,7 +15,11 @@
     [displayWith]="displayVehicle.bind(this)"
   >
     <span *ngIf="mmvDataNotAvailable == ''">
-      <mat-option *ngFor="let mmvData of filteredMMV | async" [value]="mmvData">
+      <mat-option
+        *ngFor="let mmvData of filteredMMV | async"
+        id-automation="searchVehicleDropdown"
+        [value]="mmvData"
+      >
         <span>{{ mmvData.rb_make_name }}</span> |
         <span>{{ mmvData.rb_model_name }}</span> |
         <span>{{ mmvData.rb_variant_name }}</span>
