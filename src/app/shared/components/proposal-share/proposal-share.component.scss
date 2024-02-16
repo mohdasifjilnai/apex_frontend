@@ -1,0 +1,139 @@
+::ng-deep {
+    .mat-dialog-container {
+      border-radius: 20px !important;
+      width: 368px !important;
+      height: 100% !important;
+    }
+  }
+  .procceed-inspection {
+    .insurance-icon {
+      position: relative;
+      left: 20px;
+      width: 193px;
+      height: 140px;
+    }
+    .premium-payable-group {
+      background-color: rgb(0 83 255 / 13%);
+      border-radius: 12px;
+      width: 230px;
+      height: 71px;
+    }
+    .total-premium-payable-amount,
+    .total-premium-payable-text {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .total-premium-payable-amount {
+      position: relative;
+      bottom: 10px;
+    }
+    .start-date-group,
+    .proposal-number-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #282828;
+    }
+    .proposal-number-id,
+    .start-date-data {
+      font-size: 14px;
+      font-weight: 600;
+      color: #282828;
+    }
+    .proposal-number-id {
+      position: relative;
+      left: 36px;
+    }
+    .start-date-data {
+      position: relative;
+      left: 100px;
+    }
+    .inspection-btn {
+      width: 240px;
+    }
+    .share-group,
+    .download-group {
+      width: 114px;
+      height: 32px;
+      border-radius: 9px;
+      padding-right: 11px;
+      padding-top: 6px;
+    }
+    .light-blue {
+      background-color: #5384ea45;
+    }
+    .download-group {
+      background-color: #47be8857;
+      position: relative;
+      left: 10px;
+    }
+    .light-green {
+      background-color: #47be8857;
+    }
+    .share-icon,
+    .download-icon,
+    .whatsapp-icon,
+    .sms-icon,
+    .mail-icon {
+      width: 12px;
+      height: 22px;
+    }
+    .share-text,
+    .download-text {
+      font-size: 11px;
+      font-weight: 600;
+      position: relative;
+      bottom: -2px;
+      left: 6px;
+    }
+    .download-group-after-share {
+      position: relative !important;
+      left: 0px !important;
+      width: 240px !important;
+    }
+    .communication-mode-text {
+      color: #282828;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .whatsapp-group,
+    .sms-group,
+    .mail-group {
+      width: 70px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    .whatsapp-icon,
+    .sms-icon,
+    .mail-icon {
+      position: relative;
+      left: 25px;
+      top: 4px;
+    }
+    .whatsapp-border {
+      border: 1px solid #47be88;
+    }
+    .sms-border,
+    .mail-border {
+      border: 1px solid #5384ea;
+    }
+    .mat-form-field {
+      text-align: center !important;
+      position: relative !important;
+      top: 10px !important;
+      left: -2px !important;
+    }
+    ::ng-deep .mat-form-field-infix {
+      width: 224px !important;
+      height: 11px !important;
+      position: relative;
+      top: -11px;
+    }
+    .send-btn {
+      background-color: #5384ea45;
+      border: 0px solid #5384ea45;
+    }
+    .mat-dialog-content {
+      overflow: unset !important;
+    }
+  }
+  

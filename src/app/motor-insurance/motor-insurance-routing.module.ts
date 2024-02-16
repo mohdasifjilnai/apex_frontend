@@ -4,6 +4,7 @@ import { MotorInsuranceComponent } from './motor-insurance/motor-insurance.compo
 import { QuotesComponent } from './quotes/quotes.component';
 import { ProposalComponent } from './proposal/proposal.component';
 import {VehicleInspectionComponent} from './vehicle-inspection/vehicle-inspection.component'
+import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
 const routes: Routes = [
   {
     path: '',
@@ -42,6 +43,18 @@ const routes: Routes = [
         { name: 'Quotes Listing', path: ['motor/quotes'] },
         { name: 'Proposal Form', path: ['motor/quotes/proposal']},
         { name: 'Vehicle Inspection', path: ['']},
+      ],
+    },
+  },
+  {
+    path: 'quotes/proposal/review',
+    component: ProposalReviewComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Motor Insurance', path: ['motor'] },
+        { name: 'Quotes Listing', path: ['motor/quotes'] },
+        { name: 'Proposal Form', path: ['motor/quotes/proposal']},
+        { name: 'Proposal Review', path: ['motor/quotes/proposal'] },
       ],
     },
   },

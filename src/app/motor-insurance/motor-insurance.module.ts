@@ -22,6 +22,7 @@ import { PreviousPolicyDetailsComponent } from './previous-policy-details/previo
 import { InsuranceDetailsComponent } from './insurance-details/insurance-details.component';
 import { VehicleInspectionComponent } from './vehicle-inspection/vehicle-inspection.component';
 import { QuotesDropdownComponent } from './quotes-dropdown/quotes-dropdown.component';
+import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
 
 
 
@@ -44,6 +45,7 @@ import { QuotesDropdownComponent } from './quotes-dropdown/quotes-dropdown.compo
     InsuranceDetailsComponent,
     VehicleInspectionComponent,
     QuotesDropdownComponent,
+    ProposalReviewComponent,
   ],
   imports: [
     CommonModule,

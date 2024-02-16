@@ -1,0 +1,55 @@
+.vehicle-owner-details {
+  margin-top: 16px;
+  width: 97%;
+  background: #edf2fc;
+  border-radius: 12px;
+  color: #5384ea;
+  font-size: 16px;
+  font-weight: 600;
+  .review-header {
+    margin-top: 10px;
+  }
+}
+.field-content {
+  width: 94%;
+}
+.full-name {
+  padding-right: 100px;
+}
+.acknowledgemen-confirm {
+  .col-1 {
+    width: 2.8%;
+  }
+  .proposal-confirmation {
+    font-size: 13px;
+    font-weight: 500;
+  }
+}
+.proposal-review-submission {
+  width: 350px;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.field-title {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 50%;
+}
+.field-value {
+  font-size: 16px;
+  font-weight: 500;
+}
+.edit-button {
+  background-color: #edf2fc;
+  color: #5384ea;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  width: 152px;
+  height: 45px;
+}
+.edit-image {
+  padding-right: 4px;
+}

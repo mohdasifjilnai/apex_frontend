@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-previous-policy-details',
@@ -20,7 +21,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     previous_insurer: new FormControl('', Validators.required),
   });
 
-  constructor() {
+  constructor(private router :Router) {
     this.optReasonList = [
       {
         id: 1,
@@ -30,4 +31,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  navigateToProposalReview(){
+    this.router.navigate(['/motor/quotes/proposal/review']);
+  }
 }

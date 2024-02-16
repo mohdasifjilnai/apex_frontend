@@ -17,7 +17,6 @@ import { AmountFormatPipe } from './pipe/amount-format.pipe';
 import { RegistrationDateComponent } from './components/form_fields/registration-date/registration-date.component';
 import { ManufactureDateComponent } from './components/form_fields/manufacture-date/manufacture-date.component';
 import { ErrorDialogComponent } from './components/dialog-components/error-dialog/error-dialog.component';
-import { ProceedInspectionComponent } from './components/dialog-components/proceed-inspection/proceed-inspection.component';
 import { PremiumBreakupComponent } from './components/dialog-components/premium-breakup/premium-breakup.component';
 import { WaitCkycVerificationDialogComponent } from './components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 import { OtpComponent } from './components/dialog-components/otp/otp.component';
@@ -39,6 +38,7 @@ import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { AlphabetOnlyDirective } from './directives/alphabet-only.directive';
 import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
 import { NumberWithDecimalDirective } from './directives/number-with-decimal.directive';
+import { ProposalShareComponent } from './components/proposal-share/proposal-share.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,6 @@ import { NumberWithDecimalDirective } from './directives/number-with-decimal.dir
     RegistrationDateComponent,
     ManufactureDateComponent,
     ErrorDialogComponent,
-    ProceedInspectionComponent,
     PremiumBreakupComponent,
     WaitCkycVerificationDialogComponent,
     OtpComponent,
@@ -76,7 +75,8 @@ import { NumberWithDecimalDirective } from './directives/number-with-decimal.dir
     NumbersOnlyDirective,
     AlphabetOnlyDirective,
     AlphaNumericDirective,
-    NumberWithDecimalDirective
+    NumberWithDecimalDirective,
+    ProposalShareComponent
   ],
   imports: [
     CommonModule,
