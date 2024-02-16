@@ -8,7 +8,7 @@
     aria-label="previous_insurer"
     #autoCompleteInput
     [matAutocomplete]="autoInsurer"
-    formControlName="previous_insurer"
+    [formControlName]="formControlNameData"
   />
   <mat-autocomplete
     #autoInsurer="matAutocomplete"

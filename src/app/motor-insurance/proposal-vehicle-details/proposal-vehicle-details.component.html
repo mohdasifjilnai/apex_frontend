@@ -186,16 +186,19 @@
     <div class="col-4">
       <app-owner-city
         [required]="true"
-        [formControlName]="'vehilce_city'"
+        [formControlNameData]="'vehilce_city'"
+        [label]="'City'"
+        [idAutomation]="'vehicleCity'"
       ></app-owner-city>
     </div>
     <div class="col-4">
       <app-owner-state
         [required]="true"
-        [formControlName]="'vehicle_state'"
+        [formControlNameData]="'vehicle_state'"
+        [label]="'State'"
+        [idAutomation]="'vehicleState'"
       ></app-owner-state>
     </div>
-    
   </div>
   <div class="row">
     <div class="col-4">

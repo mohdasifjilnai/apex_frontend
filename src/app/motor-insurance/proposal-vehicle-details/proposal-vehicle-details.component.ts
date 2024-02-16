@@ -42,6 +42,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     vehicle_state: new FormControl('', Validators.required),
     previous_insurer: new FormControl('', Validators.required),
     financer: new FormControl('', Validators.required),
+    agreement_type: new FormControl('', Validators.required),
+    financer_city: new FormControl('', Validators.required),
   });
 
   constructor(private apiservice: ApiService) {

@@ -46,10 +46,10 @@
             <app-registration-year></app-registration-year>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
-            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlName]="'previous_insurer'"></app-previous-insurer>
+            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlNameData]="'previous_insurer'"></app-previous-insurer>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
-            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlName]="'previous_insurer'"></app-previous-insurer>
+            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlNameData]="'previous_insurer'"></app-previous-insurer>
           </div>
           <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
             <app-policy-expired-date [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>

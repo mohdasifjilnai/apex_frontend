@@ -30,7 +30,8 @@ export class PreviousInsurerComponent implements OnInit {
   autocomplete!: MatAutocompleteTrigger;
   previousInsurerNoData = '';
   prevoiusInsurerId: any;
-
+  @Input() formControlNameData:any;
+  
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService

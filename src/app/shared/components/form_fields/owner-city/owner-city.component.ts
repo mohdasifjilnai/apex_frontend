@@ -20,10 +20,12 @@ import { Observable } from 'rxjs';
 export class OwnerCityComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  @Input() formControlName: any;
+  @Input() formControlNameData: any;
+  @Input() label: any;
   filteredCityList!: Observable<any[]>;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
+  @Input() idAutomation: any;
 
   constructor(private ctrlContainer: FormGroupDirective) {}
 
@@ -35,11 +37,11 @@ export class OwnerCityComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'owner_city',
+        this.formControlNameData,
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('owner_city', new FormControl());
+      this.form.addControl(this.formControlNameData, new FormControl());
     }
   }
 

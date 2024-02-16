@@ -1,12 +1,13 @@
 <mat-form-field class="mat-input-custom" appearance="outline">
-  <mat-label>State</mat-label>
+  <mat-label>{{ label }}</mat-label>
   <input
     matInput
-    placeholder="state"
+    placeholder="{{ label }}"
     aria-label="state"
     #autoCompleteInput
     [matAutocomplete]="stateAuto"
-    [formControlName]="formControlName"
+    [formControlName]="formControlNameData"
+    [id]="idAutomation"
   />
   <mat-autocomplete #stateAuto="matAutocomplete">
     <mat-option

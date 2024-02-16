@@ -20,10 +20,12 @@ import { Observable } from 'rxjs';
 export class OwnerStateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  @Input() formControlName: any;
+  @Input() formControlNameData: any;
   filteredStateList!: Observable<any[]>;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
+  @Input() label: any;
+  @Input() idAutomation: any;
 
   constructor(private ctrlContainer: FormGroupDirective) {}
 
