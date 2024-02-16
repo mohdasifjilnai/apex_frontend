@@ -4,19 +4,22 @@
       "optionName": "Two Wheeler",
       "imageUrl": "/assets/icon/two-wheeler-icon.svg",
       "imageInformation": "Two Wheeler",
-      "backgroundColor":"#FF8C9E1A"
+      "backgroundColor": "#FF8C9E1A",
+      "optionNameValue": "two_wheeler"
     },
     {
       "optionName": "Private Car",
       "imageUrl": "/assets/icon/private-car-icon.svg",
       "imageInformation": "Private Car",
-      "backgroundColor":"#28B8E21A"
+      "backgroundColor": "#28B8E21A",
+      "optionNameValue": "private_car"
     },
     {
       "optionName": "Commercial Vehicle",
       "imageUrl": "/assets/icon/commercial-vehicle-icon.svg",
       "imageInformation": "Commercial Vehicle",
-      "backgroundColor":"#BD95FF1A"
+      "backgroundColor": "#BD95FF1A",
+      "optionNameValue": "commercial_vehicle"
     }
   ]
 }

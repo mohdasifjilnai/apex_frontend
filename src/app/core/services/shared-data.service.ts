@@ -31,9 +31,7 @@ export class SharedDataService {
     private apiService: ApiService,
     private router: Router,
     private sseService: SseService
-  ) {
-    this.vehicleType = localStorage.getItem('vehicleType');
-  }
+  ) {}
 
   sendVehicleEditData(data: any) {
     this.getVehicleDetails.next(data);
@@ -77,16 +75,15 @@ export class SharedDataService {
     let registrationValue;
     let registrationMonth;
     let registrationYear;
-
+    this.vehicleType = localStorage.getItem('vehicleType');
     registrationValue = new Date(data.registration_date);
     registrationMonth = registrationValue.getMonth() + 1;
     registrationYear = registrationValue.getFullYear();
-
     let quotesData = {
       customer_type: this.customerType,
       vehicle_type: this.vehicleType,
-      rb_mmv_id: 1219,
-      rb_rto_code: data?.rto_code,
+      rb_mmv_id: 415,
+      rb_rto_code: 'MH01',
       registration_month: 1,
       registration_year: 2024,
       previous_insurer_code: '',
