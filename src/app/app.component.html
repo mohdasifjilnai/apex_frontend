@@ -1,2 +1,6 @@
-<!-- <app-registration-number></app-registration-number> -->
+<div *ngIf="isLoading" class="loader-class">
+  <div>
+    <img class="loader" src="assets/gif/loader.gif" alt="" />
+  </div>
+</div>
 <router-outlet></router-outlet>

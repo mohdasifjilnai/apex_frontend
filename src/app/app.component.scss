@@ -1,0 +1,14 @@
+
+.loader-class {
+  display: flex !important;
+  position: absolute !important;
+  height: 100vh !important;
+  width: 100vw !important;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  z-index: 1;
+}
+.loader {
+  height: 46vh;
+}
