@@ -81,23 +81,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     private apiservice: ApiService,
     public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>
   ) {
-    /**
-     * Initialize the form using FormBuilder
-     */
-    this.vehicleDetailsForm = this.FormBuilder.group({
-      vehicle_model: ['', Validators.required],
-      vehicle_variant: ['', Validators.required],
-      vehicle_fuel: ['', Validators.required],
-      registration_city: ['', Validators.required],
-      user_car: ['', Validators.required],
-      policy_expiry: ['', Validators.required],
-      previous_claimed: ['', Validators.required],
-      ncb_discount: ['', Validators.required],
-      manufacture_date: [moment(), Validators.required],
-      registration_date: ['', Validators.required],
-      previous_insurer: ['', Validators.required],
-    });
-
+    this.vehicleDetailsFormControler();
+    this.getClaimedList();
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
      */
@@ -111,17 +96,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
         rcName: 'No',
       },
     ];
-
-    /**
-     * Sample data for the Type of Expiring Policy dropdown list
-     */
-    this.expiryList = [
-      {
-        id: 1,
-        expiryName: 'Bundled (1 Year OD + 3 Year TP)',
-      },
-    ];
-
     /**
      * Sample data for the Is Previous Policy Claimed dropdown list
      */
@@ -151,6 +125,35 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.editVehicleDetails = false;
       }
     });
+  }
+  /**
+   * Initialize the form using FormBuilder
+   */
+  vehicleDetailsFormControler() {
+    this.vehicleDetailsForm = this.FormBuilder.group({
+      vehicle_model: ['', Validators.required],
+      vehicle_variant: ['', Validators.required],
+      vehicle_fuel: ['', Validators.required],
+      registration_city: ['', Validators.required],
+      user_car: ['', Validators.required],
+      policy_expiry: ['', Validators.required],
+      previous_claimed: ['', Validators.required],
+      ncb_discount: ['', Validators.required],
+      manufacture_date: [moment(), Validators.required],
+      registration_date: ['', Validators.required],
+      previous_insurer: ['', Validators.required],
+    });
+  }
+
+  /**
+   * this function use for get expiry list
+   */
+  getClaimedList() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.exp_policy_type)
+      .subscribe((res) => {
+        this.expiryList = res;
+      });
   }
   withRegistrationNumber: any;
   changeRegNumber: any;
@@ -486,7 +489,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   claimedPolicy(data: any) {
-   
     if (data.value.claimedName == 'No') {
       this.ncbDiscountData = true;
     } else {

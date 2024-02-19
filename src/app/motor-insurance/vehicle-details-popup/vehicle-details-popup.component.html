@@ -175,9 +175,9 @@
             <mat-select formControlName="policy_expiry">
               <mat-option
                 *ngFor="let expiry of expiryList"
-                [value]="expiry?.id"
+                [value]="expiry?.rb_expiring_policy_type_id"
               >
-                {{ expiry?.expiryName }}
+                {{ expiry?.rb_expiring_policy_type }}
               </mat-option>
             </mat-select>
           </mat-form-field>
