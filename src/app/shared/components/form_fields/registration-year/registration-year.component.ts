@@ -6,11 +6,16 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {MatDatepicker} from '@angular/material/datepicker';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -34,29 +39,40 @@ export const MY_FORMATS = {
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
 
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  constructor(private ctrlContainer: FormGroupDirective) {
-    
-  }
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private sharedDataService: SharedDataService
+  ) {}
 
-  ctrlValue:any
+  ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
-    this.ctrlValue = this.form.controls['registration_year'].value
-    this.ctrlValue.year(normalizedYear.year())
+    this.ctrlValue = this.form.controls['registration_year'].value;
+    this.ctrlValue.year(normalizedYear.year());
     this.form.controls['registration_year'].setValue(this.ctrlValue);
   }
 
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+  chosenMonthHandler(
+    normalizedMonth: Moment,
+    datepicker: MatDatepicker<Moment>
+  ) {
     this.ctrlValue = this.form.controls['registration_year'].value;
     this.ctrlValue.month(normalizedMonth.month());
     this.form.controls['registration_year'].setValue(this.ctrlValue);
+    this.sharedDataService.registrationYearData(
+      this.form.controls['registration_year']
+    );
     datepicker.close();
   }
   ngOnInit(): void {

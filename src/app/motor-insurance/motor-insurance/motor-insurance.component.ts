@@ -7,10 +7,15 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { default as _rollupMoment, Moment } from 'moment';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
-
 
 const moment = _rollupMoment || _moment;
 @Component({
@@ -31,6 +36,9 @@ export class MotorInsuranceComponent implements OnInit {
   withoutVehicleNumber: boolean = false;
   vehcileType = 'private_car';
   vehicleTypeValue: any;
+  registrationMonth: any;
+  currentMonthValue: any;
+  insurerDisable = false;
 
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [Validators.required]),
@@ -51,6 +59,29 @@ export class MotorInsuranceComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
+    });
+
+    this.sharedDataService.registrationMonthSelection.subscribe((res) => {
+      this.registrationMonth = moment(res.value).month();
+      let currentDate = new Date();
+      let selectedRegistrationData =
+        this.registrationMonth + 1 < 10
+          ? `0${this.registrationMonth + 1}`
+          : this.registrationMonth + 1;
+
+      this.currentMonthValue =
+        currentDate.getMonth() + 1 < 10
+          ? `0${currentDate.getMonth() + 1}`
+          : currentDate.getMonth() + 1;
+
+      let monthGap = Math.abs(
+        this.currentMonthValue - selectedRegistrationData
+      );
+
+      if (monthGap > 10) {
+        this.insurerDisable = true;
+        this.sharedDataService.insurerData(this.insurerDisable);
+      }
     });
   }
 

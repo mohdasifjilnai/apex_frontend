@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-policy-expired-date',
@@ -18,9 +19,13 @@ import {
 export class PolicyExpiredDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  @Input() policyExpiryDate!:string
+  @Input() policyExpiryDate!: string;
+  disablEexpiryDate = false;
 
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
     // add form control for the Policy Expiry Date
@@ -33,6 +38,10 @@ export class PolicyExpiredDateComponent implements OnInit {
     } else {
       this.form.addControl('policy_expiry_date', new FormControl());
     }
+
+    this.sharedDataService.disableInsurer.subscribe((res) => {
+      this.disablEexpiryDate = res;
+    });
   }
 
   ngOnDestroy(): void {

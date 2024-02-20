@@ -54,51 +54,48 @@
           </mat-form-field>
         </div>
         <div class="col-lg-3 col-4">
-          <button mat-button (click)="shareQuotesOpen(null,shareQuotesJSON)">
+          <button mat-button (click)="shareQuotesOpen(null, shareQuotesJSON)">
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
           </button>
         </div>
         <div class="col-lg-2 col-4 inc-gst">
           <span class="gst me-2 mt-1">Inc. GST</span>
-          <mat-slide-toggle
-          checked="true">
-      </mat-slide-toggle>
+          <mat-slide-toggle checked="true"> </mat-slide-toggle>
         </div>
       </div>
     </div>
   </div>
   <div class="quotation-listing" *ngIf="showComprehensiveDiv">
-    <div *ngFor="let quotes Of quotationData">
+    <div *ngFor="let quotes of quotationData">
       <div class="row comprehensive-card">
         <div class="comprehensive-tab ps-4 pe-4 pt-4">
-          <div class="row" >
+          <div class="row">
             <div class="col-lg-2 col-md-4 col-12">
-              <img
-                [src]="quotes.insurer_logo"
-                class="insurer-logo"
-                alt=""
-              />
+              <img [src]="quotes.insurer_logo" class="insurer-logo" alt="" />
             </div>
             <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-8 col-md-8 col-7 ">
+            <div class="col-lg-8 col-md-8 col-7">
               <span class="idv-amount">
-                IDV (&#8377; 4,98,500- &#8377; 7,00,000)
+                IDV (&#8377; {{ quotes.premium_details?.min_idv }}- &#8377;
+                {{ quotes.premium_details?.max_idv }})
               </span>
-              <p class="idv-choose-amount mt-1">&#8377; {{quotes.premium_details.idv}}</p>
+              <p class="idv-choose-amount mt-1">
+                &#8377; {{ quotes.premium_details.idv }}
+              </p>
             </div>
             <div class="col-lg-2 col-md-2 col-5 premium-btn">
               <span
                 class="premium-breakup-amount cursor-pointer text-center"
                 (click)="getProposalDetails()"
               >
-                &#8377; {{quotes.premium_details.total_premium}}  </span
-              >
+                &#8377; {{ quotes.premium_details.total_premium }}
+              </span>
               <p
                 class="premium-breakup"
                 (click)="openPremiumBreakupModal(quotes, $event)"
               >
-                <span >Premium Breakup</span>
+                <span>Premium Breakup</span>
               </p>
             </div>
           </div>
@@ -106,33 +103,33 @@
       </div>
       <!-- comprehensive key feature web view -->
       <div class="comprehensive-key-features">
-        <div class=" comprehensive-key-features-value">
+        <div class="comprehensive-key-features-value">
           <div class="d-flex justify-content-between">
-            <div class=" key-features-text">Key Features:</div>
-            <div class=" key-features-value">
+            <div class="key-features-text">Key Features:</div>
+            <div class="key-features-value">
               <img src="assets/icon/insurer-key-feature.svg" />
               Maximum Cashless Garages
             </div>
-            <div class=" key-features-value">
+            <div class="key-features-value">
               <img src="assets/icon/insurer-key-feature.svg" />
               PSU Provider
             </div>
-            <div class=" key-features-value">
+            <div class="key-features-value">
               <img src="assets/icon/insurer-key-feature.svg" />
               24x7 RSA
             </div>
-            <div class=" key-features-value">
+            <div class="key-features-value">
               <img src="assets/icon/insurer-key-feature.svg" />
               Quick Claim Settlement
             </div>
-            <div class=" key-features-value">
+            <div class="key-features-value">
               <img src="assets/icon/insurer-key-feature.svg" />
               Over Night Repair
             </div>
           </div>
         </div>
       </div>
-  
+
       <!-- comprehensive key feature mobile view -->
       <div class="row res-comprehensive-key-features">
         <span class="key-features">
@@ -152,12 +149,15 @@
         </span>
       </div>
     </div>
-   
+
     <br />
 
     <div class="w-100 comprehensive-no-quotes-information">
       <div>
-        <div class="row no-quotes-information-card" *ngIf="!noQuotesInformation">
+        <div
+          class="row no-quotes-information-card"
+          *ngIf="!noQuotesInformation"
+        >
           <div class="col-lg-8 col-8 d-flex">
             <img
               src="/assets/icon/quotes-warning.svg"

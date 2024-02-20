@@ -16,6 +16,8 @@ export class SharedDataService {
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData: Subject<any> = new Subject();
   quotationListing: Subject<any> = new Subject();
+  registrationMonthSelection: Subject<any> = new Subject();
+  disableInsurer: Subject<any> = new Subject();
   regNumber: any;
   connectionData: any = [];
   vehicleType: any;
@@ -51,7 +53,20 @@ export class SharedDataService {
   selectedVehicleType(data: any) {
     this.getSelectedVehicleType.next(data);
   }
-
+ /**
+   *
+   * @param data send registration date data 
+   */
+  registrationYearData(data: any) {
+    this.registrationMonthSelection.next(data);
+  }
+ /**
+   *
+   * @param data disable field insurere and expiry policy date
+   */
+  insurerData(data: any) {
+    this.disableInsurer.next(data);
+  }
   /**
    * registration number base api
    */
@@ -83,7 +98,7 @@ export class SharedDataService {
       customer_type: this.customerType,
       vehicle_type: this.vehicleType,
       rb_mmv_id: 415,
-      rb_rto_code: 'MH01',
+      rb_rto_code: 'HR26',
       registration_month: 1,
       registration_year: 2024,
       previous_insurer_code: '',
