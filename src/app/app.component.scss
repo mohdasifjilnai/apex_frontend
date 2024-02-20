@@ -6,9 +6,12 @@
   width: 100vw !important;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
   z-index: 1;
+  background: #2828285c;
 }
 .loader {
-  height: 46vh;
+  height: 132px;
+  width: 132px;
+  background-color: #fff;
+  border-radius: 600px;
 }
