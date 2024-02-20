@@ -38,13 +38,13 @@ export class QuotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
-    if (this.withoutVehicleNumber == 'false') {
+ 
       if (window.innerWidth <= 768) {
         this.bottomSheet.open(VehicleDetailsPopupComponent);
       } else {
         this.openVehicleDetailsPopup(null);
       }
-    }
+  
   }
   /**
    * this fucntion use vehicle vehicle details modal
