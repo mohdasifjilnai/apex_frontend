@@ -1,28 +1,25 @@
+
 .vehicle-owner-details {
-  margin-top: 16px;
-  width: 97%;
+  width: 100%;
   background: #edf2fc;
   border-radius: 12px;
   color: #5384ea;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  .review-header {
-    margin-top: 10px;
-  }
+
 }
 .field-content {
-  width: 94%;
+  width: 100%;
 }
 .full-name {
   padding-right: 100px;
 }
 .acknowledgemen-confirm {
-  .col-1 {
-    width: 2.8%;
-  }
+  
   .proposal-confirmation {
     font-size: 13px;
     font-weight: 500;
+    width: 100%;
   }
 }
 .proposal-review-submission {
@@ -32,12 +29,12 @@
   font-weight: 600;
 }
 .field-title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   opacity: 50%;
 }
 .field-value {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 .edit-button {
@@ -69,5 +66,23 @@
     .mat-checkbox-anim-unchecked-checked .mat-checkbox-anim-checked-unchecked {
       transform: scale(1.5);
     }
+  }
+}
+
+.res-proposal-review{
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .proposal-review{
+    display: none;
+  }
+  .res-proposal-review{
+    display: block;
+  }
+  .res-background{
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 10px;
+    margin-top: 10px;
   }
 }

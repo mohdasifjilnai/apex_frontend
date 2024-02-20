@@ -54,7 +54,7 @@ export class QuotesListingComponent implements OnInit {
   } = {
     modalName: ShareQuotesComponent,
     widthObtained: '100%',
-    heightObtained: '77%',
+    heightObtained: 'auto',
     topObtained: '0',
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',

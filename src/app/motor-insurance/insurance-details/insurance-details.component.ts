@@ -23,7 +23,7 @@ export class InsuranceDetailsComponent implements OnInit {
   } = {
     modalName: ProposalShareComponent,
     widthObtained: '100%',
-    heightObtained: '77%',
+    heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
     classObtained: 'insurance-details-class',
@@ -38,9 +38,38 @@ export class InsuranceDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openShareModal() {
-    this.bottomSheet.open(ProposalShareComponent);
+  openShareModal(data:any) {
+    this.openModal(data,this.insuranceDetailsJSON)
   }
+    /**
+   * this fucntion use open pop up modal
+   */
+     openModal(ObjData: any,jsonData:any) {
+      let resWidth;
+      let resTop;
+      if (window.screen.width <= 767) {
+        resWidth = '95%';
+        resTop = '5%';
+      } else {
+        resWidth = '100%';
+        resTop = '0';
+      }
+  
+      const obj: any = {
+        modalName: jsonData['modalName'],
+        width: jsonData['widthObtained'],
+        height: jsonData['heightObtained'],
+        classNameObtained: jsonData['classObtained'],
+        isOutSideClose: jsonData['isOutSideClose'],
+        minWidth: resWidth,
+        dataInfo: {
+          data: ObjData,
+          top: resTop,
+        },
+      };
+  
+      this.matDialog.openDialog(obj);
+    }
   changeInsurer(){
     this.router.navigate(['/motor/quotes']);
   }

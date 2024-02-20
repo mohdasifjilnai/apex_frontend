@@ -1,127 +1,180 @@
-<div class="row">
-  <div class="col-3">
+<div class="row m-1">
+  <div class="col-3  proposal-review">
     <app-insurance-details></app-insurance-details>
   </div>
-  <div class="col-9">
+  <div class="res-proposal-review">
+    <app-vehicle-details-card></app-vehicle-details-card>
+    <app-insurance-details></app-insurance-details>
+  </div>
+  <div class="col-lg-9 col-12">
+    <div class="res-background">
+
+   
+
     <div class="d-flex justify-content-between vehicle-owner-details">
-      <p class="mx-3 review-header">Vehicle Owner Details</p>
+      <span class="review-header p-2">Vehicle Owner Details</span>
       <button type="button" class="edit-button">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
     </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">Full Name</div>
-      <div class="col-3 field-title">Contact Number</div>
-      <div class="col-3 field-title">Email</div>
-      <div class="col-3 field-title">Gender</div>
-      <div class="col-3 field-value">Shivam</div>
-      <div class="col-3 field-value">89789897987</div>
-      <div class="col-3 field-value">shivam@gmail.com</div>
-      <div class="col-3 field-value">Male</div>
-      <div class="col-3 field-title mt-3">Date of Birth</div>
-      <div class="col-3 field-title mt-3">Marital Status</div>
-      <div class="col-3 field-title mt-3">Occupation Type</div>
-      <div class="col-3 field-title mt-3">GSTIN</div>
-      <div class="col-3 field-value">18/07/2004</div>
-      <div class="col-3 field-value">Single</div>
-      <div class="col-3 field-value">Service</div>
-      <div class="col-3 field-value">6786CBDG787989</div>
-    </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">CKYC Type</div>
-      <div class="col-3 field-title">PAN Number</div>
-    </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3 field-value">PAN Number</div>
-      <div class="col-3 field-value">IQZPD9868D</div>
-    </div>
-    <hr />
-    <div class="row d-flex mx-4">
-      <p class="field-value">Communication Address</p>
-      <div class="col-3 field-title">Address</div>
-      <div class="col-3 field-title">Pincode</div>
-      <div class="col-3 field-title">City</div>
-      <div class="col-3 field-title">State</div>
-      <div class="col-3 field-value">102, Old Gandhi Nagar, Ghaziabad, UP</div>
-      <div class="col-3 field-value">11111</div>
-      <div class="col-3 field-value">Bulandshahr</div>
-      <div class="col-3 field-value">UP</div>
-    </div>
-    <div class="d-flex justify-content-between vehicle-owner-details mt-4">
-      <p class="mx-3 review-header">Nominee Details</p>
+    <div class="row m-2">
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Full Name</span><br>
+        <span class="field-value">Krishna Kumar</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Contact Number</span><br>
+        <span class="field-value">9876543210</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Email</span><br>
+        <span class="field-value">krishna@gmail.com</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Gender</span><br>
+        <span class="field-value">Male</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Date of Birth</span><br>
+        <span class="field-value">10/03/1998</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Marital Status</span><br>
+        <span class="field-value">Married</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Occupation Type</span><br>
+        <span class="field-value">Service</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">GSTIN</span><br>
+        <span class="field-value">6786CBDG787989</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">CKYC Type</span><br>
+        <span class="field-value">PAN Number</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">PAN Number</span><br>
+        <span class="field-value">HWFPS3498E</span>
+      </div>
+
+
+      
+    <hr class="mt-3"/>
+      <span class="field-value col-lg-12 col-md-12 col-12">Communication Address</span>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Address</span><br>
+        <span class="field-value">102, Old Gandhi Nagar, Ghaziabad, UP</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Pincode</span><br>
+        <span class="field-value">11111</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">City</span><br>
+        <span class="field-value">Bulandshahr</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">State</span><br>
+        <span class="field-value">UP</span>
+      </div>
+    <div class="d-flex justify-content-between vehicle-owner-details mt-2">
+      <span class="review-header p-2">Nominee Details</span>
       <button type="button" class="edit-button">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
     </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">Full Name</div>
-      <div class="col-3 field-title">Date of Birth</div>
-      <div class="col-3 field-title">Relationship</div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Full Name</span><br>
+        <span class="field-value">Jai Singh</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Date of Birth</span><br>
+        <span class="field-value">11/03/1998</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Relationship</span><br>
+        <span class="field-value">Brother</span>
+      </div>
+     
     </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3 field-value">Jai Singh</div>
-      <div class="col-3 field-value">11/03/1998</div>
-      <div class="col-3 field-value">Brother</div>
-    </div>
-    <div class="d-flex justify-content-between vehicle-owner-details">
-      <p class="mx-3 review-header">Vehicle Details</p>
+    
+    <div class="d-flex justify-content-between vehicle-owner-details mt-2">
+      <span class="review-header p-2">Vehicle Details</span>
       <button type="button" class="edit-button">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
     </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">Registration Number</div>
-      <div class="col-3 field-title">Engine Number</div>
-      <div class="col-3 field-title">Chassis Number</div>
-      <div class="col-3 field-title">Registration Date</div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Registration Number</span><br>
+        <span class="field-value">UP-14-EA-6078</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Engine Number</span><br>
+        <span class="field-value">632975693256238</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Chassis Number</span><br>
+        <span class="field-value">MADCS46598236</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Registration Date</span><br>
+        <span class="field-value">22-06-2019</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Mfg. Date</span><br>
+        <span class="field-value">01-05-2019</span>
+      </div>
     </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3 field-value">UP-14-EA-6078</div>
-      <div class="col-3 field-value">632975693256238</div>
-      <div class="col-3 field-value">MADCS46598236</div>
-      <div class="col-3 field-value">22-06-2019</div>
+    <hr class="mt-3"/>
+    <div class="row">
+      <span class="field-value">Financer Details</span>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Financer Name</span><br>
+        <span class="field-value">State Bank of India</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Agreement Type</span><br>
+        <span class="field-value">Hypothecation</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Financer City/ Branch</span><br>
+        <span class="field-value">New Delhi</span>
+      </div>
+      
     </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">Mfg. Date</div>
-    </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3 field-value">05-2019</div>
-    </div>
-    <hr />
-    <div class="row d-flex mx-4">
-      <p class="field-value">Financer Details</p>
-      <div class="col-3 field-title">Financer Name</div>
-      <div class="col-3 field-title">Agreement Type</div>
-      <div class="col-3 field-title">Financer City/ Branch</div>
-    </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3 field-value">State Bank of India</div>
-      <div class="col-3 field-value">Hypothecation</div>
-      <div class="col-3 field-value">New Delhi</div>
-    </div>
-    <div class="d-flex justify-content-between vehicle-owner-details">
-      <p class="mx-3 review-header">Previous Policy Details</p>
+    <div class="d-flex justify-content-between vehicle-owner-details mt-2">
+      <span class="review-header p-2">Previous Policy Details</span>
       <button type="button" class="edit-button">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
     </div>
-    <div class="row d-flex mx-4 mt-4">
-      <div class="col-3 field-title">Previous Insurer</div>
-      <div class="col-3 field-title">Previous Policy Number</div>
-      <div class="col-3 field-title">Policy Expiry Date</div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Previous Insurer</span><br>
+        <span class="field-value">United India</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Previous Policy Number</span><br>
+        <span class="field-value">632975693256238</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-6 mt-3">
+        <span class="field-title">Policy Expiry Date</span><br>
+        <span class="field-value">28/01/2024</span>
+      </div>
+      
     </div>
-    <div class="row d-flex mx-4">
-      <div class="col-3">United India</div>
-      <div class="col-3">632975693256238</div>
-      <div class="col-3">28/01/2024</div>
-    </div>
-    <div class="row d-flex mx-2 mt-4 acknowledgemen-confirm">
+    
+    <div class="row  acknowledgemen-confirm mt-2">
       <div class="col-1">
-        <mat-checkbox class="custom-checkbox"></mat-checkbox>
+        <mat-checkbox class="custom-checkbox" checked="true"></mat-checkbox>
       </div>
       <div class="col-11">
         <p class="proposal-confirmation">
@@ -143,4 +196,6 @@
       </button>
     </div>
   </div>
+  </div>
 </div>
+

@@ -1,5 +1,5 @@
 <div class="procceed-inspection">
-    <div class="row">
+    <div >
       <!-- Dialog title -->
       <div mat-dialog-title>
         <div class="failure-popup-header d-flex justify-content-end">
@@ -12,15 +12,15 @@
         </div>
       </div>
       <!-- Dialog content -->
-      <div mat-dialog-content>
-        <div class="col-6 offset-2">
+      <div class="row">
+        <div class="col-12 text-center">
           <img
             src="/assets/icon/insurance.svg"
             class="insurance-icon"
             alt="close"
           />
         </div>
-        <div class="col-6 offset-2 text-center my-2">
+        <div class="col-12  text-center my-2">
           <div class="premium-payable-group p-2">
             <p class="total-premium-payable-text text-light-blue">
               Total Premium Payable
@@ -30,25 +30,25 @@
             </p>
           </div>
         </div>
-        <div class="col-10 offset-2 my-1">
-          <div class="proposal-number-group d-flex">
+        <div class="col-12  my-1">
+          <div class="proposal-number-group d-flex justify-content-between">
             <p class="proposal-number-text">Proposal Number</p>
             <p class="proposal-number-id">R1701244002</p>
           </div>
-          <div class="start-date-group d-flex">
-            <p class="start-date-text">Start Date</p>
-            <p class="start-date-data">1/02/2024</p>
+          <div class="proposal-number-group d-flex justify-content-between">
+            <p class="proposal-number-text">Start Date</p>
+            <p class="proposal-number-id">1/02/2024</p>
           </div>
         </div>
-        <div class="col-10 offset-2">
+        <div class="col-12 ">
           <button class="submit-btn inspection-btn" type="submit">
             Proceed for Inspection
           </button>
         </div>
-        <div class="col-10 offset-2 my-2">
-          <div class="communication-group d-flex">
+        <div class="col-12  my-2">
+          <div class="communication-group d-flex justify-content-between">
             <div
-              class="share-group light-blue d-flex justify-content-center"
+              class="share-group light-blue d-flex justify-content-center me-2"
               (click)="share()"
               *ngIf="isCommunicationGroup"
             >
@@ -64,22 +64,25 @@
             </div>
           </div>
         </div>
-        <div class="col-10 offset-2 my-1" *ngIf="!isCommunicationGroup">
-          <div class="communication-group justify-content-center d-flex">
+        <div class="col-12 text-center" *ngIf="isCommunicationGroup">
+          <span class="note">Note: You’ll be redirected to an external website</span>
+        </div>
+        <div class="col-12  my-1" *ngIf="!isCommunicationGroup">
+          <div class="communication-group">
             <p class="communication-mode-text">
               Select type of communication mode
             </p>
           </div>
-          <div class="communication-group gap-3 d-flex">
+          <div class="communication-group d-flex justify-content-between">
             <div
-              class="whatsapp-group light-green"
+              class="whatsapp-group light-green me-2"
               [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp' }"
               (click)="communication('whatsapp')"
             >
               <img src="/assets/icon/whatsapp.svg" class="whatsapp-icon" />
             </div>
             <div
-              class="sms-group light-blue"
+              class="sms-group light-blue me-2"
               [ngClass]="{ 'sms-border': isActiveIcon == 'sms' }"
               (click)="communication('sms')"
             >
@@ -94,15 +97,17 @@
             </div>
           </div>
         </div>
-        <div class="col-10 offset-2 my-1" *ngIf="isCommunicationField">
+        <div class="col-12  my-1" *ngIf="isCommunicationField">
+         
           <mat-form-field
             appearance="outline"
             class="registration-number communication-input-field"
           >
-            <input matInput placeholder="Enter WhatsApp Number" />
+          <mat-label>{{inputPlaceholder}}</mat-label>
+            <input matInput placeholder={{inputPlaceholder}} />
           </mat-form-field>
         </div>
-        <div class="col-10 offset-2" *ngIf="isCommunicationField">
+        <div class="col-12 " *ngIf="isCommunicationField">
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"

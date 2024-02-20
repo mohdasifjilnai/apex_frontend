@@ -10,6 +10,7 @@ export class ProposalShareComponent implements OnInit {
   isCommunicationGroup: boolean = true;
   isCommunicationField: boolean = false;
   isActiveIcon: any;
+  inputPlaceholder: any;
 
   constructor(public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -31,8 +32,20 @@ export class ProposalShareComponent implements OnInit {
      * this fucntion use for share inspection by social media
      */
     communication(event: any) {
-      this.isActiveIcon = event;
-      this.isCommunicationField = true;
+      this.isActiveIcon=event
+      if(event=='whatsapp'){
+        this.inputPlaceholder = "Enter Whatsapp Number";
+        this.isCommunicationField = true;
+      }
+      if(event=='sms'){
+        this.inputPlaceholder = "Enter Mobile Number";
+        this.isCommunicationField = true;
+      }
+      if(event=='mail'){
+        this.inputPlaceholder = "Enter Email Id";
+        this.isCommunicationField = true;
+      }
+      
     }
 
 }
