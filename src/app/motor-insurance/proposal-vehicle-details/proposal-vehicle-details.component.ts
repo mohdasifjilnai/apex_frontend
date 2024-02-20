@@ -16,7 +16,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   filteredFinancierList!: any;
   financerList: any;
   @Input() fetchNomineeDetails:any;
-  @Output() afterProceedGetData = new EventEmitter<any>();
+  @Output() afterVehicleData = new EventEmitter<any>();
 
 
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
@@ -77,6 +77,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
   getProposalVehicleData(isValid:any){
     const formValues = this.proposalVehilceDetailsForm.value;
-    this.afterProceedGetData.emit(formValues)
+    this.afterVehicleData.emit(formValues)
   }
 }

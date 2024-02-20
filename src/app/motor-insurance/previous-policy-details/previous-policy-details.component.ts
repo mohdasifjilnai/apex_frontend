@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 })
 export class PreviousPolicyDetailsComponent implements OnInit {
   optReasonList: any;
-  @Input()fetchVehicleDetails:any
+  @Input()fetchVehicleDetails:any;
+  @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
 
   previousPolicyDetailsForm: FormGroup = new FormGroup({
     prev_policy_number: new FormControl('', [Validators.required,Validators.pattern(/^[a-zA-Z0-9]+$/)]),
@@ -40,5 +41,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
    */
   navigateToProposalReview(){
     this.router.navigate(['/motor/quotes/proposal/review']);
+  }
+
+  getPreviousVehicleData(isValid: any) {
+    if (isValid) {
+      const formValues = this.previousPolicyDetailsForm.value;
+      this.afterPreviousVehicleDetilsData.emit(formValues);
+    }
   }
 }

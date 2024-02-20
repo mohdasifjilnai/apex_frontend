@@ -20,7 +20,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   occupationList: any;
   maritalStatusList: any;
   filteredPincodeList!: Observable<any[]>;
-  @Output() afterProceedGetData = new EventEmitter<any>();
+  @Output() afterVehicleOwnerData = new EventEmitter<any>();
   @Input() fetchCkycData: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
@@ -65,8 +65,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.required,
       Validators.pattern(/^[a-zA-Z0-9]+$/),
     ]),
-    marital_status: new FormControl('', Validators.required),
-    gender: new FormControl('', Validators.required),
+    marital_status: new FormControl('1', Validators.required),
+    gender: new FormControl('1', Validators.required),
   });
 
   constructor() {
@@ -94,11 +94,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   getVehicleDetails(isValid: any) {
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
-      this.afterProceedGetData.emit(formValues);
+      this.afterVehicleOwnerData.emit(formValues);
     }
   }
   submitFormGroup() {
-    
     this.afterFormSubmit.emit('Vehicle-owner-details Form Submited');
   }
 }

@@ -10,7 +10,7 @@ export class NomineeDetailsComponent implements OnInit {
   relationshipList:any
   @Output() afterFormSubmit = new EventEmitter<any>();
   @Input() fetchOwnerVehicleDetails :any;
-  @Output() afterProceedGetData = new EventEmitter<any>();
+  @Output() afterNomineeGetData = new EventEmitter<any>();
 
   nominneForm:FormGroup = new FormGroup({
     nominne_full_Name:new FormControl('',Validators.required),
@@ -36,7 +36,7 @@ export class NomineeDetailsComponent implements OnInit {
 
   getNomineeDetails(isValid:boolean){
     const formValues = this.nominneForm.value;
-    this.afterProceedGetData.emit(formValues)
+    this.afterNomineeGetData.emit(formValues)
   }
   submitFormGroup() {
     this.afterFormSubmit.emit('Nominee-details Form Submited');

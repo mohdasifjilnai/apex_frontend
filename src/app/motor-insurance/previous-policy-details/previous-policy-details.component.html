@@ -1,4 +1,4 @@
-<form [formGroup]="previousPolicyDetailsForm">
+<form [formGroup]="previousPolicyDetailsForm" (ngSubmit)="getPreviousVehicleData(previousPolicyDetailsForm.value)">
   <div class="row mt-3">
     <div class="col-lg-4 col-md-4 col-12">
       <app-previous-insurer

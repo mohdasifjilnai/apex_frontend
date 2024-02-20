@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 @Component({
   selector: 'app-proposal',
@@ -23,7 +23,8 @@ export class ProposalComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   loadCkyc(expansionName:string) {
     if(expansionName === 'ckyc'){
@@ -47,25 +48,41 @@ export class ProposalComponent implements OnInit {
   this.proceedData=data
   if(data){
     this.step1=false
-    this.step2=true
+    this.step2=true;
+    this.showVehicleOwnerDetails = true;
   }
   }
   vehicleOwnerDetailsData(data:any){
     if(data){
       this.step2=false
-      this.step3=true
+      this.step3=true;
     }
   }
   nomineeDetailsData(data:any){
     if(data){
       this.step3=false
-      this.step4=true
+      this.step4=true;
     }
   }
   proposerVehicleDetailsData(data:any){
     if(data){
       this.step4=false
       this.step5=true
+    }
+  }
+  getVehicleOwnerData(data:any){
+    if(data){
+      this.showNomineeDetails = true;
+    }
+  }
+  getNomineeData(data:any){
+    if(data){
+      this.showVehicleDetails = true
+    }
+  }
+  getVehicleData(data:any){
+    if(data){
+      this.showPreviousPolicyDetails = true
     }
   }
 }
