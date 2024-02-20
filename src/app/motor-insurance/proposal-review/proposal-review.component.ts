@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-proposal-review',
@@ -7,10 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./proposal-review.component.scss'],
 })
 export class ProposalReviewComponent implements OnInit {
-  constructor(public router:Router) {}
+  constructor(private route :Router,private shareData:SharedDataService) {}
 
   ngOnInit(): void {}
+
+  navigateToUrl(titleName:string){
+    this.route.navigate(['/motor/quotes/proposal/']);
+    this.shareData.sendProposalReviewEditId(titleName)
+  }
   back() {
-    this.router.navigate(['/motor/quotes/proposal']);
+    this.route.navigate(['/motor/quotes/proposal']);
   }
 }

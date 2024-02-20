@@ -15,7 +15,7 @@
     <div class="d-flex justify-content-between vehicle-owner-details">
       <span class="review-header p-2">Vehicle Owner Details</span>
       <button type="button" class="edit-button">
-        <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
+        <img src="/assets/icon/edit.svg" alt="" class="edit-image" (click)="navigateToUrl('vehilceOwnerPanel')"/>
         Edit
       </button>
     </div>
@@ -83,7 +83,7 @@
       </div>
     <div class="d-flex justify-content-between vehicle-owner-details mt-2">
       <span class="review-header p-2">Nominee Details</span>
-      <button type="button" class="edit-button">
+      <button type="button" class="edit-button" (click)="navigateToUrl('nomineDetailsPanel')">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
@@ -106,7 +106,7 @@
     
     <div class="d-flex justify-content-between vehicle-owner-details mt-2">
       <span class="review-header p-2">Vehicle Details</span>
-      <button type="button" class="edit-button">
+      <button type="button" class="edit-button" (click)="navigateToUrl('vehicleDetailPanel')">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>
@@ -152,7 +152,7 @@
     </div>
     <div class="d-flex justify-content-between vehicle-owner-details mt-2">
       <span class="review-header p-2">Previous Policy Details</span>
-      <button type="button" class="edit-button">
+      <button type="button" class="edit-button" (click)="navigateToUrl('previousPolicyDetailsPanel')">
         <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
         Edit
       </button>

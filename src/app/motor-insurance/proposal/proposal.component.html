@@ -15,6 +15,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Owner Details')"
+        #vehilceOwnerPanel
         [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
       >
         <mat-expansion-panel-header>
@@ -28,6 +29,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         (opened)="loadCkyc('Nominee Details')"
+        #nomineDetailsPanel
         [ngClass]="{ isAccordianDisable: !showNomineeDetails }"
       >
         <mat-expansion-panel-header>
@@ -41,6 +43,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Details')"
+        #vehicleDetailPanel
         [ngClass]="{ isAccordianDisable: !showVehicleDetails }"
       >
         <mat-expansion-panel-header>
@@ -54,6 +57,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel
         (opened)="loadCkyc('Previous Policy Details')"
+        #previousPolicyDetailsPanel
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
       >
         <mat-expansion-panel-header>

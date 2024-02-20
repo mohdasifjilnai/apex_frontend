@@ -11,6 +11,7 @@ import moment from 'moment';
 })
 export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
+  getProposalReviewDetails: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
@@ -53,14 +54,14 @@ export class SharedDataService {
   selectedVehicleType(data: any) {
     this.getSelectedVehicleType.next(data);
   }
- /**
+  /**
    *
-   * @param data send registration date data 
+   * @param data send registration date data
    */
   registrationYearData(data: any) {
     this.registrationMonthSelection.next(data);
   }
- /**
+  /**
    *
    * @param data disable field insurere and expiry policy date
    */
@@ -174,5 +175,9 @@ export class SharedDataService {
       policy_expire_date: policyExpiryDate,
     };
     this.getQuotationListing(mmvValues, data);
+  }
+
+  sendProposalReviewEditId(data: any) {
+    this.getProposalReviewDetails.next(data);
   }
 }
