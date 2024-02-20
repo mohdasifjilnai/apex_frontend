@@ -7,9 +7,10 @@ import { LayoutComponent } from './layout/layout.component';
 
 import { MatRadioModule } from '@angular/material/radio';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [HeaderComponent, LayoutComponent, BreadcrumbComponent],
+  declarations: [HeaderComponent, LayoutComponent, BreadcrumbComponent, FooterComponent],
   imports: [CommonModule, UiRoutingModule, MatRadioModule],
 })
 export class UiModule {}
