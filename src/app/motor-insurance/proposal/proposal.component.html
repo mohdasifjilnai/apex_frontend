@@ -68,6 +68,7 @@
   </div>
 </div>
 <div class="res-proposal-page p-2">
+  <div class="back-button" (click)="back()"><img src="/assets/icon/back.png" alt="" class="back-image" /></div>
   <div>
     <app-vehicle-details-card></app-vehicle-details-card>
   </div>
@@ -109,7 +110,7 @@
       <hr />
       <div class="row mb-5">
         <app-vehicle-owner-details
-          (afterFormSubmit)="vehicleOwnerDetailsData($event)"
+          (afterVehicleOwnerData)="vehicleOwnerDetailsData($event)"
         ></app-vehicle-owner-details>
       </div>
     </div>
@@ -129,7 +130,7 @@
       <hr />
       <div class="row mb-5">
         <app-nominee-details
-          (afterFormSubmit)="nomineeDetailsData($event)"
+          (afterNomineeGetData)="nomineeDetailsData($event)"
         ></app-nominee-details>
       </div>
     </div>
@@ -149,7 +150,7 @@
       <hr />
       <div class="row mb-5">
         <app-proposal-vehicle-details
-          (afterFormSubmit)="proposerVehicleDetailsData($event)"
+          (afterVehicleData)="proposerVehicleDetailsData($event)"
         ></app-proposal-vehicle-details>
       </div>
     </div>

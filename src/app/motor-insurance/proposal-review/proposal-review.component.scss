@@ -78,6 +78,13 @@
   }
   .res-proposal-review{
     display: block;
+    .back-button{
+      .back-image{
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+      }
+  }
   }
   .res-background{
     background-color: #fff;

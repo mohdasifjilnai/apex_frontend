@@ -1,5 +1,8 @@
 <nav class="navbar navbar-section navbar-expand-lg navbar-dark">
   <div class="container-fluid">
+    <div class="d-flex justify-content-between w-100">
+
+    
     <a class="navbar-brand" href="#">
       <img
         *ngIf="!env.artivatic_flag"
@@ -16,13 +19,24 @@
         alt="logo"
       />
     </a>
+    <div class="trace-id"><div class="d-flex justify-content-between">
+        <span>Trace ID: 127563897465786</span>
+        <img
+        src="assets/icon/copy.svg"
+        
+        alt="logo"
+      />
+    </div>
+      
+      </div>
+  </div>
     <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false">
 			<span class="line"></span>
 			<span class="line"></span>
 			<span class="line"></span>
 		</button> -->
     <!-- <div class="collapse navbar-collapse" id="collapsibleNavbar" aria-expanded="false" data-toggle="collapse"> -->
-    <ul class="navbar-nav d-flex justify-content-end">
+    <!-- <ul class="navbar-nav d-flex justify-content-end"> -->
       <!-- <li class="nav-item dedicated_support" *ngIf="!d2dFlag">
                 <a class="nav-link support_deliver disable-mb " target="_blank" href="{{env['oldPlatform']}}">
                     <img src="assets/icons/switchOld.svg">
@@ -71,7 +85,7 @@
                     <img src="/assets/icon/profile.svg">
                 </a> -->
       </li>
-    </ul>
+    <!-- </ul> -->
     <!-- </div> -->
     <!-- <div class="">
 

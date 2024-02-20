@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 @Component({
   selector: 'app-proposal',
@@ -19,7 +20,7 @@ export class ProposalComponent implements OnInit {
   step3: boolean=false;
   step4: boolean=false;
   step5: boolean=false;
-  constructor(public matDialog: WindowRef) { 
+  constructor(public matDialog: WindowRef,public router: Router) { 
     
   }
 
@@ -84,5 +85,8 @@ export class ProposalComponent implements OnInit {
     if(data){
       this.showPreviousPolicyDetails = true
     }
+  }
+  back() {
+    this.router.navigate(['/motor/quotes']);
   }
 }

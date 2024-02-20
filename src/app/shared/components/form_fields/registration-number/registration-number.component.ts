@@ -39,6 +39,12 @@ export class RegistrationNumberComponent implements OnInit {
       this.form.addControl('registration_number', new FormControl());
     }
   }
+  inputValue: string = '';
+
+  onInputChange() {
+    // Convert input value to uppercase
+    this.inputValue = this.inputValue.toUpperCase();
+  }
 
   // Validators.pattern(new RegExp('/^[ A-Za-z0-9-]*$/'))
 

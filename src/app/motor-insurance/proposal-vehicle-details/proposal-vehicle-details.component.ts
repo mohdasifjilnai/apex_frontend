@@ -10,7 +10,6 @@ import { ApiService } from 'src/app/core/services/api.service';
   styleUrls: ['./proposal-vehicle-details.component.scss'],
 })
 export class ProposalVehicleDetailsComponent implements OnInit {
-  @Output() afterFormSubmit = new EventEmitter<any>();
   filteredPincodeList!: Observable<any[]>;
   agreementList: any;
   filteredFinancierList!: any;
@@ -71,10 +70,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   filterInsurer(name: string) {}
 
   proposalFinancierBlankData(data: any) {}
-
-  submitFormGroup() {
-    this.afterFormSubmit.emit('Proposer Vehicle details Form Submited');
-  }
   getProposalVehicleData(isValid:any){
     const formValues = this.proposalVehilceDetailsForm.value;
     this.afterVehicleData.emit(formValues)

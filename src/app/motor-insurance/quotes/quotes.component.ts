@@ -4,6 +4,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quotes',
@@ -11,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./quotes.component.scss'],
 })
 export class QuotesComponent implements OnInit {
-  withoutVehicleNumber:any
+  withoutVehicleNumber: any;
   vehicleDetailsJSON: {
     modalName: any;
     widthObtained: string;
@@ -27,22 +28,27 @@ export class QuotesComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
-  constructor(public matDialog: WindowRef,private sharedDataService:SharedDataService,public bottomSheet: MatBottomSheet,public dialog: MatDialog) {}
+  constructor(
+    public matDialog: WindowRef,
+    private sharedDataService: SharedDataService,
+    public bottomSheet: MatBottomSheet,
+    public dialog: MatDialog,
+    public router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.withoutVehicleNumber=localStorage.getItem('withoutVehicleNumber')
-    if(this.withoutVehicleNumber=='false'){
+    this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
+    if (this.withoutVehicleNumber == 'false') {
       if (window.innerWidth <= 768) {
         this.bottomSheet.open(VehicleDetailsPopupComponent);
       } else {
         this.openVehicleDetailsPopup(null);
       }
-      
     }
   }
-   /**
+  /**
    * this fucntion use vehicle vehicle details modal
-   */ 
+   */
   openVehicleDetailsPopup(ObjData: any) {
     let resWidth;
     let resTop;
@@ -68,5 +74,8 @@ export class QuotesComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  back() {
+    this.router.navigate(['/motor']);
   }
 }

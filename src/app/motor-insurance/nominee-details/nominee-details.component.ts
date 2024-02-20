@@ -8,7 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NomineeDetailsComponent implements OnInit {
   relationshipList:any
-  @Output() afterFormSubmit = new EventEmitter<any>();
   @Input() fetchOwnerVehicleDetails :any;
   @Output() afterNomineeGetData = new EventEmitter<any>();
 
@@ -38,8 +37,5 @@ export class NomineeDetailsComponent implements OnInit {
     const formValues = this.nominneForm.value;
     this.afterNomineeGetData.emit(formValues)
   }
-  submitFormGroup() {
-    this.afterFormSubmit.emit('Nominee-details Form Submited');
-  }
-
+  
 }

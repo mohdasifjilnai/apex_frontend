@@ -10,7 +10,17 @@
       }
     }
   }
-
+  .trace-id{
+    font-size: 14px;
+    font-weight: 500;
+    color: #535353;
+    border-radius: 12px;
+    border: 1px solid #EAEAEA;
+    background-color: #FFFFFF;
+    padding: 10px 20px;
+    height: 40px;
+    width: 268px;
+  }
   .nav-item {
     font-size: 14px;
     font-weight: 400;
@@ -108,7 +118,7 @@
     .nav-item {
       font-size: 12px !important;
     }
-
+   
     .dedicated_support {
       margin-bottom: 10px;
     }
@@ -165,6 +175,15 @@
       border-right: unset !important;
     }
   }
+  .navbar-section{
+    border-bottom: none;
+  .trace-id{
+    font-size: 11px;
+    padding: 8px 12px;
+    width: 205px;
+    height: 32px;
+  }
+}
 
   .columns {
     p {

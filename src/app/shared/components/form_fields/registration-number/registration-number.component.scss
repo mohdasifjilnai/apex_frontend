@@ -1,9 +1,14 @@
 .registration-number {
   ::ng-deep .mat-form-field-flex {
-    padding-right: 110px;
+    margin-right: 110px;
     margin-left: 13px;
   }
-  // margin-left: 65px !important;
+  ::ng-deep .mat-input-element {
+    font-size: 12px !important;
+    font-weight: 500;
+    color: #282828
+  }
+
   ::ng-deep {
     .mat-form-field-infix {
       width: 450px !important;

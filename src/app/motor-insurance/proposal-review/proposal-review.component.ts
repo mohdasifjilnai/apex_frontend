@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-proposal-review',
@@ -6,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./proposal-review.component.scss'],
 })
 export class ProposalReviewComponent implements OnInit {
-  constructor() {}
+  constructor(public router:Router) {}
 
   ngOnInit(): void {}
+  back() {
+    this.router.navigate(['/motor/quotes/proposal']);
+  }
 }

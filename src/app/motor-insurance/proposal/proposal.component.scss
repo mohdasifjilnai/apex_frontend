@@ -13,6 +13,14 @@
     }
     .res-proposal-page{
         display: block;
+        .back-button{
+            display: block;
+            .back-image{
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+            }
+        }
         .stepper{
             background-color: #fff;
             border-radius: 16px 16px 0 0;

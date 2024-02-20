@@ -2,14 +2,14 @@
   >Registration Number<span *ngIf="isRequired" class="star">*</span></mat-label
 > -->
 <mat-form-field appearance="outline" [class]="registrationNumber">
-  <mat-label>Registration Number</mat-label>
+  <mat-label>Enter Registration Number</mat-label>
   <input
   id-automation="registrationNumberId"
     matInput
     placeholder="Enter Registration Number (DL-01-AB-1234)"
     formControlName="registration_number"
     id-automation="registration_number"
-    class="text-uppercase"
+    [(ngModel)]="inputValue" (input)="onInputChange()"
   />
   <mat-error *ngIf="form.controls['registration_number']?.hasError('required')">
     This is a required field.

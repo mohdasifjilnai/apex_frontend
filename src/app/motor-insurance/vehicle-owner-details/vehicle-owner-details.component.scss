@@ -1,6 +1,4 @@
-.maritalStatus {
-  margin-left: 75px;
-}
+
 .maritalStatus-header {
   font-size: 14px;
   font-weight: 500;
@@ -24,5 +22,8 @@
 ::ng-deep {
   .mat-form-field{
       width: 100%;
+  }
+  .mat-radio-button{
+    width: 50%;
   }
 }
