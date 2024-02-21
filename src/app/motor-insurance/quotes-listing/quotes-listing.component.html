@@ -54,10 +54,17 @@
           </mat-form-field>
         </div>
         <div class="col-lg-3 col-4">
-          <button mat-button (click)="shareQuotesOpen(null, shareQuotesJSON)">
+          <button mat-button (click)="shareQuotesDropdown()">
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
           </button>
+          <div *ngIf="shareQuotesDropdownValue" class="quotesDropdownvalue mt-2">
+            <button  class="all-btn">
+            Select Quotes
+          </button>
+          <button class="all-btn mt-1">
+            All Quotes
+          </button></div>
         </div>
         <div class="col-lg-2 col-4 inc-gst">
           <span class="gst me-2 mt-1">Inc. GST</span>

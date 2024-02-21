@@ -3,37 +3,25 @@
   .inspection-card.d-flex {
     background-color: rgb(71 190 136 / 15%);
     border-radius: 24px;
-    padding: 18px 47px 18px 47px;
+    padding: 24px;
   }
   .inspection-text {
-    position: relative;
-    left: 20px;
-    p {
-      position: relative;
-      top: 12px;
+    text-align: center;
+    .premium-text {
       font-weight: 600;
       font-size: 12px;
     }
-    h2 {
+    .premium-value {
       font-size: 24px;
       font-weight: 600;
-      position: relative;
-      left: 20px;
     }
   }
-  .text-position-bottom {
-    position: relative;
-    bottom: -16px;
+  .text-light-green {
     font-size: 14px;
-  }
-  .text-position-top {
-    position: relative;
-    bottom: 14px;
-    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
   }
   .mail-text {
-    position: relative;
-    bottom: 28px;
     font-size: 14px;
   }
   .inspection-btn {
@@ -43,5 +31,41 @@
   }
   .text-opacity {
     opacity: 80%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #282828;
+  }
+}
+.back-button {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .main-inspection {
+    padding: 40px 15px;
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 16px;
+    .inspection-card{
+      padding: 15px;
+    }
+    .text-light-green {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .text-opacity {
+      opacity: 80%;
+      font-size: 12px;
+      font-weight: 400;
+      color: #282828;
+    }
+  }
+  .back-button {
+    display: block;
+    margin: 10px;
+    .back-image {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
   }
 }

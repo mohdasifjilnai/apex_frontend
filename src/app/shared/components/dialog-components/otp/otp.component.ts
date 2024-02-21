@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-otp',
@@ -22,7 +24,10 @@ export class OtpComponent implements OnInit {
   resendDisabled = false;
   countdown = 60;
 
-  constructor() {}
+  constructor(public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
+    public dialogRef: MatDialogRef<OtpComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    ) {}
 
   ngOnInit(): void {
     this.startResendTimer();
@@ -52,5 +57,12 @@ export class OtpComponent implements OnInit {
 
   resendOtp() {
     this.startResendTimer();
+  }
+  onClose(): void {
+    if (window.innerWidth <= 768) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
   }
 }

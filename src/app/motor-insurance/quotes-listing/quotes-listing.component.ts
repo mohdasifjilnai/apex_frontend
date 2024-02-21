@@ -60,6 +60,7 @@ export class QuotesListingComponent implements OnInit {
     classObtained: 'share-qoutes-class',
   };
   knowMoreText: string='Know More';
+  shareQuotesDropdownValue: boolean=false;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -155,10 +156,14 @@ export class QuotesListingComponent implements OnInit {
       this.openModal(initiateQuotes,this.initiateQuotesJSON);
     }
   }
-
+// (click)="shareQuotesOpen(null, shareQuotesJSON)"
   shareQuotesOpen(shareData:any,jsonData:any){
     this.openModal(shareData,jsonData)
   }
+  shareQuotesDropdown(){
+    this.shareQuotesDropdownValue=true
+  }
+
 
 
   /**
