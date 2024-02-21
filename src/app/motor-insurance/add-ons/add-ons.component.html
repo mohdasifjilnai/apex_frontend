@@ -38,13 +38,26 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Accessories </mat-panel-title>
       </mat-expansion-panel-header>
-      <span
-        ><section class="my-2 d-grid">
-          <mat-checkbox>Electrical Accessories</mat-checkbox>
-          <mat-checkbox>Non-Electrical Accessories</mat-checkbox>
-          <mat-checkbox>External Bi-Fuel Kit CNG/LPG</mat-checkbox>
-        </section></span
-      >
+      <span>
+        <section class="my-2 d-grid" *ngFor="let data of accessories">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <mat-form-field
+            appearance="outline"
+            class="mat-input-custom"
+            *ngIf="isChecked(data?.value)"
+          >
+            <mat-label>{{ data?.value }}</mat-label>
+            <input
+              matInput
+              value="100000"
+              appNumbersOnly
+              additional_contact="contact_number"
+            />
+          </mat-form-field>
+        </section>
+      </span>
     </mat-expansion-panel>
   </mat-accordion>
   <mat-accordion>
@@ -53,13 +66,32 @@
         <mat-panel-title> Additional Covers </mat-panel-title>
       </mat-expansion-panel-header>
       <span
-        ><section class="my-2 d-grid">
-          <mat-checkbox>PA Cover for Additional Paid Driver</mat-checkbox>
-          <mat-checkbox>Unnamed Passenger PA Cover</mat-checkbox>
-          <mat-checkbox>LL Paid Driver</mat-checkbox>
-          <mat-checkbox>Geographical Extension</mat-checkbox>
-        </section></span
-      >
+        ><section class="my-2 d-grid" *ngFor="let data of additional">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <ng-container *ngIf="isChecked(data?.value)">
+            <mat-form-field
+              appearance="outline"
+              *ngIf="data?.dataType == 'dropdown'"
+            >
+              <mat-label>Select Value</mat-label>
+              <mat-select [(ngModel)]="selectedValue">
+                <mat-option
+                  *ngFor="let items of additionalDropdown"
+                  [value]="items?.value"
+                  >{{ items?.viewValue }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="data?.dataType == 'checkbox'" class="d-grid m-2">
+              <mat-checkbox *ngFor="let data of geographical">{{
+                data?.value
+              }}</mat-checkbox>
+            </span>
+          </ng-container>
+        </section>
+      </span>
     </mat-expansion-panel>
   </mat-accordion>
   <mat-accordion>
@@ -68,15 +100,28 @@
         <mat-panel-title> Discounts/Deductibles </mat-panel-title>
       </mat-expansion-panel-header>
       <span
-        ><section class="my-2 d-grid">
-          <mat-checkbox
-            >Vehicle is fitted with ARAI approved Anti-Theft
-            Device</mat-checkbox
-          >
-          <mat-checkbox>Voluntary Deductible</mat-checkbox>
-          <mat-checkbox>TPPD Cover</mat-checkbox>
-        </section></span
-      >
+        ><section class="my-2 d-grid" *ngFor="let data of discounts">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <ng-container *ngIf="isChecked(data?.value)">
+            <div *ngIf="data?.dataType == 'Voluntary'" class="row p-2">
+              <span
+                (click)="selectVoluntry(span)"
+                *ngFor="let amount of voluntryAmounts"
+                #span
+                [ngClass]="{
+                  'voluntry-selected': isSelected(amount),
+                  voluntry: !isSelected(amount)
+                }"
+                class="col-lg-5 col-md-5 col-11 voluntry offset-1 mt-1"
+              >
+                &#8377;{{ amount }}
+              </span>
+            </div>
+          </ng-container>
+        </section>
+      </span>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
@@ -97,7 +142,7 @@
     <div class="card-body p-2">
       <span class="customise-header ps-3">CPA</span>
       <section class="my-2 section-value">
-        <mat-checkbox >Compulsory Personal Accident Cover</mat-checkbox>
+        <mat-checkbox>Compulsory Personal Accident Cover</mat-checkbox>
       </section>
     </div>
     <div class="card-body p-2">
@@ -111,30 +156,82 @@
     <div class="card-body p-2">
       <span class="customise-header ps-3">Accessories</span>
       <section class="my-2 section-value">
-        <mat-checkbox >Electrical Accessories</mat-checkbox>
-        <mat-checkbox >Non-Electrical Accessories</mat-checkbox>
-        <mat-checkbox >External Bi-Fuel Kit CNG/LPG</mat-checkbox>
+        <div *ngFor="let data of accessories">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <mat-form-field
+            appearance="outline"
+            class="mat-input-custom"
+            *ngIf="isChecked(data?.value)"
+          >
+            <mat-label>{{ data?.value }}</mat-label>
+            <input
+              matInput
+              value="100000"
+              appNumbersOnly
+              additional_contact="contact_number"
+            />
+          </mat-form-field>
+        </div>
       </section>
     </div>
     <div class="card-body p-2">
       <span class="customise-header ps-3">Additional Covers</span>
       <section class="my-2 section-value">
-        <mat-checkbox >PA Cover for Additional Paid Driver</mat-checkbox>
-        <mat-checkbox >Unnamed Passenger PA Cover</mat-checkbox>
-        <mat-checkbox >LL Paid Driver</mat-checkbox>
-        <mat-checkbox >Geographical Extension</mat-checkbox>
+        <div *ngFor="let data of additional">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <ng-container *ngIf="isChecked(data?.value)">
+            <mat-form-field
+              appearance="outline"
+              *ngIf="data?.dataType == 'dropdown'"
+            >
+              <mat-label>Select Value</mat-label>
+              <mat-select [(ngModel)]="selectedValue">
+                <mat-option
+                  *ngFor="let items of additionalDropdown"
+                  [value]="items?.value"
+                  >{{ items?.viewValue }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <span *ngIf="data?.dataType == 'checkbox'" class="d-grid m-2">
+              <mat-checkbox *ngFor="let data of geographical">{{
+                data?.value
+              }}</mat-checkbox>
+            </span>
+          </ng-container>
+        </div>
       </section>
     </div>
     <div class="card-body p-2">
       <span class="customise-header ps-3">Discounts/Deductibles</span>
-      <section class="my-2 section-value" >
-        <mat-checkbox >Vehicle is fitted with ARAI approved
-          Anti-Theft Device</mat-checkbox>
-        <mat-checkbox >Voluntary Deductible</mat-checkbox>
-        <mat-checkbox >TPPD Cover</mat-checkbox>
+      <section class="my-2 section-value">
+        <div *ngFor="let data of discounts">
+          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
+            data?.value
+          }}</mat-checkbox>
+          <ng-container *ngIf="isChecked(data?.value)">
+            <div *ngIf="data?.dataType == 'Voluntary'" class="row p-2">
+              <span
+                (click)="selectVoluntry(span)"
+                *ngFor="let amount of voluntryAmounts"
+                #span
+                [ngClass]="{
+                  'voluntry-selected': isSelected(amount),
+                  voluntry: !isSelected(amount)
+                }"
+                class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
+              >
+                &#8377;{{ amount }}
+              </span>
+            </div>
+          </ng-container>
+        </div>
       </section>
     </div>
-    
   </div>
   <div class="d-flex p-2 bottom-btn">
     <button class="cancel-btn col-6" (click)="clearAllChecked()">
