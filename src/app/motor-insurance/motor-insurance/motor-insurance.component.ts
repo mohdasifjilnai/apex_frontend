@@ -39,12 +39,13 @@ export class MotorInsuranceComponent implements OnInit {
   registrationMonth: any;
   currentMonthValue: any;
   insurerDisable = false;
+  disableInsurer = true;
 
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
-    registration_year: new FormControl(moment()),
+    registration_date: new FormControl(moment()),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
@@ -80,6 +81,11 @@ export class MotorInsuranceComponent implements OnInit {
 
       if (monthGap > 10) {
         this.insurerDisable = true;
+        this.disableInsurer = this.insurerDisable;
+        this.sharedDataService.insurerData(this.insurerDisable);
+      } else {
+        this.insurerDisable = false;
+        this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
       }
     });
@@ -115,9 +121,9 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
       this.motorInsurance
-        .get('registration_year')
+        .get('registration_date')
         ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
     } else {
       this.motorInsurance
         .get('registration_number')
@@ -127,8 +133,8 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('vehicle')?.updateValueAndValidity();
       this.motorInsurance.get('rto_city')?.setValidators([]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_year')?.setValidators([]);
-      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.setValidators([]);
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
     }
   }
 

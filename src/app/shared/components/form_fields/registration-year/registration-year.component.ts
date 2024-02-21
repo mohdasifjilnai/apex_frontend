@@ -51,6 +51,7 @@ export const MY_FORMATS = {
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+
   constructor(
     private ctrlContainer: FormGroupDirective,
     private sharedDataService: SharedDataService
@@ -58,20 +59,20 @@ export class RegistrationYearComponent implements OnInit {
 
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
-    this.ctrlValue = this.form.controls['registration_year'].value;
+    this.ctrlValue = this.form.controls['registration_date'].value;
     this.ctrlValue.year(normalizedYear.year());
-    this.form.controls['registration_year'].setValue(this.ctrlValue);
+    this.form.controls['registration_date'].setValue(this.ctrlValue);
   }
 
   chosenMonthHandler(
     normalizedMonth: Moment,
     datepicker: MatDatepicker<Moment>
   ) {
-    this.ctrlValue = this.form.controls['registration_year'].value;
+    this.ctrlValue = this.form.controls['registration_date'].value;
     this.ctrlValue.month(normalizedMonth.month());
-    this.form.controls['registration_year'].setValue(this.ctrlValue);
+    this.form.controls['registration_date'].setValue(this.ctrlValue);
     this.sharedDataService.registrationYearData(
-      this.form.controls['registration_year']
+      this.form.controls['registration_date']
     );
     datepicker.close();
   }
@@ -82,11 +83,11 @@ export class RegistrationYearComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'registration_year',
+        'registration_date',
         new FormControl(moment(), Validators.required)
       );
     } else {
-      this.form.addControl('registration_year', new FormControl(moment()));
+      this.form.addControl('registration_date', new FormControl(moment()));
     }
   }
 
@@ -94,6 +95,6 @@ export class RegistrationYearComponent implements OnInit {
     /**
      * remove form control for the Registration Year
      */
-    this.form.removeControl('registration_year');
+    this.form.removeControl('registration_date');
   }
 }

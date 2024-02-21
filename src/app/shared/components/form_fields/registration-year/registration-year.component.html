@@ -1,12 +1,21 @@
 <mat-form-field appearance="outline" class="registration-year">
-    <mat-label>Select Registration Date</mat-label>
-    <input matInput id-automation="registrationYearId" [matDatepicker]="registrationYear" placeholder="Month and Year" formControlName="registration_year">
-    <mat-datepicker-toggle matSuffix [for]="registrationYear"></mat-datepicker-toggle>
-    <mat-datepicker #registrationYear
-                    startView="multi-year"
-                    (yearSelected)="chosenYearHandler($event)"
-                    (monthSelected)="chosenMonthHandler($event, registrationYear)"
-                    >
-    </mat-datepicker>
-  </mat-form-field>
-  
+  <mat-label>Select Registration Date</mat-label>
+  <input
+    matInput
+    id-automation="registrationYearId"
+    [matDatepicker]="registrationYear"
+    placeholder="Month and Year"
+    formControlName="registration_date"
+  />
+  <mat-datepicker-toggle
+    matSuffix
+    [for]="registrationYear"
+  ></mat-datepicker-toggle>
+  <mat-datepicker
+    #registrationYear
+    startView="multi-year"
+    (yearSelected)="chosenYearHandler($event)"
+    (monthSelected)="chosenMonthHandler($event, registrationYear)"
+  >
+  </mat-datepicker>
+</mat-form-field>

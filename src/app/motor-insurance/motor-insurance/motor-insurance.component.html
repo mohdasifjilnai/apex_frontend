@@ -27,35 +27,84 @@
             </div>
           </div>
           <!-- Fields Without Vehicle Number  -->
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && isResponsive()"
+            [@slideUp]
+          >
             <app-vehicle [required]="true"></app-vehicle>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && !isResponsive()"
+          >
             <app-vehicle [required]="true"></app-vehicle>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && isResponsive()"
+            [@slideUp]
+          >
             <app-rto></app-rto>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && !isResponsive()"
+          >
             <app-rto></app-rto>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && isResponsive()"
+            [@slideUp]
+          >
             <app-registration-year></app-registration-year>
           </div>
-          <div class="col-lg-4 col-md-6 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
+          <div
+            class="col-lg-4 col-md-6 col-12"
+            *ngIf="withoutVehicleNumber && !isResponsive()"
+          >
             <app-registration-year></app-registration-year>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
-            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlNameData]="'previous_insurer'"></app-previous-insurer>
+          <div
+            class="col-lg-4 col-md-4 col-12"
+            *ngIf="withoutVehicleNumber && isResponsive()"
+            [@slideUp]
+          >
+            <app-previous-insurer
+              [previousInsurer]="'previous-insurer'"
+              [disablePreviousInsurer]="disableInsurer"
+              [formControlNameData]="'previous_insurer'"
+            ></app-previous-insurer>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
-            <app-previous-insurer [previousInsurer]="'previous-insurer'" [formControlNameData]="'previous_insurer'"></app-previous-insurer>
+          <div
+            class="col-lg-4 col-md-4 col-12"
+            *ngIf="withoutVehicleNumber && !isResponsive()"
+          >
+            <app-previous-insurer
+              [previousInsurer]="'previous-insurer'"
+              [disablePreviousInsurer]="disableInsurer"
+              [formControlNameData]="'previous_insurer'"
+            ></app-previous-insurer>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && isResponsive()" [@slideUp]>
-            <app-policy-expired-date [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>
+          <div
+            class="col-lg-4 col-md-4 col-12"
+            *ngIf="withoutVehicleNumber && isResponsive()"
+            [@slideUp]
+          >
+            <app-policy-expired-date
+              [policyExpiryDate]="'expiry-date'"
+              [disablePreviousInsurer]="disableInsurer"
+            ></app-policy-expired-date>
           </div>
-          <div class="col-lg-4 col-md-4 col-12" *ngIf="withoutVehicleNumber && !isResponsive()" >
-            <app-policy-expired-date [policyExpiryDate]="'expiry-date'"></app-policy-expired-date>
+          <div
+            class="col-lg-4 col-md-4 col-12"
+            *ngIf="withoutVehicleNumber && !isResponsive()"
+          >
+            <app-policy-expired-date
+              [policyExpiryDate]="'expiry-date'"
+              [disablePreviousInsurer]="disableInsurer"
+            ></app-policy-expired-date>
           </div>
           <div
             [ngClass]="{

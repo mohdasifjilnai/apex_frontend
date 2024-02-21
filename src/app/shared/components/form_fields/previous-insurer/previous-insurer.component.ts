@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -25,19 +26,23 @@ export class PreviousInsurerComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   @Input() previousInsurer!: string;
-  previous_insurer = new FormControl();
+  @Input() disablePreviousInsurer: any;
+
   filteredInsurerList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
   previousInsurerNoData = '';
   prevoiusInsurerId: any;
   @Input() formControlNameData: any;
-  disableInsurerField = false;
+  disableInsurerField = true;
+  routerEvents: any;
+  currentPageUrl: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +62,15 @@ export class PreviousInsurerComponent implements OnInit {
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
       this.disableInsurerField = res;
+      if (this.disableInsurerField) {
+        this.form.controls['previous_insurer'].disable();
+      } else {
+        this.form.controls['previous_insurer'].enable();
+      }
     });
+    if (this.disablePreviousInsurer) {
+      this.form.controls['previous_insurer'].disable();
+    }
   }
 
   getInsurerData(name: any) {

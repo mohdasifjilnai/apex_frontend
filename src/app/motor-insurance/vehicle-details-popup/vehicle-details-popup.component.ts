@@ -116,7 +116,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.ncbList = [
       {
         id: 1,
-        ncbName: '35%',
+        ncbName: '0%',
       },
     ];
 
@@ -135,13 +135,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_variant: ['', Validators.required],
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
-      user_car: ['', Validators.required],
-      policy_expiry: ['', Validators.required],
-      previous_claimed: ['', Validators.required],
-      ncb_discount: ['', Validators.required],
+      user_car: [''],
+      policy_expiry: [''],
+      previous_claimed: [''],
+      ncb_discount: [''],
       manufacture_date: [moment(), Validators.required],
-      registration_date: ['', Validators.required],
-      previous_insurer: ['', Validators.required],
+      registration_date: [moment(), Validators.required],
+      previous_insurer: [''],
     });
   }
 

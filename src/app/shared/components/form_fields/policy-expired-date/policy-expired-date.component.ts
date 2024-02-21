@@ -21,6 +21,8 @@ export class PolicyExpiredDateComponent implements OnInit {
   @Input('required') isRequired = false;
   @Input() policyExpiryDate!: string;
   disablEexpiryDate = false;
+  @Input() disablePreviousInsurer: any;
+  disableExpDateField: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -40,8 +42,16 @@ export class PolicyExpiredDateComponent implements OnInit {
     }
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
-      this.disablEexpiryDate = res;
+      this.disableExpDateField = res;
+      if (this.disableExpDateField) {
+        this.form.controls['policy_expiry_date'].disable();
+      } else {
+        this.form.controls['policy_expiry_date'].enable();
+      }
     });
+    if (this.disablePreviousInsurer) {
+      this.form.controls['policy_expiry_date'].disable();
+    }
   }
 
   ngOnDestroy(): void {

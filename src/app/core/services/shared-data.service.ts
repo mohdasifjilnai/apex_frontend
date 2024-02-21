@@ -19,6 +19,7 @@ export class SharedDataService {
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
+
   regNumber: any;
   connectionData: any = [];
   vehicleType: any;
@@ -68,6 +69,7 @@ export class SharedDataService {
   insurerData(data: any) {
     this.disableInsurer.next(data);
   }
+
   /**
    * registration number base api
    */
@@ -170,7 +172,7 @@ export class SharedDataService {
     let mmvValues = {
       rb_mmv_id: mmvData.vehicle,
       rto_code: mmvData.rto_city.rb_rto_id,
-      registration_date: mmvData.registration_year,
+      registration_date: mmvData.registration_date,
       previous_insurer: mmvData.previous_insurer,
       policy_expire_date: policyExpiryDate,
     };
