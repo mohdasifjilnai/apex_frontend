@@ -39,6 +39,7 @@ import { AlphabetOnlyDirective } from './directives/alphabet-only.directive';
 import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
 import { NumberWithDecimalDirective } from './directives/number-with-decimal.directive';
 import { ProposalShareComponent } from './components/proposal-share/proposal-share.component';
+import { CommaFormatterDirective } from './directives/comma-formatter.directive';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { ProposalShareComponent } from './components/proposal-share/proposal-sha
     AlphabetOnlyDirective,
     AlphaNumericDirective,
     NumberWithDecimalDirective,
-    ProposalShareComponent
+    ProposalShareComponent,
+    CommaFormatterDirective
   ],
   imports: [
     CommonModule,
