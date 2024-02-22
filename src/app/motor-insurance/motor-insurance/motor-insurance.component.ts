@@ -17,7 +17,7 @@ import {
 } from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-import {NotCertifiedComponent} from '../../shared/components/dialog-components/not-certified/not-certified.component'
+import { NotCertifiedComponent } from '../../shared/components/dialog-components/not-certified/not-certified.component';
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -40,7 +40,7 @@ export class MotorInsuranceComponent implements OnInit {
   registrationMonth: any;
   currentMonthValue: any;
   insurerDisable = false;
-  disableInsurer:boolean=true
+  disableInsurer: boolean = true;
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
@@ -69,10 +69,9 @@ export class MotorInsuranceComponent implements OnInit {
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
     private breakpointObserver: BreakpointObserver,
-    private matDialog: WindowRef,
-
+    private matDialog: WindowRef
   ) {
-    this.openNotCertifiedPopup(null)
+    this.openNotCertifiedPopup(null);
   }
 
   ngOnInit(): void {
@@ -98,12 +97,11 @@ export class MotorInsuranceComponent implements OnInit {
       );
 
       if (monthGap > 10) {
-        this.insurerDisable = true;
+        this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
-      }
-      else{
-        this.insurerDisable = false;
+      } else {
+        this.insurerDisable = true;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
       }
@@ -173,33 +171,33 @@ export class MotorInsuranceComponent implements OnInit {
       this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
-   /**
+  /**
    * this fucntion use open Not Certified Popup modal
    */
-    openNotCertifiedPopup(ObjData: any) {
-      let resWidth;
-      let resTop;
-      if (window.screen.width <= 767) {
-        resWidth = '95%';
-        resTop = '5%';
-      } else {
-        resWidth = '75%';
-        resTop = '5%';
-      }
-  
-      const obj: any = {
-        modalName: this.notCertifiedComponentJSON['modalName'],
-        width: this.notCertifiedComponentJSON['widthObtained'],
-        height: this.notCertifiedComponentJSON['heightObtained'],
-        classNameObtained: this.notCertifiedComponentJSON['classObtained'],
-        isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
-        minWidth: resWidth,
-        dataInfo: {
-          data: ObjData,
-          top: resTop,
-        },
-      };
-  
-      this.matDialog.openDialog(obj)
+  openNotCertifiedPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '75%';
+      resTop = '5%';
     }
+
+    const obj: any = {
+      modalName: this.notCertifiedComponentJSON['modalName'],
+      width: this.notCertifiedComponentJSON['widthObtained'],
+      height: this.notCertifiedComponentJSON['heightObtained'],
+      classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+      isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
+  }
 }

@@ -51,11 +51,18 @@ export const MY_FORMATS = {
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  minDate: any;
+  maxDate: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
     private sharedDataService: SharedDataService
-  ) {}
+  ) {
+    const currentYear = moment().year();
+    let currentMonth = moment().month()
+    this.minDate = new Date(1990, 0); 
+    this.maxDate = new Date(currentYear, currentMonth); 
+  }
 
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
