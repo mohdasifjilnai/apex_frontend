@@ -45,7 +45,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
-    registration_year: new FormControl(moment()),
+    registration_date: new FormControl(moment()),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
@@ -80,22 +80,25 @@ export class MotorInsuranceComponent implements OnInit {
     });
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
-      this.registrationMonth = moment(res.value).month();
-      let currentDate = new Date();
-      let selectedRegistrationData =
-        this.registrationMonth + 1 < 10
-          ? `0${this.registrationMonth + 1}`
-          : this.registrationMonth + 1;
+      const start = new Date();
+      const end = new Date(res.value);
+      // console.log(this.monthDiff(start, end))
+      // this.registrationMonth = moment(res.value).month();
+      // let currentDate = new Date();
+      // let selectedRegistrationData =
+      //   this.registrationMonth + 1 < 10
+      //     ? `0${this.registrationMonth + 1}`
+      //     : this.registrationMonth + 1;
 
-      this.currentMonthValue =
-        currentDate.getMonth() + 1 < 10
-          ? `0${currentDate.getMonth() + 1}`
-          : currentDate.getMonth() + 1;
+      // this.currentMonthValue =
+      //   currentDate.getMonth() + 1 < 10
+      //     ? `0${currentDate.getMonth() + 1}`
+      //     : currentDate.getMonth() + 1;
 
-      let monthGap = Math.abs(
-        this.currentMonthValue - selectedRegistrationData
-      );
-
+      // let monthGap = Math.abs(
+      //   this.currentMonthValue - selectedRegistrationData
+      // );
+      let monthGap = this.monthDiff(start, end);
       if (monthGap > 10) {
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
@@ -107,6 +110,15 @@ export class MotorInsuranceComponent implements OnInit {
       }
     });
   }
+
+  monthDiff = (d1: any, d2: any) => {
+    let months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+
+    return Math.abs(months);
+  };
 
   isResponsive(): boolean {
     return this.breakpointObserver.isMatched('(max-width: 767px)');
@@ -138,9 +150,9 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
       this.motorInsurance
-        .get('registration_year')
+        .get('registration_date')
         ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
     } else {
       this.motorInsurance
         .get('registration_number')
@@ -150,8 +162,8 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('vehicle')?.updateValueAndValidity();
       this.motorInsurance.get('rto_city')?.setValidators([]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_year')?.setValidators([]);
-      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.setValidators([]);
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
     }
   }
 

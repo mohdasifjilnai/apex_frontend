@@ -53,16 +53,16 @@ export class RegistrationYearComponent implements OnInit {
   @Input('required') isRequired = false;
   minDate: any;
   maxDate: any;
+  currentDate:any;
+  dateAppointment:any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
     private sharedDataService: SharedDataService
   ) {
-    const currentYear = moment().year();
-    let currentMonth = moment().month()
-    this.minDate = new Date(1990, 0); 
-    this.maxDate = new Date(currentYear, currentMonth); 
+  
   }
+ 
 
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
@@ -96,6 +96,12 @@ export class RegistrationYearComponent implements OnInit {
     } else {
       this.form.addControl('registration_date', new FormControl(moment()));
     }
+    const currentYear = moment().year();
+    let currentMonth = moment().month()
+    this.minDate = new Date(1990, 0); 
+    this.maxDate = new Date(currentYear, currentMonth); 
+    this.form.controls['registration_date'].setValue(moment());
+   
   }
 
   ngOnDestroy(): void {
