@@ -11,7 +11,7 @@
   font-weight: 600;
   border: none;
   border-radius: 12px;
-  width: 70%;
+  width: 100%;
   padding: 10px;
 }
 .edit-image {
@@ -81,9 +81,6 @@
 .res-insurance-details {
   display: none;
 }
-.insurer-title{
-  margin-left: 22px;
-}
 @media screen and (max-width: 768px) {
   .insurer-details {
     display: none;
@@ -133,27 +130,37 @@
   font-size: 14px;
   font-weight: 400;
 }
-
-@media screen and (max-width: 1366px) {
-  .insurer-header{
-    font-size: 12px;
-    font-weight: 500;
-    text-wrap: balance;
-    color: #666666;
+.cpa-cover-section {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #282828 !important;
 }
-.edit-button{
-  font-size: 11px;
+.cover-content-text {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+}
+.cover-tag-text {
+  font-size: 12px;
   font-weight: 600;
-  width: 132px;
-  padding: 10px;
 }
-.insurer-title{
-  margin-left: 7px;
+.cpa-cover-image {
+  width: 115%;
 }
-.plan-type{
-  font-size: 12px;
+
+.increase-total-premium {
+  font-size: 10px;
+  font-weight: 400;
+  color: #00000099;
 }
-.anunual-commericial{
-  font-size: 12px;
-}
+.card-popup {
+  .card {
+    box-shadow: 0 0 7px rgb(0 0 0 / 23%);
+    border-radius: 16px;
+  }
+  position: absolute;
+  bottom: 15%;
+  left: 15%;
+  width: 19%;
+  z-index: 9999;
 }

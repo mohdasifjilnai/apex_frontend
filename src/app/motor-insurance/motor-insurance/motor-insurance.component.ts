@@ -150,10 +150,10 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
       this.motorInsurance
-        .get('registration_date')
-        ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
-    } else {
+      .get('registration_date')
+      ?.setValidators([Validators.required]);
+        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      } else {
       this.motorInsurance
         .get('registration_number')
         ?.setValidators([Validators.required]);
