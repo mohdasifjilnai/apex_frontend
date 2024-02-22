@@ -5,6 +5,7 @@ import { QuotesComponent } from './quotes/quotes.component';
 import { ProposalComponent } from './proposal/proposal.component';
 import {VehicleInspectionComponent} from './vehicle-inspection/vehicle-inspection.component'
 import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
+import { PaymentComponent } from './payment/payment.component';
 const routes: Routes = [
   {
     path: '',
@@ -54,7 +55,20 @@ const routes: Routes = [
         { name: 'Motor Insurance', path: ['motor'] },
         { name: 'Quotes Listing', path: ['motor/quotes'] },
         { name: 'Proposal Form', path: ['motor/quotes/proposal']},
-        { name: 'Proposal Review', path: ['motor/quotes/proposal'] },
+        { name: 'Proposal Review', path: ['motor/quotes/proposal/review'] },
+      ],
+    },
+  },
+  {
+    path: 'quotes/proposal/review/payment',
+    component: PaymentComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Motor Insurance', path: ['motor'] },
+        { name: 'Quotes Listing', path: ['motor/quotes'] },
+        { name: 'Proposal Form', path: ['motor/quotes/proposal']},
+        { name: 'Proposal Review', path: ['motor/quotes/proposal/review'] },
+        { name: 'Payment', path: ['motor/quotes/proposal/review/payment'] },
       ],
     },
   },

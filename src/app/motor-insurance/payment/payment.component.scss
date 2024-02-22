@@ -1,0 +1,79 @@
+.payment-success {
+  .congratulations-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #47be88;
+  }
+  .sub-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #282828;
+    .blue-text {
+      color: #5384ea;
+      font-weight: 600;
+    }
+    .black-color {
+      font-weight: 600;
+    }
+  }
+  .homepage-btn {
+    width: 280px;
+    height: 40px;
+    border-radius: 32px;
+  }
+}
+.payment-failure {
+  .opps-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f64140;
+  }
+  .non-successfull-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f64140;
+  }
+  .sub-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: #282828;
+    .blue-text {
+      color: #5384ea;
+      font-weight: 600;
+    }
+    .black-color {
+      font-weight: 600;
+    }
+  }
+  .homepage-btn {
+    width: 280px;
+    height: 40px;
+    border-radius: 32px;
+  }
+  .homepage-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5384ea;
+    text-decoration: underline;
+  }
+}
+@media screen and (max-width: 768px) {
+  .payment-success {
+    background-color: #fff;
+    border-radius: 16px;
+    border: 1px solid #eaeaea;
+    margin: 15px;
+    .next-line {
+      display: none;
+    }
+  }
+  .payment-failure {
+    background-color: #fff;
+    border-radius: 16px;
+    border: 1px solid #eaeaea;
+    margin: 15px;
+    .next-line {
+      display: none;
+    }
+  }
+}
