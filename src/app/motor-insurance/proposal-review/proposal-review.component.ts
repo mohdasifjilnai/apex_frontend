@@ -27,29 +27,32 @@ export class ProposalReviewComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'otp-popup',
   };
-  constructor(private route :Router,private shareData:SharedDataService,public matDialog: WindowRef,public bottomSheet: MatBottomSheet,
-    public dialog: MatDialog) {}
-  ngOnInit(): void {
-  }
-  navigateToUrl(titleName:string){
+  constructor(
+    private route: Router,
+    private shareData: SharedDataService,
+    public matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet,
+    public dialog: MatDialog
+  ) {}
+  ngOnInit(): void {}
+  navigateToUrl(titleName: string) {
     this.route.navigate(['/motor/quotes/proposal/']);
-    this.shareData.sendProposalReviewEditId(titleName)
+    this.shareData.sendProposalReviewEditId(titleName);
   }
   back() {
     this.route.navigate(['/motor/quotes/proposal']);
   }
-  submitReview(){
+  submitReview() {
     if (window.innerWidth <= 768) {
       this.bottomSheet.open(OtpComponent);
     } else {
-      this.openModal('',this.otpDialog)
+      this.openModal('', this.otpDialog);
     }
-    
   }
   /**
- * this fucntion use open pop up modal
- */
-   openModal(ObjData: any,jsonData:any) {
+   * this fucntion use open pop up modal
+   */
+  openModal(ObjData: any, jsonData: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {

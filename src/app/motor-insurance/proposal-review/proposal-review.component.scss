@@ -1,4 +1,3 @@
-
 .vehicle-owner-details {
   width: 100%;
   background: #edf2fc;
@@ -6,7 +5,6 @@
   color: #5384ea;
   font-size: 14px;
   font-weight: 600;
-
 }
 .field-content {
   width: 100%;
@@ -15,7 +13,6 @@
   padding-right: 100px;
 }
 .acknowledgemen-confirm {
-  
   .proposal-confirmation {
     font-size: 13px;
     font-weight: 500;
@@ -50,41 +47,41 @@
 .edit-image {
   padding-right: 4px;
 }
-  ::ng-deep {
-    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
-    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-      background-color: #5989de !important;
-      border: 1px solid #5989de !important;
-      border-radius: 4px !important;
-    }
-    .mat-checkbox-checkmark-path {
-      stroke: white !important;
-    }
-    .mat-checkbox-frame,
-    .mat-checkbox-background,
-    .mat-checkbox-anim-unchecked-checked .mat-checkbox-anim-checked-unchecked {
-      transform: scale(1.5);
-    }
+::ng-deep {
+  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #5989de !important;
+    border: 1px solid #5989de !important;
+    border-radius: 4px !important;
   }
+  .mat-checkbox-checkmark-path {
+    stroke: white !important;
+  }
+  .mat-checkbox-frame,
+  .mat-checkbox-background,
+  .mat-checkbox-anim-unchecked-checked .mat-checkbox-anim-checked-unchecked {
+    transform: scale(1.5);
+  }
+}
 
-.res-proposal-review{
+.res-proposal-review {
   display: none;
 }
 @media screen and (max-width: 768px) {
-  .proposal-review{
+  .proposal-review {
     display: none;
   }
-  .res-proposal-review{
+  .res-proposal-review {
     display: block;
-    .back-button{
-      .back-image{
-          width: 30px;
-          height: 30px;
-          cursor: pointer;
+    .back-button {
+      .back-image {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
       }
+    }
   }
-  }
-  .res-background{
+  .res-background {
     background-color: #fff;
     border-radius: 16px;
     padding: 10px;

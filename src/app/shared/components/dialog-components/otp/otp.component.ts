@@ -24,10 +24,11 @@ export class OtpComponent implements OnInit {
   resendDisabled = false;
   countdown = 60;
 
-  constructor(public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
+  constructor(
+    public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
     this.startResendTimer();

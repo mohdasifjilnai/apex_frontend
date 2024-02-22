@@ -58,13 +58,13 @@
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
           </button>
-          <div *ngIf="shareQuotesDropdownValue" class="quotesDropdownvalue mt-2">
-            <button  class="all-btn">
-            Select Quotes
-          </button>
-          <button class="all-btn mt-1">
-            All Quotes
-          </button></div>
+          <div
+            *ngIf="shareQuotesDropdownValue"
+            class="quotesDropdownvalue mt-2"
+          >
+            <button class="all-btn">Select Quotes</button>
+            <button class="all-btn mt-1">All Quotes</button>
+          </div>
         </div>
         <div class="col-lg-2 col-4 inc-gst">
           <span class="gst me-2 mt-1">Inc. GST</span>
@@ -78,11 +78,11 @@
       <div class="row comprehensive-card">
         <div class="comprehensive-tab ps-4 pe-4 pt-4">
           <div class="row">
-            <div class="col-lg-2 col-md-4 col-12">
+            <div class="col-lg-3 col-md-3 col-12">
               <img [src]="quotes.insurer_logo" class="insurer-logo" alt="" />
             </div>
             <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-8 col-md-8 col-7">
+            <div class="col-lg-6 col-md-6 col-7">
               <span class="idv-amount">
                 IDV (&#8377; {{ quotes.premium_details?.min_idv }}- &#8377;
                 {{ quotes.premium_details?.max_idv }})
@@ -91,7 +91,7 @@
                 &#8377; {{ quotes.premium_details.idv }}
               </p>
             </div>
-            <div class="col-lg-2 col-md-2 col-5 premium-btn">
+            <div class="col-lg-3 col-md-3 col-5 premium-btn">
               <span
                 class="premium-breakup-amount cursor-pointer text-center"
                 (click)="getProposalDetails()"

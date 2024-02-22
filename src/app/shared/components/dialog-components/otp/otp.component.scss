@@ -17,11 +17,28 @@
     outline-color: #ffb171 !important;
   }
 }
-.otp-submission{
-    width: 310px;
+.otp-submission {
+  width: 310px;
 }
-.resend-otp-msg{
-    width: 90% !important;
+.resend-otp-msg {
+  width: 90% !important;
+}
+.cross-btn {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .otp-submission {
+    width: 100%;
+  }
+  .resend-otp-msg {
+    width: 100% !important;
+  }
+  .cross-btn {
+    display: block;
+  }
+  ::ng-deep .mat-bottom-sheet-container {
+    border-radius: 20px 20px 0px 0px;
+  }
 }
 .cross-btn{
   display: none;

@@ -1,6 +1,6 @@
 <div class="row m-auto p-4 insurer-details">
   <div class="col-12 d-flex">
-      <img src="/assets/images/hdfc.svg" alt="" />
+    <img src="/assets/images/hdfc.svg" alt="" />
     <div class="mx-4">
       <p class="insurer-header m-0 p-0">HDFC ERGO General Insurance</p>
       <div>
@@ -85,7 +85,11 @@
 
   <div class="col-12 mt-3">
     <div class="d-flex justify-content-between">
-      <button type="button" class="edit-button me-2" (click)="openShareModal('')">
+      <button
+        type="button"
+        class="edit-button me-2"
+        (click)="openShareModal('')"
+      >
         <img src="/assets/icon/share.svg" alt="" class="edit-image" />
         Share
       </button>
@@ -96,33 +100,38 @@
     </div>
   </div>
 </div>
-<div class="res-insurance-details ">
+<div class="res-insurance-details">
   <div class="details-card p-2 mt-2">
     <div class="row">
       <div class="col-4">
-        <img src="/assets/images/sbi-insurer.svg" alt="" width="100" height="60"/>
+        <img
+          src="/assets/images/sbi-insurer.svg"
+          alt=""
+          width="100"
+          height="60"
+        />
       </div>
       <div class="col-4">
-        <span class="plan-text">Total IDV</span><br>
+        <span class="plan-text">Total IDV</span><br />
         <span class="plan-value">6,00,000</span>
       </div>
       <div class="col-4">
-        <span class="plan-text">Total Premium</span><br>
+        <span class="plan-text">Total Premium</span><br />
         <span class="plan-value">6,00,000</span>
       </div>
     </div>
-    
   </div>
   <div class="view-less ps-3 pe-3">
     <div class="row">
       <div class="col-6 text-start">
-        <span class="d-flex justify-content-between" (click)="changeInsurer()">Change Insurer <div class="pipe">|</div></span>
+        <span class="d-flex justify-content-between" (click)="changeInsurer()"
+          >Change Insurer
+          <div class="pipe">|</div></span
+        >
       </div>
       <div class="col-6 text-end">
-        <span class=" "(click)="premiumBreakup()">Premium Breakup</span>
+        <span (click)="premiumBreakup()">Premium Breakup</span>
       </div>
     </div>
-    
-    
-</div>
+  </div>
 </div>

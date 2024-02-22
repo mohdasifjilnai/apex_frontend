@@ -15,7 +15,7 @@ import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
-import {ShareQuotesComponent} from '../../shared/components/dialog-components/share-quotes/share-quotes.component'
+import { ShareQuotesComponent } from '../../shared/components/dialog-components/share-quotes/share-quotes.component';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 @Component({
   selector: 'app-quotes-listing',
@@ -28,7 +28,7 @@ export class QuotesListingComponent implements OnInit {
   individualSelected: any;
   lowHighSelected = 'low';
   proposalList: any;
-  quotationData:any ;
+  quotationData: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -59,14 +59,14 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
-  knowMoreText: string='Know More';
-  shareQuotesDropdownValue: boolean=false;
+  knowMoreText: string = 'Know More';
+  shareQuotesDropdownValue: boolean = false;
   constructor(
     private router: Router,
     private apiService: ApiService,
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    private sharedDataService: SharedDataService,
+    private sharedDataService: SharedDataService
   ) {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -79,9 +79,7 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
-     
       this.quotationData = quotes;
-   
     });
   }
 
@@ -103,11 +101,11 @@ export class QuotesListingComponent implements OnInit {
   /**
    * this function is used for the no quotes information details
    */
-  noQuotes(text:any) {
-    if(text=='View Less'){
-      this.knowMoreText='Know More'
-    }else{
-      this.knowMoreText='View Less'
+  noQuotes(text: any) {
+    if (text == 'View Less') {
+      this.knowMoreText = 'Know More';
+    } else {
+      this.knowMoreText = 'View Less';
     }
     this.noQuotesInformation = !this.noQuotesInformation;
   }
@@ -153,23 +151,21 @@ export class QuotesListingComponent implements OnInit {
     if (window.innerWidth <= 768) {
       this.bottomSheet.open(PremiumBreakupComponent);
     } else {
-      this.openModal(initiateQuotes,this.initiateQuotesJSON);
+      this.openModal(initiateQuotes, this.initiateQuotesJSON);
     }
   }
-// (click)="shareQuotesOpen(null, shareQuotesJSON)"
-  shareQuotesOpen(shareData:any,jsonData:any){
-    this.openModal(shareData,jsonData)
+  // (click)="shareQuotesOpen(null, shareQuotesJSON)"
+  shareQuotesOpen(shareData: any, jsonData: any) {
+    this.openModal(shareData, jsonData);
   }
-  shareQuotesDropdown(){
-    this.shareQuotesDropdownValue=true
+  shareQuotesDropdown() {
+    this.shareQuotesDropdownValue = true;
   }
-
-
 
   /**
    * this fucntion use open pop up modal
    */
-   openModal(ObjData: any,jsonData:any) {
+  openModal(ObjData: any, jsonData: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -197,8 +193,13 @@ export class QuotesListingComponent implements OnInit {
   }
   /**
    * get proposer type in proposal list
-   */ 
-  getProposarType(event:any){
-    localStorage.setItem('proposerType',this.proposalList.filter((res:any)=>res.proposer_id==event)[0]['proposer_name'])
+   */
+  getProposarType(event: any) {
+    localStorage.setItem(
+      'proposerType',
+      this.proposalList.filter((res: any) => res.proposer_id == event)[0][
+        'proposer_name'
+      ]
+    );
   }
 }
