@@ -16,7 +16,8 @@ import {
   transition,
 } from '@angular/animations';
 import { BreakpointObserver } from '@angular/cdk/layout';
-
+import { WindowRef } from 'src/app/core/services/window-ref.service';
+import {NotCertifiedComponent} from '../../shared/components/dialog-components/not-certified/not-certified.component'
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -39,23 +40,40 @@ export class MotorInsuranceComponent implements OnInit {
   registrationMonth: any;
   currentMonthValue: any;
   insurerDisable = false;
-  disableInsurer = true;
-
+  disableInsurer:boolean=true
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
-    registration_date: new FormControl(moment()),
+    registration_year: new FormControl(moment()),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
   });
-
+  notCertifiedComponentJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NotCertifiedComponent,
+    widthObtained: '75%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'not-certifiedComponent-class',
+  };
   constructor(
     private router: Router,
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    private matDialog: WindowRef,
+
+  ) {
+    this.openNotCertifiedPopup(null)
+  }
 
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
@@ -83,7 +101,8 @@ export class MotorInsuranceComponent implements OnInit {
         this.insurerDisable = true;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
-      } else {
+      }
+      else{
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
@@ -121,9 +140,9 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
       this.motorInsurance
-        .get('registration_date')
+        .get('registration_year')
         ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
     } else {
       this.motorInsurance
         .get('registration_number')
@@ -133,8 +152,8 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('vehicle')?.updateValueAndValidity();
       this.motorInsurance.get('rto_city')?.setValidators([]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_date')?.setValidators([]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_year')?.setValidators([]);
+      this.motorInsurance.get('registration_year')?.updateValueAndValidity();
     }
   }
 
@@ -154,4 +173,33 @@ export class MotorInsuranceComponent implements OnInit {
       this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
+   /**
+   * this fucntion use open Not Certified Popup modal
+   */
+    openNotCertifiedPopup(ObjData: any) {
+      let resWidth;
+      let resTop;
+      if (window.screen.width <= 767) {
+        resWidth = '95%';
+        resTop = '5%';
+      } else {
+        resWidth = '75%';
+        resTop = '5%';
+      }
+  
+      const obj: any = {
+        modalName: this.notCertifiedComponentJSON['modalName'],
+        width: this.notCertifiedComponentJSON['widthObtained'],
+        height: this.notCertifiedComponentJSON['heightObtained'],
+        classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+        isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+        minWidth: resWidth,
+        dataInfo: {
+          data: ObjData,
+          top: resTop,
+        },
+      };
+  
+      this.matDialog.openDialog(obj)
+    }
 }
