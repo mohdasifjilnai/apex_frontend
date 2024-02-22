@@ -42,6 +42,7 @@ import { ProposalShareComponent } from './components/proposal-share/proposal-sha
 import { CommaFormatterDirective } from './directives/comma-formatter.directive';
 import { NotCertifiedComponent } from './components/dialog-components/not-certified/not-certified.component';
 import { NumberFormatPipe } from './pipe/number-format.pipe';
+import { SpecialCharcaterExceptAtDirective } from './directives/special-charcater-except-at.directive';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { NumberFormatPipe } from './pipe/number-format.pipe';
     ProposalShareComponent,
     CommaFormatterDirective,
     NotCertifiedComponent,
-    NumberFormatPipe
+    NumberFormatPipe,
+    SpecialCharcaterExceptAtDirective
   ],
   imports: [
     CommonModule,

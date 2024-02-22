@@ -164,3 +164,38 @@
   width: 19%;
   z-index: 9999;
 }
+
+.cpa-cover-section {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #282828 !important;
+}
+.cover-content-text {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+}
+.cover-tag-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+.cpa-cover-image {
+  width: 115%;
+}
+
+.increase-total-premium {
+  font-size: 10px;
+  font-weight: 400;
+  color: #00000099;
+}
+.card-popup {
+  .card {
+    box-shadow: 0 0 7px rgb(0 0 0 / 23%);
+    border-radius: 16px;
+  }
+  position: absolute;
+  bottom: 15%;
+  left: 15%;
+  width: 19%;
+  z-index: 9999;
+}

@@ -8,18 +8,19 @@ export class AlphabetOnlyDirective {
   constructor() { }
 
   @HostListener('input', ['$event'])
-  onInputChange(event: KeyboardEvent) {
-    const input = event.target as HTMLInputElement;
-    const sanitized = input.value.replace(/[^a-zA-Z]*/g, '');
+onInputChange(event: KeyboardEvent) {
+  const input = event.target as HTMLInputElement;
+  const sanitized = input.value.replace(/[^a-zA-Z\s]*/g, ''); // Allow only alphabets and single space
 
-    input.value = sanitized;
-  }
+  input.value = sanitized;
+}
 
-  @HostListener('paste', ['$event'])
-  onPaste(event: ClipboardEvent) {
-    event.preventDefault();
-    const input = event.target as HTMLInputElement;
-    input.value = '';
-  }
+@HostListener('paste', ['$event'])
+onPaste(event: ClipboardEvent) {
+  event.preventDefault();
+  const input = event.target as HTMLInputElement;
+  input.value = '';
+}
+
 
 }

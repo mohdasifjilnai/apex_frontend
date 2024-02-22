@@ -6,6 +6,7 @@
     formControlName="contact_number"
     appNumbersOnly
     additional_contact="contact_number"
+    maxlength="10"
   />
   <mat-error
     *ngIf="form.controls['contact_number']?.hasError('required')"

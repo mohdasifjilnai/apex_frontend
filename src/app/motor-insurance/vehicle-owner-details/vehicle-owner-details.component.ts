@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -36,9 +37,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ]),
     contact_number: new FormControl('', [
       Validators.required,
-      Validators.pattern('^[0-9]*$'),
-      Validators.minLength(10),
-      Validators.maxLength(10),
+      Validators.pattern(/^[6-9]\d{9}$/),
     ]),
     owner_gstin: new FormControl('', [
       Validators.required,
@@ -48,10 +47,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ]),
     additional_contact: new FormControl('', [
       Validators.required,
-      Validators.pattern('^[0-9]*$'),
-      Validators.minLength(10),
-      Validators.maxLength(10),
+      Validators.pattern(/^[6-9]\d{9}$/),
     ]),
+    
     owner_pincode: new FormControl('', [
       Validators.required,
       Validators.pattern('^[0-9]*$'),
@@ -99,5 +97,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
   submitFormGroup() {
     this.afterFormSubmit.emit('Vehicle-owner-details Form Submited');
+  }
+
+  @HostListener('input', ['$event']) onInput(event: InputEvent): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^a-zA-Z0-9@]/g, '');
   }
 }

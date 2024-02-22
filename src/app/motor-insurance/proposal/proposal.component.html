@@ -16,7 +16,6 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Owner Details')"
         #vehilceOwnerPanel
-        [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
@@ -72,7 +71,9 @@
   </div>
 </div>
 <div class="res-proposal-page p-2">
-  <div class="back-button" (click)="back()"><img src="/assets/icon/back.png" alt="" class="back-image" /></div>
+  <div class="back-button" (click)="back()">
+    <img src="/assets/icon/back.png" alt="" class="back-image" />
+  </div>
   <div>
     <app-vehicle-details-card></app-vehicle-details-card>
   </div>

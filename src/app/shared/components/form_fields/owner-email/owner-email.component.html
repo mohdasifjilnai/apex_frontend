@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" class="mat-input-custom">
   <mat-label>Email</mat-label>
-  <input matInput placeholder="Enter Email" formControlName="owner_email" />
+  <input matInput placeholder="Enter Email" formControlName="owner_email" appSpecialCharcaterExceptAt/>
   <mat-error
     *ngIf="form.controls['owner_email']?.hasError('required')"
     class="ms-4"
