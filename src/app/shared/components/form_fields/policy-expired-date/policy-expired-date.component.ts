@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -57,5 +58,36 @@ export class PolicyExpiredDateComponent implements OnInit {
   ngOnDestroy(): void {
     // remove form control for the Policy Expiry Date
     this.form.removeControl('policy_expiry_date');
+  }
+  @ViewChild('datepickerFooter', { static: false })
+  datepickerFooter!: ElementRef;
+  @ViewChild('expiryDate', { static: false }) expiryDate!: MatDatepicker<any>;
+  @ViewChild('policyExpiryDateInput', { static: false })
+  policyExpiryDateInput!: ElementRef;
+
+  selectedValue: Date | null = null;
+
+  onOpen() {
+    this.appendFooter();
+  }
+
+  /**
+   * Sets the value of the input element to the previous date and closes the datepicker.
+   */
+  previousExpiryDate() {
+    const inputValue = 'Not Sure';
+    this.policyExpiryDateInput.nativeElement.value = inputValue;
+    this.expiryDate.close();
+  }
+
+  /**
+   * Appends the datepicker footer to the calendar view.
+   */
+
+    appendFooter() {
+    const matCalendar = document.getElementsByClassName(
+      'mat-datepicker-content'
+    )[0] as HTMLElement;
+    matCalendar.appendChild(this.datepickerFooter.nativeElement);
   }
 }
