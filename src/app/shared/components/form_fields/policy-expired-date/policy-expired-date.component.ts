@@ -24,6 +24,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   disablEexpiryDate = false;
   @Input() disablePreviousInsurer: any;
   disableExpDateField: any;
+  isDatepickerOpen = false;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -69,6 +70,7 @@ export class PolicyExpiredDateComponent implements OnInit {
 
   onOpen() {
     this.appendFooter();
+    this.isDatepickerOpen = true;
   }
 
   /**

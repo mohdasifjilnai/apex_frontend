@@ -18,6 +18,7 @@
       class="text-orange datepicker-text cursor-pointer"
       (click)="previousExpiryDate()"
       #doneButton
+      *ngIf="isDatepickerOpen"
     >
       I don't know the previous policy details
     </p>

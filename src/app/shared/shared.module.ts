@@ -41,6 +41,7 @@ import { NumberWithDecimalDirective } from './directives/number-with-decimal.dir
 import { ProposalShareComponent } from './components/proposal-share/proposal-share.component';
 import { CommaFormatterDirective } from './directives/comma-formatter.directive';
 import { NotCertifiedComponent } from './components/dialog-components/not-certified/not-certified.component';
+import { NumberFormatPipe } from './pipe/number-format.pipe';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { NotCertifiedComponent } from './components/dialog-components/not-certif
     NumberWithDecimalDirective,
     ProposalShareComponent,
     CommaFormatterDirective,
-    NotCertifiedComponent
+    NotCertifiedComponent,
+    NumberFormatPipe
   ],
   imports: [
     CommonModule,
@@ -116,6 +118,7 @@ import { NotCertifiedComponent } from './components/dialog-components/not-certif
     EngineNumberComponent,
     ChasisNumberComponent,
     VehicleRegistrationAddressComponent,
+    NumberFormatPipe
   ],
 })
 export class SharedModule {}
