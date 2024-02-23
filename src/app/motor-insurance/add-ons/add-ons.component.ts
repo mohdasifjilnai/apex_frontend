@@ -28,7 +28,7 @@ export class AddOnsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>
+    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>,
   ) {}
 
   accessories: Addon[] = [
@@ -120,6 +120,9 @@ export class AddOnsComponent implements OnInit {
       this.checkBoxValueArray = this.checkBoxValueArray.filter(item => item !== valueToRemove);
       this.checkBoxValue.emit(this.checkBoxValueArray);
     }
+  }
+  apply() {
+    this.bottomSheetRef.dismiss(this.checkBoxValueArray);
   }
   /**
    *

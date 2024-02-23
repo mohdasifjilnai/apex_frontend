@@ -18,6 +18,7 @@ import {
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../../shared/components/dialog-components/not-certified/not-certified.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -69,9 +70,15 @@ export class MotorInsuranceComponent implements OnInit {
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
     private breakpointObserver: BreakpointObserver,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet,
   ) {
-    this.openNotCertifiedPopup(null);
+    if (window.innerWidth <= 768) {
+      this.bottomSheet.open(NotCertifiedComponent);
+    } else {
+      this.openNotCertifiedPopup(null);
+    }
+   
   }
 
   ngOnInit(): void {

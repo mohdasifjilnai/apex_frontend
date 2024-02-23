@@ -53,7 +53,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-lg-3 col-md-3 col-4">
+        <div class="col-lg-3 col-md-3 col-4 shareQuotes">
           <button mat-button (click)="shareQuotesDropdown()">
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
@@ -62,7 +62,7 @@
             *ngIf="shareQuotesDropdownValue"
             class="quotesDropdownvalue mt-2"
           >
-            <button class="all-btn">Select Quotes</button>
+            <button class="all-btn" (click)="selectQuotes()">Select Quotes</button>
             <button class="all-btn mt-1">All Quotes</button>
           </div>
         </div>
@@ -83,13 +83,22 @@
             </div>
             <!-- {{quotes.insurer_name}} -->
             <div class="col-lg-6 col-md-6 col-6">
-              <span class="idv-amount">
-                IDV (&#8377; {{ quotes.premium_details?.min_idv | numberFormat }}- &#8377;
-                {{ quotes.premium_details?.max_idv | numberFormat}})
-              </span>
-              <p class="idv-choose-amount mt-1">
-                &#8377; {{ quotes.premium_details.idv | numberFormat}}
-              </p>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <span class="idv-amount">
+                    IDV (&#8377; {{ quotes.premium_details?.min_idv | numberFormat }}- &#8377;
+                    {{ quotes.premium_details?.max_idv | numberFormat}})
+                  </span>
+                  <p class="idv-choose-amount mt-1">
+                    &#8377; {{ quotes.premium_details.idv | numberFormat}}
+                  </p>
+                </div>
+                <div *ngIf="addShare">
+                  <mat-checkbox >Add to Share</mat-checkbox>
+                </div>
+              </div>
+              
+             
             </div>
             <div class="col-lg-3 col-md-3 col-6 premium-btn">
               <span

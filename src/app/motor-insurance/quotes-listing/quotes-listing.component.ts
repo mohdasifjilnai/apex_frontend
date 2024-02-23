@@ -62,6 +62,7 @@ export class QuotesListingComponent implements OnInit {
   };
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
+  addShare: boolean=false;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -115,7 +116,10 @@ export class QuotesListingComponent implements OnInit {
     this.bottomSheet.open(ChooseIDVComponent);
   }
   openAddons(): void {
-    this.bottomSheet.open(AddOnsComponent);
+    const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);
+    bottomSheetRef.afterDismissed().subscribe((data) => {
+      this.receivedCheckBoxValue=data
+    });
   }
   openSort(dropdownType: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
@@ -149,10 +153,10 @@ export class QuotesListingComponent implements OnInit {
     // this.openPremiumBreakup(initiateQuotes);
     this.renderer.addClass(document.body, 'premium-breakout-css');
     const bottomSheetConfig: MatBottomSheetConfig = {
-      data: initiateQuotes, // Pass your data here
+      data: initiateQuotes, 
     };
     if (window.innerWidth <= 768) {
-      this.bottomSheet.open(PremiumBreakupComponent);
+      this.bottomSheet.open(PremiumBreakupComponent,bottomSheetConfig);
     } else {
       this.openModal(initiateQuotes, this.initiateQuotesJSON);
     }
@@ -163,6 +167,9 @@ export class QuotesListingComponent implements OnInit {
   }
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = true;
+  }
+  selectQuotes(){
+    this.addShare=true
   }
 
   /**

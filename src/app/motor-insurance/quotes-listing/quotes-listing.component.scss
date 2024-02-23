@@ -136,6 +136,9 @@
     display: none;
   }
 }
+.shareQuotes{
+  position: relative;
+}
 .toggle-btn {
   ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
     background-color: #ff943d !important;
@@ -225,9 +228,8 @@
     border: 1px solid #EAEAEA;
     width: 100%;
     background-color: #fff;
-    z-index: 1;
     border-radius: 8px;
-    z-index: 1;
+    position: absolute;
     .all-btn{
       background-color: #fff;
       border: none;

@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheetRef,
+  MAT_BOTTOM_SHEET_DATA,
+} from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-premium-breakup',
@@ -11,12 +14,15 @@ export class PremiumBreakupComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
     public bottomSheetRef: MatBottomSheetRef<PremiumBreakupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any
   ) {
-    this.initiateQuotes=data.data  
-   
+    if (data['data'] != null) {
+      this.initiateQuotes = data.data;
+    } else if (dataToBottomSheet != null) {
+      this.initiateQuotes = dataToBottomSheet;
+    }
   }
-
   ngOnInit(): void {}
   /**
    * this fucntion use for close pop up
