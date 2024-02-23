@@ -112,7 +112,7 @@ export class SharedDataService {
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
       business_type: 'new',
-      selected_addons: [],
+      selected_addons: {},
     };
 
     this.apiService
