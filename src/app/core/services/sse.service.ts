@@ -22,17 +22,17 @@ export class SseService {
 
   getServerSentEvent(url: string): Observable<MessageEvent> {
     return new Observable(observer => {
-      this.loaderService.show();
+      // this.loaderService.show();
       const eventSource = this.getEventSource(url);
       eventSource.onopen = (ev) => {
         console.log('Connection to server opened.', ev);
-        this.loaderService.hide(); 
+        // this.loaderService.hide(); 
         if(this.currentPageUrl != "/motor/quotes"){
             eventSource.close()
         }
       };
       eventSource.onerror = (ev) => {
-        this.loaderService.hide();
+        // this.loaderService.hide();
         console.log('EventSource failed.', ev);
       };
      
