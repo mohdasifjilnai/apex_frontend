@@ -1,0 +1,25 @@
+.loading-main-card {
+  width: auto;
+  height: 84px;
+  border-radius: 20px 20px 12px 12px;
+}
+.skeleton-loading {
+  background-color: #e6e6e6;
+}
+.side-card {
+  height: 80px;
+  border-radius: 12px;
+}
+.side-card-child {
+  height: 41px;
+  border-radius: 12px;
+}
+.small-card {
+  border-radius: 12px;
+  height: 30px;
+  width: 9%;
+}
+.small-card-main {
+  display: flex;
+  gap: 4%;
+}

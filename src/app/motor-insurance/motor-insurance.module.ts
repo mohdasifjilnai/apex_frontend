@@ -24,6 +24,7 @@ import { VehicleInspectionComponent } from './vehicle-inspection/vehicle-inspect
 import { QuotesDropdownComponent } from './quotes-dropdown/quotes-dropdown.component';
 import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
 import { PaymentComponent } from './payment/payment.component';
+import { SkeletonLoadingComponent } from './skeleton-loading/skeleton-loading.component';
 
 
 
@@ -48,6 +49,7 @@ import { PaymentComponent } from './payment/payment.component';
     QuotesDropdownComponent,
     ProposalReviewComponent,
     PaymentComponent,
+    SkeletonLoadingComponent,
   ],
   imports: [
     CommonModule,
