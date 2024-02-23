@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import add_ons_list from './add-ons-list.json';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -24,6 +24,7 @@ export class AddOnsComponent implements OnInit {
   addonList: any;
   AccessoriesChecked: boolean = false;
   checkedValue: any;
+  checkBoxValueArray: any[]=[];
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -107,6 +108,18 @@ export class AddOnsComponent implements OnInit {
    */
   clearAllChecked(): void {
     this.add_ons_list.forEach((item: any) => (item.checked = false));
+  }
+  @Output() checkBoxValue = new EventEmitter<any>();
+  onCheckboxSelect(event: any,value:any) {
+   
+    if(event.checked){
+      this.checkBoxValueArray.push(value)
+      this.checkBoxValue.emit(this.checkBoxValueArray);
+    }else{
+      const valueToRemove = value;
+      this.checkBoxValueArray = this.checkBoxValueArray.filter(item => item !== valueToRemove);
+      this.checkBoxValue.emit(this.checkBoxValueArray);
+    }
   }
   /**
    *

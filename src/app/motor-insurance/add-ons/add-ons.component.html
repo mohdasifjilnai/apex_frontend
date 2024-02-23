@@ -25,10 +25,12 @@
         <mat-panel-title> Add Ons </mat-panel-title>
       </mat-expansion-panel-header>
       <span
-        ><section class="my-2 d-grid" *ngFor="let listValue of addonList">
-          <mat-checkbox [(ngModel)]="listValue.checked">{{
-            listValue?.rb_addon_name
-          }}</mat-checkbox>
+        ><section class="my-2 d-grid" *ngFor="let listValue of add_ons_list">
+          <mat-checkbox
+            (change)="onCheckboxSelect($event, listValue.value)"
+            [(ngModel)]="listValue.checked"
+            >{{ listValue?.value }}</mat-checkbox
+          >
         </section></span
       >
     </mat-expansion-panel>
@@ -147,9 +149,12 @@
     </div>
     <div class="card-body p-2">
       <span class="customise-header ps-3">Addons</span>
-      <section class="my-2 section-value" *ngFor="let listValue of addonList">
+      <section
+        class="my-2 section-value"
+        *ngFor="let listValue of add_ons_list"
+      >
         <mat-checkbox [(ngModel)]="listValue.checked">{{
-          listValue?.rb_addon_name
+          listValue?.value
         }}</mat-checkbox>
       </section>
     </div>

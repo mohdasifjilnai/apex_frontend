@@ -6,7 +6,8 @@
   ::ng-deep .mat-input-element {
     font-size: 12px !important;
     font-weight: 500;
-    color: #282828
+    color: #282828;
+    padding-left: 10px;
   }
 
   ::ng-deep {
@@ -37,6 +38,14 @@
   .registration-number {
     ::ng-deep .mat-form-field-infix {
       width: 100% !important;
+    }
+  }
+}
+@media screen and (max-width: 361px) {
+  .registration-number {
+    ::ng-deep .mat-form-field-flex {
+      margin-right: 110px;
+      margin-left: 0px !important;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import initiate_quotes_payload from './initiate_quotes_payload.json';
 import { ApiConstants } from '../../api.constant';
@@ -24,6 +24,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 })
 export class QuotesListingComponent implements OnInit {
   initiateQuotes: any;
+  @Input() receivedCheckBoxValue: any[]=[];
   showComprehensiveDiv = true;
   individualSelected: any;
   lowHighSelected = 'low';
@@ -66,7 +67,8 @@ export class QuotesListingComponent implements OnInit {
     private apiService: ApiService,
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private renderer: Renderer2
   ) {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -145,6 +147,7 @@ export class QuotesListingComponent implements OnInit {
    */
   openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent): void {
     // this.openPremiumBreakup(initiateQuotes);
+    this.renderer.addClass(document.body, 'premium-breakout-css');
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: initiateQuotes, // Pass your data here
     };

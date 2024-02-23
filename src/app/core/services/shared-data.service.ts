@@ -109,7 +109,7 @@ export class SharedDataService {
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
-      business_type: 'New',
+      business_type: 'new',
       selected_addons: [],
     };
 

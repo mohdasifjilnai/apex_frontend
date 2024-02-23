@@ -46,6 +46,12 @@ export class QuotesComponent implements OnInit {
       }
   
   }
+  receivedData: any;
+  receivedCheckBoxValue: any;
+  receiveDataFromChild(data: string) {
+    this.receivedData = data;
+    this.receivedCheckBoxValue = data;
+  }
   /**
    * this fucntion use vehicle vehicle details modal
    */

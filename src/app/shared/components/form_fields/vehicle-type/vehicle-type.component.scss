@@ -1,5 +1,4 @@
-
-.all-vehicle{
+.all-vehicle {
   display: flex;
   justify-content: center;
   .two-wheeler {
@@ -10,11 +9,11 @@
     border-radius: 20px;
     outline: 1px solid #28b8e2;
   }
-  .vehicle-card{
+  .vehicle-card {
     // background-color: red;
     padding: 25px 18px 25px 18px;
     border-radius: 20px;
-    .vehicle-name{
+    .vehicle-name {
       font-size: 13px;
       font-weight: 500;
       color: #535353;
@@ -22,16 +21,17 @@
     }
   }
 }
-
+@media screen and (max-width: 361px) {
+  .all-vehicle {
+    padding-right: 20px;
+  }
+}
 
 @media screen and (max-width: 768px) {
-  .vehicle-card{
+  .vehicle-card {
     display: table-caption;
   }
-  .vehicle-name{
+  .vehicle-name {
     margin-left: 0px !important;
   }
-
- 
-
 }

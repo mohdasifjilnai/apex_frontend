@@ -15,9 +15,9 @@
       </mat-tab-group>
     </div>
     <div class="col-lg-8 col-md-6 col-12">
-      <div class="row quotesDropdown">
+      <div class="d-flex justify-content-between quotesDropdown">
         <!-- owner type for web view -->
-        <div class="col-lg-3 col-4 owner-type">
+        <div class="col-lg-3 col-4 owner-type me-2">
           <mat-form-field appearance="outline">
             <mat-select
               formControlName="proposalType"
@@ -36,7 +36,7 @@
           </mat-form-field>
         </div>
         <!-- owner type for mobile view -->
-        <div class="col-lg-3 col-4 owner-type-res">
+        <div class="col-lg-3 col-md-3 col-4 owner-type-res me-2">
           <button mat-button (click)="openSort('Owner Type')">
             Individual<img
               src="/assets/icon/dropdown.svg"
@@ -45,15 +45,15 @@
             />
           </button>
         </div>
-        <div class="col-lg-4 sort-dropdown">
+        <div class="col-lg-3 col-md-3 sort-dropdown me-2">
           <mat-form-field appearance="outline">
             <mat-select [(value)]="lowHighSelected">
-              <mat-option value="low">Sort: Low to High</mat-option>
+              <mat-option value="low">Low to High</mat-option>
               <mat-option value="high">High to Low</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-lg-3 col-4">
+        <div class="col-lg-3 col-md-3 col-4">
           <button mat-button (click)="shareQuotesDropdown()">
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
@@ -66,8 +66,8 @@
             <button class="all-btn mt-1">All Quotes</button>
           </div>
         </div>
-        <div class="col-lg-2 col-4 inc-gst">
-          <span class="gst me-2 mt-1">Inc. GST</span>
+        <div class="col-lg-3 col-md-3 col-4 inc-gst">
+          <div class="gst me-2 pb-1">Inc. GST</div>
           <mat-slide-toggle checked="true"> </mat-slide-toggle>
         </div>
       </div>
@@ -82,7 +82,7 @@
               <img [src]="quotes.insurer_logo" class="insurer-logo" alt="" />
             </div>
             <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-6 col-md-6 col-7">
+            <div class="col-lg-6 col-md-6 col-6">
               <span class="idv-amount">
                 IDV (&#8377; {{ quotes.premium_details?.min_idv | numberFormat }}- &#8377;
                 {{ quotes.premium_details?.max_idv | numberFormat}})
@@ -91,7 +91,7 @@
                 &#8377; {{ quotes.premium_details.idv | numberFormat}}
               </p>
             </div>
-            <div class="col-lg-3 col-md-3 col-5 premium-btn">
+            <div class="col-lg-3 col-md-3 col-6 premium-btn">
               <span
                 class="premium-breakup-amount cursor-pointer text-center"
                 (click)="getProposalDetails()"
@@ -111,47 +111,24 @@
       <!-- comprehensive key feature web view -->
       <div class="comprehensive-key-features">
         <div class="comprehensive-key-features-value">
-          <div class="d-flex justify-content-between">
-            <div class="key-features-text">Key Features:</div>
-            <div class="key-features-value">
+          <div
+              class="key-features-value me-3"
+              *ngFor="let data of receivedCheckBoxValue"
+            >
               <img src="assets/icon/insurer-key-feature.svg" />
-              Maximum Cashless Garages
+              {{ data }}
             </div>
-            <div class="key-features-value">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              PSU Provider
-            </div>
-            <div class="key-features-value">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              24x7 RSA
-            </div>
-            <div class="key-features-value">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              Quick Claim Settlement
-            </div>
-            <div class="key-features-value">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              Over Night Repair
-            </div>
-          </div>
         </div>
       </div>
 
       <!-- comprehensive key feature mobile view -->
       <div class="row res-comprehensive-key-features">
         <span class="key-features">
-          <div class="comprehensive-key-features-value me-2 mb-2">
-            Maximum Cashless Garages
-          </div>
-          <div class="comprehensive-key-features-value me-2 mb-2">
-            Quick Claim Settlement
-          </div>
-          <div class="comprehensive-key-features-value me-2 mb-2">24x7 RSA</div>
-          <div class="comprehensive-key-features-value me-2 mb-2">
-            Over Night Repair
-          </div>
-          <div class="comprehensive-key-features-value me-2 mb-2">
-            PSU Provider
+          <div
+            class="comprehensive-key-features-value me-2 mb-2"
+            *ngFor="let data of receivedCheckBoxValue"
+          >
+            {{ data }}
           </div>
         </span>
       </div>
@@ -162,7 +139,7 @@
     <div class="w-100 comprehensive-no-quotes-information">
       <div>
         <div
-          class="row no-quotes-information-card"
+          class="d-flex justify-content-between no-quotes-information-card"
           *ngIf="!noQuotesInformation"
         >
           <div class="col-lg-8 col-8 d-flex">

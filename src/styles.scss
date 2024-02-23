@@ -164,7 +164,6 @@ th.mat-header-cell:last-of-type {
     margin-left: 4% !important;
     margin-bottom: 75% !important;
     margin-top: 0 !important;
-    
   }
 }
 
@@ -194,7 +193,7 @@ th.mat-header-cell:last-of-type {
   font-weight: 500 !important;
 }
 
-.mat-form-field-label-wrapper{
+.mat-form-field-label-wrapper {
   left: 10px !important;
   top: -12px !important;
 }
@@ -219,7 +218,6 @@ th.mat-header-cell:last-of-type {
   font-size: 14px !important;
   font-weight: 500 !important;
 }
-
 
 /*[START]this css add for multi select drop down*/
 .mat-pseudo-checkbox {
@@ -470,22 +468,22 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   }
 }
 .wait-ckyc-verification-class {
-  margin-left: 50% ;
+  margin-left: 50%;
   margin-top: 10%;
   .mat-dialog-container {
     width: 612px;
     border-radius: 23px;
   }
 }
-.insurance-details-class{
-  margin-left: 75% ;
+.insurance-details-class {
+  margin-left: 75%;
   margin-top: 5% !important;
   .mat-dialog-container {
     width: 612px;
     border-radius: 23px;
   }
 }
- .mat-radio-button{
+.mat-radio-button {
   width: 50%;
 }
 /*[START] mat radio button */
@@ -509,6 +507,22 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .mat-radio-label-content {
   color: #bababa !important;
 }
+body.premium-breakout-css {
+  .cdk-overlay-container {
+    .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+      opacity: 0 !important;
+    }
+  }
+}
+.mat-error {
+  padding-left: 23px;
+}
+input.mat-input-element {
+  font-size: 12px !important;
+  font-weight: 500;
+  color: #282828;
+  padding-left: 10px;
+}
 
 /*[END] mat radio button */
 
@@ -524,7 +538,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   border: 1px solid #d6d6d6;
 }
 .share-qoutes-class {
-  margin-left: 80% ;
+  margin-left: 80%;
   margin-top: 10% !important;
   overflow: none !important;
   .mat-dialog-container {
@@ -548,8 +562,8 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   background: #d6d6d6;
   border: 1px solid #d6d6d6;
 }
-.not-certifiedComponent-class{
-  margin-left: 50% ;
+.not-certifiedComponent-class {
+  margin-left: 50%;
   margin-top: 10% !important;
   .mat-dialog-container {
     border-radius: 30px !important;
