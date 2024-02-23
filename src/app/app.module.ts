@@ -20,11 +20,13 @@ import { GlobalLoaderInterceptor } from './core/interceptor/global-loader.interc
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [WindowRef,DatePipe, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: GlobalLoaderInterceptor,
-    multi: true
-  }],
+  providers: [WindowRef,DatePipe, 
+    // {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: GlobalLoaderInterceptor,
+  //   multi: true
+  // }
+],
 
   bootstrap: [AppComponent],
 })

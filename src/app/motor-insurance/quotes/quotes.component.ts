@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-quotes',
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class QuotesComponent implements OnInit {
   withoutVehicleNumber: any;
+  waitquotationData:any=sessionStorage.getItem('waitquotationData')
   vehicleDetailsJSON: {
     modalName: any;
     widthObtained: string;
@@ -28,13 +29,20 @@ export class QuotesComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
+  isLoading: boolean = true;
   constructor(
     public matDialog: WindowRef,
-    private sharedDataService: SharedDataService,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
-    public router: Router
-  ) {}
+    public router: Router,
+    public loaderService:LoaderService
+  ) {
+    this.loaderService.isLoading().subscribe((isLoading:any) => {
+      if(isLoading){
+        this.isLoading = isLoading;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');

@@ -2,20 +2,24 @@
   <div class="back-button" (click)="back()">
     <img src="/assets/icon/back.png" alt="" class="back-image" />
   </div>
-  <!-- <app-skeleton-loading></app-skeleton-loading> -->
-  <div class="col-lg-12">
-    <app-vehicle-details-card></app-vehicle-details-card>
-  </div>
-  <div class="col-lg-3">
-    <app-choose-idv class="choose-idv"></app-choose-idv>
-    <app-add-ons
-      class="addons"
-      (checkBoxValue)="receiveDataFromChild($event)"
-    ></app-add-ons>
-  </div>
-  <div class="col-lg-9 col-12">
-    <app-quotes-listing
-      [receivedCheckBoxValue]="receivedCheckBoxValue"
-    ></app-quotes-listing>
-  </div>
+  <app-skeleton-loading
+    *ngIf="isLoading; else other_content"
+  ></app-skeleton-loading>
+  <ng-template #other_content>
+    <div class="col-lg-12">
+      <app-vehicle-details-card></app-vehicle-details-card>
+    </div>
+    <div class="col-lg-3">
+      <app-choose-idv class="choose-idv"></app-choose-idv>
+      <app-add-ons
+        class="addons"
+        (checkBoxValue)="receiveDataFromChild($event)"
+      ></app-add-ons>
+    </div>
+    <div class="col-lg-9 col-12">
+      <app-quotes-listing
+        [receivedCheckBoxValue]="receivedCheckBoxValue"
+      ></app-quotes-listing>
+    </div>
+  </ng-template>
 </div>
