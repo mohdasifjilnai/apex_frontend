@@ -127,26 +127,28 @@ export class SharedDataService {
           )
           .subscribe(
             (ev) => {
-              let dataEvent = JSON.parse(ev.data);
+              if (ev.data != 'null') {
+                let dataEvent = JSON.parse(ev.data);
 
-              this.connectionData.push(dataEvent);
+                this.connectionData.push(dataEvent);
 
-              this.allQuotes = this.connectionData;
+                this.allQuotes = this.connectionData;
 
-              this.quotesValue = this.connectionData;
-              this.allQuotes = Object.values(
-                this.quotesValue.reduce(
-                  (
-                    data: any,
-                    obj: {
-                      insurer_name: any;
-                    }
-                  ) => ({ ...data, [obj.insurer_name]: obj }),
-                  {}
-                )
-              );
+                this.quotesValue = this.connectionData;
+                this.allQuotes = Object.values(
+                  this.quotesValue.reduce(
+                    (
+                      data: any,
+                      obj: {
+                        insurer_name: any;
+                      }
+                    ) => ({ ...data, [obj.insurer_name]: obj }),
+                    {}
+                  )
+                );
 
-              this.quotationListing.next(this.allQuotes);
+                this.quotationListing.next(this.allQuotes);
+              }
             },
             (error) => {
               console.log(error);
