@@ -16,6 +16,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Owner Details')"
         #vehilceOwnerPanel
+        [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>

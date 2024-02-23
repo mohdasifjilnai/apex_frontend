@@ -43,6 +43,7 @@ import { CommaFormatterDirective } from './directives/comma-formatter.directive'
 import { NotCertifiedComponent } from './components/dialog-components/not-certified/not-certified.component';
 import { NumberFormatPipe } from './pipe/number-format.pipe';
 import { SpecialCharcaterExceptAtDirective } from './directives/special-charcater-except-at.directive';
+import { SpecialCharacterNotAllowedDirective } from './directives/special-character-not-allowed.directive';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { SpecialCharcaterExceptAtDirective } from './directives/special-charcate
     CommaFormatterDirective,
     NotCertifiedComponent,
     NumberFormatPipe,
-    SpecialCharcaterExceptAtDirective
+    SpecialCharcaterExceptAtDirective,
+    SpecialCharacterNotAllowedDirective
   ],
   imports: [
     CommonModule,
@@ -120,7 +122,7 @@ import { SpecialCharcaterExceptAtDirective } from './directives/special-charcate
     EngineNumberComponent,
     ChasisNumberComponent,
     VehicleRegistrationAddressComponent,
-    NumberFormatPipe
+    NumberFormatPipe,
   ],
 })
 export class SharedModule {}

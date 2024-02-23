@@ -40,16 +40,14 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.pattern(/^[6-9]\d{9}$/),
     ]),
     owner_gstin: new FormControl('', [
-      Validators.required,
       Validators.pattern(
         new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')
       ),
     ]),
     additional_contact: new FormControl('', [
-      Validators.required,
       Validators.pattern(/^[6-9]\d{9}$/),
     ]),
-    
+
     owner_pincode: new FormControl('', [
       Validators.required,
       Validators.pattern('^[0-9]*$'),
@@ -87,20 +85,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   getVehicleDetails(isValid: any) {
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
       this.afterVehicleOwnerData.emit(formValues);
     }
   }
+  /**
+   * Emits an event indicating that the form group has been submitted.
+   */
   submitFormGroup() {
     this.afterFormSubmit.emit('Vehicle-owner-details Form Submited');
-  }
-
-  @HostListener('input', ['$event']) onInput(event: InputEvent): void {
-    const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^a-zA-Z0-9@]/g, '');
   }
 }

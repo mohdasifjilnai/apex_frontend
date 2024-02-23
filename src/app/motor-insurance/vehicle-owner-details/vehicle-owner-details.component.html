@@ -35,6 +35,7 @@
           formControlName="owner_gstin"
           appAlphaNumeric
           id-automation="owner_gstin"
+          maxlength="15"
         />
         <mat-error
           *ngIf="
@@ -129,6 +130,8 @@
           formControlName="owner_pincode"
           id-automation="owner_pincode"
           appNumbersOnly
+          maxlength="6"
+          type="number"
         />
         <mat-autocomplete #pincodeAuto="matAutocomplete">
           <mat-option
