@@ -42,6 +42,7 @@ export class MotorInsuranceComponent implements OnInit {
   currentMonthValue: any;
   insurerDisable = false;
   disableInsurer: boolean = true;
+  vehicleNotFound: any;
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [Validators.required]),
     vehicle: new FormControl(''),
@@ -71,14 +72,13 @@ export class MotorInsuranceComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private breakpointObserver: BreakpointObserver,
     private matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet,
+    public bottomSheet: MatBottomSheet
   ) {
     if (window.innerWidth <= 768) {
       this.bottomSheet.open(NotCertifiedComponent);
     } else {
       this.openNotCertifiedPopup(null);
     }
-   
   }
 
   ngOnInit(): void {
@@ -157,10 +157,10 @@ export class MotorInsuranceComponent implements OnInit {
       this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
       this.motorInsurance.get('rto_city')?.updateValueAndValidity();
       this.motorInsurance
-      .get('registration_date')
-      ?.setValidators([Validators.required]);
-        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
-      } else {
+        .get('registration_date')
+        ?.setValidators([Validators.required]);
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+    } else {
       this.motorInsurance
         .get('registration_number')
         ?.setValidators([Validators.required]);

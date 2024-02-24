@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-registration-number',
@@ -19,25 +20,33 @@ import {
 export class RegistrationNumberComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  @Input() registrationNumber!: string 
-
+  @Input() registrationNumber!: string;
+  vehicleNotFound: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private fb: FormBuilder,
+    private sharedDataService: SharedDataService
   ) {}
-  
+
   ngOnInit(): void {
     // add form control for the registration number
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
         'registration_number',
-        new FormControl(null, [Validators.required,
-        Validators.minLength(8), Validators.maxLength(11)]),
+        new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(11),
+        ])
       );
     } else {
       this.form.addControl('registration_number', new FormControl());
     }
+
+    this.sharedDataService.detailNotFound.subscribe((res) => {
+      this.vehicleNotFound = res;
+    });
   }
   inputValue: string = '';
 
@@ -48,8 +57,8 @@ export class RegistrationNumberComponent implements OnInit {
 
   // Validators.pattern(new RegExp('/^[ A-Za-z0-9-]*$/'))
 
-  // ngOnDestroy(): void {
-  //   // remove form control for the registration number
-  //   this.form.removeControl('registration_number');
-  // }
+  ngOnDestroy(): void {
+    // remove form control for the registration number
+    this.form.removeControl('registration_number');
+  }
 }

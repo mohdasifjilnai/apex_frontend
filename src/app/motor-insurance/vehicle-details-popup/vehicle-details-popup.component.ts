@@ -90,10 +90,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
       {
         id: 1,
         rcName: 'Yes',
+        value: true,
       },
       {
         id: 2,
         rcName: 'No',
+        value: false,
       },
     ];
     /**
@@ -103,10 +105,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
       {
         id: 1,
         claimedName: 'Yes',
+        value: true,
       },
       {
         id: 2,
         claimedName: 'No',
+        value: false,
       },
     ];
 
@@ -136,6 +140,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
       user_car: [''],
+      policy_expiry_date: [''],
       policy_expiry: [''],
       previous_claimed: [''],
       ncb_discount: [''],
@@ -166,7 +171,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
 
     setTimeout(() => {
-      this.getVehicleMMVPopup('');
+      if (this.registrationNumber.rb_mmv_id) {
+        this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
+      }
       this.getRTOData();
     }, 2000);
 
@@ -192,16 +199,21 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
   }
 
-  getVehicleMMVPopup(name: any) {
+  getVehicleMMVPopup(name: any, id: any) {
+    let apiData;
+    if (id) {
+      apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
+    } else {
+      apiData = `?product_name=${this.vehicleTypeValue}`;
+    }
     this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}`
-      )
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res) => {
         if (res) {
           this.modelList = res;
           this.variantList = res;
           this.fuelList = res;
+
           this.mmDataNotAvailable = '';
           this.fuelData = Object.values(
             this.fuelList.reduce(
@@ -216,23 +228,57 @@ export class VehicleDetailsPopupComponent implements OnInit {
             )
           );
 
-          /**
-           * when input field value changes than valueChanges is used
-           */
-          this.vehicleDetailsForm.patchValue({
-            vehicle_fuel: this.registrationNumber.fuel_type,
-          });
-          this.vehicleDetailsForm.patchValue({
-            registration_date: new Date(
-              this.registrationNumber.registration_date
-            ),
-          });
+          for (let i = 0; i <= this.modelList.length - 1; i++) {
+            this.modelList[
+              i
+            ].displayMM = `${this.modelList[i].rb_make_name} | ${this.modelList[i].rb_model_name}`;
+          }
+          for (let i = 0; i <= this.modelList.length - 1; i++) {
+            if (
+              this.modelList[i].rb_mmv_id == this.registrationNumber.rb_mmv_id
+            ) {
+              this.vehicleDetailsForm.patchValue({
+                vehicle_model: this.modelList[i],
+                vehicle_variant: this.modelList[i],
+                vehicle_fuel: this.modelList[i].fuel,
+                user_car: this.registrationNumber.is_ownership_transfer,
+                previous_claimed: this.registrationNumber.is_claimed,
+                previous_insurer: this.registrationNumber.previous_insurer_code,
+              });
+            }
+          }
+
+          if (
+            this.registrationNumber?.registration_month &&
+            this.registrationNumber?.registration_year
+          ) {
+            let registartIonDate = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+
+            let dateObj = moment(registartIonDate, 'MM/YYYY');
+
+            this.vehicleDetailsForm.patchValue({
+              registration_date: dateObj,
+            });
+          }
+          if (this.registrationNumber?.previous_policy_exp_date) {
+            let inputDate = this.registrationNumber?.previous_policy_exp_date; // Assuming the format is dd-mm-yyyy
+
+            // Destructuring assignment to extract day, month, and year
+            let [day, month, year] = inputDate.split('-');
+
+            // Reformatting to mm-dd-yyyy format
+            let reformattedDate = month + '-' + day + '-' + year;
+
+            this.vehicleDetailsForm.patchValue({
+              policy_expiry_date: new Date(reformattedDate),
+            });
+          }
 
           if (res.length > 0) {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterMMVPopup(name) : this.modelList;
@@ -242,7 +288,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
               'vehicle_variant'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterVariantPopup(name) : this.variantList;
@@ -255,7 +301,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterMMVPopup(name) : ['No data'];
@@ -265,7 +311,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
               'vehicle_variant'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterVariantPopup(name) : ['No data'];
@@ -289,6 +335,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.modelList = res;
+          for (let i = 0; i <= this.modelList.length - 1; i++) {
+            this.modelList[
+              i
+            ].displayMM = `${this.modelList[i].rb_make_name} | ${this.modelList[i].rb_model_name}`;
+          }
           // this.filteredMMV = this.mmvList;
           /**
            * when input field value changes than valueChanges is used
@@ -297,7 +348,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterMMVPopup(name) : this.modelList;
@@ -310,7 +361,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterMMVPopup(name) : ['No data'];
@@ -353,7 +404,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
               'vehicle_variant'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterVariantPopup(name) : ['No data'];
@@ -370,6 +421,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.rtoList = res;
+
+          for (let i = 0; i <= this.rtoList.length - 1; i++) {
+            if (
+              this.rtoList[i].rb_rto_code == this.registrationNumber.rb_rto_code
+            ) {
+              this.vehicleDetailsForm.patchValue({
+                registration_city: this.rtoList[i],
+              });
+            }
+          }
           /**
            * when input field value changes than valueChanges is used
            */
@@ -378,7 +439,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredRtoList = this.vehicleDetailsForm.controls[
               'registration_city'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterRTO(name) : this.rtoList;
@@ -398,7 +459,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredRtoList = this.vehicleDetailsForm.controls[
               'registration_city'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterRTO(name) : ['No data'];
@@ -430,7 +491,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredRtoList = this.vehicleDetailsForm.controls[
               'registration_city'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterRTO(name) : this.rtoList;
@@ -441,7 +502,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.filteredRtoList = this.vehicleDetailsForm.controls[
               'registration_city'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => {
                 return name ? this.filterRTO(name) : ['No data'];
@@ -455,12 +516,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
   displayMakeModel(data?: any) {
     if (data != null && data != 'No data') {
       this.mmId = data.rb_mmv_id;
-      return data ? data.rb_make_name : undefined;
+      return data ? data.displayMM : undefined;
     }
   }
   vehcileMM(data: any) {
     if (data == '') {
-      this.getVehicleMMVPopup('');
+      this.getVehicleMMVPopup('', '');
     }
   }
 
@@ -472,7 +533,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
   vehcileVariant(data: any) {
     if (data == '') {
-      this.getVehicleMMVPopup('');
+      this.getVehicleMMVPopup('', '');
     }
   }
 

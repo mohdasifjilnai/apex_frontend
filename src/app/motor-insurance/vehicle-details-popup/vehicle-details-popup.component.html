@@ -45,8 +45,7 @@
                   *ngFor="let mmData of filteredPopupMMV | async"
                   [value]="mmData"
                 >
-                  <span>{{ mmData.rb_make_name }}</span> |
-                  <span>{{ mmData.rb_model_name }}</span>
+                  <span>{{ mmData.displayMM }}</span>
                 </mat-option>
               </span>
               <span *ngIf="mmDataNotAvailable">
@@ -160,7 +159,7 @@
           <mat-form-field appearance="outline" class="vehicle-details-dropdown">
             <mat-label>Used Car/ RC Transfer</mat-label>
             <mat-select formControlName="user_car">
-              <mat-option *ngFor="let rc of rcList" [value]="rc?.id">
+              <mat-option *ngFor="let rc of rcList" [value]="rc?.value">
                 {{ rc?.rcName }}
               </mat-option>
             </mat-select>
@@ -203,7 +202,10 @@
               formControlName="previous_claimed"
               (selectionChange)="claimedPolicy($event)"
             >
-              <mat-option *ngFor="let claimed of claimedList" [value]="claimed">
+              <mat-option
+                *ngFor="let claimed of claimedList"
+                [value]="claimed?.value"
+              >
                 {{ claimed?.claimedName }}
               </mat-option>
             </mat-select>

@@ -20,6 +20,7 @@ export class SharedDataService {
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
+  detailNotFound: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -36,7 +37,7 @@ export class SharedDataService {
     private apiService: ApiService,
     private router: Router,
     private sseService: SseService,
-    private loaderService:LoaderService
+    private loaderService: LoaderService
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -83,10 +84,12 @@ export class SharedDataService {
         `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
       )
       .subscribe((res: any) => {
-        if (res) {
+        if (res?.detail != 'Vehicle details not found.') {
           this.regNumberData.next(res);
           this.getQuotationListing(res, data);
           this.router.navigate(['/motor/quotes']);
+        } else {
+          this.detailNotFound.next(res?.detail);
         }
       });
   }
@@ -123,7 +126,7 @@ export class SharedDataService {
         /**
          * service call for the server side event handling
          */
-        
+
         this.sseService
           .getServerSentEvent(
             `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
