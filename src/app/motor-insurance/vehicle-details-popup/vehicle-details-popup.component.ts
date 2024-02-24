@@ -516,24 +516,52 @@ export class VehicleDetailsPopupComponent implements OnInit {
   displayMakeModel(data?: any) {
     if (data != null && data != 'No data') {
       this.mmId = data.rb_mmv_id;
+
       return data ? data.displayMM : undefined;
+    }
+  }
+
+  onOptionMMSelected(event: any) {
+    if (event.option.value) {
+      this.vehicleDetailsForm.patchValue({
+        vehicle_variant: event.option.value,
+        vehicle_fuel: event.option.value.fuel,
+      });
+    }
+  }
+
+  onVariantSelected(event: any) {
+    if (event.option.value) {
+      this.vehicleDetailsForm.patchValue({
+        vehicle_model: event.option.value,
+        vehicle_fuel: event.option.value.fuel,
+      });
     }
   }
   vehcileMM(data: any) {
     if (data == '') {
       this.getVehicleMMVPopup('', '');
+      // this.vehicleDetailsForm.patchValue({
+      //   vehicle_variant: '',
+      //   vehicle_fuel: '',
+      // });
     }
   }
 
   displayVariant(data?: any) {
     if (data != null && data != 'No data') {
       this.variantId = data.rb_mmv_id;
+
       return data ? data.rb_variant_name : undefined;
     }
   }
   vehcileVariant(data: any) {
     if (data == '') {
       this.getVehicleMMVPopup('', '');
+      // this.vehicleDetailsForm.patchValue({
+      //   vehicle_model: '',
+      //   vehicle_fuel: '',
+      // });
     }
   }
 

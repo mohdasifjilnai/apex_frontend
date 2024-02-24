@@ -85,6 +85,9 @@ export class MotorInsuranceComponent implements OnInit {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
     });
+    this.sharedDataService.detailNotFound.subscribe((res) => {
+      this.vehicleNotFound = res;
+    });
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
       const start = new Date();
@@ -116,6 +119,17 @@ export class MotorInsuranceComponent implements OnInit {
         this.sharedDataService.insurerData(this.insurerDisable);
       }
     });
+    let regnNumberValue = sessionStorage.getItem('registrationNumber');
+    if (regnNumberValue) {
+      sessionStorage.removeItem('registrationNumber');
+    }
+    this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
+      (val: any) => {
+        if (val && this.vehicleNotFound) {
+          this.vehicleNotFound = '';
+        }
+      }
+    );
   }
 
   monthDiff = (d1: any, d2: any) => {

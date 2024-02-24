@@ -113,6 +113,9 @@
               'text-center': !withoutVehicleNumber
             }"
           >
+            <div *ngIf="vehicleNotFound" class="details-not-found">
+              {{ vehicleNotFound }}
+            </div>
             <button
               id-automation="getVehicleDetailsId"
               [ngClass]="{

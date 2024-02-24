@@ -43,10 +43,6 @@ export class RegistrationNumberComponent implements OnInit {
     } else {
       this.form.addControl('registration_number', new FormControl());
     }
-
-    this.sharedDataService.detailNotFound.subscribe((res) => {
-      this.vehicleNotFound = res;
-    });
   }
   inputValue: string = '';
 

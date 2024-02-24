@@ -39,6 +39,7 @@
             <mat-autocomplete
               #autoMakeModel="matAutocomplete"
               [displayWith]="displayMakeModel.bind(this)"
+              (optionSelected)="onOptionMMSelected($event)"
             >
               <span *ngIf="mmDataNotAvailable == ''">
                 <mat-option
@@ -76,6 +77,7 @@
             <mat-autocomplete
               #autoVariant="matAutocomplete"
               [displayWith]="displayVariant.bind(this)"
+              (optionSelected)="onVariantSelected($event)"
             >
               <span *ngIf="variantDataNotAvailable == ''">
                 <mat-option
