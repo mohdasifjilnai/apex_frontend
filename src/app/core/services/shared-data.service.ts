@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { SseService } from './sse.service';
 import moment from 'moment';
 import { LoaderService } from './loader.service';
+import { LongPollingService } from './long-polling.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,7 @@ export class SharedDataService {
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
   detailNotFound: Subject<any> = new Subject();
+  longPollingInfo!: Observable<[]>;
 
   regNumber: any;
   connectionData: any = [];
@@ -37,7 +40,8 @@ export class SharedDataService {
     private apiService: ApiService,
     private router: Router,
     private sseService: SseService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    public longPollingService: LongPollingService
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -123,68 +127,126 @@ export class SharedDataService {
       .subscribe((res) => {
         this.transactionId = res.transaction_id;
         this.quotesId = res.quote_request_id;
+        this.longPollingInfo = this.longPollingService.getAllCurrencies(
+          this.transactionId,
+          this.quotesId
+        );
+        console.log(this.longPollingInfo);
+
+        // Define an empty array to store emitted values
+        let dataArray: any[] = [];
+
+        // Subscribe to the Observable
+        this.longPollingInfo.subscribe({
+          next: (value: any) => {
+            // Push each emitted value into the array
+            dataArray.push(value);
+            console.log(dataArray);
+            const quotesArray = dataArray[0].quotes;
+
+            // Parse each string element into a JavaScript object
+            const parsedQuotesArray = quotesArray.map((quote: string) =>
+              JSON.parse(quote)
+            );
+            
+            console.log(parsedQuotesArray);
+            if(parsedQuotesArray.length >0){
+              this.quotationListing.next(parsedQuotesArray);
+            }
+          
+          },
+          complete: () => {
+            // When the Observable completes, dataArray contains all emitted values
+            console.log(dataArray);
+          },
+          error: (error: any) => {
+            // Handle errors if any
+            console.error('Error occurred:', error);
+          },
+        });
         /**
          * service call for the server side event handling
          */
+        // this.sseService
+        //   .getServerSentEvent(
+        //     `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
+        //   )
+        //   .subscribe(
+        //     (ev) => {
+        //       if (ev.data != 'null') {
+        //         let dataEvent = JSON.parse(ev.data);
 
-        this.sseService
-          .getServerSentEvent(
-            `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
-          )
-          .subscribe(
-            (ev) => {
-              if (ev.data != 'null') {
-                let dataEvent = JSON.parse(ev.data);
+        //         this.connectionData.push(dataEvent);
 
-                this.connectionData.push(dataEvent);
+        //         this.allQuotes = this.connectionData;
 
-                this.allQuotes = this.connectionData;
+        //         this.quotesValue = this.connectionData;
+        //         this.allQuotes = Object.values(
+        //           this.quotesValue.reduce(
+        //             (
+        //               data: any,
+        //               obj: {
+        //                 insurer_name: any;
+        //               }
+        //             ) => ({ ...data, [obj.insurer_name]: obj }),
+        //             {}
+        //           )
+        //         );
 
-                this.quotesValue = this.connectionData;
-                this.allQuotes = Object.values(
-                  this.quotesValue.reduce(
-                    (
-                      data: any,
-                      obj: {
-                        insurer_name: any;
-                      }
-                    ) => ({ ...data, [obj.insurer_name]: obj }),
-                    {}
-                  )
-                );
-
-                this.quotationListing.next(this.allQuotes);
-              }
-            },
-            (error) => {
-              console.log(error);
-            },
-            () => {
-              console.log('==> complete');
-            }
-          );
+        //         this.quotationListing.next(this.allQuotes);
+        //       }
+        //     },
+        //     (error) => {
+        //       console.log(error);
+        //     },
+        //     () => {
+        //       console.log('==> complete');
+        //     }
+        //   );
       });
   }
 
   vehicleMMVDetails(formData: any, data: any) {
-    let mmvData = formData.value;
-    let policyExpiryDate;
-    if (mmvData.policy_expiry_date != '') {
-      policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-        'YYYY-MM-DD'
-      );
-    } else {
-      policyExpiryDate = '';
-    }
+    let mmvData;
+    if (data == 'mmv') {
+      mmvData = formData.value;
+      let policyExpiryDate;
+      if (mmvData.policy_expiry_date != '') {
+        policyExpiryDate = moment(mmvData.policy_expiry_date).format(
+          'YYYY-MM-DD'
+        );
+      } else {
+        policyExpiryDate = '';
+      }
 
-    let mmvValues = {
-      rb_mmv_id: mmvData.vehicle,
-      rto_code: mmvData.rto_city.rb_rto_id,
-      registration_date: mmvData.registration_date,
-      previous_insurer: mmvData.previous_insurer,
-      policy_expire_date: policyExpiryDate,
-    };
-    this.getQuotationListing(mmvValues, data);
+      let mmvValues = {
+        rb_mmv_id: mmvData.vehicle,
+        rto_code: mmvData.rto_city.rb_rto_id,
+        registration_date: mmvData.registration_date,
+        previous_insurer: mmvData.previous_insurer,
+        policy_expire_date: policyExpiryDate,
+      };
+      this.getQuotationListing(mmvValues, data);
+    } else {
+      mmvData = JSON.parse(formData);
+      let policyExpiryDate;
+      if (mmvData.policy_expiry_date != '') {
+        policyExpiryDate = moment(mmvData.policy_expiry_date).format(
+          'YYYY-MM-DD'
+        );
+      } else {
+        policyExpiryDate = '';
+      }
+
+      let mmvValues = {
+        rb_mmv_id: mmvData.vehicle,
+        rto_code: mmvData.rto_city.rb_rto_id,
+        registration_date: mmvData.registration_date,
+        previous_insurer: mmvData.previous_insurer,
+        policy_expire_date: policyExpiryDate,
+      };
+      this.getQuotationListing(mmvValues, data);
+    }
   }
 
   sendProposalReviewEditId(data: any) {

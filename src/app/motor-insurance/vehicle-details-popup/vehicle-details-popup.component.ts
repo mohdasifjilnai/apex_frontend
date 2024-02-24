@@ -171,7 +171,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
 
     setTimeout(() => {
-      if (this.registrationNumber.rb_mmv_id) {
+      if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       }
       this.getRTOData();
@@ -180,6 +180,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
     let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
       this.sharedDataService.vehicleDetails('registrationNumber');
+    }
+
+    let vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    if (vehicleMMVData) {
+      this.sharedDataService.vehicleMMVDetails(vehicleMMVData, 'mmvQuotes');
     }
   }
 
@@ -421,16 +426,19 @@ export class VehicleDetailsPopupComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.rtoList = res;
-
-          for (let i = 0; i <= this.rtoList.length - 1; i++) {
-            if (
-              this.rtoList[i].rb_rto_code == this.registrationNumber.rb_rto_code
-            ) {
-              this.vehicleDetailsForm.patchValue({
-                registration_city: this.rtoList[i],
-              });
+          if (this.registrationNumber?.rb_rto_code) {
+            for (let i = 0; i <= this.rtoList.length - 1; i++) {
+              if (
+                this.rtoList[i].rb_rto_code ==
+                this.registrationNumber.rb_rto_code
+              ) {
+                this.vehicleDetailsForm.patchValue({
+                  registration_city: this.rtoList[i],
+                });
+              }
             }
           }
+
           /**
            * when input field value changes than valueChanges is used
            */
@@ -445,15 +453,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 return name ? this.filterRTO(name) : this.rtoList;
               })
             );
-            for (let i = 0; i <= this.rtoList.length - 1; i++) {
-              if (
-                this.rtoList[i].rb_rto_code == this.registrationNumber.rto_code
-              ) {
-                this.vehicleDetailsForm.patchValue({
-                  registration_city: this.rtoList[i],
-                });
-              }
-            }
+          
           } else {
             this.rtoDataNotAvailable = res.message;
             this.filteredRtoList = this.vehicleDetailsForm.controls[

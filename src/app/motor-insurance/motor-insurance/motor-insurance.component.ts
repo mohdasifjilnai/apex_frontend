@@ -123,6 +123,10 @@ export class MotorInsuranceComponent implements OnInit {
     if (regnNumberValue) {
       sessionStorage.removeItem('registrationNumber');
     }
+    let vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    if (vehicleMMVData) {
+      sessionStorage.removeItem('vehicleMMVData');
+    }
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {
@@ -157,6 +161,8 @@ export class MotorInsuranceComponent implements OnInit {
     if (!this.withoutVehicleNumber) {
       this.getVehicleDetailsInfo();
     } else {
+      let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+      sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
       this.sharedDataService.vehicleMMVDetails(this.motorInsurance, 'mmv');
       this.router.navigate(['/motor/quotes']);
     }

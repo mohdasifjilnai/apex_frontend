@@ -62,7 +62,9 @@
             *ngIf="shareQuotesDropdownValue"
             class="quotesDropdownvalue mt-2"
           >
-            <button class="all-btn" (click)="selectQuotes()">Select Quotes</button>
+            <button class="all-btn" (click)="selectQuotes()">
+              Select Quotes
+            </button>
             <button class="all-btn mt-1">All Quotes</button>
           </div>
         </div>
@@ -79,33 +81,34 @@
         <div class="comprehensive-tab ps-4 pe-4 pt-4">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-12">
-              <img [src]="quotes.insurer_logo" class="insurer-logo" alt="" />
+              <img [src]="quotes?.insurer_logo" class="insurer-logo" alt="" />
             </div>
             <!-- {{quotes.insurer_name}} -->
             <div class="col-lg-6 col-md-6 col-6">
               <div class="d-flex justify-content-between">
                 <div>
                   <span class="idv-amount">
-                    IDV (&#8377; {{ quotes.premium_details?.min_idv | numberFormat }}- &#8377;
-                    {{ quotes.premium_details?.max_idv | numberFormat}})
+                    IDV (&#8377;
+                    {{ quotes?.premium_details?.min_idv | numberFormat }}-
+                    &#8377;
+                    {{ quotes?.premium_details?.max_idv | numberFormat }})
                   </span>
                   <p class="idv-choose-amount mt-1">
-                    &#8377; {{ quotes.premium_details.idv | numberFormat}}
+                    &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
                   </p>
                 </div>
                 <div *ngIf="addShare">
-                  <mat-checkbox >Add to Share</mat-checkbox>
+                  <mat-checkbox>Add to Share</mat-checkbox>
                 </div>
               </div>
-              
-             
             </div>
             <div class="col-lg-3 col-md-3 col-6 premium-btn">
               <span
                 class="premium-breakup-amount cursor-pointer text-center"
                 (click)="getProposalDetails()"
               >
-                &#8377; {{ quotes.premium_details.total_premium | numberFormat }}
+                &#8377;
+                {{ quotes?.premium_details?.total_premium | numberFormat }}
               </span>
               <p
                 class="premium-breakup"
@@ -121,12 +124,12 @@
       <div class="comprehensive-key-features">
         <div class="comprehensive-key-features-value">
           <div
-              class="key-features-value me-3"
-              *ngFor="let data of receivedCheckBoxValue"
-            >
-              <img src="assets/icon/insurer-key-feature.svg" />
-              {{ data }}
-            </div>
+            class="key-features-value me-3"
+            *ngFor="let data of receivedCheckBoxValue"
+          >
+            <img src="assets/icon/insurer-key-feature.svg" />
+            {{ data }}
+          </div>
         </div>
       </div>
 
