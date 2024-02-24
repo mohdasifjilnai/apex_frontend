@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -25,10 +26,12 @@ export class PolicyExpiredDateComponent implements OnInit {
   @Input() disablePreviousInsurer: any;
   disableExpDateField: any;
   isDatepickerOpen = false;
+  proposalUrl:any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +57,8 @@ export class PolicyExpiredDateComponent implements OnInit {
     if (this.disablePreviousInsurer) {
       this.form.controls['policy_expiry_date'].disable();
     }
+    const currentUrl = this.router.url.split('/');
+    this.proposalUrl = currentUrl[currentUrl.length - 1];
   }
 
   ngOnDestroy(): void {
@@ -70,7 +75,11 @@ export class PolicyExpiredDateComponent implements OnInit {
 
   onOpen() {
     this.appendFooter();
+    if(this.proposalUrl === 'proposal'){
+      this.isDatepickerOpen = false;
+    }else{
     this.isDatepickerOpen = true;
+    }
   }
 
   /**

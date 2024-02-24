@@ -44,6 +44,7 @@ import { NotCertifiedComponent } from './components/dialog-components/not-certif
 import { NumberFormatPipe } from './pipe/number-format.pipe';
 import { SpecialCharcaterExceptAtDirective } from './directives/special-charcater-except-at.directive';
 import { SpecialCharacterNotAllowedDirective } from './directives/special-character-not-allowed.directive';
+import { DateFormatDirective } from './directives/date-format.directive';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { SpecialCharacterNotAllowedDirective } from './directives/special-charac
     NotCertifiedComponent,
     NumberFormatPipe,
     SpecialCharcaterExceptAtDirective,
-    SpecialCharacterNotAllowedDirective
+    SpecialCharacterNotAllowedDirective,
+    DateFormatDirective
   ],
   imports: [
     CommonModule,
@@ -123,6 +125,18 @@ import { SpecialCharacterNotAllowedDirective } from './directives/special-charac
     ChasisNumberComponent,
     VehicleRegistrationAddressComponent,
     NumberFormatPipe,
+    NoSpecialCharacterWithSpaceDirective,
+    NumbersOnlyDirective,
+    AlphabetOnlyDirective,
+    AlphaNumericDirective,
+    NumberWithDecimalDirective,
+    ProposalShareComponent,
+    CommaFormatterDirective,
+    NotCertifiedComponent,
+    NumberFormatPipe,
+    SpecialCharcaterExceptAtDirective,
+    SpecialCharacterNotAllowedDirective,
+    DateFormatDirective
   ],
 })
 export class SharedModule {}

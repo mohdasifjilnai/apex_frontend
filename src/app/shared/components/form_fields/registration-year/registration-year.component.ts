@@ -66,8 +66,8 @@ export class RegistrationYearComponent implements OnInit {
 
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
-    this.ctrlValue = this.form.controls['registration_date'].value;
-    this.ctrlValue.year(normalizedYear.year());
+    this.ctrlValue = this.form.controls['registration_date'].value || moment();
+    this.ctrlValue?.year(normalizedYear.year());
     this.form.controls['registration_date'].setValue(this.ctrlValue);
   }
 
@@ -76,7 +76,7 @@ export class RegistrationYearComponent implements OnInit {
     datepicker: MatDatepicker<Moment>
   ) {
     this.ctrlValue = this.form.controls['registration_date'].value;
-    this.ctrlValue.month(normalizedMonth.month());
+    this.ctrlValue?.month(normalizedMonth.month());
     this.form.controls['registration_date'].setValue(this.ctrlValue);
     this.sharedDataService.registrationYearData(
       this.form.controls['registration_date']
@@ -100,8 +100,7 @@ export class RegistrationYearComponent implements OnInit {
     let currentMonth = moment().month()
     this.minDate = new Date(1990, 0); 
     this.maxDate = new Date(currentYear, currentMonth); 
-    this.form.controls['registration_date'].setValue(moment());
-   
+    this.form.controls['registration_date'].setValue('');
   }
 
   ngOnDestroy(): void {

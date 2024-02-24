@@ -33,9 +33,10 @@
           matInput
           placeholder="Enter GSTIN"
           formControlName="owner_gstin"
-          appAlphaNumeric
+          appSpecialCharacterNotAllowed
           id-automation="owner_gstin"
           maxlength="15"
+          class="text-uppercase"
         />
         <mat-error
           *ngIf="
