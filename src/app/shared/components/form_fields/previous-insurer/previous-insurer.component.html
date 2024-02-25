@@ -23,11 +23,8 @@
       </mat-option>
     </span>
     <span *ngIf="previousInsurerNoData">
-      <mat-option
-        *ngFor="let insurer of filteredInsurerList | async"
-        [value]="insurer"
-      >
-        <span>{{ insurer }}</span>
+      <mat-option>
+        <span>No data</span>
       </mat-option>
     </span>
   </mat-autocomplete>

@@ -15,7 +15,11 @@
     [displayWith]="displayRto.bind(this)"
   >
     <span *ngIf="rtoDataNotAvailable == ''">
-      <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto"  id-automation="searchRtoDropdown">
+      <mat-option
+        *ngFor="let rto of filteredRtoList | async"
+        [value]="rto"
+        id-automation="searchRtoDropdown"
+      >
         <span>{{ rto.display_name }}</span>
       </mat-option>
     </span>

@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith, switchMap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -80,20 +80,15 @@ export class PreviousInsurerComponent implements OnInit {
         if (res) {
           this.insurerList = res;
           this.previousInsurerNoData = '';
-          /**
-           * when input field value changes than valueChanges is used
-           */
+
           if (res.length > 0) {
             this.filteredInsurerList = this.form.controls[
               'previous_insurer'
             ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
-              map((name) => {
-                return name ? this.filterInsurer(name) : this.insurerList;
-              })
+              switchMap((name) => this.filterInsurer(name))
             );
-            this.previousInsurerNoData = '';
           } else {
             this.previousInsurerNoData = res.message;
             this.filteredInsurerList = this.form.controls[
@@ -101,57 +96,28 @@ export class PreviousInsurerComponent implements OnInit {
             ].valueChanges.pipe(
               debounceTime(1000),
               startWith(''),
-              map((name) => {
-                return name ? this.filterInsurer(name) : ['No data'];
-              })
+              map((name) => ['No data'])
             );
           }
         }
       });
   }
 
-  /**
-   *
-   * @param name filterMMV used for filter MMV data
-   * @returns
-   */
-  filterInsurer(name: string) {
+  filterInsurer(name: string): Observable<any[]> {
     return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_previous_insurer}?search_element=${name}`
       )
-      .subscribe((res) => {
-        if (res) {
-          this.insurerList = res;
-          // this.filteredMMV = this.mmvList;
-          /**
-           * when input field value changes than valueChanges is used
-           */
+      .pipe(
+        map((res) => {
           if (res.length > 0) {
-            this.filteredInsurerList = this.form.controls[
-              'previous_insurer'
-            ].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterInsurer(name) : this.insurerList;
-              })
-            );
-            this.previousInsurerNoData = '';
+            return res;
           } else {
             this.previousInsurerNoData = res.message;
-            this.filteredInsurerList = this.form.controls[
-              'previous_insurer'
-            ].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterInsurer(name) : ['No data'];
-              })
-            );
+            return ['No data'];
           }
-        }
-      });
+        })
+      );
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
@@ -14,9 +22,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   agreementList: any;
   filteredFinancierList!: any;
   financerList: any;
-  @Input() fetchNomineeDetails:any;
+  @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
-
+  @ViewChild('financedToggle', { static: false }) financedToggle!: ElementRef;
+  @ViewChild('registrationAddressToggle', { static: false })
+  registrationAddressToggle!: ElementRef;
 
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
@@ -64,14 +74,22 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   filterInsurer(name: string) {}
 
   proposalFinancierBlankData(data: any) {}
-  getProposalVehicleData(isValid:any){
+  getProposalVehicleData(isValid: any) {
     const formValues = this.proposalVehilceDetailsForm.value;
-    this.afterVehicleData.emit(formValues)
+    this.afterVehicleData.emit(formValues);
+  }
+  /**
+   * we can access the checkbox value using this.financedToggle.nativeElement.checked
+   */
+  getFinacedValue() {
+    const isChecked = this.financedToggle.nativeElement.checked;
+  }
+  getRegistrationAddressValue() {
+    const isChecked = this.registrationAddressToggle.nativeElement.checked;
   }
 }

@@ -1,4 +1,8 @@
-<form [formGroup]="owenerVehicleDetailsForm" (ngSubmit)="getVehicleDetails(owenerVehicleDetailsForm.valid)" novalidate>
+<form
+  [formGroup]="owenerVehicleDetailsForm"
+  (ngSubmit)="getVehicleDetails(owenerVehicleDetailsForm.valid)"
+  novalidate
+>
   <div class="row mt-3">
     <div class="col-lg-4 col-md-4 col-12">
       <app-owner-full-name
@@ -92,14 +96,17 @@
           Invalid Additional Contact
         </mat-error>
       </mat-form-field>
-  </div>
+    </div>
     <div class="col-lg-4 col-md-4 col-12">
       <app-owner-gender [required]="true"></app-owner-gender>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
       <label class="maritalStatus-header">Marital Status</label>
       <div>
-        <mat-radio-group aria-label="Select an option" formControlName="marital_status">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="marital_status"
+        >
           <mat-radio-button
             *ngFor="let maritalStatus of maritalStatusList"
             [value]="maritalStatus?.id"
@@ -107,8 +114,9 @@
             [ngClass]="{
               maritalStatus: maritalStatus?.name === 'Married'
             }"
-          >{{ maritalStatus?.name }}</mat-radio-button>
-        </mat-radio-group>        
+            >{{ maritalStatus?.name }}</mat-radio-button
+          >
+        </mat-radio-group>
       </div>
     </div>
     <hr class="mt-4" />
@@ -132,7 +140,7 @@
           id-automation="owner_pincode"
           appNumbersOnly
           maxlength="6"
-          type="number"
+          appNumbersOnly
         />
         <mat-autocomplete #pincodeAuto="matAutocomplete">
           <mat-option

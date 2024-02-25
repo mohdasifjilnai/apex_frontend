@@ -14,21 +14,16 @@
     #autoVehicle="matAutocomplete"
     [displayWith]="displayVehicle.bind(this)"
   >
-    <span *ngIf="mmvDataNotAvailable == ''">
-      <mat-option
-        *ngFor="let mmvData of filteredMMV | async"
-        id-automation="searchVehicleDropdown"
-        [value]="mmvData"
-      >
-        <span>{{ mmvData.rb_make_name }}</span> |
-        <span>{{ mmvData.rb_model_name }}</span> |
-        <span>{{ mmvData.rb_variant_name }}</span>
-      </mat-option>
-    </span>
+    <mat-option *ngIf="mmvDataNotAvailable === 'No data'" [value]="'No data'">
+      {{ mmvDataNotAvailable }}
+    </mat-option>
 
-    <span *ngIf="mmvDataNotAvailable">
+    <span *ngIf="mmvDataNotAvailable !== 'No data'">
       <mat-option *ngFor="let mmvData of filteredMMV | async" [value]="mmvData">
-        <span>{{ mmvData }}</span>
+        <span
+          >{{ mmvData.rb_make_name }} | {{ mmvData.rb_model_name }} |
+          {{ mmvData.rb_variant_name }}</span
+        >
       </mat-option>
     </span>
   </mat-autocomplete>

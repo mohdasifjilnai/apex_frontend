@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { debounceTime, map, startWith, tap } from 'rxjs';
+import { debounceTime, map, startWith, switchMap, tap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -77,84 +77,44 @@ export class VehicleComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
       )
-      .subscribe((res) => {
-        if (res) {
-          this.mmvList = res;
-          for (let i = 0; i <= this.mmvList.length - 1; i++) {
-            this.mmvList[
-              i
-            ].displayMMV = `${this.mmvList[i].rb_make_name} | ${this.mmvList[i].rb_model_name} | ${this.mmvList[i].rb_variant_name}`;
-          }
-          this.mmvDataNotAvailable = '';
-
-          /**
-           * when input field value changes than valueChanges is used
-           */
-          if (res.length > 0) {
-            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMV(name) : this.mmvList;
-              })
-            );
+      .pipe(
+        map((res) => {
+          if (res && res.length > 0) {
+            this.mmvList = res.map((item:any) => ({
+              ...item,
+              displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
+            }));
             this.mmvDataNotAvailable = '';
           } else {
-            this.mmvDataNotAvailable = res.message;
-            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMV(name) : ['No data'];
-              })
-            );
+            this.mmvDataNotAvailable = 'No data';
+            return [this.mmvDataNotAvailable];
           }
-        }
-      });
+          return this.mmvList;
+        })
+      );
   }
-
+  
   vehcileMMV(data: any) {
     if (data == '') {
       this.getVehicleMMV('', this.vehcileType);
     }
   }
+  
   getVehicleMMV(name: any, vehicletype: any) {
     this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`
-      )
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`)
       .subscribe((res) => {
         if (res) {
-          this.mmvList = res;
-          for (let i = 0; i <= this.mmvList.length - 1; i++) {
-            this.mmvList[
-              i
-            ].displayMMV = `${this.mmvList[i].rb_make_name} | ${this.mmvList[i].rb_model_name} | ${this.mmvList[i].rb_variant_name}`;
-          }
-          this.mmvDataNotAvailable = '';
-          // this.filteredMMV = this.mmvList;
-          /**
-           * when input field value changes than valueChanges is used
-           */
-          if (res.length > 0) {
-            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMV(name) : this.mmvList;
-              })
-            );
-            this.mmvDataNotAvailable = '';
-          } else {
-            this.mmvDataNotAvailable = res.message;
-            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-              debounceTime(1000),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMV(name) : ['No data'];
-              })
-            );
-          }
+          this.mmvList = res.map((item:any) => ({
+            ...item,
+            displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
+          }));
+          this.mmvDataNotAvailable = res.length > 0 ? '' : res.message;
+          this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
+            debounceTime(1000),
+            startWith(''),
+            switchMap((name:any) => this.filterMMV(name))
+          );
         }
       });
   }
