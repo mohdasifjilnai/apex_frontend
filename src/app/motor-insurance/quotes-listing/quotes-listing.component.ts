@@ -24,12 +24,14 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 })
 export class QuotesListingComponent implements OnInit {
   initiateQuotes: any;
-  @Input() receivedCheckBoxValue: any[]=[];
+  @Input() receivedCheckBoxValue: any[] = [];
   showComprehensiveDiv = true;
   individualSelected: any;
   lowHighSelected = 'low';
   proposalList: any;
   quotationData: any;
+  quotationArray = [];
+  errorQuotationArray = [];
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -62,7 +64,7 @@ export class QuotesListingComponent implements OnInit {
   };
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
-  addShare: boolean=false;
+  addShare: boolean = false;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -82,7 +84,19 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
-      this.quotationData = quotes;
+      if (quotes) {
+        this.quotationArray = quotes;
+        this.quotationData = [];
+        this.errorQuotationArray = [];
+        for (let i = 0; i <= this.quotationArray.length - 1; i++) {
+          this.quotationArray[i]['error_message'];
+          if (this.quotationArray[i]['error_message'] == '') {
+            this.quotationData.push(this.quotationArray[i]);
+          } else {
+            this.errorQuotationArray.push(this.quotationArray[i]);
+          }
+        }
+      }
     });
   }
 
@@ -118,7 +132,7 @@ export class QuotesListingComponent implements OnInit {
   openAddons(): void {
     const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);
     bottomSheetRef.afterDismissed().subscribe((data) => {
-      this.receivedCheckBoxValue=data
+      this.receivedCheckBoxValue = data;
     });
   }
   openSort(dropdownType: any): void {
@@ -153,10 +167,10 @@ export class QuotesListingComponent implements OnInit {
     // this.openPremiumBreakup(initiateQuotes);
     this.renderer.addClass(document.body, 'premium-breakout-css');
     const bottomSheetConfig: MatBottomSheetConfig = {
-      data: initiateQuotes, 
+      data: initiateQuotes,
     };
     if (window.innerWidth <= 768) {
-      this.bottomSheet.open(PremiumBreakupComponent,bottomSheetConfig);
+      this.bottomSheet.open(PremiumBreakupComponent, bottomSheetConfig);
     } else {
       this.openModal(initiateQuotes, this.initiateQuotesJSON);
     }
@@ -168,8 +182,8 @@ export class QuotesListingComponent implements OnInit {
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = true;
   }
-  selectQuotes(){
-    this.addShare=true
+  selectQuotes() {
+    this.addShare = true;
   }
 
   /**
