@@ -111,7 +111,7 @@ export class VehicleComponent implements OnInit {
           }));
           this.mmvDataNotAvailable = res.length > 0 ? '' : res.message;
           this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-            debounceTime(1000),
+            debounceTime(500),
             startWith(''),
             switchMap((name:any) => this.filterMMV(name))
           );

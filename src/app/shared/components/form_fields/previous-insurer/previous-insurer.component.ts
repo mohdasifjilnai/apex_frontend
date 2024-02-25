@@ -85,7 +85,7 @@ export class PreviousInsurerComponent implements OnInit {
             this.filteredInsurerList = this.form.controls[
               'previous_insurer'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               switchMap((name) => this.filterInsurer(name))
             );
@@ -94,7 +94,7 @@ export class PreviousInsurerComponent implements OnInit {
             this.filteredInsurerList = this.form.controls[
               'previous_insurer'
             ].valueChanges.pipe(
-              debounceTime(1000),
+              debounceTime(500),
               startWith(''),
               map((name) => ['No data'])
             );

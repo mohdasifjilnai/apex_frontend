@@ -71,7 +71,7 @@ export class RTOComponent implements OnInit {
           this.filteredRtoList = this.form.controls[
             'rto_city'
           ].valueChanges.pipe(
-            debounceTime(1000),
+            debounceTime(500),
             startWith(''),
             switchMap((name) => this.filterRTO(name)),
             catchError((error) => {
