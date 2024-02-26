@@ -5,6 +5,7 @@
       "imageUrl": "/assets/icon/two-wheeler-icon.svg",
       "imageInformation": "Two Wheeler",
       "backgroundColor": "#FF8C9E1A",
+      "borderColor": "#FF547C",
       "optionNameValue": "two_wheeler"
     },
     {
@@ -12,6 +13,7 @@
       "imageUrl": "/assets/icon/private-car-icon.svg",
       "imageInformation": "Private Car",
       "backgroundColor": "#28B8E21A",
+      "borderColor": "#28B8E2",
       "optionNameValue": "private_car"
     },
     {
@@ -19,6 +21,7 @@
       "imageUrl": "/assets/icon/commercial-vehicle-icon.svg",
       "imageInformation": "Commercial Vehicle",
       "backgroundColor": "#BD95FF1A",
+      "borderColor": "#BD95FF",
       "optionNameValue": "commercial_vehicle"
     }
   ]

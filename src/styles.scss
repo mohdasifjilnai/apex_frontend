@@ -158,9 +158,10 @@ th.mat-header-cell:last-of-type {
     align-items: flex-end !important;
   }
   .wait-ckyc-verification-class {
+    margin: auto !important;
+    margin-top: 50% !important;
     margin-left: 0 !important;
-    margin-bottom: 75% !important;
-    margin-top: 0 !important;
+    margin-right: 0!important;
     .mat-dialog-container {
       border-radius: 23px;
     }
@@ -520,7 +521,7 @@ body.premium-breakout-css {
   }
 }
 .mat-error {
-  padding-left: 23px;
+  padding-left: 12px;
 }
 input.mat-input-element {
   font-size: 12px !important;

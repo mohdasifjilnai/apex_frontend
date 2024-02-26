@@ -38,6 +38,11 @@
   // color: #282828;
 }
 .custom-otp-input {
+  ::ng-deep .ng-otp-input-wrapper{
+    display: flex;
+    justify-content: space-between;
+  }
+  
   ::ng-deep input:focus {
     outline-style: solid !important;
     outline-color: #ffb171 !important;
@@ -53,9 +58,6 @@
   border-radius: 8px;
   font-size: 16px !important;
   font-weight: 500 !important;
-}
-::ng-deep .ng-otp-input-wrapper .otp-input:not(:last-child){
-  margin-right: 12px !important;
 }
 .otp-submission {
   width: 100%;
@@ -78,6 +80,9 @@
   }
   ::ng-deep .mat-bottom-sheet-container {
     border-radius: 20px 20px 0px 0px;
+  }
+  .image-cover{
+    text-align: center;
   }
 }
 .cross-btn{
