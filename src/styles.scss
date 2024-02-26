@@ -22,7 +22,12 @@ body {
 body {
   margin: 0;
 }
-
+.asterik-mandtry:after {
+  content: "*";
+  // position: absolute;
+  color: #f27f21;
+  font-weight: 400;
+}
 .addition-row {
   padding: 0px 25px;
   // margin-top: 11px !important;
@@ -169,13 +174,13 @@ th.mat-header-cell:last-of-type {
 
 .submit-btn {
   flex-wrap: wrap;
-  background-color: #fd7e14;
+  background-color: #FF943D;
   color: white;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   border-radius: 12px;
   // width: 150px;
-  border: 1px solid #fd7e14;
+  border: 1px solid #FF943D;
   padding: 5px 15px 5px 15px;
 }
 
@@ -457,7 +462,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   .mat-dialog-container {
     border-radius: 30px !important;
     overflow: unset !important;
-    width: 750px !important;
+    width: 675px !important;
     height: 100% !important;
   }
   .mat-dialog-content {
@@ -569,4 +574,14 @@ input.mat-input-element {
     border-radius: 30px !important;
     width: 40% !important;
   }
+  
+}
+.mat-bottom-sheet-container {
+  border-radius: 20px 20px 0px 0px;
+  padding-top: 10px 0px 10px 0px;
+
+}
+.mat-select-value-text{
+  padding-left: 10px;
+  font-size: 12px !important;
 }

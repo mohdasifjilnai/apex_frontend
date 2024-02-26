@@ -12,7 +12,7 @@
   border: none;
   border-radius: 12px;
   width: 100%;
-  padding: 10px;
+  padding: 8px;
 }
 .edit-image {
   padding-right: 4px;
@@ -138,20 +138,23 @@
 .cover-content-text {
   font-size: 10px;
   line-height: 12px;
-  font-weight: 500;
+  font-weight: 400;
+  opacity: 50%;
+  color: #282828;
 }
 .cover-tag-text {
   font-size: 12px;
   font-weight: 600;
+  line-height: 14.63px;
 }
-.cpa-cover-image {
-  width: 115%;
-}
+
 
 .increase-total-premium {
   font-size: 10px;
   font-weight: 400;
-  color: #00000099;
+  color: #282828;
+  line-height: 12.19px;
+
 }
 .card-popup {
   .card {
@@ -161,41 +164,9 @@
   position: absolute;
   bottom: 15%;
   left: 15%;
-  width: 19%;
+  width: 22%;
   z-index: 9999;
-}
-
-.cpa-cover-section {
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  color: #282828 !important;
-}
-.cover-content-text {
-  font-size: 10px;
-  line-height: 12px;
-  font-weight: 500;
-}
-.cover-tag-text {
-  font-size: 12px;
-  font-weight: 600;
 }
 .cpa-cover-image {
-  width: 115%;
-}
-
-.increase-total-premium {
-  font-size: 10px;
-  font-weight: 400;
-  color: #00000099;
-}
-.card-popup {
-  .card {
-    box-shadow: 0 0 7px rgb(0 0 0 / 23%);
-    border-radius: 16px;
-  }
-  position: absolute;
-  bottom: 15%;
-  left: 15%;
-  width: 19%;
-  z-index: 9999;
+  width: 100%;
 }
