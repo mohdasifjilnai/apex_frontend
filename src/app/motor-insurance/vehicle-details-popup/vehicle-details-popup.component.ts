@@ -174,6 +174,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
       if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       }
+      else{
+        this.getVehicleMMVPopup('','');
+      }
       this.getRTOData();
     }, 2000);
 
@@ -240,7 +243,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           }
           for (let i = 0; i <= this.modelList.length - 1; i++) {
             if (
-              this.modelList[i].rb_mmv_id == this.registrationNumber.rb_mmv_id
+              this.modelList[i]?.rb_mmv_id == this.registrationNumber?.rb_mmv_id
             ) {
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: this.modelList[i],

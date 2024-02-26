@@ -149,7 +149,7 @@ export class SharedDataService {
               JSON.parse(quote)
             );
             
-            console.log(parsedQuotesArray);
+          
             if(parsedQuotesArray.length >0){
               this.quotationListing.next(parsedQuotesArray);
             }
