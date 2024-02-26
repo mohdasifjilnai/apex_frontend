@@ -33,7 +33,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
       .subscribe((res) => {
         this.isWaitingTime = true;
-        this.ckycData = res;
+        this.ckycData = res.customer_details;
       });
   }
 
@@ -44,7 +44,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onProceedData(resData:any){
+  onProceedData(resData: any) {
     this.dialogRef.close(resData);
   }
 }

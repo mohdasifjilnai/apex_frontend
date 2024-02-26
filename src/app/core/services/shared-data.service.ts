@@ -131,7 +131,6 @@ export class SharedDataService {
           this.transactionId,
           this.quotesId
         );
-        console.log(this.longPollingInfo);
 
         // Define an empty array to store emitted values
         let dataArray: any[] = [];
@@ -141,19 +140,17 @@ export class SharedDataService {
           next: (value: any) => {
             // Push each emitted value into the array
             dataArray.push(value);
-            console.log(dataArray);
+
             const quotesArray = dataArray[0].quotes;
 
             // Parse each string element into a JavaScript object
             const parsedQuotesArray = quotesArray.map((quote: string) =>
               JSON.parse(quote)
             );
-            
-          
-            if(parsedQuotesArray.length >0){
+
+            if (parsedQuotesArray.length > 0) {
               this.quotationListing.next(parsedQuotesArray);
             }
-          
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values

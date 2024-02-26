@@ -29,8 +29,8 @@ export class CkycComponent implements OnInit {
   numberRegex: any;
   minDate = new Date();
   maxDate = new Date();
-  proposerType:any
-  dobPlaceholder:String='Select Date of Birth'
+  proposerType: any;
+  dobPlaceholder: String = 'Select Date of Birth';
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -51,7 +51,7 @@ export class CkycComponent implements OnInit {
     private apiService: ApiService,
     private datePipe: DatePipe,
     private matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet,
+    public bottomSheet: MatBottomSheet
   ) {
     this.ckycList = [
       {
@@ -67,40 +67,59 @@ export class CkycComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isCheckKyc == false) {
+      this.ckycFormGroup = this.formBuild.group({
+        ckyc_id: [2],
+        document_type: [''],
+        document_number: ['', [this.documentNumberValidator.bind(this)]],
+        dob: [''],
+        ckyc_number: [''],
+      });
       this.withOutCkycNumber();
     }
     this.setCalenderRange();
     this.getDocumentType();
-    this.proposerType=localStorage.getItem('proposerType');
-    (this.proposerType=='individual')?this.dobPlaceholder:this.dobPlaceholder='Select Date of Incorporation';
+    this.proposerType = localStorage.getItem('proposerType');
+    this.proposerType == 'individual'
+      ? this.dobPlaceholder
+      : (this.dobPlaceholder = 'Select Date of Incorporation');
   }
 
   /**
    *  with out ckyc number get value from form controler
    */
   withOutCkycNumber() {
-    this.ckycFormGroup = this.formBuild.group({
-      ckyc_id: [2],
-      document_type: ['', [Validators.required]],
-      document_number: [
-        '',
-        [Validators.required,this.documentNumberValidator.bind(this)],
-      ],
-      dob: ['', [Validators.required]],
-    });
+    this.ckycFormGroup.get('ckyc_number')?.setValidators([]);
+    this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_type')
+      ?.setValidators([Validators.required]);
+    this.ckycFormGroup.get('document_type')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_number')
+      ?.setValidators([Validators.required]);
+    this.ckycFormGroup.get('document_number')?.updateValueAndValidity();
+    this.ckycFormGroup.get('dob')?.setValidators([Validators.required]);
+    this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
   /**
    *  with ckyc number get value from form controler
    */
   withCkycNumber() {
-    this.ckycFormGroup = this.formBuild.group({
+    this.ckycFormGroup.patchValue({
       ckyc_id: [1],
-      CKYC_Number: ['', [Validators.required]],
     });
+    this.ckycFormGroup.get('ckyc_number')?.setValidators([Validators.required]);
+    this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_type')?.setValidators([]);
+    this.ckycFormGroup.get('document_type')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_number')?.setValidators([]);
+    this.ckycFormGroup.get('document_number')?.updateValueAndValidity();
+    this.ckycFormGroup.get('dob')?.setValidators([]);
+    this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
   submitCkycFormGroup(isValid: boolean) {
     if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
-      let body = {
+      let ckycData = {
         proposal_id: 2332,
         proposer_type: 'individual',
         insurer_code: 'icici',
@@ -112,13 +131,26 @@ export class CkycComponent implements OnInit {
         document_number: String(
           this.ckycFormGroup.get('document_number')?.value
         ),
-        ckyc_id: String(this.ckycFormGroup.get('ckyc_id')?.value),
+        ckyc_number: '',
         document_type: this.filterDocumentType(
           this.ckycFormGroup.get('document_type')?.value
         ),
       };
-      this.openWaitCkycVerificationPopup(body);
-      
+
+      this.openWaitCkycVerificationPopup(ckycData);
+    } else {
+      let ckycData = {
+        proposal_id: 2332,
+        proposer_type: 'individual',
+        insurer_code: 'icici',
+        transaction_id: '67392wruirew',
+        dob: '',
+        document_number: '',
+        ckyc_number: this.ckycFormGroup.value.ckyc_number,
+        document_type: '',
+      };
+
+      this.openWaitCkycVerificationPopup(ckycData);
     }
   }
   /**
@@ -198,22 +230,22 @@ export class CkycComponent implements OnInit {
       },
     };
 
-    this.matDialog.openDialog(obj).subscribe((data)=>{
+    this.matDialog.openDialog(obj).subscribe((data) => {
       this.afterProceedGetData.emit(data);
-    })
+    });
   }
-/**
-* get current document value
-*/  
+  /**
+   * get current document value
+   */
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
     this.ckycFormGroup.patchValue({
-      document_number: '' 
-    })
+      document_number: '',
+    });
   }
-/**
- *   document validator function
- */  
+  /**
+   *   document validator function
+   */
   documentNumberValidator(control: FormControl) {
     if (this.documentName == 'PAN') {
       this.numberRegex = /^[A-Za-z]{5}\d{4}[A-Za-z]$/;

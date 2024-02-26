@@ -90,11 +90,11 @@ export class QuotesListingComponent implements OnInit {
         this.errorQuotationArray = [];
         for (let i = 0; i <= this.quotationArray.length - 1; i++) {
           this.quotationArray[i]['error_message'];
-          if (this.quotationArray[i]['error_message'] == '') {
+          // if (this.quotationArray[i]['error_message'] == '' || this.quotationArray[i]['error_message'] == null) {
             this.quotationData.push(this.quotationArray[i]);
-          } else {
-            this.errorQuotationArray.push(this.quotationArray[i]);
-          }
+          // } else {
+          //   this.errorQuotationArray.push(this.quotationArray[i]);
+          // }
         }
       }
     });
