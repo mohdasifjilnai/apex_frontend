@@ -453,7 +453,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 return name ? this.filterRTO(name) : this.rtoList;
               })
             );
-          
           } else {
             this.rtoDataNotAvailable = res.message;
             this.filteredRtoList = this.vehicleDetailsForm.controls[
