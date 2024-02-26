@@ -19,7 +19,6 @@ export class GlobalLoaderInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log(request.url,'dfghjk')
     const startTime = performance.now(); // Record the start time
     return next.handle(request).pipe(
       tap(() => {

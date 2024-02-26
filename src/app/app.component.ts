@@ -16,6 +16,9 @@ export class AppComponent {
   ngOnInit(): void {
     this.loaderService.isLoading().subscribe((isLoading:any) => {
       this.isLoading = isLoading;
+      if(!isLoading){
+        return
+      }
     });
   }
 }

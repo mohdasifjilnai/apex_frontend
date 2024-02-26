@@ -38,8 +38,9 @@ export class QuotesComponent implements OnInit {
     public loaderService:LoaderService
   ) {
     this.loaderService.isLoading().subscribe((isLoading:any) => {
-      if(isLoading){
-        this.isLoading = isLoading;
+      this.isLoading = isLoading;
+      if(!isLoading){
+        return
       }
     });
   }

@@ -74,11 +74,11 @@ export class MotorInsuranceComponent implements OnInit {
     private matDialog: WindowRef,
     public bottomSheet: MatBottomSheet
   ) {
-    if (window.innerWidth <= 768) {
-      this.bottomSheet.open(NotCertifiedComponent);
-    } else {
-      this.openNotCertifiedPopup(null);
-    }
+    // if (window.innerWidth <= 768) {
+    //   this.bottomSheet.open(NotCertifiedComponent);
+    // } else {
+    //   this.openNotCertifiedPopup(null);
+    // }
   }
 
   ngOnInit(): void {
