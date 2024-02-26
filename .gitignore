@@ -41,3 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 **/local_*
+
+#test api automation file
+/test_automated_*/reports/
+/test_automated_*/target/

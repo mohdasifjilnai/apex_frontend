@@ -1,0 +1,7 @@
+<suite name="Apex ui testing" parallel="methods" thread-count="2">
+    <test name="private car">
+        <classes>
+            <class name="renewbuy.Apex_private_car_test" />
+        </classes>
+    </test>
+</suite>
