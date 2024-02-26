@@ -18,7 +18,15 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import moment from 'moment';
-import { Observable, debounceTime, map, startWith } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  debounceTime,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -173,9 +181,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     setTimeout(() => {
       if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
-      }
-      else{
-        this.getVehicleMMVPopup('','');
+      } else {
+        this.getVehicleMMVPopup('', '');
       }
       this.getRTOData();
     }, 2000);
@@ -427,47 +434,24 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.apiservice
       .getRequestedResponse(ApiConstants.get_rto_list)
       .subscribe((res) => {
-        if (res) {
+        if (res && res.length > 0 && !res.message) {
           this.rtoList = res;
-          if (this.registrationNumber?.rb_rto_code) {
-            for (let i = 0; i <= this.rtoList.length - 1; i++) {
-              if (
-                this.rtoList[i].rb_rto_code ==
-                this.registrationNumber.rb_rto_code
-              ) {
-                this.vehicleDetailsForm.patchValue({
-                  registration_city: this.rtoList[i],
-                });
-              }
-            }
-          }
+          this.rtoDataNotAvailable = '';
 
-          /**
-           * when input field value changes than valueChanges is used
-           */
-          if (res.length > 0) {
-            this.rtoDataNotAvailable = '';
-            this.filteredRtoList = this.vehicleDetailsForm.controls[
-              'registration_city'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterRTO(name) : this.rtoList;
-              })
-            );
-          } else {
-            this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.vehicleDetailsForm.controls[
-              'registration_city'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterRTO(name) : ['No data'];
-              })
-            );
-          }
+          this.filteredRtoList = this.vehicleDetailsForm.controls[
+            'registration_city'
+          ].valueChanges.pipe(
+            debounceTime(500),
+            startWith(''),
+            switchMap((name) => this.filterRTO(name)),
+            catchError((error) => {
+              this.rtoDataNotAvailable = 'Error fetching data';
+              return of(['No data']);
+            })
+          );
+        } else {
+          this.rtoDataNotAvailable = 'No data available';
+          this.filteredRtoList = of(['No data']);
         }
       });
   }
@@ -477,42 +461,30 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @param name filterMMV used for filter MMV data
    * @returns
    */
-  filterRTO(name: string) {
+  filterRTO(name: string): Observable<any[]> {
     return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_rto_list}?search_element=${name}`
       )
-      .subscribe((res) => {
-        if (res) {
-          this.rtoList = res;
-          /**
-           * when input field value changes than valueChanges is used
-           */
-          if (res.length > 0) {
-            this.rtoDataNotAvailable = '';
-            this.filteredRtoList = this.vehicleDetailsForm.controls[
-              'registration_city'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterRTO(name) : this.rtoList;
-              })
-            );
+      .pipe(
+        map((res) => {
+          if (res && !res?.message) {
+            if (Array.isArray(res)) {
+              this.rtoList = res;
+            } else if (typeof res === 'object') {
+              this.rtoList = [res];
+            }
+
+            this.rtoDataNotAvailable =
+              this.rtoList.length === 0 ? 'No data' : '';
+
+            return this.rtoList;
           } else {
-            this.rtoDataNotAvailable = res.message;
-            this.filteredRtoList = this.vehicleDetailsForm.controls[
-              'registration_city'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterRTO(name) : ['No data'];
-              })
-            );
+            this.rtoDataNotAvailable = 'No data available';
+            this.filteredRtoList = of(['No data']);
           }
-        }
-      });
+        })
+      );
   }
 
   displayMakeModel(data?: any) {
