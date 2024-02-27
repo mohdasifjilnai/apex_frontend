@@ -1,102 +1,143 @@
-   <div class="vehicle-card p-2">
-       <div class=" d-flex justify-content-between vehicle-card-heading mt-3 pb-3">
-        <div >
-          <span class="vehicle-card-heading-details ">Vehicle Variant, Fuel & RTO/City</span><br>
-          <span class="vehicle-card-heading-details-data  col-lg-3 col-md-4 col-12">Maruti Ciaz Alpha, Petrol, UP14 Ghaziabad</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">Mfg. Year</span><br>
-          <span class="vehicle-card-heading-details-data">Apr, 2019</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">Registration Date</span><br>
-          <span class="vehicle-card-heading-details-data ">22 May, 2019</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">Policy Expiry Date</span><br>
-          <span class="vehicle-card-heading-details-data text-center">03 Feb, 2024</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">Previous Insurer</span><br>
-          <span class="vehicle-card-heading-details-data  col-lg-3 col-md-4 col-12">Future General</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">Previous NCB</span><br>
-          <span class="vehicle-card-heading-details-data  col-lg-3 col-md-4 col-12">35%</span>
-        </div>
-        <div >
-          <span class="vehicle-card-heading-details ">New NCB</span><br>
-          <span class="vehicle-card-heading-details-data  col-lg-3 col-md-4 col-12">25%</span>
-        </div>
-        <div >
-          <button type="button" class="edit-button" (click)="openDialog('edit')">
-            <img src="/assets/icon/edit.svg" alt=""/>
-            Edit
-        </button>
-        </div>
-         
-       </div>
-   </div>
-  
-   <div class="res-vehicle-card p-3">
-    <div class="vehicle-card-heading ">
-      <div class="d-flex justify-content-between">
-        <div >
-          <span class="vehicle-card-heading-details ">Vehicle Variant, Fuel & RTO/City</span><br>
-          <span class="vehicle-card-heading-details-data ">Maruti Ciaz Alpha, Petrol, UP14 Ghaziabad</span>
-        </div>
-        <div *ngIf="!ProposalURL">
-         <button type="button" class="edit-button" (click)="openDialog('edit')">
-           <img src="/assets/icon/edit.svg" alt=""/>
-           Edit
-       </button>
-       </div>
-      </div>
-      <div *ngIf="!showLess">
-
-      
-     <div class="d-flex justify-content-between">
-      <div >
-        <span class="vehicle-card-heading-details ">Mfg. Year</span><br>
-        <span class="vehicle-card-heading-details-data  col-lg-3 col-md-4 col-12">Apr, 2019</span>
-      </div>
-      <div >
-        <span class="vehicle-card-heading-details text-end">Registration Date</span><br>
-        <span class="vehicle-card-heading-details-data  d-flex justify-content-end">22 May, 2019</span>
-      </div>
-     </div>
-     <div class="d-flex justify-content-between">
-     <div >
-       <span class="vehicle-card-heading-details ">Policy Expiry Date</span><br>
-       <span class="vehicle-card-heading-details-data  ">03 Feb, 2024</span>
-     </div>
-     <div >
-       <span class="vehicle-card-heading-details text-end">Previous Insurer</span><br>
-       <span class="vehicle-card-heading-details-data  d-flex justify-content-end">Future General</span>
-     </div>
+<div class="vehicle-card p-2">
+  <div class="d-flex justify-content-between vehicle-card-heading mt-3 pb-3">
+    <div>
+      <span class="vehicle-card-heading-details"
+        >Vehicle Variant, Fuel & RTO/City</span
+      ><br />
+      <span
+        class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+        *ngIf="parsedVehicleData != ''"
+      >
+        {{ parsedVehicleData?.vehicle_model?.rb_make_name }}
+        {{ parsedVehicleData?.vehicle_model?.rb_model_name }}
+        {{ parsedVehicleData?.vehicle_model?.rb_variant_name }} ,
+        {{ parsedVehicleData?.vehicle_model?.fuel }} ,
+        {{ parsedVehicleData?.registration_city }}
+      </span>
     </div>
-    <div class="d-flex justify-content-between">
-     <div >
-       <span class="vehicle-card-heading-details ">Previous NCB</span><br>
-       <span class="vehicle-card-heading-details-data ">35%</span>
-     </div>
-     <div >
-       <span class="vehicle-card-heading-details text-end">New NCB</span><br>
-       <span class="vehicle-card-heading-details-data  d-flex justify-content-end">25%</span>
-     </div>
+    <div>
+      <span class="vehicle-card-heading-details">Mfg. Year</span><br />
+      <span class="vehicle-card-heading-details-data">Apr, 2019</span>
     </div>
+    <div>
+      <span class="vehicle-card-heading-details">Registration Date</span><br />
+      <span class="vehicle-card-heading-details-data">
+        <!-- 22 May, 2019 -->
+        {{ registrationMonth }} {{ registrationYear }}
+      </span>
     </div>
+    <div>
+      <span class="vehicle-card-heading-details">Policy Expiry Date</span><br />
+      <span class="vehicle-card-heading-details-data text-center"
+        >03 Feb, 2024</span
+      >
     </div>
-    <div class="text-center view-less" (click)="viewLess(viewText)">View {{viewText}}</div>
-</div>
-  <div class="vehicle-inspection p-3 mt-2 mb-2" *ngIf="!ProposalURL">
-    <div class="d-flex">
-      <img src="/assets/icon/vehicle-inspection.svg" alt="" class="icon"/>
-      <span class="details ms-2">Vehicle inspection is required as your previous
-        policy is not available</span>
+    <div>
+      <span class="vehicle-card-heading-details">Previous Insurer</span><br />
+      <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+        >Future General</span
+      >
+    </div>
+    <div>
+      <span class="vehicle-card-heading-details">Previous NCB</span><br />
+      <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+        >35%</span
+      >
+    </div>
+    <div>
+      <span class="vehicle-card-heading-details">New NCB</span><br />
+      <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+        >25%</span
+      >
+    </div>
+    <div>
+      <button type="button" class="edit-button" (click)="openDialog('edit')">
+        <img src="/assets/icon/edit.svg" alt="" />
+        Edit
+      </button>
     </div>
   </div>
+</div>
 
-
-
-
+<div class="res-vehicle-card p-3">
+  <div class="vehicle-card-heading">
+    <div class="d-flex justify-content-between">
+      <div>
+        <span class="vehicle-card-heading-details"
+          >Vehicle Variant, Fuel & RTO/City</span
+        ><br />
+        <span class="vehicle-card-heading-details-data"
+          >Maruti Ciaz Alpha, Petrol, UP14 Ghaziabad</span
+        >
+      </div>
+      <div *ngIf="!ProposalURL">
+        <button type="button" class="edit-button" (click)="openDialog('edit')">
+          <img src="/assets/icon/edit.svg" alt="" />
+          Edit
+        </button>
+      </div>
+    </div>
+    <div *ngIf="!showLess">
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="vehicle-card-heading-details">Mfg. Year</span><br />
+          <span
+            class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+            >Apr, 2019</span
+          >
+        </div>
+        <div>
+          <span class="vehicle-card-heading-details text-end"
+            >Registration Date</span
+          ><br />
+          <span
+            class="vehicle-card-heading-details-data d-flex justify-content-end"
+            >22 May, 2019</span
+          >
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="vehicle-card-heading-details">Policy Expiry Date</span
+          ><br />
+          <span class="vehicle-card-heading-details-data">03 Feb, 2024</span>
+        </div>
+        <div>
+          <span class="vehicle-card-heading-details text-end"
+            >Previous Insurer</span
+          ><br />
+          <span
+            class="vehicle-card-heading-details-data d-flex justify-content-end"
+            >Future General</span
+          >
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="vehicle-card-heading-details">Previous NCB</span><br />
+          <span class="vehicle-card-heading-details-data">35%</span>
+        </div>
+        <div>
+          <span class="vehicle-card-heading-details text-end">New NCB</span
+          ><br />
+          <span
+            class="vehicle-card-heading-details-data d-flex justify-content-end"
+            >25%</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center view-less" (click)="viewLess(viewText)">
+    View {{ viewText }}
+  </div>
+</div>
+<div class="vehicle-inspection p-3 mt-2 mb-2" *ngIf="!ProposalURL">
+  <div class="d-flex">
+    <img src="/assets/icon/vehicle-inspection.svg" alt="" class="icon" />
+    <span class="details ms-2"
+      >Vehicle inspection is required as your previous policy is not
+      available</span
+    >
+  </div>
+</div>

@@ -7,13 +7,13 @@ import { switchMap, tap, share, retry, takeUntil, timeout } from 'rxjs/operators
   providedIn: 'root',
 })
 export class LongPollingService implements OnDestroy {
-  private allCurrencies$;
+  private allQuotesData;
 
   private stopPolling = new Subject();
   transactionIdData: any;
   quotesId: any;
   constructor(private http: HttpClient) {
-    this.allCurrencies$ = timer(1, 10000).pipe(
+    this.allQuotesData = timer(1, 10000).pipe(
       switchMap(() =>
         http.get(
           `/api/v1/generate_quotes/${this.transactionIdData}/${this.quotesId}`
@@ -33,6 +33,6 @@ export class LongPollingService implements OnDestroy {
   getAllCurrencies(transaction_id: any, quotes_id: any) {
     this.transactionIdData = transaction_id;
     this.quotesId = quotes_id;
-    return this.allCurrencies$;
+    return this.allQuotesData;
   }
 }

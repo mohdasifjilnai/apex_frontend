@@ -60,6 +60,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
   rtoDataNotAvailable = '';
   rtoId: any;
   ncbDiscountData = true;
+  vehicleMMVValue: any;
+  vehicleMMVData: any;
+  convertExpiryDate: any;
 
   /**
    * MMV is use for (Make Model Variant)
@@ -192,9 +195,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.sharedDataService.vehicleDetails('registrationNumber');
     }
 
-    let vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    if (vehicleMMVData) {
-      this.sharedDataService.vehicleMMVDetails(vehicleMMVData, 'mmvQuotes');
+    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    if (this.vehicleMMVData) {
+      this.sharedDataService.vehicleMMVDetails(
+        this.vehicleMMVData,
+        'mmvQuotes'
+      );
     }
   }
 
@@ -212,6 +218,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
+    let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
+    this.sharedDataService.vehicleCardData(vehicleFrom);
   }
 
   /**
@@ -249,41 +257,77 @@ export class VehicleDetailsPopupComponent implements OnInit {
               i
             ].displayMM = `${this.modelList[i].rb_make_name} | ${this.modelList[i].rb_model_name}`;
           }
+          if (this.registrationNumber) {
+            const matchingModel = this.modelList.find(
+              (model: any) =>
+                model?.rb_mmv_id === this.registrationNumber?.rb_mmv_id
+            );
 
-          const matchingModel = this.modelList.find(
-            (model: any) =>
-              model?.rb_mmv_id === this.registrationNumber?.rb_mmv_id
-          );
+            if (matchingModel) {
+              this.vehicleDetailsForm.patchValue({
+                vehicle_model: matchingModel,
+                vehicle_variant: matchingModel,
+                vehicle_fuel: matchingModel.fuel,
+                user_car: this.registrationNumber.is_ownership_transfer,
+                previous_claimed: this.registrationNumber.is_claimed,
+                previous_insurer: this.registrationNumber.previous_insurer_code,
+              });
+            }
 
-          if (matchingModel) {
+            if (
+              this.registrationNumber?.registration_month &&
+              this.registrationNumber?.registration_year
+            ) {
+              let registrationDate = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+              let dateObj = moment(registrationDate, 'MM/YYYY');
+              this.vehicleDetailsForm.patchValue({
+                registration_date: dateObj,
+              });
+            }
+
+            if (this.registrationNumber?.previous_policy_exp_date) {
+              let inputDate = this.registrationNumber?.previous_policy_exp_date;
+              let [day, month, year] = inputDate.split('-');
+              let reformattedDate = `${month}-${day}-${year}`;
+              this.vehicleDetailsForm.patchValue({
+                policy_expiry_date: new Date(reformattedDate),
+              });
+            }
+          } else {
+            this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+            const matchingModel = this.modelList.find(
+              (model: any) =>
+                model?.rb_mmv_id === this.vehicleMMVValue?.vehicle?.rb_mmv_id
+            );
+
+            if (matchingModel) {
+              this.vehicleDetailsForm.patchValue({
+                vehicle_model: matchingModel,
+                vehicle_variant: matchingModel,
+                vehicle_fuel: matchingModel.fuel,
+              });
+            }
+            let regDateValue = new Date(
+              this.vehicleMMVValue?.registration_date
+            );
+            let policyExpiryValue = new Date(
+              this.vehicleMMVValue?.policy_expiry_date
+            );
             this.vehicleDetailsForm.patchValue({
-              vehicle_model: matchingModel,
-              vehicle_variant: matchingModel,
-              vehicle_fuel: matchingModel.fuel,
-              user_car: this.registrationNumber.is_ownership_transfer,
-              previous_claimed: this.registrationNumber.is_claimed,
-              previous_insurer: this.registrationNumber.previous_insurer_code,
+              registration_date: moment(regDateValue, 'MM/YYYY'),
             });
-          }
+            if (policyExpiryValue) {
+              this.convertExpiryDate = moment(policyExpiryValue, 'MM/DD/YYYY');
+              this.vehicleDetailsForm.patchValue({
+                policy_expiry_date: new Date(this.convertExpiryDate),
+              });
+            }
 
-          if (
-            this.registrationNumber?.registration_month &&
-            this.registrationNumber?.registration_year
-          ) {
-            let registrationDate = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
-            let dateObj = moment(registrationDate, 'MM/YYYY');
-            this.vehicleDetailsForm.patchValue({
-              registration_date: dateObj,
-            });
-          }
-
-          if (this.registrationNumber?.previous_policy_exp_date) {
-            let inputDate = this.registrationNumber?.previous_policy_exp_date;
-            let [day, month, year] = inputDate.split('-');
-            let reformattedDate = `${month}-${day}-${year}`;
-            this.vehicleDetailsForm.patchValue({
-              policy_expiry_date: new Date(reformattedDate),
-            });
+            if (this.vehicleMMVValue?.previous_insurer) {
+              this.vehicleDetailsForm.patchValue({
+                previous_insurer: this.vehicleMMVValue?.previous_insurer,
+              });
+            }
           }
 
           if (res.length > 0) {
@@ -510,7 +554,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   onVariantSelected(event: any) {
     if (event.option.value) {
       this.vehicleDetailsForm.patchValue({
-        vehicle_model: event.option.value,
+        // vehicle_model: event.option.value,
         vehicle_fuel: event.option.value.fuel,
       });
     }

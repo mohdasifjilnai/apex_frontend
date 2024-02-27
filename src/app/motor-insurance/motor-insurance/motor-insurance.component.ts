@@ -97,22 +97,6 @@ export class MotorInsuranceComponent implements OnInit {
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
       const start = new Date();
       const end = new Date(res.value);
-      // console.log(this.monthDiff(start, end))
-      // this.registrationMonth = moment(res.value).month();
-      // let currentDate = new Date();
-      // let selectedRegistrationData =
-      //   this.registrationMonth + 1 < 10
-      //     ? `0${this.registrationMonth + 1}`
-      //     : this.registrationMonth + 1;
-
-      // this.currentMonthValue =
-      //   currentDate.getMonth() + 1 < 10
-      //     ? `0${currentDate.getMonth() + 1}`
-      //     : currentDate.getMonth() + 1;
-
-      // let monthGap = Math.abs(
-      //   this.currentMonthValue - selectedRegistrationData
-      // );
       let monthGap = this.monthDiff(start, end);
       if (monthGap > 10) {
         this.insurerDisable = false;

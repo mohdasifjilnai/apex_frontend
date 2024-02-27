@@ -2,7 +2,9 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let addOns of addOnsArray">
       <mat-expansion-panel-header>
-        <mat-panel-title> {{ addOns.rb_type }} </mat-panel-title>
+        <mat-panel-title id="addOns.rb_type">
+          {{ addOns.rb_type }}
+        </mat-panel-title>
       </mat-expansion-panel-header>
       <span *ngFor="let listValue of addOns.fe_template; index as i">
         <section class="my-2 d-grid">

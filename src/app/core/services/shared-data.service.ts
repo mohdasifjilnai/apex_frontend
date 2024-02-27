@@ -23,6 +23,7 @@ export class SharedDataService {
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
   detailNotFound: Subject<any> = new Subject();
+  vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: Observable<[]>;
 
   regNumber: any;
@@ -244,6 +245,10 @@ export class SharedDataService {
       };
       this.getQuotationListing(mmvValues, data);
     }
+  }
+
+  vehicleCardData(fromData: any) {
+    this.vehicleCardValue.next(fromData);
   }
 
   sendProposalReviewEditId(data: any) {

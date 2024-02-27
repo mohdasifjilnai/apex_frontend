@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
+import moment from 'moment';
 
 @Component({
   selector: 'app-vehicle-details-card',
@@ -27,26 +28,43 @@ export class VehicleDetailsCardComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
   };
-  showLess: boolean=true;
-  viewText:string='More'
-  ProposalURL: boolean=false;
+  showLess: boolean = true;
+  viewText: string = 'More';
+  ProposalURL: boolean = false;
+  vehicleData: any;
+  parsedVehicleData: any = '';
+  registrationDate: any;
+  registrationMonth: any;
+  registrationYear: any;
+
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
-    private route: ActivatedRoute
-  ) {
-   
-  }
+    private route: ActivatedRoute,
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
-    this.route.url.subscribe(segments => {
-      const proposalSegment = segments.find(segment => segment.path === 'proposal');
+    this.route.url.subscribe((segments) => {
+      const proposalSegment = segments.find(
+        (segment) => segment.path === 'proposal'
+      );
       if (proposalSegment) {
         const proposalValue = proposalSegment.path;
-        this.ProposalURL=true
+        this.ProposalURL = true;
       }
+    });
+    this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
+      // this.vehicleData = cardData;
+      // this.parsedVehicleData = JSON.parse(this.vehicleData);
+      // console.log(this.parsedVehicleData);
+      // let regDateValue = new Date(this.parsedVehicleData?.registration_date);
+      // this.registrationDate = moment(regDateValue, 'MM/YYYY');
+      // let regMonth = moment(this.registrationDate).month();
+      // this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
+      // this.registrationYear = moment(this.registrationDate).year();
     });
   }
 
@@ -54,14 +72,14 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (window.innerWidth <= 768) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      this.openVehicleDetailsPopup(null)
+      this.openVehicleDetailsPopup(null);
     }
     this.sharedData.sendVehicleEditData(edit);
   }
 
   /**
    * this fucntion use vehicle details open pop up modal
-   */ 
+   */
   openVehicleDetailsPopup(ObjData: any) {
     let resWidth;
     let resTop;
@@ -87,11 +105,11 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-  viewLess(text:any){
-    this.showLess=!this.showLess;
-    this.viewText='More'
-    if(text=='More'){
-      this.viewText='Less'
+  viewLess(text: any) {
+    this.showLess = !this.showLess;
+    this.viewText = 'More';
+    if (text == 'More') {
+      this.viewText = 'Less';
     }
   }
 }
