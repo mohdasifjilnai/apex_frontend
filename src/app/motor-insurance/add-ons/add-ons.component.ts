@@ -22,10 +22,16 @@ export class AddOnsComponent implements OnInit {
   checkBoxValueArray: any[] = [];
   addOnsArray: any = [];
   filterAddOns: any;
+  inputValues: any[] = []; // Initialize an array to store input values
+  inputTagIndex: number[] = [];
+  multiCheckbox: any[] = [];
+  subCheckBox: any[] = [];
+  dropDownIndex: any[] = [];
+  dropDownValue: any;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>,
+    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +48,8 @@ export class AddOnsComponent implements OnInit {
     this.add_ons_list.forEach((item: any) => (item.checked = false));
   }
   @Output() checkBoxValue = new EventEmitter<any>();
-  onCheckboxSelect(event: any, value: any) {
+  onCheckboxSelect(event: any, value: any, type: any, index: number) {
+    this.addInputValidation(event.checked, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
       this.checkBoxValue.emit(this.checkBoxValueArray);
@@ -125,5 +132,48 @@ export class AddOnsComponent implements OnInit {
 
   isSelected(amount: number): boolean {
     return this.selectedVoluntryAmounts.includes(amount);
+  }
+  /**
+   *  add ons list add/remove validation acording to chnage elements
+   */ 
+  onInputChange(event: any, type: any, index: number) {
+    if (event != '' && type == 'int_input') {
+      delete this.inputTagIndex[index];
+    } else if (event == '' && type == 'int_input') {
+      this.inputTagIndex[index] = index;
+    } else if (event?.checked && type == 'multi_chcekbox') {
+      this.subCheckBox.push(event?.checked);
+      delete this.multiCheckbox[index];
+    } else if (!event?.checked && type == 'multi_chcekbox') {
+      this.subCheckBox.pop();
+      if (this.subCheckBox.length == 0) {
+        this.multiCheckbox[index] = index;
+      }
+    } else if (event.value != '' && type == 'dropdown') {
+      this.dropDownValue = event;
+      delete this.dropDownIndex[index];
+    }
+  }
+  /**
+   *  add ons list add validation on based on tag
+   */ 
+  addInputValidation(isChecked: boolean, type: any, index: number) {
+    if (isChecked && type == 'int_input') {
+      this.inputTagIndex[index] = index;
+    } else if (!isChecked && type == 'int_input') {
+      delete this.inputTagIndex[index];
+    } else if (isChecked && type == 'multi_chcekbox') {
+      this.multiCheckbox[index] = index;
+    } else if (!isChecked && type == 'multi_chcekbox') {
+      delete this.multiCheckbox[index];
+    } else if (isChecked && type == 'dropdown') {
+      if (this.dropDownValue == undefined) {
+        this.dropDownIndex[index] = index;
+        this.dropDownIndex[index + 1] = index + 1;
+      }
+    } else if (!isChecked && type == 'dropdown') {
+      delete this.dropDownIndex[index];
+      delete this.dropDownIndex[index + 1];
+    }
   }
 }
