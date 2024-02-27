@@ -98,7 +98,8 @@
       </mat-form-field>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
-      <app-owner-gender [required]="true"></app-owner-gender>
+      <app-owner-gender [required]="true"   [formControlNameData]="'owner_gender'"
+      [label]="'Gender'"></app-owner-gender>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
       <label class="maritalStatus-header">Marital Status</label>

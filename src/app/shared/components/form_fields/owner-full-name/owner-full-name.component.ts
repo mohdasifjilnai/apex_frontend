@@ -48,6 +48,6 @@ export class OwnerFullNameComponent implements OnInit {
     /**
      * remove form control for the full_name
      */
-    this.form.removeControl('full_Name');
+    this.form.removeControl(this.formControlNameData);
   }
 }

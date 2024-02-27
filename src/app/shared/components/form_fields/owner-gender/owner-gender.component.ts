@@ -13,6 +13,8 @@ export class OwnerGenderComponent implements OnInit {
   genderList:any;
   form!: FormGroup;
   @Input('required') isRequired = false
+  @Input() formControlNameData: any;
+  @Input() label:any;
 
   constructor(private ctrlContainer: FormGroupDirective) {
     this.genderList = [ 
@@ -23,6 +25,10 @@ export class OwnerGenderComponent implements OnInit {
       {
         id:2,
         name:"Female"
+      },
+      {
+        id:3,
+        name:"Other"
       }
     ]
    }
@@ -35,11 +41,11 @@ export class OwnerGenderComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'gender',
+        this.formControlNameData,
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('gender', new FormControl());
+      this.form.addControl(this.formControlNameData, new FormControl());
     }
   }
 
@@ -48,7 +54,7 @@ export class OwnerGenderComponent implements OnInit {
      * remove form control for the Gender
      */
 
-    this.form.removeControl('gender');
+    this.form.removeControl(this.formControlNameData);
   }
 
 }

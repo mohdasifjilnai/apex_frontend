@@ -62,7 +62,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.pattern(/^[a-zA-Z0-9]+$/),
     ]),
     marital_status: new FormControl('1', Validators.required),
-    gender: new FormControl('1', Validators.required),
+    owner_gender: new FormControl('1', Validators.required),
   });
 
   constructor() {

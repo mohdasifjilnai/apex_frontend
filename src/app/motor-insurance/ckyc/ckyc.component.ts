@@ -73,6 +73,8 @@ export class CkycComponent implements OnInit {
         document_number: ['', [this.documentNumberValidator.bind(this)]],
         dob: [''],
         ckyc_number: [''],
+        ckyc_full_name: [''],
+        ckyc_gender: [''],
       });
       this.withOutCkycNumber();
     }
@@ -242,6 +244,17 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup.patchValue({
       document_number: '',
     });
+    if (this.documentName == 'AADHAR') {
+      this.ckycFormGroup.get('ckyc_full_name')?.setValidators([Validators.required]);
+      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+      this.ckycFormGroup.get('ckyc_gender')?.setValidators([Validators.required]);
+      this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
+    } else {
+      this.ckycFormGroup.get('ckyc_full_name')?.setValidators([]);
+      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+      this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
+      this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
+    }
   }
   /**
    *   document validator function

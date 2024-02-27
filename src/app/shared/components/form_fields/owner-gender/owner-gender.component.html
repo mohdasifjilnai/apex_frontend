@@ -1,6 +1,6 @@
-<label class="gender-header">Choose Gender</label>
+<!-- <label class="gender-header">Choose Gender</label> -->
 <div>
-  <mat-radio-group aria-label="Select an option" formControlName="gender">
+  <!-- <mat-radio-group aria-label="Select an option" formControlName="gender">
     <mat-radio-button
       *ngFor="let gender of genderList"
       value="{{ gender?.id }}"
@@ -10,5 +10,13 @@
       }"
       >{{ gender?.name }}</mat-radio-button
     >
-  </mat-radio-group>
+  </mat-radio-group> -->
+  <mat-form-field appearance="outline" class="mat-input-custom">
+    <mat-label>Select Gender</mat-label>
+    <mat-select [formControlName]="formControlNameData" placeholder="Select {{label}}">
+      <mat-option *ngFor="let gender of genderList" [value]="gender?.id">
+        {{ gender?.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
