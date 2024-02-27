@@ -45,6 +45,7 @@ import { NumberFormatPipe } from './pipe/number-format.pipe';
 import { SpecialCharcaterExceptAtDirective } from './directives/special-charcater-except-at.directive';
 import { SpecialCharacterNotAllowedDirective } from './directives/special-character-not-allowed.directive';
 import { DateFormatDirective } from './directives/date-format.directive';
+import { NoSpaceDirective } from './directives/no-space.directive';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { DateFormatDirective } from './directives/date-format.directive';
     NumberFormatPipe,
     SpecialCharcaterExceptAtDirective,
     SpecialCharacterNotAllowedDirective,
-    DateFormatDirective
+    DateFormatDirective,
+    NoSpaceDirective
   ],
   imports: [
     CommonModule,

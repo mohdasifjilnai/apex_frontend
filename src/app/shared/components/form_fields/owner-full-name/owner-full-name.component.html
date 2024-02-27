@@ -1,4 +1,7 @@
 <mat-form-field appearance="outline" class="mat-input-custom">
   <mat-label>{{label}}</mat-label>
-  <input matInput placeholder="Enter {{label}}" [formControlName]="formControlNameData" ngDefaultControl id-automation="full_name" appAlphabetOnly/>
+  <input matInput placeholder="Enter {{label}}" [formControlName]="formControlNameData" ngDefaultControl id-automation="full_name" appAlphabetOnly appNoSpace/>
+  <mat-error *ngIf="form.get(formControlNameData)?.hasError('required')">
+    {{ label }} is required.
+  </mat-error>
 </mat-form-field>

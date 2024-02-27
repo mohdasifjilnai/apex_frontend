@@ -8,6 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NomineeDetailsComponent implements OnInit {
   relationshipList:any
+  minDate = new Date();
+  maxDate = new Date();
   @Input() fetchOwnerVehicleDetails :any;
   @Output() afterNomineeGetData = new EventEmitter<any>();
 
@@ -18,6 +20,9 @@ export class NomineeDetailsComponent implements OnInit {
   })
 
   constructor() {
+    this.minDate = new Date(1930, 6, 1);
+    const currentDate = new Date();
+    this.maxDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
     this.relationshipList = [
       {
         id:1,

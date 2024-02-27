@@ -20,7 +20,7 @@ export class DateFormatDirective {
     const year = value.slice(4, 8);
 
     if (value.length > 4) {
-      return `${day}/${month}/${year}`;
+      return `${month}/${day}/${year}`;
     } else if (value.length > 2) {
       return `${day}/${month}`;
     } else {

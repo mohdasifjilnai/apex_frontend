@@ -16,6 +16,8 @@
           placeholder="Date of Birth"
           formControlName="date_of_birth"
           appDateFormat
+          [min]="minDate"
+          [max]="maxDate"
         />
         <mat-datepicker-toggle
           matSuffix
