@@ -15,10 +15,14 @@
         display: block;
         .back-button{
             display: block;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 15px;
             .back-image{
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
+                width: 14px;
+                height: 12px;
+                
             }
         }
         .stepper{

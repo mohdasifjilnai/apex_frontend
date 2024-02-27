@@ -15,10 +15,15 @@
         margin:-2px 0 !important;
         .back-button{
             display: block;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 15px;
+            color: #282828;
             .back-image{
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
+                width: 14px;
+                height: 12px;
+               
             }
         }
     }

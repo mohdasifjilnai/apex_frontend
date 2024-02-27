@@ -3,6 +3,7 @@ import {
   Inject,
   Input,
   OnInit,
+  Renderer2,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -90,7 +91,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     private FormBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
-    public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>
+    public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>,
+    private renderer: Renderer2
   ) {
     this.vehicleDetailsFormControler();
     this.getClaimedList();
@@ -264,6 +266,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
+              this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -301,6 +304,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
+            this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -388,6 +392,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   filterMMVPopup(name: string) {
+    this.renderer.removeClass(document.body, 'dropdown-focus');
     this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
@@ -556,6 +561,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.patchValue({
         // vehicle_model: event.option.value,
         vehicle_fuel: event.option.value.fuel,
+        
       });
     }
   }

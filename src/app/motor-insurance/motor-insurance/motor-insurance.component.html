@@ -4,7 +4,7 @@
   </div>
   <!-- <app-breadcrumb></app-breadcrumb> -->
   <div class="body-content">
-    <div class="container p-5">
+    <div class="container p-5 content">
       <div class="col-12 text-center">
         <h1 class="motor-insurance">Motor Insurance</h1>
       </div>
@@ -67,7 +67,7 @@
             <app-registration-year></app-registration-year>
           </div>
           <div
-            class="col-lg-4 col-md-4 col-12"
+            class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && isResponsive()"
             [@slideUp]
           >
@@ -78,7 +78,7 @@
             ></app-previous-insurer>
           </div>
           <div
-            class="col-lg-4 col-md-4 col-12"
+            class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
           >
             <app-previous-insurer
@@ -88,7 +88,7 @@
             ></app-previous-insurer>
           </div>
           <div
-            class="col-lg-4 col-md-4 col-12"
+            class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && isResponsive()"
             [@slideUp]
           >
@@ -98,7 +98,7 @@
             ></app-policy-expired-date>
           </div>
           <div
-            class="col-lg-4 col-md-4 col-12"
+            class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
           >
             <app-policy-expired-date

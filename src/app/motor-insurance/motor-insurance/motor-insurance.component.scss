@@ -36,8 +36,20 @@
 .vehicle-submitted {
   margin-top: 60px;
 }
+@media screen and (max-width: 1020px) {
+  .vehicle-submission {
+    position: relative;
+    width: 100%;
+    bottom: 0 !important;
+    left: 0px;
+    margin-bottom: 0 !important;
+  }
+  .content{
+    padding: 0!important;
+  }
+}
 @media screen and (max-width: 768px) {
-  .container {
+  .content {
     padding: 2rem !important;
   }
   .motor-insurance {
