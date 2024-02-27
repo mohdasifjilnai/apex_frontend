@@ -62,6 +62,9 @@ export class PreviousInsurerComponent implements OnInit {
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
       this.disableInsurerField = res;
+      this.form.patchValue({
+        previous_insurer: '',
+      });
       if (this.disableInsurerField) {
         this.form.controls['previous_insurer'].disable();
       } else {

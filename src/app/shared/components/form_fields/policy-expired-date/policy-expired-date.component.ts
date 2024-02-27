@@ -26,7 +26,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   @Input() disablePreviousInsurer: any;
   disableExpDateField: any;
   isDatepickerOpen = false;
-  proposalUrl:any;
+  proposalUrl: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -48,6 +48,9 @@ export class PolicyExpiredDateComponent implements OnInit {
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
       this.disableExpDateField = res;
+      this.form.patchValue({
+        policy_expiry_date: '',
+      });
       if (this.disableExpDateField) {
         this.form.controls['policy_expiry_date'].disable();
       } else {
@@ -75,10 +78,10 @@ export class PolicyExpiredDateComponent implements OnInit {
 
   onOpen() {
     this.appendFooter();
-    if(this.proposalUrl === 'proposal'){
+    if (this.proposalUrl === 'proposal') {
       this.isDatepickerOpen = false;
-    }else{
-    this.isDatepickerOpen = true;
+    } else {
+      this.isDatepickerOpen = true;
     }
   }
 
@@ -95,7 +98,7 @@ export class PolicyExpiredDateComponent implements OnInit {
    * Appends the datepicker footer to the calendar view.
    */
 
-    appendFooter() {
+  appendFooter() {
     const matCalendar = document.getElementsByClassName(
       'mat-datepicker-content'
     )[0] as HTMLElement;
