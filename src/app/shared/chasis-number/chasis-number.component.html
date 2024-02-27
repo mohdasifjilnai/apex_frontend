@@ -6,6 +6,9 @@
     formControlName="chassis_number"
     class="text-uppercase"
     id-automation="chassis_number"
+    appAlphaNumeric
+    minlength="17"
+    maxlength="25"
   />
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('required')"

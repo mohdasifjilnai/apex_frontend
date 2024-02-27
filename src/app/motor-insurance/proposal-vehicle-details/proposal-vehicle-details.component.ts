@@ -35,7 +35,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         /^([A-Z]{2}-\d{2}-[A-Z0-9]{2}-\d{4}|[A-Z]{2}-\d{2}-\d{4}|[A-Z]{2}-\d{2}-[A-Z]{3}-\d{4}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{1,2}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{2})$/
       ),
     ]),
-    vehicle_colour: new FormControl('', Validators.required),
+    vehicle_colour: new FormControl('',),
     engine_number: new FormControl('', [
       Validators.required,
       Validators.pattern(/^[a-zA-Z0-9]+$/),

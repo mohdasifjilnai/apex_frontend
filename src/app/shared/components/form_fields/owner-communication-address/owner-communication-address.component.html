@@ -5,17 +5,15 @@
     placeholder="Enter Address"
     formControlName="owner_communication_addres"
     id-automation="owner_communication_address"
-    appAlphaNumeric
+    appAlphaNumeric appNoSpace
   />
   <mat-error
     *ngIf="form.controls['owner_communication_addres']?.hasError('required')"
-    class="ms-4"
   >
     This is a required field.
   </mat-error>
   <mat-error
     *ngIf="form.controls['owner_communication_addres']?.hasError('pattern')"
-    class="ms-4"
   >
     Invalid Address
   </mat-error>

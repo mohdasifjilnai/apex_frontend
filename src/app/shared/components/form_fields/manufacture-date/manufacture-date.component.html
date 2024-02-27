@@ -7,6 +7,8 @@
     formControlName="manufacture_date"
     id-automation="manufacture_date"
     appDateFormat
+    [min]="minDate"
+    [max]="maxDate"
   />
   <mat-datepicker-toggle
     matSuffix
@@ -21,7 +23,6 @@
   </mat-datepicker>
   <mat-error
     *ngIf="form.controls['manufacture_date']?.hasError('required')"
-    class="ms-4"
   >
     This is a required field.
   </mat-error>

@@ -3,13 +3,13 @@
   <input matInput placeholder="Enter Email" formControlName="owner_email" appSpecialCharcaterExceptAt/>
   <mat-error
     *ngIf="form.controls['owner_email']?.hasError('required')"
-    class="ms-4"
+   
   >
     This is a required field.
   </mat-error>
   <mat-error
     *ngIf="form.controls['owner_email']?.hasError('pattern')"
-    class="ms-4"
+   
   >
     Invalid email
   </mat-error>

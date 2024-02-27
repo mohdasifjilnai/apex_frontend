@@ -46,6 +46,7 @@ import { SpecialCharcaterExceptAtDirective } from './directives/special-charcate
 import { SpecialCharacterNotAllowedDirective } from './directives/special-character-not-allowed.directive';
 import { DateFormatDirective } from './directives/date-format.directive';
 import { NoSpaceDirective } from './directives/no-space.directive';
+import { RegistrationNumberDirective } from './directives/registration-number.directive';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { NoSpaceDirective } from './directives/no-space.directive';
     SpecialCharcaterExceptAtDirective,
     SpecialCharacterNotAllowedDirective,
     DateFormatDirective,
-    NoSpaceDirective
+    NoSpaceDirective,
+    RegistrationNumberDirective
   ],
   imports: [
     CommonModule,

@@ -7,16 +7,17 @@
     class="text-uppercase"
     id-automation="engine_number"
     appAlphaNumeric
+    minlength="6"
+    maxlength="25"
   />
   <mat-error
     *ngIf="engineForm.controls['engine_number']?.hasError('required')"
-    class="ms-4"
+    
   >
     This is a required field.
   </mat-error>
   <mat-error
     *ngIf="engineForm.controls['engine_number']?.hasError('pattern')"
-    class="ms-4"
   >
     Invalid Engine Number
   </mat-error>

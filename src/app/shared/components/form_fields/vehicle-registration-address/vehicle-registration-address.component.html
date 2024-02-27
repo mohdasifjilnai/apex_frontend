@@ -6,6 +6,7 @@
     matInput
     placeholder="Enter Address"
     formControlName="vehicle_registration_addres"
+    appNoSpace
   />
   <mat-error
     *ngIf="
@@ -13,9 +14,8 @@
         'required'
       )
     "
-    class="ms-4"
   >
-    Invalid Address
+    This is required field
   </mat-error>
   <mat-error
     *ngIf="
@@ -23,7 +23,6 @@
         'pattern'
       )
     "
-    class="ms-4"
   >
     Invalid Address
   </mat-error>

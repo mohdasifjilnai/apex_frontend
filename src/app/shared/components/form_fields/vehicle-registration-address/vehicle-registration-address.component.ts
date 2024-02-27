@@ -32,7 +32,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
         'vehicle_registration_addres',
         new FormControl(null, [
           Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9]+$/),
+          Validators.pattern(/^[a-zA-Z0-9 ]+$/),
         ])
       );
     } else {

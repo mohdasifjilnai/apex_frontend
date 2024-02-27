@@ -53,7 +53,12 @@ export class ManufactureDateComponent implements OnInit {
   @Input('required') isRequired = false;
   @Input() customManufactureDate!: string;
   manufactureDate: any;
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  minDate: any;
+  maxDate: any;
+  constructor(private ctrlContainer: FormGroupDirective) {
+    this.minDate = new Date(1970, 0); 
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15)); 
+  }
 
   ngOnInit(): void {
     /**

@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import moment from 'moment';
 
 @Component({
   selector: 'app-registration-date',
@@ -17,10 +18,16 @@ import {
 })
 export class RegistrationDateComponent implements OnInit {
   form!: FormGroup;
+  minDate: any;
+  maxDate: any;
   @Input('required') isRequired = false;
   @Input() customRegistrationDate!:string
   
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(private ctrlContainer: FormGroupDirective) {
+    
+    this.minDate = new Date(1970, 0); 
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15)); 
+  }
 
   ngOnInit(): void {
     // add form control for the Registration Date

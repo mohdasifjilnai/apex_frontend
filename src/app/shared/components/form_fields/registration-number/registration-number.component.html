@@ -10,6 +10,8 @@
     formControlName="registration_number"
     id-automation="registration_number"
     [(ngModel)]="inputValue" (input)="onInputChange()"
+    appRegistrationNumber
+    appAlphaNumeric
   />
   <mat-error *ngIf="form.controls['registration_number']?.hasError('required')">
     This is a required field.
