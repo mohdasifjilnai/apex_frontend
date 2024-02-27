@@ -39,7 +39,7 @@
             >
               <mat-option
                 *ngFor="let document of documentList"
-                [value]="document?.document_id"
+                [value]="document?.document_code"
               >
                 {{ document?.document_name }}
               </mat-option>
@@ -76,19 +76,20 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <ng-container *ngIf="documentName == 'AADHAR'">
+        <ng-container *ngIf="documentName == 'aadhaar_number'">
           <div class="col-lg-4 col-md-4 col-12">
             <app-owner-full-name
-            [required]="true"
-            [formControlNameData]="'ckyc_full_name'"
-            [label]="'Full Name'"
-          ></app-owner-full-name>
+              [required]="true"
+              [formControlNameData]="'ckyc_full_name'"
+              [label]="'Full Name'"
+            ></app-owner-full-name>
           </div>
           <div class="col-lg-4 col-md-4 col-12">
             <app-owner-gender
-            [formControlNameData]="'ckyc_gender'"
-            [label]="'Gender'"
-             [required]="true"></app-owner-gender>
+              [formControlNameData]="'ckyc_gender'"
+              [label]="'Gender'"
+              [required]="true"
+            ></app-owner-gender>
           </div>
         </ng-container>
 

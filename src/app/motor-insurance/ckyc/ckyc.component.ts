@@ -171,12 +171,12 @@ export class CkycComponent implements OnInit {
   /**
    *  document list filter based on document id
    */
-  filterDocumentType(document_id: number) {
+  filterDocumentType(document_code: number) {
     const filteredDocuments = this.documentList.filter(
-      (el: any) => el.document_id == document_id
+      (el: any) => el.document_code == document_code
     );
     if (filteredDocuments.length > 0) {
-      return filteredDocuments[0].document_name;
+      return filteredDocuments[0].document_code;
     }
   }
 
@@ -186,7 +186,9 @@ export class CkycComponent implements OnInit {
 
   getDocumentType() {
     this.apiService
-      .getRequestedResponse(ApiConstants.document_type)
+      .getRequestedResponse(
+        `${ApiConstants.document_type}?insurer_code=reliance`
+      )
       .subscribe((res) => {
         this.documentList = res;
       });
@@ -244,10 +246,14 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup.patchValue({
       document_number: '',
     });
-    if (this.documentName == 'AADHAR') {
-      this.ckycFormGroup.get('ckyc_full_name')?.setValidators([Validators.required]);
+    if (this.documentName == 'aadhaar_number') {
+      this.ckycFormGroup
+        .get('ckyc_full_name')
+        ?.setValidators([Validators.required]);
       this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
-      this.ckycFormGroup.get('ckyc_gender')?.setValidators([Validators.required]);
+      this.ckycFormGroup
+        .get('ckyc_gender')
+        ?.setValidators([Validators.required]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
     } else {
       this.ckycFormGroup.get('ckyc_full_name')?.setValidators([]);
@@ -260,16 +266,17 @@ export class CkycComponent implements OnInit {
    *   document validator function
    */
   documentNumberValidator(control: FormControl) {
-    if (this.documentName == 'PAN') {
+    if (this.documentName == 'pan_number') {
       this.numberRegex = /^[A-Za-z]{5}\d{4}[A-Za-z]$/;
     }
-    if (this.documentName == 'AADHAR') {
+    if (this.documentName == 'aadhaar_number') {
       this.numberRegex = /^\d{12}$/;
     }
     if (
-      this.documentName == 'Driving License' ||
-      this.documentName == 'Voter ID' ||
-      this.documentName == 'Passport Number '
+      this.documentName == 'driving_license' ||
+      this.documentName == 'voter_id' ||
+      this.documentName == 'ckyc_number' ||
+      this.documentName == 'passport_number'
     ) {
       this.numberRegex = /^[A-Za-z0-9]*$/;
     }
