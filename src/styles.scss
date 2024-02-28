@@ -184,6 +184,17 @@ th.mat-header-cell:last-of-type {
   border: 1px solid #FF943D;
   padding: 5px 15px 5px 15px;
 }
+.submit-btn:disabled {
+  flex-wrap: wrap;
+  background-color: #D6D6D6;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 12px;
+  // width: 150px;
+  border: 1px solid #D6D6D6;
+  padding: 5px 15px 5px 15px;
+}
 
 .submit-btn:hover {
   background-color: #f7a663;

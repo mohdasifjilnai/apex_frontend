@@ -24,9 +24,12 @@ export class AddOnsComponent implements OnInit {
   filterAddOns: any;
   inputValues: any[] = []; // Initialize an array to store input values
   inputTagIndex: number[] = [];
+  inputFieldIndex: number[] = [];
   multiCheckbox: any[] = [];
+  multiCheckboxField: any[] = [];
   subCheckBox: any[] = [];
   dropDownIndex: any[] = [];
+  dropDownFieldIndex: any[] = [];
   dropDownValue: any;
   constructor(
     private apiService: ApiService,
@@ -160,20 +163,28 @@ export class AddOnsComponent implements OnInit {
   addInputValidation(isChecked: boolean, type: any, index: number) {
     if (isChecked && type == 'int_input') {
       this.inputTagIndex[index] = index;
+      this.inputFieldIndex[index]=index
     } else if (!isChecked && type == 'int_input') {
       delete this.inputTagIndex[index];
+      delete this.inputFieldIndex[index]
     } else if (isChecked && type == 'multi_chcekbox') {
       this.multiCheckbox[index] = index;
+      this.multiCheckboxField[index] = index;
     } else if (!isChecked && type == 'multi_chcekbox') {
       delete this.multiCheckbox[index];
+      delete this.multiCheckboxField[index]
     } else if (isChecked && type == 'dropdown') {
       if (this.dropDownValue == undefined) {
         this.dropDownIndex[index] = index;
+        this.dropDownFieldIndex[index] = index;
         this.dropDownIndex[index + 1] = index + 1;
+        this.dropDownFieldIndex[index + 1] = index + 1;
       }
     } else if (!isChecked && type == 'dropdown') {
       delete this.dropDownIndex[index];
       delete this.dropDownIndex[index + 1];
+      delete this.dropDownFieldIndex[index];
+      delete this.dropDownFieldIndex[index + 1]
     }
   }
 }

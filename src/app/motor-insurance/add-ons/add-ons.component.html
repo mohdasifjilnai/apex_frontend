@@ -1,13 +1,13 @@
 <div class="add-ons">
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let addOns of addOnsArray">
+  <mat-accordion *ngFor="let addOns of addOnsArray" >
+    <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title id="addOns.rb_type">
           {{ addOns.rb_type }}
         </mat-panel-title>
       </mat-expansion-panel-header>
       <span *ngFor="let listValue of addOns.fe_template; index as i">
-        <section class="my-2 d-grid">
+        <section class="d-grid">
           <span *ngIf="listValue.type == 'check_box'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"
@@ -23,12 +23,13 @@
             >
 
             <span
-              *ngIf="listValue?.next_type == 'multi_chcekbox'"
-              class="d-grid m-2"
+              *ngIf="listValue?.next_type == 'multi_chcekbox' && i == multiCheckboxField[i]"
+              class="d-grid m-1"
             >
               <mat-checkbox
                 *ngFor="let data of listValue.value"
                 (change)="onInputChange($event, listValue?.next_type, i)"
+                
                 >{{ data }}</mat-checkbox
               >
               <mat-error *ngIf="i == multiCheckbox[i]">
@@ -37,9 +38,9 @@
             </span>
           </span>
         </section>
-        <section class="my-2 d-grid">
+        <section class="d-grid">
           <ng-container *ngIf="listValue?.next_type == 'dropdown'">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" *ngIf="i == dropDownFieldIndex[i]">
               <mat-label>Select Value</mat-label>
               <mat-select
                 (selectionChange)="
@@ -60,10 +61,10 @@
         </section>
 
         <section
-          class="my-2 d-grid"
+          class="d-grid"
           *ngIf="listValue?.next_type == 'int_input'"
         >
-          <mat-form-field appearance="outline" class="mat-input-custom">
+          <mat-form-field appearance="outline" class="mat-input-custom"  *ngIf="i == inputFieldIndex[i]">
             <mat-label>{{ listValue?.name }}</mat-label>
             <input
               matInput
@@ -171,7 +172,7 @@
   </mat-accordion> -->
 </div>
 <div class="add-ons-res">
-  <!-- <div class="header">
+  <div class="header">
     <div class="d-flex justify-content-between ps-3 pe-3 pt-3">
       <span class="change-text">Customise policy as per the needs</span>
       <img
@@ -181,16 +182,86 @@
         (click)="cancelChangeIDv($event)"
       />
     </div>
-  </div> -->
-  <!-- <hr /> -->
-  <!-- <div class="m-2">
-    <div class="card-body p-2">
-      <span class="customise-header ps-3">CPA</span>
+  </div>
+  <hr />
+  <div class="m-2">
+    <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
+      <span class="customise-header ps-3">{{ addOns.rb_type }}</span>
       <section class="my-2 section-value">
-        <mat-checkbox>Compulsory Personal Accident Cover</mat-checkbox>
+        <span *ngFor="let listValue of addOns.fe_template; index as i">
+          <section class="d-grid">
+            <span *ngIf="listValue.type == 'check_box'">
+              <mat-checkbox
+                [(ngModel)]="listValue.checked"
+                (change)="
+                  onCheckboxSelect(
+                    $event,
+                    listValue.name,
+                    listValue?.next_type,
+                    i
+                  )
+                "
+                >{{ listValue?.name }}</mat-checkbox
+              >
+  
+              <span
+                *ngIf="listValue?.next_type == 'multi_chcekbox' && i == multiCheckboxField[i]"
+                class="d-grid m-1"
+              >
+                <mat-checkbox
+                  *ngFor="let data of listValue.value"
+                  (change)="onInputChange($event, listValue?.next_type, i)"
+                  
+                  >{{ data }}</mat-checkbox
+                >
+                <mat-error *ngIf="i == multiCheckbox[i]">
+                  Please select a country.
+                </mat-error>
+              </span>
+            </span>
+          </section>
+          <section class="d-grid">
+            <ng-container *ngIf="listValue?.next_type == 'dropdown'">
+              <mat-form-field appearance="outline" *ngIf="i == dropDownFieldIndex[i]">
+                <mat-label>Select Value</mat-label>
+                <mat-select
+                  (selectionChange)="
+                    onInputChange($event.value, listValue?.next_type, i)
+                  "
+                >
+                  <mat-option
+                    *ngFor="let items of listValue.value"
+                    [value]="items"
+                    >{{ items }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+              <mat-error *ngIf="i == dropDownIndex[i]">
+                This is a required field.
+              </mat-error>
+            </ng-container>
+          </section>
+  
+          <section
+            class="d-grid"
+            *ngIf="listValue?.next_type == 'int_input'"
+          >
+            <mat-form-field appearance="outline" class="mat-input-custom"  *ngIf="i == inputFieldIndex[i]">
+              <mat-label>{{ listValue?.name }}</mat-label>
+              <input
+                matInput
+                [(ngModel)]="inputValues[i]"
+                (ngModelChange)="onInputChange($event, listValue?.next_type, i)"
+              />
+            </mat-form-field>
+            <mat-error *ngIf="i == inputTagIndex[i]">
+              This is a required field.
+            </mat-error>
+          </section>
+        </span>
       </section>
     </div>
-    <div class="card-body p-2">
+    <!-- <div class="card-body p-2">
       <span class="customise-header ps-3">Addons</span>
       <section
         class="my-2 section-value"
@@ -279,8 +350,8 @@
           </ng-container>
         </div>
       </section>
-    </div>
-  </div> -->
+    </div> -->
+  </div>
   <div class="d-flex p-2 bottom-btn">
     <button class="cancel-btn col-6" (click)="clearAllChecked()">
       Clear All

@@ -181,7 +181,7 @@ export class QuotesListingComponent implements OnInit {
     this.openModal(shareData, jsonData);
   }
   shareQuotesDropdown() {
-    this.shareQuotesDropdownValue = true;
+    this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
   }
   selectQuotes() {
     this.addShare = true;

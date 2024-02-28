@@ -106,3 +106,25 @@
     }
     
   }
+@media screen and (max-width: 1080px) {
+    .vehicle-card-heading-details-data{
+        font-size: 12px !important;
+    }
+    .vehicle-card-heading-details{
+        font-size: 10px;
+    }
+    .edit-button{
+        padding: 5px !important;
+    }
+}
+@media screen and (max-width: 920px) {
+    .vehicle-card-heading-details-data{
+        font-size: 11px !important;
+    }
+    .vehicle-card-heading-details{
+        font-size: 9px;
+    }
+    .edit-button{
+        padding: 5px !important;
+    }
+}

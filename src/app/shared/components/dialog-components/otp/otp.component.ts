@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-otp',
@@ -23,10 +24,12 @@ export class OtpComponent implements OnInit {
   };
   resendDisabled = false;
   countdown = 60;
-
+  btnDisable: boolean=true;
+  
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
+    public router:Router,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -36,6 +39,10 @@ export class OtpComponent implements OnInit {
 
   onOtpChange(otp: any) {
     this.otp = otp;
+    if(otp.length==6){
+      this.btnDisable=false
+    }
+    
   }
   /**
    * Starts the countdown timer for OTP resend.
@@ -65,5 +72,9 @@ export class OtpComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
+  }
+  verify(){
+    this.dialogRef.close();
+    this.router.navigate(['motor/quotes/proposal/review/payment']);
   }
 }
