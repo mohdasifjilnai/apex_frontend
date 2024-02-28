@@ -37,7 +37,6 @@ export class RegistrationNumberComponent implements OnInit {
         new FormControl(null, [
           Validators.required,
           Validators.minLength(8),
-          Validators.maxLength(11),
         ])
       );
     } else {
