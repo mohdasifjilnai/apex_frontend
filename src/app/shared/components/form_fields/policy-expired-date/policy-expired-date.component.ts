@@ -27,6 +27,8 @@ export class PolicyExpiredDateComponent implements OnInit {
   disableExpDateField: any;
   isDatepickerOpen = false;
   proposalUrl: any;
+  minDate!: Date;
+  maxDate!: Date;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -62,6 +64,11 @@ export class PolicyExpiredDateComponent implements OnInit {
     }
     const currentUrl = this.router.url.split('/');
     this.proposalUrl = currentUrl[currentUrl.length - 1];
+    const currentDate = new Date();
+    const minDateOffset = -90; // Subtract 90 days
+    const maxDateOffset = 90; // Add 90 days
+    this.minDate = this.getDateOffset(currentDate, minDateOffset);
+    this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
   }
 
   ngOnDestroy(): void {
@@ -103,5 +110,15 @@ export class PolicyExpiredDateComponent implements OnInit {
       'mat-datepicker-content'
     )[0] as HTMLElement;
     matCalendar.appendChild(this.datepickerFooter.nativeElement);
+  }
+
+  /**
+   * Returns a new Date that is the specified number of days after the specified date.
+   * @param date The date to add days to.
+   */
+  getDateOffset(date: Date, offset: number): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() + offset);
+    return result;
   }
 }
