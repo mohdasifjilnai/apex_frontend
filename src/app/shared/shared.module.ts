@@ -47,6 +47,7 @@ import { SpecialCharacterNotAllowedDirective } from './directives/special-charac
 import { DateFormatDirective } from './directives/date-format.directive';
 import { NoSpaceDirective } from './directives/no-space.directive';
 import { RegistrationNumberDirective } from './directives/registration-number.directive';
+import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { RegistrationNumberDirective } from './directives/registration-number.di
     SpecialCharacterNotAllowedDirective,
     DateFormatDirective,
     NoSpaceDirective,
-    RegistrationNumberDirective
+    RegistrationNumberDirective,
+    MmYyyyformatDirective,
   ],
   imports: [
     CommonModule,
@@ -100,7 +102,7 @@ import { RegistrationNumberDirective } from './directives/registration-number.di
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    NgOtpInputModule
+    NgOtpInputModule,
   ],
   exports: [
     VehicleTypeComponent,
@@ -140,7 +142,8 @@ import { RegistrationNumberDirective } from './directives/registration-number.di
     NumberFormatPipe,
     SpecialCharcaterExceptAtDirective,
     SpecialCharacterNotAllowedDirective,
-    DateFormatDirective
+    DateFormatDirective,
+    MmYyyyformatDirective,
   ],
 })
 export class SharedModule {}

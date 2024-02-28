@@ -304,7 +304,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
-            this.renderer.addClass(document.body, 'dropdown-focus');
+              this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -312,6 +312,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
               });
             }
             let regDateValue = new Date(
+              this.vehicleMMVValue?.registration_date
+            );
+            this.sharedDataService.getRegistrationDate(
               this.vehicleMMVValue?.registration_date
             );
             let policyExpiryValue = new Date(
@@ -561,7 +564,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.patchValue({
         // vehicle_model: event.option.value,
         vehicle_fuel: event.option.value.fuel,
-        
       });
     }
   }

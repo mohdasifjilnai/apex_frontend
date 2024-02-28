@@ -16,6 +16,7 @@ import {
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 const moment = _rollupMoment || _moment;
 
@@ -55,9 +56,17 @@ export class ManufactureDateComponent implements OnInit {
   manufactureDate: any;
   minDate: any;
   maxDate: any;
-  constructor(private ctrlContainer: FormGroupDirective) {
-    this.minDate = new Date(1970, 0); 
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15)); 
+  maxManufactureDate!: Date;
+
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private shared: SharedDataService
+  ) {
+    this.minDate = new Date(1970, 0);
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
+    this.shared.getRegistrationData.subscribe((res) => {
+      this.maxManufactureDate = new Date(res);
+    });
   }
 
   ngOnInit(): void {
@@ -73,13 +82,15 @@ export class ManufactureDateComponent implements OnInit {
     } else {
       this.form.addControl('manufacture_date', new FormControl(moment()));
     }
+    this.form.controls['manufacture_date'].setValue(null);
   }
 
   /**
    * for use year selection
    */
   chosenYearManufacture(normalizedYear: Moment) {
-    this.manufactureDate = this.form.controls['manufacture_date'].value;
+    this.manufactureDate =
+      this.form.controls['manufacture_date'].value || moment(); // Set to the current date if null
     this.manufactureDate.year(normalizedYear.year());
     this.form.controls['manufacture_date'].setValue(this.manufactureDate);
   }

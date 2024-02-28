@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
   getProposalReviewDetails: Subject<any> = new Subject();
+  getRegistrationData: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
@@ -93,6 +94,9 @@ export class SharedDataService {
           this.regNumberData.next(res);
           this.getQuotationListing(res, data);
           this.router.navigate(['/motor/quotes']);
+          let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
+          let dateObj = moment(registrationDate, 'MM/YYYY');
+          this.getRegistrationData.next(dateObj);
         } else {
           this.detailNotFound.next(res?.detail);
         }
@@ -253,5 +257,8 @@ export class SharedDataService {
 
   sendProposalReviewEditId(data: any) {
     this.getProposalReviewDetails.next(data);
+  }
+  getRegistrationDate(data: any) {
+    this.getRegistrationData.next(data);
   }
 }

@@ -14,15 +14,13 @@
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
   <mat-datepicker #expiryDate (opened)="onOpen()"></mat-datepicker>
 </mat-form-field>
-<div class="datepicker-footer">
-  <div class="datepicker-footer" #datepickerFooter>
-    <p
-      class="text-orange datepicker-text cursor-pointer"
-      (click)="previousExpiryDate()"
-      #doneButton
-      *ngIf="isDatepickerOpen"
-    >
-      I don't know the previous policy details
-    </p>
-  </div>
+<div class="text-center" #datepickerFooter>
+  <p
+    class="text-orange datepicker-text cursor-pointer"
+    (click)="previousExpiryDate()"
+    #doneButton
+    *ngIf="isDatepickerOpen"
+  >
+    I don't know the previous policy details
+  </p>
 </div>

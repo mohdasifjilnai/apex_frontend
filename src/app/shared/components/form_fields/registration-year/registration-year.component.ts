@@ -15,6 +15,7 @@ import {
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
+import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 const moment = _rollupMoment || _moment;
@@ -55,6 +56,7 @@ export class RegistrationYearComponent implements OnInit {
   maxDate: any;
   currentDate: any;
   dateAppointment: any;
+  private registrationDateSubscription!: Subscription;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -81,9 +83,10 @@ export class RegistrationYearComponent implements OnInit {
   }
   ngOnInit(): void {
     /**
-     *add form control for the Registration Year
+     * add form control for the Registration Year
      */
     this.form = this.ctrlContainer.form;
+
     if (this.isRequired) {
       this.form.addControl(
         'registration_date',
@@ -92,6 +95,7 @@ export class RegistrationYearComponent implements OnInit {
     } else {
       this.form.addControl('registration_date', new FormControl(moment()));
     }
+
     const currentYear = moment().year();
     const currentMonth = moment().month();
 
@@ -107,7 +111,21 @@ export class RegistrationYearComponent implements OnInit {
      */
     this.minDate = moment({ year: 1990, month: 0 }).startOf('month');
 
-    this.form.controls['registration_date'].setValue('');
+    /**
+     * Set up valueChanges subscription
+     */
+    this.registrationDateSubscription = this.form.controls[
+      'registration_date'
+    ].valueChanges.subscribe((value: Moment) => {
+      /**
+       * value' contains the selected date
+       */
+
+      /**
+       * You can perform any specific action here based on the value change
+       */
+      this.onRegistrationDateChange(value);
+    });
   }
 
   ngOnDestroy(): void {
@@ -115,5 +133,22 @@ export class RegistrationYearComponent implements OnInit {
      * remove form control for the Registration Year
      */
     this.form.removeControl('registration_date');
+
+    /**
+     * Unsubscribe from the valueChanges observable to prevent memory leaks
+     */
+    if (this.registrationDateSubscription) {
+      this.registrationDateSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Function to handle the value change
+   */
+  onRegistrationDateChange(value: Moment): void {
+    /**
+     * Perform specific action based on the value change
+     */
+    this.sharedDataService.getRegistrationDate(value);
   }
 }
