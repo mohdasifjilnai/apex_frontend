@@ -1,8 +1,8 @@
 <div class="add-ons">
-  <mat-accordion *ngFor="let addOns of addOnsArray" >
+  <mat-accordion *ngFor="let addOns of addOnsArray">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title id="addOns.rb_type">
+        <mat-panel-title id="{{ addOns.rb_type }}">
           {{ addOns.rb_type }}
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -19,17 +19,21 @@
                   i
                 )
               "
+              id="listValue.name"
               >{{ listValue?.name }}</mat-checkbox
             >
 
             <span
-              *ngIf="listValue?.next_type == 'multi_chcekbox' && i == multiCheckboxField[i]"
+              *ngIf="
+                listValue?.next_type == 'multi_chcekbox' &&
+                i == multiCheckboxField[i]
+              "
               class="d-grid m-1"
             >
               <mat-checkbox
                 *ngFor="let data of listValue.value"
                 (change)="onInputChange($event, listValue?.next_type, i)"
-                
+                id="{{ data }}"
                 >{{ data }}</mat-checkbox
               >
               <mat-error *ngIf="i == multiCheckbox[i]">
@@ -40,7 +44,10 @@
         </section>
         <section class="d-grid">
           <ng-container *ngIf="listValue?.next_type == 'dropdown'">
-            <mat-form-field appearance="outline" *ngIf="i == dropDownFieldIndex[i]">
+            <mat-form-field
+              appearance="outline"
+              *ngIf="i == dropDownFieldIndex[i]"
+            >
               <mat-label>Select Value</mat-label>
               <mat-select
                 (selectionChange)="
@@ -50,6 +57,7 @@
                 <mat-option
                   *ngFor="let items of listValue.value"
                   [value]="items"
+                  id="{{ items }}"
                   >{{ items }}</mat-option
                 >
               </mat-select>
@@ -60,15 +68,17 @@
           </ng-container>
         </section>
 
-        <section
-          class="d-grid"
-          *ngIf="listValue?.next_type == 'int_input'"
-        >
-          <mat-form-field appearance="outline" class="mat-input-custom"  *ngIf="i == inputFieldIndex[i]">
+        <section class="d-grid" *ngIf="listValue?.next_type == 'int_input'">
+          <mat-form-field
+            appearance="outline"
+            class="mat-input-custom"
+            *ngIf="i == inputFieldIndex[i]"
+          >
             <mat-label>{{ listValue?.name }}</mat-label>
             <input
               matInput
               [(ngModel)]="inputValues[i]"
+              id="{{ listValue?.name }}"
               (ngModelChange)="onInputChange($event, listValue?.next_type, i)"
             />
           </mat-form-field>
@@ -203,15 +213,17 @@
                 "
                 >{{ listValue?.name }}</mat-checkbox
               >
-  
+
               <span
-                *ngIf="listValue?.next_type == 'multi_chcekbox' && i == multiCheckboxField[i]"
+                *ngIf="
+                  listValue?.next_type == 'multi_chcekbox' &&
+                  i == multiCheckboxField[i]
+                "
                 class="d-grid m-1"
               >
                 <mat-checkbox
                   *ngFor="let data of listValue.value"
                   (change)="onInputChange($event, listValue?.next_type, i)"
-                  
                   >{{ data }}</mat-checkbox
                 >
                 <mat-error *ngIf="i == multiCheckbox[i]">
@@ -222,7 +234,10 @@
           </section>
           <section class="d-grid">
             <ng-container *ngIf="listValue?.next_type == 'dropdown'">
-              <mat-form-field appearance="outline" *ngIf="i == dropDownFieldIndex[i]">
+              <mat-form-field
+                appearance="outline"
+                *ngIf="i == dropDownFieldIndex[i]"
+              >
                 <mat-label>Select Value</mat-label>
                 <mat-select
                   (selectionChange)="
@@ -241,12 +256,13 @@
               </mat-error>
             </ng-container>
           </section>
-  
-          <section
-            class="d-grid"
-            *ngIf="listValue?.next_type == 'int_input'"
-          >
-            <mat-form-field appearance="outline" class="mat-input-custom"  *ngIf="i == inputFieldIndex[i]">
+
+          <section class="d-grid" *ngIf="listValue?.next_type == 'int_input'">
+            <mat-form-field
+              appearance="outline"
+              class="mat-input-custom"
+              *ngIf="i == inputFieldIndex[i]"
+            >
               <mat-label>{{ listValue?.name }}</mat-label>
               <input
                 matInput

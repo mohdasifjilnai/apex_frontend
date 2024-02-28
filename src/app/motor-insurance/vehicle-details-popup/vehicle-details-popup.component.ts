@@ -187,7 +187,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       } else {
-        this.getVehicleMMVPopup('', '');
+        this.getVehicleMMVPopup('', '', 'mmvData');
       }
       this.getRTOData();
     }, 2000);
@@ -229,7 +229,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @param name - The search term used to filter the list of makes, models, and variants.
    * @param id - The ID of the make, model, or variant to be preselected.
    */
-  getVehicleMMVPopup(name: any, id: any) {
+  getVehicleMMVPopup(name: any, id: any, type?: any) {
     let apiData;
     if (id) {
       apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
@@ -296,7 +296,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 policy_expiry_date: new Date(reformattedDate),
               });
             }
-          } else {
+          } else if (type == 'mmvData') {
             this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
             const matchingModel = this.modelList.find(
               (model: any) =>

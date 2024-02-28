@@ -3,12 +3,13 @@
     <div class="col-lg-4 col-md-4 col-12 toggle-btn">
       <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)">
         <mat-tab label="Comprehensive">
-          <ng-template mat-tab-label>
-            Comprehensive <span class="count">20</span></ng-template
-          >
+          <ng-template mat-tab-label id="Comprehensive">
+            Comprehensive
+            <span class="count">20</span>
+          </ng-template>
         </mat-tab>
         <mat-tab label="Third Party"
-          ><ng-template mat-tab-label>
+          ><ng-template mat-tab-label id="Comprehensive">
             Third Party<span class="third-party-count">10</span>
           </ng-template></mat-tab
         >

@@ -71,7 +71,12 @@
         >
       </div>
       <div *ngIf="!ProposalURL">
-        <button type="button" class="edit-button" (click)="openDialog('edit')">
+        <button
+          type="button"
+          class="edit-button"
+          (click)="openDialog('edit')"
+          id-automation="editVehicleCard"
+        >
           <img src="/assets/icon/edit.svg" alt="" />
           Edit
         </button>
