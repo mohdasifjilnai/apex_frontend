@@ -73,7 +73,7 @@
   <div class="col-12 policy">
     <div class="d-flex justify-content-between mt-2">
       <section class="my-2 d-grid cpa-cover-section">
-        <mat-checkbox>
+        <mat-checkbox id-automation="cpa_cover">
           <span class="cpa-cover-section"
             >Add CPA cover
             <img
@@ -98,7 +98,7 @@
                   Cover of 15 Lakh in the event of vehicle owner's death or
                   disability.
                 </div>
-                
+
                 <div class="increase-total-premium">
                   *adding CPA will increase total premium
                 </div>
@@ -108,7 +108,6 @@
                 <img src="/assets/icon/cpa-cover.svg" class="cpa-cover-image" />
               </div>
             </div>
-            
           </div>
         </div>
       </div>
@@ -125,7 +124,11 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount">&#x20B9; 24,000</span>
   </div>
-  <button type="button" class="download-button mt-3">
+  <button
+    type="button"
+    class="download-button mt-3"
+    id-automation="download_underwriting"
+  >
     <img src="/assets/icon/download.svg" alt="" class="edit-image" />
     Download Policy Underwriting
   </button>
@@ -154,7 +157,10 @@
   <div class="view-less ps-3 pe-3">
     <div class="row">
       <div class="col-6 text-start">
-        <span class="d-flex justify-content-between" (click)="changeInsurer()"
+        <span
+          class="d-flex justify-content-between"
+          (click)="changeInsurer()"
+          id-automation="change_insurer"
           >Change Insurer
           <div class="pipe">|</div></span
         >

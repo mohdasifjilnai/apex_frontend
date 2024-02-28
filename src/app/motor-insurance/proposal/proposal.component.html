@@ -4,7 +4,10 @@
   </div>
   <div class="col-lg-9 col-md-8">
     <mat-accordion multi="false">
-      <mat-expansion-panel (opened)="loadCkyc('ckyc')">
+      <mat-expansion-panel
+        (opened)="loadCkyc('ckyc')"
+        id-automation="ckyc_details"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title> CKYC </mat-panel-title>
         </mat-expansion-panel-header>
@@ -16,6 +19,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Owner Details')"
         #vehilceOwnerPanel
+        id-automation="vehilce_owner"
         [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
       >
         <mat-expansion-panel-header>
@@ -30,6 +34,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Nominee Details')"
         #nomineDetailsPanel
+        id-automation="nomine_details"
         [ngClass]="{ isAccordianDisable: !showNomineeDetails }"
       >
         <mat-expansion-panel-header>
@@ -44,6 +49,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Vehicle Details')"
         #vehicleDetailPanel
+        id-automation="vehicle_details"
         [ngClass]="{ isAccordianDisable: !showVehicleDetails }"
       >
         <mat-expansion-panel-header>
@@ -58,6 +64,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('Previous Policy Details')"
         #previousPolicyDetailsPanel
+        id-automation="previous_policy_details"
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
       >
         <mat-expansion-panel-header>

@@ -114,7 +114,8 @@ export class QuotesListingComponent implements OnInit {
   }
   getProposalDetails(quotes_data: any) {
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
-    this.router.navigate(['/motor/quotes/proposal']);
+    const transactionId = sessionStorage.getItem('transaction_id');
+    this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
   }
   /**
    * this function is used for the no quotes information details
