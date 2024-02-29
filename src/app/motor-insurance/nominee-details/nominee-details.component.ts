@@ -4,43 +4,56 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-nominee-details',
   templateUrl: './nominee-details.component.html',
-  styleUrls: ['./nominee-details.component.scss']
+  styleUrls: ['./nominee-details.component.scss'],
 })
 export class NomineeDetailsComponent implements OnInit {
-  relationshipList:any
+  relationshipList: any;
   minDate = new Date();
   maxDate = new Date();
-  @Input() fetchOwnerVehicleDetails :any;
+  ageList: { id: number; age: number }[] = [];
+  @Input() fetchOwnerVehicleDetails: any;
   @Output() afterNomineeGetData = new EventEmitter<any>();
 
-  nominneForm:FormGroup = new FormGroup({
-    nominne_full_Name:new FormControl('',Validators.required),
-    date_of_birth:new FormControl('',Validators.required),
-    nominne_relation:new FormControl('',Validators.required)
-  })
+  nominneForm: FormGroup = new FormGroup({
+    nominne_full_Name: new FormControl('', Validators.required),
+    age: new FormControl('', Validators.required),
+    nominne_relation: new FormControl('', Validators.required),
+  });
 
   constructor() {
     this.minDate = new Date(1930, 6, 1);
     const currentDate = new Date();
-    this.maxDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+    this.maxDate = new Date(
+      currentDate.getFullYear() - 18,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
     this.relationshipList = [
       {
-        id:1,
-        relationName:"Father"
+        id: 1,
+        relationName: 'Father',
       },
       {
-        id:2,
-        relationName:"Mother"
-      }
-    ]
-   }
+        id: 2,
+        relationName: 'Mother',
+      },
+    ];
+  }
 
   ngOnInit(): void {
+    /**
+     * initializes the age list with ages between 18 and 70
+     */
+    for (let age = 18; age <= 70; age++) {
+      this.ageList.push({
+        id: age - 17,
+        age: age,
+      });
+    }
   }
 
-  getNomineeDetails(isValid:boolean){
+  getNomineeDetails(isValid: boolean) {
     const formValues = this.nominneForm.value;
-    this.afterNomineeGetData.emit(formValues)
+    this.afterNomineeGetData.emit(formValues);
   }
-  
 }

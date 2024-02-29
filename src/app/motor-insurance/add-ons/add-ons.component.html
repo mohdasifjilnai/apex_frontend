@@ -11,7 +11,7 @@
           <span *ngIf="listValue.type == 'check_box'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"
-              [id]="listValue.id"
+              id="{{ listValue.name }}"
               (change)="
                 onCheckboxSelect(
                   $event,
@@ -87,9 +87,9 @@
             This is a required field.
           </mat-error>
         </section>
-        <section class="d-grid" >
+        <section class="d-grid">
           <ng-container *ngIf="listValue?.next_type == 'tab'">
-            <div  class="row p-2" *ngIf="i == tabIndex[i]">
+            <div class="row p-2" *ngIf="i == tabIndex[i]">
               <span
                 (click)="selectVoluntry(span)"
                 *ngFor="let amount of listValue.value"
@@ -293,10 +293,10 @@
               This is a required field.
             </mat-error>
           </section>
-         
-          <section class="d-grid" >
+
+          <section class="d-grid">
             <ng-container *ngIf="listValue?.next_type == 'tab'">
-              <div  class="row p-2" *ngIf="i == tabIndex[i]">
+              <div class="row p-2" *ngIf="i == tabIndex[i]">
                 <span
                   (click)="selectVoluntry(span)"
                   *ngFor="let amount of listValue.value"
