@@ -133,7 +133,7 @@ export class SharedDataService {
         this.transactionId = res.transaction_id;
         sessionStorage.setItem(
           'transaction_id',
-          JSON.stringify(res.transaction_id)
+          res.transaction_id
         );
         this.quotesId = res.quote_request_id;
         this.longPollingInfo = this.longPollingService.getAllCurrencies(
