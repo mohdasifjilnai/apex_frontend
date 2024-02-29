@@ -32,7 +32,7 @@ export class ProposalComponent implements OnInit {
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
-    private router :Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -44,7 +44,7 @@ export class ProposalComponent implements OnInit {
         if (el) {
           setTimeout(() => {
             el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000); 
+          }, 5000);
         } else {
           console.error('Element not found: previousPolicyDetailsPanel');
         }
@@ -54,7 +54,7 @@ export class ProposalComponent implements OnInit {
         if (el) {
           setTimeout(() => {
             el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000); 
+          }, 5000);
         } else {
         }
       }
@@ -63,7 +63,7 @@ export class ProposalComponent implements OnInit {
         if (el) {
           setTimeout(() => {
             el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000); 
+          }, 5000);
         } else {
         }
       }
@@ -72,7 +72,7 @@ export class ProposalComponent implements OnInit {
         if (el) {
           setTimeout(() => {
             el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000); 
+          }, 5000);
         } else {
           console.error('Element not found: vehicleDetailPanel');
         }

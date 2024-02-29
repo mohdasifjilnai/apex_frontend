@@ -108,6 +108,7 @@
                 class="premium-breakup-amount cursor-pointer text-center"
                 (click)="getProposalDetails(quotes)"
               >
+                <span class="d-none">{{ quotes?.insurer_name }}</span>
                 &#8377;
                 {{ quotes?.premium_details?.total_premium | numberFormat }}
               </span>
