@@ -39,6 +39,7 @@ export class QuotesListingComponent implements OnInit {
   quotationData: any;
   quotationArray = [];
   errorQuotationArray: any;
+  tabDataList: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -91,6 +92,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProposalType();
+    this.quotesTabData();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         this.quotationArray = quotes;
@@ -241,5 +243,15 @@ export class QuotesListingComponent implements OnInit {
         'proposer_name'
       ]
     );
+  }
+
+  quotesTabData() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.getCoverageType}?reg_year=2023&vehicle_type=private_car&previous_policy_type=saod&previous_policy_expiry_date=29-02-2024`
+      )
+      .subscribe((res: any) => {
+        this.tabDataList = res;
+      });
   }
 }

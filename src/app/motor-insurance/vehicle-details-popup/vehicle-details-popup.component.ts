@@ -154,7 +154,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       registration_city: ['', Validators.required],
       user_car: [''],
       policy_expiry_date: [''],
-      policy_expiry: [''],
+      policy_expiry: ['', Validators.required],
       previous_claimed: [''],
       ncb_discount: [''],
       manufacture_date: [moment(), Validators.required],
@@ -485,7 +485,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       );
   }
 
-  getRTOData() {
+  getRTOData(type?: any) {
     this.apiservice
       .getRequestedResponse(ApiConstants.get_rto_list)
       .subscribe((res) => {
@@ -504,6 +504,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
               return of(['No data']);
             })
           );
+          if (type != 'blank') {
+            for (let i = 0; i <= this.rtoList.length - 1; i++) {
+              if (
+                this.rtoList[i].rb_rto_code ==
+                this.registrationNumber?.rb_rto_code
+              ) {
+                this.vehicleDetailsForm.patchValue({
+                  registration_city: this.rtoList[i],
+                });
+              }
+            }
+          }
         } else {
           this.rtoDataNotAvailable = 'No data available';
           this.filteredRtoList = of(['No data']);
@@ -602,7 +614,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
   vehcileRegistration(data: any) {
     if (data == '') {
-      this.getRTOData();
+      this.getRTOData('blank');
     }
   }
 
