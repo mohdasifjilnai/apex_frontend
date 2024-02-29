@@ -39,6 +39,10 @@
     ::ng-deep .mat-form-field-infix {
       width: 100% !important;
     }
+    ::ng-deep .mat-form-field-flex {
+      margin-right: 0px;
+      margin-left: 0px !important;
+    }
   }
 }
 @media screen and (max-width: 361px) {

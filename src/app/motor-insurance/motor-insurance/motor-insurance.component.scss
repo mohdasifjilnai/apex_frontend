@@ -39,7 +39,6 @@
 @media screen and (max-width: 1020px) {
   .vehicle-submission {
     position: relative;
-    width: 100%;
     bottom: 0 !important;
     left: 0px;
     margin-bottom: 0 !important;
@@ -69,6 +68,9 @@
   }
   .res-header-icon {
     display: block;
+  }
+  .registration-number{
+    width: 100%;
   }
 }
 

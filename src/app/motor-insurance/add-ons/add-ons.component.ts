@@ -30,6 +30,7 @@ export class AddOnsComponent implements OnInit {
   subCheckBox: any[] = [];
   dropDownIndex: any[] = [];
   dropDownFieldIndex: any[] = [];
+  tabIndex:any[]=[]
   dropDownValue: any;
   constructor(
     private apiService: ApiService,
@@ -97,6 +98,7 @@ export class AddOnsComponent implements OnInit {
             );
           }
         }
+        console.log(this.addOnsArray)
       });
   }
   cancelChangeIDv(event: MouseEvent): void {
@@ -185,6 +187,13 @@ export class AddOnsComponent implements OnInit {
       delete this.dropDownIndex[index + 1];
       delete this.dropDownFieldIndex[index];
       delete this.dropDownFieldIndex[index + 1]
+    }
+    if (isChecked && type == 'tab') {
+      this.tabIndex[index] = index;
+      this.tabIndex[index]=index
+    } else if (!isChecked && type == 'tab') {
+      delete this.tabIndex[index];
+      delete this.tabIndex[index]
     }
   }
 }

@@ -11,6 +11,7 @@
           <span *ngIf="listValue.type == 'check_box'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"
+              [id]="listValue.id"
               (change)="
                 onCheckboxSelect(
                   $event,
@@ -85,6 +86,24 @@
           <mat-error *ngIf="i == inputTagIndex[i]">
             This is a required field.
           </mat-error>
+        </section>
+        <section class="d-grid" >
+          <ng-container *ngIf="listValue?.next_type == 'tab'">
+            <div  class="row p-2" *ngIf="i == tabIndex[i]">
+              <span
+                (click)="selectVoluntry(span)"
+                *ngFor="let amount of listValue.value"
+                #span
+                [ngClass]="{
+                  'voluntry-selected': isSelected(amount),
+                  voluntry: !isSelected(amount)
+                }"
+                class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
+              >
+                &#8377;{{ amount }}
+              </span>
+            </div>
+          </ng-container>
         </section>
       </span>
     </mat-expansion-panel>
@@ -273,6 +292,25 @@
             <mat-error *ngIf="i == inputTagIndex[i]">
               This is a required field.
             </mat-error>
+          </section>
+         
+          <section class="d-grid" >
+            <ng-container *ngIf="listValue?.next_type == 'tab'">
+              <div  class="row p-2" *ngIf="i == tabIndex[i]">
+                <span
+                  (click)="selectVoluntry(span)"
+                  *ngFor="let amount of listValue.value"
+                  #span
+                  [ngClass]="{
+                    'voluntry-selected': isSelected(amount),
+                    voluntry: !isSelected(amount)
+                  }"
+                  class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
+                >
+                  &#8377;{{ amount }}
+                </span>
+              </div>
+            </ng-container>
           </section>
         </span>
       </section>

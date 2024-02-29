@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import initiate_quotes_payload from './initiate_quotes_payload.json';
 import { ApiConstants } from '../../api.constant';
@@ -71,7 +71,8 @@ export class QuotesListingComponent implements OnInit {
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     private sharedDataService: SharedDataService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
     this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -183,6 +184,12 @@ export class QuotesListingComponent implements OnInit {
   }
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
+  }
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    if (!this.el.nativeElement.contains(event.target)) {
+      this.shareQuotesDropdownValue = false;
+    }
   }
   selectQuotes() {
     this.addShare = true;
