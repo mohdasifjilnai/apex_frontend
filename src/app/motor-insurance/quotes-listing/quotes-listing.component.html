@@ -203,17 +203,20 @@
               <p class="insurer-no-quotes-reasons mb-0">
                 Following are the possible reasons
               </p>
-              <p class="mb-0">
-                <span class="insurer-no-quotes-reasons"> ICICI Lombard: </span>
+              <p class="mb-0" *ngFor="let quotesError of errorQuotationArray">
+                <span class="insurer-no-quotes-reasons">
+                  {{ quotesError.insurer_name }}
+                </span>
                 <span class="insurer-no-quotes-reasons-value">
-                  Error in calculate: UW Service Messages => UW status is
+                  {{ quotesError.error_message }}
+                  <!-- Error in calculate: UW Service Messages => UW status is
                   <span class="insurer-no-quotes-reasons-warning">
                     DECLINING
                   </span>
-                  the loading screen
+                  the loading screen -->
                 </span>
               </p>
-              <p class="mb-0">
+              <!-- <p class="mb-0">
                 <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
                 <span class="insurer-no-quotes-reasons-value">
                   Previous Policy Expiry Date is mandatory
@@ -224,7 +227,7 @@
                 <span class="insurer-no-quotes-reasons-value">
                   RTO declined Zero NCB
                 </span>
-              </p>
+              </p> -->
             </div>
           </div>
         </div>

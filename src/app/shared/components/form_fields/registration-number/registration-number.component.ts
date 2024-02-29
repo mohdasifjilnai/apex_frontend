@@ -34,10 +34,7 @@ export class RegistrationNumberComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'registration_number',
-        new FormControl(null, [
-          Validators.required,
-          Validators.minLength(8),
-        ])
+        new FormControl(null, [Validators.required, Validators.minLength(8)])
       );
     } else {
       this.form.addControl('registration_number', new FormControl());

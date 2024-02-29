@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import initiate_quotes_payload from './initiate_quotes_payload.json';
 import { ApiConstants } from '../../api.constant';
@@ -31,7 +38,7 @@ export class QuotesListingComponent implements OnInit {
   proposalList: any;
   quotationData: any;
   quotationArray = [];
-  errorQuotationArray = [];
+  errorQuotationArray: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -91,11 +98,11 @@ export class QuotesListingComponent implements OnInit {
         this.errorQuotationArray = [];
         for (let i = 0; i <= this.quotationArray.length - 1; i++) {
           this.quotationArray[i]['error_message'];
-          // if (this.quotationArray[i]['error_message'] == '' || this.quotationArray[i]['error_message'] == null) {
-          this.quotationData.push(this.quotationArray[i]);
-          // } else {
-          //   this.errorQuotationArray.push(this.quotationArray[i]);
-          // }
+          if (this.quotationArray[i]['status']) {
+            this.quotationData.push(this.quotationArray[i]);
+          } else {
+            this.errorQuotationArray.push(this.quotationArray[i]);
+          }
         }
       }
     });
