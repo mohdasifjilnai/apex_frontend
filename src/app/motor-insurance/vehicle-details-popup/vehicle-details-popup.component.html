@@ -1,4 +1,8 @@
-<form [formGroup]="vehicleDetailsForm" class="edit-vehicle-details">
+<form
+  [formGroup]="vehicleDetailsForm"
+  (ngSubmit)="updateVehicleDetail()"
+  class="edit-vehicle-details"
+>
   <div>
     <!-- Dialog title -->
     <div mat-dialog-title class="row">
@@ -232,7 +236,6 @@
             mat-button
             class="submit-btn mb-4 vehicle-submission"
             type="submit"
-            (click)="updateVehicleDetail()"
           >
             {{ editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
