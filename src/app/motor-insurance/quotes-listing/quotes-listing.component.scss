@@ -287,7 +287,7 @@
   width: 100%;
   height: 40px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 999px) {
   .toggle-btn {
     ::ng-deep .mat-tab-label {
       padding: 0px 15px !important;

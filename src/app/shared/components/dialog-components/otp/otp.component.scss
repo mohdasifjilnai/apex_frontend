@@ -68,7 +68,7 @@
 .cross-btn {
   display: none;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 999px) {
   .otp-submission {
     width: 100%;
   }
@@ -88,17 +88,4 @@
 .cross-btn{
   display: none;
 }
-@media screen and (max-width: 768px) {
-  .otp-submission{
-    width: 100%;
-}
-.resend-otp-msg{
-  width: 100% !important;
-}
-.cross-btn{
-  display: block;
-}
-::ng-deep .mat-bottom-sheet-container{
-    border-radius: 20px 20px 0px 0px;
-}
-}
+

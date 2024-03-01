@@ -43,7 +43,7 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate(['/motor/quotes/proposal']);
   }
   submitReview() {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheet.open(OtpComponent);
     } else {
       this.openModal('', this.otpDialog);

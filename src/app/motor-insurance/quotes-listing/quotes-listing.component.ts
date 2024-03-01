@@ -181,7 +181,7 @@ export class QuotesListingComponent implements OnInit {
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: initiateQuotes,
     };
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheet.open(PremiumBreakupComponent, bottomSheetConfig);
     } else {
       this.openModal(initiateQuotes, this.initiateQuotesJSON);

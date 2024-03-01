@@ -69,7 +69,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
 
   openDialog(edit: string): void {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
       this.openVehicleDetailsPopup(null);

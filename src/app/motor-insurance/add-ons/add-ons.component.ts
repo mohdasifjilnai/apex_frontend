@@ -32,6 +32,7 @@ export class AddOnsComponent implements OnInit {
   dropDownFieldIndex: any[] = [];
   tabIndex:any[]=[]
   dropDownValue: any;
+  showButtons: boolean=false;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -56,6 +57,9 @@ export class AddOnsComponent implements OnInit {
     this.addInputValidation(event.checked, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
+      if(this.checkBoxValueArray.length>=1){
+        this.showButtons=true
+      }
       this.checkBoxValue.emit(this.checkBoxValueArray);
     } else {
       const valueToRemove = value;
@@ -63,9 +67,12 @@ export class AddOnsComponent implements OnInit {
         (item) => item !== valueToRemove
       );
       this.checkBoxValue.emit(this.checkBoxValueArray);
+      if(this.checkBoxValueArray.length==0){
+        this.showButtons=false
+      }
     }
   }
-  apply() {
+  update() {
     this.bottomSheetRef.dismiss(this.checkBoxValueArray);
   }
   /**
@@ -179,14 +186,10 @@ export class AddOnsComponent implements OnInit {
       if (this.dropDownValue == undefined) {
         this.dropDownIndex[index] = index;
         this.dropDownFieldIndex[index] = index;
-        this.dropDownIndex[index + 1] = index + 1;
-        this.dropDownFieldIndex[index + 1] = index + 1;
       }
     } else if (!isChecked && type == 'dropdown') {
       delete this.dropDownIndex[index];
-      delete this.dropDownIndex[index + 1];
       delete this.dropDownFieldIndex[index];
-      delete this.dropDownFieldIndex[index + 1]
     }
     if (isChecked && type == 'tab') {
       this.tabIndex[index] = index;

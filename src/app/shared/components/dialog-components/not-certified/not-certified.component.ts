@@ -20,7 +20,7 @@ export class NotCertifiedComponent implements OnInit {
    * this fucntion use for close pop up
    */
   onClose(): void {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();

@@ -69,7 +69,7 @@ export class OtpComponent implements OnInit {
     this.startResendTimer();
   }
   onClose(): void {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();

@@ -207,7 +207,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   onClose(): void {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();
@@ -215,7 +215,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   updateVehicleDetail() {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();

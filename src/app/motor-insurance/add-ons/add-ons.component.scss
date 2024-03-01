@@ -99,6 +99,24 @@
     text-align: center;
     color: #5384ea;
   }
+  .bottom-btn {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    .submit-btn{
+      width: 48%;
+    }
+  }
+  .cancel-btn {
+    color: #ffb171;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fff;
+    border: 1px solid #ffb171;
+    height: 36px;
+    border-radius: 12px;
+    width: 48%;
+  }
 }
 .add-ons-res {
   display: none;
@@ -111,7 +129,7 @@
     height: 36px;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 999px) {
   .add-ons {
     display: none;
   }

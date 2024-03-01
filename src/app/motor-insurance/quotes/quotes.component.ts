@@ -48,7 +48,7 @@ export class QuotesComponent implements OnInit {
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
  
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 999) {
         this.bottomSheet.open(VehicleDetailsPopupComponent);
       } else {
         this.openVehicleDetailsPopup(null);
