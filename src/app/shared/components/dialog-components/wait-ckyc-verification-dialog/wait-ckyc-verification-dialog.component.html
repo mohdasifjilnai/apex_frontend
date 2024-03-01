@@ -1,4 +1,4 @@
-<div class="row" *ngIf="!isWaitingTime">
+<div class="row" *ngIf="!isWaitingTime && isCustomerDetails">
   <div class="col-12 text-center">
     <img
       src="/assets/gif/verification.gif"
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="isWaitingTime">
+<div class="row" *ngIf="isWaitingTime && isCustomerDetails">
   <div class="col-12">
     <p class="review-fetch-text">
       Please review the data we have fetched after CKYC Verification
@@ -71,5 +71,30 @@
     >
       Proceed
     </button>
+  </div>
+</div>
+<!-- Dialog content -->
+<div mat-dialog-content *ngIf="isWaitingTime && !isCustomerDetails">
+  <div class="row">
+    <div class="col-4 offset-3">
+      <div class="error-gif">
+        <img src="/assets/gif/error.gif" class="error-gif-image" alt="close" />
+        <p class="text-orange gif-icon-text">ATENTION</p>
+      </div>
+    </div>
+    <div class="col-12">
+      <p class="text-content text-center">
+        {{error_message}}
+      </p>
+    </div>
+    <div class="col-12 text-center">
+      <button
+        class="submit-btn success-submission"
+        type="submit"
+        (click)="redirectInsurer(redirectionUrlViaForm)"
+      >
+        Proceed
+      </button>
+    </div>
   </div>
 </div>

@@ -70,8 +70,8 @@ export class CkycComponent implements OnInit {
     if (this.isCheckKyc == false) {
       this.ckycFormGroup = this.formBuild.group({
         ckyc_id: [2],
-        document_type: [''],
-        document_number: ['', [this.documentNumberValidator.bind(this)]],
+        document_type_based_field: [''],
+        document_number_based_field: ['', [this.documentNumberValidator.bind(this)]],
         dob: [''],
         ckyc_number: [''],
         ckyc_full_name: [''],
@@ -94,13 +94,13 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup.get('ckyc_number')?.setValidators([]);
     this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
     this.ckycFormGroup
-      .get('document_type')
+      .get('document_type_based_field')
       ?.setValidators([Validators.required]);
-    this.ckycFormGroup.get('document_type')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_type_based_field')?.updateValueAndValidity();
     this.ckycFormGroup
-      .get('document_number')
+      .get('document_number_based_field')
       ?.setValidators([Validators.required]);
-    this.ckycFormGroup.get('document_number')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity();
     this.ckycFormGroup.get('dob')?.setValidators([Validators.required]);
     this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
@@ -113,44 +113,52 @@ export class CkycComponent implements OnInit {
     });
     this.ckycFormGroup.get('ckyc_number')?.setValidators([Validators.required]);
     this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
-    this.ckycFormGroup.get('document_type')?.setValidators([]);
-    this.ckycFormGroup.get('document_type')?.updateValueAndValidity();
-    this.ckycFormGroup.get('document_number')?.setValidators([]);
-    this.ckycFormGroup.get('document_number')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_type_based_field')?.setValidators([]);
+    this.ckycFormGroup.get('document_type_based_field')?.updateValueAndValidity();
+    this.ckycFormGroup.get('document_number_based_field')?.setValidators([]);
+    this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity();
     this.ckycFormGroup.get('dob')?.setValidators([]);
     this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
   submitCkycFormGroup(isValid: boolean) {
-    this.qoutes_data = sessionStorage.getItem('quotes_data');     
-    let ckycData: any = {
-      proposal_id: "2332",
-      proposer_type: localStorage.getItem('proposerType'),
-      insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
-      transaction_id: sessionStorage.getItem('transaction_id'),
-    };
+    if (isValid) {
+      this.qoutes_data = sessionStorage.getItem('quotes_data');
+      let ckycData: any = {
+        proposal_id: '2332',
+        proposer_type: localStorage.getItem('proposerType'),
+        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
+        transaction_id: sessionStorage.getItem('transaction_id'),
+      };
 
-    if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
-      ckycData['dob'] = this.datePipe.transform(
-        this.ckycFormGroup.get('dob')?.value,
-        'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-      );
-      ckycData['document_number'] = String(
-        this.ckycFormGroup.get('document_number')?.value
-      );
-      ckycData['ckyc_number'] = '';
-      ckycData['document_type'] = this.filterDocumentType(
-        this.ckycFormGroup.get('document_type')?.value
-      );
-      ckycData['full_name']= (this.ckycFormGroup.get('ckyc_full_name')?.value!=undefined)?this.ckycFormGroup.get('ckyc_full_name')?.value:'';
-      ckycData['gender']= (this.ckycFormGroup.get('ckyc_gender')?.value!=undefined)?String(this.ckycFormGroup.get('ckyc_gender')?.value):'';
-      this.openWaitCkycVerificationPopup(ckycData);
-    } else {
-      ckycData['dob'] = '';
-      ckycData['document_number'] = '';
-      ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
-      ckycData['document_type'] = '';
+      if (this.ckycFormGroup.get('ckyc_id')?.value == 2) {
+        ckycData['dob'] = this.datePipe.transform(
+          this.ckycFormGroup.get('dob')?.value,
+          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+        );
+        ckycData['document_number'] = String(
+          this.ckycFormGroup.get('document_number_based_field')?.value
+        );
+        ckycData['ckyc_number'] = '';
+        ckycData['document_type'] = this.filterDocumentType(
+          this.ckycFormGroup.get('document_type_based_field')?.value
+        );
+        ckycData['full_name'] =
+          this.ckycFormGroup.get('ckyc_full_name')?.value != undefined
+            ? this.ckycFormGroup.get('ckyc_full_name')?.value
+            : '';
+        ckycData['gender'] =
+          this.ckycFormGroup.get('ckyc_gender')?.value != undefined
+            ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+            : '';
+        this.openWaitCkycVerificationPopup(ckycData);
+      } else {
+        ckycData['dob'] = '';
+        ckycData['document_number'] = '';
+        ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
+        ckycData['document_type'] = '';
 
-      this.openWaitCkycVerificationPopup(ckycData);
+        this.openWaitCkycVerificationPopup(ckycData);
+      }
     }
   }
   /**
@@ -242,7 +250,7 @@ export class CkycComponent implements OnInit {
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
     this.ckycFormGroup.patchValue({
-      document_number: '',
+      document_number_based_field: '',
     });
     if (this.documentName == 'aadhaar_number') {
       this.ckycFormGroup

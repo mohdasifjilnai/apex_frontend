@@ -12,6 +12,9 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   isWaitingTime: boolean = false;
   ckycData: any;
   ckycBody: any;
+  isCustomerDetails:boolean=true
+  redirectionUrlViaForm:any
+  error_message:any
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -32,19 +35,30 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.apiService
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
       .subscribe((res) => {
-        this.isWaitingTime = true;
-        this.ckycData = res.customer_details;
+        if(res['customer_details']!=null){
+          this.isWaitingTime = true;
+          this.isCustomerDetails=true;
+          this.ckycData = res.customer_details;
+        }else{
+          this.redirectionUrlViaForm=res['redirection_url_via_form']
+          this.error_message=res['error_message']
+          this.isWaitingTime = true;
+          this.isCustomerDetails=false;
+        }
       });
   }
 
   /**
    * this fucntion use for close pop up
    */
-  onClose(): void {
-    this.dialogRef.close();
-  }
 
   onProceedData(resData: any) {
     this.dialogRef.close(resData);
+  }
+  /**
+   *  this function use redirect to insurer
+   */ 
+  redirectInsurer(redirectionUrlViaForm:any){
+    window.location.href =redirectionUrlViaForm;
   }
 }
