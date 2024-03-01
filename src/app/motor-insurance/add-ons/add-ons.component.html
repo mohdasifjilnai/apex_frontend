@@ -20,7 +20,6 @@
                   i
                 )
               "
-              id="listValue.name"
               >{{ listValue?.name }}</mat-checkbox
             >
 
@@ -48,6 +47,7 @@
             <mat-form-field
               appearance="outline"
               *ngIf="i == dropDownFieldIndex[i]"
+              id="{{ listValue.name }}"
             >
               <mat-label>Select Value</mat-label>
               <mat-select
@@ -74,6 +74,7 @@
             appearance="outline"
             class="mat-input-custom"
             *ngIf="i == inputFieldIndex[i]"
+            id="{{ listValue?.name }}"
           >
             <mat-label>{{ listValue?.name }}</mat-label>
             <input

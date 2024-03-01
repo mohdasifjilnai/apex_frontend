@@ -60,7 +60,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   variantId: any;
   rtoDataNotAvailable = '';
   rtoId: any;
-  ncbDiscountData = true;
+  ncbDiscountData = false;
   vehicleMMVValue: any;
   vehicleMMVData: any;
   convertExpiryDate: any;
@@ -204,6 +204,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
         'mmvQuotes'
       );
     }
+
+    this.vehicleDetailsForm.patchValue({
+      user_car: false,
+      previous_claimed: false,
+    });
   }
 
   onClose(): void {
@@ -619,7 +624,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   claimedPolicy(data: any) {
-    if (data.value.claimedName == 'No') {
+    if (data.value.claimedName == 'yes') {
       this.ncbDiscountData = true;
     } else {
       this.ncbDiscountData = false;
