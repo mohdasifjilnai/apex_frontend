@@ -20,6 +20,7 @@ export class AddOnsComponent implements OnInit {
   AccessoriesChecked: boolean = false;
   checkedValue: any;
   checkBoxValueArray: any[] = [];
+  selectedCheckedArray: any = [];
   addOnsArray: any = [];
   filterAddOns: any;
   inputValues: any[] = []; // Initialize an array to store input values
@@ -30,9 +31,13 @@ export class AddOnsComponent implements OnInit {
   subCheckBox: any[] = [];
   dropDownIndex: any[] = [];
   dropDownFieldIndex: any[] = [];
-  tabIndex:any[]=[]
+  tabIndex: any[] = [];
   dropDownValue: any;
-  showButtons: boolean=false;
+  dynamicObject: any;
+  showButtons: boolean = false;
+  forFetchQuotes: any;
+  selected_addons: any;
+
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -57,8 +62,15 @@ export class AddOnsComponent implements OnInit {
     this.addInputValidation(event.checked, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
-      if(this.checkBoxValueArray.length>=1){
-        this.showButtons=true
+      this.dynamicObject = {};
+
+      // Adding dynamic keys to the object
+      var keyName = value;
+      var keyValue = 0;
+      this.dynamicObject[keyName] = keyValue;
+      this.selectedCheckedArray.push(this.dynamicObject);
+      if (this.checkBoxValueArray.length >= 1) {
+        this.showButtons = true;
       }
       this.checkBoxValue.emit(this.checkBoxValueArray);
     } else {
@@ -67,12 +79,23 @@ export class AddOnsComponent implements OnInit {
         (item) => item !== valueToRemove
       );
       this.checkBoxValue.emit(this.checkBoxValueArray);
-      if(this.checkBoxValueArray.length==0){
-        this.showButtons=false
+      if (this.checkBoxValueArray.length == 0) {
+        this.showButtons = false;
       }
     }
   }
   update() {
+    this.forFetchQuotes = sessionStorage.getItem('forQuotesFetchData');
+    let sendQuotesVlaue = JSON.parse(this.forFetchQuotes);
+    this.selected_addons = {};
+    for (let key of this.selectedCheckedArray) {
+      const keys = Object.keys(key);
+      let variableValue = keys[0];
+      this.selected_addons[variableValue] = key[variableValue];
+    }
+    sendQuotesVlaue.selected_addons = this.selected_addons;
+
+    this.sharedDataService.getQuotationListing(sendQuotesVlaue, '');
     this.bottomSheetRef.dismiss(this.checkBoxValueArray);
   }
   /**
@@ -105,7 +128,6 @@ export class AddOnsComponent implements OnInit {
             );
           }
         }
-        console.log(this.addOnsArray)
       });
   }
   cancelChangeIDv(event: MouseEvent): void {
@@ -147,8 +169,8 @@ export class AddOnsComponent implements OnInit {
   }
   /**
    *  add ons list add/remove validation acording to chnage elements
-   */ 
-  onInputChange(event: any, type: any, index: number) {
+   */
+  onInputChange(event: any, type: any, index: number, name?: any) {
     if (event != '' && type == 'int_input') {
       delete this.inputTagIndex[index];
     } else if (event == '' && type == 'int_input') {
@@ -165,23 +187,30 @@ export class AddOnsComponent implements OnInit {
       this.dropDownValue = event;
       delete this.dropDownIndex[index];
     }
+
+    for (let key of this.selectedCheckedArray) {
+      const keys = Object.keys(key);
+      if (keys[0] == name) {
+        key[keys[0]] = JSON.parse(event);
+      }
+    }
   }
   /**
    *  add ons list add validation on based on tag
-   */ 
+   */
   addInputValidation(isChecked: boolean, type: any, index: number) {
     if (isChecked && type == 'int_input') {
       this.inputTagIndex[index] = index;
-      this.inputFieldIndex[index]=index
+      this.inputFieldIndex[index] = index;
     } else if (!isChecked && type == 'int_input') {
       delete this.inputTagIndex[index];
-      delete this.inputFieldIndex[index]
+      delete this.inputFieldIndex[index];
     } else if (isChecked && type == 'multi_chcekbox') {
       this.multiCheckbox[index] = index;
       this.multiCheckboxField[index] = index;
     } else if (!isChecked && type == 'multi_chcekbox') {
       delete this.multiCheckbox[index];
-      delete this.multiCheckboxField[index]
+      delete this.multiCheckboxField[index];
     } else if (isChecked && type == 'dropdown') {
       if (this.dropDownValue == undefined) {
         this.dropDownIndex[index] = index;
@@ -193,10 +222,10 @@ export class AddOnsComponent implements OnInit {
     }
     if (isChecked && type == 'tab') {
       this.tabIndex[index] = index;
-      this.tabIndex[index]=index
+      this.tabIndex[index] = index;
     } else if (!isChecked && type == 'tab') {
       delete this.tabIndex[index];
-      delete this.tabIndex[index]
+      delete this.tabIndex[index];
     }
   }
 }

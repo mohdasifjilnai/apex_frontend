@@ -116,6 +116,11 @@ export class MotorInsuranceComponent implements OnInit {
     if (vehicleMMVData) {
       sessionStorage.removeItem('vehicleMMVData');
     }
+
+    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
+    if (fetchQuotesData) {
+      sessionStorage.removeItem('fetchQuotesData');
+    }
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {

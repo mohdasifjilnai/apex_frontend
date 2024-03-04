@@ -32,7 +32,14 @@
             >
               <mat-checkbox
                 *ngFor="let data of listValue.value"
-                (change)="onInputChange($event, listValue?.next_type, i)"
+                (change)="
+                  onInputChange(
+                    $event,
+                    listValue?.next_type,
+                    i,
+                    listValue?.name
+                  )
+                "
                 id="{{ data }}"
                 >{{ data }}</mat-checkbox
               >
@@ -52,7 +59,12 @@
               <mat-label>Select Value</mat-label>
               <mat-select
                 (selectionChange)="
-                  onInputChange($event.value, listValue?.next_type, i)
+                  onInputChange(
+                    $event.value,
+                    listValue?.next_type,
+                    i,
+                    listValue.name
+                  )
                 "
               >
                 <mat-option
@@ -81,7 +93,9 @@
               matInput
               [(ngModel)]="inputValues[i]"
               id="{{ listValue?.name }}"
-              (ngModelChange)="onInputChange($event, listValue?.next_type, i)"
+              (ngModelChange)="
+                onInputChange($event, listValue?.next_type, i, listValue?.name)
+              "
             />
           </mat-form-field>
           <mat-error *ngIf="i == inputTagIndex[i]">
@@ -110,11 +124,9 @@
     </mat-expansion-panel>
   </mat-accordion>
   <div class="bottom-btn p-2" *ngIf="showButtons">
-    <div class="d-flex justify-content-between mt-2 ">
-      <button class="cancel-btn " (click)="clearAllChecked()">
-        Clear All
-      </button>
-      <button class="submit-btn " (click)="update()">Update</button>
+    <div class="d-flex justify-content-between mt-2">
+      <button class="cancel-btn" (click)="clearAllChecked()">Clear All</button>
+      <button class="submit-btn" (click)="update()">Update</button>
     </div>
   </div>
   <!-- <mat-accordion>
@@ -251,7 +263,14 @@
               >
                 <mat-checkbox
                   *ngFor="let data of listValue.value"
-                  (change)="onInputChange($event, listValue?.next_type, i)"
+                  (change)="
+                    onInputChange(
+                      $event,
+                      listValue?.next_type,
+                      i,
+                      listValue?.name
+                    )
+                  "
                   >{{ data }}</mat-checkbox
                 >
                 <mat-error *ngIf="i == multiCheckbox[i]">
@@ -269,7 +288,12 @@
                 <mat-label>Select Value</mat-label>
                 <mat-select
                   (selectionChange)="
-                    onInputChange($event.value, listValue?.next_type, i)
+                    onInputChange(
+                      $event.value,
+                      listValue?.next_type,
+                      i,
+                      listValue?.name
+                    )
                   "
                 >
                   <mat-option
@@ -295,17 +319,24 @@
               <input
                 matInput
                 [(ngModel)]="inputValues[i]"
-                (ngModelChange)="onInputChange($event, listValue?.next_type, i)"
+                (ngModelChange)="
+                  onInputChange(
+                    $event,
+                    listValue?.next_type,
+                    i,
+                    listValue?.name
+                  )
+                "
               />
             </mat-form-field>
             <mat-error *ngIf="i == inputTagIndex[i]">
               This is a required field.
             </mat-error>
           </section>
-         
-          <section class="d-grid" >
+
+          <section class="d-grid">
             <ng-container *ngIf="listValue?.next_type == 'tab'">
-              <div  class="row p-2" *ngIf="i == tabIndex[i]">
+              <div class="row p-2" *ngIf="i == tabIndex[i]">
                 <span
                   (click)="selectVoluntry(span)"
                   *ngFor="let amount of listValue.value"

@@ -183,11 +183,24 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.registrationNumber = numberData;
     });
 
+    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    if (this.vehicleMMVData) {
+      this.sharedDataService.vehicleMMVDetails(
+        this.vehicleMMVData,
+        'mmvQuotes'
+      );
+    }
     setTimeout(() => {
       if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       } else {
-        this.getVehicleMMVPopup('', '', 'mmvData');
+        this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+
+        this.getVehicleMMVPopup(
+          '',
+          this.vehicleMMVValue.vehicle.rb_mmv_id,
+          'mmvData'
+        );
       }
       this.getRTOData();
     }, 2000);
@@ -195,14 +208,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
       this.sharedDataService.vehicleDetails('registrationNumber');
-    }
-
-    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    if (this.vehicleMMVData) {
-      this.sharedDataService.vehicleMMVDetails(
-        this.vehicleMMVData,
-        'mmvQuotes'
-      );
     }
 
     this.vehicleDetailsForm.patchValue({
@@ -241,6 +246,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       apiData = `?product_name=${this.vehicleTypeValue}`;
     }
+    if (type == 'mmvData' || id) {
+      this.renderer.addClass(document.body, 'dropdown-focus');
+    } else {
+      this.renderer.removeClass(document.body, 'dropdown-focus');
+    }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res) => {
@@ -271,7 +281,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
-              this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -309,7 +318,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
-              this.renderer.addClass(document.body, 'dropdown-focus');
+              // this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -400,47 +409,61 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   filterMMVPopup(name: string) {
-    this.renderer.removeClass(document.body, 'dropdown-focus');
-    this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
-      )
-      .subscribe(
-        (res) => {
-          if (Array.isArray(res) && res.length > 0) {
-            this.modelList = res.map((item) => ({
-              ...item,
-              displayMM: `${item.rb_make_name} | ${item.rb_model_name}`,
-            }));
+    if (typeof name != 'object') {
+      // this.renderer.removeClass(document.body, 'dropdown-focus');
+      this.apiservice
+        .getRequestedResponse(
+          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+        )
+        .subscribe(
+          (res) => {
+            if (Array.isArray(res) && res.length > 0) {
+              this.modelList = res.map((item) => ({
+                ...item,
+                displayMM: `${item.rb_make_name} | ${item.rb_model_name}`,
+              }));
+              this.variantList = res;
+              this.fuelList = res;
 
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-              'vehicle_model'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMVPopup(name) : this.modelList;
-              })
-            );
+              this.mmDataNotAvailable = '';
+              this.fuelData = Object.values(
+                this.fuelList.reduce(
+                  (data: any, obj: { fuel: any; id: any }) => ({
+                    ...data,
+                    [obj.fuel]: obj,
+                  }),
+                  {}
+                )
+              );
+              this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+                'vehicle_model'
+              ].valueChanges.pipe(
+                debounceTime(500),
+                startWith(''),
+                map((name) => {
+                  return name ? this.filterMMVPopup(name) : this.modelList;
+                })
+              );
 
-            this.mmDataNotAvailable = '';
-          } else {
-            this.mmDataNotAvailable = 'No data';
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-              'vehicle_model'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMVPopup(name) : ['No data'];
-              })
-            );
+              this.mmDataNotAvailable = '';
+            } else {
+              this.mmDataNotAvailable = 'No data';
+              this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+                'vehicle_model'
+              ].valueChanges.pipe(
+                debounceTime(500),
+                startWith(''),
+                map((name) => {
+                  return name ? this.filterMMVPopup(name) : ['No data'];
+                })
+              );
+            }
+          },
+          (error) => {
+            console.error('API Request Error:', error);
           }
-        },
-        (error) => {
-          console.error('API Request Error:', error);
-        }
-      );
+        );
+    }
   }
 
   /**
@@ -449,45 +472,49 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   filterVariantPopup(name: string) {
-    this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
-      )
-      .subscribe(
-        (res) => {
-          if (Array.isArray(res) && res.length > 0) {
-            this.variantList = res;
+    // this.apiservice
+    //   .getRequestedResponse(
+    //     `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       if (Array.isArray(res) && res.length > 0) {
+    // this.variantList = res;
+    if (document.body.classList.contains('dropdown-focus')) {
+      // The class 'dropdown-focus' has already been added to the body
 
-            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-              'vehicle_variant'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((value) => {
-                return value
-                  ? this.filterVariantPopup(value)
-                  : this.variantList;
-              })
-            );
+      this.renderer.removeClass(document.body, 'dropdown-focus');
+    }
 
-            this.variantDataNotAvailable = '';
-          } else {
-            this.variantDataNotAvailable = 'No data';
-            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-              'vehicle_variant'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((value) => {
-                return value ? this.filterVariantPopup(value) : ['No data'];
-              })
-            );
-          }
-        },
-        (error) => {
-          console.error('API Request Error:', error);
-        }
+    if (this.variantList) {
+      this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+        'vehicle_variant'
+      ].valueChanges.pipe(
+        debounceTime(500),
+        startWith(''),
+        map((value) => {
+          return value ? this.filterVariantPopup(value) : this.variantList;
+        })
       );
+
+      this.variantDataNotAvailable = '';
+    } else {
+      this.variantDataNotAvailable = 'No data';
+      this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+        'vehicle_variant'
+      ].valueChanges.pipe(
+        debounceTime(500),
+        startWith(''),
+        map((value) => {
+          return value ? this.filterVariantPopup(value) : ['No data'];
+        })
+      );
+    }
+    // },
+    // (error) => {
+    //   console.error('API Request Error:', error);
+    // }
+    // );
   }
 
   getRTOData(type?: any) {
@@ -510,14 +537,28 @@ export class VehicleDetailsPopupComponent implements OnInit {
             })
           );
           if (type != 'blank') {
-            for (let i = 0; i <= this.rtoList.length - 1; i++) {
-              if (
-                this.rtoList[i].rb_rto_code ==
-                this.registrationNumber?.rb_rto_code
-              ) {
-                this.vehicleDetailsForm.patchValue({
-                  registration_city: this.rtoList[i],
-                });
+            if (this.registrationNumber) {
+              for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                if (
+                  this.rtoList[i].rb_rto_code ==
+                  this.registrationNumber?.rb_rto_code
+                ) {
+                  this.vehicleDetailsForm.patchValue({
+                    registration_city: this.rtoList[i],
+                  });
+                }
+              }
+            } else {
+              this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+              for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                if (
+                  this.rtoList[i].rb_rto_code ==
+                  this.vehicleMMVValue?.rto_city?.rb_rto_code
+                ) {
+                  this.vehicleDetailsForm.patchValue({
+                    registration_city: this.rtoList[i],
+                  });
+                }
               }
             }
           }
@@ -579,7 +620,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
   onVariantSelected(event: any) {
     if (event.option.value) {
       this.vehicleDetailsForm.patchValue({
-        // vehicle_model: event.option.value,
         vehicle_fuel: event.option.value.fuel,
       });
     }
@@ -603,7 +643,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
   vehcileVariant(data: any) {
     if (data == '') {
-      this.getVehicleMMVPopup('', '');
+      this.filterVariantPopup('');
+      // this.getVehicleMMVPopup('', '');
       // this.vehicleDetailsForm.patchValue({
       //   vehicle_model: '',
       //   vehicle_fuel: '',
@@ -618,6 +659,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
   }
   vehcileRegistration(data: any) {
+    if (typeof name != 'object') {
+      if (document.body.classList.contains('dropdown-focus')) {
+        // The class 'dropdown-focus' has already been added to the body
+
+        this.renderer.removeClass(document.body, 'dropdown-focus');
+      }
+    }
     if (data == '') {
       this.getRTOData('blank');
     }

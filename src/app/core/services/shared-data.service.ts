@@ -103,14 +103,24 @@ export class SharedDataService {
       });
   }
 
-  getQuotationListing(data: any, value: any) {
+  getQuotationListing(data?: any, value?: any) {
+    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
+    if (!fetchQuotesData) {
+      sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
+    }
+    let setectedAddons;
+    if (data?.selected_addons) {
+      setectedAddons = data?.selected_addons;
+    } else {
+      setectedAddons = {};
+    }
     let registrationValue;
     let registrationMonth;
     let registrationYear;
     this.vehicleType = localStorage.getItem('vehicleType');
-    registrationValue = new Date(data.registration_date);
-    registrationMonth = registrationValue.getMonth() + 1;
-    registrationYear = registrationValue.getFullYear();
+    registrationValue = new Date(data?.registration_date);
+    registrationMonth = registrationValue?.getMonth() + 1;
+    registrationYear = registrationValue?.getFullYear();
     let quotesData = {
       customer_type: this.customerType,
       vehicle_type: this.vehicleType,
@@ -124,17 +134,14 @@ export class SharedDataService {
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
       business_type: 'new',
-      selected_addons: {},
+      selected_addons: setectedAddons,
     };
 
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
         this.transactionId = res.transaction_id;
-        sessionStorage.setItem(
-          'transaction_id',
-          res.transaction_id
-        );
+        sessionStorage.setItem('transaction_id', res.transaction_id);
         this.quotesId = res.quote_request_id;
         this.longPollingInfo = this.longPollingService.getAllCurrencies(
           this.transactionId,

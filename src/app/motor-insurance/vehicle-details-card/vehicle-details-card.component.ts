@@ -36,6 +36,9 @@ export class VehicleDetailsCardComponent implements OnInit {
   registrationDate: any;
   registrationMonth: any;
   registrationYear: any;
+  manufactureDate: any;
+  manufactureMonth: any;
+  manufactureYear: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -57,14 +60,25 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
-      // this.vehicleData = cardData;
-      // this.parsedVehicleData = JSON.parse(this.vehicleData);
-      // console.log(this.parsedVehicleData);
-      // let regDateValue = new Date(this.parsedVehicleData?.registration_date);
-      // this.registrationDate = moment(regDateValue, 'MM/YYYY');
-      // let regMonth = moment(this.registrationDate).month();
-      // this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
-      // this.registrationYear = moment(this.registrationDate).year();
+      this.vehicleData = cardData;
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+
+      let regDateValue = new Date(this.parsedVehicleData?.registration_date);
+      this.registrationDate = moment(regDateValue, 'MM/YYYY');
+      let regMonth = moment(this.registrationDate).month();
+      this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
+      this.registrationYear = moment(this.registrationDate).year();
+      if (this.parsedVehicleData?.manufacture_date) {
+        let manufactureDateValue = new Date(
+          this.parsedVehicleData?.manufacture_date
+        );
+        this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
+        let manufactureMonth = moment(this.manufactureDate).month();
+        this.manufactureMonth = moment(manufactureMonth + 1, 'MM').format(
+          'MMM'
+        );
+        this.manufactureYear = moment(this.manufactureDate).year();
+      }
     });
   }
 
