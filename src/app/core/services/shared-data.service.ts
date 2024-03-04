@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
@@ -8,6 +8,7 @@ import moment from 'moment';
 import { LoaderService } from './loader.service';
 import { LongPollingService } from './long-polling.service';
 import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class SharedDataService {
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: Observable<[]>;
+  getProposalDetails: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -37,13 +39,16 @@ export class SharedDataService {
   claimedData = false;
   allQuotes: any;
   quotesValue: any;
+  quoteData: any;
+  createdProposalId: any;
 
   constructor(
     private apiService: ApiService,
     private router: Router,
     private sseService: SseService,
     private loaderService: LoaderService,
-    public longPollingService: LongPollingService
+    public longPollingService: LongPollingService,
+    private datePipe: DatePipe
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -271,5 +276,100 @@ export class SharedDataService {
   }
   getRegistrationDate(data: any) {
     this.getRegistrationData.next(data);
+  }
+
+  createProposalId(flag?: any, formData?: any) {
+    this.quoteData = sessionStorage.getItem('quotes_data');
+    const proposalId = sessionStorage.getItem('proposal_Id');
+    let proposalData: any = {
+      transaction_id: sessionStorage.getItem('transaction_id') || '',
+      insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
+      insurer_code: 'digit',
+      proposal_id: proposalId === undefined ? proposalId : '',
+    };
+    const ckycIdValue = formData?.get('ckyc_id')?.value;
+    const isCkycVerified = ckycIdValue !== 2; // Set to true if ckyc_id is not 2, false if it is 2
+    if (flag === 'ckyc') {
+      proposalData['ckyc_details'] = {
+        is_ckyc_verified: isCkycVerified,
+        full_Name: formData?.get('ckyc_full_name')?.value || '',
+        dob:
+          this.datePipe.transform(
+            formData?.get('dob')?.value,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          ) || '',
+        gender: formData?.get('ckyc_gender')?.value || '',
+        document_code: formData?.get('document_type')?.value || '',
+        document_number: formData?.get('document_number')?.value || '',
+      };
+    }
+    if (flag === 'vehicle_owner_detail') {
+      proposalData['customer_details'] = {
+        full_name: formData?.get('owner_full_Name')?.value,
+        mobile_number: formData?.get('contact_number')?.value,
+        email_id: formData?.get('owner_email')?.value,
+        dob: 'string',
+        occupation_type_id: formData?.get('ownner_occupation_type')?.value,
+        gst_no: formData?.get('owner_gstin')?.value,
+        additional_mobile_number: formData?.get('additional_contact')?.value,
+        gender: formData?.get('owner_gender')?.value,
+        marital_status: formData?.get('marital_status')?.value,
+        registration_address: {
+          pincode: formData?.get('owner_pincode')?.value,
+          rb_city_id: formData?.get('owner_city')?.value,
+          rb_state_id: formData?.get('owner_state')?.value,
+          address_line: formData?.get('owner_communication_addres')?.value,
+        },
+      };
+    }
+    if (flag === 'nominne_details') {
+      proposalData['nominee_details'] = {
+        name: formData?.get('nominne_full_Name')?.value,
+        age: formData?.get('age')?.value,
+        relation_id: formData?.get('nominne_relation')?.value,
+      };
+    }
+    if (flag === 'vehilce_details') {
+      proposalData['vehicle_details'] = {
+        registration_no: formData?.get('registration_number')?.value,
+        engine_no: formData?.get('engine_number')?.value,
+        chassis_no: formData?.get('')?.value,
+        registration_date: formData?.get('registration_date')?.value,
+        manufacture_date: formData?.get('manufacture_date')?.value,
+        vehicle_color: formData?.get('vehicle_colour')?.value,
+        is_vehicle_financed: false,
+        financer_details: {
+          financer_name: formData?.get('financer')?.value,
+          agreement_type: formData?.get('agreement_type')?.value,
+          financer_branch: formData?.get('financer_city')?.value,
+        },
+        is_same_location: false,
+        registration_address: {
+          pincode: formData?.get('vehicle_pincode')?.value,
+          rb_city_id: formData?.get('vehilce_city')?.value,
+          rb_state_id: formData?.get('vehicle_state')?.value,
+          address_line: 'string;',
+        },
+      };
+    }
+    if (flag === 'previous_policy_details') {
+      proposalData['previous_policy_details'] = {
+        insurer_code: formData?.get('previous_insurer')?.value,
+        policy_no: formData?.get('prev_policy_number')?.value,
+        policy_expiry_date: formData?.get('policy_expiry_date')?.value,
+      };
+    }
+    this.apiService
+      .postRequestedResponse(ApiConstants.create_proposal, proposalData)
+      .subscribe((res) => {
+        if (res) {
+          this.createdProposalId = res;
+          sessionStorage.setItem('proposal_Id', res?.proposal_id);
+          this.sendProposalData(res);
+        }
+      });
+  }
+  sendProposalData(data: any) {
+    this.getProposalDetails.next(data);
   }
 }

@@ -20,6 +20,7 @@
         (opened)="loadCkyc('Vehicle Owner Details')"
         #vehilceOwnerPanel
         id-automation="vehilce_owner"
+        [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
@@ -34,6 +35,7 @@
         (opened)="loadCkyc('Nominee Details')"
         #nomineDetailsPanel
         id-automation="nomine_details"
+        [ngClass]="{ isAccordianDisable: !showNomineeDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Nominee Details </mat-panel-title>
@@ -48,6 +50,7 @@
         (opened)="loadCkyc('Vehicle Details')"
         #vehicleDetailPanel
         id-automation="vehicle_details"
+        [ngClass]="{ isAccordianDisable: !showVehicleDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Vehicle Details </mat-panel-title>
@@ -62,6 +65,7 @@
         (opened)="loadCkyc('Previous Policy Details')"
         #previousPolicyDetailsPanel
         id-automation="previous_policy_details"
+        [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Previous Policy Details </mat-panel-title>

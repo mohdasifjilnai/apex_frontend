@@ -24,6 +24,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   @Input() policyExpiryDate!: string;
   disablEexpiryDate = false;
   @Input() disablePreviousInsurer: any;
+  @Input() formControlNameData: any;
   disableExpDateField: any;
   isDatepickerOpen = false;
   proposalUrl: any;
@@ -41,11 +42,11 @@ export class PolicyExpiredDateComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'policy_expiry_date',
+        this.formControlNameData,
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('policy_expiry_date', new FormControl());
+      this.form.addControl(this.formControlNameData, new FormControl());
     }
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
@@ -54,13 +55,13 @@ export class PolicyExpiredDateComponent implements OnInit {
         policy_expiry_date: '',
       });
       if (this.disableExpDateField) {
-        this.form.controls['policy_expiry_date'].disable();
+        this.form.controls[this.formControlNameData].disable();
       } else {
-        this.form.controls['policy_expiry_date'].enable();
+        this.form.controls[this.formControlNameData].enable();
       }
     });
     if (this.disablePreviousInsurer) {
-      this.form.controls['policy_expiry_date'].disable();
+      this.form.controls[this.formControlNameData].disable();
     }
     const currentUrl = this.router.url.split('/');
     this.proposalUrl = currentUrl[currentUrl.length - 1];
@@ -73,7 +74,7 @@ export class PolicyExpiredDateComponent implements OnInit {
 
   ngOnDestroy(): void {
     // remove form control for the Policy Expiry Date
-    this.form.removeControl('policy_expiry_date');
+    this.form.removeControl(this.formControlNameData);
   }
   @ViewChild('datepickerFooter', { static: false })
   datepickerFooter!: ElementRef;

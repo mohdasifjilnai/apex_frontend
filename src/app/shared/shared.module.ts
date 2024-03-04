@@ -48,6 +48,7 @@ import { DateFormatDirective } from './directives/date-format.directive';
 import { NoSpaceDirective } from './directives/no-space.directive';
 import { RegistrationNumberDirective } from './directives/registration-number.directive';
 import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
+import { TermsComponent } from './components/dialog-components/terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
     NoSpaceDirective,
     RegistrationNumberDirective,
     MmYyyyformatDirective,
+    TermsComponent,
   ],
   imports: [
     CommonModule,

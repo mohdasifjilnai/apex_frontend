@@ -28,4 +28,7 @@ export class ApiConstants {
   public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
 
   public static getCoverageType = `/api/v1/get_coverage_types/`;
+
+  //create proposal
+  public static create_proposal: string = `/api/v1/create_update_proposal/`;
 }

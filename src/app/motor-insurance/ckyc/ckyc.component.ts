@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { WaitCkycVerificationDialogComponent } from 'src/app/shared/components/dialog-components/wait-ckyc-verification-dialog/wait-ckyc-verification-dialog.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -32,6 +33,9 @@ export class CkycComponent implements OnInit {
   proposerType: any;
   dobPlaceholder: String = 'Select Date of Birth';
   qoutes_data: any;
+  transactionId: any;
+  quoteData: any;
+  changeSubmitCkycName: boolean = false;
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -52,7 +56,8 @@ export class CkycComponent implements OnInit {
     private apiService: ApiService,
     private datePipe: DatePipe,
     private matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private sharedDataService: SharedDataService
   ) {
     this.ckycList = [
       {
@@ -71,7 +76,10 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup = this.formBuild.group({
         ckyc_id: [2],
         document_type_based_field: [''],
-        document_number_based_field: ['', [this.documentNumberValidator.bind(this)]],
+        document_number_based_field: [
+          '',
+          [this.documentNumberValidator.bind(this)],
+        ],
         dob: [''],
         ckyc_number: [''],
         ckyc_full_name: [''],
@@ -85,6 +93,11 @@ export class CkycComponent implements OnInit {
     this.proposerType == 'individual'
       ? this.dobPlaceholder
       : (this.dobPlaceholder = 'Select Date of Incorporation');
+    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.quoteData = sessionStorage.getItem('quotes_data');
+    if (true) {
+      this.changeSubmitCkycName = true;
+    }
   }
 
   /**
@@ -96,11 +109,15 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup
       .get('document_type_based_field')
       ?.setValidators([Validators.required]);
-    this.ckycFormGroup.get('document_type_based_field')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_type_based_field')
+      ?.updateValueAndValidity();
     this.ckycFormGroup
       .get('document_number_based_field')
       ?.setValidators([Validators.required]);
-    this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_number_based_field')
+      ?.updateValueAndValidity();
     this.ckycFormGroup.get('dob')?.setValidators([Validators.required]);
     this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
@@ -114,14 +131,20 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup.get('ckyc_number')?.setValidators([Validators.required]);
     this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
     this.ckycFormGroup.get('document_type_based_field')?.setValidators([]);
-    this.ckycFormGroup.get('document_type_based_field')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_type_based_field')
+      ?.updateValueAndValidity();
     this.ckycFormGroup.get('document_number_based_field')?.setValidators([]);
-    this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity();
+    this.ckycFormGroup
+      .get('document_number_based_field')
+      ?.updateValueAndValidity();
     this.ckycFormGroup.get('dob')?.setValidators([]);
     this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
   submitCkycFormGroup(isValid: boolean) {
-    if (isValid) {
+    if (this.changeSubmitCkycName) {
+      this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
+    } else {
       this.qoutes_data = sessionStorage.getItem('quotes_data');
       let ckycData: any = {
         proposal_id: '2332',
@@ -130,7 +153,7 @@ export class CkycComponent implements OnInit {
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
 
-      if (this.ckycFormGroup.get('ckyc_id')?.value == 2) {
+      if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
         ckycData['dob'] = this.datePipe.transform(
           this.ckycFormGroup.get('dob')?.value,
           'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'

@@ -1,10 +1,10 @@
 <div class="row p-2 insurer-details">
   <div class="col-lg-12 col-md-12 d-flex gap-2 mt-3">
-    <img src="/assets/images/hdfc.svg" alt="" />
+    <img [src]="quoteData.insurer_logo" alt="" />
     <div class="insurer-title">
-      <p class="insurer-header m-0 p-0">HDFC ERGO General Insurance</p>
+      <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div>
-        <button type="button" class="edit-button">
+        <button type="button" class="edit-button" (click)="changeInsurer()">
           <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
           Change Insurer
         </button>
@@ -14,7 +14,11 @@
   <div class="col-lg-12 col-md-12 vehicle-details mt-3">
     <div class="d-flex">
       <img src="/assets/icon/four-wheeler.svg" alt="" class="vehicle-icon" />
-      <p class="pt-3">Maruti Ciaz Alpha, Petrol, UP14 Ghaziabad</p>
+      <p class="pt-3">
+        {{ mmvData[0].rb_make_name }} {{ mmvData[0].rb_model_name }},
+        {{ mmvData[0].fuel }},{{ mmvData[1].rb_rto_code }}
+        {{ mmvData[1].rb_city_name }}
+      </p>
     </div>
   </div>
 
@@ -26,48 +30,56 @@
       </div>
       <div class="d-flex justify-content-between mt-2">
         <p class="anunual-commericial">Comprehensive- Annual</p>
-        <p class="plan-type">6,00,000</p>
+        <p class="plan-type">{{ quoteData?.premium_details?.idv }}</p>
       </div>
     </div>
   </div>
   <div class="col-lg-12 col-md-12 mt-3 policy policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Own Damage</p>
-      <p class="plan-type">&#x20B9; 2,456</p>
+      <p class="plan-type">&#x20B9; -</p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Basic Own Damage</p>
-      <p class="od-value">&#x20B9; 14,456</p>
+      <p class="od-value">&#x20B9; -</p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">NCB Discount (20%)</p>
-      <p class="od-value">&#x20B9; 637</p>
+      <p class="od-value">
+        &#x20B9;
+        {{
+          quoteData?.premium_details?.od_premium_details?.ncb_discount || "-"
+        }}
+      </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Own Damage Discount</p>
-      <p class="od-value">&#x20B9; 10,000</p>
+      <p class="od-value">&#x20B9; -</p>
     </div>
   </div>
 
   <div class="col-lg-12 col-md-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Third Party</p>
-      <p class="plan-type">&#x20B9; 3,416</p>
+      <p class="plan-type">&#x20B9; -</p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Basic Third Party</p>
-      <p class="od-value">&#x20B9; 3,416</p>
+      <p class="od-value">
+        &#x20B9;
+        {{ quoteData?.premium_details?.tp_premium_details?.basic_tp_premium }}
+      </p>
     </div>
   </div>
 
   <div class="col-lg-12 col-md-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Addons</p>
-      <p class="plan-type">&#x20B9; 416</p>
+      <p class="plan-type">&#x20B9; -</p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Zero Depreciation</p>
-      <p class="od-value">&#x20B9; 416</p>
+      <p class="od-value">&#x20B9; -</p>
     </div>
   </div>
   <div class="col-12 policy">
@@ -116,13 +128,15 @@
   <div class="col-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)</p>
-      <p class="plan-type">&#x20B9; 4,444</p>
+      <p class="plan-type">&#x20B9; -</p>
     </div>
   </div>
 
   <div class="col-12 premium-details mt-3 text-center">
     <p class="total-premium">Total Premium Payable</p>
-    <span class="total-amount">&#x20B9; 24,000</span>
+    <span class="total-amount"
+      >&#x20B9; {{ quoteData?.premium_details?.total_premium }}</span
+    >
   </div>
   <button
     type="button"
@@ -136,7 +150,7 @@
 <div class="res-insurance-details">
   <div class="details-card p-2 mt-2 ps-4 pe-4">
     <div class="d-flex justify-content-between">
-      <div >
+      <div>
         <img
           src="/assets/images/sbi-insurer.svg"
           alt=""

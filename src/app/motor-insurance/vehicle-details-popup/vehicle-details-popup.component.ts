@@ -64,6 +64,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehicleMMVValue: any;
   vehicleMMVData: any;
   convertExpiryDate: any;
+  mmvData: any = [];
 
   /**
    * MMV is use for (Make Model Variant)
@@ -277,6 +278,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
+              this.mmvData.push(matchingModel);
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
@@ -478,7 +480,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     //       if (Array.isArray(res) && res.length > 0) {
     // this.variantList = res;
 
-
     if (this.variantList) {
       this.filteredPopupVariant = this.vehicleDetailsForm.controls[
         'vehicle_variant'
@@ -530,28 +531,19 @@ export class VehicleDetailsPopupComponent implements OnInit {
             })
           );
           if (type != 'blank') {
-            if (this.registrationNumber) {
-              for (let i = 0; i <= this.rtoList.length - 1; i++) {
-                if (
-                  this.rtoList[i].rb_rto_code ==
-                  this.registrationNumber?.rb_rto_code
-                ) {
-                  this.vehicleDetailsForm.patchValue({
-                    registration_city: this.rtoList[i],
-                  });
-                }
-              }
-            } else {
-              this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-              for (let i = 0; i <= this.rtoList.length - 1; i++) {
-                if (
-                  this.rtoList[i].rb_rto_code ==
-                  this.vehicleMMVValue?.rto_city?.rb_rto_code
-                ) {
-                  this.vehicleDetailsForm.patchValue({
-                    registration_city: this.rtoList[i],
-                  });
-                }
+            for (let i = 0; i <= this.rtoList.length - 1; i++) {
+              if (
+                this.rtoList[i].rb_rto_code ==
+                this.registrationNumber?.rb_rto_code
+              ) {
+                this.mmvData.push(this.rtoList[i]);
+                sessionStorage.setItem(
+                  'mmv_data',
+                  JSON.stringify(this.mmvData)
+                );
+                this.vehicleDetailsForm.patchValue({
+                  registration_city: this.rtoList[i],
+                });
               }
             }
           }
@@ -656,7 +648,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getRTOData('blank');
     }
   }
-  inputClicked(){
+  inputClicked() {
     this.renderer.removeClass(document.body, 'dropdown-focus');
   }
 

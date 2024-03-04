@@ -80,7 +80,7 @@ export class VehicleComponent implements OnInit {
       .pipe(
         map((res) => {
           if (res && res.length > 0) {
-            this.mmvList = res.map((item:any) => ({
+            this.mmvList = res.map((item: any) => ({
               ...item,
               displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
             }));
@@ -93,19 +93,21 @@ export class VehicleComponent implements OnInit {
         })
       );
   }
-  
+
   vehcileMMV(data: any) {
     if (data == '') {
       this.getVehicleMMV('', this.vehcileType);
     }
   }
-  
+
   getVehicleMMV(name: any, vehicletype: any) {
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`)
+      .getRequestedResponse(
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`
+      )
       .subscribe((res) => {
         if (res) {
-          this.mmvList = res.map((item:any) => ({
+          this.mmvList = res.map((item: any) => ({
             ...item,
             displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
           }));
@@ -113,7 +115,7 @@ export class VehicleComponent implements OnInit {
           this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
             debounceTime(500),
             startWith(''),
-            switchMap((name:any) => this.filterMMV(name))
+            switchMap((name: any) => this.filterMMV(name))
           );
         }
       });

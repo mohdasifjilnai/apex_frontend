@@ -13,7 +13,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 })
 export class QuotesComponent implements OnInit {
   withoutVehicleNumber: any;
-  waitquotationData:any=sessionStorage.getItem('waitquotationData')
+  waitquotationData: any = sessionStorage.getItem('waitquotationData');
   vehicleDetailsJSON: {
     modalName: any;
     widthObtained: string;
@@ -35,25 +35,26 @@ export class QuotesComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
-    public loaderService:LoaderService
+    public loaderService: LoaderService
   ) {
-    this.loaderService.isLoading().subscribe((isLoading:any) => {
+    this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
-      if(!isLoading){
-        return
+      if (!isLoading) {
+        return;
       }
     });
   }
 
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
- 
-      if (window.innerWidth <= 999) {
-        this.bottomSheet.open(VehicleDetailsPopupComponent);
-      } else {
-        this.openVehicleDetailsPopup(null);
-      }
-  
+
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(VehicleDetailsPopupComponent);
+    } else {
+      this.openVehicleDetailsPopup(null);
+    }
+
+    sessionStorage.removeItem('proposal_Id');
   }
   receivedData: any;
   receivedCheckBoxValue: any;

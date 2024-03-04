@@ -4,7 +4,8 @@
   </div>
   <div class="res-proposal-review">
     <div class="back-button mb-2" (click)="back()">
-      <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal Review
+      <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal
+      Review
     </div>
     <app-vehicle-details-card></app-vehicle-details-card>
     <app-insurance-details></app-insurance-details>
@@ -85,7 +86,9 @@
           <span class="field-title">State</span><br />
           <span class="field-value">UP</span>
         </div>
-        <div class="d-flex justify-content-between vehicle-owner-details mt-2 p-2">
+        <div
+          class="d-flex justify-content-between vehicle-owner-details mt-2 p-2"
+        >
           <span class="review-header ps-3">Nominee Details</span>
           <div
             type="button"
@@ -111,7 +114,9 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-between vehicle-owner-details mt-2 p-2">
+        <div
+          class="d-flex justify-content-between vehicle-owner-details mt-2 p-2"
+        >
           <span class="review-header ps-3">Vehicle Details</span>
           <div
             type="button"
@@ -160,7 +165,9 @@
             <span class="field-value">New Delhi</span>
           </div>
         </div>
-        <div class="d-flex justify-content-between vehicle-owner-details mt-2 p-2">
+        <div
+          class="d-flex justify-content-between vehicle-owner-details mt-2 p-2"
+        >
           <span class="review-header ps-3">Previous Policy Details</span>
           <div
             type="button"
@@ -187,21 +194,12 @@
         </div>
 
         <div class="d-flex justify-content-between acknowledgemen-confirm mt-2">
-          <div >
+          <div>
             <mat-checkbox class="custom-checkbox" checked="true"></mat-checkbox>
           </div>
           <div class="ms-2">
             <p class="proposal-confirmation">
-              I confirm all the details shared are correct and accurate as per
-              my knowledge. I agree with all the T&C and my vehicle has a valid
-              PUC certificate. I also declare that the information provided
-              above is true and accept that if it is found to be false, it may
-              impact claims. I agree any changes to the details post payment
-              might require additional payment. D2C Insurance Broking Pvt. Ltd.
-              (including its representatives) shall not be held liable for any
-              changes due to incorrect information. I confirm that NCB
-              percentage declared is correct and no claims were made in the
-              previous policy.
+              <a (click)="openDialog()">Terms & Condition</a>
             </p>
           </div>
         </div>

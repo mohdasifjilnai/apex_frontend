@@ -11,6 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-proposal-vehicle-details',
@@ -35,7 +36,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         /^([A-Z]{2}-\d{2}-[A-Z0-9]{2}-\d{4}|[A-Z]{2}-\d{2}-\d{4}|[A-Z]{2}-\d{2}-[A-Z]{3}-\d{4}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{1,2}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{2})$/
       ),
     ]),
-    vehicle_colour: new FormControl('',),
+    vehicle_colour: new FormControl(''),
     engine_number: new FormControl('', [
       Validators.required,
       Validators.pattern(/^[a-zA-Z0-9]+$/),
@@ -59,7 +60,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     financer_city: new FormControl('', Validators.required),
   });
 
-  constructor(private apiservice: ApiService) {
+  constructor(
+    private apiservice: ApiService,
+    private shareData: SharedDataService
+  ) {
     this.agreementList = [
       {
         id: 1,
@@ -80,8 +84,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   proposalFinancierBlankData(data: any) {}
   getProposalVehicleData(isValid: any) {
-    const formValues = this.proposalVehilceDetailsForm.value;
-    this.afterVehicleData.emit(formValues);
+    if (isValid) {
+      const formValues = this.proposalVehilceDetailsForm.value;
+      this.afterVehicleData.emit(formValues);
+      this.shareData.createProposalId(
+        'vehilce_details',
+        this.proposalVehilceDetailsForm
+      );
+    }
   }
   /**
    * we can access the checkbox value using this.financedToggle.nativeElement.checked

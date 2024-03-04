@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-nominee-details',
@@ -20,7 +21,7 @@ export class NomineeDetailsComponent implements OnInit {
     nominne_relation: new FormControl('', Validators.required),
   });
 
-  constructor() {
+  constructor(private sharedData: SharedDataService) {
     this.minDate = new Date(1930, 6, 1);
     const currentDate = new Date();
     this.maxDate = new Date(
@@ -53,7 +54,10 @@ export class NomineeDetailsComponent implements OnInit {
   }
 
   getNomineeDetails(isValid: boolean) {
-    const formValues = this.nominneForm.value;
-    this.afterNomineeGetData.emit(formValues);
+    if (isValid) {
+      const formValues = this.nominneForm.value;
+      this.afterNomineeGetData.emit(formValues);
+      this.sharedData?.createProposalId('nominne_details', this.nominneForm);
+    }
   }
 }

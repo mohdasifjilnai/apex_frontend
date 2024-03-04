@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
+import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
 
 @Component({
   selector: 'app-proposal-review',
@@ -26,6 +27,21 @@ export class ProposalReviewComponent implements OnInit {
     topObtained: 'auto',
     isOutSideClose: true,
     classObtained: 'otp-popup',
+  };
+  termsAndConditionJson: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: TermsComponent,
+    widthObtained: '100%',
+    heightObtained: 'auto',
+    topObtained: '5%',
+    isOutSideClose: true,
+    classObtained: 'vehicle-details-class',
   };
   constructor(
     private route: Router,
@@ -75,5 +91,12 @@ export class ProposalReviewComponent implements OnInit {
       },
     };
     this.matDialog.openDialog(obj);
+  }
+  openDialog(): void {
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(TermsComponent);
+    } else {
+      this.openModal('', this.termsAndConditionJson);
+    }
   }
 }

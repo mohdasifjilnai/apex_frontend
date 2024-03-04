@@ -29,6 +29,8 @@ export class InsuranceDetailsComponent implements OnInit {
     classObtained: 'insurance-details-class',
   };
   showCard: boolean = false;
+  quoteData: any;
+  mmvData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -37,7 +39,10 @@ export class InsuranceDetailsComponent implements OnInit {
     public router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+  }
 
   openShareModal(data: any) {
     this.openModal(data, this.insuranceDetailsJSON);

@@ -1,4 +1,7 @@
-<form [formGroup]="previousPolicyDetailsForm" (ngSubmit)="getPreviousVehicleData(previousPolicyDetailsForm.value)">
+<form
+  [formGroup]="previousPolicyDetailsForm"
+  (ngSubmit)="getPreviousVehicleData(previousPolicyDetailsForm.value)"
+>
   <div class="row mt-3">
     <div class="col-lg-4 col-md-4 col-12">
       <app-previous-insurer
@@ -141,7 +144,11 @@
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-12">
-      <button class="submit-btn previous-vehicle-submission" type="submit" (click)="navigateToProposalReview()">
+      <button
+        class="submit-btn previous-vehicle-submission"
+        type="submit"
+        (click)="navigateToProposalReview()"
+      >
         Confirm & Review
       </button>
     </div>

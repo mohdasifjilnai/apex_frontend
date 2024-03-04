@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-vehicle-owner-details',
@@ -65,7 +66,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     owner_gender: new FormControl('1', Validators.required),
   });
 
-  constructor() {
+  constructor(private sharedDataService: SharedDataService) {
     this.occupationList = [
       {
         id: 1,
@@ -90,6 +91,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
       this.afterVehicleOwnerData.emit(formValues);
+      this.sharedDataService?.createProposalId(
+        'vehicle_owner_detail',
+        this.owenerVehicleDetailsForm
+      );
     }
   }
   /**

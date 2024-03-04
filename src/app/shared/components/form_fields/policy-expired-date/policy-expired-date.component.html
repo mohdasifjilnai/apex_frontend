@@ -4,7 +4,7 @@
     matInput
     [matDatepicker]="expiryDate"
     placeholder="policy expiry date"
-    formControlName="policy_expiry_date"
+    [formControlName]="formControlNameData"
     id-automation="policy_expiry_date"
     id-automation="expiryDateId"
     [min]="minDate"

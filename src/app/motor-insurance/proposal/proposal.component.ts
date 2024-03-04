@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 @Component({
@@ -21,6 +23,7 @@ export class ProposalComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   step5: boolean = false;
+  proposalDetails: any;
   @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
   previousPolicyDetailsPanel!: ElementRef;
   @ViewChild('vehilceOwnerPanel', { read: ElementRef })
@@ -32,10 +35,25 @@ export class ProposalComponent implements OnInit {
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sharedData.createProposalId();
+    this.sharedData.getProposalDetails.subscribe((proposal) => {
+      // this.proposalDetails = proposal;
+      if (proposal?.ckyc_details !== null) {
+        this.showVehicleOwnerDetails = true;
+      } else if (proposal.customer_details !== null) {
+        this.showNomineeDetails = true;
+      } else if (proposal.nominee_details !== null) {
+        this.showVehicleDetails = true;
+      } else if (proposal.vehicle_details !== null) {
+        this.showPreviousPolicyDetails = true;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.sharedData.getProposalReviewDetails.subscribe((res) => {
@@ -99,10 +117,11 @@ export class ProposalComponent implements OnInit {
    */
   getProceedData(data: any) {
     this.proceedData = data;
+    console.log(this.proceedData, 'vehicleOwnerDetails');
     if (data) {
       this.step1 = false;
       this.step2 = true;
-      this.showVehicleOwnerDetails = true;
+      // this.showVehicleOwnerDetails = true;
     }
   }
   vehicleOwnerDetailsData(data: any) {
@@ -125,17 +144,17 @@ export class ProposalComponent implements OnInit {
   }
   getVehicleOwnerData(data: any) {
     if (data) {
-      this.showNomineeDetails = true;
+      // this.showNomineeDetails = true;
     }
   }
   getNomineeData(data: any) {
     if (data) {
-      this.showVehicleDetails = true;
+      // this.showVehicleDetails = true;
     }
   }
   getVehicleData(data: any) {
     if (data) {
-      this.showPreviousPolicyDetails = true;
+      // this.showPreviousPolicyDetails = true;
     }
   }
   back() {

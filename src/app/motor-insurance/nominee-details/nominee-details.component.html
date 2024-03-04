@@ -14,7 +14,7 @@
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label>Age</mat-label>
         <mat-select formControlName="age">
-          <mat-option *ngFor="let age of ageList" [value]="age?.id">
+          <mat-option *ngFor="let age of ageList" [value]="age?.age">
             {{ age?.age }}
           </mat-option>
         </mat-select>
