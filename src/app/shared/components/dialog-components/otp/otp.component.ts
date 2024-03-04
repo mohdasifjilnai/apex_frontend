@@ -76,7 +76,11 @@ export class OtpComponent implements OnInit {
     }
   }
   verify(){
-    this.dialogRef.close();
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
     this.router.navigate(['motor/quotes/proposal/review/payment']);
   }
 }

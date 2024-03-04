@@ -5,6 +5,7 @@
     id-automation="previousInsuranceId"
     placeholder="Search Previous Insurer"
     (ngModelChange)="previousInsurerBlankData($event)"
+    (focus)="inputClicked()"
     aria-label="previous_insurer"
     #autoCompleteInput
     [matAutocomplete]="autoInsurer"

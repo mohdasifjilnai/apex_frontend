@@ -96,7 +96,10 @@ export class AddOnsComponent implements OnInit {
     sendQuotesVlaue.selected_addons = this.selected_addons;
 
     this.sharedDataService.getQuotationListing(sendQuotesVlaue, '');
-    this.bottomSheetRef.dismiss(this.checkBoxValueArray);
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss(this.checkBoxValueArray);
+    }
+    
   }
   /**
    *

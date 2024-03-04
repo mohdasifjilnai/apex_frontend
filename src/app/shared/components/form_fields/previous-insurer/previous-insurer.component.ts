@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -42,7 +42,8 @@ export class PreviousInsurerComponent implements OnInit {
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
     private sharedDataService: SharedDataService,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -141,5 +142,8 @@ export class PreviousInsurerComponent implements OnInit {
     if (data == '') {
       this.getInsurerData('');
     }
+  }
+  inputClicked(){
+    this.renderer.removeClass(document.body, 'dropdown-focus');
   }
 }

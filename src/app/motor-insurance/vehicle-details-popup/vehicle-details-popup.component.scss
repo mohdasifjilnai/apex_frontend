@@ -36,7 +36,11 @@
     max-height: 75% !important;
   }
  }
-
+ .dropdown-focus {
+  .mat-autocomplete-panel.mat-autocomplete-visible {
+    visibility: hidden !important;
+}
+}
 @media screen and (max-width: 999px) {
   .edit-vehicle-details{
     .line{

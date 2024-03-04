@@ -46,9 +46,7 @@ export class MotorInsuranceComponent implements OnInit {
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
-      Validators.pattern(
-        /^([A-Z]{2}-\d{2}-[A-Z0-9]{2}-\d{4}|[A-Z]{2}-\d{2}-\d{4}|[A-Z]{2}-\d{2}-[A-Z]{3}-\d{4}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{1,2}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{2})$/
-      ),
+      Validators.minLength(8)
     ]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),

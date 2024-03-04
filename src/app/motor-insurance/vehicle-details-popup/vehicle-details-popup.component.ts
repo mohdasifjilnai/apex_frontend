@@ -244,12 +244,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (id) {
       apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
     } else {
-      apiData = `?product_name=${this.vehicleTypeValue}`;
-    }
-    if (type == 'mmvData' || id) {
-      this.renderer.addClass(document.body, 'dropdown-focus');
-    } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
+      apiData = `?product_name=${this.vehicleTypeValue}`;
     }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
@@ -281,6 +277,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
+              this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -318,7 +315,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
-              // this.renderer.addClass(document.body, 'dropdown-focus');
+              this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
@@ -410,7 +407,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   filterMMVPopup(name: string) {
     if (typeof name != 'object') {
-      // this.renderer.removeClass(document.body, 'dropdown-focus');
+      this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
@@ -480,11 +477,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     //     (res) => {
     //       if (Array.isArray(res) && res.length > 0) {
     // this.variantList = res;
-    if (document.body.classList.contains('dropdown-focus')) {
-      // The class 'dropdown-focus' has already been added to the body
 
-      this.renderer.removeClass(document.body, 'dropdown-focus');
-    }
 
     if (this.variantList) {
       this.filteredPopupVariant = this.vehicleDetailsForm.controls[
@@ -659,16 +652,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
   }
   vehcileRegistration(data: any) {
-    if (typeof name != 'object') {
-      if (document.body.classList.contains('dropdown-focus')) {
-        // The class 'dropdown-focus' has already been added to the body
-
-        this.renderer.removeClass(document.body, 'dropdown-focus');
-      }
-    }
     if (data == '') {
       this.getRTOData('blank');
     }
+  }
+  inputClicked(){
+    this.renderer.removeClass(document.body, 'dropdown-focus');
   }
 
   claimedPolicy(data: any) {

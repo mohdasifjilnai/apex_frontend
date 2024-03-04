@@ -457,7 +457,19 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
+*::-webkit-scrollbar {
+  width: 3px;
+}
 
+*::-webkit-scrollbar-track {
+  background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(202, 201, 201);
+  border-radius: 10px;
+  border: 1px solid rgb(202, 201, 201);
+}
 .vehicle-details-class {
   margin-left: 30% !important;
   .mat-dialog-container {
@@ -532,11 +544,7 @@ body.premium-breakout-css {
     }
   }
 }
-body.dropdown-focus {
-  .mat-autocomplete-panel.mat-autocomplete-visible {
-    visibility: hidden;
-}
-}
+
 .mat-error {
   padding-left: 12px;
 }

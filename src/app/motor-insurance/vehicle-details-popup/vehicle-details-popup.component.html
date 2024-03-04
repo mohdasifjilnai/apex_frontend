@@ -1,7 +1,7 @@
 <form
   [formGroup]="vehicleDetailsForm"
   (ngSubmit)="updateVehicleDetail()"
-  class="edit-vehicle-details"
+  class="edit-vehicle-details p-1"
 >
   <div>
     <!-- Dialog title -->
@@ -74,6 +74,7 @@
               placeholder="Search Variant"
               aria-label="vehicle_variant"
               (ngModelChange)="vehcileVariant($event)"
+              (focus)="inputClicked()"
               #autoCompleteInput
               [matAutocomplete]="autoVariant"
               formControlName="vehicle_variant"
@@ -122,6 +123,7 @@
               matInput
               placeholder="Search Registration City"
               (ngModelChange)="vehcileRegistration($event)"
+              (focus)="inputClicked()"
               aria-label="registration_city"
               #autoCompleteInput
               [matAutocomplete]="autoRegistrationCity"
