@@ -95,9 +95,9 @@ export class CkycComponent implements OnInit {
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = sessionStorage.getItem('quotes_data');
-    if (true) {
-      this.changeSubmitCkycName = true;
-    }
+    // if (true) {
+    //   this.changeSubmitCkycName = true;
+    // }
   }
 
   /**
@@ -145,55 +145,61 @@ export class CkycComponent implements OnInit {
     if (this.changeSubmitCkycName) {
       this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
     } else {
-      this.qoutes_data = sessionStorage.getItem('quotes_data');
-      let ckycData: any = {
-        proposal_id: '2332',
-        proposer_type: localStorage.getItem('proposerType'),
-        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
-        transaction_id: sessionStorage.getItem('transaction_id'),
-      };
+    this.qoutes_data = sessionStorage.getItem('quotes_data');
+    let ckycData: any = {
+      proposal_id: sessionStorage.getItem('proposal_Id'),
+      proposer_type: localStorage.getItem('proposerType'),
+      insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
+      transaction_id: sessionStorage.getItem('transaction_id'),
+    };
 
-      if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
-        ckycData['dob'] = this.datePipe.transform(
-          this.ckycFormGroup.get('dob')?.value,
-          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-        );
-        ckycData['document_number'] = String(
-          this.ckycFormGroup.get('document_number_based_field')?.value
-        );
-        ckycData['ckyc_number'] = '';
-        ckycData['document_type'] = this.filterDocumentType(
-          this.ckycFormGroup.get('document_type_based_field')?.value
-        );
-        ckycData['full_name'] =
-          this.ckycFormGroup.get('ckyc_full_name')?.value != undefined
-            ? this.ckycFormGroup.get('ckyc_full_name')?.value
-            : '';
-        ckycData['gender'] =
-          this.ckycFormGroup.get('ckyc_gender')?.value != undefined
-            ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
-            : '';
-        this.openWaitCkycVerificationPopup(ckycData);
-      } else {
-        ckycData['dob'] = '';
-        ckycData['document_number'] = '';
-        ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
-        ckycData['document_type'] = '';
+    if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
+      ckycData['dob'] = this.datePipe.transform(
+        this.ckycFormGroup.get('dob')?.value,
+        'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+      );
+      ckycData['document_number'] = String(
+        this.ckycFormGroup.get('document_number_based_field')?.value
+      );
+      ckycData['ckyc_number'] = '';
+      ckycData['document_type'] = this.filterDocumentType(
+        this.ckycFormGroup.get('document_type_based_field')?.value
+      );
+      ckycData['full_name'] =
+        this.ckycFormGroup.get('ckyc_full_name')?.value != undefined
+          ? this.ckycFormGroup.get('ckyc_full_name')?.value
+          : '';
+      ckycData['gender'] =
+        this.ckycFormGroup.get('ckyc_gender')?.value != undefined
+          ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+          : '';
+      this.openWaitCkycVerificationPopup(ckycData);
+    } else {
+      ckycData['dob'] = '';
+      ckycData['document_number'] = '';
+      ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
+      ckycData['document_type'] = '';
 
-        this.openWaitCkycVerificationPopup(ckycData);
-      }
+      this.openWaitCkycVerificationPopup(ckycData);
     }
+   }
   }
   /**
    * calender min max handling
    */
   setCalenderRange() {
     const currentDate = new Date();
-    this.maxDate = new Date(
-      this.maxDate.setFullYear(currentDate.getFullYear() - 18)
-    );
+    if (localStorage.getItem('proposerType') == 'corporate') {
+      this.maxDate = new Date(
+        this.maxDate.setFullYear(currentDate.getFullYear() - 0)
+      );
+    } else {
+      this.maxDate = new Date(
+        this.maxDate.setFullYear(currentDate.getFullYear() - 18)
+      );
+    }
     this.minDate = new Date(
-      this.minDate.setFullYear(currentDate.getFullYear() - 85)
+      this.minDate.setFullYear(currentDate.getFullYear() - 124)
     );
   }
 
