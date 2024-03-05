@@ -24,6 +24,7 @@ import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
 import { ShareQuotesComponent } from '../../shared/components/dialog-components/share-quotes/share-quotes.component';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import moment from 'moment';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -40,6 +41,8 @@ export class QuotesListingComponent implements OnInit {
   quotationArray = [];
   errorQuotationArray: any;
   tabDataList: any;
+  registrationDateMonth: any;
+  registrationDateYear: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -75,6 +78,7 @@ export class QuotesListingComponent implements OnInit {
   addShare: boolean = false;
   vehicleData: any;
   parsedVehicleData: any;
+  vehicleTypeValue: any;
 
   constructor(
     private router: Router,
@@ -95,7 +99,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProposalType();
-
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         this.quotationArray = quotes;
@@ -256,10 +260,20 @@ export class QuotesListingComponent implements OnInit {
   }
 
   quotesTabData() {
-    console.log(this.parsedVehicleData);
+    let registrationDate = new Date(this.parsedVehicleData?.registration_date);
+    let dateObj = moment(registrationDate, 'MM/YYYY');
+    let registrationMonth = moment(dateObj).month();
+    this.registrationDateMonth = moment(registrationMonth + 1, 'MM').format(
+      'MM'
+    );
+    this.registrationDateYear = moment(dateObj).year();
+
+    let policyExpired = new Date(this.parsedVehicleData?.policy_expiry_date);
+    let expiredDate = moment(policyExpired).format('DD-MM-YYYY');
+
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.getCoverageType}?reg_year=2023&vehicle_type=private_car&previous_policy_type=saod&previous_policy_expiry_date=29-02-2024`
+        `${ApiConstants.getCoverageType}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
       )
       .subscribe((res: any) => {
         this.tabDataList = res;

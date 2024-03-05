@@ -12,7 +12,7 @@
         {{ parsedVehicleData?.vehicle_model?.rb_model_name }}
         {{ parsedVehicleData?.vehicle_model?.rb_variant_name }} ,
         {{ parsedVehicleData?.vehicle_model?.fuel }} ,
-        {{ parsedVehicleData?.registration_city }}
+        {{ parsedVehicleData?.registration_city?.display_name }}
       </span>
     </div>
     <div>
@@ -30,26 +30,27 @@
     </div>
     <div>
       <span class="vehicle-card-heading-details">Policy Expiry Date</span><br />
-      <span class="vehicle-card-heading-details-data text-center"
-        >03 Feb, 2024</span
-      >
+      <span class="vehicle-card-heading-details-data text-center">{{
+        policyDate
+      }}</span>
     </div>
     <div>
       <span class="vehicle-card-heading-details">Previous Insurer</span><br />
-      <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-        >Future General</span
+      <span
+        class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+        >{{ previousInsurer ? previousInsurer : "-" }}</span
       >
     </div>
     <div>
       <span class="vehicle-card-heading-details">Previous NCB</span><br />
       <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-        >35%</span
+        >{{ previousNCB ? previousNCB : "0" }}%</span
       >
     </div>
     <div>
       <span class="vehicle-card-heading-details">New NCB</span><br />
       <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-        >25%</span
+        >{{ previousNCB ? previousNCB : "0" }}%</span
       >
     </div>
     <div>

@@ -196,7 +196,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
         this.getVehicleMMVPopup(
           '',
-          this.vehicleMMVValue.vehicle.rb_mmv_id,
+          this.vehicleMMVValue?.vehicle.rb_mmv_id,
           'mmvData'
         );
       }
@@ -722,6 +722,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.expiryList = res.expiring_policy_type;
           this.vehicleDetailsForm.patchValue({
             policy_expiry: '',
+            ncb_discount: '',
           });
         }
       });

@@ -192,6 +192,7 @@
           <app-policy-expired-date
             [required]="true"
             [policyExpiryDate]="'expiry-date'"
+            [formControlNameData]="'policy_expiry_date'"
           ></app-policy-expired-date>
         </div>
         <!-- Previous Insurer dropdown -->
@@ -227,8 +228,11 @@
               formControlName="ncb_discount"
               [disabled]="ncbDiscountData"
             >
-              <mat-option *ngFor="let ncb of ncbList" [value]="ncb?.id">
-                {{ ncb?.ncbName }}
+              <mat-option
+                *ngFor="let ncb of expiryList"
+                [value]="ncb?.offered_ncb_value"
+              >
+                {{ ncb?.offered_ncb_value }}
               </mat-option>
             </mat-select>
           </mat-form-field>

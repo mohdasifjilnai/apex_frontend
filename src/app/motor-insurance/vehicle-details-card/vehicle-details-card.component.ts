@@ -39,6 +39,9 @@ export class VehicleDetailsCardComponent implements OnInit {
   manufactureDate: any;
   manufactureMonth: any;
   manufactureYear: any;
+  policyDate: any;
+  previousInsurer: any;
+  previousNCB: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -78,6 +81,19 @@ export class VehicleDetailsCardComponent implements OnInit {
           'MMM'
         );
         this.manufactureYear = moment(this.manufactureDate).year();
+      }
+
+      let policyExpiryDate = new Date(
+        this.parsedVehicleData?.policy_expiry_date
+      );
+      this.policyDate = moment(policyExpiryDate).format('DD-MMM-YYYY');
+
+      if (this.parsedVehicleData?.previous_insurer?.rb_insurer_name) {
+        this.previousInsurer =
+          this.parsedVehicleData?.previous_insurer?.rb_insurer_name;
+      }
+      if (this.parsedVehicleData?.ncb_discount) {
+        this.previousNCB = this.parsedVehicleData?.ncb_discount;
       }
     });
   }
