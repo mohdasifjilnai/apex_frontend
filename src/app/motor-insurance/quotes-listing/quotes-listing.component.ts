@@ -73,6 +73,9 @@ export class QuotesListingComponent implements OnInit {
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
   addShare: boolean = false;
+  vehicleData: any;
+  parsedVehicleData: any;
+
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -92,7 +95,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProposalType();
-    this.quotesTabData();
+
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         this.quotationArray = quotes;
@@ -107,6 +110,13 @@ export class QuotesListingComponent implements OnInit {
           }
         }
       }
+    });
+
+    this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
+      this.vehicleData = cardData;
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      // this.getAddonList(this.vehicleTypeValue);
+      this.quotesTabData();
     });
   }
 
@@ -246,6 +256,7 @@ export class QuotesListingComponent implements OnInit {
   }
 
   quotesTabData() {
+    console.log(this.parsedVehicleData);
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.getCoverageType}?reg_year=2023&vehicle_type=private_car&previous_policy_type=saod&previous_policy_expiry_date=29-02-2024`

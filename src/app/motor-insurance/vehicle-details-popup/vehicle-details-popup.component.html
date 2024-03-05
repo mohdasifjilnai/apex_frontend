@@ -180,7 +180,7 @@
             <mat-select formControlName="policy_expiry">
               <mat-option
                 *ngFor="let expiry of expiryList"
-                [value]="expiry?.rb_expiring_policy_type_id"
+                [value]="expiry?.rb_expiring_policy_type_code"
               >
                 {{ expiry?.rb_expiring_policy_type }}
               </mat-option>
@@ -238,6 +238,7 @@
             mat-button
             class="submit-btn mb-4 vehicle-submission"
             type="submit"
+            [disabled]="vehicleDetailsForm.invalid"
           >
             {{ editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>

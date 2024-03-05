@@ -15,7 +15,7 @@ export class dropdown {
   styleUrls: ['./add-ons.component.scss'],
 })
 export class AddOnsComponent implements OnInit {
-  add_ons_list: any = add_ons_list;
+  add_ons_list: any;
   addonList: any;
   AccessoriesChecked: boolean = false;
   checkedValue: any;
@@ -37,6 +37,9 @@ export class AddOnsComponent implements OnInit {
   showButtons: boolean = false;
   forFetchQuotes: any;
   selected_addons: any;
+  vehicleData: any;
+  parsedVehicleData: any;
+  vehicleTypeValue: any;
 
   constructor(
     private apiService: ApiService,
@@ -45,17 +48,26 @@ export class AddOnsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let vehicleTypeValue = localStorage.getItem('vehicleType');
-    if (vehicleTypeValue) {
-      this.getAddonList(vehicleTypeValue);
-    }
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
+      this.vehicleData = cardData;
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      this.getAddonList(this.vehicleTypeValue);
+    });
   }
 
   /**
    * this fucntion use for clear all check box to uncheck
    */
-  clearAllChecked(): void {
-    this.add_ons_list.forEach((item: any) => (item.checked = false));
+  clearAllChecked() {
+    for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+      for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
+        this.addOnsArray[i].fe_template[j].checked = false;
+      }
+    }
+    this.selectedCheckedArray = [];
+    this.checkBoxValueArray = [];
+    this.inputValues = [];
   }
   @Output() checkBoxValue = new EventEmitter<any>();
   onCheckboxSelect(event: any, value: any, type: any, index: number) {
@@ -78,6 +90,7 @@ export class AddOnsComponent implements OnInit {
       this.checkBoxValueArray = this.checkBoxValueArray.filter(
         (item) => item !== valueToRemove
       );
+
       this.checkBoxValue.emit(this.checkBoxValueArray);
       if (this.checkBoxValueArray.length == 0) {
         this.showButtons = false;
@@ -108,7 +121,7 @@ export class AddOnsComponent implements OnInit {
   getAddonList(vehicleTypeValue: string) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=new&proposer_type=individual&product_type=bundled`
+        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=new&proposer_type=individual&product_type=${this.parsedVehicleData.policy_expiry}`
       )
       .subscribe((res: any) => {
         this.addonList = res;
@@ -123,6 +136,7 @@ export class AddOnsComponent implements OnInit {
             const coversData = {
               rb_type: value['rb_type'],
               fe_template: [value['fe_template']],
+              displayName: value['display_name'],
             };
             this.addOnsArray.push(coversData);
           } else {

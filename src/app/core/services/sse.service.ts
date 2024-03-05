@@ -19,21 +19,21 @@ export class SseService {
 
   getServerSentEvent(url: string): Observable<MessageEvent> {
     return new Observable((observer) => {
-      // const eventSource = this.getEventSource(url);
-      // eventSource.onopen = (ev) => {
-      //   console.log('Connection to server opened.', ev);
-      //   if(this.currentPageUrl != "/motor/quotes"){
-      //       eventSource.close()
-      //   }
-      // };
-      // eventSource.onerror = (ev) => {
-      //   console.log('EventSource failed.', ev);
-      // };
-      // eventSource.addEventListener('quotes', event => {
-      //   this.zone.run(() => {
-      //     observer.next(event);
-      //   });
-      // });
+      const eventSource = this.getEventSource(url);
+      eventSource.onopen = (ev) => {
+        console.log('Connection to server opened.', ev);
+        if (this.currentPageUrl != '/motor/quotes') {
+          eventSource.close();
+        }
+      };
+      eventSource.onerror = (ev) => {
+        console.log('EventSource failed.', ev);
+      };
+      eventSource.addEventListener('quotes', (event) => {
+        this.zone.run(() => {
+          observer.next(event);
+        });
+      });
     });
   }
   private getEventSource(url: string): EventSource {
