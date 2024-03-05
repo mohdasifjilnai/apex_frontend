@@ -159,7 +159,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
       user_car: [''],
-      policy_expiry_date: [''],
+      policy_expiry_date: ['', Validators.required],
       policy_expiry: ['', Validators.required],
       previous_claimed: [''],
       ncb_discount: [''],
@@ -691,7 +691,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.registrationNumber?.registration_month &&
         this.registrationNumber?.registration_year
       ) {
-        this.regDateObj = `${this.registrationNumber?.registration_month}-${this.registrationNumber?.registration_year}`;
+        this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
 
         expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}`;
       }
@@ -700,7 +700,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let regMonth = moment(dateObj).month();
       this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
       this.registrationYear = moment(dateObj).year();
-      let regModifiedDate = `${this.registrationMonth}-${this.registrationYear}`;
+      let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
       expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${this.vehicleTypeValue}`;
     } else {
       this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
@@ -710,7 +710,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let regMonth = moment(dateObj).month();
       this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
       this.registrationYear = moment(dateObj).year();
-      let regModifiedDate = `${this.registrationMonth}-${this.registrationYear}`;
+      let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
       expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${this.vehicleTypeValue}`;
     }
     this.apiservice

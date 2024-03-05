@@ -123,18 +123,49 @@ export class SharedDataService {
     let registrationMonth;
     let registrationYear;
     this.vehicleType = localStorage.getItem('vehicleType');
-    registrationValue = new Date(data?.registration_date);
-    registrationMonth = registrationValue?.getMonth() + 1;
-    registrationYear = registrationValue?.getFullYear();
+    if (data?.registration_month) {
+      registrationMonth = data?.registration_month;
+      registrationYear = data?.registration_year;
+    } else {
+      registrationValue = new Date(data?.registration_date);
+      registrationMonth = registrationValue?.getMonth() + 1;
+      registrationYear = registrationValue?.getFullYear();
+    }
+    let mmvId;
+    let rtoCode;
+    let previousExpiryDate;
+    let previousInsurerCode;
+    if (data?.rb_mmv_id?.rb_mmv_id) {
+      mmvId = data?.rb_mmv_id?.rb_mmv_id;
+    } else {
+      mmvId = data?.rb_mmv_id;
+    }
+    if (data?.rb_rto_code) {
+      rtoCode = data?.rb_rto_code;
+    } else {
+      rtoCode = data?.rto_code;
+    }
+    if (data?.previous_policy_exp_date) {
+      previousExpiryDate = data?.previous_policy_exp_date;
+    } else {
+      previousExpiryDate = data?.policy_expire_date;
+    }
+
+    if (data?.previous_insurer_code) {
+      previousInsurerCode = data?.previous_insurer_code;
+    } else {
+      previousInsurerCode = '';
+    }
+
     let quotesData = {
       customer_type: this.customerType,
       vehicle_type: this.vehicleType,
-      rb_mmv_id: data?.rb_mmv_id?.rb_mmv_id,
-      rb_rto_code: data?.rto_code,
+      rb_mmv_id: mmvId,
+      rb_rto_code: rtoCode,
       registration_month: registrationMonth,
       registration_year: registrationYear,
-      previous_insurer_code: '',
-      previous_policy_exp_date: data?.policy_expire_date,
+      previous_insurer_code: previousInsurerCode,
+      previous_policy_exp_date: previousExpiryDate,
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
@@ -239,7 +270,7 @@ export class SharedDataService {
 
       let mmvValues = {
         rb_mmv_id: mmvData.vehicle,
-        rto_code: mmvData.rto_city.rb_rto_id,
+        rto_code: mmvData.rto_city.rb_rto_code,
         registration_date: mmvData.registration_date,
         previous_insurer: mmvData.previous_insurer,
         policy_expire_date: policyExpiryDate,
@@ -258,7 +289,7 @@ export class SharedDataService {
 
       let mmvValues = {
         rb_mmv_id: mmvData.vehicle,
-        rto_code: mmvData.rto_city.rb_rto_id,
+        rto_code: mmvData.rto_city.rb_rto_code,
         registration_date: mmvData.registration_date,
         previous_insurer: mmvData.previous_insurer,
         policy_expire_date: policyExpiryDate,
