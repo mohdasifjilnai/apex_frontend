@@ -165,14 +165,14 @@ export class SharedDataService {
       registration_month: registrationMonth,
       registration_year: registrationYear,
       previous_insurer_code: previousInsurerCode,
-      previous_policy_exp_date: previousExpiryDate,
+      previous_policy_exp_date: previousExpiryDate.replace(/-/g, '/'),
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
       business_type: 'new',
       selected_addons: setectedAddons,
     };
-
+   console.log(quotesData,'mbhmsbmnsbmn')
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
