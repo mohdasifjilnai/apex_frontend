@@ -70,7 +70,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationMonth: any;
   registrationYear: any;
   regDateObj: any;
-
+  expiring_policy_type:any;
+  ncbDiscount:any;
+  manufactureDate:any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -307,7 +309,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             if (this.registrationNumber?.previous_policy_exp_date) {
               let inputDate = this.registrationNumber?.previous_policy_exp_date;
               let [day, month, year] = inputDate.split('-');
-              let reformattedDate = `${month}-${day}-${year}`;
+              let reformattedDate = `${month}/${day}/${year}`;
               this.vehicleDetailsForm.patchValue({
                 policy_expiry_date: new Date(reformattedDate),
               });
@@ -704,12 +706,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
       )
-      .subscribe((res) => {
+      ?.subscribe((res) => {
         if (res) {
           this.expiryList = res.expiring_policy_type;
+          this.expiring_policy_type=this.expiryList[0]?.rb_expiring_policy_type_code
+          this.ncbDiscount=this.expiryList[0]?.offered_ncb_value
+          this.manufactureDate = moment(`${this.registrationNumber?.manufactured_month}/${this.registrationNumber?.manufactured_year}`, 'MM/YYYY');
           this.vehicleDetailsForm.patchValue({
-            policy_expiry: '',
-            ncb_discount: '',
+            policy_expiry: (this.expiring_policy_type)?this.expiring_policy_type:'',
+            ncb_discount: (this.ncbDiscount)?this.ncbDiscount:'',
+             manufacture_date:(this.manufactureDate)?this.manufactureDate:''
           });
         }
       });

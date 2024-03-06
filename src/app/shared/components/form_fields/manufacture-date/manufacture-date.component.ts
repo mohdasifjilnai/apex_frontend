@@ -77,7 +77,7 @@ export class ManufactureDateComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'manufacture_date',
-        new FormControl(moment(), Validators.required)
+        new FormControl(null, Validators.required)
       );
     } else {
       this.form.addControl('manufacture_date', new FormControl(moment()));

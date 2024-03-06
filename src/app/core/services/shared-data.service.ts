@@ -262,7 +262,7 @@ export class SharedDataService {
       let policyExpiryDate;
       if (mmvData.policy_expiry_date != '') {
         policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-          'YYYY-MM-DD'
+          'DD/MM/YYYY'
         );
       } else {
         policyExpiryDate = '';
@@ -281,7 +281,7 @@ export class SharedDataService {
       let policyExpiryDate;
       if (mmvData.policy_expiry_date != '') {
         policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-          'YYYY-MM-DD'
+          'DD/MM/YYYY'
         );
       } else {
         policyExpiryDate = '';

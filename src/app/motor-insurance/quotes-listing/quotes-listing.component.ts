@@ -122,7 +122,6 @@ export class QuotesListingComponent implements OnInit {
         
       }
     });
-
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
