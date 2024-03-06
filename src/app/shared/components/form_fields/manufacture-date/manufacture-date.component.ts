@@ -80,9 +80,9 @@ export class ManufactureDateComponent implements OnInit {
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('manufacture_date', new FormControl(moment()));
+      this.form.addControl('manufacture_date', new FormControl(null));
     }
-    this.form.controls['manufacture_date'].setValue(null);
+    // this.form.controls['manufacture_date'].setValue(null);
   }
 
   /**

@@ -205,7 +205,6 @@ export class SharedDataService {
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
-            console.log(dataArray);
           },
           error: (error: any) => {
             // Handle errors if any

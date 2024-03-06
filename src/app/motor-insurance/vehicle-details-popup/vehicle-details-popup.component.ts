@@ -717,16 +717,20 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.expiring_policy_type =
             this.expiryList[0]?.rb_expiring_policy_type_code;
           this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
-          this.manufactureDate = moment(
-            `${this.registrationNumber?.manufactured_month}/${this.registrationNumber?.manufactured_year}`,
-            'MM/YYYY'
-          );
+          this.manufactureDate =
+            this.registrationNumber?.manufactured_month &&
+            this.registrationNumber?.manufactured_year
+              ? moment(
+                  `${this.registrationNumber?.manufactured_month}/${this.registrationNumber?.manufactured_year}`,
+                  'MM/YYYY'
+                )
+              : null;
           this.vehicleDetailsForm.patchValue({
             policy_expiry: this.expiring_policy_type
               ? this.expiring_policy_type
               : '',
             ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
-            manufacture_date: this.manufactureDate ? this.manufactureDate : '',
+            manufacture_date: this.manufactureDate,
           });
         }
       });
