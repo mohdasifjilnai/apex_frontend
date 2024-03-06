@@ -9,6 +9,7 @@
     id-automation="expiryDateId"
     #policyExpiryDateInput
     appDateFormat
+    [readonly]="true"
   />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
   <mat-datepicker #expiryDate (opened)="onOpen()"></mat-datepicker>
