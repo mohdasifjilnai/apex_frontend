@@ -35,4 +35,8 @@ export class ApiConstants {
 
   //generate proposal
   public static generate_proposal: string = `/api/v1/get_proposal`;
+
+  //ncb list
+
+  public static ncb_list: string = `/api/v1/ncb_discount/`;
 }

@@ -172,7 +172,6 @@ export class SharedDataService {
       business_type: 'new',
       selected_addons: setectedAddons,
     };
-   console.log(quotesData,'mbhmsbmnsbmn')
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
