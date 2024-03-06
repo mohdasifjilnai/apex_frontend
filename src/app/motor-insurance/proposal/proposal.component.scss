@@ -1,54 +1,51 @@
-.proposal-page{
-
-    ::ng-deep .mat-expansion-panel-body{
-        padding: 2px !important;
-    }
+.proposal-page {
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 2px !important;
+  }
 }
-.res-proposal-page{
-    display: none;
+.res-proposal-page {
+  display: none;
 }
 @media screen and (max-width: 999px) {
-    .proposal-page{
-        display: none;
+  .proposal-page {
+    display: none;
+  }
+  .res-proposal-page {
+    display: block;
+    .back-button {
+      display: block;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 15px;
+      .back-image {
+        width: 14px;
+        height: 12px;
+      }
     }
-    .res-proposal-page{
-        display: block;
-        .back-button{
-            display: block;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 15px;
-            .back-image{
-                width: 14px;
-                height: 12px;
-                
-            }
-        }
-        .stepper{
-            background-color: #fff;
-            border-radius: 16px 16px 0 0;
-            .step-icon{
-                width: 40px;
-            }
-            .stepper-icon{
-                width: 100%;
-            }
-            .step-text{
-                font-size: 11px;
-                font-weight: 500;
-                color: #939393;
-            }
-            .step-header-text{
-                font-size: 12px;
-                font-weight: 500;
-                color: #5384EA;
-            }
-        }
-        
+    .stepper {
+      background-color: #fff;
+      border-radius: 16px 16px 0 0;
+      .step-icon {
+        width: 40px;
+      }
+      .stepper-icon {
+        width: 100%;
+      }
+      .step-text {
+        font-size: 11px;
+        font-weight: 500;
+        color: #939393;
+      }
+      .step-header-text {
+        font-size: 12px;
+        font-weight: 500;
+        color: #5384ea;
+      }
     }
+  }
 }
-.isAccordianDisable{
-    opacity: 1;
-    pointer-events: none;
+.isAccordianDisable {
+  opacity: 1;
+  pointer-events: none;
 }

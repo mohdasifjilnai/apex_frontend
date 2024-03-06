@@ -13,8 +13,11 @@
   </mat-radio-group> -->
   <mat-form-field appearance="outline" class="mat-input-custom">
     <mat-label>Select Gender</mat-label>
-    <mat-select [formControlName]="formControlNameData" placeholder="Select {{label}}">
-      <mat-option *ngFor="let gender of genderList" [value]="gender?.id">
+    <mat-select
+      [formControlName]="formControlNameData"
+      placeholder="Select {{ label }}"
+    >
+      <mat-option *ngFor="let gender of genderList" [value]="gender?.name">
         {{ gender?.name }}
       </mat-option>
     </mat-select>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
@@ -43,14 +45,21 @@ export class ProposalReviewComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'terms-class',
   };
+  quoteData: any;
+  generateProposalData: any;
+
   constructor(
     private route: Router,
     private shareData: SharedDataService,
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private apiService: ApiService
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.quoteData = sessionStorage.getItem('quotes_data');
+    this.generateProposal();
+  }
   navigateToUrl(titleName: string) {
     this.route.navigate(['/motor/quotes/proposal/']);
     this.shareData.sendProposalReviewEditId(titleName);
@@ -98,5 +107,16 @@ export class ProposalReviewComponent implements OnInit {
     } else {
       this.openModal('', this.termsAndConditionJson);
     }
+  }
+  generateProposal() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.generate_proposal}/?insurer_code=${
+          JSON.parse(this.quoteData)['insurer_code']
+        }&proposal_id=${sessionStorage.getItem('proposal_Id')}`
+      )
+      .subscribe((res) => {
+        this.generateProposalData = res;
+      });
   }
 }

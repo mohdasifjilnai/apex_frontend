@@ -282,7 +282,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
 
             if (matchingModel) {
-              this.mmvData.push(matchingModel);
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
                 vehicle_model: matchingModel,
@@ -541,12 +540,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   this.rtoList[i].rb_rto_code ==
                   this.registrationNumber?.rb_rto_code
                 ) {
-                  this.mmvData.push(this.rtoList[i]);
-                  sessionStorage.setItem(
-                    'mmv_data',
-                    JSON.stringify(this.mmvData)
-                  );
-
                   this.vehicleDetailsForm.patchValue({
                     registration_city: this.rtoList[i],
                   });
@@ -558,12 +551,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   this.rtoList[i].rb_rto_code ==
                   this.vehicleMMVValue?.rto_city?.rb_rto_code
                 ) {
-                  this.mmvData.push(this.rtoList[i]);
-                  sessionStorage.setItem(
-                    'mmv_data',
-                    JSON.stringify(this.mmvData)
-                  );
-
                   this.vehicleDetailsForm.patchValue({
                     registration_city: this.rtoList[i],
                   });

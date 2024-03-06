@@ -65,6 +65,10 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
+      sessionStorage.setItem(
+        'mmv_data',
+        JSON.stringify(this.parsedVehicleData)
+      );
 
       let regDateValue = new Date(this.parsedVehicleData?.registration_date);
       this.registrationDate = moment(regDateValue, 'MM/YYYY');

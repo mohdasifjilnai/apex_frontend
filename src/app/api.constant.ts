@@ -32,4 +32,7 @@ export class ApiConstants {
   //create proposal
   public static create_proposal: string = `/api/v1/create_update_proposal/`;
   public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
+
+  //generate proposal
+  public static generate_proposal: string = `/api/v1/get_proposal`;
 }

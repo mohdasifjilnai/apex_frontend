@@ -37,11 +37,11 @@ export class OwnerStateComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'owner_state',
+        this.formControlNameData,
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('owner_state', new FormControl());
+      this.form.addControl(this.formControlNameData, new FormControl());
     }
   }
 
@@ -49,6 +49,6 @@ export class OwnerStateComponent implements OnInit {
     /**
      * remove form control for the Owner State
      */
-    this.form.removeControl('owner_state');
+    this.form.removeControl(this.formControlNameData);
   }
 }

@@ -30,12 +30,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   registrationAddressToggle!: ElementRef;
 
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
-    registration_number: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        /^([A-Z]{2}-\d{2}-[A-Z0-9]{2}-\d{4}|[A-Z]{2}-\d{2}-\d{4}|[A-Z]{2}-\d{2}-[A-Z]{3}-\d{4}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{1,2}|\d{2}-[A-Z]{2}-\d{4}-[A-Z]{2})$/
-      ),
-    ]),
+    registration_number: new FormControl('', [Validators.required]),
     vehicle_colour: new FormControl(''),
     engine_number: new FormControl('', [
       Validators.required,
@@ -51,13 +46,15 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ]),
     registration_date: new FormControl('', Validators.required),
     manufacture_date: new FormControl('', Validators.required),
-    vehicle_pincode: new FormControl('', Validators.required),
-    vehilce_city: new FormControl('', Validators.required),
-    vehicle_state: new FormControl('', Validators.required),
-    previous_insurer: new FormControl('', Validators.required),
-    financer: new FormControl('', Validators.required),
-    agreement_type: new FormControl('', Validators.required),
-    financer_city: new FormControl('', Validators.required),
+    vehicle_pincode: new FormControl(''),
+    vehilce_city: new FormControl(''),
+    vehicle_state: new FormControl(''),
+    financer: new FormControl(''),
+    agreement_type: new FormControl(''),
+    financer_city: new FormControl(''),
+    is_financed: new FormControl(''),
+    vehicle_registration_addres: new FormControl(''),
+    is_vehicle_address: new FormControl(''),
   });
 
   constructor(
@@ -67,13 +64,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.agreementList = [
       {
         id: 1,
-        agreementName: '',
+        agreementName: 'other',
       },
     ];
     this.financerList = [
       {
         id: 1,
-        financerName: '',
+        financerName: 'other',
       },
     ];
   }
@@ -84,6 +81,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   proposalFinancierBlankData(data: any) {}
   getProposalVehicleData(isValid: any) {
+    console.log(this.proposalVehilceDetailsForm, 'shiva');
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
       this.afterVehicleData.emit(formValues);
@@ -98,8 +96,84 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    */
   getFinacedValue() {
     const isChecked = this.financedToggle.nativeElement.checked;
+    if (isChecked) {
+      this.proposalVehilceDetailsForm
+        .get('financer')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm.get('financer')?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('agreement_type')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('agreement_type')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('financer_city')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('financer_city')
+        ?.updateValueAndValidity();
+    } else {
+      this.proposalVehilceDetailsForm.get('financer')?.setValidators([]);
+      this.proposalVehilceDetailsForm.get('financer')?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm.get('agreement_type')?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('agreement_type')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm.get('financer_city')?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('financer_city')
+        ?.updateValueAndValidity();
+    }
   }
   getRegistrationAddressValue() {
     const isChecked = this.registrationAddressToggle.nativeElement.checked;
+    if (isChecked) {
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_addres')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_addres')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehicle_pincode')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_pincode')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehilce_city')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehilce_city')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.updateValueAndValidity();
+    } else {
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_addres')
+        ?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_addres')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm.get('vehicle_pincode')?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_pincode')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm.get('vehilce_city')?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('vehilce_city')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.updateValueAndValidity();
+    }
   }
 }

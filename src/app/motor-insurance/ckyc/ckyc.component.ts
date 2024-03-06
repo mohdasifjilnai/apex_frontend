@@ -96,11 +96,21 @@ export class CkycComponent implements OnInit {
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = sessionStorage.getItem('quotes_data');
-    this.qoutes_data = sessionStorage.getItem('quotes_data');
-    this.insurer_code = JSON.parse(this.qoutes_data)['insurer_code'];
-    // if (true) {
-    //   this.changeSubmitCkycName = true;
-    // }
+    if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
+      this.changeSubmitCkycName = true;
+    }
+    this.sharedDataService.getProposalDetails.subscribe((proposal) => {
+      if (proposal?.ckyc_details !== null) {
+        this.ckycFormGroup.patchValue({
+          ckyc_id: proposal?.ckyc_details?.is_ckyc_verified ? 1 : 2,
+          document_type_based_field: proposal?.ckyc_details?.document_code,
+          document_number_based_field: proposal?.ckyc_details?.document_number,
+          dob: proposal?.ckyc_details?.dob,
+          ckyc_full_name: proposal?.ckyc_details?.full_name,
+          ckyc_gender: proposal?.ckyc_details?.gender,
+        });
+      }
+    });
   }
 
   /**
@@ -148,14 +158,15 @@ export class CkycComponent implements OnInit {
     if (this.changeSubmitCkycName) {
       this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
     } else {
+      this.qoutes_data = sessionStorage.getItem('quotes_data');
       let ckycData: any = {
         proposal_id: sessionStorage.getItem('proposal_Id'),
         proposer_type: localStorage.getItem('proposerType'),
-        insurer_code: this.insurer_code,
+        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
 
-      if (isValid) {
+      if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
         ckycData['dob'] = this.datePipe.transform(
           this.ckycFormGroup.get('dob')?.value,
           'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
@@ -176,15 +187,14 @@ export class CkycComponent implements OnInit {
             ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
             : '';
         this.openWaitCkycVerificationPopup(ckycData);
-      } 
-      // else {
-      //   ckycData['dob'] = '';
-      //   ckycData['document_number'] = '';
-      //   ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
-      //   ckycData['document_type'] = '';
+      } else {
+        ckycData['dob'] = '';
+        ckycData['document_number'] = '';
+        ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
+        ckycData['document_type'] = '';
 
-      //   this.openWaitCkycVerificationPopup(ckycData);
-      // }
+        this.openWaitCkycVerificationPopup(ckycData);
+      }
     }
   }
   /**

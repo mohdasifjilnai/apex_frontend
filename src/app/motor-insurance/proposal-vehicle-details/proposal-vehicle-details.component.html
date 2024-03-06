@@ -58,6 +58,7 @@
             role="switch"
             id="flexSwitchCheckChecked"
             checked
+            formControlName="is_financed"
             #financedToggle
             (change)="getFinacedValue()"
           />
@@ -116,7 +117,7 @@
         <mat-select formControlName="agreement_type">
           <mat-option
             *ngFor="let agreement of agreementList"
-            [value]="agreement?.id"
+            [value]="agreement?.agreementName"
           >
             {{ agreement?.agreementName }}
           </mat-option>
@@ -129,7 +130,7 @@
         <mat-select formControlName="financer_city">
           <mat-option
             *ngFor="let financer of financerList"
-            [value]="financer?.id"
+            [value]="financer?.financerName"
           >
             {{ financer?.financerName }}
           </mat-option>
@@ -148,6 +149,7 @@
             role="switch"
             id="flexSwitchCheckChecked"
             checked
+            formControlName="is_vehicle_address"
             #registrationAddressToggle
             (change)="getRegistrationAddressValue()"
           />

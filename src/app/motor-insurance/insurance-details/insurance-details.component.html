@@ -15,9 +15,11 @@
     <div class="d-flex">
       <img src="/assets/icon/four-wheeler.svg" alt="" class="vehicle-icon" />
       <p class="pt-3">
-        {{ mmvData[0].rb_make_name }} {{ mmvData[0].rb_model_name }},
-        {{ mmvData[0].fuel }},{{ mmvData[1].rb_rto_code }}
-        {{ mmvData[1].rb_city_name }}
+        {{ mmvData?.vehicle_model?.rb_make_name }}
+        {{ mmvData?.vehicle_model?.rb_model_name }}
+        {{ mmvData?.vehicle_model?.rb_variant_name }} ,
+        {{ mmvData?.vehicle_model?.fuel }} ,
+        {{ mmvData?.registration_city?.display_name }}
       </p>
     </div>
   </div>

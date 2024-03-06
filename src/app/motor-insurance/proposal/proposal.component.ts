@@ -42,14 +42,16 @@ export class ProposalComponent implements OnInit {
   ngOnInit(): void {
     this.sharedData.createProposalId();
     this.sharedData.getProposalDetails.subscribe((proposal) => {
-      // this.proposalDetails = proposal;
       if (proposal?.ckyc_details !== null) {
         this.showVehicleOwnerDetails = true;
-      } else if (proposal.customer_details !== null) {
+      }
+      if (proposal.customer_details !== null) {
         this.showNomineeDetails = true;
-      } else if (proposal.nominee_details !== null) {
+      }
+      if (proposal.nominee_details !== null) {
         this.showVehicleDetails = true;
-      } else if (proposal.vehicle_details !== null) {
+      }
+      if (proposal.vehicle_details !== null) {
         this.showPreviousPolicyDetails = true;
       }
     });

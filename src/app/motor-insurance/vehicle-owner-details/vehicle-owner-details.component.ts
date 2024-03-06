@@ -26,6 +26,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   @Input() fetchCkycData: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
+  salutationList: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -64,6 +65,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ]),
     marital_status: new FormControl('1', Validators.required),
     owner_gender: new FormControl('1', Validators.required),
+    ownner_salutation_type: new FormControl('1', Validators.required),
   });
 
   constructor(private sharedDataService: SharedDataService) {
@@ -71,6 +73,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       {
         id: 1,
         occupationName: 'Software Developer',
+      },
+    ];
+
+    this.salutationList = [
+      {
+        id: 1,
+        salutationName: 'MR',
+      },
+      {
+        id: 2,
+        salutationName: 'MRs',
       },
     ];
 

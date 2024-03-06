@@ -53,11 +53,11 @@ export class PreviousInsurerComponent implements OnInit {
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
-        'previous_insurer',
+        this.formControlNameData,
         new FormControl(null, Validators.required)
       );
     } else {
-      this.form.addControl('previous_insurer', new FormControl());
+      this.form.addControl(this.formControlNameData, new FormControl());
     }
     this.getInsurerData('');
 
@@ -143,7 +143,10 @@ export class PreviousInsurerComponent implements OnInit {
       this.getInsurerData('');
     }
   }
-  inputClicked(){
+  /**
+   * Removes the "dropdown-focus" class from the body element.
+   */
+  inputClicked() {
     this.renderer.removeClass(document.body, 'dropdown-focus');
   }
 }
