@@ -105,34 +105,30 @@ export class QuotesListingComponent implements OnInit {
     this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
-        if(this.progressValue==100){
+        if (this.progressValue == 100) {
           this.quotationArray = quotes;
-        this.quotationData = [];
-        this.errorQuotationArray = [];
-        for (let i = 0; i <= this.quotationArray.length - 1; i++) {
-          this.quotationArray[i]['error_message'];
-          if (this.quotationArray[i]['status']) {
-            
-            this.quotationData.push(this.quotationArray[i]);
-          } else {
-            this.errorQuotationArray.push(this.quotationArray[i]);
+          this.quotationData = [];
+          this.errorQuotationArray = [];
+          for (let i = 0; i <= this.quotationArray.length - 1; i++) {
+            this.quotationArray[i]['error_message'];
+            if (this.quotationArray[i]['status']) {
+              this.quotationData.push(this.quotationArray[i]);
+            } else {
+              this.errorQuotationArray.push(this.quotationArray[i]);
+            }
           }
         }
-        }
-        
       }
     });
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
-      if(this.vehicleData!=undefined){
+      if (this.vehicleData != undefined) {
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         // this.getAddonList(this.vehicleTypeValue);
         this.quotesTabData();
       }
-     
     });
   }
-  
 
   getProposalType() {
     this.apiService
@@ -270,26 +266,29 @@ export class QuotesListingComponent implements OnInit {
   }
 
   quotesTabData() {
-    let registrationDate = new Date(this.parsedVehicleData?.registration_date);
-    let dateObj = moment(registrationDate, 'MM/YYYY');
-    let registrationMonth = moment(dateObj).month();
-    this.registrationDateMonth = moment(registrationMonth + 1, 'MM').format(
-      'MM'
-    );
-    this.registrationDateYear = moment(dateObj).year();
+    if (this.parsedVehicleData != undefined) {
+      let registrationDate = new Date(
+        this.parsedVehicleData?.registration_date
+      );
+      let dateObj = moment(registrationDate, 'MM/YYYY');
+      let registrationMonth = moment(dateObj).month();
+      this.registrationDateMonth = moment(registrationMonth + 1, 'MM').format(
+        'MM'
+      );
+      this.registrationDateYear = moment(dateObj).year();
 
-    let policyExpired = new Date(this.parsedVehicleData?.policy_expiry_date);
-    let expiredDate = moment(policyExpired).format('DD/MM/YYYY');
-
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.getCoverageType}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
-      )
-      .subscribe((res: any) => {
-        this.tabDataList = res;
-      });
+      let policyExpired = new Date(this.parsedVehicleData?.policy_expiry_date);
+      let expiredDate = moment(policyExpired).format('DD/MM/YYYY');
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.getCoverageType}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
+        )
+        .subscribe((res: any) => {
+          this.tabDataList = res;
+        });
+    }
   }
-  intervalId :any=null;
+  intervalId: any = null;
   startProgress() {
     this.intervalId = setInterval(() => {
       this.progressValue += 1;
@@ -303,7 +302,6 @@ export class QuotesListingComponent implements OnInit {
     }, 200); // Interval of 1 second
   }
   getImagePosition(): string {
-   
     const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
     return `translateX(${position}%)`;
   }
