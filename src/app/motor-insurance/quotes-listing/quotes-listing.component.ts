@@ -276,7 +276,7 @@ export class QuotesListingComponent implements OnInit {
     this.registrationDateYear = moment(dateObj).year();
 
     let policyExpired = new Date(this.parsedVehicleData?.policy_expiry_date);
-    let expiredDate = moment(policyExpired).format('DD-MM-YYYY');
+    let expiredDate = moment(policyExpired).format('DD/MM/YYYY');
 
     this.apiService
       .getRequestedResponse(
