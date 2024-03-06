@@ -1,18 +1,23 @@
 <!-- Dialog title -->
 <div mat-dialog-title>
-  <div class="error-popup-header d-flex justify-content-end">
-    <img
-      src="/assets/icon/cross.svg"
-      (click)="onClose()"
-      class="cursor-pointer"
-      alt="close"
-    />
+  <div class="row">
+    <div class="text-center col-lg-10 col-10">
+      <span class="heading">Terms and Conditions</span>
+    </div>
+
+    <div class="error-popup-header col-lg-2 col-2 text-end">
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose()"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
   </div>
 </div>
 <!-- Dialog content -->
 <div mat-dialog-content>
   <div class="row">
-    <p class="text-center heading">Terms and Conditions</p>
     <div class="col-12">
       <div class="d-flex terms-content">
         <p>1.</p>

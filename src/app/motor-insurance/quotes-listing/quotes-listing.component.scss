@@ -8,7 +8,6 @@
   }
   .comprehensive-tab {
     background-color: #fff;
-    // margin: 20px 25px 0px 25px;
     .idv-amount {
       color: #282828;
       font-weight: 600;
@@ -135,6 +134,29 @@
   .changeIDV-sort-btn {
     display: none;
   }
+  .progress-container {
+    position: relative;
+  }
+  
+ 
+}
+.progress-container {
+  position: relative;
+  width: 100%;
+  height: 30px; /* Adjust height as needed */
+}
+::ng-deep .mat-progress-bar-background{
+  fill: white !important;
+} 
+::ng-deep .mat-progress-bar-buffer{
+  background-color: white;
+}
+::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
+  height: 60% !important;
+}
+.overlay-image {
+  width: 53px; 
+  height: 25px; 
 }
 .shareQuotes{
   position: relative;

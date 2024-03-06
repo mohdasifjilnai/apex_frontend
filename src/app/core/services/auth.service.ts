@@ -70,7 +70,7 @@ export class AuthService {
     localStorage.removeItem('code');
     this.loggedIn.next(false);
 
-    window.location.href = environment.apex;
+    // window.location.href = environment.apex;
   }
 
   getTokenFromStorage() {

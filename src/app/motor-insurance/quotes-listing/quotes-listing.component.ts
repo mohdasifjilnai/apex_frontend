@@ -43,6 +43,7 @@ export class QuotesListingComponent implements OnInit {
   tabDataList: any;
   registrationDateMonth: any;
   registrationDateYear: any;
+  progressValue = 0;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -100,19 +101,25 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.quotesTabData();
+    this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
-        this.quotationArray = quotes;
+        if(this.progressValue==100){
+          this.quotationArray = quotes;
         this.quotationData = [];
         this.errorQuotationArray = [];
         for (let i = 0; i <= this.quotationArray.length - 1; i++) {
           this.quotationArray[i]['error_message'];
           if (this.quotationArray[i]['status']) {
+            
             this.quotationData.push(this.quotationArray[i]);
           } else {
             this.errorQuotationArray.push(this.quotationArray[i]);
           }
         }
+        }
+        
       }
     });
 
@@ -123,6 +130,7 @@ export class QuotesListingComponent implements OnInit {
       this.quotesTabData();
     });
   }
+  
 
   getProposalType() {
     this.apiService
@@ -278,5 +286,23 @@ export class QuotesListingComponent implements OnInit {
       .subscribe((res: any) => {
         this.tabDataList = res;
       });
+  }
+  intervalId :any=null;
+  startProgress() {
+    this.intervalId = setInterval(() => {
+      this.progressValue += 1;
+      if (this.progressValue >= 100) {
+        clearInterval(this.intervalId);
+      } else {
+        const position = this.progressValue * 15;
+        // Use the position value as needed, for example, update the style of an element
+        const translatedX = this.getImagePosition();
+      }
+    }, 200); // Interval of 1 second
+  }
+  getImagePosition(): string {
+   
+    const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
+    return `translateX(${position}%)`;
   }
 }

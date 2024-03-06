@@ -41,7 +41,7 @@ export class ProposalReviewComponent implements OnInit {
     heightObtained: 'auto',
     topObtained: '5%',
     isOutSideClose: true,
-    classObtained: 'vehicle-details-class',
+    classObtained: 'terms-class',
   };
   constructor(
     private route: Router,

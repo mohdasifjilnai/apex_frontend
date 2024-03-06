@@ -470,6 +470,18 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   border-radius: 10px;
   border: 1px solid rgb(202, 201, 201);
 }
+.terms-class{
+  margin-left: 50% !important;
+  .mat-dialog-container {
+    border-radius: 30px !important;
+    overflow: unset !important;
+    width: 750px !important;
+    height: 100% !important;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+}
 .vehicle-details-class {
   margin-left: 30% !important;
   .mat-dialog-container {

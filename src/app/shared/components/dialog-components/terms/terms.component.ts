@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -9,12 +10,18 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class TermsComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<TermsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public bottomSheetRef: MatBottomSheetRef<TermsComponent>,
   ) {}
 
   ngOnInit(): void {}
 
   onClose(): void {
-    this.dialogRef.close();
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
+    
   }
 }
