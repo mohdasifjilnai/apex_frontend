@@ -385,7 +385,7 @@ export class SharedDataService {
             ? formData?.get('is_financed')?.value || ''
             : 'false',
         financer_details: {
-          financer_name: formData?.get('financer')?.value || '',
+          financer_name: '' || '',
           agreement_type: formData?.get('agreement_type')?.value || '',
           financer_branch: formData?.get('financer_city')?.value || '',
         },

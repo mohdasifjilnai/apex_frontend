@@ -44,7 +44,11 @@
               </mat-option>
             </mat-select>
             <mat-error
-              *ngIf="ckycFormGroup.get('document_type_based_field')?.hasError('required')"
+              *ngIf="
+                ckycFormGroup
+                  .get('document_type_based_field')
+                  ?.hasError('required')
+              "
             >
               This is a required field.
             </mat-error>
@@ -64,12 +68,20 @@
               placeholder="Enter Document Number"
             />
             <mat-error
-              *ngIf="ckycFormGroup.get('document_number_based_field')?.hasError('required')"
+              *ngIf="
+                ckycFormGroup
+                  .get('document_number_based_field')
+                  ?.hasError('required')
+              "
             >
               This is a required field.
             </mat-error>
             <mat-error
-              *ngIf="ckycFormGroup.get('document_number_based_field')?.hasError('validDOC')"
+              *ngIf="
+                ckycFormGroup
+                  .get('document_number_based_field')
+                  ?.hasError('validDOC')
+              "
             >
               Please enter the valid {{ documentName }} number
             </mat-error>

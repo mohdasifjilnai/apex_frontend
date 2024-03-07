@@ -99,7 +99,33 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sharedDataService.getProposalDetails.subscribe((proposal) => {
+      if (proposal?.customer_details !== null) {
+        this.owenerVehicleDetailsForm.patchValue({
+          owner_full_Name: proposal?.customer_details?.full_name,
+          owner_email: proposal?.customer_details?.email_id,
+          contact_number: proposal?.customer_details?.mobile_number,
+          owner_gstin: proposal?.customer_details?.gst_no,
+          additional_contact:
+            proposal?.customer_details?.additional_mobile_number,
+          owner_pincode:
+            proposal?.customer_details?.communication_address?.pincode,
+          owner_city:
+            proposal?.customer_details?.communication_address?.rb_city_id,
+          owner_state:
+            proposal?.customer_details?.communication_address?.rb_state_id,
+          ownner_occupation_type:
+            proposal?.customer_details?.occupation_type_id,
+          owner_communication_addres:
+            proposal?.customer_details?.communication_address?.address_line,
+          marital_status: proposal?.customer_details?.marital_status,
+          owner_gender: proposal?.customer_details?.gender,
+          ownner_salutation_type: proposal?.customer_details?.salutation,
+        });
+      }
+    });
+  }
   getVehicleDetails(isValid: any) {
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;

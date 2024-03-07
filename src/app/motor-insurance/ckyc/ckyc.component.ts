@@ -70,9 +70,6 @@ export class CkycComponent implements OnInit {
         name: 'No',
       },
     ];
-  }
-
-  ngOnInit(): void {
     if (this.isCheckKyc == false) {
       this.ckycFormGroup = this.formBuild.group({
         // ckyc_id: [2],
@@ -88,6 +85,9 @@ export class CkycComponent implements OnInit {
       });
       this.validationAddCkycForm();
     }
+  }
+
+  ngOnInit(): void {
     this.setCalenderRange();
     this.getDocumentType();
     this.proposerType = localStorage.getItem('proposerType');
@@ -102,7 +102,6 @@ export class CkycComponent implements OnInit {
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
         this.ckycFormGroup.patchValue({
-          ckyc_id: proposal?.ckyc_details?.is_ckyc_verified ? 1 : 2,
           document_type_based_field: proposal?.ckyc_details?.document_code,
           document_number_based_field: proposal?.ckyc_details?.document_number,
           dob: proposal?.ckyc_details?.dob,

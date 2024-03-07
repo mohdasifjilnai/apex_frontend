@@ -30,7 +30,7 @@ export class ApiConstants {
   public static getCoverageType = `/api/v1/get_coverage_types/`;
 
   //create proposal
-  public static create_proposal: string = `/api/v1/create_update_proposal/`;
+  public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
   public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
 
   //generate proposal
