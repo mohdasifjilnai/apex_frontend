@@ -38,7 +38,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (this.proposalData.previous_policy_details !== null) {
-        this.navigateToProposalReview();
+        this.previousPolicyDetailsForm.patchValue({
+          prev_policy_number:
+            this.proposalData.previous_policy_details?.policy_no,
+          previous_insurer:
+            this.proposalData.previous_policy_details?.insurer_code,
+          policy_expiry_date:
+            this.proposalData.previous_policy_details?.policy_expiry_date,
+        });
       }
     });
   }
@@ -61,6 +68,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         'previous_policy_details',
         this.previousPolicyDetailsForm
       );
+      this.navigateToProposalReview();
     }
   }
 }

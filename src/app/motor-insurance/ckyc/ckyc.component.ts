@@ -164,8 +164,7 @@ export class CkycComponent implements OnInit {
         insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
-
-      if (isValid && this.ckycFormGroup.get('ckyc_id')?.value == 2) {
+      if (isValid) {
         ckycData['dob'] = this.datePipe.transform(
           this.ckycFormGroup.get('dob')?.value,
           'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
@@ -173,25 +172,18 @@ export class CkycComponent implements OnInit {
         ckycData['document_number'] = String(
           this.ckycFormGroup.get('document_number_based_field')?.value
         );
-        ckycData['ckyc_number'] = '';
+        // ckycData['ckyc_number'] = '';
         ckycData['document_type'] = this.filterDocumentType(
           this.ckycFormGroup.get('document_type_based_field')?.value
         );
         ckycData['full_name'] =
           this.ckycFormGroup.get('ckyc_full_name')?.value != undefined
             ? this.ckycFormGroup.get('ckyc_full_name')?.value
-            : '';
+            : null;
         ckycData['gender'] =
           this.ckycFormGroup.get('ckyc_gender')?.value != undefined
             ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
-            : '';
-        this.openWaitCkycVerificationPopup(ckycData);
-      } else {
-        ckycData['dob'] = '';
-        ckycData['document_number'] = '';
-        ckycData['ckyc_number'] = this.ckycFormGroup.value.ckyc_number;
-        ckycData['document_type'] = '';
-
+            : null;
         this.openWaitCkycVerificationPopup(ckycData);
       }
     }

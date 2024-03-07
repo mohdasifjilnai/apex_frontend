@@ -75,7 +75,35 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.shareData.getProposalDetails.subscribe((proposal) => {
+      if (proposal?.vehicle_details !== null) {
+        this.proposalVehilceDetailsForm.patchValue({
+          registration_number: proposal?.vehicle_details?.registration_no,
+          vehicle_colour: proposal?.vehicle_details?.vehicle_color,
+          engine_number: proposal?.vehicle_details?.engine_no,
+          chassis_number: proposal?.vehicle_details?.chassis_no,
+          registration_date: proposal?.vehicle_details?.registration_date,
+          manufacture_date: proposal?.vehicle_details?.manufacture_date,
+          vehicle_pincode:
+            proposal?.vehicle_details?.registration_address?.pincode,
+          vehilce_city:
+            proposal?.vehicle_details?.registration_address?.rb_city_id,
+          vehicle_state:
+            proposal?.vehicle_details?.registration_address?.rb_state_id,
+          financer: proposal?.vehicle_details?.financer_details?.financer_name,
+          agreement_type:
+            proposal?.vehicle_details?.financer_details?.agreement_type,
+          financer_city:
+            proposal?.vehicle_details?.financer_details?.financer_branch,
+          is_financed: proposal?.vehicle_details?.is_vehicle_financed,
+          vehicle_registration_addres:
+            proposal?.vehicle_details?.registration_address?.address_line,
+          is_vehicle_address: proposal?.vehicle_details?.is_same_location,
+        });
+      }
+    });
+  }
 
   filterInsurer(name: string) {}
 

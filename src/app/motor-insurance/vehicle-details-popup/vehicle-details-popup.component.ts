@@ -93,6 +93,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
   registrationNumberValue: any;
   expiryListData: any;
+  expiryPolicyList: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -206,6 +207,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getExpiringPolicy();
       this.getRTOData();
       this.getNcbList();
+      this.getPolicyExpiryList();
     }, 2000);
 
     this.regNumber = sessionStorage.getItem('registrationNumber');
@@ -714,6 +716,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.getNcbList();
           }
           this.expiryList = res.expiring_policy_type;
+          console.log(this.expiryList, 'shivam');
           this.expiring_policy_type =
             this.expiryList[0]?.rb_expiring_policy_type_code;
           this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
@@ -747,6 +750,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
             });
           }
         }
+      });
+  }
+  getPolicyExpiryList() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.expiry_policy_list)
+      .subscribe((res) => {
+        this.expiryPolicyList = res;
       });
   }
 }

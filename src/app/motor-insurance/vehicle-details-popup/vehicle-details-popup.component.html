@@ -184,7 +184,11 @@
               <mat-option
                 *ngFor="let expiry of expiryList"
                 [value]="expiry?.rb_expiring_policy_type_code"
-                [matTooltip]="((expiry?.rb_expiring_policy_type ).length > 36) ? (expiry?.rb_expiring_policy_type )! : ''"
+                [matTooltip]="
+                  (expiry?.rb_expiring_policy_type).length > 36
+                    ? expiry?.rb_expiring_policy_type!
+                    : ''
+                "
               >
                 {{ expiry?.rb_expiring_policy_type }}
               </mat-option>

@@ -34,9 +34,12 @@ export class ApiConstants {
   public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
 
   //generate proposal
-  public static generate_proposal: string = `/api/v1/get_proposal`;
+  public static generate_proposal: string = `/api/v1/proposal/get_proposal`;
 
   //ncb list
 
   public static ncb_list: string = `/api/v1/ncb_discount/`;
+
+  // expiry policy list
+  public static expiry_policy_list: string = `api/v1/master/exp_policy_type/`;
 }

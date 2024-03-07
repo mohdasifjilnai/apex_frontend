@@ -51,6 +51,15 @@ export class NomineeDetailsComponent implements OnInit {
         age: age,
       });
     }
+    this.sharedData.getProposalDetails.subscribe((proposal) => {
+      if (proposal?.nominee_details !== null) {
+        this.nominneForm.patchValue({
+          nominne_full_Name: proposal?.nominee_details?.name,
+          age: proposal?.nominee_details?.age,
+          nominne_relation: proposal?.nominee_details?.relation_id,
+        });
+      }
+    });
   }
 
   getNomineeDetails(isValid: boolean) {
