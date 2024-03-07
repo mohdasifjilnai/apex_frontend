@@ -74,17 +74,18 @@
           >
             <app-previous-insurer
               [previousInsurer]="'previous-insurer'"
-              [disablePreviousInsurer]="disableInsurer"
+              *ngIf="!disableInsurer"
+              
               [formControlNameData]="'previous_insurer'"
             ></app-previous-insurer>
           </div>
+          <ng-container *ngIf="!disableInsurer">
           <div
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
           >
             <app-previous-insurer
               [previousInsurer]="'previous-insurer'"
-              [disablePreviousInsurer]="disableInsurer"
               [formControlNameData]="'previous_insurer'"
             ></app-previous-insurer>
           </div>
@@ -92,20 +93,22 @@
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && isResponsive()"
             [@slideUp]
+            
           >
             <app-policy-expired-date
               [policyExpiryDate]="'expiry-date'"
-              [disablePreviousInsurer]="disableInsurer"
+              
               [formControlNameData]="'policy_expiry_date'"
             ></app-policy-expired-date>
           </div>
+        </ng-container>
           <div
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
           >
             <app-policy-expired-date
               [policyExpiryDate]="'expiry-date'"
-              [disablePreviousInsurer]="disableInsurer"
+              *ngIf="!disableInsurer"
               [formControlNameData]="'policy_expiry_date'"
             ></app-policy-expired-date>
           </div>

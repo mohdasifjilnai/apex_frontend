@@ -61,10 +61,10 @@ export class VehicleComponent implements OnInit {
 
     this.sharedata.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
-      this.getVehicleMMV('', this.vehcileType);
+      // this.getVehicleMMV('', this.vehcileType);
     });
 
-    this.getVehicleMMV('', this.vehcileType);
+    // this.getVehicleMMV('', this.vehcileType);
   }
 
   /**
@@ -95,15 +95,15 @@ export class VehicleComponent implements OnInit {
   }
 
   vehcileMMV(data: any) {
-    if (data == '') {
-      this.getVehicleMMV('', this.vehcileType);
+    if (data.length >= 3) {
+      this.getVehicleMMV(data, this.vehcileType);
     }
   }
 
   getVehicleMMV(name: any, vehicletype: any) {
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}`
+        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
       )
       .subscribe((res) => {
         if (res) {
@@ -114,7 +114,7 @@ export class VehicleComponent implements OnInit {
           this.mmvDataNotAvailable = res.length > 0 ? '' : res.message;
           this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
             debounceTime(500),
-            startWith(''),
+            startWith(name),
             switchMap((name: any) => this.filterMMV(name))
           );
         }

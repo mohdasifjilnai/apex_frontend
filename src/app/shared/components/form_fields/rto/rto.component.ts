@@ -57,10 +57,9 @@ export class RTOComponent implements OnInit {
     } else {
       this.form.addControl('rto_city', new FormControl());
     }
-    this.getRTOData();
   }
 
-  getRTOData() {
+  getRTOData(name:any) {
     this.apiservice
       .getRequestedResponse(ApiConstants.get_rto_list)
       .subscribe((res) => {
@@ -72,7 +71,7 @@ export class RTOComponent implements OnInit {
             'rto_city'
           ].valueChanges.pipe(
             debounceTime(500),
-            startWith(''),
+            startWith(name),
             switchMap((name) => this.filterRTO(name)),
             catchError((error) => {
               console.error('Error filtering RTO data:', error);
@@ -127,8 +126,8 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
-    if (data === '') {
-      this.getRTOData();
+    if (data.length >=2) {
+      this.getRTOData(data);
     }
   }
 }

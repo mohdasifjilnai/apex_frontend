@@ -46,7 +46,8 @@ export class MotorInsuranceComponent implements OnInit {
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
-      Validators.minLength(8)
+      Validators.minLength(8),
+      Validators.maxLength(14)
     ]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
@@ -87,6 +88,10 @@ export class MotorInsuranceComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
+      if(res!='private_car'){
+        this.motorInsurance.get('registration_number')?.setValue(null);
+        this.motorInsurance.get('registration_number')?.clearValidators();
+      }
     });
     this.sharedDataService.detailNotFound.subscribe((res) => {
       this.vehicleNotFound = res;
@@ -100,9 +105,14 @@ export class MotorInsuranceComponent implements OnInit {
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
+        this.motorInsurance.get('previous_insurer')?.setValidators([Validators.required]);
+        this.motorInsurance.get('previous_insurer')?.updateValueAndValidity();
+        this.motorInsurance.get('policy_expiry_date')?.setValidators([Validators.required]);
+        this.motorInsurance.get('policy_expiry_date')?.updateValueAndValidity();
       } else {
         this.insurerDisable = true;
         this.disableInsurer = this.insurerDisable;
+        
         this.sharedDataService.insurerData(this.insurerDisable);
       }
     });
