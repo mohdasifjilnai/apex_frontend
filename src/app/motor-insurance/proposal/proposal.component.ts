@@ -55,6 +55,11 @@ export class ProposalComponent implements OnInit {
         this.showPreviousPolicyDetails = true;
       }
     });
+    this.sharedData.fetchKycData.subscribe((data) => {
+      if (data) {
+        this.showVehicleOwnerDetails = true;
+      }
+    });
   }
 
   ngAfterViewInit() {

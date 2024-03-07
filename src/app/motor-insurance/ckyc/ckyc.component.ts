@@ -275,6 +275,7 @@ export class CkycComponent implements OnInit {
 
     this.matDialog.openDialog(obj).subscribe((data) => {
       this.afterProceedGetData.emit(data);
+      this.sharedDataService.kycFetched(data);
     });
   }
   /**

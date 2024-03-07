@@ -28,7 +28,9 @@ export class SharedDataService {
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: Observable<[]>;
   getProposalDetails: Subject<any> = new Subject();
-  getValueWithoutRegistration:Subject<any> = new Subject()
+  getValueWithoutRegistration: Subject<any> = new Subject();
+  fetchKycData: Subject<any> = new Subject();
+
   regNumber: any;
   connectionData: any = [];
   vehicleType: any;
@@ -169,7 +171,8 @@ export class SharedDataService {
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
-      business_type: (sessionStorage.getItem('newVehicleType')=='false')?'renewal':'new',
+      business_type:
+        sessionStorage.getItem('newVehicleType') == 'false' ? 'renewal' : 'new',
       selected_addons: setectedAddons,
     };
     this.apiService
@@ -273,7 +276,7 @@ export class SharedDataService {
         previous_insurer: mmvData.previous_insurer,
         policy_expire_date: policyExpiryDate,
       };
-      this.getValueWithoutRegistration.next(mmvValues)
+      this.getValueWithoutRegistration.next(mmvValues);
       //  this.getQuotationListing(mmvValues, data);
     } else {
       mmvData = JSON.parse(formData);
@@ -293,7 +296,7 @@ export class SharedDataService {
         previous_insurer: mmvData.previous_insurer,
         policy_expire_date: policyExpiryDate,
       };
-      this.getValueWithoutRegistration.next(mmvValues)
+      this.getValueWithoutRegistration.next(mmvValues);
       // this.getQuotationListing(mmvValues, data);
     }
   }
@@ -427,5 +430,8 @@ export class SharedDataService {
   }
   sendProposalData(data: any) {
     this.getProposalDetails.next(data);
+  }
+  kycFetched(data: any) {
+    this.fetchKycData.next(data);
   }
 }
