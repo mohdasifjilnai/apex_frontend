@@ -73,6 +73,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   expiring_policy_type: any;
   ncbDiscount: any;
   manufactureDate: any;
+  isNewVehicle: boolean = true;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -163,8 +164,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
       user_car: [''],
-      policy_expiry_date: ['', Validators.required],
-      policy_expiry: ['', Validators.required],
+      policy_expiry_date: [''],
+      policy_expiry: [''],
       previous_claimed: [''],
       ncb_discount: [''],
       manufacture_date: [moment(), Validators.required],
@@ -176,13 +177,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
   withRegistrationNumber: any;
   changeRegNumber: any;
   registrationNumber: any;
+  dataWithoutRegistration:any
   ngOnInit(): void {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
     });
-
+     this.sharedDataService.getValueWithoutRegistration.subscribe(res=>{
+      this.dataWithoutRegistration=res
+     })
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
 
@@ -241,8 +245,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
+    if(this.registrationNumber){
+      this.sharedDataService.getQuotationListing(this.registrationNumber, 'registrationNumber');
+
+    }else{
+        this.sharedDataService.getQuotationListing(this.dataWithoutRegistration,'mmvQuotes')
+    }
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
     this.sharedDataService.vehicleCardData(vehicleFrom);
+  
   }
 
   /**
@@ -715,8 +726,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
           if (this.ncbDiscount) {
             this.getNcbList();
           }
+          this.isNewVehicle = res?.is_new_vehicle;
+          sessionStorage.setItem('newVehicleType',String(this.isNewVehicle))
+          this.setUpdateValidetion(this.isNewVehicle);
           this.expiryList = res.expiring_policy_type;
-          console.log(this.expiryList, 'shivam');
           this.expiring_policy_type =
             this.expiryList[0]?.rb_expiring_policy_type_code;
           this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
@@ -734,7 +747,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
               : '',
             ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
             manufacture_date: this.manufactureDate,
-          });
+          }); 
         }
       });
   }
@@ -752,11 +765,57 @@ export class VehicleDetailsPopupComponent implements OnInit {
         }
       });
   }
+  /**
+   *   get expiry ploicy list api
+   */ 
   getPolicyExpiryList() {
     this.apiservice
       .getRequestedResponse(ApiConstants.expiry_policy_list)
       .subscribe((res) => {
         this.expiryPolicyList = res;
       });
+  }
+
+/**
+ * set from validation 
+ */ 
+  setUpdateValidetion(isNewVehicle:boolean) {
+    if(!isNewVehicle){
+    this.vehicleDetailsForm
+      .get('policy_expiry_date')
+      ?.setValidators([Validators.required]);
+    this.vehicleDetailsForm.get('policy_expiry_date')?.updateValueAndValidity();
+    this.vehicleDetailsForm
+      .get('policy_expiry')
+      ?.setValidators([Validators.required]);
+    this.vehicleDetailsForm
+      .get('policy_expiry')
+      ?.updateValueAndValidity();
+      this.vehicleDetailsForm
+      .get('previous_insurer')
+      ?.setValidators([Validators.required]);
+    this.vehicleDetailsForm
+      .get('previous_insurer')
+      ?.updateValueAndValidity();
+      
+    }else{
+      this.vehicleDetailsForm
+      .get('policy_expiry_date')
+      ?.setValidators([]);
+    this.vehicleDetailsForm.get('policy_expiry_date')?.updateValueAndValidity();
+    this.vehicleDetailsForm
+      .get('policy_expiry')
+      ?.setValidators([]);
+    this.vehicleDetailsForm
+      .get('policy_expiry')
+      ?.updateValueAndValidity();
+      this.vehicleDetailsForm
+      .get('previous_insurer')
+      ?.setValidators([]);
+    this.vehicleDetailsForm
+      .get('previous_insurer')
+      ?.updateValueAndValidity();
+    }
+
   }
 }

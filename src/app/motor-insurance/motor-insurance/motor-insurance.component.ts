@@ -209,7 +209,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (regn_no) {
       sessionStorage.setItem('registrationNumber', `${regn_no}`);
 
-      this.sharedDataService.vehicleDetails('registrationNumber');
+       this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
   /**

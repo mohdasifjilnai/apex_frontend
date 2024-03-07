@@ -5,8 +5,8 @@
         (selectedTabChange)="onComprehensiveTabChange($event)"
         *ngFor="let quotesTab of tabDataList"
       >
-        <mat-tab label="{{ quotesTab.code }}">
-          <ng-template mat-tab-label id="{{ quotesTab.code }}">
+        <mat-tab label="{{ quotesTab?.code }}">
+          <ng-template mat-tab-label id="{{ quotesTab?.code }}">
             {{ quotesTab.name }}
             <!-- <span class="count">20</span> -->
           </ng-template>
