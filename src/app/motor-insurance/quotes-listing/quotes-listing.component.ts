@@ -43,6 +43,7 @@ export class QuotesListingComponent implements OnInit {
   tabDataList: any;
   registrationDateMonth: any;
   registrationDateYear: any;
+  registrationNumber: any;
   progressValue = 0;
   initiateQuotesJSON: {
     modalName: any;
@@ -80,6 +81,8 @@ export class QuotesListingComponent implements OnInit {
   vehicleData: any;
   parsedVehicleData: any;
   vehicleTypeValue: any;
+  selectedProductType: any;
+  vehicleMMVData: any;
 
   constructor(
     private router: Router,
@@ -101,30 +104,34 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    this.quotesTabData();
-    this.startProgress();
+
+    // this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
-        if (this.progressValue == 100) {
-          this.quotationArray = quotes;
-          this.quotationData = [];
-          this.errorQuotationArray = [];
-          for (let i = 0; i <= this.quotationArray.length - 1; i++) {
-            this.quotationArray[i]['error_message'];
-            if (this.quotationArray[i]['status']) {
-              this.quotationData.push(this.quotationArray[i]);
-            } else {
-              this.errorQuotationArray.push(this.quotationArray[i]);
-            }
+        // if (this.progressValue == 100) {
+        this.quotationArray = quotes;
+        this.quotationData = [];
+        this.errorQuotationArray = [];
+        for (let i = 0; i <= this.quotationArray.length - 1; i++) {
+          this.quotationArray[i]['error_message'];
+          if (this.quotationArray[i]['status']) {
+            this.quotationData.push(this.quotationArray[i]);
+          } else {
+            this.errorQuotationArray.push(this.quotationArray[i]);
           }
         }
+        // }
       }
+    });
+
+    this.sharedDataService.quotesData.subscribe((quotes) => {
+      this.quotesTabData();
     });
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
-        this.parsedVehicleData = JSON.parse(this.vehicleData);
-        // this.getAddonList(this.vehicleTypeValue);
-        this.quotesTabData();
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      // this.getAddonList(this.vehicleTypeValue);
+      this.quotesTabData();
     });
   }
 
@@ -183,6 +190,7 @@ export class QuotesListingComponent implements OnInit {
   }
 
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
+    this.selectedProductType = event.tab.textLabel;
     if (event.index === 1) {
       this.showComprehensiveDiv = false;
     } else {
@@ -283,6 +291,24 @@ export class QuotesListingComponent implements OnInit {
         )
         .subscribe((res: any) => {
           this.tabDataList = res;
+          this.selectedProductType = this.tabDataList[0].code;
+          this.registrationNumber =
+            sessionStorage.getItem('registrationNumber');
+          this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+          let mmvFormData = sessionStorage.getItem('mmv_data');
+          if (this.registrationNumber) {
+            this.sharedDataService.vehicleMMVDetails(
+              this.selectedProductType,
+              mmvFormData,
+              'registrationNumber'
+            );
+          } else {
+            this.sharedDataService.vehicleMMVDetails(
+              this.selectedProductType,
+              mmvFormData,
+              'mmvQuotes'
+            );
+          }
         });
     }
   }

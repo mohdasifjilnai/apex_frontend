@@ -47,7 +47,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_number: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
-      Validators.maxLength(14)
+      Validators.maxLength(14),
     ]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
@@ -88,7 +88,7 @@ export class MotorInsuranceComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
-      if(res!='private_car'){
+      if (res != 'private_car') {
         this.motorInsurance.get('registration_number')?.setValue(null);
         this.motorInsurance.get('registration_number')?.clearValidators();
       }
@@ -105,14 +105,18 @@ export class MotorInsuranceComponent implements OnInit {
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
-        this.motorInsurance.get('previous_insurer')?.setValidators([Validators.required]);
+        this.motorInsurance
+          .get('previous_insurer')
+          ?.setValidators([Validators.required]);
         this.motorInsurance.get('previous_insurer')?.updateValueAndValidity();
-        this.motorInsurance.get('policy_expiry_date')?.setValidators([Validators.required]);
+        this.motorInsurance
+          .get('policy_expiry_date')
+          ?.setValidators([Validators.required]);
         this.motorInsurance.get('policy_expiry_date')?.updateValueAndValidity();
       } else {
         this.insurerDisable = true;
         this.disableInsurer = this.insurerDisable;
-        
+
         this.sharedDataService.insurerData(this.insurerDisable);
       }
     });
@@ -165,7 +169,6 @@ export class MotorInsuranceComponent implements OnInit {
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
       sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-      this.sharedDataService.vehicleMMVDetails(this.motorInsurance, 'mmv');
       this.router.navigate(['/motor/quotes']);
     }
   }
@@ -209,7 +212,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (regn_no) {
       sessionStorage.setItem('registrationNumber', `${regn_no}`);
 
-       this.sharedDataService.vehicleDetails('registrationNumber');
+      this.sharedDataService.vehicleDetails('registrationNumber');
     }
   }
   /**

@@ -30,6 +30,7 @@ export class SharedDataService {
   getProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
+  quotesData: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -110,7 +111,11 @@ export class SharedDataService {
       });
   }
 
-  getQuotationListing(data?: any, value?: any) {
+  getQuotesTabs() {
+    this.quotesData.next('tabs');
+  }
+
+  getQuotationListing(data?: any, productType?: any, value?: any) {
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     if (!fetchQuotesData) {
       sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
@@ -167,13 +172,16 @@ export class SharedDataService {
       registration_month: registrationMonth,
       registration_year: registrationYear,
       previous_insurer_code: previousInsurerCode,
-      previous_policy_exp_date: previousExpiryDate.replace(/-/g, '/'),
+      previous_policy_exp_date: previousExpiryDate,
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
       business_type:
         sessionStorage.getItem('newVehicleType') == 'false' ? 'renewal' : 'new',
       selected_addons: setectedAddons,
+      product_type: productType,
+      manufacture_month: data.manufacture_month,
+      manufacture_year: data.manufacture_year,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -256,49 +264,41 @@ export class SharedDataService {
       });
   }
 
-  vehicleMMVDetails(formData: any, data: any) {
+  vehicleMMVDetails(producttype?: any, mmvFromData?: any, data?: any) {
     let mmvData;
-    if (data == 'mmv') {
-      mmvData = formData.value;
-      let policyExpiryDate;
-      if (mmvData.policy_expiry_date != '') {
-        policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-          'DD/MM/YYYY'
-        );
-      } else {
-        policyExpiryDate = '';
-      }
 
-      let mmvValues = {
-        rb_mmv_id: mmvData.vehicle,
-        rto_code: mmvData.rto_city.rb_rto_code,
-        registration_date: mmvData.registration_date,
-        previous_insurer: mmvData.previous_insurer,
-        policy_expire_date: policyExpiryDate,
-      };
-      this.getValueWithoutRegistration.next(mmvValues);
-      //  this.getQuotationListing(mmvValues, data);
+    mmvData = JSON.parse(mmvFromData);
+    let policyExpiryDate;
+
+    let manufactureValue;
+    let manufactureMonth;
+    let manufactureYear;
+
+    if (
+      mmvData.policy_expiry_date != '' &&
+      mmvData.policy_expiry_date != null
+    ) {
+      policyExpiryDate = moment(mmvData.policy_expiry_date).format(
+        'DD/MM/YYYY'
+      );
     } else {
-      mmvData = JSON.parse(formData);
-      let policyExpiryDate;
-      if (mmvData.policy_expiry_date != '') {
-        policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-          'DD/MM/YYYY'
-        );
-      } else {
-        policyExpiryDate = '';
-      }
-
-      let mmvValues = {
-        rb_mmv_id: mmvData.vehicle,
-        rto_code: mmvData.rto_city.rb_rto_code,
-        registration_date: mmvData.registration_date,
-        previous_insurer: mmvData.previous_insurer,
-        policy_expire_date: policyExpiryDate,
-      };
-      this.getValueWithoutRegistration.next(mmvValues);
-      // this.getQuotationListing(mmvValues, data);
+      policyExpiryDate = '';
     }
+    manufactureValue = new Date(mmvData?.manufacture_date);
+    manufactureMonth = manufactureValue?.getMonth() + 1;
+    manufactureYear = manufactureValue?.getFullYear();
+
+    let mmvValues = {
+      rb_mmv_id: mmvData.vehicle_model,
+      rto_code: mmvData.registration_city.rb_rto_code,
+      registration_date: mmvData.registration_date,
+      previous_insurer: mmvData.previous_insurer,
+      policy_expire_date: policyExpiryDate,
+      manufacture_month: manufactureMonth,
+      manufacture_year: manufactureYear,
+    };
+    this.getValueWithoutRegistration.next(mmvValues);
+    this.getQuotationListing(mmvValues, producttype, data);
   }
 
   vehicleCardData(fromData: any) {
