@@ -104,19 +104,19 @@
         </section>
         <section class="d-grid">
           <ng-container *ngIf="listValue?.next_type == 'tab'">
-            <div class="row p-2" *ngIf="i == tabIndex[i]">
-              <span
-                (click)="selectVoluntry(span)"
+            <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
+              <div
+                class="col-lg-6 col-md-6 col-6 mt-1"
                 *ngFor="let amount of listValue.value"
-                #span
-                [ngClass]="{
-                  'voluntry-selected': isSelected(amount),
-                  voluntry: !isSelected(amount)
-                }"
-                class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
               >
-                &#8377;{{ amount }}
-              </span>
+                <button
+                  class="voluntry"
+                  (click)="selectVoluntry(amount)"
+                  [class.active]="selectedVoluntryValue == amount"
+                >
+                  &#8377;{{ amount }}
+                </button>
+              </div>
             </div>
           </ng-container>
         </section>
@@ -129,97 +129,7 @@
       <button class="submit-btn" (click)="update()">Update</button>
     </div>
   </div>
-  <!-- <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Accessories </mat-panel-title>
-      </mat-expansion-panel-header>
-      <span>
-        <section class="my-2 d-grid" *ngFor="let data of accessories">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <mat-form-field
-            appearance="outline"
-            class="mat-input-custom"
-            *ngIf="isChecked(data?.value)"
-          >
-            <mat-label>{{ data?.value }}</mat-label>
-            <input
-              matInput
-              value="100000"
-              appNumbersOnly
-              additional_contact="contact_number"
-            />
-          </mat-form-field>
-        </section>
-      </span>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Additional Covers </mat-panel-title>
-      </mat-expansion-panel-header>
-      <span
-        ><section class="my-2 d-grid" *ngFor="let data of additional">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <ng-container *ngIf="isChecked(data?.value)">
-            <mat-form-field
-              appearance="outline"
-              *ngIf="data?.dataType == 'dropdown'"
-            >
-              <mat-label>Select Value</mat-label>
-              <mat-select [(ngModel)]="selectedValue">
-                <mat-option
-                  *ngFor="let items of additionalDropdown"
-                  [value]="items?.value"
-                  >{{ items?.viewValue }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-            <span *ngIf="data?.dataType == 'checkbox'" class="d-grid m-2">
-              <mat-checkbox *ngFor="let data of geographical">{{
-                data?.value
-              }}</mat-checkbox>
-            </span>
-          </ng-container>
-        </section>
-      </span>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Discounts/Deductibles </mat-panel-title>
-      </mat-expansion-panel-header>
-      <span
-        ><section class="my-2 d-grid" *ngFor="let data of discounts">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <ng-container *ngIf="isChecked(data?.value)">
-            <div *ngIf="data?.dataType == 'Voluntary'" class="row p-2">
-              <span
-                (click)="selectVoluntry(span)"
-                *ngFor="let amount of voluntryAmounts"
-                #span
-                [ngClass]="{
-                  'voluntry-selected': isSelected(amount),
-                  voluntry: !isSelected(amount)
-                }"
-                class="col-lg-5 col-md-5 col-11 voluntry offset-1 mt-1"
-              >
-                &#8377;{{ amount }}
-              </span>
-            </div>
-          </ng-container>
-        </section>
-      </span>
-    </mat-expansion-panel>
-  </mat-accordion> -->
+  
 </div>
 <div class="add-ons-res">
   <div class="header">
@@ -236,7 +146,9 @@
   <hr />
   <div class="m-2">
     <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
-      <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{ addOns.displayName }}</span>
+      <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{
+        addOns.displayName
+      }}</span>
       <section class="my-2 section-value">
         <span *ngFor="let listValue of addOns.fe_template; index as i">
           <section class="d-grid">
@@ -336,115 +248,25 @@
 
           <section class="d-grid">
             <ng-container *ngIf="listValue?.next_type == 'tab'">
-              <div class="row p-2" *ngIf="i == tabIndex[i]">
-                <span
-                  (click)="selectVoluntry(span)"
+              <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
+                <div
+                  class="col-lg-6 col-md-6 col-6 mt-1"
                   *ngFor="let amount of listValue.value"
-                  #span
-                  [ngClass]="{
-                    'voluntry-selected': isSelected(amount),
-                    voluntry: !isSelected(amount)
-                  }"
-                  class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
                 >
-                  &#8377;{{ amount }}
-                </span>
+                  <button
+                    class="voluntry"
+                    (click)="selectVoluntry(amount)"
+                    [class.active]="selectedVoluntryValue == amount"
+                  >
+                    &#8377;{{ amount }}
+                  </button>
+                </div>
               </div>
             </ng-container>
           </section>
         </span>
       </section>
     </div>
-    <!-- <div class="card-body p-2">
-      <span class="customise-header ps-3">Addons</span>
-      <section
-        class="my-2 section-value"
-        *ngFor="let listValue of add_ons_list"
-      >
-        <mat-checkbox [(ngModel)]="listValue.checked" (change)="onCheckboxSelect($event, listValue.value)">{{
-          listValue?.value
-        }}</mat-checkbox>
-      </section>
-    </div>
-    <div class="card-body p-2">
-      <span class="customise-header ps-3">Accessories</span>
-      <section class="my-2 section-value">
-        <div *ngFor="let data of accessories">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <mat-form-field
-            appearance="outline"
-            class="mat-input-custom"
-            *ngIf="isChecked(data?.value)"
-          >
-            <mat-label>{{ data?.value }}</mat-label>
-            <input
-              matInput
-              value="100000"
-              appNumbersOnly
-              additional_contact="contact_number"
-            />
-          </mat-form-field>
-        </div>
-      </section>
-    </div>
-    <div class="card-body p-2">
-      <span class="customise-header ps-3">Additional Covers</span>
-      <section class="my-2 section-value">
-        <div *ngFor="let data of additional">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <ng-container *ngIf="isChecked(data?.value)">
-            <mat-form-field
-              appearance="outline"
-              *ngIf="data?.dataType == 'dropdown'"
-            >
-              <mat-label>Select Value</mat-label>
-              <mat-select [(ngModel)]="selectedValue">
-                <mat-option
-                  *ngFor="let items of additionalDropdown"
-                  [value]="items?.value"
-                  >{{ items?.viewValue }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-            <span *ngIf="data?.dataType == 'checkbox'" class="d-grid m-2">
-              <mat-checkbox *ngFor="let data of geographical">{{
-                data?.value
-              }}</mat-checkbox>
-            </span>
-          </ng-container>
-        </div>
-      </section>
-    </div>
-    <div class="card-body p-2">
-      <span class="customise-header ps-3">Discounts/Deductibles</span>
-      <section class="my-2 section-value">
-        <div *ngFor="let data of discounts">
-          <mat-checkbox (change)="onCheckboxChange($event, data)">{{
-            data?.value
-          }}</mat-checkbox>
-          <ng-container *ngIf="isChecked(data?.value)">
-            <div *ngIf="data?.dataType == 'Voluntary'" class="row p-2">
-              <span
-                (click)="selectVoluntry(span)"
-                *ngFor="let amount of voluntryAmounts"
-                #span
-                [ngClass]="{
-                  'voluntry-selected': isSelected(amount),
-                  voluntry: !isSelected(amount)
-                }"
-                class="col-lg-5 col-md-5 col-5 voluntry offset-1 mt-1"
-              >
-                &#8377;{{ amount }}
-              </span>
-            </div>
-          </ng-container>
-        </div>
-      </section>
-    </div> -->
   </div>
   <div class="d-flex p-2 bottom-btn">
     <button class="cancel-btn col-6" (click)="clearAllChecked()">

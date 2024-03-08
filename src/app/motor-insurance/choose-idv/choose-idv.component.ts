@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-choose-idv',
@@ -9,7 +10,13 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 export class ChooseIDVComponent implements OnInit {
   investedAmount: number = 500000;
   currentAmount:number=500000;
-  constructor(public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>) {}
+  quotationData: any;
+  quotationArray = [];
+  progressValue = 0;
+  errorQuotationArray: any;
+  constructor(public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
+    private sharedDataService: SharedDataService,) {
+  }
 
   ngOnInit(): void {}
 

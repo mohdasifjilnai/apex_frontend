@@ -170,22 +170,11 @@ export class AddOnsComponent implements OnInit {
     return this.selectedAccessories.includes(value);
   }
 
-  selectedVoluntryAmounts: number[] = [];
+  selectedVoluntryValue:any
+  selectVoluntry(amount:any): void {
+    this.selectedVoluntryValue=amount
+  
 
-  selectVoluntry(span: HTMLSpanElement): void {
-    const amount = parseInt(span.innerText.substring(1).replace(',', ''), 10);
-
-    if (this.isSelected(amount)) {
-      this.selectedVoluntryAmounts = this.selectedVoluntryAmounts.filter(
-        (selectedAmount) => selectedAmount !== amount
-      );
-    } else {
-      this.selectedVoluntryAmounts.push(amount);
-    }
-  }
-
-  isSelected(amount: number): boolean {
-    return this.selectedVoluntryAmounts.includes(amount);
   }
   /**
    *  add ons list add/remove validation acording to chnage elements
@@ -232,10 +221,8 @@ export class AddOnsComponent implements OnInit {
       delete this.multiCheckbox[index];
       delete this.multiCheckboxField[index];
     } else if (isChecked && type == 'dropdown') {
-      if (this.dropDownValue == undefined) {
         this.dropDownIndex[index] = index;
         this.dropDownFieldIndex[index] = index;
-      }
     } else if (!isChecked && type == 'dropdown') {
       delete this.dropDownIndex[index];
       delete this.dropDownFieldIndex[index];

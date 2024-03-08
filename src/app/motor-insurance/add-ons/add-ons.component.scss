@@ -81,24 +81,29 @@
       cursor: pointer;
     }
   }
-  .voluntry {
-    border: 1px solid #ababab;
-    border-radius: 8px;
-    padding: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    color: #ababab;
+  .voluntry-btn{
+    .voluntry {
+      border: 1px solid #ababab;
+      border-radius: 8px;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      color: #ababab;
+      width: 100%;
+      background-color: #fff;
+    }
+    button.active {
+      border: 1px solid #5384ea;
+      border-radius: 8px;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      color: #5384ea;
+    }
   }
-  .voluntry-selected {
-    border: 1px solid #5384ea;
-    border-radius: 8px;
-    padding: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    color: #5384ea;
-  }
+ 
   .bottom-btn {
     position: sticky;
     bottom: 0;
@@ -155,23 +160,27 @@
       ::ng-deep .mat-form-field-wrapper {
         padding-bottom: 0 !important;
       }
-      .voluntry {
-        border: 1px solid #ababab;
-        border-radius: 8px;
-        padding: 5px;
-        font-size: 14px;
-        font-weight: 500;
-        text-align: center;
-        color: #ababab;
-      }
-      .voluntry-selected {
-        border: 1px solid #5384ea;
-        border-radius: 8px;
-        padding: 5px;
-        font-size: 14px;
-        font-weight: 500;
-        text-align: center;
-        color: #5384ea;
+      .voluntry-btn{
+        .voluntry {
+          border: 1px solid #ababab;
+          border-radius: 8px;
+          padding: 5px;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          color: #ababab;
+          width: 100%;
+          background-color: #fff;
+        }
+        button.active {
+          border: 1px solid #5384ea;
+          border-radius: 8px;
+          padding: 5px;
+          font-size: 14px;
+          font-weight: 500;
+          text-align: center;
+          color: #5384ea;
+        }
       }
     }
     .bottom-btn {
