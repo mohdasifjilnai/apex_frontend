@@ -25,13 +25,15 @@ export class OtpComponent implements OnInit {
   resendDisabled = false;
   countdown = 60;
   btnDisable: boolean=true;
-  
+  transactionId:any
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
     public router:Router,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.transactionId=sessionStorage.getItem('transaction_id')
+  }
 
   ngOnInit(): void {
     this.startResendTimer();
@@ -81,6 +83,8 @@ export class OtpComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
-    this.router.navigate(['motor/quotes/proposal/review/payment']);
+    this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-success`]);
+    // this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-failure`]);
+
   }
 }
