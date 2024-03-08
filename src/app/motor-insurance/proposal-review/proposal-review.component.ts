@@ -8,7 +8,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
-
+import {environment} from 'src/environments/environment'
 @Component({
   selector: 'app-proposal-review',
   templateUrl: './proposal-review.component.html',
@@ -58,7 +58,7 @@ export class ProposalReviewComponent implements OnInit {
     private apiService: ApiService
   ) {}
   ngOnInit(): void {
-    this.quoteData = sessionStorage.getItem('quotes_data');
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.generateProposal();
   }
@@ -70,16 +70,33 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
-    if (window.innerWidth <= 999) {
-      this.bottomSheet.open(OtpComponent);
-    } else {
-      this.openModal('', this.otpDialog);
-    }
+    let sendCommunicationObject = {
+      transaction_id: this.quoteData?.transaction_id,
+      share_type: 'otp',
+      partner_name: this.generateProposalData?.customer_details?.full_name,
+      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+      mail_id: this.generateProposalData?.customer_details?.email_id,
+      mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+      quote_id: [this.quoteData?.quote_id],
+      quote_request_id: this.quoteData?.quote_request_id,
+    };
+    this.apiService
+      .postRequestedResponse(`${ApiConstants.send_communication}`, sendCommunicationObject)
+      .subscribe((res) => {
+        if (res['message'] == 'Success') {
+          if (window.innerWidth <= 999) {
+            this.bottomSheet.open(OtpComponent);
+          } else {
+            this.openModal(sendCommunicationObject, this.otpDialog);
+          }
+        }
+      });
   }
   /**
    * this fucntion use open pop up modal
    */
-  openModal(ObjData: any, jsonData: any) {
+  openModal(sendCommunicationObject: any, jsonData: any) {
+    sendCommunicationObject['share_type'] = 'resend';
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -97,7 +114,7 @@ export class ProposalReviewComponent implements OnInit {
       isOutSideClose: jsonData['isOutSideClose'],
       minWidth: resWidth,
       dataInfo: {
-        data: ObjData,
+        sendCommunicationObject,
         top: resTop,
       },
     };
@@ -114,7 +131,7 @@ export class ProposalReviewComponent implements OnInit {
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.generate_proposal}/?insurer_code=${
-          JSON.parse(this.quoteData)['insurer_code']
+          this.quoteData['insurer_code']
         }&proposal_id=${sessionStorage.getItem('proposal_Id')}`
       )
       .subscribe((res) => {

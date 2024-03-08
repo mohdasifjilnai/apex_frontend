@@ -41,5 +41,10 @@ export class ApiConstants {
   public static ncb_list: string = `/api/v1/ncb_discount/`;
 
   // expiry policy list
-  public static expiry_policy_list: string = `api/v1/master/exp_policy_type/`;
+  public static expiry_policy_list: string = `/api/v1/master/exp_policy_type/`;
+
+  // share opt phone and email
+  public static send_communication:string=`/api/v1/spear/send_communication/`;
+  // verify opt by phone or email
+  public static verify_otp:string=`/api/v1/spear/verify_otp/`
 }

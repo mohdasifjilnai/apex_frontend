@@ -97,8 +97,8 @@ export class CkycComponent implements OnInit {
       ? this.dobPlaceholder
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
-    this.quoteData = sessionStorage.getItem('quotes_data');
-    if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data')||'{}');
+    if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
@@ -166,7 +166,7 @@ export class CkycComponent implements OnInit {
       let ckycData: any = {
         proposal_id: sessionStorage.getItem('proposal_Id'),
         proposer_type: localStorage.getItem('proposerType'),
-        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
+        insurer_code: this.qoutes_data['insurer_code'],
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
       if (isValid) {
@@ -233,7 +233,7 @@ export class CkycComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=reliance`
+        `${ApiConstants.document_type}?insurer_code=${this.quoteData?.insurer_code}`
       )
       .subscribe((res) => {
         this.documentList = res;

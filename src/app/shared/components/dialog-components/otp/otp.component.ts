@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/core/services/api.service';
+import { ApiConstants } from 'src/app/api.constant';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-otp',
@@ -24,15 +27,19 @@ export class OtpComponent implements OnInit {
   };
   resendDisabled = false;
   countdown = 60;
-  btnDisable: boolean=true;
-  transactionId:any
+  btnDisable: boolean = true;
+  transactionId: any;
+  communicationData: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
-    public router:Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private apiService: ApiService,
+    private _snackBar: MatSnackBar
   ) {
-    this.transactionId=sessionStorage.getItem('transaction_id')
+    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.communicationData = data['sendCommunicationObject'];
   }
 
   ngOnInit(): void {
@@ -41,12 +48,11 @@ export class OtpComponent implements OnInit {
 
   onOtpChange(otp: any) {
     this.otp = otp;
-    if(otp.length==6){
-      this.btnDisable=false
-    }else{
-      this.btnDisable=true
+    if (otp.length == 6) {
+      this.btnDisable = false;
+    } else {
+      this.btnDisable = true;
     }
-    
   }
   /**
    * Starts the countdown timer for OTP resend.
@@ -77,14 +83,34 @@ export class OtpComponent implements OnInit {
       this.dialogRef.close();
     }
   }
-  verify(){
-    if (window.innerWidth <= 999) {
-      this.bottomSheetRef.dismiss();
-    } else {
-      this.dialogRef.close();
-    }
-    this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-success`]);
-    // this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-failure`]);
-
+  verify() {
+    let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
+    this.apiService.getRequestedResponse(url).subscribe((res) => {
+      if (res['message'] == 'Invalid OTP') {
+        this._snackBar.open('Please enter valid otp');
+      } else {
+        if (window.innerWidth <= 999) {
+          this.bottomSheetRef.dismiss();
+        } else {
+          this.dialogRef.close();
+        }
+        this.router.navigate([
+          `motor/quotes/proposal/${this.transactionId}/review/payment-success`,
+        ]);
+        // this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-failure`]);
+      }
+    });
+  }
+  resendotp() {
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants.send_communication}`,
+        this.communicationData
+      )
+      .subscribe((res) => {
+        if (res) {
+          console.log(res, 'resend');
+        }
+      });
   }
 }

@@ -55,6 +55,7 @@
             <a
               *ngIf="!resendDisabled && countdown <= 0"
               class="disabled-resent-otp mt-1"
+              (click)="resendotp()"
             >
               Resend OTP
             </a>
