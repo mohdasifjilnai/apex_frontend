@@ -46,15 +46,15 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ]),
     registration_date: new FormControl('', Validators.required),
     manufacture_date: new FormControl('', Validators.required),
-    vehicle_pincode: new FormControl(''),
-    vehilce_city: new FormControl(''),
-    vehicle_state: new FormControl(''),
+    vehicle_pincode: new FormControl('', Validators.required),
+    vehilce_city: new FormControl('', Validators.required),
+    vehicle_state: new FormControl('', Validators.required),
     financer: new FormControl(''),
     agreement_type: new FormControl(''),
     financer_city: new FormControl(''),
     is_financed: new FormControl(''),
-    vehicle_registration_addres: new FormControl(''),
-    is_vehicle_address: new FormControl(''),
+    vehicle_registration_address: new FormControl('', Validators.required),
+    is_vehicle_address: new FormControl('', Validators.required),
   });
 
   constructor(
@@ -97,7 +97,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           financer_city:
             proposal?.vehicle_details?.financer_details?.financer_branch,
           is_financed: proposal?.vehicle_details?.is_vehicle_financed,
-          vehicle_registration_addres:
+          vehicle_registration_address:
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
@@ -158,35 +158,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     const isChecked = this.registrationAddressToggle.nativeElement.checked;
     if (isChecked) {
       this.proposalVehilceDetailsForm
-        .get('vehicle_registration_addres')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('vehicle_registration_addres')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('vehicle_pincode')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('vehicle_pincode')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('vehilce_city')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('vehilce_city')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('vehicle_state')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('vehicle_state')
-        ?.updateValueAndValidity();
-    } else {
-      this.proposalVehilceDetailsForm
-        .get('vehicle_registration_addres')
+        .get('vehicle_registration_address')
         ?.setValidators([]);
       this.proposalVehilceDetailsForm
-        .get('vehicle_registration_addres')
+        .get('vehicle_registration_address')
         ?.updateValueAndValidity();
       this.proposalVehilceDetailsForm.get('vehicle_pincode')?.setValidators([]);
       this.proposalVehilceDetailsForm
@@ -196,9 +171,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehilce_city')
         ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('vehicle_state')
-        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm.get('vehicle_state')?.setValidators([]);
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();

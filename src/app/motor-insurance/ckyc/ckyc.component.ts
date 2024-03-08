@@ -154,38 +154,37 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
-    if (this.changeSubmitCkycName) {
-      this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
-    } else {
-      this.qoutes_data = sessionStorage.getItem('quotes_data');
-      let ckycData: any = {
-        proposal_id: sessionStorage.getItem('proposal_Id'),
-        proposer_type: localStorage.getItem('proposerType'),
-        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
-        transaction_id: sessionStorage.getItem('transaction_id'),
-      };
-      if (isValid) {
-        ckycData['dob'] = this.datePipe.transform(
-          this.ckycFormGroup.get('dob')?.value,
-          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-        );
-        ckycData['document_number'] = String(
-          this.ckycFormGroup.get('document_number_based_field')?.value
-        );
-        // ckycData['ckyc_number'] = '';
-        ckycData['document_type'] = this.filterDocumentType(
-          this.ckycFormGroup.get('document_type_based_field')?.value
-        );
-        ckycData['full_name'] =
-          this.ckycFormGroup.get('ckyc_full_name')?.value != undefined
-            ? this.ckycFormGroup.get('ckyc_full_name')?.value
-            : null;
-        ckycData['gender'] =
-          this.ckycFormGroup.get('ckyc_gender')?.value != undefined
-            ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
-            : null;
-        this.openWaitCkycVerificationPopup(ckycData);
-      }
+    this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
+    this.qoutes_data = sessionStorage.getItem('quotes_data');
+    let ckycData: any = {
+      proposal_id: sessionStorage.getItem('proposal_Id'),
+      proposer_type: localStorage.getItem('proposerType'),
+      insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
+      transaction_id: sessionStorage.getItem('transaction_id'),
+    };
+    if (isValid) {
+      ckycData['dob'] = this.datePipe.transform(
+        this.ckycFormGroup.get('dob')?.value,
+        'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+      );
+      ckycData['document_number'] = String(
+        this.ckycFormGroup.get('document_number_based_field')?.value
+      );
+      // ckycData['ckyc_number'] = '';
+      ckycData['document_type'] = this.filterDocumentType(
+        this.ckycFormGroup.get('document_type_based_field')?.value
+      );
+      ckycData['full_name'] =
+        this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
+        this.ckycFormGroup.get('ckyc_full_name')?.value != ''
+          ? this.ckycFormGroup.get('ckyc_full_name')?.value
+          : null;
+      ckycData['gender'] =
+        this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
+        this.ckycFormGroup.get('ckyc_gender')?.value != ''
+          ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+          : null;
+      this.openWaitCkycVerificationPopup(ckycData);
     }
   }
   /**

@@ -5,23 +5,23 @@
   <input
     matInput
     placeholder="Enter Address"
-    formControlName="vehicle_registration_addres"
+    formControlName="vehicle_registration_address"
     appNoSpace
   />
   <mat-error
     *ngIf="
-      vehilceRegistrationForm.controls['vehicle_registration_addres']?.hasError(
-        'required'
-      )
+      vehilceRegistrationForm.controls[
+        'vehicle_registration_address'
+      ]?.hasError('required')
     "
   >
     This is required field
   </mat-error>
   <mat-error
     *ngIf="
-      vehilceRegistrationForm.controls['vehicle_registration_addres']?.hasError(
-        'pattern'
-      )
+      vehilceRegistrationForm.controls[
+        'vehicle_registration_address'
+      ]?.hasError('pattern')
     "
   >
     Invalid Address

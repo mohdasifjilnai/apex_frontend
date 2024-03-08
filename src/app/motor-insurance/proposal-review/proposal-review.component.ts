@@ -47,6 +47,7 @@ export class ProposalReviewComponent implements OnInit {
   };
   quoteData: any;
   generateProposalData: any;
+  transactionId: any;
 
   constructor(
     private route: Router,
@@ -58,14 +59,15 @@ export class ProposalReviewComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
+    this.transactionId = sessionStorage.getItem('transaction_id');
     this.generateProposal();
   }
   navigateToUrl(titleName: string) {
-    this.route.navigate(['/motor/quotes/proposal/']);
+    this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
     this.shareData.sendProposalReviewEditId(titleName);
   }
   back() {
-    this.route.navigate(['/motor/quotes/proposal']);
+    this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
     if (window.innerWidth <= 999) {

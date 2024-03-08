@@ -29,7 +29,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
     this.vehilceRegistrationForm = this.ctrlContainer.form;
     if (this.isRequired) {
       this.vehilceRegistrationForm.addControl(
-        'vehicle_registration_addres',
+        'vehicle_registration_address',
         new FormControl(null, [
           Validators.required,
           Validators.pattern(/^[a-zA-Z0-9 ]+$/),
@@ -37,7 +37,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
       );
     } else {
       this.vehilceRegistrationForm.addControl(
-        'vehicle_registration_addres',
+        'vehicle_registration_address',
         new FormControl()
       );
     }
