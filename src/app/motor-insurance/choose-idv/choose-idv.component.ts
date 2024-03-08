@@ -7,8 +7,8 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
   styleUrls: ['./choose-idv.component.scss'],
 })
 export class ChooseIDVComponent implements OnInit {
-  investedAmount: number = 600000;
-  currentAmount:number=0;
+  investedAmount: number = 500000;
+  currentAmount:number=500000;
   constructor(public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>) {}
 
   ngOnInit(): void {}

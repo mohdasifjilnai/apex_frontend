@@ -236,7 +236,7 @@
   <hr />
   <div class="m-2">
     <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
-      <span class="customise-header ps-3">{{ addOns.rb_type }}</span>
+      <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{ addOns.displayName }}</span>
       <section class="my-2 section-value">
         <span *ngFor="let listValue of addOns.fe_template; index as i">
           <section class="d-grid">

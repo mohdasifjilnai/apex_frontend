@@ -251,6 +251,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }else{
         this.sharedDataService.getQuotationListing(this.dataWithoutRegistration,'mmvQuotes')
     }
+    sessionStorage.setItem('policy_expiry', this.vehicleDetailsForm.value.policy_expiry);
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
     this.sharedDataService.vehicleCardData(vehicleFrom);
   
@@ -421,7 +422,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         }
       });
   }
-
+ 
   /**
    *
    * @param name filterMMV used for filter MMV data

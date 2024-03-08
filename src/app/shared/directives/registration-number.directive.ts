@@ -19,7 +19,7 @@ export class RegistrationNumberDirective {
       const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
       value = formattedValue.replace(/-$/, '');
     } else {
-      value = sanitizedValue.replace(/(.{4}[A-Za-z]+|[0-9]+)/g, '$1-');
+      value = sanitizedValue.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
       value = value.replace(/-$/, '');
 
     }

@@ -12,6 +12,7 @@
     [(ngModel)]="inputValue"
     (input)="onInputChange()"
     appRegistrationNumber
+    maxlength="14"
     
   />
   <mat-error *ngIf="form.controls['registration_number']?.hasError('required')">

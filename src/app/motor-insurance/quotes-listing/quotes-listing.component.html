@@ -3,19 +3,16 @@
     <div class="col-lg-4 col-md-4 col-12 toggle-btn">
       <mat-tab-group
         (selectedTabChange)="onComprehensiveTabChange($event)"
-        *ngFor="let quotesTab of tabDataList"
-      >
+        
+      ><ng-container *ngFor="let quotesTab of tabDataList">
         <mat-tab label="{{ quotesTab?.code }}">
           <ng-template mat-tab-label id="{{ quotesTab?.code }}">
             {{ quotesTab.name }}
             <!-- <span class="count">20</span> -->
           </ng-template>
         </mat-tab>
-        <!-- <mat-tab label="Third Party"
-          ><ng-template mat-tab-label id="Comprehensive">
-            Third Party<span class="third-party-count">10</span>
-          </ng-template></mat-tab -->
-        >
+      </ng-container>
+        
       </mat-tab-group>
     </div>
     <div class="col-lg-8 col-md-12 col-12">
