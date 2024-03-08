@@ -4,7 +4,7 @@
     <div>
       <p class="cover-text">Total Cover (IDV)</p>
       <p class="cover-amount">
-        &#8377; {{ initiateQuotes.premium_details.idv }}
+        &#8377; {{ initiateQuotes.premium_details.idv | numberFormat }}
       </p>
     </div>
 
@@ -30,7 +30,7 @@
       <span class="own-damage-text"> Basic Own Damage </span>
       <span class="own-damage-amount">
         &#8377;
-        {{ initiateQuotes.premium_details.od_premium_details.basic_od_premium }}
+        {{ initiateQuotes.premium_details.od_premium_details.basic_od_premium | numberFormat }}
       </span>
     </div>
     <div class="d-flex justify-content-between">
@@ -38,7 +38,7 @@
       <span class="own-damage-amount"
         >&#8377;
         {{
-          initiateQuotes.premium_details.od_premium_details.ncb_discount
+          initiateQuotes.premium_details.od_premium_details.ncb_discount | numberFormat 
         }}</span
       >
     </div>
@@ -46,7 +46,10 @@
     <div class="d-flex justify-content-between">
       <span class="own-damage-text"> Own Damage Discount </span>
       <span class="own-damage-amount">
-        <!-- &#8377; 0 -->
+        &#8377;
+        {{
+          initiateQuotes.premium_details.od_premium_details.od_discount | numberFormat 
+        }}
       </span>
     </div>
   </div>
@@ -58,11 +61,11 @@
     </span>
   </div>
   <div class="d-flex justify-content-between">
-    <span class="own-damage-text"> Basic Own Damage </span>
+    <span class="own-damage-text"> Basic Third Party </span>
     <span class="own-damage-amount"
       >&#8377;
       {{
-        initiateQuotes.premium_details.od_premium_details.basic_od_premium
+        initiateQuotes.premium_details.tp_premium_details.basic_tp_premium | numberFormat 
       }}</span
     >
   </div>
@@ -82,14 +85,14 @@
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold"> GST (18%) </span>
     <span class="own-damage-amount text-bold">
-      &#8377; {{ initiateQuotes.premium_details.total_gst }}
+      &#8377; {{ initiateQuotes.premium_details.total_gst | numberFormat }}
     </span>
   </div>
 
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold"> Total Premium </span>
     <span class="own-damage-amount text-bold">
-      &#8377; {{ initiateQuotes.premium_details.total_premium }}
+      &#8377; {{ initiateQuotes.premium_details.total_premium | numberFormat }}
     </span>
   </div>
 

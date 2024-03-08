@@ -83,6 +83,20 @@
 .policy {
   line-height: 0;
 }
+.share-download-btn{
+  padding: 0;
+  .share-button{
+    background-color: rgba(83, 132, 234, 0.0901960784);
+    color: #5384EA;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
 .res-insurance-details {
   display: none;
 }

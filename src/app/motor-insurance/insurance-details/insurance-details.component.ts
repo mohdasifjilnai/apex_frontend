@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
@@ -31,13 +31,25 @@ export class InsuranceDetailsComponent implements OnInit {
   showCard: boolean = false;
   quoteData: any;
   mmvData: any;
+  reviewURL: boolean=false;
 
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
-    public router: Router
-  ) {}
+    public router: Router,
+    private route: ActivatedRoute,
+  ) {
+    this.route.url.subscribe((segments) => {
+      const proposalSegment = segments.find(
+        (segment) => segment.path === 'review'
+      );
+      if (proposalSegment) {
+        const proposalValue = proposalSegment.path;
+        this.reviewURL = true;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');

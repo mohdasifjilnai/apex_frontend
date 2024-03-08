@@ -84,7 +84,7 @@
       <p class="od-value">&#x20B9; -</p>
     </div>
   </div>
-  <div class="col-12 policy">
+  <div class="col-12 policy" *ngIf="!reviewURL">
     <div class="d-flex justify-content-between mt-2">
       <section class="my-2 d-grid cpa-cover-section">
         <mat-checkbox id-automation="cpa_cover">
@@ -141,6 +141,7 @@
     >
   </div>
   <button
+  *ngIf="!reviewURL"
     type="button"
     class="download-button mt-3"
     id-automation="download_underwriting"
@@ -148,6 +149,26 @@
     <img src="/assets/icon/download.svg" alt="" class="edit-image" />
     Download Policy Underwriting
   </button>
+  <div class="d-flex share-download-btn" *ngIf="reviewURL">
+    <button
+    type="button"
+    class="share-button mt-3 me-2"
+    id-automation="download_underwriting"
+  >
+    <img src="/assets/icon/share.svg" alt="" class="edit-image" />
+    Share
+  </button>
+    <button
+    type="button"
+    class="download-button mt-3"
+    id-automation="download_underwriting"
+  >
+    <img src="/assets/icon/download.svg" alt="" class="edit-image" />
+    Download 
+  </button>
+  
+  </div>
+  
 </div>
 <div class="res-insurance-details">
   <div class="details-card p-2 mt-2 ps-4 pe-4">
