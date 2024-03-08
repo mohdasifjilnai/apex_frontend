@@ -6,13 +6,13 @@
     placeholder="policy expiry date"
     [formControlName]="formControlNameData"
     id-automation="policy_expiry_date"
-    id-automation="expiryDateId"
+    id-automation="expiry_date_id"
     #policyExpiryDateInput
     appDateFormat
     [readonly]="true"
   />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
-  <mat-datepicker #expiryDate (opened)="onOpen()"></mat-datepicker>
+  <mat-datepicker #expiryDate (opened)="onOpen()" id-automation="date_picker_expiry_date_id"></mat-datepicker>
 </mat-form-field>
 <div class="text-center" #datepickerFooter>
   <p

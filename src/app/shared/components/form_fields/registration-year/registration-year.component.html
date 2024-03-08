@@ -2,7 +2,7 @@
   <mat-label>Select Registration Date</mat-label>
   <input
     matInput
-    id-automation="registrationYearId"
+    id-automation="registration_year_id"
     [matDatepicker]="registrationYear"
     placeholder="Month and Year"
     formControlName="registration_date"
@@ -18,6 +18,7 @@
   <mat-datepicker
     #registrationYear
     startView="multi-year"
+    id-automation="datepicker_registration_year_id"
     (yearSelected)="chosenYearHandler($event)"
     (monthSelected)="chosenMonthHandler($event, registrationYear)"
   >
