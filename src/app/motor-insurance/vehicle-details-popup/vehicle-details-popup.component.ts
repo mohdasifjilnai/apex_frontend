@@ -74,7 +74,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   ncbDiscount: any;
   manufactureDate: any;
   isNewVehicle: boolean = true;
-
+  newVehicleData: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -232,11 +232,23 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   patchVehicleData(data: any) {
+    let registrationDateObject;
+    let manufactureDateObject;
+    if (data?.registration_date) {
+      let registrationDate = new Date(data?.registration_date);
+      registrationDateObject = moment(registrationDate, 'MM/YYYY');
+    }
+    if (data?.manufacture_date) {
+      let manufactureDate = new Date(data?.manufacture_date);
+      manufactureDateObject = moment(manufactureDate, 'MM/YYYY');
+    }
     this.vehicleDetailsForm.patchValue({
       vehicle_model: data.vehicle_model,
       vehicle_variant: data.vehicle_variant,
       registration_city: data.registration_city,
-      // vehicle_fuel
+      vehicle_fuel: data.vehicle_fuel,
+      registration_date: registrationDateObject,
+      manufacture_date: manufactureDateObject,
     });
   }
 
@@ -736,7 +748,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.getNcbList();
           }
           this.isNewVehicle = res?.is_new_vehicle;
-          sessionStorage.setItem('newVehicleType', String(this.isNewVehicle));
+          this.newVehicleData =
+            res?.is_new_vehicle == 'false' ? 'renewal' : 'new';
+          sessionStorage.setItem('newVehicleType', this.newVehicleData);
           this.setUpdateValidetion(this.isNewVehicle);
           this.expiryList = res.expiring_policy_type;
           this.expiring_policy_type =
@@ -755,8 +769,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
               ? this.expiring_policy_type
               : '',
             ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
-            manufacture_date: this.manufactureDate,
           });
+          if (!this.vehiclePopupList) {
+            this.vehicleDetailsForm.patchValue({
+              manufacture_date: this.manufactureDate,
+            });
+          }
         }
       });
   }

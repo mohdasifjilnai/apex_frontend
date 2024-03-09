@@ -179,8 +179,7 @@ export class SharedDataService {
       previous_year_ncb: 0,
       is_ownership_transfer: this.ownershipTransfer,
       is_claimed: this.claimedData,
-      business_type:
-        sessionStorage.getItem('newVehicleType') == 'false' ? 'renewal' : 'new',
+      business_type: sessionStorage.getItem('newVehicleType'),
       selected_addons: setectedAddons,
       product_type: productType,
       manufacture_month: data.manufacture_month,
