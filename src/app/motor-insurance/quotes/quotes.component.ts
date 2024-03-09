@@ -47,11 +47,13 @@ export class QuotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
-
+    let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      this.openVehicleDetailsPopup(null);
+      if (!popupData) {
+        this.openVehicleDetailsPopup(null);
+      }
     }
 
     sessionStorage.removeItem('proposal_Id');

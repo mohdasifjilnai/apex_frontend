@@ -201,6 +201,7 @@ export class SharedDataService {
         this.longPollingInfo.subscribe({
           next: (value: any) => {
             // Push each emitted value into the array
+            dataArray = [];
             dataArray.push(value);
 
             const quotesArray = dataArray[0].quotes;

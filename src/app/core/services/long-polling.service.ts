@@ -20,7 +20,7 @@ export class LongPollingService implements OnDestroy {
   transactionIdData: any;
   quotesId: any;
   constructor(private http: HttpClient) {
-    this.allQuotesData = timer(1, 15000).pipe(
+    this.allQuotesData = timer(1, 12000).pipe(
       switchMap(() =>
         http.get(
           `/api/v1/generate_quotes/${this.transactionIdData}/${this.quotesId}`
@@ -28,7 +28,7 @@ export class LongPollingService implements OnDestroy {
       ),
       retry(),
       tap(console.log),
-      takeUntil(timer(150000)), // timeout after 5 hits (5 * 10000ms)
+      takeUntil(timer(150000)),
       share(),
       takeUntil(this.stopPolling)
     );

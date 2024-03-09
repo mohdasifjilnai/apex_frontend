@@ -74,6 +74,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   ncbDiscount: any;
   manufactureDate: any;
   isNewVehicle: boolean = true;
+
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -95,6 +96,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationNumberValue: any;
   expiryListData: any;
   expiryPolicyList: any;
+  vehiclePopupList: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -138,19 +140,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
       },
     ];
 
-    /**
-     * Sample data for the Previous Year NCB Discount dropdown list
-     */
-    this.ncbList = [
-      {
-        id: 1,
-        ncbName: '0%',
-      },
-    ];
-
     this.sharedDataService.getVehicleDetails.subscribe((res) => {
       if (res === 'edit') {
         this.editVehicleDetails = false;
+        this.vehiclePopupList = sessionStorage.getItem('mmv_data');
+        let vehicleCard = JSON.parse(this.vehiclePopupList);
+        if (vehicleCard) {
+          this.patchVehicleData(vehicleCard);
+        }
       }
     });
   }
@@ -197,6 +194,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     //     'mmvQuotes'
     //   );
     // }
+
+    // let popup
     setTimeout(() => {
       if (this.registrationNumber?.rb_mmv_id) {
         this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
@@ -232,6 +231,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
   }
 
+  patchVehicleData(data: any) {
+    this.vehicleDetailsForm.patchValue({
+      vehicle_model: data.vehicle_model,
+      vehicle_variant: data.vehicle_variant,
+      registration_city: data.registration_city,
+      // vehicle_fuel
+    });
+  }
+
   onClose(): void {
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
@@ -247,13 +255,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.dialogRef.close();
     }
     this.sharedDataService.getQuotesTabs();
-
+    sessionStorage.setItem('vehiclePopup', 'true');
     sessionStorage.setItem(
       'policy_expiry',
       this.vehicleDetailsForm.value.policy_expiry
     );
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
-
+    sessionStorage.setItem('mmv_data', vehicleFrom);
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
 

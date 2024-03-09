@@ -24,19 +24,22 @@
           >
         </div>
         <div>
-          <span class="vehicle-card-heading-details">Registration Date</span><br />
+          <span class="vehicle-card-heading-details">Registration Date</span
+          ><br />
           <span class="vehicle-card-heading-details-data">
             {{ registrationMonth }} {{ registrationYear }}
           </span>
         </div>
         <div>
-          <span class="vehicle-card-heading-details">Policy Expiry Date</span><br />
+          <span class="vehicle-card-heading-details">Policy Expiry Date</span
+          ><br />
           <span class="vehicle-card-heading-details-data text-center">{{
-            policyDate
+            policyDate ? policyDate : "-"
           }}</span>
         </div>
         <div>
-          <span class="vehicle-card-heading-details">Previous Insurer</span><br />
+          <span class="vehicle-card-heading-details">Previous Insurer</span
+          ><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ previousInsurer ? previousInsurer : "-" }}</span
@@ -44,25 +47,30 @@
         </div>
         <div>
           <span class="vehicle-card-heading-details">Previous NCB</span><br />
-          <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+          <span
+            class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ previousNCB ? previousNCB : "0" }}</span
           >
         </div>
         <div>
           <span class="vehicle-card-heading-details">New NCB</span><br />
-          <span class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+          <span
+            class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ previousNCB ? previousNCB : "0" }}</span
           >
         </div>
         <div>
-          <button type="button" class="edit-button" (click)="openDialog('edit')">
+          <button
+            type="button"
+            class="edit-button"
+            (click)="openDialog('edit')"
+          >
             <img src="/assets/icon/edit.svg" alt="" />
             Edit
           </button>
         </div>
       </div>
     </div>
-    
   </div>
 </div>
 
@@ -73,8 +81,9 @@
         <span class="vehicle-card-heading-details"
           >Vehicle Variant, Fuel & RTO/City</span
         ><br />
-        <span class="vehicle-card-heading-details-data"
-        *ngIf="parsedVehicleData != ''"
+        <span
+          class="vehicle-card-heading-details-data"
+          *ngIf="parsedVehicleData != ''"
           >{{ parsedVehicleData?.vehicle_model?.rb_make_name }}
           {{ parsedVehicleData?.vehicle_model?.rb_model_name }}
           {{ parsedVehicleData?.vehicle_model?.rb_variant_name }} ,
@@ -133,7 +142,9 @@
       <div class="d-flex justify-content-between">
         <div>
           <span class="vehicle-card-heading-details">Previous NCB</span><br />
-          <span class="vehicle-card-heading-details-data">{{ previousNCB ? previousNCB : "0" }}</span>
+          <span class="vehicle-card-heading-details-data">{{
+            previousNCB ? previousNCB : "0"
+          }}</span>
         </div>
         <div>
           <span class="vehicle-card-heading-details text-end">New NCB</span

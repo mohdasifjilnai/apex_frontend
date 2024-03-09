@@ -128,7 +128,14 @@ export class MotorInsuranceComponent implements OnInit {
     if (vehicleMMVData) {
       sessionStorage.removeItem('vehicleMMVData');
     }
-
+    let vehiclePopup = sessionStorage.getItem('vehiclePopup');
+    if (vehiclePopup) {
+      sessionStorage.removeItem('vehiclePopup');
+    }
+    let vehicleMMV = sessionStorage.getItem('mmv_data');
+    if (vehicleMMV) {
+      sessionStorage.removeItem('mmv_data');
+    }
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     if (fetchQuotesData) {
       sessionStorage.removeItem('fetchQuotesData');

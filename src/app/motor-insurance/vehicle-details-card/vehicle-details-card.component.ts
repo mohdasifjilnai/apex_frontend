@@ -42,6 +42,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   policyDate: any;
   previousInsurer: any;
   previousNCB: any;
+  vehiclePopupList: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -62,46 +63,49 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.ProposalURL = true;
       }
     });
+    this.vehiclePopupList = sessionStorage.getItem('mmv_data');
+    let vehicleCard = JSON.parse(this.vehiclePopupList);
+    if (vehicleCard) {
+      this.vehicleCardData(vehicleCard);
+    }
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
-      sessionStorage.setItem(
-        'mmv_data',
-        JSON.stringify(this.parsedVehicleData)
+      this.vehicleCardData(this.parsedVehicleData);
+    });
+  }
+
+  vehicleCardData(data: any) {
+    this.parsedVehicleData = data;
+    let regDateValue = new Date(this.parsedVehicleData?.registration_date);
+    this.registrationDate = moment(regDateValue, 'MM/YYYY');
+    let regMonth = moment(this.registrationDate).month();
+    this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
+    this.registrationYear = moment(this.registrationDate).year();
+    if (this.parsedVehicleData?.manufacture_date) {
+      let manufactureDateValue = new Date(
+        this.parsedVehicleData?.manufacture_date
       );
-
-      let regDateValue = new Date(this.parsedVehicleData?.registration_date);
-      this.registrationDate = moment(regDateValue, 'MM/YYYY');
-      let regMonth = moment(this.registrationDate).month();
-      this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
-      this.registrationYear = moment(this.registrationDate).year();
-      if (this.parsedVehicleData?.manufacture_date) {
-        let manufactureDateValue = new Date(
-          this.parsedVehicleData?.manufacture_date
-        );
-        this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
-        let manufactureMonth = moment(this.manufactureDate).month();
-        this.manufactureMonth = moment(manufactureMonth + 1, 'MM').format(
-          'MMM'
-        );
-        this.manufactureYear = moment(this.manufactureDate).year();
-      }
-
+      this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
+      let manufactureMonth = moment(this.manufactureDate).month();
+      this.manufactureMonth = moment(manufactureMonth + 1, 'MM').format('MMM');
+      this.manufactureYear = moment(this.manufactureDate).year();
+    }
+    if (this.parsedVehicleData?.policy_expiry_date) {
       let policyExpiryDate = new Date(
         this.parsedVehicleData?.policy_expiry_date
       );
       this.policyDate = moment(policyExpiryDate).format('DD-MMM-YYYY');
+    }
 
-      if (this.parsedVehicleData?.previous_insurer?.rb_insurer_name) {
-        this.previousInsurer =
-          this.parsedVehicleData?.previous_insurer?.rb_insurer_name;
-      }
-      if (this.parsedVehicleData?.ncb_discount) {
-        this.previousNCB = this.parsedVehicleData?.ncb_discount;
-      }
-    });
+    if (this.parsedVehicleData?.previous_insurer?.rb_insurer_name) {
+      this.previousInsurer =
+        this.parsedVehicleData?.previous_insurer?.rb_insurer_name;
+    }
+    if (this.parsedVehicleData?.ncb_discount) {
+      this.previousNCB = this.parsedVehicleData?.ncb_discount;
+    }
   }
-
   openDialog(edit: string): void {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);

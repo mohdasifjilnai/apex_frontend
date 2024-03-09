@@ -93,7 +93,7 @@ export class QuotesListingComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef
   ) {
-    this.postListInitiateQuotes(initiate_quotes_payload);
+    // this.postListInitiateQuotes(initiate_quotes_payload);
   }
 
   quotesListing: FormGroup = new FormGroup({
@@ -181,13 +181,6 @@ export class QuotesListingComponent implements OnInit {
   /**
    * get initiate quotes list
    */
-
-  postListInitiateQuotes(data: any) {
-    // this.apiService.postRequestedResponse(ApiConstants.initiate_quotes,data).subscribe((res:any)=>{
-    //   this.initiateQuotes=res;
-    //   console.log(res,'res')
-    // })
-  }
 
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
     this.selectedProductType = event.tab.textLabel;
