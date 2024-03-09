@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import moment from 'moment';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -56,6 +57,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     vehicle_registration_address: new FormControl('', Validators.required),
     is_vehicle_address: new FormControl('', Validators.required),
   });
+  isChecked: any;
 
   constructor(
     private apiservice: ApiService,
@@ -78,13 +80,29 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.vehicle_details !== null) {
+        if (proposal.vehicle_details?.is_same_location) {
+          this.getRegistrationAddressValue(
+            proposal.vehicle_details?.is_same_location
+          );
+        } else {
+          this.getRegistrationAddressValue(
+            proposal.vehicle_details?.is_same_location
+          );
+        }
+        // this.getRegistrationAddressValue();
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: proposal?.vehicle_details?.registration_no,
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
-          registration_date: proposal?.vehicle_details?.registration_date,
-          manufacture_date: proposal?.vehicle_details?.manufacture_date,
+          registration_date: moment(
+            proposal?.vehicle_details?.registration_date,
+            'DD/MM/YYYY'
+          ).toDate(),
+          manufacture_date: moment(
+            proposal?.vehicle_details?.manufacture_date,
+            'MM/YYYY'
+          ).toDate(),
           vehicle_pincode:
             proposal?.vehicle_details?.registration_address?.pincode,
           vehilce_city:
@@ -154,9 +172,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ?.updateValueAndValidity();
     }
   }
-  getRegistrationAddressValue() {
-    const isChecked = this.registrationAddressToggle.nativeElement.checked;
-    if (isChecked) {
+  getRegistrationAddressValue(isChecked?: any) {
+    this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
+      ? this.registrationAddressToggle?.nativeElement?.checked
+      : isChecked;
+    this.shareData.registrationAddress(this.isChecked);
+    if (this.isChecked) {
       this.proposalVehilceDetailsForm
         .get('vehicle_registration_address')
         ?.setValidators([]);
@@ -172,6 +193,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         .get('vehilce_city')
         ?.updateValueAndValidity();
       this.proposalVehilceDetailsForm.get('vehicle_state')?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.updateValueAndValidity();
+    } else {
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_address')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_registration_address')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehicle_pincode')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehicle_pincode')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehilce_city')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('vehilce_city')
+        ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('vehicle_state')
+        ?.setValidators([Validators.required]);
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();

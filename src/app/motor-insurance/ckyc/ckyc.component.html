@@ -123,7 +123,10 @@
               matSuffix
               [for]="ckyc_dob"
             ></mat-datepicker-toggle>
-            <mat-datepicker #ckyc_dob id-automation="datepickerCkycDOB"></mat-datepicker>
+            <mat-datepicker
+              #ckyc_dob
+              id-automation="datepickerCkycDOB"
+            ></mat-datepicker>
             <mat-error *ngIf="ckycFormGroup.get('dob')?.hasError('required')">
               This is a required field.
             </mat-error>

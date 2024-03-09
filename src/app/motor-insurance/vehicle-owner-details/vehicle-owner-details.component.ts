@@ -27,6 +27,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
   salutationList: any;
+  ckycItem: any;
+  vehicleOwnerName: boolean = false;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -122,6 +124,18 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           marital_status: proposal?.customer_details?.marital_status,
           owner_gender: proposal?.customer_details?.gender,
           ownner_salutation_type: proposal?.customer_details?.salutation,
+        });
+      }
+    });
+    this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
+      this.vehicleOwnerName = true;
+      if (ckycData) {
+        this.owenerVehicleDetailsForm.patchValue({
+          owner_full_Name: ckycData?.customer_details?.full_name,
+          owner_email: ckycData?.customer_details?.email,
+          contact_number: ckycData?.customer_details?.mobile_number,
+          owner_pincode: ckycData?.customer_details?.pincode,
+          owner_communication_addres: ckycData?.customer_details?.address,
         });
       }
     });

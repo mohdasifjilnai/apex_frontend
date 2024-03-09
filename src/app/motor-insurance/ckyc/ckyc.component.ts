@@ -12,6 +12,7 @@ import { WaitCkycVerificationDialogComponent } from 'src/app/shared/components/d
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import moment from 'moment';
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -52,6 +53,7 @@ export class CkycComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'wait-ckyc-verification-class',
   };
+  ckycData: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -101,10 +103,13 @@ export class CkycComponent implements OnInit {
     }
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
+        this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
-          document_type_based_field: proposal?.ckyc_details?.document_code,
+          document_type_based_field: this.filterDocumentType(
+            proposal?.ckyc_details?.document_type
+          ),
           document_number_based_field: proposal?.ckyc_details?.document_number,
-          dob: proposal?.ckyc_details?.dob,
+          dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
@@ -154,37 +159,40 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
-    this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
-    this.qoutes_data = sessionStorage.getItem('quotes_data');
-    let ckycData: any = {
-      proposal_id: sessionStorage.getItem('proposal_Id'),
-      proposer_type: localStorage.getItem('proposerType'),
-      insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
-      transaction_id: sessionStorage.getItem('transaction_id'),
-    };
-    if (isValid) {
-      ckycData['dob'] = this.datePipe.transform(
-        this.ckycFormGroup.get('dob')?.value,
-        'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-      );
-      ckycData['document_number'] = String(
-        this.ckycFormGroup.get('document_number_based_field')?.value
-      );
-      // ckycData['ckyc_number'] = '';
-      ckycData['document_type'] = this.filterDocumentType(
-        this.ckycFormGroup.get('document_type_based_field')?.value
-      );
-      ckycData['full_name'] =
-        this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
-        this.ckycFormGroup.get('ckyc_full_name')?.value != ''
-          ? this.ckycFormGroup.get('ckyc_full_name')?.value
-          : null;
-      ckycData['gender'] =
-        this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
-        this.ckycFormGroup.get('ckyc_gender')?.value != ''
-          ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
-          : null;
-      this.openWaitCkycVerificationPopup(ckycData);
+    if (this.changeSubmitCkycName) {
+      this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
+    } else {
+      this.qoutes_data = sessionStorage.getItem('quotes_data');
+      let ckycData: any = {
+        proposal_id: sessionStorage.getItem('proposal_Id'),
+        proposer_type: localStorage.getItem('proposerType'),
+        insurer_code: JSON.parse(this.qoutes_data)['insurer_code'],
+        transaction_id: sessionStorage.getItem('transaction_id'),
+      };
+      if (isValid) {
+        ckycData['dob'] = this.datePipe.transform(
+          this.ckycFormGroup.get('dob')?.value,
+          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+        );
+        ckycData['document_number'] = String(
+          this.ckycFormGroup.get('document_number_based_field')?.value
+        );
+        // ckycData['ckyc_number'] = '';
+        ckycData['document_type'] = this.filterDocumentType(
+          this.ckycFormGroup.get('document_type_based_field')?.value
+        );
+        ckycData['full_name'] =
+          this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
+          this.ckycFormGroup.get('ckyc_full_name')?.value != ''
+            ? this.ckycFormGroup.get('ckyc_full_name')?.value
+            : null;
+        ckycData['gender'] =
+          this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
+          this.ckycFormGroup.get('ckyc_gender')?.value != ''
+            ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+            : null;
+        this.openWaitCkycVerificationPopup(ckycData);
+      }
     }
   }
   /**
@@ -209,11 +217,11 @@ export class CkycComponent implements OnInit {
   /**
    *  document list filter based on document id
    */
-  filterDocumentType(document_code: number) {
-    const filteredDocuments = this.documentList.filter(
+  filterDocumentType(document_code: any) {
+    const filteredDocuments = this.documentList?.filter(
       (el: any) => el.document_code == document_code
     );
-    if (filteredDocuments.length > 0) {
+    if (filteredDocuments?.length > 0) {
       return filteredDocuments[0].document_code;
     }
   }

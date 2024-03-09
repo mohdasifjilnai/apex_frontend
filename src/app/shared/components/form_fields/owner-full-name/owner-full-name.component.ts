@@ -20,7 +20,8 @@ export class OwnerFullNameComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   @Input() formControlNameData: any;
-  @Input() label:any;
+  @Input() label: any;
+  @Input() readonly: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -31,9 +32,9 @@ export class OwnerFullNameComponent implements OnInit {
     /**
      * add form control for the full_name
      */
-  
+
     this.form = this.ctrlContainer.form;
- 
+
     if (this.isRequired) {
       this.form.addControl(
         this.formControlNameData,

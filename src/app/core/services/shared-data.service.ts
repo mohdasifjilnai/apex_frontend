@@ -31,6 +31,9 @@ export class SharedDataService {
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
   quotesData: Subject<any> = new Subject();
+  fetchCKycFormData: Subject<any> = new Subject();
+  registrationAddressData: Subject<any> = new Subject();
+  fetchedCkycData: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -313,6 +316,12 @@ export class SharedDataService {
     this.getRegistrationData.next(data);
   }
 
+  /**
+   * Creates a new proposal based on the given form data.
+   *
+   * @param flag - The form field flag indicating which form data to use.
+   * @param formData - The form data containing the customer, vehicle, and other details.
+   */
   createProposalId(flag?: any, formData?: any) {
     this.quoteData = sessionStorage.getItem('quotes_data');
     const proposalId = sessionStorage.getItem('proposal_Id');
@@ -326,7 +335,6 @@ export class SharedDataService {
     const isCkycVerified = ckycIdValue !== 2; // Set to true if ckyc_id is not 2, false if it is 2
     if (flag === 'ckyc') {
       proposalData['ckyc_details'] = {
-        is_ckyc_verified: isCkycVerified,
         full_name: formData?.get('ckyc_full_name')?.value || '',
         dob:
           this.datePipe.transform(
@@ -334,7 +342,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         gender: formData?.get('ckyc_gender')?.value || '',
-        document_code: formData?.get('document_type_based_field')?.value || '',
+        document_type: formData?.get('document_type_based_field')?.value || '',
         document_number:
           formData?.get('document_number_based_field')?.value || '',
       };
@@ -371,6 +379,8 @@ export class SharedDataService {
       };
     }
     if (flag === 'vehilce_details') {
+      proposalData['vehicle_details'] = {};
+      proposalData['vehicle_details'].registration_address = {};
       proposalData['vehicle_details'] = {
         registration_no: formData?.get('registration_number')?.value || '',
         engine_no: formData?.get('engine_number')?.value || '',
@@ -399,14 +409,31 @@ export class SharedDataService {
           formData?.get('is_vehicle_address')?.value || ''
             ? formData?.get('is_vehicle_address')?.value || ''
             : 'false',
-        registration_address: {
-          pincode: formData?.get('vehicle_pincode')?.value || '',
-          rb_city_id: 8 || '',
-          rb_state_id: 43 || '',
-          address_line:
-            formData?.get('vehicle_registration_addres')?.value || '',
-        },
       };
+      if (this.registrationAddressData) {
+        proposalData['vehicle_details'].registration_address = {
+          pincode:
+            this.createdProposalId.customer_details?.communication_address
+              ?.pincode || '',
+          rb_city_id:
+            this.createdProposalId.customer_details?.communication_address
+              ?.rb_city_id || '',
+          rb_state_id:
+            this.createdProposalId.customer_details?.communication_address
+              ?.rb_state_id || '',
+          address_line:
+            this.createdProposalId.customer_details?.communication_address
+              ?.address_line || '',
+        };
+      } else {
+        proposalData['vehicle_details'].registration_address = {
+          pincode: formData?.get('vehicle_pincode')?.value || '',
+          rb_city_id: 8 || '', // Set to appropriate default value
+          rb_state_id: 43 || '', // Set to appropriate default value
+          address_line:
+            formData?.get('vehicle_registration_address')?.value || '',
+        };
+      }
     }
     if (flag === 'previous_policy_details') {
       proposalData['previous_policy_details'] = {
@@ -434,5 +461,15 @@ export class SharedDataService {
   }
   kycFetched(data: any) {
     this.fetchKycData.next(data);
+  }
+  ckycFormData(data: any) {
+    this.fetchCKycFormData.next(data);
+  }
+  registrationAddress(data: any) {
+    this.registrationAddressData.next(data);
+    this.registrationAddressData = data;
+  }
+  getFetchedCkycData(data: any) {
+    this.fetchedCkycData.next(data);
   }
 }
