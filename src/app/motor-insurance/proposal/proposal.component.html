@@ -60,6 +60,7 @@
         #previousPolicyDetailsPanel
         id-automation="previous_policy_details"
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
+        *ngIf="isNotShowInNewPolicyDetails"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Previous Policy Details </mat-panel-title>

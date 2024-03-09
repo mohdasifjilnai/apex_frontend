@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import moment from 'moment';
 import { Observable, debounceTime } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
@@ -24,6 +25,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   agreementList: any;
   filteredFinancierList!: any;
   financerList: any;
+  transactionId: any;
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
   @ViewChild('financedToggle', { static: false }) financedToggle!: ElementRef;
@@ -31,7 +33,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   registrationAddressToggle!: ElementRef;
 
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
-    registration_number: new FormControl('', [Validators.required]),
+    registration_number: new FormControl(''),
     vehicle_colour: new FormControl(''),
     engine_number: new FormControl('', [
       Validators.required,
@@ -55,13 +57,15 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     financer_city: new FormControl(''),
     is_financed: new FormControl(''),
     vehicle_registration_address: new FormControl('', Validators.required),
-    is_vehicle_address: new FormControl('', Validators.required),
+    is_vehicle_address: new FormControl(''),
   });
   isChecked: any;
+  vehicleType: any;
 
   constructor(
     private apiservice: ApiService,
-    private shareData: SharedDataService
+    private shareData: SharedDataService,
+    private router: Router
   ) {
     this.agreementList = [
       {
@@ -121,6 +125,23 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         });
       }
     });
+    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
+    if (this.vehicleType === 'new') {
+      this.proposalVehilceDetailsForm
+        .get('registration_number')
+        ?.setValidators([]);
+      this.proposalVehilceDetailsForm
+        .get('registration_number')
+        ?.updateValueAndValidity();
+    } else {
+      this.proposalVehilceDetailsForm
+        .get('registration_number')
+        ?.setValidators([Validators.required]);
+      this.proposalVehilceDetailsForm
+        .get('registration_number')
+        ?.updateValueAndValidity();
+    }
   }
 
   filterInsurer(name: string) {}
@@ -135,6 +156,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         'vehilce_details',
         this.proposalVehilceDetailsForm
       );
+      if (this.vehicleType === 'new') {
+        this.router.navigate([
+          `/motor/quotes/proposal/${this.transactionId}/review`,
+        ]);
+      }
     }
   }
   /**

@@ -123,7 +123,7 @@
         >
           <mat-radio-button
             *ngFor="let maritalStatus of maritalStatusList"
-            [value]="maritalStatus?.id"
+            [value]="maritalStatus?.name"
             [checked]="maritalStatus?.name === 'Single'"
             [ngClass]="{
               maritalStatus: maritalStatus?.name === 'Married'

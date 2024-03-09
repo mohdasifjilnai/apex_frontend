@@ -32,6 +32,9 @@ export class ProposalComponent implements OnInit {
   nomineDetailsPanel!: ElementRef;
   @ViewChild('vehicleDetailPanel', { read: ElementRef })
   vehicleDetailPanel!: ElementRef;
+  fethedCkycData: boolean = false;
+  vehicleType: any;
+  isNotShowInNewPolicyDetails: boolean = true;
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -60,6 +63,10 @@ export class ProposalComponent implements OnInit {
         this.showVehicleOwnerDetails = true;
       }
     });
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
+    if (this.vehicleType === 'new') {
+      this.isNotShowInNewPolicyDetails = false;
+    }
   }
 
   ngAfterViewInit() {
