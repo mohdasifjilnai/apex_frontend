@@ -75,6 +75,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   manufactureDate: any;
   isNewVehicle: boolean = true;
   newVehicleData: any;
+  policyExpiredDateObject: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -234,6 +235,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   patchVehicleData(data: any) {
     let registrationDateObject;
     let manufactureDateObject;
+
     if (data?.registration_date) {
       let registrationDate = new Date(data?.registration_date);
       registrationDateObject = moment(registrationDate, 'MM/YYYY');
@@ -242,6 +244,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let manufactureDate = new Date(data?.manufacture_date);
       manufactureDateObject = moment(manufactureDate, 'MM/YYYY');
     }
+    if (data?.policy_expiry_date) {
+      let policyExpiredDate = new Date(data?.policy_expiry_date);
+      this.policyExpiredDateObject =
+        moment(policyExpiredDate).format('MM/DD/YYYY');
+    }
     this.vehicleDetailsForm.patchValue({
       vehicle_model: data.vehicle_model,
       vehicle_variant: data.vehicle_variant,
@@ -249,6 +256,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_fuel: data.vehicle_fuel,
       registration_date: registrationDateObject,
       manufacture_date: manufactureDateObject,
+      user_car: data.user_car,
+      previous_claimed: data.previous_claimed,
+      previous_insurer: data?.previous_insurer,
+      ncb_discount: data?.ncb_discount,
+      policy_expiry: data?.policy_expiry,
+      policy_expiry_date: new Date(this.policyExpiredDateObject),
     });
   }
 
@@ -346,9 +359,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
               let inputDate = this.registrationNumber?.previous_policy_exp_date;
               let [day, month, year] = inputDate.split('-');
               let reformattedDate = `${month}/${day}/${year}`;
-              this.vehicleDetailsForm.patchValue({
-                policy_expiry_date: new Date(reformattedDate),
-              });
+              if (!this.vehiclePopupList) {
+                this.vehicleDetailsForm.patchValue({
+                  policy_expiry_date: new Date(reformattedDate),
+                });
+              }
             }
           } else if (type == 'mmvData') {
             this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
@@ -377,7 +392,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.vehicleDetailsForm.patchValue({
               registration_date: moment(regDateValue, 'MM/YYYY'),
             });
-            if (policyExpiryValue) {
+            if (policyExpiryValue && !this.vehiclePopupList) {
               this.convertExpiryDate = moment(policyExpiryValue, 'MM/DD/YYYY');
               this.vehicleDetailsForm.patchValue({
                 policy_expiry_date: new Date(this.convertExpiryDate),
@@ -385,9 +400,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
             }
 
             if (this.vehicleMMVValue?.previous_insurer) {
-              this.vehicleDetailsForm.patchValue({
-                previous_insurer: this.vehicleMMVValue?.previous_insurer,
-              });
+              if (!this.vehiclePopupList) {
+                this.vehicleDetailsForm.patchValue({
+                  previous_insurer: this.vehicleMMVValue?.previous_insurer,
+                });
+              }
             }
           }
 
@@ -744,18 +761,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
       )
       ?.subscribe((res) => {
         if (res) {
-          if (this.ncbDiscount) {
-            this.getNcbList();
-          }
           this.isNewVehicle = res?.is_new_vehicle;
           this.newVehicleData =
-            res?.is_new_vehicle == 'false' ? 'renewal' : 'new';
+            res?.is_new_vehicle == false ? 'renewal' : 'new';
           sessionStorage.setItem('newVehicleType', this.newVehicleData);
           this.setUpdateValidetion(this.isNewVehicle);
           this.expiryList = res.expiring_policy_type;
           this.expiring_policy_type =
             this.expiryList[0]?.rb_expiring_policy_type_code;
           this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
+          if (this.ncbDiscount) {
+            this.getNcbList();
+          }
           this.manufactureDate =
             this.registrationNumber?.manufactured_month &&
             this.registrationNumber?.manufactured_year
@@ -764,15 +781,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   'MM/YYYY'
                 )
               : null;
-          this.vehicleDetailsForm.patchValue({
-            policy_expiry: this.expiring_policy_type
-              ? this.expiring_policy_type
-              : '',
-            ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
-          });
+
           if (!this.vehiclePopupList) {
             this.vehicleDetailsForm.patchValue({
               manufacture_date: this.manufactureDate,
+              policy_expiry: this.expiring_policy_type
+                ? this.expiring_policy_type
+                : '',
+              ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
             });
           }
         }
@@ -784,10 +800,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
       .subscribe((res) => {
         this.expiryListData = res;
         for (let data of this.expiryListData) {
-          if (data.value === this.ncbDiscount) {
-            this.vehicleDetailsForm.patchValue({
-              ncb_discount: data.name,
-            });
+          if (!this.vehiclePopupList) {
+            if (data.value === this.ncbDiscount) {
+              this.vehicleDetailsForm.patchValue({
+                ncb_discount: data.name,
+              });
+            }
           }
         }
       });

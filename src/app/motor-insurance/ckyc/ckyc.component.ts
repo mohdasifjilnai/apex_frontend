@@ -92,12 +92,12 @@ export class CkycComponent implements OnInit {
   ngOnInit(): void {
     this.setCalenderRange();
     this.getDocumentType();
-    this.proposerType = localStorage.getItem('proposerType');
+    this.proposerType = sessionStorage.getItem('proposerType');
     this.proposerType == 'individual'
       ? this.dobPlaceholder
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
-    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data')||'{}');
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
@@ -165,7 +165,7 @@ export class CkycComponent implements OnInit {
       this.qoutes_data = sessionStorage.getItem('quotes_data');
       let ckycData: any = {
         proposal_id: sessionStorage.getItem('proposal_Id'),
-        proposer_type: localStorage.getItem('proposerType'),
+        proposer_type: sessionStorage.getItem('proposerType'),
         insurer_code: this.qoutes_data['insurer_code'],
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
@@ -200,7 +200,7 @@ export class CkycComponent implements OnInit {
    */
   setCalenderRange() {
     const currentDate = new Date();
-    if (localStorage.getItem('proposerType') == 'corporate') {
+    if (sessionStorage.getItem('proposerType') == 'corporate') {
       this.maxDate = new Date(
         this.maxDate.setFullYear(currentDate.getFullYear() - 0)
       );

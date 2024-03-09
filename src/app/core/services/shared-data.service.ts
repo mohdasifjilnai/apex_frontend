@@ -40,9 +40,7 @@ export class SharedDataService {
   vehicleType: any;
   transactionId: any;
   quotesId: any;
-  customerType = 'individual';
-  ownershipTransfer = false;
-  claimedData = false;
+  proposerType: any;
   allQuotes: any;
   quotesValue: any;
   quoteData: any;
@@ -120,6 +118,7 @@ export class SharedDataService {
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
+    this.proposerType = sessionStorage.getItem('proposerType');
     if (!fetchQuotesData) {
       sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
     }
@@ -167,8 +166,15 @@ export class SharedDataService {
       previousInsurerCode = '';
     }
 
+    var ncbDiscountValue = data?.ncb_discount;
+    var modifiedNCB = ncbDiscountValue.replace(/\D/g, '');
+    let ncbValue = 0;
+    if (modifiedNCB) {
+      ncbValue = JSON.parse(modifiedNCB);
+    }
+
     let quotesData = {
-      customer_type: this.customerType,
+      customer_type: this.proposerType,
       vehicle_type: this.vehicleType,
       rb_mmv_id: mmvId,
       rb_rto_code: rtoCode,
@@ -176,9 +182,9 @@ export class SharedDataService {
       registration_year: registrationYear,
       previous_insurer_code: previousInsurerCode,
       previous_policy_exp_date: previousExpiryDate,
-      previous_year_ncb: 0,
-      is_ownership_transfer: this.ownershipTransfer,
-      is_claimed: this.claimedData,
+      previous_year_ncb: ncbValue,
+      is_ownership_transfer: data?.user_car,
+      is_claimed: data?.previous_claimed,
       business_type: sessionStorage.getItem('newVehicleType'),
       selected_addons: setectedAddons,
       product_type: productType,
@@ -299,6 +305,9 @@ export class SharedDataService {
       policy_expire_date: policyExpiryDate,
       manufacture_month: manufactureMonth,
       manufacture_year: manufactureYear,
+      ncb_discount: mmvData.ncb_discount,
+      user_car: mmvData.user_car,
+      previous_claimed: mmvData.previous_claimed,
     };
     this.getValueWithoutRegistration.next(mmvValues);
     this.getQuotationListing(mmvValues, producttype, data);

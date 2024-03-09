@@ -130,7 +130,7 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
-      // this.getAddonList(this.vehicleTypeValue);
+
       this.quotesTabData();
     });
   }
@@ -256,7 +256,7 @@ export class QuotesListingComponent implements OnInit {
    * get proposer type in proposal list
    */
   getProposarType(event: any) {
-    localStorage.setItem(
+    sessionStorage.setItem(
       'proposerType',
       this.proposalList.filter((res: any) => res.proposer_id == event)[0][
         'proposer_name'
