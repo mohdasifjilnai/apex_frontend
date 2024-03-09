@@ -91,7 +91,7 @@ export class CkycComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCalenderRange();
-    this.getDocumentType();
+
     this.proposerType = sessionStorage.getItem('proposerType');
     this.proposerType == 'individual'
       ? this.dobPlaceholder
@@ -101,6 +101,7 @@ export class CkycComponent implements OnInit {
     if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
+    this.getDocumentType();
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
         this.ckycData = proposal?.ckyc_details?.document_code;

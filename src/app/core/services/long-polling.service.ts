@@ -37,7 +37,7 @@ export class LongPollingService implements OnDestroy {
     // this.stopPolling.next();
   }
 
-  getAllCurrencies(transaction_id: any, quotes_id: any) {
+  getAllQuotes(transaction_id: any, quotes_id: any) {
     this.transactionIdData = transaction_id;
     this.quotesId = quotes_id;
     return this.allQuotesData;

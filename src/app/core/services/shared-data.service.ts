@@ -197,7 +197,7 @@ export class SharedDataService {
         this.transactionId = res.transaction_id;
         sessionStorage.setItem('transaction_id', res.transaction_id);
         this.quotesId = res.quote_request_id;
-        this.longPollingInfo = this.longPollingService.getAllCurrencies(
+        this.longPollingInfo = this.longPollingService.getAllQuotes(
           this.transactionId,
           this.quotesId
         );
@@ -222,6 +222,7 @@ export class SharedDataService {
             if (parsedQuotesArray.length > 0) {
               this.quotationListing.next(parsedQuotesArray);
             }
+            console.log(parsedQuotesArray);
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
