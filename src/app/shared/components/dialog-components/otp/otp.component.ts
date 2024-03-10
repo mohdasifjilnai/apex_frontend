@@ -94,10 +94,9 @@ export class OtpComponent implements OnInit {
         } else {
           this.dialogRef.close();
         }
-        this.router.navigate([
-          `motor/quotes/proposal/${this.transactionId}/review/payment-success`,
-        ]);
-        // this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/payment-failure`]);
+        this.apiService.getRequestedResponse(`${ApiConstants['redirection_payment_getway']}${this.transactionId}`).subscribe(payment_getway_response=>{
+           console.log(payment_getway_response,'payment_getway_response')
+        })
       }
     });
   }

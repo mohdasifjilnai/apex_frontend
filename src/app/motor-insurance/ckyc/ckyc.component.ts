@@ -163,7 +163,7 @@ export class CkycComponent implements OnInit {
     if (this.changeSubmitCkycName) {
       this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
     } else {
-      this.qoutes_data = sessionStorage.getItem('quotes_data');
+      this.qoutes_data = JSON.parse(sessionStorage.getItem('quotes_data')||'{}');
       let ckycData: any = {
         proposal_id: sessionStorage.getItem('proposal_Id'),
         proposer_type: sessionStorage.getItem('proposerType'),
