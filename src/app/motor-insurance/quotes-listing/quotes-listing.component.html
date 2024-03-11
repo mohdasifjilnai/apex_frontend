@@ -60,10 +60,10 @@
             *ngIf="shareQuotesDropdownValue"
             class="quotesDropdownvalue mt-2"
           >
-            <button class="all-btn" (click)="selectQuotes()">
+            <button class="all-btn" (click)="selectQuotes('single')">
               Select Quotes
             </button>
-            <button class="all-btn mt-1">All Quotes</button>
+            <button class="all-btn mt-1" (click)="selectQuotes('all')">All Quotes</button>
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-4 inc-gst">
@@ -85,8 +85,14 @@
         <div class="comprehensive-tab ps-4 pe-4 pt-4">
           <div class="row">
             <div class="col-lg-3 col-md-3 col-12">
-              <img [src]="quotes?.insurer_logo" class="insurer-logo" alt="" />
+              <div class="d-flex justify-content-between">
+                <img [src]="quotes?.insurer_logo" class="insurer-logo" alt="" />
+                <div *ngIf="addShare" class="responsive-checkbox">
+                  <mat-checkbox (change)="onCheckboxChange(quotes,$event)" [checked]="isCheckboxChecked"></mat-checkbox>
+                </div>
+              </div>
             </div>
+            
             <!-- {{quotes.insurer_name}} -->
             <div class="col-lg-6 col-md-6 col-6">
               <div class="d-flex justify-content-between">
@@ -101,8 +107,8 @@
                     &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
                   </p>
                 </div>
-                <div *ngIf="addShare">
-                  <mat-checkbox>Add to Share</mat-checkbox>
+                <div *ngIf="addShare" class="web-checkbox">
+                  <mat-checkbox (change)="onCheckboxChange(quotes,$event)" [checked]="isCheckboxChecked">Add to Share</mat-checkbox>
                 </div>
               </div>
             </div>
@@ -241,7 +247,7 @@
       </div>
     </div>
     <br />
-    <div class="changeIDV-sort-btn">
+    <div class="changeIDV-sort-btn" *ngIf="!isChecked">
       <div class="row">
         <div
           class="fixed-btn col-4 d-flex justify-content-between"
@@ -270,3 +276,7 @@
     <p>...</p>
   </div>
 </form>
+<div class="selected-share">
+  <app-selected-share *ngIf="isChecked" [quotes]="selectedQuotes" (notifyParent)="cancelShare($event)"></app-selected-share>
+</div>
+

@@ -1,0 +1,40 @@
+<div class="selected-share">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-around">
+            <div class="quotes">
+                <span class="title">{{quotes.length}} Quotes selected</span><br>
+                <ng-container *ngFor="let data of quotes">
+                    <span class="sub-title" >{{data?.insurer_name}}, </span>
+                </ng-container>
+            </div>
+            <div class="quotes-btn pt-1">
+                <button class="submit-btn share-btn" type="submit" (click)="shareQuotes(quotes)">
+                    Share Selected
+                  </button>
+                <span class="sub-title ms-3" (click)="cancel(false)">Cancel</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="res-selected-share p-3">
+    <div class="header">
+        <div class="d-flex justify-content-between ">
+            <div>
+                <span class="change-text">{{quotes.length}} Quote Sharing</span><br>
+                <ng-container *ngFor="let data of quotes">
+                    <span class="quotes-name" >{{data?.insurer_name}},  </span>
+                </ng-container>
+            </div>
+          <img
+            src="/assets/icon/cross.svg"
+            alt=""
+            class="cross-icon me-3"
+            (click)="cancel(false)"
+          />
+        </div>
+    </div>
+    <div class="btns d-flex pt-3">
+        <button   class="all-btn col-6" >Share All Quotes</button>
+        <button   class="submit-btn col-6" (click)="shareQuotes(quotes)">Share Selected</button>
+    </div>
+</div>

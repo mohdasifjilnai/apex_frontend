@@ -271,6 +271,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   onClose(): void {
+    this.renderer.removeClass(document.body, 'dropdown-focus');
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
@@ -279,6 +280,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   updateVehicleDetail() {
+    this.renderer.removeClass(document.body, 'dropdown-focus');
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {

@@ -97,6 +97,7 @@
             </div>
           </div>
         </div>
+        <form [formGroup]="shareQuotationForm" (ngSubmit)="shareQuotes()">
         <div class="col-12  my-1" *ngIf="isCommunicationField">
          
           <mat-form-field
@@ -104,7 +105,7 @@
             class="registration-number communication-input-field"
           >
           <mat-label>{{inputPlaceholder}}</mat-label>
-            <input matInput placeholder={{inputPlaceholder}} />
+            <input matInput placeholder={{inputPlaceholder}} formControlName={{formControlName}}/>
           </mat-form-field>
         </div>
         <div class="col-12 " *ngIf="isCommunicationField">
@@ -115,6 +116,10 @@
             Send
           </button>
         </div>
+      </form>
+      <div class="col-lg-12 text-center" *ngIf="successMessage">
+        <span class="succsessMessage ">Quotes Share Successfully</span>
+      </div>
       </div>
     </div>
   </div>

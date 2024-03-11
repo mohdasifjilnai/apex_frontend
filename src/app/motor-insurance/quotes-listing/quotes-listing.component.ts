@@ -6,7 +6,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import initiate_quotes_payload from './initiate_quotes_payload.json';
 import { ApiConstants } from '../../api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -25,6 +25,7 @@ import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.comp
 import { ShareQuotesComponent } from '../../shared/components/dialog-components/share-quotes/share-quotes.component';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
+import { SelectedShareComponent } from 'src/app/shared/components/dialog-components/selected-share/selected-share.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -75,6 +76,21 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
+  selectedShareJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: SelectedShareComponent,
+    widthObtained: '100%',
+    heightObtained: 'auto',
+    topObtained: '0',
+    isOutSideClose: true,
+    classObtained: 'selected-share-class',
+  };
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
   addShare: boolean = false;
@@ -84,6 +100,10 @@ export class QuotesListingComponent implements OnInit {
   selectedProductType: any;
   vehicleMMVData: any;
   defaultGST = true;
+  isChecked: boolean = false;
+  selectedQuotes: any[]=[]; // You need to define the appropriate type for your quotes
+  selectedShareData: any; 
+  isCheckboxChecked: boolean=false;
 
   constructor(
     private router: Router,
@@ -105,7 +125,10 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.renderer.removeClass(document.body, 'dropdown-focus');      }
+    });
     // this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
@@ -221,8 +244,48 @@ export class QuotesListingComponent implements OnInit {
       this.shareQuotesDropdownValue = false;
     }
   }
-  selectQuotes() {
+  /**
+     * Selected Quotes Count UI Open 
+    */
+  selectQuotes(count:any) {
     this.addShare = true;
+    this.shareQuotesDropdownValue=false
+    if(count=='all'){
+      this.selectedQuotes=[]
+      for (const [key, value] of Object.entries(this.quotationArray)) {
+        this.isCheckboxChecked=true
+        this.isChecked=true
+        if(value['status']==true){
+          this.selectedQuotes.push(value)
+        }
+      }
+    }else{
+      this.isCheckboxChecked=false
+      this.selectedQuotes=[]
+    }
+  }
+
+  // Hide Selected share Button Component on cancel click
+   cancelShare(condition: boolean) {
+    this.addShare=condition
+    this.isCheckboxChecked=condition
+    this.isChecked=condition
+    this.selectedQuotes=[]
+  }
+  /**
+     * Function call on checkbox checked  
+    */
+  onCheckboxChange(quotes:any,event: any) {
+    if (event.checked) {
+      this.isChecked = true;
+      this.selectedQuotes.push(quotes);
+      
+    } else {
+      const index = this.selectedQuotes.indexOf(quotes);
+      if (index !== -1) {
+        this.selectedQuotes.splice(index, 1);
+      }
+    }
   }
 
   /**

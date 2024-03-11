@@ -97,6 +97,7 @@ import { TermsComponent } from './components/dialog-components/terms/terms.compo
     RegistrationNumberDirective,
     MmYyyyformatDirective,
     TermsComponent,
+    
   ],
   imports: [
     CommonModule,

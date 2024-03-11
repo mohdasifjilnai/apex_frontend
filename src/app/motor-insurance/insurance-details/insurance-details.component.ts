@@ -56,8 +56,8 @@ export class InsuranceDetailsComponent implements OnInit {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
   }
 
-  openShareModal(data: any) {
-    this.openModal(data, this.insuranceDetailsJSON);
+  openShareModal() {
+    this.openModal([this.quoteData], this.insuranceDetailsJSON);
   }
   /**
    * this fucntion use open pop up modal

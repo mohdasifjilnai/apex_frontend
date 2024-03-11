@@ -50,4 +50,7 @@ export class ApiConstants {
 
 
   public static redirection_payment_getway:string=`/api/v1/payment/redirection/`
+
+  // share Quotes 
+  public static share_quotes: string = `api/v1/spear/send_communication/`;
 }

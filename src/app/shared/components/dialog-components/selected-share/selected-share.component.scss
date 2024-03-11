@@ -1,0 +1,75 @@
+.selected-share{
+    display: block;
+    padding: 14px;
+    border-radius: 16px;
+    background-color: #fff;
+    width: 152%;
+    margin-left: -43%;
+    .quotes{
+        .title{
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 22px;
+            color: #000000;
+        }
+        .sub-title{
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 22px;
+            opacity: 50%;
+            color: #939393;
+            
+        }
+    }
+    .share-btn{
+        width: 240px;
+        height: 40px;
+    }
+    .sub-title{
+        cursor: pointer;
+    }
+}
+.res-selected-share{
+    display: none;
+}
+@media screen and (max-width: 999px) {
+    .selected-share{
+        display: none;
+    }
+    .res-selected-share{
+        display: block;
+        padding: 14px;
+        border-radius: 16px 16px 0px 0px;
+        background-color: #fff;
+        .header{
+            .change-text{
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 17px;
+                color: #282828;
+            }
+            .quotes-name{
+                font-size: 10px;
+                font-weight: 500;
+                line-height: 12px;
+                color: #939393;
+                opacity: 50%;
+            }
+            .cross-icon {
+                cursor: pointer;
+                position: absolute;
+                right: 0%;
+            }
+        }
+        .btns{
+            .all-btn{
+                font-size: 12px;
+                font-weight: 600;
+                color: #5384EA;
+                line-height: 15px;
+                background: none;
+                border: none;
+            }
+        }
+    }
+}

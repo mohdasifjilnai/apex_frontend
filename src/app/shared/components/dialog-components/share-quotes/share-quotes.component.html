@@ -1,12 +1,17 @@
 <!-- Dialog title -->
 <form [formGroup]="shareQuotationForm">
-  <div mat-dialog-title>
-    <div class="row">
-      <div class="col-10">
-        <p class="header-share-text share-text-color">Share selected quotes</p>
-        <p class="header-share-text bank-text-color">SBI General,HDFC ERGO</p>
+ 
+  <!-- Dialog content -->
+  <div mat-dialog-content class="mt-2">
+    <div class="d-flex justify-content-between">
+      <div class="plans-name">
+        <div class="header-share-text">Share selected quotes</div>
+        <div  *ngFor="let value of data?.data">
+          <span class="header-sub-text">{{value?.insurer_name}}, </span>
+        </div>
+        
       </div>
-      <div class="col-2">
+      <div class="cross">
         <img
           src="/assets/icon/cross.svg"
           (click)="onClose()"
@@ -15,11 +20,8 @@
         />
       </div>
     </div>
-  </div>
-  <!-- Dialog content -->
-  <div mat-dialog-content>
-    <div class="row">
-      <div class="col-10">
+    <div class="row mt-2">
+      <div class="col-12">
         <mat-form-field
           appearance="outline"
           class="mat-input-share-social-media"
@@ -30,15 +32,18 @@
             aria-label="whatsApp_number"
             placeholder="Enter WhatsApp Number"
             formControlName="whatsApp_number"
+            maxlength="10"
           />
-          <img
+          <button class="social-media-image" (click)="shareQuotes()" >
+            <img
             src="/assets/icon/whatsapp.svg"
-            class="social-media-image whatsapp-image"
+            class=" whatsapp-image"
             alt="close"
           />
+          </button>
         </mat-form-field>
       </div>
-      <div class="col-10">
+      <div class="col-12">
         <mat-form-field
           appearance="outline"
           class="mat-input-share-social-media"
@@ -49,15 +54,18 @@
             aria-label="contact_number"
             placeholder="Enter Contact Number"
             formControlName="contact_number"
+            maxlength="10"
           />
-          <img
+          <button class="social-media-image" (click)="shareQuotes()" [disabled]="shareQuotationForm.invalid">
+            <img
             src="/assets/icon/sms.svg"
-            class="social-media-image sms-image"
+            class=" whatsapp-image"
             alt="close"
           />
+          </button>
         </mat-form-field>
       </div>
-      <div class="col-10">
+      <div class="col-12">
         <mat-form-field
           appearance="outline"
           class="mat-input-share-social-media"
@@ -69,12 +77,17 @@
             placeholder="Enter Email"
             formControlName="email"
           />
-          <img
+          <button class="social-media-image" type="submit" (click)="shareQuotes()" [disabled]="shareQuotationForm.invalid">
+            <img
             src="/assets/icon/mail.svg"
-            class="social-media-image mail-image"
+            class=" whatsapp-image"
             alt="close"
           />
+          </button>
         </mat-form-field>
+      </div>
+      <div class="col-lg-12 text-center" *ngIf="successMessage">
+        <span class="succsessMessage ">Quotes Share Successfully</span>
       </div>
     </div>
   </div>

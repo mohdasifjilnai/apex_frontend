@@ -455,6 +455,21 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
+.selected-share-class {
+  // margin-left: 630px !important;
+  margin-top: 25% !important;
+  padding-left: 2%;
+  padding-right: 2%;
+  .mat-dialog-container {
+    border-radius: 16px !important;
+    overflow: unset !important;
+    width: 100%;
+    padding: 14px !important;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+}
 *::-webkit-scrollbar {
   width: 3px;
 }
@@ -579,18 +594,16 @@ input.mat-input-element {
   border: 1px solid #d6d6d6;
 }
 .share-qoutes-class {
-  margin-left: 80%;
-  margin-top: 10% !important;
+  margin-left: 70%;
+  margin-top: 5% !important;
   overflow: none !important;
   .mat-dialog-container {
-    border-radius: 35px;
+    border-radius: 20px;
     width: 380px !important;
-    height: 360px !important;
     overflow: unset !important;
   }
   .mat-dialog-content {
-    position: relative !important;
-    bottom: 30px !important;
+    max-height: 100%;
   }
 }
 .mat-input-share-social-media {

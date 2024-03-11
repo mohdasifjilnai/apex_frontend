@@ -110,7 +110,7 @@
   <div class="row share-download-btn mt-2">
     <div class="col-12">
       <div class="communication-group d-flex">
-        <div class="share-group light-blue d-flex justify-content-center">
+        <div class="share-group light-blue d-flex justify-content-center" (click)="shareQuotes()">
           <img src="/assets/icon/share.svg" class="share-icon" />
           <p class="share-text text-light-blue">Share</p>
         </div>
@@ -124,7 +124,7 @@
   <div class="share-download-btn-res mt-2">
     <div class="row">
       <div class="col-3">
-        <button mat-button class="light-blue">
+        <button mat-button class="light-blue" (click)="shareQuotes()">
           <img src="/assets/icon/share.svg" class="share-icon" alt="" />
         </button>
       </div>
