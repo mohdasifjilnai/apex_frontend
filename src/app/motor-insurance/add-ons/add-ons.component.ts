@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import add_ons_list from './add-ons-list.json';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ApiConstants } from 'src/app/api.constant';
@@ -40,6 +39,8 @@ export class AddOnsComponent implements OnInit {
   vehicleData: any;
   parsedVehicleData: any;
   vehicleTypeValue: any;
+  registrationNumber: any;
+  modifiedMultiCheckArray: any;
 
   constructor(
     private apiService: ApiService,
@@ -52,10 +53,16 @@ export class AddOnsComponent implements OnInit {
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
-      this.getAddonList(this.vehicleTypeValue,this.parsedVehicleData?.policy_expiry);
+      this.getAddonList(
+        this.vehicleTypeValue,
+        this.parsedVehicleData?.policy_expiry
+      );
     });
     if (window.innerWidth <= 999) {
-      this.getAddonList(this.vehicleTypeValue,sessionStorage.getItem('policy_expiry'));
+      this.getAddonList(
+        this.vehicleTypeValue,
+        sessionStorage.getItem('policy_expiry')
+      );
     }
   }
 
@@ -66,22 +73,49 @@ export class AddOnsComponent implements OnInit {
     for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
       for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
         this.addOnsArray[i].fe_template[j].checked = false;
+        this.addOnsArray[i].fe_template[j].addOnsValue = '';
+        if (this.selectedVoluntryValue) {
+          this.selectedVoluntryValue = '';
+        }
+        if (this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox') {
+          for (
+            let k = 0;
+            k <=
+            this.addOnsArray[i].fe_template[j]?.modifiedMultiCheckList.length -
+              1;
+            k++
+          ) {
+            this.addOnsArray[i].fe_template[j].modifiedMultiCheckList[
+              k
+            ].multiChecked = false;
+          }
+        }
       }
     }
+    this.subCheckBox = [];
     this.selectedCheckedArray = [];
     this.checkBoxValueArray = [];
     this.inputValues = [];
+    this.checkBoxValue.emit(this.checkBoxValueArray);
   }
   @Output() checkBoxValue = new EventEmitter<any>();
-  onCheckboxSelect(event: any, value: any, type: any, index: number) {
+  onCheckboxSelect(
+    event: any,
+    value: any,
+    type: any,
+    index: number,
+    displayName: any,
+    rb_code: any
+  ) {
     this.addInputValidation(event.checked, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
       this.dynamicObject = {};
 
       // Adding dynamic keys to the object
-      var keyName = value;
+      var keyName = rb_code;
       var keyValue = 0;
+
       this.dynamicObject[keyName] = keyValue;
       this.selectedCheckedArray.push(this.dynamicObject);
       if (this.checkBoxValueArray.length >= 1) {
@@ -89,11 +123,53 @@ export class AddOnsComponent implements OnInit {
       }
       this.checkBoxValue.emit(this.checkBoxValueArray);
     } else {
-      const valueToRemove = value;
+      const valueToRemove = rb_code;
       this.checkBoxValueArray = this.checkBoxValueArray.filter(
-        (item) => item !== valueToRemove
+        (item) => item !== value
       );
+      /**
+       * Find the index of the object that meets the condition
+       */
+      const indexToRemove = this.selectedCheckedArray.findIndex((item: any) => {
+        return item.hasOwnProperty(valueToRemove);
+      });
+      /**
+       * Check if the index is found
+       */
 
+      if (indexToRemove !== -1) {
+        /**
+         *  Remove the object at the specified index
+         */
+
+        this.selectedCheckedArray.splice(indexToRemove, 1);
+      }
+      for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+        for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
+          if (this.addOnsArray[i].fe_template[j].rb_code == valueToRemove) {
+            this.addOnsArray[i].fe_template[j].addOnsValue = '';
+            if (this.selectedVoluntryValue) {
+              this.selectedVoluntryValue = '';
+            }
+            if (
+              this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox'
+            ) {
+              for (
+                let k = 0;
+                k <=
+                this.addOnsArray[i].fe_template[j]?.modifiedMultiCheckList
+                  .length -
+                  1;
+                k++
+              ) {
+                this.addOnsArray[i].fe_template[j].modifiedMultiCheckList[
+                  k
+                ].multiChecked = false;
+              }
+            }
+          }
+        }
+      }
       this.checkBoxValue.emit(this.checkBoxValueArray);
       if (this.checkBoxValueArray.length == 0) {
         this.showButtons = false;
@@ -109,25 +185,40 @@ export class AddOnsComponent implements OnInit {
       let variableValue = keys[0];
       this.selected_addons[variableValue] = key[variableValue];
     }
-    sendQuotesVlaue.selected_addons = this.selected_addons;
-
-    this.sharedDataService.getQuotationListing(sendQuotesVlaue, '');
+    let productTypeValue = sessionStorage.getItem('productType');
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    if (this.registrationNumber) {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'registrationNumber',
+        this.selected_addons
+      );
+    } else {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'mmvQuotes',
+        this.selected_addons
+      );
+    }
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss(this.checkBoxValueArray);
     }
-    
   }
   /**
    *
    * This (getAddonList) hit the get api and show the addons list in Quotes page
    */
-  getAddonList(vehicleTypeValue: string,policy_expiry:any) {
+  getAddonList(vehicleTypeValue: string, policy_expiry: any) {
     this.apiService
       .getRequestedResponse(
         `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=new&proposer_type=individual&product_type=${policy_expiry}`
       )
       .subscribe((res: any) => {
         this.addonList = res;
+        this.modifiedMultiCheckArray = [];
 
         this.addOnsArray = [];
         for (let value of this.addonList) {
@@ -136,16 +227,53 @@ export class AddOnsComponent implements OnInit {
           );
           if (checkIndex === -1) {
             value['fe_template'].checked = false;
+            value['fe_template'].addOnsValue = '';
+            value['fe_template'].rb_code = value['rb_code'];
             const coversData = {
               rb_type: value['rb_type'],
               fe_template: [value['fe_template']],
               displayName: value['display_name'],
+              rb_business_type: value['rb_business_type'],
+              rb_id: value['rb_id'],
+              rb_name: value['rb_name'],
+              rb_product_type: value['rb_product_type'],
+              rb_proposer_type: value['rb_proposer_type'],
+              rb_vehicle_type: value['rb_vehicle_type'],
             };
             this.addOnsArray.push(coversData);
           } else {
+            value['fe_template'].checked = false;
+            value['fe_template'].addOnsValue = '';
+            value['fe_template'].rb_code = value['rb_code'];
             this.addOnsArray[checkIndex]['fe_template'].push(
               value['fe_template']
             );
+          }
+        }
+
+        for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+          for (
+            let j = 0;
+            j <= this.addOnsArray[i].fe_template.length - 1;
+            j++
+          ) {
+            if (
+              this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox'
+            ) {
+              for (
+                let k = 0;
+                k <= this.addOnsArray[i].fe_template[j].value.length - 1;
+                k++
+              ) {
+                let modifiedData = {
+                  name: this.addOnsArray[i].fe_template[j].value[k],
+                  multiChecked: false,
+                };
+                this.modifiedMultiCheckArray.push(modifiedData);
+              }
+              this.addOnsArray[i].fe_template[j].modifiedMultiCheckList =
+                this.modifiedMultiCheckArray;
+            }
           }
         }
       });
@@ -170,25 +298,49 @@ export class AddOnsComponent implements OnInit {
     return this.selectedAccessories.includes(value);
   }
 
-  selectedVoluntryValue:any
-  selectVoluntry(amount:any): void {
-    this.selectedVoluntryValue=amount
-  
+  selectedVoluntryValue: any;
+  selectVoluntry(amount: any, name: any): void {
+    this.selectedVoluntryValue = amount;
 
+    for (let key of this.selectedCheckedArray) {
+      const keys = Object.keys(key);
+      if (keys[0] == name) {
+        key[keys[0]] = amount;
+      }
+    }
   }
   /**
    *  add ons list add/remove validation acording to chnage elements
    */
-  onInputChange(event: any, type: any, index: number, name?: any) {
+  onInputChange(
+    event: any,
+    type: any,
+    index: number,
+    name?: any,
+    rb_code?: any
+  ) {
     if (event != '' && type == 'int_input') {
       delete this.inputTagIndex[index];
     } else if (event == '' && type == 'int_input') {
       this.inputTagIndex[index] = index;
     } else if (event?.checked && type == 'multi_chcekbox') {
-      this.subCheckBox.push(event?.checked);
+      this.subCheckBox.push(event?.source?.id);
       delete this.multiCheckbox[index];
     } else if (!event?.checked && type == 'multi_chcekbox') {
-      this.subCheckBox.pop();
+      /**
+       * Find the index of the object that meets the condition
+       */
+
+      const indexMultiCheckoxRemove = this.subCheckBox.findIndex(
+        (item: any) => {
+          if (item === event?.source?.id) {
+            return item;
+          }
+        }
+      );
+      if (indexMultiCheckoxRemove != -1) {
+        this.subCheckBox.splice(indexMultiCheckoxRemove, 1);
+      }
       if (this.subCheckBox.length == 0) {
         this.multiCheckbox[index] = index;
       }
@@ -199,8 +351,13 @@ export class AddOnsComponent implements OnInit {
 
     for (let key of this.selectedCheckedArray) {
       const keys = Object.keys(key);
-      if (keys[0] == name) {
-        key[keys[0]] = JSON.parse(event);
+      if (keys[0] == rb_code) {
+        if (typeof event != 'object') {
+          key[keys[0]] = JSON.parse(event);
+        }
+        if (type == 'multi_chcekbox') {
+          key[keys[0]] = this.subCheckBox.join(',');
+        }
       }
     }
   }
@@ -221,8 +378,8 @@ export class AddOnsComponent implements OnInit {
       delete this.multiCheckbox[index];
       delete this.multiCheckboxField[index];
     } else if (isChecked && type == 'dropdown') {
-        this.dropDownIndex[index] = index;
-        this.dropDownFieldIndex[index] = index;
+      this.dropDownIndex[index] = index;
+      this.dropDownFieldIndex[index] = index;
     } else if (!isChecked && type == 'dropdown') {
       delete this.dropDownIndex[index];
       delete this.dropDownFieldIndex[index];

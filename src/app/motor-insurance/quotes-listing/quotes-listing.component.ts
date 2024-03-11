@@ -83,6 +83,7 @@ export class QuotesListingComponent implements OnInit {
   vehicleTypeValue: any;
   selectedProductType: any;
   vehicleMMVData: any;
+  defaultGST = true;
 
   constructor(
     private router: Router,
@@ -184,6 +185,7 @@ export class QuotesListingComponent implements OnInit {
 
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
     this.selectedProductType = event.tab.textLabel;
+    sessionStorage.setItem('productType', this.selectedProductType);
     if (event.index === 1) {
       this.showComprehensiveDiv = false;
     } else {
@@ -255,13 +257,29 @@ export class QuotesListingComponent implements OnInit {
   /**
    * get proposer type in proposal list
    */
-  getProposarType(event: any) {
+  changeProposalType(event: any) {
     sessionStorage.setItem(
       'proposerType',
       this.proposalList.filter((res: any) => res.proposer_id == event)[0][
         'proposer_name'
       ]
     );
+    let productTypeValue = sessionStorage.getItem('productType');
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    if (this.registrationNumber) {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'registrationNumber'
+      );
+    } else {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'mmvQuotes'
+      );
+    }
   }
 
   quotesTabData() {
@@ -285,6 +303,7 @@ export class QuotesListingComponent implements OnInit {
         .subscribe((res: any) => {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
+          sessionStorage.setItem('productType', this.selectedProductType);
           this.registrationNumber =
             sessionStorage.getItem('registrationNumber');
           this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
@@ -321,5 +340,14 @@ export class QuotesListingComponent implements OnInit {
   getImagePosition(): string {
     const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
     return `translateX(${position}%)`;
+  }
+
+  gstToggle(event: any) {
+    if (event.checked) {
+      this.defaultGST = event.checked;
+    } else {
+      this.defaultGST = event.checked;
+    }
+    sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
   }
 }

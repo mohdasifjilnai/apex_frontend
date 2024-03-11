@@ -17,7 +17,9 @@
                   $event,
                   listValue.name,
                   listValue?.next_type,
-                  i
+                  i,
+                  addOns.displayName,
+                  listValue.rb_code
                 )
               "
               >{{ listValue?.name }}</mat-checkbox
@@ -31,17 +33,19 @@
               class="d-grid m-1"
             >
               <mat-checkbox
-                *ngFor="let data of listValue.value"
+                *ngFor="let data of listValue.modifiedMultiCheckList"
                 (change)="
                   onInputChange(
                     $event,
                     listValue?.next_type,
                     i,
-                    listValue?.name
+                    listValue?.name,
+                    listValue?.rb_code
                   )
                 "
-                id="{{ data }}"
-                >{{ data }}</mat-checkbox
+                [(ngModel)]="data.multiChecked"
+                id="{{ data.name }}"
+                >{{ data.name }}</mat-checkbox
               >
               <mat-error *ngIf="i == multiCheckbox[i]">
                 Please select a country.
@@ -63,9 +67,11 @@
                     $event.value,
                     listValue?.next_type,
                     i,
-                    listValue.name
+                    listValue.name,
+                    listValue?.rb_code
                   )
                 "
+                [(ngModel)]="listValue.addOnsValue"
               >
                 <mat-option
                   *ngFor="let items of listValue.value"
@@ -91,10 +97,16 @@
             <mat-label>{{ listValue?.name }}</mat-label>
             <input
               matInput
-              [(ngModel)]="inputValues[i]"
+              [(ngModel)]="listValue.addOnsValue"
               id="{{ listValue?.name }}"
               (ngModelChange)="
-                onInputChange($event, listValue?.next_type, i, listValue?.name)
+                onInputChange(
+                  $event,
+                  listValue?.next_type,
+                  i,
+                  listValue?.name,
+                  listValue?.rb_code
+                )
               "
             />
           </mat-form-field>
@@ -111,7 +123,7 @@
               >
                 <button
                   class="voluntry"
-                  (click)="selectVoluntry(amount)"
+                  (click)="selectVoluntry(amount, listValue?.name)"
                   [class.active]="selectedVoluntryValue == amount"
                 >
                   &#8377;{{ amount }}
@@ -129,7 +141,6 @@
       <button class="submit-btn" (click)="update()">Update</button>
     </div>
   </div>
-  
 </div>
 <div class="add-ons-res">
   <div class="header">
@@ -160,7 +171,9 @@
                     $event,
                     listValue.name,
                     listValue?.next_type,
-                    i
+                    i,
+                    addOns.displayName,
+                    listValue.rb_code
                   )
                 "
                 >{{ listValue?.name }}</mat-checkbox
@@ -180,7 +193,8 @@
                       $event,
                       listValue?.next_type,
                       i,
-                      listValue?.name
+                      listValue?.name,
+                      listValue?.rb_code
                     )
                   "
                   >{{ data }}</mat-checkbox
@@ -204,7 +218,8 @@
                       $event.value,
                       listValue?.next_type,
                       i,
-                      listValue?.name
+                      listValue?.name,
+                      listValue?.rb_code
                     )
                   "
                 >
@@ -236,7 +251,8 @@
                     $event,
                     listValue?.next_type,
                     i,
-                    listValue?.name
+                    listValue?.name,
+                    listValue?.rb_code
                   )
                 "
               />
@@ -255,7 +271,7 @@
                 >
                   <button
                     class="voluntry"
-                    (click)="selectVoluntry(amount)"
+                    (click)="selectVoluntry(amount, listValue?.name)"
                     [class.active]="selectedVoluntryValue == amount"
                   >
                     &#8377;{{ amount }}

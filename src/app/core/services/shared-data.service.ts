@@ -166,11 +166,9 @@ export class SharedDataService {
       previousInsurerCode = '';
     }
 
-    var ncbDiscountValue = data?.ncb_discount;
-    var modifiedNCB = ncbDiscountValue.replace(/\D/g, '');
     let ncbValue = 0;
-    if (modifiedNCB) {
-      ncbValue = JSON.parse(modifiedNCB);
+    if (data?.ncb_discount) {
+      ncbValue = data?.ncb_discount;
     }
 
     let quotesData = {
@@ -273,8 +271,15 @@ export class SharedDataService {
         //   );
       });
   }
-
-  vehicleMMVDetails(producttype?: any, mmvFromData?: any, data?: any) {
+  /**
+   *  vehicle popup data send to the quotes api
+   */
+  vehicleMMVDetails(
+    producttype?: any,
+    mmvFromData?: any,
+    data?: any,
+    selectedAddOns?: any
+  ) {
     let mmvData;
 
     mmvData = JSON.parse(mmvFromData);
@@ -309,6 +314,7 @@ export class SharedDataService {
       ncb_discount: mmvData.ncb_discount,
       user_car: mmvData.user_car,
       previous_claimed: mmvData.previous_claimed,
+      selected_addons: selectedAddOns,
     };
     this.getValueWithoutRegistration.next(mmvValues);
     this.getQuotationListing(mmvValues, producttype, data);

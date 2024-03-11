@@ -101,10 +101,21 @@ export class MotorInsuranceComponent implements OnInit {
       const start = new Date();
       const end = new Date(res.value);
       let monthGap = this.monthDiff(start, end);
+
       if (monthGap >= 10) {
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
+        if (!this.motorInsurance.get('previous_insurer')) {
+          this.motorInsurance.addControl(
+            'previous_insurer',
+            new FormControl('')
+          );
+          this.motorInsurance.addControl(
+            'policy_expiry_date',
+            new FormControl('')
+          );
+        }
         this.motorInsurance
           .get('previous_insurer')
           ?.setValidators([Validators.required]);
@@ -139,6 +150,11 @@ export class MotorInsuranceComponent implements OnInit {
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     if (fetchQuotesData) {
       sessionStorage.removeItem('fetchQuotesData');
+    }
+
+    let productTypeValue = sessionStorage.getItem('productType');
+    if (productTypeValue) {
+      sessionStorage.removeItem('productType');
     }
 
     let proposalTypeData = sessionStorage.getItem('proposerType');

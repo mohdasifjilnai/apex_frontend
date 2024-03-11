@@ -76,6 +76,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   isNewVehicle: boolean = true;
   newVehicleData: any;
   policyExpiredDateObject: any;
+  ncbAllData: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -181,6 +182,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
+      if (this.registrationNumber?.rb_mmv_id) {
+        this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
+      }
     });
     this.sharedDataService.getValueWithoutRegistration.subscribe((res) => {
       this.dataWithoutRegistration = res;
@@ -199,7 +203,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     // let popup
     setTimeout(() => {
       if (this.registrationNumber?.rb_mmv_id) {
-        this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
+        // this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       } else {
         this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
 
@@ -235,7 +239,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   patchVehicleData(data: any) {
     let registrationDateObject;
     let manufactureDateObject;
-
+    let previousInsurerObject;
     if (data?.registration_date) {
       let registrationDate = new Date(data?.registration_date);
       registrationDateObject = moment(registrationDate, 'MM/YYYY');
@@ -249,6 +253,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.policyExpiredDateObject =
         moment(policyExpiredDate).format('MM/DD/YYYY');
     }
+
     this.vehicleDetailsForm.patchValue({
       vehicle_model: data.vehicle_model,
       vehicle_variant: data.vehicle_variant,
@@ -285,7 +290,20 @@ export class VehicleDetailsPopupComponent implements OnInit {
       'policy_expiry',
       this.vehicleDetailsForm.value.policy_expiry
     );
+    if (this.vehicleDetailsForm.value?.ncb_discount) {
+      for (let i = 0; i <= this.expiryListData.length - 1; i++) {
+        if (
+          this.expiryListData[i].new_ncb_value ==
+          this.vehicleDetailsForm.value.ncb_discount
+        ) {
+          this.ncbAllData = this.expiryListData[i];
+        }
+      }
+      this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
+    }
+
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
+
     sessionStorage.setItem('mmv_data', vehicleFrom);
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
