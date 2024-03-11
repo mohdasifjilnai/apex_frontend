@@ -508,4 +508,21 @@ export class SharedDataService {
   getFetchedCkycData(data: any) {
     this.fetchedCkycData.next(data);
   }
+
+  /**
+   * Parses a date string into a Date object using the given format.
+   *
+   * @param dateString - The date string to parse.
+   * @param format - The date format string.
+   * @returns The parsed Date object or null if the input is not a valid date.
+   */
+  parseDate(dateString: string, format: string): Date | null {
+    const parsedDate = moment(dateString, format);
+
+    if (parsedDate.isValid()) {
+      return parsedDate.toDate();
+    } else {
+      return null;
+    }
+  }
 }

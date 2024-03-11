@@ -10,6 +10,8 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -70,14 +72,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ownner_salutation_type: new FormControl('1', Validators.required),
   });
 
-  constructor(private sharedDataService: SharedDataService) {
-    this.occupationList = [
-      {
-        id: 1,
-        occupationName: 'Software Developer',
-      },
-    ];
-
+  constructor(
+    private sharedDataService: SharedDataService,
+    private apiService: ApiService
+  ) {
     this.salutationList = [
       {
         id: 1,
@@ -139,6 +137,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         });
       }
     });
+    this.getOccupationType();
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {
@@ -155,5 +154,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
    */
   submitFormGroup() {
     this.afterFormSubmit.emit('Vehicle-owner-details Form Submited');
+  }
+
+  /**
+   * Fetches the list of occupation types from the backend API and stores it in the component's state.
+   */
+  getOccupationType() {
+    this.apiService
+      .getRequestedResponse(ApiConstants.occupation_type)
+      .subscribe((occupation) => {
+        this.occupationList = occupation;
+      });
   }
 }

@@ -86,7 +86,7 @@
           <span>
             <mat-option
               *ngFor="let financier of filteredFinancierList | async"
-              [value]="financier"
+              [value]="financier?.rb_id"
             >
               <span>{{ financier.rb_financier_name }}</span>
             </mat-option>

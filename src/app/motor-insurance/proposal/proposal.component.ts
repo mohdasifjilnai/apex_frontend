@@ -24,6 +24,8 @@ export class ProposalComponent implements OnInit {
   step4: boolean = false;
   step5: boolean = false;
   proposalDetails: any;
+  proposerType: any;
+  isNotShowNomineeDetails: boolean = true;
   @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
   previousPolicyDetailsPanel!: ElementRef;
   @ViewChild('vehilceOwnerPanel', { read: ElementRef })
@@ -35,6 +37,8 @@ export class ProposalComponent implements OnInit {
   fethedCkycData: boolean = false;
   vehicleType: any;
   isNotShowInNewPolicyDetails: boolean = true;
+  isCkycExpanded: boolean = true;
+
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -44,11 +48,29 @@ export class ProposalComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedData.createProposalId();
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
+    if (this.vehicleType === 'new') {
+      this.isNotShowInNewPolicyDetails = false;
+    }
+    this.proposerType = sessionStorage.getItem('proposerType');
+    if (this.proposerType === 'corporate') {
+      this.isNotShowNomineeDetails = false;
+    } else {
+      this.isNotShowNomineeDetails = true;
+    }
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
         this.showVehicleOwnerDetails = true;
       }
-      if (proposal.customer_details !== null) {
+      if (
+        proposal.customer_details !== null &&
+        this.proposerType === 'corporate'
+      ) {
+        this.showVehicleDetails = true;
+      } else if (
+        proposal.customer_details !== null &&
+        this.proposerType !== 'corporate'
+      ) {
         this.showNomineeDetails = true;
       }
       if (proposal.nominee_details !== null) {
@@ -63,10 +85,6 @@ export class ProposalComponent implements OnInit {
         this.showVehicleOwnerDetails = true;
       }
     });
-    this.vehicleType = sessionStorage.getItem('newVehicleType');
-    if (this.vehicleType === 'new') {
-      this.isNotShowInNewPolicyDetails = false;
-    }
   }
 
   ngAfterViewInit() {

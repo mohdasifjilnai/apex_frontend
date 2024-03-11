@@ -7,6 +7,7 @@
       <mat-expansion-panel
         (opened)="loadCkyc('ckyc')"
         id-automation="ckyc_details"
+        [expanded]="isCkycExpanded"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> CKYC </mat-panel-title>
@@ -32,6 +33,7 @@
         #nomineDetailsPanel
         id-automation="nomine_details"
         [ngClass]="{ isAccordianDisable: !showNomineeDetails }"
+        *ngIf="isNotShowNomineeDetails"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> Nominee Details </mat-panel-title>

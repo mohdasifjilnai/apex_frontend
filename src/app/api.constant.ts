@@ -52,4 +52,12 @@ export class ApiConstants {
 
   // share Quotes
   public static share_quotes: string = `api/v1/spear/send_communication/`;
+  //Occupation Type
+  public static occupation_type: string = `/api/v1/occupation_type/`;
+
+  //Relation Type
+  public static relation_type: string = `/api/v1/relationship_type/`;
+
+  //Financier Type
+  public static financier_type: string = `/api/v1/financiers/`;
 }

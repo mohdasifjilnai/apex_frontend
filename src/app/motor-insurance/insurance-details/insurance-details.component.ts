@@ -31,14 +31,15 @@ export class InsuranceDetailsComponent implements OnInit {
   showCard: boolean = false;
   quoteData: any;
   mmvData: any;
-  reviewURL: boolean=false;
+  reviewURL: boolean = false;
+  gstToggleData: any;
 
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.route.url.subscribe((segments) => {
       const proposalSegment = segments.find(
@@ -54,6 +55,10 @@ export class InsuranceDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    let gstValue = sessionStorage.getItem('gstValue');
+    if (gstValue) {
+      this.gstToggleData = JSON.parse(gstValue);
+    }
   }
 
   openShareModal() {

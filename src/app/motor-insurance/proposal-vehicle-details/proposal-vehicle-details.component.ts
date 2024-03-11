@@ -73,12 +73,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         agreementName: 'other',
       },
     ];
-    this.financerList = [
-      {
-        id: 1,
-        financerName: 'other',
-      },
-    ];
   }
 
   ngOnInit(): void {
@@ -99,14 +93,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
-          registration_date: moment(
+          registration_date: this.shareData.parseDate(
             proposal?.vehicle_details?.registration_date,
             'DD/MM/YYYY'
-          ).toDate(),
-          manufacture_date: moment(
+          ),
+          manufacture_date: this.shareData.parseDate(
             proposal?.vehicle_details?.manufacture_date,
             'MM/YYYY'
-          ).toDate(),
+          ),
           vehicle_pincode:
             proposal?.vehicle_details?.registration_address?.pincode,
           vehilce_city:
@@ -142,6 +136,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         .get('registration_number')
         ?.updateValueAndValidity();
     }
+    this.getFinancierList();
   }
 
   filterInsurer(name: string) {}
@@ -248,5 +243,15 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         .get('vehicle_state')
         ?.updateValueAndValidity();
     }
+  }
+  /**
+   * initializes the age list with ages between 18 and 70
+   */
+  getFinancierList() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.financier_type)
+      .subscribe((response) => {
+        this.financerList = response;
+      });
   }
 }

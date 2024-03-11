@@ -37,9 +37,9 @@
         <mat-select formControlName="ownner_occupation_type">
           <mat-option
             *ngFor="let occupation of occupationList"
-            [value]="occupation?.id"
+            [value]="occupation?.rb_id"
           >
-            {{ occupation?.occupationName }}
+            {{ occupation?.rb_occupation }}
           </mat-option>
         </mat-select>
       </mat-form-field>

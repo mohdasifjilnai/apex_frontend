@@ -70,7 +70,7 @@ export class AddOnsComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.getAddonList(
         this.vehicleTypeValue,
-        sessionStorage.getItem('policy_expiry')
+        this.parsedVehicleData?.policy_expiry
       );
     }
   }

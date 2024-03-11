@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -21,7 +23,10 @@ export class NomineeDetailsComponent implements OnInit {
     nominne_relation: new FormControl('', Validators.required),
   });
 
-  constructor(private sharedData: SharedDataService) {
+  constructor(
+    private sharedData: SharedDataService,
+    private apiService: ApiService
+  ) {
     this.minDate = new Date(1930, 6, 1);
     const currentDate = new Date();
     this.maxDate = new Date(
@@ -29,16 +34,6 @@ export class NomineeDetailsComponent implements OnInit {
       currentDate.getMonth(),
       currentDate.getDate()
     );
-    this.relationshipList = [
-      {
-        id: 1,
-        relationName: 'Father',
-      },
-      {
-        id: 2,
-        relationName: 'Mother',
-      },
-    ];
   }
 
   ngOnInit(): void {
@@ -60,13 +55,29 @@ export class NomineeDetailsComponent implements OnInit {
         });
       }
     });
+    this.getRelationshipsList();
   }
 
+  /**
+   * Submits the nominee form data to the parent component.
+   * @param isValid - Indicates whether the form is valid or not.
+   */
   getNomineeDetails(isValid: boolean) {
     if (isValid) {
       const formValues = this.nominneForm.value;
       this.afterNomineeGetData.emit(formValues);
       this.sharedData?.createProposalId('nominne_details', this.nominneForm);
     }
+  }
+
+  /**
+   * initializes the age list with ages between 18 and 70
+   */
+  getRelationshipsList() {
+    this.apiService
+      .getRequestedResponse(ApiConstants.relation_type)
+      .subscribe((response) => {
+        this.relationshipList = response;
+      });
   }
 }

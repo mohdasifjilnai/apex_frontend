@@ -12,6 +12,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   optReasonList: any;
   transactionId: any;
   proposalData: any;
+  vehicleType: any;
+  isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
   @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
 
@@ -48,6 +50,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         });
       }
     });
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
+    if (this.vehicleType !== 'new') {
+      this.isDisabledPreviousPolicyDetails = true;
+    }
   }
 
   /**

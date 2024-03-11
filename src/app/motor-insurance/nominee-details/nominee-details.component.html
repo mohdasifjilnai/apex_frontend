@@ -26,9 +26,9 @@
         <mat-select formControlName="nominne_relation">
           <mat-option
             *ngFor="let relation of relationshipList"
-            [value]="relation?.id"
+            [value]="relation?.rb_id"
           >
-            {{ relation?.relationName }}
+            {{ relation?.rb_nominee_relation }}
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -1,6 +1,6 @@
 <div class="row p-2 insurer-details">
   <div class="col-lg-12 col-md-12 d-flex gap-2 mt-3">
-    <img [src]="quoteData.insurer_logo" alt="" class="logo"/>
+    <img [src]="quoteData.insurer_logo" alt="" class="logo" />
     <div class="insurer-title">
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div>
@@ -43,14 +43,22 @@
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Basic Own Damage</p>
-      <p class="od-value">&#x20B9; -</p>
+      <p class="od-value">
+        &#x20B9;
+        {{ quoteData?.premium_details?.od_premium_details?.basic_od_premium }}
+      </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">NCB Discount (20%)</p>
       <p class="od-value">
         &#x20B9;
         {{
-          quoteData?.premium_details?.od_premium_details?.ncb_discount || "-"
+          quoteData?.premium_details?.od_premium_details?.ncb_discount !==
+            null &&
+          quoteData?.premium_details?.od_premium_details?.ncb_discount !==
+            undefined
+            ? quoteData?.premium_details?.od_premium_details?.ncb_discount
+            : "-"
         }}
       </p>
     </div>
@@ -137,11 +145,16 @@
   <div class="col-12 premium-details mt-3 text-center">
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
-      >&#x20B9; {{ quoteData?.premium_details?.total_premium }}</span
+      >&#x20B9;
+      {{
+        gstToggleData
+          ? (quoteData.premium_details.total_premium | numberFormat)
+          : (quoteData.premium_details.gross_premium | numberFormat)
+      }}</span
     >
   </div>
   <button
-  *ngIf="!reviewURL"
+    *ngIf="!reviewURL"
     type="button"
     class="download-button mt-3"
     id-automation="download_underwriting"
@@ -151,25 +164,23 @@
   </button>
   <div class="d-flex share-download-btn" *ngIf="reviewURL">
     <button
-    type="button"
-    class="share-button mt-3 me-2"
-    id-automation="download_underwriting"
-    (click)="openShareModal()"
-  >
-    <img src="/assets/icon/share.svg" alt="" class="edit-image" />
-    Share
-  </button>
+      type="button"
+      class="share-button mt-3 me-2"
+      id-automation="share_underwriting"
+      (click)="openShareModal()"
+    >
+      <img src="/assets/icon/share.svg" alt="" class="edit-image" />
+      Share
+    </button>
     <button
-    type="button"
-    class="download-button mt-3"
-    id-automation="download_underwriting"
-  >
-    <img src="/assets/icon/download.svg" alt="" class="edit-image" />
-    Download 
-  </button>
-  
+      type="button"
+      class="download-button mt-3"
+      id-automation="download_underwriting"
+    >
+      <img src="/assets/icon/download.svg" alt="" class="edit-image" />
+      Download
+    </button>
   </div>
-  
 </div>
 <div class="res-insurance-details">
   <div class="details-card p-2 mt-2 ps-4 pe-4">

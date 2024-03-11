@@ -288,10 +288,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
     this.sharedDataService.getQuotesTabs();
     sessionStorage.setItem('vehiclePopup', 'true');
-    sessionStorage.setItem(
-      'policy_expiry',
-      this.vehicleDetailsForm.value.policy_expiry
-    );
     if (this.vehicleDetailsForm.value?.ncb_discount) {
       for (let i = 0; i <= this.expiryListData.length - 1; i++) {
         if (
