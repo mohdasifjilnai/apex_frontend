@@ -384,6 +384,7 @@ export class QuotesListingComponent implements OnInit {
               'mmvQuotes'
             );
           }
+          this.sharedDataService.addOnsChange(mmvFormData);
         });
     }
   }

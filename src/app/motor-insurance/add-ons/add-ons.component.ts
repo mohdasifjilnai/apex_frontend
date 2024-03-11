@@ -50,14 +50,14 @@ export class AddOnsComponent implements OnInit {
 
   ngOnInit(): void {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
-      this.vehicleData = cardData;
-      this.parsedVehicleData = JSON.parse(this.vehicleData);
-      this.getAddonList(
-        this.vehicleTypeValue,
-        this.parsedVehicleData?.policy_expiry
-      );
-    });
+    // this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
+    //   this.vehicleData = cardData;
+    //   this.parsedVehicleData = JSON.parse(this.vehicleData);
+    //   this.getAddonList(
+    //     this.vehicleTypeValue,
+    //     this.parsedVehicleData?.policy_expiry
+    //   );
+    // });
 
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
       this.vehicleData = cardData;
@@ -223,9 +223,11 @@ export class AddOnsComponent implements OnInit {
   getAddonList(vehicleTypeValue: string, policy_expiry: any) {
     let bussinessType = sessionStorage.getItem('newVehicleType');
     let proposalType = sessionStorage.getItem('proposerType');
+    let productType = sessionStorage.getItem('productType');
+
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${policy_expiry}`
+        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}`
       )
       .subscribe((res: any) => {
         this.addonList = res;

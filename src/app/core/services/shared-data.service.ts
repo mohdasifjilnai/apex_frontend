@@ -479,18 +479,29 @@ export class SharedDataService {
         }
       });
   }
-  shareQuotes(quotes_data:any,share_type:any,partner_name:any,url:any, mail_id:any,mobile_name:any,quote_id:any){
-    let data={
-      "transaction_id": quotes_data[0]?.transaction_id,
-      "share_type": share_type,
-      "partner_name": partner_name,
-      "URL": `${environment['apex']}${url}`,
-      "mail_id": mail_id ? mail_id : "",
-      "mobile_no": mobile_name ? mobile_name:null,
-      "quote_id": quote_id,
-      "quote_request_id": quotes_data[0]?.quote_request_id
-    }
-    return this.apiService.postRequestedResponse(`${ApiConstants.share_quotes}`, data);
+  shareQuotes(
+    quotes_data: any,
+    share_type: any,
+    partner_name: any,
+    url: any,
+    mail_id: any,
+    mobile_name: any,
+    quote_id: any
+  ) {
+    let data = {
+      transaction_id: quotes_data[0]?.transaction_id,
+      share_type: share_type,
+      partner_name: partner_name,
+      URL: `${environment['apex']}${url}`,
+      mail_id: mail_id ? mail_id : '',
+      mobile_no: mobile_name ? mobile_name : null,
+      quote_id: quote_id,
+      quote_request_id: quotes_data[0]?.quote_request_id,
+    };
+    return this.apiService.postRequestedResponse(
+      `${ApiConstants.share_quotes}`,
+      data
+    );
   }
   sendProposalData(data: any) {
     this.getProposalDetails.next(data);
