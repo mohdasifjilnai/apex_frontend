@@ -251,9 +251,9 @@
               >
                 <mat-option
                   *ngFor="let ncb of expiryListData"
-                  [value]="ncb?.new_ncb_value"
+                  [value]="ncb?.old_ncb_value"
                 >
-                  {{ ncb?.new_ncb_name }}
+                  {{ ncb?.old_ncb_name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>

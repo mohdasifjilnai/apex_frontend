@@ -471,8 +471,11 @@ export class SharedDataService {
         }
       });
   }
-  shareQuotes(data:any){
-    return this.apiService.postRequestedResponse(`${ApiConstants.share_quotes}`, data);
+  shareQuotes(data: any) {
+    return this.apiService.postRequestedResponse(
+      `${ApiConstants.share_quotes}`,
+      data
+    );
   }
   sendProposalData(data: any) {
     this.getProposalDetails.next(data);

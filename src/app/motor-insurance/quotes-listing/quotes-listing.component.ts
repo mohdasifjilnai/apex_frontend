@@ -101,9 +101,9 @@ export class QuotesListingComponent implements OnInit {
   vehicleMMVData: any;
   defaultGST = true;
   isChecked: boolean = false;
-  selectedQuotes: any[]=[]; // You need to define the appropriate type for your quotes
-  selectedShareData: any; 
-  isCheckboxChecked: boolean=false;
+  selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
+  selectedShareData: any;
+  isCheckboxChecked: boolean = false;
 
   constructor(
     private router: Router,
@@ -125,9 +125,10 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.renderer.removeClass(document.body, 'dropdown-focus');      }
+        this.renderer.removeClass(document.body, 'dropdown-focus');
+      }
     });
     // this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
@@ -144,7 +145,6 @@ export class QuotesListingComponent implements OnInit {
             this.errorQuotationArray.push(this.quotationArray[i]);
           }
         }
-        // }
       }
     });
 
@@ -245,41 +245,40 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   /**
-     * Selected Quotes Count UI Open 
-    */
-  selectQuotes(count:any) {
+   * Selected Quotes Count UI Open
+   */
+  selectQuotes(count: any) {
     this.addShare = true;
-    this.shareQuotesDropdownValue=false
-    if(count=='all'){
-      this.selectedQuotes=[]
+    this.shareQuotesDropdownValue = false;
+    if (count == 'all') {
+      this.selectedQuotes = [];
       for (const [key, value] of Object.entries(this.quotationArray)) {
-        this.isCheckboxChecked=true
-        this.isChecked=true
-        if(value['status']==true){
-          this.selectedQuotes.push(value)
+        this.isCheckboxChecked = true;
+        this.isChecked = true;
+        if (value['status'] == true) {
+          this.selectedQuotes.push(value);
         }
       }
-    }else{
-      this.isCheckboxChecked=false
-      this.selectedQuotes=[]
+    } else {
+      this.isCheckboxChecked = false;
+      this.selectedQuotes = [];
     }
   }
 
   // Hide Selected share Button Component on cancel click
-   cancelShare(condition: boolean) {
-    this.addShare=condition
-    this.isCheckboxChecked=condition
-    this.isChecked=condition
-    this.selectedQuotes=[]
+  cancelShare(condition: boolean) {
+    this.addShare = condition;
+    this.isCheckboxChecked = condition;
+    this.isChecked = condition;
+    this.selectedQuotes = [];
   }
   /**
-     * Function call on checkbox checked  
-    */
-  onCheckboxChange(quotes:any,event: any) {
+   * Function call on checkbox checked
+   */
+  onCheckboxChange(quotes: any, event: any) {
     if (event.checked) {
       this.isChecked = true;
       this.selectedQuotes.push(quotes);
-      
     } else {
       const index = this.selectedQuotes.indexOf(quotes);
       if (index !== -1) {

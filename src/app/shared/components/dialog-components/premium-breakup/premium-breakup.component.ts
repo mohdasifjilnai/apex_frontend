@@ -39,7 +39,7 @@ export class PremiumBreakupComponent implements OnInit {
     public matDialog: WindowRef,
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any,
-    public bottomSheet: MatBottomSheet,
+    public bottomSheet: MatBottomSheet
   ) {
     if (data['data'] != null) {
       this.initiateQuotes = data.data;
@@ -60,16 +60,16 @@ export class PremiumBreakupComponent implements OnInit {
     this.dialogRef.close();
   }
   /**
-     * BottomSheet Close
-  */
+   * BottomSheet Close
+   */
   cancelBreakupPremium(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
   }
   /**
-     * Share Quotes POP-UP and BottomSheet Open
-  */
-  shareQuotes(){
+   * Share Quotes POP-UP and BottomSheet Open
+   */
+  shareQuotes() {
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: [this.initiateQuotes],
     };
@@ -78,7 +78,7 @@ export class PremiumBreakupComponent implements OnInit {
       this.bottomSheet.open(ShareQuotesComponent, bottomSheetConfig);
     } else {
       this.dialogRef.close();
-      this.openModal([this.initiateQuotes],this.shareQuotesJSON)
+      this.openModal([this.initiateQuotes], this.shareQuotesJSON);
     }
   }
   /**

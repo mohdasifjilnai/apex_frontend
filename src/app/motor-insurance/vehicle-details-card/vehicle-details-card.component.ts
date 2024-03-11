@@ -43,6 +43,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   previousInsurer: any;
   previousNCB: any;
   vehiclePopupList: any;
+  newNCB: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -102,8 +103,12 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.previousInsurer =
         this.parsedVehicleData?.previous_insurer?.rb_insurer_name;
     }
-    if (this.parsedVehicleData?.ncb_discount) {
-      this.previousNCB = this.parsedVehicleData?.ncb_discount;
+    // if (this.parsedVehicleData?.ncb_discount) {
+    //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
+    // }
+    if (this.parsedVehicleData?.addNcbBoth.new_ncb_name) {
+      this.newNCB = this.parsedVehicleData?.addNcbBoth.new_ncb_name;
+      this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
     }
   }
   openDialog(edit: string): void {
