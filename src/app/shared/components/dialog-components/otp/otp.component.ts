@@ -30,6 +30,7 @@ export class OtpComponent implements OnInit {
   btnDisable: boolean = true;
   transactionId: any;
   communicationData: any;
+  proposalId: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
@@ -39,6 +40,7 @@ export class OtpComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
+    this.proposalId = sessionStorage.getItem('proposal_Id');
     this.communicationData = data['sendCommunicationObject'];
   }
 
@@ -94,9 +96,15 @@ export class OtpComponent implements OnInit {
         } else {
           this.dialogRef.close();
         }
-        this.apiService.getRequestedResponse(`${ApiConstants['redirection_payment_getway']}${this.transactionId}`).subscribe(payment_getway_response=>{
-           console.log(payment_getway_response,'payment_getway_response')
-        })
+        this.apiService
+          .getRequestedResponse(
+            `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+          )
+          .subscribe((payment_getway_response) => {
+            if (payment_getway_response['url']) {
+              window.location.href = payment_getway_response['url'];
+            }
+          });
       }
     });
   }

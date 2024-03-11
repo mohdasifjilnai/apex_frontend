@@ -177,7 +177,7 @@ export class CkycComponent implements OnInit {
         );
         ckycData['document_number'] = String(
           this.ckycFormGroup.get('document_number_based_field')?.value
-        );
+        ).toLocaleUpperCase();
         // ckycData['ckyc_number'] = '';
         ckycData['document_type'] = this.filterDocumentType(
           this.ckycFormGroup.get('document_type_based_field')?.value

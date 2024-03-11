@@ -44,13 +44,12 @@ export class ApiConstants {
   public static expiry_policy_list: string = `/api/v1/master/exp_policy_type/`;
 
   // share opt phone and email
-  public static send_communication:string=`/api/v1/spear/send_communication/`;
+  public static send_communication: string = `/api/v1/spear/send_communication/`;
   // verify opt by phone or email
-  public static verify_otp:string=`/api/v1/spear/verify_otp/`;
+  public static verify_otp: string = `/api/v1/spear/verify_otp/`;
 
+  public static redirection_payment_getway: string = `/api/v1/payment/redirection/`;
 
-  public static redirection_payment_getway:string=`/api/v1/payment/redirection/`
-
-  // share Quotes 
+  // share Quotes
   public static share_quotes: string = `api/v1/spear/send_communication/`;
 }
