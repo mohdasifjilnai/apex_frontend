@@ -58,6 +58,15 @@ export class AddOnsComponent implements OnInit {
         this.parsedVehicleData?.policy_expiry
       );
     });
+
+    this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
+      this.vehicleData = cardData;
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      this.getAddonList(
+        this.vehicleTypeValue,
+        this.parsedVehicleData?.policy_expiry
+      );
+    });
     if (window.innerWidth <= 999) {
       this.getAddonList(
         this.vehicleTypeValue,
@@ -212,9 +221,11 @@ export class AddOnsComponent implements OnInit {
    * This (getAddonList) hit the get api and show the addons list in Quotes page
    */
   getAddonList(vehicleTypeValue: string, policy_expiry: any) {
+    let bussinessType = sessionStorage.getItem('newVehicleType');
+    let proposalType = sessionStorage.getItem('proposerType');
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=new&proposer_type=individual&product_type=${policy_expiry}`
+        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${policy_expiry}`
       )
       .subscribe((res: any) => {
         this.addonList = res;

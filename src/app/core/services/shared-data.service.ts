@@ -35,6 +35,7 @@ export class SharedDataService {
   fetchCKycFormData: Subject<any> = new Subject();
   registrationAddressData: Subject<any> = new Subject();
   fetchedCkycData: Subject<any> = new Subject();
+  addOnsBaseProposalType: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -291,8 +292,8 @@ export class SharedDataService {
     let manufactureYear;
 
     if (
-      mmvData.policy_expiry_date != '' &&
-      mmvData.policy_expiry_date != null
+      mmvData?.policy_expiry_date != '' &&
+      mmvData?.policy_expiry_date != null
     ) {
       policyExpiryDate = moment(mmvData.policy_expiry_date).format(
         'DD/MM/YYYY'
@@ -324,7 +325,13 @@ export class SharedDataService {
   vehicleCardData(fromData: any) {
     this.vehicleCardValue.next(fromData);
   }
-
+  /**
+   *
+   * @param data change add ons on the base of proposal type
+   */
+  addOnsChange(data: any) {
+    this.addOnsBaseProposalType.next(data);
+  }
   sendProposalReviewEditId(data: any) {
     this.getProposalReviewDetails.next(data);
   }
