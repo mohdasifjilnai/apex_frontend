@@ -78,18 +78,8 @@ export class ProposalShareComponent implements OnInit {
      * Share Quotes Api Integration
      */
     shareQuotes() {
-      let data={
-        "transaction_id": this.data?.data[0]?.transaction_id,
-        "share_type": "proposal",
-        "partner_name": this.partner_name,
-        "URL": `${environment['apex']}/motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,
-        "mail_id": this.shareQuotationForm.get('email')?.value ? this.shareQuotationForm.get('email')?.value : "",
-        "mobile_no": this.shareQuotationForm.get('contact_number')?.value ? this.shareQuotationForm.get('contact_number')?.value:null,
-        "quote_id": this.quotes_id,
-        "quote_request_id": this.data?.data[0]?.quote_request_id
-      }
       this.sharedDataService
-    .shareQuotes(data)
+    .shareQuotes(this.data?.data,"proposal",this.partner_name,`motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,this.shareQuotationForm.get('email')?.value,this.shareQuotationForm.get('contact_number')?.value,this.quotes_id)
         .subscribe((res) => {
           if(res?.message=='Success'){
             this.successMessage=true  

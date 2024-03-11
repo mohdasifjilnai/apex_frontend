@@ -38,12 +38,15 @@ export class ShareQuotesComponent implements OnInit {
     this.partner_name=localStorage.getItem('ta_user_name')
     if(this.bottomSheetdata){
       this.quotesData=this.bottomSheetdata
-    }else{
-      this.quotesData=this.data?.data
+      for (let value of this.quotesData){
+        this.quotes_id.push(value?.quote_id)
+      }
     }
-    
-    for (let value of this.quotesData){
-      this.quotes_id.push(value?.quote_id)
+    else{
+      this.quotesData=this.data?.data
+      for (let value of this.quotesData){
+        this.quotes_id.push(value?.quote_id)
+      }
     }
   }
   /**
@@ -60,19 +63,8 @@ export class ShareQuotesComponent implements OnInit {
      * Share Quotes Api Integration
      */
   shareQuotes() {
-    let data={
-      "transaction_id": this.quotesData[0]?.transaction_id,
-      "share_type": "quote",
-      "partner_name": this.partner_name,
-      "URL": `${environment['apex']}/motor/quotes`,
-      "mail_id": this.shareQuotationForm.get('email')?.value ? this.shareQuotationForm.get('email')?.value : "",
-      "mobile_no": this.shareQuotationForm.get('contact_number')?.value ? this.shareQuotationForm.get('contact_number')?.value : null,
-      "quote_id": this.quotes_id,
-      "quote_request_id": this.quotesData[0]?.quote_request_id
-    }
-    
     this.sharedDataService
-    .shareQuotes(data)
+    .shareQuotes(this.quotesData,"quote",this.partner_name,'motor/quotes',this.shareQuotationForm.get('email')?.value,this.shareQuotationForm.get('contact_number')?.value,this.quotes_id)
     .subscribe((res) => {
       if(res?.message=='Success'){
         this.successMessage=true  

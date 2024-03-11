@@ -15,6 +15,8 @@
     .mat-accordion > .mat-expansion-panel-spacing:first-child {
       margin-top: 16px;
       border-radius: 16px;
+
+      
     }
     .mat-expansion-panel.mat-expanded .mat-expansion-panel-header{
       height: 41px !important;
@@ -183,5 +185,6 @@
       bottom: 0;
       background-color: #fff;
     }
+    
   }
 }
