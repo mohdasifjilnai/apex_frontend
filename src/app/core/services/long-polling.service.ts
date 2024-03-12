@@ -8,6 +8,8 @@ import {
   retry,
   takeUntil,
   timeout,
+  mergeMap,
+  take,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -20,15 +22,15 @@ export class LongPollingService implements OnDestroy {
   transactionIdData: any;
   quotesId: any;
   constructor(private http: HttpClient) {
-    this.allQuotesData = timer(1, 12000).pipe(
-      switchMap(() =>
+    this.allQuotesData = timer(1, 8000).pipe(
+      mergeMap(() =>
         http.get(
           `/api/v1/generate_quotes/${this.transactionIdData}/${this.quotesId}`
         )
       ),
       retry(),
       tap(console.log),
-      takeUntil(timer(60000)),
+      take(3),
       share(),
       takeUntil(this.stopPolling)
     );

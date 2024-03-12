@@ -194,7 +194,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    this.rto_id=this.vehicleMMVValue?.rto_city?.rb_rto_id
+    this.rto_id = this.vehicleMMVValue?.rto_city?.rb_rto_id;
 
     // if (this.vehicleMMVData) {
     //   this.sharedDataService.vehicleMMVDetails(
@@ -290,7 +290,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
-    this.sharedDataService.getQuotesTabs();
+
     sessionStorage.setItem('vehiclePopup', 'true');
     if(this.vehicleDetailsForm.value?.policy_expiry!='IDK'){
       if (this.vehicleDetailsForm.value?.ncb_discount) {

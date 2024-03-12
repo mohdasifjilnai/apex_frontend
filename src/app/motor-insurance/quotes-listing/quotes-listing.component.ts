@@ -171,15 +171,18 @@ export class QuotesListingComponent implements OnInit {
       }
     });
 
-    this.sharedDataService.quotesData.subscribe((quotes) => {
-      this.quotesTabData();
-    });
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
-      this.parsedVehicleData = JSON.parse(this.vehicleData);
 
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.quotesTabData();
     });
+
+    let mmvFromData = sessionStorage.getItem('mmv_data');
+    if (mmvFromData) {
+      this.parsedVehicleData = JSON.parse(mmvFromData);
+      this.quotesTabData();
+    }
   }
 
   getProposalType() {
@@ -199,8 +202,8 @@ export class QuotesListingComponent implements OnInit {
    * chooseIdv use for get the minimum and maximum idv from the quotes
    */
   chooseIdv() {
-    let minIdv = this.chooseIdvArray[0].min_idv;
-    let maxIdv = this.chooseIdvArray[0].max_idv;
+    let minIdv = this.chooseIdvArray[0]?.min_idv;
+    let maxIdv = this.chooseIdvArray[0]?.max_idv;
 
     this.chooseIdvArray.forEach((obj: any) => {
       if (obj.min_idv < minIdv) {

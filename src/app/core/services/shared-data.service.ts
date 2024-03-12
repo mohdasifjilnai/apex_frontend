@@ -116,10 +116,6 @@ export class SharedDataService {
       });
   }
 
-  getQuotesTabs() {
-    this.quotesData.next('tabs');
-  }
-
   getQuotationListing(data?: any, productType?: any, value?: any) {
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     this.proposerType = sessionStorage.getItem('proposerType');
@@ -292,51 +288,53 @@ export class SharedDataService {
     data?: any,
     selectedAddOns?: any
   ) {
-    let mmvData;
+    if (mmvFromData) {
+      let mmvData;
 
-    mmvData = JSON.parse(mmvFromData);
-    let policyExpiryDate;
+      mmvData = JSON.parse(mmvFromData);
+      let policyExpiryDate;
 
-    let manufactureValue;
-    let manufactureMonth;
-    let manufactureYear;
+      let manufactureValue;
+      let manufactureMonth;
+      let manufactureYear;
 
-    if (
-      mmvData?.policy_expiry_date != '' &&
-      mmvData?.policy_expiry_date != null
-    ) {
-      policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-        'DD/MM/YYYY'
-      );
-    } else {
-      policyExpiryDate = '';
+      if (
+        mmvData?.policy_expiry_date != '' &&
+        mmvData?.policy_expiry_date != null
+      ) {
+        policyExpiryDate = moment(mmvData.policy_expiry_date).format(
+          'DD/MM/YYYY'
+        );
+      } else {
+        policyExpiryDate = '';
+      }
+      manufactureValue = new Date(mmvData?.manufacture_date);
+      manufactureMonth = manufactureValue?.getMonth() + 1;
+      manufactureYear = manufactureValue?.getFullYear();
+      let idvData = sessionStorage.getItem('idvData');
+      let selectedIdv;
+      if (idvData) {
+        selectedIdv = JSON.parse(idvData);
+      } else {
+        selectedIdv = 0;
+      }
+      let mmvValues = {
+        rb_mmv_id: mmvData?.vehicle_model,
+        rto_code: mmvData?.registration_city?.rb_rto_code,
+        registration_date: mmvData.registration_date,
+        previous_insurer: mmvData.previous_insurer,
+        policy_expire_date: policyExpiryDate,
+        manufacture_month: manufactureMonth,
+        manufacture_year: manufactureYear,
+        ncb_discount: mmvData.ncb_discount,
+        user_car: mmvData.user_car,
+        previous_claimed: mmvData.previous_claimed,
+        selected_addons: selectedAddOns,
+        vehicle_idv: selectedIdv,
+      };
+      this.getValueWithoutRegistration.next(mmvValues);
+      this.getQuotationListing(mmvValues, producttype, data);
     }
-    manufactureValue = new Date(mmvData?.manufacture_date);
-    manufactureMonth = manufactureValue?.getMonth() + 1;
-    manufactureYear = manufactureValue?.getFullYear();
-    let idvData = sessionStorage.getItem('idvData');
-    let selectedIdv;
-    if (idvData) {
-      selectedIdv = JSON.parse(idvData);
-    } else {
-      selectedIdv = 0;
-    }
-    let mmvValues = {
-      rb_mmv_id: mmvData?.vehicle_model,
-      rto_code: mmvData?.registration_city?.rb_rto_code,
-      registration_date: mmvData.registration_date,
-      previous_insurer: mmvData.previous_insurer,
-      policy_expire_date: policyExpiryDate,
-      manufacture_month: manufactureMonth,
-      manufacture_year: manufactureYear,
-      ncb_discount: mmvData.ncb_discount,
-      user_car: mmvData.user_car,
-      previous_claimed: mmvData.previous_claimed,
-      selected_addons: selectedAddOns,
-      vehicle_idv: selectedIdv,
-    };
-    this.getValueWithoutRegistration.next(mmvValues);
-    this.getQuotationListing(mmvValues, producttype, data);
   }
 
   vehicleCardData(fromData: any) {
