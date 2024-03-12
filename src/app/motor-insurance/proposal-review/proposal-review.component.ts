@@ -8,7 +8,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
-import {environment} from 'src/environments/environment'
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-proposal-review',
   templateUrl: './proposal-review.component.html',
@@ -81,7 +81,10 @@ export class ProposalReviewComponent implements OnInit {
       quote_request_id: this.quoteData?.quote_request_id,
     };
     this.apiService
-      .postRequestedResponse(`${ApiConstants.send_communication}`, sendCommunicationObject)
+      .postRequestedResponse(
+        `${ApiConstants.send_communication}`,
+        sendCommunicationObject
+      )
       .subscribe((res) => {
         if (res['message'] == 'Success') {
           if (window.innerWidth <= 999) {
@@ -130,7 +133,7 @@ export class ProposalReviewComponent implements OnInit {
   generateProposal() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.generate_proposal}/?insurer_code=${
+        `${ApiConstants.get_proposal}/?insurer_code=${
           this.quoteData['insurer_code']
         }&proposal_id=${sessionStorage.getItem('proposal_Id')}`
       )

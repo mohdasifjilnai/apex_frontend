@@ -31,6 +31,7 @@ export class OtpComponent implements OnInit {
   transactionId: any;
   communicationData: any;
   proposalId: any;
+  quoteData: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
@@ -42,6 +43,7 @@ export class OtpComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
     this.communicationData = data['sendCommunicationObject'];
+    this.quoteData = sessionStorage.getItem('quotes_data');
   }
 
   ngOnInit(): void {
@@ -98,11 +100,21 @@ export class OtpComponent implements OnInit {
         }
         this.apiService
           .getRequestedResponse(
-            `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+            `${ApiConstants.generate_proposal}?insurer_code=${
+              JSON.parse(this.quoteData)['insurer_code']
+            }&proposal_id=${this.proposalId}`
           )
-          .subscribe((payment_getway_response) => {
-            if (payment_getway_response['url']) {
-              window.location.href = payment_getway_response['url'];
+          .subscribe((generatedProposal: any) => {
+            if (generatedProposal) {
+              this.apiService
+                .getRequestedResponse(
+                  `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+                )
+                .subscribe((payment_getway_response) => {
+                  if (payment_getway_response['url']) {
+                    window.location.href = payment_getway_response['url'];
+                  }
+                });
             }
           });
       }

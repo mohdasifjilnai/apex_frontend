@@ -37,7 +37,7 @@ export class ProposalComponent implements OnInit {
   fethedCkycData: boolean = false;
   vehicleType: any;
   isNotShowInNewPolicyDetails: boolean = true;
-  isCkycExpanded: boolean = true;
+  accordianExpanded: string = 'ckyc';
 
   constructor(
     public matDialog: WindowRef,
@@ -61,23 +61,33 @@ export class ProposalComponent implements OnInit {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
         this.showVehicleOwnerDetails = true;
+        this.accordianExpanded = 'vehicleOwnerDetails';
       }
       if (
         proposal.customer_details !== null &&
         this.proposerType === 'corporate'
       ) {
         this.showVehicleDetails = true;
+        this.accordianExpanded = 'vehicleDetails';
       } else if (
         proposal.customer_details !== null &&
         this.proposerType !== 'corporate'
       ) {
         this.showNomineeDetails = true;
+        this.accordianExpanded = 'nomineeDetails';
       }
       if (proposal.nominee_details !== null) {
         this.showVehicleDetails = true;
+        this.accordianExpanded = 'vehicleDetails';
       }
-      if (proposal.vehicle_details !== null) {
+      if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
         this.showPreviousPolicyDetails = true;
+        this.accordianExpanded = 'vehicleDetails';
+      } else if (
+        proposal.vehicle_details !== null &&
+        this.vehicleType !== 'new'
+      ) {
+        this.accordianExpanded = 'previousPolicyDetails';
       }
     });
     this.sharedData.fetchKycData.subscribe((data) => {
