@@ -45,7 +45,10 @@
       <p class="od-value">Basic Own Damage</p>
       <p class="od-value">
         &#x20B9;
-        {{ quoteData?.premium_details?.od_premium_details?.basic_od_premium }}
+        {{
+          quoteData?.premium_details?.od_premium_details?.basic_od_premium
+            | numberFormat
+        }}
       </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
@@ -58,26 +61,41 @@
           quoteData?.premium_details?.od_premium_details?.ncb_discount !==
             undefined
             ? quoteData?.premium_details?.od_premium_details?.ncb_discount
-            : "-"
+            : ("-" | numberFormat)
         }}
       </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Own Damage Discount</p>
-      <p class="od-value">&#x20B9; -</p>
+      <p class="od-value">
+        &#x20B9;
+        {{
+          quoteData.premium_details.od_premium_details.od_discount
+            | numberFormat
+        }}
+      </p>
     </div>
   </div>
 
   <div class="col-lg-12 col-md-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Third Party</p>
-      <p class="plan-type">&#x20B9; -</p>
+      <p class="plan-type">
+        &#x20B9;
+        {{
+          quoteData.premium_details.tp_premium_details.basic_tp_premium
+            | numberFormat
+        }}
+      </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Basic Third Party</p>
       <p class="od-value">
         &#x20B9;
-        {{ quoteData?.premium_details?.tp_premium_details?.basic_tp_premium }}
+        {{
+          quoteData?.premium_details?.tp_premium_details?.basic_tp_premium
+            | numberFormat
+        }}
       </p>
     </div>
   </div>
@@ -138,7 +156,9 @@
   <div class="col-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)</p>
-      <p class="plan-type">&#x20B9; -</p>
+      <p class="plan-type">
+        &#x20B9; {{ quoteData.premium_details.total_gst | numberFormat }}
+      </p>
     </div>
   </div>
 

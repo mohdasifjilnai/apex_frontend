@@ -9,7 +9,13 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  of,
+  switchMap,
+} from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -31,6 +37,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   salutationList: any;
   ckycItem: any;
   vehicleOwnerName: boolean = false;
+  proposalData: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -63,10 +70,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     owner_city: new FormControl('', Validators.required),
     owner_state: new FormControl('', Validators.required),
     ownner_occupation_type: new FormControl('', Validators.required),
-    owner_communication_addres: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9 ]+$/),
-    ]),
+    owner_communication_addres: new FormControl('', [Validators.required]),
     marital_status: new FormControl('1', Validators.required),
     owner_gender: new FormControl('1', Validators.required),
     ownner_salutation_type: new FormControl('1', Validators.required),
@@ -101,6 +105,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
+      this.proposalData = proposal;
       if (proposal?.customer_details !== null) {
         this.owenerVehicleDetailsForm.patchValue({
           owner_full_Name: proposal?.customer_details?.full_name,
@@ -111,10 +116,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             proposal?.customer_details?.additional_mobile_number,
           owner_pincode:
             proposal?.customer_details?.communication_address?.pincode,
-          owner_city:
-            proposal?.customer_details?.communication_address?.rb_city_id,
-          owner_state:
-            proposal?.customer_details?.communication_address?.rb_state_id,
           ownner_occupation_type:
             proposal?.customer_details?.occupation_type_id,
           owner_communication_addres:
@@ -123,6 +124,20 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_gender: proposal?.customer_details?.gender,
           ownner_salutation_type: proposal?.customer_details?.salutation,
         });
+        if (
+          this.proposalData?.customer_details?.communication_address?.pincode
+        ) {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}`
+            )
+            .subscribe((res) => {
+              this.owenerVehicleDetailsForm.patchValue({
+                owner_city: res[0].rb_city_name,
+                owner_state: res[0].rb_state_name,
+              });
+            });
+        }
       }
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
@@ -138,6 +153,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       }
     });
     this.getOccupationType();
+    this.getPincodeList();
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {
@@ -165,5 +181,50 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .subscribe((occupation) => {
         this.occupationList = occupation;
       });
+  }
+  /**
+   * Updates the form with the pincode data
+   * @param pincodeData the pincode data
+   */
+  getSepratedPincodeData(pincodeData: any) {
+    if (pincodeData) {
+      this.owenerVehicleDetailsForm.patchValue({
+        owner_city: pincodeData.rb_city_name,
+        owner_state: pincodeData.rb_state_name,
+      });
+    }
+  }
+
+  getPincodeList() {
+    const ownerPincodeControl =
+      this.owenerVehicleDetailsForm.get('owner_pincode');
+
+    if (ownerPincodeControl) {
+      /**
+       * Check if ownerPincodeControl is not null
+       */
+      this.filteredPincodeList = ownerPincodeControl.valueChanges.pipe(
+        debounceTime(300), // Debounce for 300 milliseconds
+        distinctUntilChanged(),
+        switchMap((value) => {
+          /**
+           * Check if at least 3 characters are entered
+           */
+          if (value && value.length >= 3) {
+            /**
+             * Make API call with the entered value
+             */
+            return this.apiService.getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${value}`
+            );
+          } else {
+            /**
+             * If less than 3 characters, return an empty array
+             */
+            return of([]);
+          }
+        })
+      );
+    }
   }
 }

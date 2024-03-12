@@ -169,6 +169,10 @@ export class MotorInsuranceComponent implements OnInit {
     if (proposalTypeData) {
       sessionStorage.removeItem('proposerType');
     }
+    let quote_data = sessionStorage.getItem('quotes_data');
+    if (quote_data) {
+      sessionStorage.removeItem('quotes_data');
+    }
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {

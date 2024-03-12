@@ -123,7 +123,7 @@
         >
           <mat-radio-button
             *ngFor="let maritalStatus of maritalStatusList"
-            [value]="maritalStatus?.name"
+            [value]="maritalStatus?.id"
             [checked]="maritalStatus?.name === 'Single'"
             [ngClass]="{
               maritalStatus: maritalStatus?.name === 'Married'
@@ -158,9 +158,10 @@
         <mat-autocomplete #pincodeAuto="matAutocomplete">
           <mat-option
             *ngFor="let pincode of filteredPincodeList | async"
-            [value]="pincode.display_name"
+            [value]="pincode.rb_pincode"
+            (click)="getSepratedPincodeData(pincode)"
           >
-            <span>{{ pincode.display_name }}</span>
+            <span>{{ pincode.rb_pincode }}</span>
           </mat-option>
         </mat-autocomplete>
         <mat-error
@@ -214,7 +215,11 @@
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-12">
-      <button class="submit-btn owner-vehicle-submission" type="submit">
+      <button
+        class="submit-btn owner-vehicle-submission"
+        type="submit"
+        [disabled]="owenerVehicleDetailsForm.invalid"
+      >
         Save & Continue
       </button>
     </div>

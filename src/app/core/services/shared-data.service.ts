@@ -49,6 +49,7 @@ export class SharedDataService {
   quotesValue: any;
   quoteData: any;
   createdProposalId: any;
+  registrationAddressItem: any;
 
   constructor(
     private apiService: ApiService,
@@ -448,7 +449,7 @@ export class SharedDataService {
             ? formData?.get('is_vehicle_address')?.value || ''
             : 'false',
       };
-      if (this.registrationAddressData) {
+      if (this.registrationAddressItem) {
         proposalData['vehicle_details'].registration_address = {
           pincode:
             this.createdProposalId.customer_details?.communication_address
@@ -529,7 +530,7 @@ export class SharedDataService {
   }
   registrationAddress(data: any) {
     this.registrationAddressData.next(data);
-    this.registrationAddressData = data;
+    this.registrationAddressItem = data;
   }
   getFetchedCkycData(data: any) {
     this.fetchedCkycData.next(data);

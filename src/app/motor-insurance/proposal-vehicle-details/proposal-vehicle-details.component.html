@@ -194,9 +194,10 @@
         <mat-autocomplete #pincodeAuto="matAutocomplete">
           <mat-option
             *ngFor="let pincode of filteredPincodeList | async"
-            [value]="pincode.display_name"
+            [value]="pincode.rb_pincode"
+            (click)="getSepratedPincodeData(pincode)"
           >
-            <span>{{ pincode.display_name }}</span>
+            <span>{{ pincode.rb_pincode }}</span>
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -226,7 +227,11 @@
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-6 col-12">
-      <button class="submit-btn owner-vehicle-submission" type="submit">
+      <button
+        class="submit-btn owner-vehicle-submission"
+        type="submit"
+        [disabled]="proposalVehilceDetailsForm.invalid"
+      >
         {{ vehicleType === "new" ? "Confirm & Review" : "Save & Continue" }}
       </button>
     </div>

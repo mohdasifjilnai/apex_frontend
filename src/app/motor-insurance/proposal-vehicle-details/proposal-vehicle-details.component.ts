@@ -10,7 +10,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import moment from 'moment';
-import { Observable, debounceTime } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  of,
+  switchMap,
+} from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -26,6 +32,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   filteredFinancierList!: any;
   financerList: any;
   transactionId: any;
+  proposalData: any;
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
   @ViewChild('financedToggle', { static: false }) financedToggle!: ElementRef;
@@ -88,6 +95,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           );
         }
         // this.getRegistrationAddressValue();
+        this.proposalData = proposal;
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: proposal?.vehicle_details?.registration_no,
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
@@ -103,10 +111,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           ),
           vehicle_pincode:
             proposal?.vehicle_details?.registration_address?.pincode,
-          vehilce_city:
-            proposal?.vehicle_details?.registration_address?.rb_city_id,
-          vehicle_state:
-            proposal?.vehicle_details?.registration_address?.rb_state_id,
           financer: proposal?.vehicle_details?.financer_details?.financer_name,
           agreement_type:
             proposal?.vehicle_details?.financer_details?.agreement_type,
@@ -117,6 +121,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
+        if (
+          this.proposalData?.customer_details?.communication_address?.pincode
+        ) {
+          this.apiservice
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}`
+            )
+            .subscribe((res) => {
+              this.proposalVehilceDetailsForm.patchValue({
+                owner_city: res[0].rb_city_name,
+                vehilce_city: res[0].rb_state_name,
+              });
+            });
+        }
       }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
@@ -137,13 +155,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ?.updateValueAndValidity();
     }
     this.getFinancierList();
+    this.getPincodeList();
   }
 
   filterInsurer(name: string) {}
 
   proposalFinancierBlankData(data: any) {}
   getProposalVehicleData(isValid: any) {
-    console.log(this.proposalVehilceDetailsForm, 'shiva');
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
       this.afterVehicleData.emit(formValues);
@@ -253,5 +271,50 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .subscribe((response) => {
         this.financerList = response;
       });
+  }
+  getPincodeList() {
+    const vehiclePincodeControl =
+      this.proposalVehilceDetailsForm.get('vehicle_pincode');
+
+    if (vehiclePincodeControl) {
+      /**
+       * Check if vehiclePincodeControl is not null
+       */
+      this.filteredPincodeList = vehiclePincodeControl.valueChanges.pipe(
+        debounceTime(300), // Debounce for 300 milliseconds
+        distinctUntilChanged(),
+        switchMap((value) => {
+          /**
+           * Check if at least 3 characters are entered
+           */
+          if (value && value.length >= 3) {
+            /**
+             * Make API call with the entered value
+             */
+            return this.apiservice.getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${value}`
+            );
+          } else {
+            /**
+             * If less than 3 characters, return an empty array
+             */
+            return of([]);
+          }
+        })
+      );
+    }
+  }
+
+  /**
+   * Updates the form with the pincode data
+   * @param pincodeData the pincode data
+   */
+  getSepratedPincodeData(pincodeData: any) {
+    if (pincodeData) {
+      this.proposalVehilceDetailsForm.patchValue({
+        owner_city: pincodeData.rb_city_name,
+        owner_state: pincodeData.rb_state_name,
+      });
+    }
   }
 }

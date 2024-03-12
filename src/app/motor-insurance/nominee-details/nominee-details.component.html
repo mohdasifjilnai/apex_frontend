@@ -36,7 +36,11 @@
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-12">
-      <button class="submit-btn owner-vehicle-submission" type="submit">
+      <button
+        class="submit-btn owner-vehicle-submission"
+        type="submit"
+        [disabled]="nominneForm.invalid"
+      >
         Save & Continue
       </button>
     </div>
