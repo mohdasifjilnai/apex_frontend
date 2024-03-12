@@ -99,6 +99,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   expiryListData: any;
   expiryPolicyList: any;
   vehiclePopupList: any;
+  rto_id: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -191,6 +192,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+    this.rto_id=this.vehicleMMVValue?.rto_city?.rb_rto_id
 
     // if (this.vehicleMMVData) {
     //   this.sharedDataService.vehicleMMVDetails(
@@ -586,8 +588,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   getRTOData(type?: any) {
+    let apiData;
+    if (this.rto_id) {
+      apiData = `?rb_rto_id=${this.rto_id}`;
+    } else {
+      this.renderer.removeClass(document.body, 'dropdown-focus');
+      apiData = '';
+    }
     this.apiservice
-      .getRequestedResponse(ApiConstants.get_rto_list)
+      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
       .subscribe((res) => {
         if (res && res.length > 0 && !res.message) {
           this.rtoList = res;

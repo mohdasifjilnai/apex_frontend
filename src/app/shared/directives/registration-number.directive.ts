@@ -18,28 +18,18 @@ export class RegistrationNumberDirective {
     if (sanitizedValue.length < 7) {
       const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
       value = formattedValue.replace(/-$/, '');
-    } else {
-      value = sanitizedValue.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
-      value = value.replace(/-$/, '');
-
+    }
+     else {
+      // Add hyphen between consecutive numbers or letters after the 4th character
+      const prefix = sanitizedValue.substring(0, 2);
+      const prefix2 = sanitizedValue.substring(2, 4);
+      const postfix = sanitizedValue.substring(4);
+      const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
+      value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
     }
 
     // Update the input value
     input.value = value;
   }
-
-  // @HostListener('input', ['$event']) onInput(event: InputEvent): void {
-  //   const input = event.target as HTMLInputElement;
-  //   let sanitizedValue = input.value.replace(/[^a-zA-Z0-9- ]/g, '');
-
-  //   /**
-  //    *  Remove space at the beginning
-  //    */
-  //   if (sanitizedValue.startsWith(' ')) {
-  //     sanitizedValue = sanitizedValue.trimStart();
-  //   }
-
-  //   input.value = sanitizedValue;
-  // }
 
 }

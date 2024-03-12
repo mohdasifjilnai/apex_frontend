@@ -20,7 +20,7 @@
     </mat-option>
 
     <span *ngIf="mmvDataNotAvailable !== 'No data'">
-      <mat-option *ngFor="let mmvData of filteredMMV  | async" [value]="mmvData" [matTooltip]="((mmvData.rb_make_name + ' | ' + mmvData.rb_model_name + ' | ' + mmvData.rb_variant_name).length > 32) ? (mmvData.rb_make_name + ' | ' + mmvData.rb_model_name + ' | ' + mmvData.rb_variant_name)! : ''">
+      <mat-option *ngFor="let mmvData of filteredMMV  | async" [value]="mmvData" [matTooltip]="((mmvData.rb_make_name + ' | ' + mmvData.rb_model_name + ' | ' + mmvData.rb_variant_name).length > 32) ? (mmvData.rb_make_name + ' | ' + mmvData.rb_model_name + ' | ' + mmvData.rb_variant_name)! : ''" matTooltipPosition="right">
         <span
           >{{ mmvData.rb_make_name }} | {{ mmvData.rb_model_name }} |
           {{ mmvData.rb_variant_name }}</span

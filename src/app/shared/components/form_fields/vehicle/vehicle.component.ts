@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { debounceTime, map, startWith, switchMap, tap } from 'rxjs';
+import { Subject, debounceTime, map, startWith, switchMap, tap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -36,7 +36,7 @@ export class VehicleComponent implements OnInit {
   // vehicle = new FormControl();
   mmvListValue: any;
   mmvId: any;
-
+  private debounceSubjectVehcileMMV = new Subject<any>();
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -62,6 +62,13 @@ export class VehicleComponent implements OnInit {
     this.sharedata.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
       // this.getVehicleMMV('', this.vehcileType);
+    });
+    this.debounceSubjectVehcileMMV.pipe(
+      debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
+    ).subscribe((data: any) => {
+      if (data.length >= 3) {
+        this.getVehicleMMV(data, this.vehcileType);
+      }
     });
 
     // this.getVehicleMMV('', this.vehcileType);
@@ -95,9 +102,7 @@ export class VehicleComponent implements OnInit {
   }
 
   vehcileMMV(data: any) {
-    if (data.length >= 3) {
-      this.getVehicleMMV(data, this.vehcileType);
-    }
+    this.debounceSubjectVehcileMMV.next(data);
   }
 
   getVehicleMMV(name: any, vehicletype: any) {

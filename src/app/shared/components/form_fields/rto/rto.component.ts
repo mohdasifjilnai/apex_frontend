@@ -9,6 +9,7 @@ import {
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   Observable,
+  Subject,
   catchError,
   debounceTime,
   map,
@@ -38,7 +39,7 @@ export class RTOComponent implements OnInit {
   autocomplete!: MatAutocompleteTrigger;
   rtoDataNotAvailable: any = '';
   rtoId: any;
-
+  private debounceSubject = new Subject<any>();
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService
@@ -57,6 +58,13 @@ export class RTOComponent implements OnInit {
     } else {
       this.form.addControl('rto_city', new FormControl());
     }
+    this.debounceSubject.pipe(
+      debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
+    ).subscribe((data: any) => {
+      if (data.length >= 2) {
+        this.getRTOData(data);
+      }
+    });
   }
 
   getRTOData(name:any) {
@@ -126,8 +134,7 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
-    if (data.length >=2) {
-      this.getRTOData(data);
-    }
+    // Emit the data to the debounceSubject
+    this.debounceSubject.next(data);
   }
 }
