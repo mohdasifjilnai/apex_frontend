@@ -37,6 +37,7 @@ export class SharedDataService {
   fetchedCkycData: Subject<any> = new Subject();
   addOnsBaseProposalType: Subject<any> = new Subject();
   idvValue: Subject<any> = new Subject();
+  idvSliderHide: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -231,9 +232,9 @@ export class SharedDataService {
               JSON.parse(quote)
             );
 
-            if (parsedQuotesArray.length > 0) {
-              this.quotationListing.next(parsedQuotesArray);
-            }
+            // if (parsedQuotesArray.length > 0) {
+            this.quotationListing.next(parsedQuotesArray);
+            // }
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
@@ -565,5 +566,11 @@ export class SharedDataService {
       max_idv: maxIdv,
     };
     this.idvValue.next(idvData);
+  }
+  /**
+   * in case of third party tab idv should be hide service call
+   */
+  chooseIdvHide(data: any) {
+    this.idvSliderHide.next(data);
   }
 }

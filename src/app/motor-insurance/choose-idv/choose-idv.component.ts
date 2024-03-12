@@ -17,6 +17,7 @@ export class ChooseIDVComponent implements OnInit {
   maxIdv: any;
   sliderValue: any;
   registrationNumber: any;
+  idvShowHide: any;
 
   errorQuotationArray: any;
   constructor(
@@ -35,6 +36,10 @@ export class ChooseIDVComponent implements OnInit {
       } else {
         this.investedAmount = this.minIdv;
       }
+    });
+
+    this.sharedDataService.idvSliderHide.subscribe((idvHide) => {
+      this.idvShowHide = idvHide;
     });
   }
 

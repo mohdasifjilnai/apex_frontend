@@ -140,28 +140,34 @@ export class QuotesListingComponent implements OnInit {
         this.quotationData = [];
         this.errorQuotationArray = [];
         this.chooseIdvArray = [];
-        for (let i = 0; i <= this.quotationArray.length - 1; i++) {
-          this.quotationArray[i]['error_message'];
-          if (this.quotationArray[i]['status']) {
-            this.quotationData.push(this.quotationArray[i]);
-          } else {
-            this.errorQuotationArray.push(this.quotationArray[i]);
-          }
-        }
-        if (this.quotationData.length > 0) {
-          for (let i = 0; i <= this.quotationData.length - 1; i++) {
-            if (this.quotationData[i]?.premium_details?.min_idv) {
-              let idvData = {
-                insurer_code: this.quotationData[i]?.insurer_code,
-                min_idv: this.quotationData[i]?.premium_details?.min_idv,
-                max_idv: this.quotationData[i]?.premium_details?.max_idv,
-                idv: this.quotationData[i]?.premium_details?.idv,
-              };
-              this.chooseIdvArray.push(idvData);
+        if (this.quotationArray.length > 0) {
+          for (let i = 0; i <= this.quotationArray.length - 1; i++) {
+            this.quotationArray[i]['error_message'];
+            if (this.quotationArray[i]['status']) {
+              this.quotationData.push(this.quotationArray[i]);
+            } else {
+              this.errorQuotationArray.push(this.quotationArray[i]);
             }
           }
+          if (this.quotationData.length > 0) {
+            for (let i = 0; i <= this.quotationData.length - 1; i++) {
+              if (this.quotationData[i]?.premium_details?.min_idv) {
+                let idvData = {
+                  insurer_code: this.quotationData[i]?.insurer_code,
+                  min_idv: this.quotationData[i]?.premium_details?.min_idv,
+                  max_idv: this.quotationData[i]?.premium_details?.max_idv,
+                  idv: this.quotationData[i]?.premium_details?.idv,
+                };
+                this.chooseIdvArray.push(idvData);
+              }
+            }
+          }
+          this.chooseIdv();
+        } else {
+          this.quotationData = [];
+          this.errorQuotationArray = [];
+          this.chooseIdvArray = [];
         }
-        this.chooseIdv();
       }
     });
 
@@ -263,11 +269,14 @@ export class QuotesListingComponent implements OnInit {
         'mmvQuotes'
       );
     }
+    this.sharedDataService.addOnsChange(mmvFormData);
     if (event.index === 1) {
       this.showComprehensiveDiv = false;
     } else {
       this.showComprehensiveDiv = true;
     }
+
+    this.sharedDataService.chooseIdvHide(this.selectedProductType);
   }
 
   /**
@@ -383,6 +392,9 @@ export class QuotesListingComponent implements OnInit {
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    this.quotationData = [];
+    this.errorQuotationArray = [];
+    this.chooseIdvArray = [];
     if (this.registrationNumber) {
       this.sharedDataService.vehicleMMVDetails(
         productTypeValue,
