@@ -20,7 +20,7 @@
       <mat-option
         *ngFor="let insurer of filteredInsurerList | async"
         [value]="insurer"
-        [matTooltip]="((insurer.rb_insurer_name ).length > 36) ? (insurer.rb_insurer_name )! : ''"
+        [matTooltip]="((insurer.rb_insurer_name ).length > 36) ? (insurer.rb_insurer_name )! : ''"  matTooltipPosition="right"
       >
         <span>{{ insurer.rb_insurer_name }}</span>
       </mat-option>

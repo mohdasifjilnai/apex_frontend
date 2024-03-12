@@ -187,6 +187,7 @@
               <mat-select
                 formControlName="policy_expiry"
                 [(value)]="expiring_policy_type"
+                (selectionChange)="onExpiryPolicyChange($event)"
               >
                 <mat-option
                   *ngFor="let expiry of expiryList"
@@ -196,6 +197,7 @@
                       ? expiry?.rb_expiring_policy_type!
                       : ''
                   "
+                  matTooltipPosition="right"
                 >
                   {{ expiry?.rb_expiring_policy_type }}
                 </mat-option>
@@ -203,6 +205,8 @@
             </mat-form-field>
           </div>
           <!-- Expiry -->
+          <ng-container *ngIf="!NoExpiryPolicy">
+          
           <div class="col-lg-6 col-md-6 col-12">
             <app-policy-expired-date
               [required]="true"
@@ -258,6 +262,7 @@
               </mat-select>
             </mat-form-field>
           </div>
+        </ng-container>
         </ng-container>
 
         <div class="col-lg-6 col-12">

@@ -98,8 +98,16 @@ export class PolicyExpiredDateComponent implements OnInit {
    */
   previousExpiryDate() {
     const inputValue = 'Not Sure';
+    this.form.get('policy_expiry_date')?.setValue(inputValue)
+    this.form.get('policy_expiry_date')?.clearValidators();
+    this.form.get('policy_expiry_date')?.updateValueAndValidity();
     this.policyExpiryDateInput.nativeElement.value = inputValue;
     this.expiryDate.close();
+    const previousInsurerControl = this.form.get('previous_insurer');
+  if (previousInsurerControl) {
+    previousInsurerControl.clearValidators();
+    previousInsurerControl.updateValueAndValidity();
+  }
   }
 
   /**

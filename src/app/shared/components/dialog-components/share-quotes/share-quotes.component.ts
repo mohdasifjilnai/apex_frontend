@@ -36,17 +36,14 @@ export class ShareQuotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.partner_name=localStorage.getItem('ta_user_name')
-    if(this.bottomSheetdata){
+    if(Object.keys(this.bottomSheetdata).length>0){
       this.quotesData=this.bottomSheetdata
-      for (let value of this.quotesData){
-        this.quotes_id.push(value?.quote_id)
-      }
     }
     else{
       this.quotesData=this.data?.data
-      for (let value of this.quotesData){
-        this.quotes_id.push(value?.quote_id)
-      }
+    }
+    for (let value of this.quotesData){
+      this.quotes_id.push(value?.quote_id)
     }
   }
   /**

@@ -40,7 +40,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   manufactureMonth: any;
   manufactureYear: any;
   policyDate: any;
-  previousInsurer: any;
+  previousInsurer = '';
   previousNCB: any;
   vehiclePopupList: any;
   newNCB: any;
@@ -78,6 +78,10 @@ export class VehicleDetailsCardComponent implements OnInit {
 
   vehicleCardData(data: any) {
     this.parsedVehicleData = data;
+    this.policyDate = '';
+    this.previousInsurer = '';
+    this.previousNCB = '';
+    this.newNCB = '';
     let regDateValue = new Date(this.parsedVehicleData?.registration_date);
     this.registrationDate = moment(regDateValue, 'MM/YYYY');
     let regMonth = moment(this.registrationDate).month();
