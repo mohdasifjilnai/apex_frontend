@@ -46,6 +46,8 @@ export class QuotesListingComponent implements OnInit {
   registrationDateYear: any;
   registrationNumber: any;
   progressValue = 0;
+  chooseIdvArray: any;
+
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -137,6 +139,7 @@ export class QuotesListingComponent implements OnInit {
         this.quotationArray = quotes;
         this.quotationData = [];
         this.errorQuotationArray = [];
+        this.chooseIdvArray = [];
         for (let i = 0; i <= this.quotationArray.length - 1; i++) {
           this.quotationArray[i]['error_message'];
           if (this.quotationArray[i]['status']) {
@@ -145,6 +148,20 @@ export class QuotesListingComponent implements OnInit {
             this.errorQuotationArray.push(this.quotationArray[i]);
           }
         }
+        if (this.quotationData.length > 0) {
+          for (let i = 0; i <= this.quotationData.length - 1; i++) {
+            if (this.quotationData[i]?.premium_details?.min_idv) {
+              let idvData = {
+                insurer_code: this.quotationData[i]?.insurer_code,
+                min_idv: this.quotationData[i]?.premium_details?.min_idv,
+                max_idv: this.quotationData[i]?.premium_details?.max_idv,
+                idv: this.quotationData[i]?.premium_details?.idv,
+              };
+              this.chooseIdvArray.push(idvData);
+            }
+          }
+        }
+        this.chooseIdv();
       }
     });
 
@@ -170,6 +187,25 @@ export class QuotesListingComponent implements OnInit {
           });
         }
       });
+  }
+
+  /**
+   * chooseIdv use for get the minimum and maximum idv from the quotes
+   */
+  chooseIdv() {
+    let minIdv = this.chooseIdvArray[0].min_idv;
+    let maxIdv = this.chooseIdvArray[0].max_idv;
+
+    this.chooseIdvArray.forEach((obj: any) => {
+      if (obj.min_idv < minIdv) {
+        minIdv = obj.min_idv;
+      }
+      if (obj.max_idv > maxIdv) {
+        maxIdv = obj.max_idv;
+      }
+    });
+
+    this.sharedDataService.chooseIdvData(minIdv, maxIdv);
   }
   getProposalDetails(quotes_data: any) {
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
@@ -209,6 +245,24 @@ export class QuotesListingComponent implements OnInit {
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
     this.selectedProductType = event.tab.textLabel;
     sessionStorage.setItem('productType', this.selectedProductType);
+    let productTypeValue = sessionStorage.getItem('productType');
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    this.quotationData = [];
+    this.errorQuotationArray = [];
+    if (this.registrationNumber) {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'registrationNumber'
+      );
+    } else {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'mmvQuotes'
+      );
+    }
     if (event.index === 1) {
       this.showComprehensiveDiv = false;
     } else {

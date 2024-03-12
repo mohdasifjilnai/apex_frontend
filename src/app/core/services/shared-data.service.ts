@@ -36,6 +36,7 @@ export class SharedDataService {
   registrationAddressData: Subject<any> = new Subject();
   fetchedCkycData: Subject<any> = new Subject();
   addOnsBaseProposalType: Subject<any> = new Subject();
+  idvValue: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -164,16 +165,25 @@ export class SharedDataService {
 
     if (data?.previous_insurer_code) {
       previousInsurerCode = data?.previous_insurer_code;
+    } else if (data?.previous_insurer?.rb_insurer_code) {
+      previousInsurerCode = data?.previous_insurer?.rb_insurer_code;
     } else {
-      previousInsurerCode = '';
+      previousInsurerCode = null;
     }
-
+    let transactionId = sessionStorage.getItem('transaction_id');
+    let transactionIdData;
+    if (transactionId) {
+      transactionIdData = transactionId;
+    } else {
+      transactionIdData = '';
+    }
     let ncbValue = 0;
     if (data?.ncb_discount) {
       ncbValue = data?.ncb_discount;
     }
 
     let quotesData = {
+      transaction_id: transactionIdData,
       customer_type: this.proposerType,
       vehicle_type: this.vehicleType,
       rb_mmv_id: mmvId,
@@ -181,7 +191,8 @@ export class SharedDataService {
       registration_month: registrationMonth,
       registration_year: registrationYear,
       previous_insurer_code: previousInsurerCode,
-      previous_policy_exp_date: previousExpiryDate,
+      previous_policy_exp_date:
+        previousExpiryDate != '' ? previousExpiryDate : null,
       previous_year_ncb: ncbValue,
       is_ownership_transfer: data?.user_car,
       is_claimed: data?.previous_claimed,
@@ -190,6 +201,7 @@ export class SharedDataService {
       product_type: productType,
       manufacture_month: data.manufacture_month,
       manufacture_year: data.manufacture_year,
+      vehicle_idv: data?.vehicle_idv,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -222,7 +234,6 @@ export class SharedDataService {
             if (parsedQuotesArray.length > 0) {
               this.quotationListing.next(parsedQuotesArray);
             }
-            console.log(parsedQuotesArray);
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
@@ -304,10 +315,16 @@ export class SharedDataService {
     manufactureValue = new Date(mmvData?.manufacture_date);
     manufactureMonth = manufactureValue?.getMonth() + 1;
     manufactureYear = manufactureValue?.getFullYear();
-
+    let idvData = sessionStorage.getItem('idvData');
+    let selectedIdv;
+    if (idvData) {
+      selectedIdv = JSON.parse(idvData);
+    } else {
+      selectedIdv = 0;
+    }
     let mmvValues = {
-      rb_mmv_id: mmvData.vehicle_model,
-      rto_code: mmvData.registration_city.rb_rto_code,
+      rb_mmv_id: mmvData?.vehicle_model,
+      rto_code: mmvData?.registration_city?.rb_rto_code,
       registration_date: mmvData.registration_date,
       previous_insurer: mmvData.previous_insurer,
       policy_expire_date: policyExpiryDate,
@@ -317,6 +334,7 @@ export class SharedDataService {
       user_car: mmvData.user_car,
       previous_claimed: mmvData.previous_claimed,
       selected_addons: selectedAddOns,
+      vehicle_idv: selectedIdv,
     };
     this.getValueWithoutRegistration.next(mmvValues);
     this.getQuotationListing(mmvValues, producttype, data);
@@ -535,5 +553,17 @@ export class SharedDataService {
     } else {
       return null;
     }
+  }
+  /**
+   *
+   * @param minIdv send min idv to choose-idv component
+   * @param maxIdv send max idv to choose-idv component
+   */
+  chooseIdvData(minIdv: any, maxIdv: any) {
+    let idvData = {
+      min_idv: minIdv,
+      max_idv: maxIdv,
+    };
+    this.idvValue.next(idvData);
   }
 }

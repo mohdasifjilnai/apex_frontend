@@ -152,6 +152,11 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.removeItem('fetchQuotesData');
     }
 
+    let idvData = sessionStorage.getItem('idvData');
+    if (idvData) {
+      sessionStorage.removeItem('idvData');
+    }
+
     let productTypeValue = sessionStorage.getItem('productType');
     if (productTypeValue) {
       sessionStorage.removeItem('productType');

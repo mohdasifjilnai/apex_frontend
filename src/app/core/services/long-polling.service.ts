@@ -28,7 +28,7 @@ export class LongPollingService implements OnDestroy {
       ),
       retry(),
       tap(console.log),
-      takeUntil(timer(150000)),
+      takeUntil(timer(60000)),
       share(),
       takeUntil(this.stopPolling)
     );
