@@ -10,6 +10,7 @@ import {
   timeout,
   mergeMap,
   take,
+  concatMap,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -21,16 +22,26 @@ export class LongPollingService implements OnDestroy {
   private stopPolling = new Subject();
   transactionIdData: any;
   quotesId: any;
+
   constructor(private http: HttpClient) {
-    this.allQuotesData = timer(1, 8000).pipe(
-      mergeMap(() =>
+    // this.allQuotesData = timer(1, 3000).pipe(
+    //   concatMap(() =>
+    //     http.get(
+    //       `/api/v1/generate_quotes/${this.transactionIdData}/${this.quotesId}`
+    //     )
+    //   ),
+    //   take(5),
+    //   tap(console.log)
+    // );
+    this.allQuotesData = timer(1, 5000).pipe(
+      concatMap(() =>
         http.get(
           `/api/v1/generate_quotes/${this.transactionIdData}/${this.quotesId}`
         )
       ),
       retry(),
       tap(console.log),
-      take(3),
+      take(6),
       share(),
       takeUntil(this.stopPolling)
     );
