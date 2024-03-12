@@ -9,8 +9,8 @@
 .verification-gif-image {
   width: 150px;
 }
-.ckyc-data{
-  .details-value{
+.ckyc-data {
+  .details-value {
     font-size: 14px;
     font-weight: 500;
     color: #282828;
@@ -67,4 +67,68 @@
 .gif-icon-text {
   position: relative;
   left: 10px;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload {
+  position: absolute;
+  font-size: 100px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+}
+.centerImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px; /* Set width and height as required */
+  height: 70px;
+  z-index: 1;
+}
+
+.uploadIcon {
+  cursor: pointer;
+}
+.browserText {
+  position: absolute;
+  top: 87%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  font-size: 11px;
+  color: #9c9c9c;
+}
+#fileInput {
+  display: none;
+}
+.document-upload-btn {
+  width: 300px;
+  height: 48px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  color: #fff;
+}
+.document-upload-btn-pending {
+  border: 1px solid #9c9c9c !important;
+  background-color: #9c9c9c;
+}
+.document-upload-btn-success {
+  border: 1px solid #fd7e14 !important;
+  background-color: #fd7e14;
+}
+.uploadingFile {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 80px;
+  z-index: 1;
 }

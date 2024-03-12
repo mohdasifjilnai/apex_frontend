@@ -65,4 +65,6 @@ export class ApiConstants {
   public static generate_proposal: string = `/api/v1/proposal/generate_proposal/`;
   //pincode
   public static pincode: string = `/api/v1/pincode/`;
+
+  public static upload_document: string = `/api/v1/ckyc/upload_document/`;
 }

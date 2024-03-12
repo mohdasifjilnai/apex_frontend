@@ -1,4 +1,4 @@
-<div class="row" *ngIf="!isWaitingTime && isCustomerDetails">
+<div class="row" *ngIf="!isWaitingTime && isCustomerDetails && !isUpload">
   <div class="col-12 text-center">
     <img
       src="/assets/gif/verification.gif"
@@ -17,7 +17,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="isWaitingTime && isCustomerDetails">
+<div class="row" *ngIf="isWaitingTime && isCustomerDetails && !isUpload">
   <div class="col-12">
     <p class="review-fetch-text">
       Please review the data we have fetched after CKYC Verification
@@ -74,7 +74,10 @@
   </div>
 </div>
 <!-- Dialog content -->
-<div mat-dialog-content *ngIf="isWaitingTime && !isCustomerDetails">
+<div
+  mat-dialog-content
+  *ngIf="isWaitingTime && !isCustomerDetails && !isUpload"
+>
   <div class="row">
     <div class="col-4 offset-3">
       <div class="error-gif">
@@ -84,7 +87,7 @@
     </div>
     <div class="col-12">
       <p class="text-content text-center">
-        {{error_message}}
+        {{ error_message }}
       </p>
     </div>
     <div class="col-12 text-center">
@@ -94,6 +97,70 @@
         (click)="redirectInsurer(redirectionUrlViaForm)"
       >
         Proceed
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Upload documents -->
+<div mat-dialog-content *ngIf="isWaitingTime && isCustomerDetails && isUpload">
+  <div class="row">
+    <div class="col-12 text-center">
+      <p>Please upload {{ documentName | uppercase }} Card</p>
+    </div>
+    <div class="col-12 mt-2 text-center">
+      <div class="form-group">
+        <div class="fileUpload">
+          <input
+            type="file"
+            class="upload"
+            id="fileInput"
+            (change)="onFileSelected($event)"
+          />
+          <label for="fileInput">
+            <img
+              src="/assets/icon/upload-document.svg"
+              class="uploadIcon"
+              alt="Upload Document"
+            />
+            <img [src]="uploadedImage" alt="browseFile" class="centerImage" />
+            <p
+              class="browserText"
+              *ngIf="isDocumentUploaded && !isDcocumentUploadProceesing"
+            >
+              Click here to <span class="text-light-blue">browse</span> files
+            </p>
+            <ng-container
+              *ngIf="isDocumentUploaded && isDcocumentUploadProceesing"
+            >
+              <p class="browserText">Uploading...</p>
+              <!-- <img
+                src="/assets/gif/uploading.gif"
+                alt="uploadingFile"
+                class="uploadingFile"
+              /> -->
+            </ng-container>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 mt-3 text-center"
+      *ngIf="!isDocumentUploaded && !isDcocumentUploadProceesing"
+    >
+      <p class="text-light-green">{{ fileName }} <a href="">view</a></p>
+    </div>
+    <div class="col-12 mt-3 text-center">
+      <button
+        class="document-upload-btn"
+        [ngClass]="{
+          'document-upload-btn-pending': isDocumentUploaded,
+          'document-upload-btn-success': !isDocumentUploaded
+        }"
+        type="submit"
+        (click)="uploadDocument()"
+      >
+        Continue
       </button>
     </div>
   </div>

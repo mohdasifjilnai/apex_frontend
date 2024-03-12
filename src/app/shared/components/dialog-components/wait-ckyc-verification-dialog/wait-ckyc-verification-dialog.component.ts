@@ -16,6 +16,15 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   isCustomerDetails: boolean = true;
   redirectionUrlViaForm: any;
   error_message: any;
+  isUpload: boolean = false;
+  uploadedImage: any = '/assets/icon/browseFile.svg';
+  getUploadFile: any;
+  transactionId: any;
+  proposalId: any;
+  isDocumentUploaded: boolean = true;
+  isDcocumentUploadProceesing: boolean = false;
+  fileName: any;
+  documentName: any;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -23,6 +32,9 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private sharedDataService: SharedDataService
   ) {
     this.ckycBody = data['data'];
+    this.documentName = this.ckycBody['document_type'].split('_')[0];
+    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.proposalId = sessionStorage.getItem('proposal_Id');
   }
 
   ngOnInit(): void {
@@ -30,26 +42,43 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   }
 
   /**
-   * fetch ckyc data from api
+   * Fetches the CKYC data from the API.
+   *
+   * @param body - The request body containing the customer details.
    */
   fetchCkyc(body: any) {
     this.isWaitingTime = false;
     this.apiService
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
       .subscribe((res) => {
-        if (res['customer_details'] != null) {
+        if (
+          res['customer_details'] != null &&
+          res['upload_document'] == false
+        ) {
           this.isWaitingTime = true;
           this.isCustomerDetails = true;
+          this.isUpload = false;
           this.ckycData = res.customer_details;
           this.sharedDataService?.fetchCKycFormData.subscribe((res) => {
             this.sharedDataService?.createProposalId('ckyc', res);
           });
           this.sharedDataService.getFetchedCkycData(res);
-        } else {
+        } else if (
+          res['customer_details'] == null &&
+          res['upload_document'] == false
+        ) {
           this.redirectionUrlViaForm = res['redirection_url_via_form'];
           this.error_message = res['error_message'];
           this.isWaitingTime = true;
           this.isCustomerDetails = false;
+          this.isUpload = false;
+        } else if (
+          res['customer_details'] == null &&
+          res['upload_document'] == true
+        ) {
+          this.isWaitingTime = true;
+          this.isCustomerDetails = true;
+          this.isUpload = true;
         }
       });
   }
@@ -66,5 +95,38 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    */
   redirectInsurer(redirectionUrlViaForm: any) {
     window.location.href = redirectionUrlViaForm;
+  }
+
+  /**
+   * Event triggered when a file is selected
+   * @param event - The event object
+   */
+
+  onFileSelected(event: any) {
+    this.getUploadFile = event.target.files;
+  }
+
+  /**
+   * Uploads the selected file to the server
+   * @param file - The selected file
+   */
+  uploadDocument() {
+    let file: File = this.getUploadFile[0];
+    let formData: FormData = new FormData();
+    this.fileName = file.name;
+    formData.append('file', file, file.name);
+    this.isDcocumentUploadProceesing = true;
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
+        formData
+      )
+      .subscribe((res) => {
+        if (res['status_code'] == 201) {
+          this.isDcocumentUploadProceesing = false;
+          this.isDocumentUploaded = false;
+          this.uploadedImage = '/assets/gif/success.gif';
+        }
+      });
   }
 }
