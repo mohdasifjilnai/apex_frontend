@@ -210,8 +210,13 @@ export class QuotesListingComponent implements OnInit {
         maxIdv = obj.max_idv;
       }
     });
+    let totalIdv = 0;
+    this.chooseIdvArray.forEach((item: any) => {
+      totalIdv += item.idv;
+    });
+    const averageIdv = totalIdv / this.chooseIdvArray.length;
 
-    this.sharedDataService.chooseIdvData(minIdv, maxIdv);
+    this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
   }
   getProposalDetails(quotes_data: any) {
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));

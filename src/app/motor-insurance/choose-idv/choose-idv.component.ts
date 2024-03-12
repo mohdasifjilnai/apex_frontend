@@ -18,6 +18,7 @@ export class ChooseIDVComponent implements OnInit {
   sliderValue: any;
   registrationNumber: any;
   idvShowHide: any;
+  averageIdv: any;
 
   errorQuotationArray: any;
   constructor(
@@ -29,12 +30,13 @@ export class ChooseIDVComponent implements OnInit {
     this.sharedDataService.idvValue.subscribe((idvData) => {
       this.minIdv = idvData.min_idv;
       this.maxIdv = idvData.max_idv;
-      this.currentAmount = this.maxIdv;
+      this.averageIdv = idvData.averageIdv;
+      this.currentAmount = this.averageIdv;
       let chooseIdvValue = sessionStorage.getItem('idvData');
       if (chooseIdvValue) {
         this.investedAmount = JSON.parse(chooseIdvValue);
       } else {
-        this.investedAmount = this.minIdv;
+        this.investedAmount = this.averageIdv;
       }
     });
 

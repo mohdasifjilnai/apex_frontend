@@ -232,9 +232,7 @@ export class SharedDataService {
               JSON.parse(quote)
             );
 
-            // if (parsedQuotesArray.length > 0) {
             this.quotationListing.next(parsedQuotesArray);
-            // }
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
@@ -560,10 +558,11 @@ export class SharedDataService {
    * @param minIdv send min idv to choose-idv component
    * @param maxIdv send max idv to choose-idv component
    */
-  chooseIdvData(minIdv: any, maxIdv: any) {
+  chooseIdvData(minIdv: any, maxIdv: any, averageIdv: any) {
     let idvData = {
       min_idv: minIdv,
       max_idv: maxIdv,
+      averageIdv: averageIdv,
     };
     this.idvValue.next(idvData);
   }
