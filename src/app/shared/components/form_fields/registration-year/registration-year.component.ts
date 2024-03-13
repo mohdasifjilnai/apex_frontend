@@ -73,8 +73,8 @@ export class RegistrationYearComponent implements OnInit {
     normalizedMonth: Moment,
     datepicker: MatDatepicker<Moment>
   ) {
-    this.ctrlValue = this.form.controls['registration_date'].value;
     this.ctrlValue?.month(normalizedMonth.month());
+    this.ctrlValue?.year(normalizedMonth.year());
     this.form.controls['registration_date'].setValue(this.ctrlValue);
     this.sharedDataService.registrationYearData(
       this.form.controls['registration_date']
