@@ -12,7 +12,7 @@
         </div>
       </div>
       <!-- Dialog content -->
-      <div class="row">
+      <div class="row scroll">
         <div class="col-12 text-center">
           <img
             src="/assets/icon/insurance.svg"
@@ -26,18 +26,23 @@
               Total Premium Payable
             </p>
             <p class="total-premium-payable-amount text-light-blue">
-              &#8377; 24,000
+              &#8377;
+              {{
+                gstToggleData
+                  ? (data?.data[0]?.premium_details?.total_premium | numberFormat)
+                  : (data?.data[0]?.premium_details?.gross_premium | numberFormat)
+              }}
             </p>
           </div>
         </div>
         <div class="col-12  my-1">
           <div class="proposal-number-group d-flex justify-content-between">
             <p class="proposal-number-text">Proposal Number</p>
-            <p class="proposal-number-id">R1701244002</p>
+            <p class="proposal-number-id">-</p>
           </div>
           <div class="proposal-number-group d-flex justify-content-between">
             <p class="proposal-number-text">Start Date</p>
-            <p class="proposal-number-id">1/02/2024</p>
+            <p class="proposal-number-id">{{startDate |date:'dd/MM/yyyy'  }}</p>
           </div>
         </div>
         <div class="col-12 ">
@@ -103,22 +108,48 @@
           <mat-form-field
             appearance="outline"
             class="registration-number communication-input-field"
+            *ngIf="isActiveIcon=='whatsapp'"
           >
-          <mat-label>{{inputPlaceholder}}</mat-label>
-            <input matInput placeholder={{inputPlaceholder}} formControlName={{formControlName}}/>
+          <mat-label>Enter Whatsapp Number</mat-label>
+            <input matInput maxlength="10" appNumbersOnly placeholder='Enter Whatsapp Number' formControlName='whatsApp_number'/>
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="registration-number communication-input-field"
+            *ngIf="isActiveIcon=='sms'"
+          >
+          <mat-label>Enter Mobile Number</mat-label>
+            <input matInput maxlength="10" appNumbersOnly placeholder='Enter Mobile Number' formControlName='contact_number'/>
+            <mat-error *ngIf="shareQuotationForm.get('contact_number')?.hasError('pattern')">
+              Invalid contact number
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="registration-number communication-input-field"
+            *ngIf="isActiveIcon=='mail'"
+          >
+          <mat-label>Enter Email Id</mat-label>
+            <input matInput placeholder='Enter Email Id' formControlName='email'/>
+            <mat-error *ngIf="shareQuotationForm.get('email')?.hasError('pattern')">
+              Invalid email address
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-12 " *ngIf="isCommunicationField">
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"
-          >
+            [disabled]="shareQuotationForm.invalid">
             Send
           </button>
         </div>
       </form>
       <div class="col-lg-12 text-center" *ngIf="successMessage">
         <span class="succsessMessage ">Quotes Share Successfully</span>
+      </div>
+      <div class="col-lg-12 text-center" *ngIf="failureMessage">
+        <span class="failureMessage ">{{message}}</span>
       </div>
       </div>
     </div>

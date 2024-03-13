@@ -46,13 +46,13 @@
             *ngIf="withoutVehicleNumber && isResponsive()"
             [@slideUp]
           >
-            <app-rto></app-rto>
+            <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
           </div>
           <div
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
           >
-            <app-rto></app-rto>
+            <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
           </div>
           <div
             class="col-lg-4 col-md-6 col-12"
@@ -130,7 +130,7 @@
               }"
               class="submit-btn vehicle-submission"
               type="submit"
-              [disabled]="motorInsurance.invalid"
+              [disabled]="rtoResponse == '' || motorInsurance.invalid"
               (click)="getVehicleDetails()"
             >
               Get Vehicle Details

@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { Router } from '@angular/router';
@@ -39,7 +39,8 @@ export class SharedDataService {
   idvValue: Subject<any> = new Subject();
   idvSliderHide: Subject<any> = new Subject();
   selectedADDOnsList: Subject<any> = new Subject();
-
+  previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
+  previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   connectionData: any = [];
   vehicleType: any;
@@ -71,7 +72,9 @@ export class SharedDataService {
   selectedvehicle(data: any) {
     this.getSelectedvehicle.next(data);
   }
-
+  setPreviousPolicyDetails(details: any) {
+    this.previousPolicyDetailsSubject.next(details);
+  }
   /**
    *
    * @param data send vehicle type data for the vehicle search

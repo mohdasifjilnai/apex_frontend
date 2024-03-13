@@ -20,6 +20,11 @@
     }
   }
 }
+.comming-soon{
+  margin-left: -55px;
+  margin-top: -22px;
+  width: 57px;
+}
 @media screen and (max-width: 361px) {
   .all-vehicle {
     padding-right: 20px;
@@ -36,4 +41,9 @@
   .vehicle-image{
     margin-bottom: 10px;
   }
+  .comming-soon{
+    margin-left: 51px;
+    margin-top: -253px;
+    width: 70px;
+}
 }

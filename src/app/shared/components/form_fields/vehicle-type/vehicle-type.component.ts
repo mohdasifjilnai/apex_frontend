@@ -31,4 +31,7 @@ export class VehicleTypeComponent implements OnInit {
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
   }
+  isLast(index: number): boolean {
+    return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
+  }
 }

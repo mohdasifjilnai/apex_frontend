@@ -21,6 +21,7 @@ export class ChooseIDVComponent implements OnInit {
   averageIdv: any;
 
   errorQuotationArray: any;
+  customIDV: boolean=false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
@@ -44,7 +45,14 @@ export class ChooseIDVComponent implements OnInit {
       this.idvShowHide = idvHide;
     });
   }
+  selectedIDVOption: string = ''; // Default selected option
 
+  onSelectIDVOption(option: string) {
+    if (option === '3') {
+      // Show input field if "Choose IDV" option is selected
+      this.customIDV = true; // Reset custom IDV value
+    }
+  }
   /**
    * onSliderRangeAmount function get value from slider
    */

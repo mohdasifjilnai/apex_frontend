@@ -98,6 +98,7 @@
             <input
               matInput
               [(ngModel)]="listValue.addOnsValue"
+              appNumbersOnly
               id="{{ listValue?.name }}"
               (ngModelChange)="
                 onInputChange(

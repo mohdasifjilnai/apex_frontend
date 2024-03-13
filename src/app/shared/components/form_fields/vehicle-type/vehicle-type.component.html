@@ -1,8 +1,8 @@
 <div class="all-vehicle mt-4">
   <div
     class="two-wheeler cursor-pointer ms-4"
-    *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList"
-    (click)="selectVehicle(vehicle)"
+    *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList ; let i = index"
+    (click)="!isLast(i) && selectVehicle(vehicle)"
   >
     <span
       class="vehicle-card"
@@ -12,7 +12,7 @@
           ? '1px solid ' + vehicle?.borderColor
           : 'none'
       "
-      [ngClass]="{ vehicleTypeSelected: selectedVehicleType === vehicle }"
+      [ngClass]="{ vehicleTypeSelected: selectedVehicleType === vehicle, 'coming-soon': isLast(i) }"
     >
       <img
         src="{{ vehicle?.imageUrl }}"
@@ -20,5 +20,6 @@
         class="vehicle-image"
       /><span class="vehicle-name ms-3">{{ vehicle?.optionName }}</span>
     </span>
+    <img *ngIf="isLast(i)" class="comming-soon" src="/assets/icon/coming-soon.svg">
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -40,6 +40,7 @@ export class RTOComponent implements OnInit {
   rtoDataNotAvailable: any = '';
   rtoId: any;
   private debounceSubject = new Subject<any>();
+  @Output() responseEvent = new EventEmitter<string>();
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService
@@ -66,7 +67,9 @@ export class RTOComponent implements OnInit {
       }
     });
   }
-
+  sendResponse(response: string) {
+    this.responseEvent.emit(response);
+  }
   getRTOData(name:any) {
     this.apiservice
       .getRequestedResponse(ApiConstants.get_rto_list)
@@ -92,6 +95,7 @@ export class RTOComponent implements OnInit {
           this.filteredRtoList = of(['No data']);
         }
       });
+      this.sendResponse(this.rtoDataNotAvailable )
   }
 
   filterRTO(name: string): Observable<any[]> {
@@ -138,6 +142,9 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
+    if(typeof data=='object'){
+      this.sendResponse(data)
+    }
     // Emit the data to the debounceSubject
     this.debounceSubject.next(data);
   }

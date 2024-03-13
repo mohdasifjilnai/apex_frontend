@@ -2,7 +2,7 @@
   <div class="card my-2">
     <div class="main-card-body">
       <div class="card-body">
-        <div class="range-flex">
+        <!-- <div class="range-flex">
           <div class="small-amount-value tag-text">Choose IDV</div>
           <div class="small-amount-value text-orange amount-format-text">
             {{ currentAmount | amountFormat }}
@@ -22,7 +22,42 @@
         <div class="range-flex">
           <div class="small-amount-value">&#8377; {{ minIdv }}</div>
           <div class="small-amount-value">&#8377; {{ maxIdv }}</div>
+        </div> -->
+        <div class="d-flex justify-content-between">
+          <span class="idv">IDV</span>
+          <div class="insurer"><img
+            src="/assets/icon/insurer.svg"
+            alt=""
+            class="insurer-icon me-1"
+            
+          /> <span>10 Insurers</span></div>
+          <div class="insurer" *ngIf="selectedIDVOption !== 'choose'"><span class="text-center">6,00,000</span></div>
         </div>
+        <div class="row">
+          <div class="col-lg-12 mt-2">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedIDVOption" (change)="onSelectIDVOption($event.value)">
+              <mat-radio-button value="min" class="mt-2">Minimum IDV</mat-radio-button>
+              <mat-radio-button value="max" class="mt-2">Maximum IDV</mat-radio-button>
+              <mat-radio-button value="choose" class="mt-2">Choose IDV</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="col-lg-8">
+            
+          </div>
+          <div class="insurer col-lg-4" *ngIf="selectedIDVOption === 'choose'"><span class="text-center">6,00,000</span></div>
+          
+          <mat-form-field appearance="outline" *ngIf="selectedIDVOption === 'choose'" class="col-lg-12 mt-2">
+            <mat-label>Enter Value</mat-label>
+            <input matInput type="text" placeholder="Enter Value"  name="customIDV">
+          </mat-form-field>
+          <div class="col-lg-12 col-md-12 col-12 mt-3">
+              <button
+                class="submit-btn update-btn"
+                type="submit"
+              >
+              Update
+              </button>
+            </div>
       </div>
     </div>
   </div>

@@ -70,6 +70,7 @@ export class MotorInsuranceComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'not-certifiedComponent-class',
   };
+  rtoResponse: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -193,6 +194,14 @@ export class MotorInsuranceComponent implements OnInit {
 
   isResponsive(): boolean {
     return this.breakpointObserver.isMatched('(max-width: 767px)');
+  }
+  rtoComponentResponse(response: string) {
+    // Do something with the response value received from the rto component
+    if(response=='Error fetching data'){
+      this.rtoResponse=''
+    }else{
+      this.rtoResponse=response
+    }
   }
   /**
    * get vehicle detials submit event
