@@ -419,18 +419,24 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.sharedDataService.getRegistrationDate(
               this.vehicleMMVValue?.registration_date
             );
-            let policyExpiryValue = new Date(
-              this.vehicleMMVValue?.policy_expiry_date
-            );
+            if (this.vehicleMMVValue?.policy_expiry_date) {
+              let policyExpiryValue = new Date(
+                this.vehicleMMVValue?.policy_expiry_date
+              );
+              if (policyExpiryValue && !this.vehiclePopupList) {
+                this.convertExpiryDate = moment(
+                  policyExpiryValue,
+                  'MM/DD/YYYY'
+                );
+                this.vehicleDetailsForm.patchValue({
+                  policy_expiry_date: new Date(this.convertExpiryDate),
+                });
+              }
+            }
+
             this.vehicleDetailsForm.patchValue({
               registration_date: moment(regDateValue, 'MM/YYYY'),
             });
-            if (policyExpiryValue && !this.vehiclePopupList) {
-              this.convertExpiryDate = moment(policyExpiryValue, 'MM/DD/YYYY');
-              this.vehicleDetailsForm.patchValue({
-                policy_expiry_date: new Date(this.convertExpiryDate),
-              });
-            }
 
             if (this.vehicleMMVValue?.previous_insurer) {
               if (!this.vehiclePopupList) {

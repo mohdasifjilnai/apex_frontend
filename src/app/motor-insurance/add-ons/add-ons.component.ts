@@ -242,14 +242,14 @@ export class AddOnsComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss(this.checkBoxValueArray);
     }
-    // this.selectAddOnsOnly = [];
-    // for (let key of this.selectAddOnsOnly) {
-    //   const keys = Object.keys(key);
-    //   console.log(keys);
-    //   // if (keys[0]) {
-    //   //   this.selectAddOnsOnly.push(keys[0]);
-    //   // }
-    // }
+    this.selectAddOnsOnly = [];
+    for (let key of this.selectedCheckedArray) {
+      const keys = Object.keys(key);
+      // console.log(keys);
+      // if (keys[0]) {
+      this.selectAddOnsOnly.push(keys[0]);
+      // }
+    }
     console.log(this.selectAddOnsOnly);
 
     this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
