@@ -383,7 +383,8 @@ export class SharedDataService {
         gender: formData?.get('ckyc_gender')?.value || '',
         document_type: formData?.get('document_type_based_field')?.value || '',
         document_number:
-          formData?.get('document_number_based_field')?.value || '',
+          formData?.get('document_number_based_field')?.value.toUpperCase() ||
+          '',
       };
     }
     if (flag === 'vehicle_owner_detail') {
@@ -421,9 +422,10 @@ export class SharedDataService {
       proposalData['vehicle_details'] = {};
       proposalData['vehicle_details'].registration_address = {};
       proposalData['vehicle_details'] = {
-        registration_no: formData?.get('registration_number')?.value || '',
-        engine_no: formData?.get('engine_number')?.value || '',
-        chassis_no: formData?.get('chassis_number')?.value || '',
+        registration_no:
+          formData?.get('registration_number')?.value.toUpperCase() || '',
+        engine_no: formData?.get('engine_number')?.value.toUpperCase() || '',
+        chassis_no: formData?.get('chassis_number')?.value.toUpperCase() || '',
         registration_date:
           this.datePipe.transform(
             formData?.get('registration_date')?.value,

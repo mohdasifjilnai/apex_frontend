@@ -9,6 +9,7 @@
     appAlphabetOnly
     appNoSpace
     [readonly]="readonly"
+    maxlength="50"
   />
   <mat-error *ngIf="form.get(formControlNameData)?.hasError('required')">
     {{ label }} is required.

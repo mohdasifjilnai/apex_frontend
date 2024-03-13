@@ -21,12 +21,12 @@ export class RegistrationDateComponent implements OnInit {
   minDate: any;
   maxDate: any;
   @Input('required') isRequired = false;
-  @Input() customRegistrationDate!:string
-  
+  @Input() customRegistrationDate!: string;
+  @Input() isRegistrationDateDisbaled!: any;
+
   constructor(private ctrlContainer: FormGroupDirective) {
-    
-    this.minDate = new Date(1970, 0); 
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15)); 
+    this.minDate = new Date(1970, 0);
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
   }
 
   ngOnInit(): void {

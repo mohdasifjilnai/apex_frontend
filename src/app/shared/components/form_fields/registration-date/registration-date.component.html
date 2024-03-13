@@ -10,15 +10,19 @@
     [min]="minDate"
     [max]="maxDate"
     [readonly]="true"
+    [ngClass]="{
+      isRegistrationDate: isRegistrationDateDisbaled
+    }"
   />
   <mat-datepicker-toggle
     matSuffix
     [for]="registrationDate"
   ></mat-datepicker-toggle>
-  <mat-datepicker #registrationDate id-automation="datepicker_registration_date_id"></mat-datepicker>
-  <mat-error
-    *ngIf="form.controls['registration_date']?.hasError('required')"
-  >
+  <mat-datepicker
+    #registrationDate
+    id-automation="datepicker_registration_date_id"
+  ></mat-datepicker>
+  <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
     This is a required field.
   </mat-error>
 </mat-form-field>

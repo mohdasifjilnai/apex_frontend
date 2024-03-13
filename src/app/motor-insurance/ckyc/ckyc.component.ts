@@ -195,7 +195,7 @@ export class CkycComponent implements OnInit {
             ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
             : null;
         this.openWaitCkycVerificationPopup(ckycData);
-        this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
+        // this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
       }
     }
   }

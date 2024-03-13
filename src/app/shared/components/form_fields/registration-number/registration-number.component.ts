@@ -21,6 +21,7 @@ export class RegistrationNumberComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   @Input() registrationNumber!: string;
+  @Input() isRegistrationNumber: any;
   vehicleNotFound: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -34,7 +35,11 @@ export class RegistrationNumberComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'registration_number',
-        new FormControl(null, [Validators.required, Validators.minLength(8),Validators.maxLength(14)])
+        new FormControl(null, [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(14),
+        ])
       );
     } else {
       this.form.addControl('registration_number', new FormControl());

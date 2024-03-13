@@ -93,6 +93,7 @@ export class ProposalComponent implements OnInit {
     this.sharedData.fetchKycData.subscribe((data) => {
       if (data) {
         this.showVehicleOwnerDetails = true;
+        this.accordianExpanded = 'vehicleOwnerDetails';
       }
     });
   }

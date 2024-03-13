@@ -53,6 +53,7 @@ export class ManufactureDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   @Input() customManufactureDate!: string;
+  @Input() isManufactureDateDisbaled!: any;
   manufactureDate: any;
   minDate: any;
   maxDate: any;

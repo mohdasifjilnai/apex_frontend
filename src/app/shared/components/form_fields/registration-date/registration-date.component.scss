@@ -3,7 +3,7 @@
     .mat-form-field-infix {
       width: 265px !important;
     }
-    .mat-form-field-label-wrapper{
+    .mat-form-field-label-wrapper {
       left: 10px;
     }
   }
@@ -15,4 +15,8 @@
       width: 315px !important;
     }
   }
+}
+.isRegistrationDate {
+  opacity: 0.6;
+  pointer-events: none;
 }

@@ -38,7 +38,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   @ViewChild('financedToggle', { static: false }) financedToggle!: ElementRef;
   @ViewChild('registrationAddressToggle', { static: false })
   registrationAddressToggle!: ElementRef;
-
+  isManufactureDateDisbaled: boolean = false;
+  isRegistrationDateDisbaled: boolean = false;
+  isRegistrationNumber: boolean = false;
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
     registration_number: new FormControl(''),
     vehicle_colour: new FormControl(''),
@@ -83,6 +85,30 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
+    if (fetchQuotesData) {
+      const quoteData = JSON.parse(fetchQuotesData);
+      const manufacture_month = quoteData['manufacture_month'];
+      const manufacture_year = quoteData['manufacture_year'];
+
+      const manufactureDate = new Date(
+        manufacture_year,
+        manufacture_month - 1,
+        1
+      );
+      if (manufactureDate) {
+        this.isManufactureDateDisbaled = true;
+      }
+      if (quoteData['registration_date']) {
+        this.isRegistrationDateDisbaled = true;
+      }
+
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_date: quoteData['registration_date'],
+        manufacture_date: manufactureDate,
+      });
+    }
+
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.vehicle_details !== null) {
         if (proposal.vehicle_details?.is_same_location) {
@@ -153,6 +179,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('registration_number')
         ?.updateValueAndValidity();
+    }
+    let regNumber = sessionStorage.getItem('registrationNumber');
+    if (regNumber) {
+      this.isRegistrationNumber = true;
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_number: regNumber,
+      });
     }
     this.getFinancierList();
     this.getPincodeList();

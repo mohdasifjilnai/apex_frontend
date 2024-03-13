@@ -11,6 +11,9 @@
     [max]="maxDate"
     [max]="maxManufactureDate"
     [readonly]="true"
+    [ngClass]="{
+      isManufactureData: isManufactureDateDisbaled
+    }"
   />
   <mat-datepicker-toggle
     matSuffix
