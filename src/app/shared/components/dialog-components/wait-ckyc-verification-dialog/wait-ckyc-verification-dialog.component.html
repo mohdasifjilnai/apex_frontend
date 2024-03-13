@@ -108,7 +108,7 @@
     <div class="col-12 text-center">
       <p>Please upload {{ documentName | uppercase }} Card</p>
     </div>
-    <div class="col-12 mt-2 text-center">
+    <div class="col-12 mt-2 text-center" *ngIf="!isShowPhoto">
       <div class="form-group">
         <div class="fileUpload">
           <input
@@ -144,11 +144,21 @@
         </div>
       </div>
     </div>
+    <div class="col-12 mt-2 text-center" *ngIf="isShowPhoto">
+      <img
+        [src]="document_image_url"
+        class="uploadIcon"
+        alt="Uploaded Document"
+      />
+    </div>
     <div
       class="col-12 mt-3 text-center"
       *ngIf="!isDocumentUploaded && !isDcocumentUploadProceesing"
     >
-      <p class="text-light-green">{{ fileName }} <a href="">view</a></p>
+      <p class="text-light-green">
+        {{ fileName }}
+        <a (click)="viewPics(fileName)" *ngIf="!isShowPhoto">view</a>
+      </p>
     </div>
     <div class="col-12 mt-3 text-center">
       <button

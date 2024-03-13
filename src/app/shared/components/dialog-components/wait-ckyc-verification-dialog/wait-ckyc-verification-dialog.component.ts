@@ -25,6 +25,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   isDcocumentUploadProceesing: boolean = false;
   fileName: any;
   documentName: any;
+  isShowPhoto: boolean = false;
+  document_image_url: any;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -104,13 +106,6 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.getUploadFile = event.target.files;
-  }
-
-  /**
-   * Uploads the selected file to the server
-   * @param file - The selected file
-   */
-  uploadDocument() {
     let file: File = this.getUploadFile[0];
     let formData: FormData = new FormData();
     this.fileName = file.name;
@@ -128,5 +123,26 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
           this.uploadedImage = '/assets/gif/success.gif';
         }
       });
+  }
+
+  /**
+   * Uploads the selected file to the server
+   * @param file - The selected file
+   */
+  uploadDocument() {
+    if (this.isDocumentUploaded == false) {
+      this.dialogRef.close();
+    }
+  }
+  /**
+   * Opens a modal dialog to display the uploaded document image.
+   * @param fileName - The name of the uploaded file.
+   */
+  viewPics(fileName: any) {
+    this.isShowPhoto = true;
+    let url = `${ApiConstants['get_document_image_url']}?document_url=documents/ckyc/${this.transactionId}/${fileName}`;
+    this.apiService.getRequestedResponse(url).subscribe((res) => {
+      this.document_image_url = res;
+    });
   }
 }

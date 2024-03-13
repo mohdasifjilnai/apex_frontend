@@ -60,11 +60,12 @@ export class ApiConstants {
 
   //Financier Type
   public static financier_type: string = `/api/v1/financiers/`;
-
   //generate proposal
   public static generate_proposal: string = `/api/v1/proposal/generate_proposal/`;
   //pincode
   public static pincode: string = `/api/v1/pincode/`;
-
+  //  upload document
   public static upload_document: string = `/api/v1/ckyc/upload_document/`;
+  // get document image url
+  public static get_document_image_url: string = `/api/v1/ckyc/get_document/`;
 }
