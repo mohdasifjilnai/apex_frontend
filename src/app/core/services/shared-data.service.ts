@@ -146,7 +146,7 @@ export class SharedDataService {
     let rtoCode;
     let previousExpiryDate;
     let previousInsurerCode;
-    let previousPolicType;
+    let previousPolicyType;
     if (data?.rb_mmv_id?.rb_mmv_id) {
       mmvId = data?.rb_mmv_id?.rb_mmv_id;
     } else {
@@ -182,9 +182,9 @@ export class SharedDataService {
       ncbValue = data?.ncb_discount;
     }
     if (data?.policy_expiry_id_data) {
-      previousPolicType = data?.policy_expiry_id_data;
+      previousPolicyType = data?.policy_expiry_id_data;
     } else {
-      previousPolicType = '';
+      previousPolicyType = null;
     }
 
     let quotesData = {
@@ -207,7 +207,7 @@ export class SharedDataService {
       manufacture_month: data.manufacture_month,
       manufacture_year: data.manufacture_year,
       vehicle_idv: data?.vehicle_idv,
-      previous_policy_type: previousPolicType,
+      previous_policy_type: previousPolicyType,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
