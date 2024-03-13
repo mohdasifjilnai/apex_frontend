@@ -16,9 +16,8 @@
     <div class="col-lg-6 col-md-12 col-12">
       <div>
         <span class="enter-otp">
-          Enter <span class="otp">OTP</span> generated on
-          {{ this.communicationData["mobile_no"] }} and
-          {{ this.communicationData["mail_id"] }}
+          Enter <span class="otp">OTP</span> generated on {{communicationData?.mobile_no}}
+          and {{communicationData?.mail_id}}
         </span>
       </div>
       <div mat-dialog-content>

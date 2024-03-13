@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable, debounceTime, map, startWith, switchMap } from 'rxjs';
+import { Observable, debounceTime, map, of, startWith, switchMap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -108,7 +108,8 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   filterInsurer(name: string): Observable<any[]> {
-    return this.apiservice
+    if(typeof name !='object'){
+      return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_previous_insurer}?search_element=${name}`
       )
@@ -122,6 +123,9 @@ export class PreviousInsurerComponent implements OnInit {
           }
         })
       );
+    }
+    return of([]);
+    
   }
 
   ngOnDestroy(): void {

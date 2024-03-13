@@ -95,7 +95,8 @@ export class RTOComponent implements OnInit {
   }
 
   filterRTO(name: string): Observable<any[]> {
-    return this.apiservice
+    if(typeof name!='object'){
+      return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_rto_list}?search_element=${name}`
       )
@@ -118,6 +119,9 @@ export class RTOComponent implements OnInit {
           }
         })
       );
+    }
+    return of([]);
+    
   }
 
   ngOnDestroy(): void {

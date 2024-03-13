@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Subject, debounceTime, map, startWith, switchMap, tap } from 'rxjs';
+import { Subject, debounceTime, map, of, startWith, switchMap, tap } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -48,8 +48,6 @@ export class VehicleComponent implements OnInit {
      * add form control for the vehicle
      */
     this.form = this.ctrlContainer.form;
-    // console.log(this.vehicle);
-    console.log(this.form);
     if (this.isRequired) {
       this.form.addControl(
         'vehicle',
@@ -80,6 +78,7 @@ export class VehicleComponent implements OnInit {
    * @returns
    */
   filterMMV(name: string) {
+    if(typeof name !='object'){
     return this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
@@ -99,6 +98,8 @@ export class VehicleComponent implements OnInit {
           return this.mmvList;
         })
       );
+    }
+    return of([]);
   }
 
   vehcileMMV(data: any) {
