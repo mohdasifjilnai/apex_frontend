@@ -38,6 +38,7 @@ export class CkycComponent implements OnInit {
   quoteData: any;
   insurer_code: any;
   changeSubmitCkycName: boolean = false;
+  isDownloading: boolean = false;
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -336,5 +337,24 @@ export class CkycComponent implements OnInit {
     }
 
     return null;
+  }
+  /**
+   * Downloads the terms and conditions document as a.docx file.
+   */
+
+  downloadTerms() {
+    let url = '/assets/file/Download_consent_form_format.docx';
+    var anchorElement = document.createElement('a');
+    anchorElement.href = url;
+    anchorElement.download = 'Download consent form format';
+    document.body.appendChild(anchorElement);
+    anchorElement.click();
+    document.body.removeChild(anchorElement);
+  }
+  /**
+   * This function is used to check the terms and conditions checkbox
+   */
+  checkedTerms(event: any) {
+    this.isDownloading = event.checked;
   }
 }

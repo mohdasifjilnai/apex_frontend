@@ -155,9 +155,28 @@
           </mat-form-field>
         </div>
       </ng-container>
+      <div class="acknowledgment-confirm mt-2">
+        <div class="d-flex">
+          <mat-checkbox
+            class="custom-checkbox"
+            [disabled]="!ckycFormGroup.valid"
+            (change)="checkedTerms($event)"
+          ></mat-checkbox>
+          <div class="ms-2 accept-text pt-1">
+            I hereby give consent to access my CKYC data
+            <a
+              class="terms"
+              [style.pointer-events]="isDownloading ? 'none' : 'auto'"
+              (click)="isDownloading && downloadTerms()"
+            >
+              T&C</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-6 col-12">
+      <div class="col-lg-4 col-md-6 col-12 mt-2">
         <button class="submit-btn owner-vehicle-submission" type="submit">
           {{ changeSubmitCkycName ? "Save & Continue" : "Fetch Details" }}
         </button>
