@@ -101,7 +101,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   expiryPolicyList: any;
   vehiclePopupList: any;
   rto_id: any;
-  NoExpiryPolicy: boolean=false;
+  NoExpiryPolicy: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -292,7 +292,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     sessionStorage.setItem('vehiclePopup', 'true');
-    if(this.vehicleDetailsForm.value?.policy_expiry!='IDK'){
+    if (this.vehicleDetailsForm.value?.policy_expiry != 'IDK') {
       if (this.vehicleDetailsForm.value?.ncb_discount) {
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {
           if (
@@ -301,9 +301,20 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ) {
             this.ncbAllData = this.expiryListData[i];
           }
-        }      
+        }
         this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
-      }  
+      }
+    }
+    if (this.vehicleDetailsForm.value?.policy_expiry) {
+      for (let i = 0; i <= this.expiryList.length - 1; i++) {
+        if (
+          this.expiryList[i]?.rb_expiring_policy_type_code ==
+          this.vehicleDetailsForm.value?.policy_expiry
+        ) {
+          this.vehicleDetailsForm.value.policy_expiry_id_data =
+            this.expiryList[i]?.rb_expiring_policy_type_id;
+        }
+      }
     }
 
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
@@ -879,17 +890,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.get('previous_insurer')?.setValidators([]);
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
     }
-    if(this.vehicleDetailsForm.value?.policy_expiry=='IDK'){
-        this.hideFieldOnExpiryPolicy(this.vehicleDetailsForm.value?.policy_expiry)
+    if (this.vehicleDetailsForm.value?.policy_expiry == 'IDK') {
+      this.hideFieldOnExpiryPolicy(
+        this.vehicleDetailsForm.value?.policy_expiry
+      );
     }
   }
   onExpiryPolicyChange(event: MatSelectChange): void {
-    this.hideFieldOnExpiryPolicy(event.value)
-    
+    this.hideFieldOnExpiryPolicy(event.value);
   }
-  hideFieldOnExpiryPolicy(selectedValue:any){
-    if(selectedValue=='IDK'){
-      this.NoExpiryPolicy=true
+  hideFieldOnExpiryPolicy(selectedValue: any) {
+    if (selectedValue == 'IDK') {
+      this.NoExpiryPolicy = true;
       this.vehicleDetailsForm.get('policy_expiry_date')?.clearValidators();
       this.vehicleDetailsForm.get('previous_insurer')?.clearValidators();
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
@@ -897,10 +909,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
       this.vehicleDetailsForm.get('previous_claimed')?.updateValueAndValidity();
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
-      this.vehicleDetailsForm.get('policy_expiry_date')?.updateValueAndValidity();
-    }
-    else{
-      this.NoExpiryPolicy=false
+      this.vehicleDetailsForm
+        .get('policy_expiry_date')
+        ?.updateValueAndValidity();
+    } else {
+      this.NoExpiryPolicy = false;
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);

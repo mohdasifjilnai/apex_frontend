@@ -59,11 +59,11 @@ export class QuotesComponent implements OnInit {
     sessionStorage.removeItem('proposal_Id');
   }
   receivedData: any;
-  receivedCheckBoxValue: any;
-  receiveDataFromChild(data: string) {
-    this.receivedData = data;
-    this.receivedCheckBoxValue = data;
-  }
+  // receivedCheckBoxValue: any;
+  // receiveDataFromChild(data: string) {
+  //   this.receivedData = data;
+  //   this.receivedCheckBoxValue = data;
+  // }
   /**
    * this fucntion use vehicle vehicle details modal
    */

@@ -38,6 +38,7 @@ export class SharedDataService {
   addOnsBaseProposalType: Subject<any> = new Subject();
   idvValue: Subject<any> = new Subject();
   idvSliderHide: Subject<any> = new Subject();
+  selectedADDOnsList: Subject<any> = new Subject();
 
   regNumber: any;
   connectionData: any = [];
@@ -145,6 +146,7 @@ export class SharedDataService {
     let rtoCode;
     let previousExpiryDate;
     let previousInsurerCode;
+    let previousPolicType;
     if (data?.rb_mmv_id?.rb_mmv_id) {
       mmvId = data?.rb_mmv_id?.rb_mmv_id;
     } else {
@@ -179,6 +181,11 @@ export class SharedDataService {
     if (data?.ncb_discount) {
       ncbValue = data?.ncb_discount;
     }
+    if (data?.policy_expiry_id_data) {
+      previousPolicType = data?.policy_expiry_id_data;
+    } else {
+      previousPolicType = '';
+    }
 
     let quotesData = {
       transaction_id: transactionIdData,
@@ -200,6 +207,7 @@ export class SharedDataService {
       manufacture_month: data.manufacture_month,
       manufacture_year: data.manufacture_year,
       vehicle_idv: data?.vehicle_idv,
+      previous_policy_type: previousPolicType,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -228,6 +236,7 @@ export class SharedDataService {
             const parsedQuotesArray = quotesArray.map((quote: string) =>
               JSON.parse(quote)
             );
+            console.log(parsedQuotesArray);
 
             this.quotationListing.next(parsedQuotesArray);
           },
@@ -332,6 +341,7 @@ export class SharedDataService {
         previous_claimed: mmvData.previous_claimed,
         selected_addons: selectedAddOns,
         vehicle_idv: selectedIdv,
+        policy_expiry_id_data: mmvData?.policy_expiry_id_data,
       };
       this.getValueWithoutRegistration.next(mmvValues);
       this.getQuotationListing(mmvValues, producttype, data);
@@ -572,5 +582,11 @@ export class SharedDataService {
    */
   chooseIdvHide(data: any) {
     this.idvSliderHide.next(data);
+  }
+  /**
+   * selected addons service call
+   */
+  selectedADDOns(data: any) {
+    this.selectedADDOnsList.next(data);
   }
 }

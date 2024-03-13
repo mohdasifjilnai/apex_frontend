@@ -33,7 +33,7 @@ import { SelectedShareComponent } from 'src/app/shared/components/dialog-compone
 })
 export class QuotesListingComponent implements OnInit {
   initiateQuotes: any;
-  @Input() receivedCheckBoxValue: any[] = [];
+  // @Input() receivedCheckBoxValue: any[] = [];
   showComprehensiveDiv = true;
   individualSelected: any;
   lowHighSelected = 'low';
@@ -106,6 +106,7 @@ export class QuotesListingComponent implements OnInit {
   selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
   selectedShareData: any;
   isCheckboxChecked: boolean = false;
+  selectAddOnsList: any;
 
   constructor(
     private router: Router,
@@ -178,6 +179,10 @@ export class QuotesListingComponent implements OnInit {
       this.quotesTabData();
     });
 
+    this.sharedDataService.selectedADDOnsList.subscribe((addons) => {
+      this.selectAddOnsList = [];
+      this.selectAddOnsList = addons;
+    });
     let mmvFromData = sessionStorage.getItem('mmv_data');
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
@@ -243,7 +248,7 @@ export class QuotesListingComponent implements OnInit {
   openAddons(): void {
     const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);
     bottomSheetRef.afterDismissed().subscribe((data) => {
-      this.receivedCheckBoxValue = data;
+      // this.receivedCheckBoxValue = data;
     });
   }
   openSort(dropdownType: any): void {

@@ -7,7 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { Subject, debounceTime, map, of, startWith, switchMap, tap } from 'rxjs';
+import {
+  Subject,
+  debounceTime,
+  map,
+  of,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -61,13 +69,15 @@ export class VehicleComponent implements OnInit {
       this.vehcileType = res;
       // this.getVehicleMMV('', this.vehcileType);
     });
-    this.debounceSubjectVehcileMMV.pipe(
-      debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
-    ).subscribe((data: any) => {
-      if (data.length >= 3) {
-        this.getVehicleMMV(data, this.vehcileType);
-      }
-    });
+    this.debounceSubjectVehcileMMV
+      .pipe(
+        debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
+      )
+      .subscribe((data: any) => {
+        if (data.length >= 3) {
+          this.getVehicleMMV(data, this.vehcileType);
+        }
+      });
 
     // this.getVehicleMMV('', this.vehcileType);
   }
@@ -78,26 +88,27 @@ export class VehicleComponent implements OnInit {
    * @returns
    */
   filterMMV(name: string) {
-    if(typeof name !='object'){
-    return this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
-      )
-      .pipe(
-        map((res) => {
-          if (res && res.length > 0) {
-            this.mmvList = res.map((item: any) => ({
-              ...item,
-              displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
-            }));
-            this.mmvDataNotAvailable = '';
-          } else {
-            this.mmvDataNotAvailable = 'No data';
-            return [this.mmvDataNotAvailable];
-          }
-          return this.mmvList;
-        })
-      );
+    if (typeof name != 'object') {
+      let vehicleType = localStorage.getItem('vehicleType');
+      return this.apiservice
+        .getRequestedResponse(
+          `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
+        )
+        .pipe(
+          map((res) => {
+            if (res && res.length > 0) {
+              this.mmvList = res.map((item: any) => ({
+                ...item,
+                displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
+              }));
+              this.mmvDataNotAvailable = '';
+            } else {
+              this.mmvDataNotAvailable = 'No data';
+              return [this.mmvDataNotAvailable];
+            }
+            return this.mmvList;
+          })
+        );
     }
     return of([]);
   }
@@ -107,9 +118,10 @@ export class VehicleComponent implements OnInit {
   }
 
   getVehicleMMV(name: any, vehicletype: any) {
+    let vehicleType = localStorage.getItem('vehicleType');
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehcileType}&search_element=${name}`
+        `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
       )
       .subscribe((res) => {
         if (res) {
