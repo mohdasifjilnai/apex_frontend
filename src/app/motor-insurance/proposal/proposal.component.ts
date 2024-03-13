@@ -38,6 +38,7 @@ export class ProposalComponent implements OnInit {
   vehicleType: any;
   isNotShowInNewPolicyDetails: boolean = true;
   accordianExpanded: string = 'ckyc';
+  quoteData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -48,6 +49,7 @@ export class ProposalComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedData.createProposalId();
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType === 'new') {
       this.isNotShowInNewPolicyDetails = false;
@@ -59,9 +61,17 @@ export class ProposalComponent implements OnInit {
       this.isNotShowNomineeDetails = true;
     }
     this.sharedData.getProposalDetails.subscribe((proposal) => {
-      if (proposal?.ckyc_details !== null) {
+      if (
+        proposal?.ckyc_details !== null &&
+        this.quoteData['insurer_code'] === 'digit'
+      ) {
         this.showVehicleOwnerDetails = true;
         this.accordianExpanded = 'vehicleOwnerDetails';
+      } else if (
+        proposal?.ckyc_details !== null &&
+        !this.quoteData['insurer_code']
+      ) {
+        this.showVehicleOwnerDetails = true;
       }
       if (
         proposal.customer_details !== null &&

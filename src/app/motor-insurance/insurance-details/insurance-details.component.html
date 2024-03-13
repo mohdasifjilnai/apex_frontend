@@ -39,7 +39,13 @@
   <div class="col-lg-12 col-md-12 mt-3 policy policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Own Damage</p>
-      <p class="plan-type">&#x20B9; -</p>
+      <p class="plan-type">
+        &#x20B9;
+        {{
+          quoteData?.premium_details?.od_premium_details?.total_od
+            | numberFormat
+        }}
+      </p>
     </div>
     <div class="d-flex justify-content-between mt-2">
       <p class="od-value">Basic Own Damage</p>
