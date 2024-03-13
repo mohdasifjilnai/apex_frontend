@@ -435,9 +435,16 @@ export class QuotesListingComponent implements OnInit {
         'MM'
       );
       this.registrationDateYear = moment(dateObj).year();
+      let expiredDate;
+      if (this.parsedVehicleData?.policy_expiry_date) {
+        let policyExpired = new Date(
+          this.parsedVehicleData?.policy_expiry_date
+        );
+        expiredDate = moment(policyExpired).format('DD/MM/YYYY');
+      } else {
+        expiredDate = '';
+      }
 
-      let policyExpired = new Date(this.parsedVehicleData?.policy_expiry_date);
-      let expiredDate = moment(policyExpired).format('DD/MM/YYYY');
       this.apiService
         .getRequestedResponse(
           `${ApiConstants.getCoverageType}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
