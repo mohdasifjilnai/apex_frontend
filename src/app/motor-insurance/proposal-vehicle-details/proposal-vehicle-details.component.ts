@@ -202,11 +202,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         'vehilce_details',
         this.proposalVehilceDetailsForm
       );
-      if (this.vehicleType === 'new') {
-        this.router.navigate([
-          `/motor/quotes/proposal/${this.transactionId}/review`,
-        ]);
-      }
+      /**
+       * navigate after the response
+       */
+      this.shareData.getProposalDetails.subscribe((proposal) => {
+        if (this.vehicleType === 'new' && proposal.vehicle_details !== null) {
+          this.router.navigate([
+            `/motor/quotes/proposal/${this.transactionId}/review`,
+          ]);
+        }
+      });
     }
   }
   /**

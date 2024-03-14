@@ -84,6 +84,8 @@ export class ProposalComponent implements OnInit {
         this.proposerType !== 'corporate'
       ) {
         this.showNomineeDetails = true;
+        this.showVehicleOwnerDetails = true;
+
         this.accordianExpanded = 'nomineeDetails';
       }
       if (proposal.nominee_details !== null) {

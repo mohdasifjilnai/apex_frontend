@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -49,6 +50,7 @@ export class ProposalReviewComponent implements OnInit {
   generateProposalData: any;
   transactionId: any;
   vehicleType: any;
+  proposalReviewForm!: FormGroup;
 
   constructor(
     private route: Router,
@@ -56,8 +58,13 @@ export class ProposalReviewComponent implements OnInit {
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
-    private apiService: ApiService
-  ) {}
+    private apiService: ApiService,
+    private formBuilder: FormBuilder
+  ) {
+    this.proposalReviewForm = this.formBuilder.group({
+      is_acknowledged: ['', Validators.required],
+    });
+  }
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');

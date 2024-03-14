@@ -3,9 +3,8 @@
   font-weight: 500;
   text-wrap: balance;
   color: #666666;
- 
 }
-.logo{
+.logo {
   width: 80px;
   height: 50px;
   object-fit: scale-down;
@@ -84,11 +83,11 @@
 .policy {
   line-height: 0;
 }
-.share-download-btn{
+.share-download-btn {
   padding: 0;
-  .share-button{
+  .share-button {
     background-color: rgba(83, 132, 234, 0.0901960784);
-    color: #5384EA;
+    color: #5384ea;
     font-size: 12px;
     font-weight: 600;
     border: none;
@@ -168,13 +167,11 @@
   line-height: 14.63px;
 }
 
-
 .increase-total-premium {
   font-size: 10px;
   font-weight: 400;
   color: #282828;
   line-height: 12.19px;
-
 }
 .card-popup {
   .card {
@@ -189,4 +186,28 @@
 }
 .cpa-cover-image {
   width: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+  .anunual-commericial {
+    font-size: 12px;
+  }
+  .insurer-header {
+    font-size: 12px;
+  }
+  .vehicle-details {
+    font-size: 12px;
+  }
+  .plan-type {
+    font-size: 12px;
+  }
+  .total-premium {
+    font-size: 14px;
+  }
+  .total-amount {
+    font-size: 16px;
+  }
+  .anunual-commericial {
+    font-size: 12px;
+  }
 }

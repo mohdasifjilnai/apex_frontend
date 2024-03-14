@@ -1,4 +1,10 @@
-<mat-form-field appearance="outline" [class]="customManufactureDate">
+<mat-form-field
+  appearance="outline"
+  [class]="customManufactureDate"
+  [ngClass]="{
+    isManufactureData: isManufactureDateDisbaled
+  }"
+>
   <mat-label>Manufacture Date</mat-label>
   <input
     matInput
@@ -11,9 +17,6 @@
     [max]="maxDate"
     [max]="maxManufactureDate"
     [readonly]="true"
-    [ngClass]="{
-      isManufactureData: isManufactureDateDisbaled
-    }"
   />
   <mat-datepicker-toggle
     matSuffix

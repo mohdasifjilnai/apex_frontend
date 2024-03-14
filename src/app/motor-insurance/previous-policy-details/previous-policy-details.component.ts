@@ -122,9 +122,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
    * Using Angular router to navigate to the specified route
    */
   navigateToProposalReview() {
-    this.router.navigate([
-      `/motor/quotes/proposal/${this.transactionId}/review`,
-    ]);
+    /**
+     * navigate after the response
+     */
+    this.sharedData.getProposalDetails.subscribe((proposal) => {
+      if (proposal.previous_policy_details !== null) {
+        this.router.navigate([
+          `/motor/quotes/proposal/${this.transactionId}/review`,
+        ]);
+      }
+    });
   }
 
   getPreviousVehicleData(isValid: any) {

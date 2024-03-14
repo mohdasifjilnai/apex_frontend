@@ -1,4 +1,10 @@
-<mat-form-field appearance="outline" [class]="customRegistrationDate">
+<mat-form-field
+  appearance="outline"
+  [class]="customRegistrationDate"
+  [ngClass]="{
+    isRegistrationDate: isRegistrationDateDisbaled
+  }"
+>
   <mat-label>Registration Date</mat-label>
   <input
     matInput
@@ -10,9 +16,6 @@
     [min]="minDate"
     [max]="maxDate"
     [readonly]="true"
-    [ngClass]="{
-      isRegistrationDate: isRegistrationDateDisbaled
-    }"
   />
   <mat-datepicker-toggle
     matSuffix

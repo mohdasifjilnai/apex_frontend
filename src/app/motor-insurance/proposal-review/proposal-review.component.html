@@ -271,25 +271,31 @@
             }}</span>
           </div>
         </div>
-
-        <div class="acknowledgment-confirm mt-2">
-          <div class="d-flex">
-            <mat-checkbox class="custom-checkbox" checked="true"></mat-checkbox>
-            <div class="ms-2 accept-text pt-1">
-              I hereby accept all
-              <a (click)="openDialog()" class="terms">Terms & Condition</a>
+        <form [formGroup]="proposalReviewForm">
+          <div class="acknowledgment-confirm mt-2">
+            <div class="d-flex">
+              <mat-checkbox
+                class="custom-checkbox"
+                checked="true"
+                formControlName="is_acknowledged"
+              ></mat-checkbox>
+              <div class="ms-2 accept-text pt-1">
+                I hereby accept all
+                <a (click)="openDialog()" class="terms">Terms & Conditions</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-12 mb-2 mt-3">
-          <button
-            class="submit-btn proposal-review-submission"
-            type="submit"
-            (click)="submitReview()"
-          >
-            Submit
-          </button>
-        </div>
+          <div class="col-12 mb-2 mt-3">
+            <button
+              class="submit-btn proposal-review-submission"
+              type="submit"
+              (click)="submitReview()"
+              [disabled]="proposalReviewForm.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
