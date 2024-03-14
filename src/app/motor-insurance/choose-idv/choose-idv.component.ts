@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
@@ -9,7 +10,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 })
 export class ChooseIDVComponent implements OnInit {
   investedAmount: number = 0;
-  currentAmount: number = 0;
+  currentAmount: any = 0;
   quotationData: any;
   quotationArray = [];
   progressValue = 0;
@@ -19,53 +20,134 @@ export class ChooseIDVComponent implements OnInit {
   registrationNumber: any;
   idvShowHide: any;
   averageIdv: any;
-
+  amountShow: any;
+  chooseIdvValue: any;
+  chooseIdvFrom: FormGroup = new FormGroup({
+    chooseIdv: new FormControl('', [Validators.required]),
+  });
   errorQuotationArray: any;
-  customIDV: boolean=false;
+  customIDV: boolean = false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
   ) {}
-
+  enableIdvCard = true;
   ngOnInit(): void {
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      this.enableIdvCard = false;
+    });
     this.sharedDataService.idvValue.subscribe((idvData) => {
       this.minIdv = idvData.min_idv;
       this.maxIdv = idvData.max_idv;
       this.averageIdv = idvData.averageIdv;
       this.currentAmount = this.averageIdv;
-      let chooseIdvValue = sessionStorage.getItem('idvData');
-      if (chooseIdvValue) {
-        this.investedAmount = JSON.parse(chooseIdvValue);
+      this.chooseIdvValue = sessionStorage.getItem('idvData');
+      let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
+      if (chooseIdvAmount?.chooseIdv) {
+        this.investedAmount = chooseIdvAmount.chooseIdv;
+        this.selectedIDVOption = 'choose';
+      } else if (chooseIdvAmount?.minIdv) {
+        this.selectedIDVOption = 'min';
+        this.amountShow = chooseIdvAmount.minIdv;
+        this.investedAmount = this.averageIdv;
+      } else if (chooseIdvAmount?.maxIdv) {
+        this.selectedIDVOption = 'max';
+        this.amountShow = chooseIdvAmount.maxIdv;
+        this.investedAmount = this.averageIdv;
       } else {
         this.investedAmount = this.averageIdv;
       }
+      this.chooseIdvFrom.patchValue({
+        chooseIdv: this.investedAmount,
+      });
     });
 
     this.sharedDataService.idvSliderHide.subscribe((idvHide) => {
       this.idvShowHide = idvHide;
     });
   }
-  selectedIDVOption: string = ''; // Default selected option
+  selectedIDVOption: any; // Default selected option
 
   onSelectIDVOption(option: string) {
     if (option === '3') {
       // Show input field if "Choose IDV" option is selected
       this.customIDV = true; // Reset custom IDV value
     }
+    this.selectedIDVOption = option;
+    if (option == 'min') {
+      this.amountShow = this.minIdv;
+      let idvObject = {
+        minIdv: this.minIdv,
+        maxIdv: '',
+        chooseIdv: '',
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+      this.idvBaseQuotes();
+    } else if (option == 'max') {
+      this.amountShow = this.maxIdv;
+      let idvObject = {
+        minIdv: '',
+        maxIdv: this.maxIdv,
+        chooseIdv: '',
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+      this.idvBaseQuotes();
+    }
   }
   /**
    * onSliderRangeAmount function get value from slider
    */
   onSliderRangeAmount(event: any) {
-    this.currentAmount = event;
+    // this.currentAmount = event;
+    // let productTypeValue = sessionStorage.getItem('productType');
+    // let mmvFormData = sessionStorage.getItem('mmv_data');
+    // this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    // let chooseIdvValue = sessionStorage.setItem(
+    //   'idvData',
+    //   JSON.stringify(this.currentAmount)
+    // );
+    // if (this.registrationNumber) {
+    //   this.sharedDataService.vehicleMMVDetails(
+    //     productTypeValue,
+    //     mmvFormData,
+    //     'registrationNumber'
+    //   );
+    // } else {
+    //   this.sharedDataService.vehicleMMVDetails(
+    //     productTypeValue,
+    //     mmvFormData,
+    //     'mmvQuotes'
+    //   );
+    // }
+  }
 
+  updateIdv() {
+    if (this.selectedIDVOption) {
+      this.currentAmount = this.chooseIdvFrom.value.chooseIdv;
+      this.investedAmount = this.currentAmount;
+      let idvObject = {
+        minIdv: '',
+        maxIdv: '',
+        chooseIdv: this.currentAmount,
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+      this.idvBaseQuotes();
+    }
+  }
+  idvBaseQuotes() {
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    let chooseIdvValue = sessionStorage.setItem(
-      'idvData',
-      JSON.stringify(this.currentAmount)
-    );
+
     if (this.registrationNumber) {
       this.sharedDataService.vehicleMMVDetails(
         productTypeValue,
@@ -79,8 +161,8 @@ export class ChooseIDVComponent implements OnInit {
         'mmvQuotes'
       );
     }
+    this.enableIdvCard = true;
   }
-
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();

@@ -27,7 +27,7 @@ export class SharedDataService {
   disableInsurer: Subject<any> = new Subject();
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
-  longPollingInfo!: Observable<[]>;
+  longPollingInfo!: any;
   getProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
@@ -39,6 +39,7 @@ export class SharedDataService {
   idvValue: Subject<any> = new Subject();
   idvSliderHide: Subject<any> = new Subject();
   selectedADDOnsList: Subject<any> = new Subject();
+  enableQuotesAction: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -52,6 +53,7 @@ export class SharedDataService {
   quoteData: any;
   createdProposalId: any;
   registrationAddressItem: any;
+  idvData: any;
 
   constructor(
     private apiService: ApiService,
@@ -242,9 +244,13 @@ export class SharedDataService {
             console.log(parsedQuotesArray);
 
             this.quotationListing.next(parsedQuotesArray);
+            // setTimeout(() => {
+            //   this.enableQuotesAction.next(true);
+            // }, 25000);
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
+            this.enableQuotesAction.next(true);
           },
           error: (error: any) => {
             // Handle errors if any
@@ -324,10 +330,15 @@ export class SharedDataService {
       manufactureValue = new Date(mmvData?.manufacture_date);
       manufactureMonth = manufactureValue?.getMonth() + 1;
       manufactureYear = manufactureValue?.getFullYear();
-      let idvData = sessionStorage.getItem('idvData');
+      this.idvData = sessionStorage.getItem('idvData');
       let selectedIdv;
-      if (idvData) {
-        selectedIdv = JSON.parse(idvData);
+      let idvObject = JSON.parse(this.idvData);
+      if (idvObject?.chooseIdv) {
+        selectedIdv = idvObject.chooseIdv;
+      } else if (idvObject?.minIdv) {
+        selectedIdv = idvObject.minIdv;
+      } else if (idvObject?.maxIdv) {
+        selectedIdv = idvObject.maxIdv;
       } else {
         selectedIdv = 0;
       }

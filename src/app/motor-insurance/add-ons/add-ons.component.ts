@@ -34,6 +34,7 @@ export class AddOnsComponent implements OnInit {
   dropDownValue: any;
   dynamicObject: any;
   showButtons: boolean = false;
+  showUpdateButton = false;
   forFetchQuotes: any;
   selected_addons: any;
   vehicleData: any;
@@ -43,6 +44,7 @@ export class AddOnsComponent implements OnInit {
   modifiedMultiCheckArray: any;
   selectAddOnsOnly: any = [];
   dynamicShowObject: any = [];
+  enableAddOns = true;
 
   constructor(
     private apiService: ApiService,
@@ -60,6 +62,10 @@ export class AddOnsComponent implements OnInit {
     //     this.parsedVehicleData?.policy_expiry
     //   );
     // });
+
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      this.enableAddOns = false;
+    });
 
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
       this.vehicleData = cardData;
@@ -108,9 +114,10 @@ export class AddOnsComponent implements OnInit {
     this.selectAddOnsOnly = [];
     this.checkBoxValueArray = [];
     this.inputValues = [];
-
-    // this.selctAddOnsOnly = this.checkBoxValueArray;
+    this.showButtons = false;
+    this.showUpdateButton = false;
     this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+    this.enableAddOns = true;
   }
   @Output() checkBoxValue = new EventEmitter<any>();
   onCheckboxSelect(
@@ -131,11 +138,11 @@ export class AddOnsComponent implements OnInit {
       var keyValue = 0;
 
       this.dynamicObject[keyName] = keyValue;
-      this.dynamicShowObject['showAddOns'] = value;
+      this.dynamicObject['showAddOns'] = value;
       this.selectedCheckedArray.push(this.dynamicObject);
-      this.selectAddOnsOnly.push(this.dynamicShowObject);
       if (this.checkBoxValueArray.length >= 1) {
         this.showButtons = true;
+        this.showUpdateButton = true;
       }
     } else {
       const valueToRemove = rb_code;
@@ -160,24 +167,6 @@ export class AddOnsComponent implements OnInit {
 
         this.selectedCheckedArray.splice(indexToRemove, 1);
       }
-
-      /**
-       * Find the index of the object that meets the condition
-       */
-      //  const indexToRemoveSelected = this.selectAddOnsOnly.findIndex((item: any) => {
-      //   return item.hasOwnProperty(valueToRemove);
-      // });
-      // /**
-      //  * Check if the index is found
-      //  */
-
-      // if (indexToRemoveSelected !== -1) {
-      //   /**
-      //    *  Remove the object at the specified index
-      //    */
-
-      //   this.selectAddOnsOnly.splice(indexToRemoveSelected, 1);
-      // }
 
       for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
         for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
@@ -208,6 +197,7 @@ export class AddOnsComponent implements OnInit {
 
       if (this.checkBoxValueArray.length == 0) {
         this.showButtons = false;
+        this.showUpdateButton = false;
       }
     }
   }
@@ -243,16 +233,14 @@ export class AddOnsComponent implements OnInit {
       this.bottomSheetRef.dismiss(this.checkBoxValueArray);
     }
     this.selectAddOnsOnly = [];
-    for (let key of this.selectedCheckedArray) {
-      const keys = Object.keys(key);
-      // console.log(keys);
-      // if (keys[0]) {
-      this.selectAddOnsOnly.push(keys[0]);
-      // }
+    for (let i = 0; i <= this.selectedCheckedArray.length - 1; i++) {
+      this.selectAddOnsOnly.push(this.selectedCheckedArray[i].showAddOns);
     }
-    console.log(this.selectAddOnsOnly);
 
     this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+    this.showButtons = false;
+    this.showUpdateButton = true;
+    this.enableAddOns = true;
   }
   /**
    *

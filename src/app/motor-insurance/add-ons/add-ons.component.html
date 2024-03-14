@@ -22,6 +22,7 @@
                   listValue.rb_code
                 )
               "
+              [disabled]="enableAddOns"
               >{{ listValue?.name }}</mat-checkbox
             >
 
@@ -43,6 +44,7 @@
                     listValue?.rb_code
                   )
                 "
+                [disabled]="enableAddOns"
                 [(ngModel)]="data.multiChecked"
                 id="{{ data.name }}"
                 >{{ data.name }}</mat-checkbox
@@ -71,13 +73,14 @@
                     listValue?.rb_code
                   )
                 "
+                [disabled]="enableAddOns"
                 [(ngModel)]="listValue.addOnsValue"
               >
                 <mat-option
                   *ngFor="let items of listValue.value"
                   [value]="items"
                   id="{{ items }}"
-                  >{{ items }}</mat-option
+                  >&#8377; {{ items | numberFormat }}</mat-option
                 >
               </mat-select>
             </mat-form-field>
@@ -109,6 +112,7 @@
                   listValue?.rb_code
                 )
               "
+              [disabled]="enableAddOns"
             />
           </mat-form-field>
           <mat-error *ngIf="i == inputTagIndex[i]">
@@ -124,6 +128,7 @@
               >
                 <button
                   class="voluntry"
+                  [disabled]="enableAddOns"
                   (click)="selectVoluntry(amount, listValue?.name)"
                   [class.active]="selectedVoluntryValue == amount"
                 >
@@ -136,10 +141,12 @@
       </span>
     </mat-expansion-panel>
   </mat-accordion>
-  <div class="bottom-btn p-2" *ngIf="showButtons">
+  <div class="bottom-btn p-2" *ngIf="showUpdateButton">
     <div class="d-flex justify-content-between mt-2">
       <button class="cancel-btn" (click)="clearAllChecked()">Clear All</button>
-      <button class="submit-btn" (click)="update()">Update</button>
+      <button *ngIf="showButtons" class="submit-btn" (click)="update()">
+        Update
+      </button>
     </div>
   </div>
 </div>

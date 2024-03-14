@@ -151,8 +151,11 @@
             class="key-features-value me-3"
             *ngFor="let data of selectAddOnsList"
           >
-            <img src="assets/icon/insurer-key-feature.svg" />
-            {{ data }}
+            <span *ngIf="data != ''">
+              <img src="assets/icon/insurer-key-feature.svg" />
+
+              {{ data }}
+            </span>
           </div>
         </div>
       </div>
@@ -164,8 +167,10 @@
             class="key-features-value me-3"
             *ngFor="let data of selectAddOnsList"
           >
-            <img src="assets/icon/insurer-key-feature.svg" />
-            {{ data }}
+            <span *ngIf="data != ''">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              {{ data }}
+            </span>
           </div>
         </span>
       </div>
@@ -350,8 +355,10 @@
             class="key-features-value me-3"
             *ngFor="let data of selectAddOnsList"
           >
-            <img src="assets/icon/insurer-key-feature.svg" />
-            {{ data }}
+            <span *ngIf="data != ''">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              {{ data }}
+            </span>
           </div>
         </div>
       </div>
@@ -363,8 +370,10 @@
             class="key-features-value me-3"
             *ngFor="let data of selectAddOnsList"
           >
-            <img src="assets/icon/insurer-key-feature.svg" />
-            {{ data }}
+            <span *ngIf="data != ''">
+              <img src="assets/icon/insurer-key-feature.svg" />
+              {{ data }}
+            </span>
           </div>
         </span>
       </div>

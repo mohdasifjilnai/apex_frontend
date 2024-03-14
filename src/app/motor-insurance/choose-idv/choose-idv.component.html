@@ -1,4 +1,7 @@
-<div class="idv-range" [hidden]="idvShowHide == 'bundled_tp'">
+<div
+  class="idv-range"
+  [hidden]="idvShowHide == 'bundled_tp' || idvShowHide == 'satp'"
+>
   <div class="card my-2">
     <div class="main-card-body">
       <div class="card-body">
@@ -25,86 +28,122 @@
         </div> -->
         <div class="d-flex justify-content-between">
           <span class="idv">IDV</span>
-          <div class="insurer"><img
-            src="/assets/icon/insurer.svg"
-            alt=""
-            class="insurer-icon me-1"
-            
-          /> <span>10 Insurers</span></div>
-          <div class="insurer" *ngIf="selectedIDVOption !== 'choose'"><span class="text-center">6,00,000</span></div>
+          <div class="insurer">
+            <img
+              src="/assets/icon/insurer.svg"
+              alt=""
+              class="insurer-icon me-1"
+            />
+            <span>10 Insurers</span>
+          </div>
+          <div class="insurer" *ngIf="selectedIDVOption !== 'choose'">
+            <span class="text-center" *ngIf="amountShow">{{
+              amountShow | numberFormat
+            }}</span>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-12 mt-2">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="selectedIDVOption" (change)="onSelectIDVOption($event.value)">
-              <mat-radio-button value="min" class="mt-2">Minimum IDV</mat-radio-button>
-              <mat-radio-button value="max" class="mt-2">Maximum IDV</mat-radio-button>
-              <mat-radio-button value="choose" class="mt-2">Choose IDV</mat-radio-button>
+            <mat-radio-group
+              aria-label="Select an option"
+              [(ngModel)]="selectedIDVOption"
+              (change)="onSelectIDVOption($event.value)"
+              [disabled]="enableIdvCard"
+            >
+              <mat-radio-button value="min" class="mt-2"
+                >Minimum IDV</mat-radio-button
+              >
+              <mat-radio-button value="max" class="mt-2"
+                >Maximum IDV</mat-radio-button
+              >
+              <mat-radio-button value="choose" class="mt-2"
+                >Choose IDV</mat-radio-button
+              >
             </mat-radio-group>
           </div>
-          <div class="col-lg-8">
-            
+          <div class="col-lg-8"></div>
+          <div class="insurer col-lg-4" *ngIf="selectedIDVOption === 'choose'">
+            <span class="text-center" *ngIf="investedAmount">{{
+              investedAmount | numberFormat
+            }}</span>
           </div>
-          <div class="insurer col-lg-4" *ngIf="selectedIDVOption === 'choose'"><span class="text-center">6,00,000</span></div>
-          
-          <mat-form-field appearance="outline" *ngIf="selectedIDVOption === 'choose'" class="col-lg-12 mt-2">
+
+          <mat-form-field
+            appearance="outline"
+            [formGroup]="chooseIdvFrom"
+            *ngIf="selectedIDVOption === 'choose'"
+            class="col-lg-12 mt-2"
+          >
             <mat-label>Enter Value</mat-label>
-            <input matInput type="text" placeholder="Enter Value"  name="customIDV">
+            <input
+              matInput
+              type="text"
+              appNumbersOnly
+              formControlName="chooseIdv"
+              placeholder="Enter Value"
+              name="customIDV"
+            />
           </mat-form-field>
           <div class="col-lg-12 col-md-12 col-12 mt-3">
-              <button
-                class="submit-btn update-btn"
-                type="submit"
-              >
+            <button
+              class="submit-btn update-btn"
+              type="submit"
+              (click)="updateIdv()"
+              [disabled]="
+                selectedIDVOption != 'choose' || chooseIdvFrom.invalid
+              "
+            >
               Update
-              </button>
-            </div>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="idv-range-res">
-  <div class="changeIdv-card">
-    <div class="header">
-      <div class="d-flex justify-content-between ps-4 pe-4 pt-4">
-        <span class="change-text">Change IDV</span>
-        <img
-          src="/assets/icon/cross.svg"
-          alt=""
-          class="cross-icon me-3"
-          (click)="cancelChangeIDv($event)"
-        />
+  <div class="idv-range-res">
+    <div class="changeIdv-card">
+      <div class="header">
+        <div class="d-flex justify-content-between ps-4 pe-4 pt-4">
+          <span class="change-text">Change IDV</span>
+          <img
+            src="/assets/icon/cross.svg"
+            alt=""
+            class="cross-icon me-3"
+            (click)="cancelChangeIDv($event)"
+          />
+        </div>
       </div>
-    </div>
-    <hr />
-    <div class="main-card-body m-2">
-      <div class="card-body">
-        <div class="range-flex">
-          <div class="small-amount-value tag-text">Choose IDV</div>
-          <div class="small-amount-value text-orange amount-format-text">
-            {{ currentAmount | amountFormat }}
+      <hr />
+      <div class="main-card-body m-2">
+        <div class="card-body">
+          <div class="range-flex">
+            <div class="small-amount-value tag-text">Choose IDV</div>
+            <div class="small-amount-value text-orange amount-format-text">
+              {{ currentAmount | amountFormat }}
+            </div>
+          </div>
+          <mat-slider
+            class="custom-slider"
+            #event
+            min="100000"
+            max="700000"
+            step="1000"
+            value="{{ investedAmount }}"
+            (input)="onSliderRangeAmount($event)"
+            aria-readonly="true"
+          ></mat-slider>
+          <div class="range-flex">
+            <div class="small-amount-value">&#8377; 4,98,500</div>
+            <div class="small-amount-value">&#8377; 7,00,000</div>
           </div>
         </div>
-        <mat-slider
-          class="custom-slider"
-          #event
-          min="100000"
-          max="700000"
-          step="1000"
-          value="{{ investedAmount }}"
-          (input)="onSliderRangeAmount($event)"
-          aria-readonly="true"
-        ></mat-slider>
-        <div class="range-flex">
-          <div class="small-amount-value">&#8377; 4,98,500</div>
-          <div class="small-amount-value">&#8377; 7,00,000</div>
-        </div>
       </div>
-    </div>
-    <div class="btns d-flex p-3">
-      <button class="cancel-btn col-6" (click)="cancelChangeIDv($event)">
-        Cancel
-      </button>
-      <button class="submit-btn col-6">Change</button>
+      <div class="btns d-flex p-3">
+        <button class="cancel-btn col-6" (click)="cancelChangeIDv($event)">
+          Cancel
+        </button>
+        <button class="submit-btn col-6">Change</button>
+      </div>
     </div>
   </div>
 </div>
