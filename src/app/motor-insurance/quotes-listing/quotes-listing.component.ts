@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import initiate_quotes_payload from './initiate_quotes_payload.json';
@@ -26,6 +27,7 @@ import { ShareQuotesComponent } from '../../shared/components/dialog-components/
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
 import { SelectedShareComponent } from 'src/app/shared/components/dialog-components/selected-share/selected-share.component';
+import { MatCheckbox } from '@angular/material/checkbox';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -107,6 +109,7 @@ export class QuotesListingComponent implements OnInit {
   selectedShareData: any;
   isCheckboxChecked: boolean = false;
   selectAddOnsList: any;
+  shareType: any='';
 
   constructor(
     private router: Router,
@@ -314,16 +317,29 @@ export class QuotesListingComponent implements OnInit {
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
   }
+  @ViewChild('checkboxRef')
+  checkboxRef!: MatCheckbox;
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
     if (!this.el.nativeElement.contains(event.target)) {
       this.shareQuotesDropdownValue = false;
+      if(this.shareType=='all'){
+        this.isChecked=true
+        this.shareType=''
+      }else if(this.shareType=='single'){
+        this.isChecked=false
+        this.shareType=''
+      }else{
+        this.isChecked=false
+      }
+      // this.checkboxRef.checked = false;
     }
   }
   /**
    * Selected Quotes Count UI Open
    */
   selectQuotes(count: any) {
+    this.shareType=count
     this.addShare = true;
     this.shareQuotesDropdownValue = false;
     if (count == 'all') {

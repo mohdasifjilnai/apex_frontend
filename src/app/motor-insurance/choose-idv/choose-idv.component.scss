@@ -220,6 +220,7 @@
   
   padding: 0 !important;
   border-radius: 20px 20px 0px 0px;
+  overflow-x: hidden !important;
 }
 
 @media screen and (max-width: 999px) {
@@ -228,5 +229,40 @@
   }
   .idv-range-res{
     display: block;
+  }
+  .insurer{
+    border-radius: 8px;
+    background-color: #FFB1711A;
+    color: #FF943D;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    padding: 6px;
+    height: 30px;
+    .insurer-icon{
+      width: 18px;
+      height: 21px;
+    }
+  }
+  .idv{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    color: #535353;
+    display: flex;
+    align-items: center;
+  }
+  ::ng-deep .mat-radio-label-content{
+    font-size: 12px;
+    padding-left: 8px;
+    font-weight: 500;
+    padding-top: 7px;
+  }
+  ::ng-deep .mat-radio-container{
+    width: 14px;
+    height: 14px;
+  } 
+  .update-btn{
+    width: 100%;
   }
 }

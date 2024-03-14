@@ -49,6 +49,7 @@ import { NoSpaceDirective } from './directives/no-space.directive';
 import { RegistrationNumberDirective } from './directives/registration-number.directive';
 import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
 import { TermsComponent } from './components/dialog-components/terms/terms.component';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,7 @@ import { TermsComponent } from './components/dialog-components/terms/terms.compo
     RegistrationNumberDirective,
     MmYyyyformatDirective,
     TermsComponent,
-    
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,

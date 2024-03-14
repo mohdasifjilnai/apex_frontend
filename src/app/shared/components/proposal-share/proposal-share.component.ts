@@ -27,6 +27,7 @@ export class ProposalShareComponent implements OnInit {
   currentDate: Date = new Date();
   startDate: any;
   previousPolicyDetails: any;
+  proposalNumber: any;
   constructor(public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public sharedDataService:SharedDataService,
@@ -49,10 +50,10 @@ export class ProposalShareComponent implements OnInit {
         this.gstToggleData = JSON.parse(gstValue);
       }
       this.sharedDataService.previousPolicyDetails$.subscribe(details => {
-        this.previousPolicyDetails = details;
+        this.previousPolicyDetails = details[0];
+        this.proposalNumber=details[1];
       });
-      // let previous_policy_details=sessionStorage.getItem('previous_policy_details')
-      if(this.previousPolicyDetails=='null'){
+      if(this.previousPolicyDetails==null){
         this.startDate=this.currentDate
       }
     }

@@ -143,7 +143,11 @@ export class ProposalReviewComponent implements OnInit {
       .subscribe((res) => {
         this.generateProposalData = res;
         this.previousPolicyDetails = res?.previous_policy_details;
-        this.shareData.setPreviousPolicyDetails(res?.previous_policy_details);
+        const dataToSend = [
+          res?.previous_policy_details,
+          res?.proposal_number // Replace otherData with your other variable
+        ];
+        this.shareData.setPreviousPolicyDetails(dataToSend);
       });
   }
 }
