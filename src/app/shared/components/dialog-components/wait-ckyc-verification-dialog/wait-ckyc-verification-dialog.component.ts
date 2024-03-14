@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from '../../../../api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-wait-ckyc-verification-dialog',
@@ -10,8 +11,11 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
   styleUrls: ['./wait-ckyc-verification-dialog.component.scss'],
 })
 export class WaitCkycVerificationDialogComponent implements OnInit {
+  uploadDocumentsForm!: FormGroup;
   isWaitingTime: boolean = false;
   ckycData: any;
+  documentList: any;
+  quoteData: any;
   ckycBody: any;
   isCustomerDetails: boolean = true;
   redirectionUrlViaForm: any;
@@ -31,7 +35,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private formBuilder: FormBuilder
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -81,6 +86,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
           this.isWaitingTime = true;
           this.isCustomerDetails = true;
           this.isUpload = true;
+          this.uploadDocumentsFormControler();
+          this.getDocumentType();
         }
       });
   }
@@ -144,5 +151,45 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       this.document_image_url = res;
     });
+  }
+  /**
+   * Fetches the list of document types supported by the insurer.
+   */
+  getDocumentType() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.document_type}?insurer_code=${this.ckycBody?.insurer_code}`
+      )
+      .subscribe((res) => {
+        this.documentList = res;
+      });
+  }
+  /**
+   * initializes the form for uploading the required documents
+   */
+  uploadDocumentsFormControler() {
+    this.uploadDocumentsForm = this.formBuilder.group({
+      document_type_based_field: ['', [Validators.required]],
+      document_number_based_field: ['', [Validators.required]],
+    });
+  }
+  /**
+   * submits the form data to the backend for uploading the required documents
+   * @param isValid - boolean value indicating whether the form is valid or not
+   */
+  submitUploadDocumentsForm(isValid: boolean) {
+    let file: File = this.uploadDocumentsForm.get('file')?.value;
+    let formData: FormData = new FormData();
+    this.fileName = file.name;
+    formData.append('file', file, file.name);
+    this.isDcocumentUploadProceesing = true;
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
+        formData
+      )
+      .subscribe((res) => {
+        console.log(res, 'upload');
+      });
   }
 }

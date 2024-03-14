@@ -1,13 +1,13 @@
 <div class="form-group">
-    <label class="lable-file-input" for="fileInput">
-        <p class="file-input-text">Upload Document</p>
-        <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
-    </label>
-    <input
-      type="file"
-      id="fileInput"
-      class="form-control-file"
-      (change)="onFileSelected($event)"
-      formControlName="file" 
-    />
-  </div>
+  <label class="lable-file-input" for="fileInput">
+    <p class="file-input-text">{{ fileName }}</p>
+    <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
+  </label>
+  <input
+    type="file"
+    id="fileInput"
+    class="form-control-file"
+    (change)="onFileSelected($event)"
+    formControlName="file"
+  />
+</div>

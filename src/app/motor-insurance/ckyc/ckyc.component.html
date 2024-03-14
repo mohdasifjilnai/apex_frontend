@@ -166,13 +166,7 @@
           ></mat-checkbox>
           <div class="ms-2 accept-text pt-1">
             I hereby give consent to access my CKYC data
-            <a
-              class="terms"
-              [style.cursor]="isDownloading ? 'pointer' : 'none'"
-              (click)="isDownloading && downloadTerms()"
-            >
-              T&C</a
-            >
+            <a class="terms" (click)="downloadTerms()"> T&C</a>
           </div>
         </div>
       </div>

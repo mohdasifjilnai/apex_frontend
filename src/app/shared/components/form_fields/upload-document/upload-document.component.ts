@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-upload-document',
@@ -12,8 +18,8 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validator
 export class UploadDocumentComponent implements OnInit {
   formFileUpload!: FormGroup;
   @Input('required') isRequired = false;
-
-  constructor(private ctrlContainer: FormGroupDirective) { }
+  fileName: any = 'Upload Document';
+  constructor(private ctrlContainer: FormGroupDirective) {}
 
   ngOnInit(): void {
     this.formFileUpload = this.ctrlContainer.form;
@@ -27,10 +33,8 @@ export class UploadDocumentComponent implements OnInit {
     }
   }
 
-
-
   onFileSelected(event: any): void {
     const selectedFile: File = event.target.files[0];
+    this.fileName = selectedFile.name;
   }
-    
 }
