@@ -10,9 +10,14 @@
     #policyExpiryDateInput
     appDateFormat
     [readonly]="true"
+    (click)="expiryDate.open()"
   />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
-  <mat-datepicker #expiryDate (opened)="onOpen()" id-automation="date_picker_expiry_date_id"></mat-datepicker>
+  <mat-datepicker
+    #expiryDate
+    (opened)="onOpen()"
+    id-automation="date_picker_expiry_date_id"
+  ></mat-datepicker>
 </mat-form-field>
 <div class="text-center" #datepickerFooter>
   <p

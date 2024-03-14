@@ -85,6 +85,7 @@ export class CkycComponent implements OnInit {
         ckyc_number: [''],
         ckyc_full_name: [''],
         ckyc_gender: [''],
+        ckyc_download_data: [''],
       });
       this.validationAddCkycForm();
     }

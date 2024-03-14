@@ -119,6 +119,7 @@
               [max]="maxDate"
               [readonly]="true"
               placeholder="{{ dobPlaceholder }}"
+              (click)="ckyc_dob.open()"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -160,13 +161,14 @@
           <mat-checkbox
             class="custom-checkbox"
             [disabled]="!ckycFormGroup.valid"
+            formControlName="ckyc_download_data"
             (change)="checkedTerms($event)"
           ></mat-checkbox>
           <div class="ms-2 accept-text pt-1">
             I hereby give consent to access my CKYC data
             <a
               class="terms"
-              [style.pointer-events]="isDownloading ? 'none' : 'auto'"
+              [style.cursor]="isDownloading ? 'pointer' : 'none'"
               (click)="isDownloading && downloadTerms()"
             >
               T&C</a
@@ -180,7 +182,7 @@
         <button
           class="submit-btn owner-vehicle-submission"
           type="submit"
-          [disabled]="ckycFormGroup.invalid"
+          [disabled]="!ckycFormGroup.valid || !isDownloading"
         >
           {{ changeSubmitCkycName ? "Save & Continue" : "Fetch Details" }}
         </button>
