@@ -50,7 +50,8 @@ export class ProposalReviewComponent implements OnInit {
   generateProposalData: any;
   transactionId: any;
   vehicleType: any;
-  proposalReviewForm!: FormGroup;
+  isTpDetailsDisabled: boolean = false;
+  isAcknowledged: boolean = false;
 
   constructor(
     private route: Router,
@@ -60,16 +61,16 @@ export class ProposalReviewComponent implements OnInit {
     public dialog: MatDialog,
     private apiService: ApiService,
     private formBuilder: FormBuilder
-  ) {
-    this.proposalReviewForm = this.formBuilder.group({
-      is_acknowledged: ['', Validators.required],
-    });
-  }
+  ) {}
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.generateProposal();
     this.vehicleType = sessionStorage.getItem('newVehicleType');
+    let productTypeValue = sessionStorage.getItem('productType');
+    if (productTypeValue === 'saod') {
+      this.isTpDetailsDisabled = true;
+    }
   }
   navigateToUrl(titleName: string) {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
@@ -152,9 +153,12 @@ export class ProposalReviewComponent implements OnInit {
         this.previousPolicyDetails = res?.previous_policy_details;
         const dataToSend = [
           res?.previous_policy_details,
-          res?.proposal_number // Replace otherData with your other variable
+          res?.proposal_number, // Replace otherData with your other variable
         ];
         this.shareData.setPreviousPolicyDetails(dataToSend);
       });
+  }
+  updateCheckBoxState(checked: boolean) {
+    this.isAcknowledged = checked;
   }
 }

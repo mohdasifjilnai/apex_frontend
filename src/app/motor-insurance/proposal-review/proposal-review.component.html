@@ -75,7 +75,7 @@
         <div class="col-lg-3 col-md-3 col-6 mt-3">
           <span class="field-title">CKYC Type</span><br />
           <span class="field-value">{{
-            generateProposalData?.ckyc_details?.document_code || "-"
+            generateProposalData?.ckyc_details?.document_type || "-"
           }}</span>
         </div>
         <div class="col-lg-3 col-md-3 col-6 mt-3">
@@ -107,14 +107,14 @@
           <span class="field-title">City</span><br />
           <span class="field-value">{{
             generateProposalData?.customer_details?.communication_address
-              .rb_city_id || "-"
+              .rb_city_name || "-"
           }}</span>
         </div>
         <div class="col-lg-3 col-md-3 col-6 mt-3">
           <span class="field-title">State</span><br />
           <span class="field-value">{{
             generateProposalData?.customer_details?.communication_address
-              .rb_state_id || "-"
+              .rb_state_name || "-"
           }}</span>
         </div>
         <div
@@ -270,32 +270,63 @@
                 ?.policy_expiry_date || "-"
             }}</span>
           </div>
+          <hr class="mt-3" *ngIf="isTpDetailsDisabled" />
+          <span
+            class="field-value col-lg-12 col-md-12 col-12"
+            *ngIf="isTpDetailsDisabled"
+            >Third Party (TP) Policy Details</span
+          >
+          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+            <span class="field-title">TP Insurance Company</span><br />
+            <span class="field-value">{{
+              generateProposalData?.previous_policy_details?.tp_policy_details
+                ?.tp_insurer_name || "-"
+            }}</span>
+          </div>
+          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+            <span class="field-title">TP Policy Number</span><br />
+            <span class="field-value">{{
+              generateProposalData?.previous_policy_details?.tp_policy_details
+                ?.tp_policy_no || "-"
+            }}</span>
+          </div>
+          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+            <span class="field-title">TP Policy Start Date</span><br />
+            <span class="field-value">{{
+              generateProposalData?.previous_policy_details?.tp_policy_details
+                ?.tp_policy_start_date || "-"
+            }}</span>
+          </div>
+          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+            <span class="field-title">TP Policy End Date</span><br />
+            <span class="field-value">{{
+              generateProposalData?.previous_policy_details?.tp_policy_details
+                ?.tp_policy_expiry_date || "-"
+            }}</span>
+          </div>
         </div>
-        <form [formGroup]="proposalReviewForm">
-          <div class="acknowledgment-confirm mt-2">
-            <div class="d-flex">
-              <mat-checkbox
-                class="custom-checkbox"
-                checked="true"
-                formControlName="is_acknowledged"
-              ></mat-checkbox>
-              <div class="ms-2 accept-text pt-1">
-                I hereby accept all
-                <a (click)="openDialog()" class="terms">Terms & Conditions</a>
-              </div>
+        <div class="acknowledgment-confirm mt-2">
+          <div class="d-flex">
+            <mat-checkbox
+              class="custom-checkbox"
+              (change)="updateCheckBoxState($event.checked)"
+            ></mat-checkbox>
+            <div class="ms-2 accept-text pt-1">
+              I hereby accept all
+              <a (click)="openDialog()" class="terms">Terms & Conditions</a>
             </div>
           </div>
-          <div class="col-12 mb-2 mt-3">
-            <button
-              class="submit-btn proposal-review-submission"
-              type="submit"
-              (click)="submitReview()"
-              [disabled]="proposalReviewForm.invalid"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        </div>
+        <div class="col-12 mb-2 mt-3">
+          <button
+            class="submit-btn proposal-review-submission"
+            type="submit"
+            (click)="submitReview()"
+            [disabled]="!isAcknowledged"
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   </div>

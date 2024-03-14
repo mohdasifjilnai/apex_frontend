@@ -82,6 +82,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         agreementName: 'other',
       },
     ];
+    this.financerList = {
+      id: 1,
+      financerName: 'other',
+    };
   }
 
   ngOnInit(): void {
@@ -187,7 +191,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_number: regNumber,
       });
     }
-    this.getFinancierList();
+    // this.getFinancierList();
     this.getPincodeList();
   }
 

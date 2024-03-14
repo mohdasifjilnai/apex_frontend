@@ -55,8 +55,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.proposalData.previous_policy_details?.policy_no,
           previous_insurer:
             this.proposalData.previous_policy_details?.insurer_code,
-          policy_expiry_date:
+          policy_expiry_date: this.sharedData.parseDate(
             this.proposalData.previous_policy_details?.policy_expiry_date,
+            'DD/MM/YYYY'
+          ),
         });
       }
     });

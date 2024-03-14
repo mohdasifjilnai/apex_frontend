@@ -87,13 +87,15 @@ export class PreviousInsurerComponent implements OnInit {
           this.previousInsurerNoData = '';
 
           if (res.length > 0) {
-            this.filteredInsurerList = this.form.controls[
-              'previous_insurer'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              switchMap((name) => this.filterInsurer(name))
-            );
+            if (this.form.controls['previous_insurer']) {
+              this.filteredInsurerList = this.form.controls[
+                'previous_insurer'
+              ].valueChanges.pipe(
+                debounceTime(500),
+                startWith(''),
+                switchMap((name) => this.filterInsurer(name))
+              );
+            }
           } else {
             this.previousInsurerNoData = res.message;
             this.filteredInsurerList = this.form.controls[
