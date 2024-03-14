@@ -54,6 +54,7 @@ export class SharedDataService {
   createdProposalId: any;
   registrationAddressItem: any;
   idvData: any;
+  quotesCount: any;
 
   constructor(
     private apiService: ApiService,
@@ -242,7 +243,8 @@ export class SharedDataService {
               JSON.parse(quote)
             );
             console.log(parsedQuotesArray);
-
+            this.quotesCount = '';
+            this.quotesCount = parsedQuotesArray;
             this.quotationListing.next(parsedQuotesArray);
             // setTimeout(() => {
             //   this.enableQuotesAction.next(true);
@@ -250,7 +252,8 @@ export class SharedDataService {
           },
           complete: () => {
             // When the Observable completes, dataArray contains all emitted values
-            this.enableQuotesAction.next(true);
+
+            this.enableQuotesAction.next(this.quotesCount);
           },
           error: (error: any) => {
             // Handle errors if any

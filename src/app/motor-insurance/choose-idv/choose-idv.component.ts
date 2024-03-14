@@ -11,7 +11,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 export class ChooseIDVComponent implements OnInit {
   investedAmount: number = 0;
   currentAmount: any = 0;
-  quotationData: any;
+  quotationData: any = [];
   quotationArray = [];
   progressValue = 0;
   minIdv: any;
@@ -22,11 +22,12 @@ export class ChooseIDVComponent implements OnInit {
   averageIdv: any;
   amountShow: any;
   chooseIdvValue: any;
+  quotesCount: any;
   chooseIdvFrom: FormGroup = new FormGroup({
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
-  customIDV: boolean=false;
+  customIDV: boolean = false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
@@ -34,12 +35,27 @@ export class ChooseIDVComponent implements OnInit {
   enableIdvCard = true;
   ngOnInit(): void {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      // this.quotesCount = idvData;
       this.enableIdvCard = false;
+      this.quotationData = [];
+      if (idvData.length > 0) {
+        for (let i = 0; i <= idvData.length - 1; i++) {
+          idvData[i]['error_message'];
+          if (idvData[i]['status']) {
+            this.quotationData.push(idvData[i]);
+          }
+        }
+      }
+      if (this.quotationData.length > 0) {
+        this.quotesCount = this.quotationData.length;
+      } else {
+        this.quotesCount = 0;
+      }
     });
     this.sharedDataService.idvValue.subscribe((idvData) => {
       this.minIdv = idvData.min_idv;
       this.maxIdv = idvData.max_idv;
-      this.averageIdv = idvData.averageIdv;
+      this.averageIdv = parseInt(idvData.averageIdv);
       this.currentAmount = this.averageIdv;
       this.chooseIdvValue = sessionStorage.getItem('idvData');
       let chooseIdvAmount = JSON.parse(this.chooseIdvValue);

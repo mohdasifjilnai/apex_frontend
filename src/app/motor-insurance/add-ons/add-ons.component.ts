@@ -116,6 +116,26 @@ export class AddOnsComponent implements OnInit {
     this.inputValues = [];
     this.showButtons = false;
     this.showUpdateButton = false;
+    this.selected_addons = {};
+
+    let productTypeValue = sessionStorage.getItem('productType');
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    if (this.registrationNumber) {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'registrationNumber',
+        this.selected_addons
+      );
+    } else {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'mmvQuotes',
+        this.selected_addons
+      );
+    }
     this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
     this.enableAddOns = true;
   }
