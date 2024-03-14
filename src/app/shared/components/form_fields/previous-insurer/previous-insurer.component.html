@@ -1,9 +1,9 @@
 <mat-form-field [class]="previousInsurer" appearance="outline">
-  <mat-label>Search Previous Insurer</mat-label>
+  <mat-label>{{ label }}</mat-label>
   <input
     matInput
     id-automation="previousInsuranceId"
-    placeholder="Search Previous Insurer"
+    placeholder="{{ label }}"
     (ngModelChange)="previousInsurerBlankData($event)"
     (focus)="inputClicked()"
     aria-label="previous_insurer"
@@ -20,7 +20,10 @@
       <mat-option
         *ngFor="let insurer of filteredInsurerList | async"
         [value]="insurer"
-        [matTooltip]="((insurer.rb_insurer_name ).length > 36) ? (insurer.rb_insurer_name )! : ''"  matTooltipPosition="right"
+        [matTooltip]="
+          insurer.rb_insurer_name.length > 36 ? insurer.rb_insurer_name! : ''
+        "
+        matTooltipPosition="right"
       >
         <span>{{ insurer.rb_insurer_name }}</span>
       </mat-option>

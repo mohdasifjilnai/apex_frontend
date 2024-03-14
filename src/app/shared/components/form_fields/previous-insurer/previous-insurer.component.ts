@@ -27,6 +27,7 @@ export class PreviousInsurerComponent implements OnInit {
   @Input('required') isRequired = false;
   @Input() previousInsurer!: string;
   @Input() disablePreviousInsurer: any;
+  @Input() label: any;
 
   filteredInsurerList!: any;
   @ViewChild(MatAutocompleteTrigger)
@@ -108,24 +109,23 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   filterInsurer(name: string): Observable<any[]> {
-    if(typeof name !='object'){
+    if (typeof name != 'object') {
       return this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_previous_insurer}?search_element=${name}`
-      )
-      .pipe(
-        map((res) => {
-          if (res.length > 0) {
-            return res;
-          } else {
-            this.previousInsurerNoData = res.message;
-            return ['No data'];
-          }
-        })
-      );
+        .getRequestedResponse(
+          `${ApiConstants.get_previous_insurer}?search_element=${name}`
+        )
+        .pipe(
+          map((res) => {
+            if (res.length > 0) {
+              return res;
+            } else {
+              this.previousInsurerNoData = res.message;
+              return ['No data'];
+            }
+          })
+        );
     }
     return of([]);
-    
   }
 
   ngOnDestroy(): void {

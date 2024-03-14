@@ -206,63 +206,63 @@
           </div>
           <!-- Expiry -->
           <ng-container *ngIf="!NoExpiryPolicy">
-          
-          <div class="col-lg-6 col-md-6 col-12">
-            <app-policy-expired-date
-              [required]="true"
-              [policyExpiryDate]="'expiry-date'"
-              [formControlNameData]="'policy_expiry_date'"
-            ></app-policy-expired-date>
-          </div>
-          <!-- Previous Insurer dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
-            <app-previous-insurer
-              [required]="true"
-              [previousInsurer]="'previous-insurer'"
-              [formControlNameData]="'previous_insurer'"
-            ></app-previous-insurer>
-          </div>
-          <!-- Is Previous Policy Claimed dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
-            <mat-form-field
-              appearance="outline"
-              class="vehicle-details-dropdown"
-            >
-              <mat-label>Is Previous Policy Claimed?</mat-label>
-              <mat-select
-                formControlName="previous_claimed"
-                (selectionChange)="claimedPolicy($event)"
+            <div class="col-lg-6 col-md-6 col-12">
+              <app-policy-expired-date
+                [required]="true"
+                [policyExpiryDate]="'expiry-date'"
+                [formControlNameData]="'policy_expiry_date'"
+              ></app-policy-expired-date>
+            </div>
+            <!-- Previous Insurer dropdown -->
+            <div class="col-lg-6 col-md-6 col-12">
+              <app-previous-insurer
+                [required]="true"
+                [previousInsurer]="'previous-insurer'"
+                [formControlNameData]="'previous_insurer'"
+                [label]="'Search Previous Insurer'"
+              ></app-previous-insurer>
+            </div>
+            <!-- Is Previous Policy Claimed dropdown -->
+            <div class="col-lg-6 col-md-6 col-12">
+              <mat-form-field
+                appearance="outline"
+                class="vehicle-details-dropdown"
               >
-                <mat-option
-                  *ngFor="let claimed of claimedList"
-                  [value]="claimed?.value"
+                <mat-label>Is Previous Policy Claimed?</mat-label>
+                <mat-select
+                  formControlName="previous_claimed"
+                  (selectionChange)="claimedPolicy($event)"
                 >
-                  {{ claimed?.claimedName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- Previous Year NCB Discount dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
-            <mat-form-field
-              appearance="outline"
-              class="vehicle-details-dropdown"
-            >
-              <mat-label>Previous Year NCB Discount</mat-label>
-              <mat-select
-                formControlName="ncb_discount"
-                [(value)]="ncbDiscount"
+                  <mat-option
+                    *ngFor="let claimed of claimedList"
+                    [value]="claimed?.value"
+                  >
+                    {{ claimed?.claimedName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- Previous Year NCB Discount dropdown -->
+            <div class="col-lg-6 col-md-6 col-12">
+              <mat-form-field
+                appearance="outline"
+                class="vehicle-details-dropdown"
               >
-                <mat-option
-                  *ngFor="let ncb of expiryListData"
-                  [value]="ncb?.old_ncb_value"
+                <mat-label>Previous Year NCB Discount</mat-label>
+                <mat-select
+                  formControlName="ncb_discount"
+                  [(value)]="ncbDiscount"
                 >
-                  {{ ncb?.old_ncb_name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </ng-container>
+                  <mat-option
+                    *ngFor="let ncb of expiryListData"
+                    [value]="ncb?.old_ncb_value"
+                  >
+                    {{ ncb?.old_ncb_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
         </ng-container>
 
         <div class="col-lg-6 col-12">

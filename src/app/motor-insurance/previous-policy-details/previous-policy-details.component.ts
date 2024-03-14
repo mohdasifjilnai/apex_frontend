@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
@@ -9,10 +14,11 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
   styleUrls: ['./previous-policy-details.component.scss'],
 })
 export class PreviousPolicyDetailsComponent implements OnInit {
-  optReasonList: any;
+  insuranceCompanyList: any;
   transactionId: any;
   proposalData: any;
   vehicleType: any;
+  isTpPolicyDetails: boolean = false;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
   @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
@@ -24,13 +30,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     ]),
     previous_insurer: new FormControl('', Validators.required),
     policy_expiry_date: new FormControl('', Validators.required),
+    tp_insurance_company: new FormControl(''),
+    tp_policy_number: new FormControl(''),
+    tp_policy_start_date: new FormControl(''),
+    tp_policy_end_date: new FormControl(''),
   });
 
   constructor(private router: Router, private sharedData: SharedDataService) {
-    this.optReasonList = [
+    this.insuranceCompanyList = [
       {
         id: 1,
-        optReasonName: '',
+        companyName: '',
       },
     ];
   }
@@ -53,6 +63,57 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType !== 'new') {
       this.isDisabledPreviousPolicyDetails = true;
+    }
+    let productTypeValue = sessionStorage.getItem('productType');
+    if (productTypeValue === 'saod') {
+      this.isTpPolicyDetails = true;
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_number')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_number')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.updateValueAndValidity();
+    } else {
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.setValidators([]);
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm.get('tp_policy_number')?.setValidators([]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_number')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.setValidators([]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.setValidators([]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.updateValueAndValidity();
     }
   }
 

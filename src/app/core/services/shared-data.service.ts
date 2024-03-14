@@ -501,6 +501,8 @@ export class SharedDataService {
       }
     }
     if (flag === 'previous_policy_details') {
+      proposalData['previous_policy_details'] = {};
+      proposalData['previous_policy_details'].tp_policy_details = {};
       proposalData['previous_policy_details'] = {
         insurer_code: formData?.get('previous_insurer')?.value?.rb_insurer_code,
         policy_no: formData?.get('prev_policy_number')?.value,
@@ -510,6 +512,25 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
       };
+      let productTypeValue = sessionStorage.getItem('productType');
+      if (productTypeValue === 'saod') {
+        proposalData['previous_policy_details'].tp_policy_details = {
+          tp_insurer_code: formData?.get('tp_insurance_company')?.value,
+          tp_policy_no: formData?.get('tp_policy_number')?.value,
+          tp_policy_expiry_date:
+            this.datePipe.transform(
+              formData?.get('tp_policy_start_date')?.value,
+              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            ) || '',
+          tp_policy_start_date:
+            this.datePipe.transform(
+              formData?.get('tp_policy_end_date')?.value,
+              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            ) || '',
+        };
+      } else {
+        proposalData['previous_policy_details'].tp_policy_details = {};
+      }
     }
     this.apiService
       .postRequestedResponse(ApiConstants.create_proposal, proposalData)

@@ -8,6 +8,7 @@
         [previousInsurer]="'proposal-previous-insurer'"
         [required]="true"
         [formControlNameData]="'previous_insurer'"
+        [label]="'Search Previous Insurer'"
       ></app-previous-insurer>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
@@ -17,7 +18,6 @@
           matInput
           placeholder="Enter Previous Policy Number"
           formControlName="prev_policy_number"
-          appNumbersOnly
         />
         <mat-error
           *ngIf="
@@ -46,102 +46,61 @@
         [formControlNameData]="'policy_expiry_date'"
       ></app-policy-expired-date>
     </div>
-    <!-- <hr /> -->
-    <!-- <div class="col-12">
-      <label>PA Exclusion Details</label>
+    <hr *ngIf="isTpPolicyDetails" />
+    <div class="col-12" *ngIf="isTpPolicyDetails">
+      <label>Third Party (TP) Policy Details</label>
     </div>
-    <div class="col-lg-4 col-md-4 col-12 mt-1">
-      <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label class="proposal-header">Select Opt-Out Reason</mat-label>
-        <mat-select formControlName="opt_out_reason">
-          <mat-option *ngFor="let opt of optReasonList" [value]="opt?.id">
-            {{ opt?.optReasonName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="col-lg-4 col-md-4 col-12 mt-1" *ngIf="isTpPolicyDetails">
+      <app-previous-insurer
+        [label]="'Select TP Insurance Company'"
+        [formControlNameData]="'tp_insurance_company'"
+      ></app-previous-insurer>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
-      <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label class="proposal-header"
-          >Select CPA Insurance Company</mat-label
-        >
-        <mat-select formControlName="cpa_insurance_company">
-          <mat-option *ngFor="let opt of optReasonList" [value]="opt?.id">
-            {{ opt?.optReasonName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-md-4 col-12">
-      <mat-form-field appearance="outline" class="cpa-date">
-        <mat-label>Select CPA Policy Start Date</mat-label>
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter TP Policy Number</mat-label>
         <input
           matInput
-          [matDatepicker]="cpaPolicyStartDate"
+          placeholder="Enter Registration Number (DL-01-AB-1234)"
+          formControlName="tp_policy_number"
+          id-automation="tp_policy_number"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
+      <mat-form-field appearance="outline" class="cpa-date">
+        <mat-label>Select TP Policy Start Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="tpPolicyStartDate"
           placeholder="Manufacture Date"
-          formControlName="cpa_policy_start_date"
+          formControlName="tp_policy_start_date"
+          id-automation="tp_policy_start_date"
         />
         <mat-datepicker-toggle
           matSuffix
-          [for]="cpaPolicyStartDate"
+          [for]="tpPolicyStartDate"
         ></mat-datepicker-toggle>
-        <mat-datepicker #cpaPolicyStartDate></mat-datepicker>
+        <mat-datepicker #tpPolicyStartDate></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
       <mat-form-field appearance="outline" class="cpa-date">
-        <mat-label>Select CPA Policy End Date</mat-label>
+        <mat-label>Select TP Policy End Date</mat-label>
         <input
           matInput
-          [matDatepicker]="cpaPolicyEndDate"
+          [matDatepicker]="tpPolicyEndDate"
           placeholder="Manufacture Date"
-          formControlName="cpa_policy_end_date"
+          formControlName="tp_policy_end_date"
+          id-automation="tp_policy_end_date"
         />
         <mat-datepicker-toggle
           matSuffix
-          [for]="cpaPolicyEndDate"
+          [for]="tpPolicyEndDate"
         ></mat-datepicker-toggle>
-        <mat-datepicker #cpaPolicyEndDate></mat-datepicker>
+        <mat-datepicker #tpPolicyEndDate></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
-      <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>CPA Policy Number</mat-label>
-        <input
-          matInput
-          placeholder="Enter CPA Policy Number"
-          formControlName="cpa_policy_number"
-        />
-        <mat-error
-          *ngIf="
-            previousPolicyDetailsForm.controls['cpa_policy_number']?.hasError(
-              'required'
-            )
-          "
-        >
-          This is a required field.
-        </mat-error>
-        <mat-error
-          *ngIf="
-            previousPolicyDetailsForm
-              .get('cpa_policy_number')
-              ?.hasError('pattern')
-          "
-        >
-          Invalid CPA Policy Number
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-md-4 col-12">
-      <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>CPA Sum Insured</mat-label>
-        <input
-          matInput
-          placeholder="Enter CPA Sum Insured"
-          formControlName="cpa_sum_insured"
-        />
-      </mat-form-field>
-    </div> -->
   </div>
   <div class="row">
     <div class="col-lg-4 col-md-4 col-12">

@@ -345,8 +345,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getSepratedPincodeData(pincodeData: any) {
     if (pincodeData) {
       this.proposalVehilceDetailsForm.patchValue({
-        owner_city: pincodeData.rb_city_name,
-        owner_state: pincodeData.rb_state_name,
+        vehilce_city: pincodeData.rb_city_name,
+        vehicle_state: pincodeData.rb_state_name,
       });
     }
   }

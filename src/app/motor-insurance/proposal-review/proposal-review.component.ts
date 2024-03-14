@@ -48,6 +48,7 @@ export class ProposalReviewComponent implements OnInit {
   quoteData: any;
   generateProposalData: any;
   transactionId: any;
+  vehicleType: any;
 
   constructor(
     private route: Router,
@@ -61,6 +62,7 @@ export class ProposalReviewComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.generateProposal();
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
   }
   navigateToUrl(titleName: string) {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
@@ -130,7 +132,7 @@ export class ProposalReviewComponent implements OnInit {
       this.openModal('', this.termsAndConditionJson);
     }
   }
-  previousPolicyDetails: any = {}; 
+  previousPolicyDetails: any = {};
   generateProposal() {
     this.apiService
       .getRequestedResponse(
@@ -140,7 +142,7 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((res) => {
         this.generateProposalData = res;
-        this.previousPolicyDetails=res?.previous_policy_details; 
+        this.previousPolicyDetails = res?.previous_policy_details;
         this.shareData.setPreviousPolicyDetails(res?.previous_policy_details);
       });
   }

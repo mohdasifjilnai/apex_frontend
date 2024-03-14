@@ -149,6 +149,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           contact_number: ckycData?.customer_details?.mobile_number,
           owner_pincode: ckycData?.customer_details?.pincode,
           owner_communication_addres: ckycData?.customer_details?.address,
+          owner_city: ckycData?.customer_details?.rb_city_name,
+          owner_state: ckycData?.customer_details?.rb_state_name,
         });
       }
     });

@@ -75,33 +75,32 @@
             <app-previous-insurer
               [previousInsurer]="'previous-insurer'"
               *ngIf="!disableInsurer"
-              
+              [label]="'Search Previous Insurer'"
               [formControlNameData]="'previous_insurer'"
             ></app-previous-insurer>
           </div>
           <ng-container *ngIf="!disableInsurer">
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && !isResponsive()"
-          >
-            <app-previous-insurer
-              [previousInsurer]="'previous-insurer'"
-              [formControlNameData]="'previous_insurer'"
-            ></app-previous-insurer>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && isResponsive()"
-            [@slideUp]
-            
-          >
-            <app-policy-expired-date
-              [policyExpiryDate]="'expiry-date'"
-              
-              [formControlNameData]="'policy_expiry_date'"
-            ></app-policy-expired-date>
-          </div>
-        </ng-container>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && !isResponsive()"
+            >
+              <app-previous-insurer
+                [previousInsurer]="'previous-insurer'"
+                [formControlNameData]="'previous_insurer'"
+                [label]="'Search Previous Insurer'"
+              ></app-previous-insurer>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
+              [@slideUp]
+            >
+              <app-policy-expired-date
+                [policyExpiryDate]="'expiry-date'"
+                [formControlNameData]="'policy_expiry_date'"
+              ></app-policy-expired-date>
+            </div>
+          </ng-container>
           <div
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && !isResponsive()"
