@@ -1,7 +1,7 @@
 <div class="premium-breakup-main-dialog" mat-dialog-content>
   <div class="d-flex justify-content-between">
     <img [src]="initiateQuotes.insurer_logo" class="insurer-logo" />
-    <div>
+    <div *ngIf="thirdParty != 'bundled_tp'">
       <p class="cover-text">Total Cover (IDV)</p>
       <p class="cover-amount">
         &#8377; {{ initiateQuotes.premium_details.idv | numberFormat }}
@@ -83,18 +83,18 @@
       }}</span
     >
   </div>
-  <div class="d-flex justify-content-between mt-3">
+  <!-- <div class="d-flex justify-content-between mt-3">
     <span class="own-damage-text text-bold"> Addons </span>
     <span class="own-damage-amount text-bold">
-      <!-- &#8377; 6,00,000 -->
+      &#8377; 6,00,000
     </span>
-  </div>
-  <div class="d-flex justify-content-between">
+  </div> -->
+  <!-- <div class="d-flex justify-content-between">
     <span class="d-flex justify-content-start own-damage-text">
       Zero Depreciation
     </span>
-    <!-- <span class="d-flex justify-content-end own-damage-amount">&#8377;  </span> -->
-  </div>
+    <span class="d-flex justify-content-end own-damage-amount">&#8377;  </span>
+  </div> -->
 
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold"> GST (18%) </span>

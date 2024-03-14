@@ -73,7 +73,7 @@
 
           <mat-form-field
             appearance="outline"
-            [formGroup]="chooseIdvFrom"
+            [formGroup]="chooseIdvForm"
             *ngIf="selectedIDVOption === 'choose'"
             class="col-lg-12 mt-2"
           >
@@ -86,6 +86,7 @@
               placeholder="Enter Value"
               name="customIDV"
               [disabled]="enableIdvCard"
+              (ngModelChange)="chooseIdvData()"
             />
           </mat-form-field>
           <div
@@ -97,7 +98,9 @@
               type="submit"
               (click)="updateIdv()"
               [disabled]="
-                selectedIDVOption != 'choose' || chooseIdvFrom.invalid
+                selectedIDVOption != 'choose' ||
+                chooseIdvForm.invalid ||
+                idvError
               "
             >
               Update
@@ -175,7 +178,7 @@
           </div>
           <mat-form-field
             appearance="outline"
-            [formGroup]="chooseIdvFrom"
+            [formGroup]="chooseIdvForm"
             *ngIf="selectedIDVOption === 'choose'"
             class="col-lg-12 mt-2"
           >
@@ -195,7 +198,7 @@
               type="submit"
               (click)="updateIdv()"
               [disabled]="
-                selectedIDVOption != 'choose' || chooseIdvFrom.invalid
+                selectedIDVOption != 'choose' || chooseIdvForm.invalid
               "
             >
               Update

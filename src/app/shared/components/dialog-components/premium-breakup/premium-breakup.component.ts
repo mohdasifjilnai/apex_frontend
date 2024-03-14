@@ -32,6 +32,9 @@ export class PremiumBreakupComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
+
+  thirdParty: any;
+
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
     private sharedDataService: SharedDataService,
@@ -52,6 +55,7 @@ export class PremiumBreakupComponent implements OnInit {
     if (gstValue) {
       this.gstToggleData = JSON.parse(gstValue);
     }
+    this.thirdParty = sessionStorage.getItem('productType');
   }
   /**
    * this fucntion use for close pop up

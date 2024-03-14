@@ -306,17 +306,6 @@
             <!-- {{quotes.insurer_name}} -->
             <div class="col-lg-6 col-md-6 col-6">
               <div class="d-flex justify-content-between">
-                <div>
-                  <span class="idv-amount">
-                    IDV (&#8377;
-                    {{ quotes?.premium_details?.min_idv | numberFormat }}-
-                    &#8377;
-                    {{ quotes?.premium_details?.max_idv | numberFormat }})
-                  </span>
-                  <p class="idv-choose-amount mt-1">
-                    &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
-                  </p>
-                </div>
                 <div *ngIf="addShare" class="web-checkbox">
                   <mat-checkbox
                     (change)="onCheckboxChange(quotes, $event)"

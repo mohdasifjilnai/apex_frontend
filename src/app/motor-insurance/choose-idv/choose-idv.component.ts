@@ -23,7 +23,8 @@ export class ChooseIDVComponent implements OnInit {
   amountShow: any;
   chooseIdvValue: any;
   quotesCount: any;
-  chooseIdvFrom: FormGroup = new FormGroup({
+  idvError: any;
+  chooseIdvForm: FormGroup = new FormGroup({
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
@@ -62,18 +63,20 @@ export class ChooseIDVComponent implements OnInit {
       if (chooseIdvAmount?.chooseIdv) {
         this.investedAmount = chooseIdvAmount.chooseIdv;
         this.selectedIDVOption = 'choose';
+        this.amountShow = chooseIdvAmount.chooseIdv;
       } else if (chooseIdvAmount?.minIdv) {
         this.selectedIDVOption = 'min';
-        this.amountShow = chooseIdvAmount.minIdv;
+
         this.investedAmount = this.averageIdv;
       } else if (chooseIdvAmount?.maxIdv) {
         this.selectedIDVOption = 'max';
-        this.amountShow = chooseIdvAmount.maxIdv;
+
         this.investedAmount = this.averageIdv;
       } else {
         this.investedAmount = this.averageIdv;
+        this.amountShow = this.averageIdv;
       }
-      this.chooseIdvFrom.patchValue({
+      this.chooseIdvForm.patchValue({
         chooseIdv: this.investedAmount,
       });
     });
@@ -145,7 +148,7 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     if (this.selectedIDVOption) {
-      this.currentAmount = this.chooseIdvFrom.value.chooseIdv;
+      this.currentAmount = this.chooseIdvForm.value.chooseIdv;
       this.investedAmount = this.currentAmount;
       let idvObject = {
         minIdv: '',
@@ -178,6 +181,17 @@ export class ChooseIDVComponent implements OnInit {
       );
     }
     this.enableIdvCard = true;
+  }
+  /**
+   * when user change in idv input field than min idv base handling doing in this function
+   */
+  chooseIdvData() {
+    let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+    if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+      this.idvError = true;
+    } else {
+      this.idvError = false;
+    }
   }
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
