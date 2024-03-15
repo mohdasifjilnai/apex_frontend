@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   proposalData: any;
   vehicleType: any;
   isTpPolicyDetails: boolean = false;
+  private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
   @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
@@ -119,23 +121,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
   }
 
-  /**
-   * Navigate to the Proposal Review page
-   * Using Angular router to navigate to the specified route
-   */
-  navigateToProposalReview() {
-    /**
-     * navigate after the response
-     */
-    this.sharedData.getProposalDetails.subscribe((proposal) => {
-      if (proposal.previous_policy_details !== null) {
-        this.router.navigate([
-          `/motor/quotes/proposal/${this.transactionId}/review`,
-        ]);
-      }
-    });
-  }
-
   getPreviousVehicleData(isValid: any) {
     if (isValid) {
       const formValues = this.previousPolicyDetailsForm.value;
@@ -144,7 +129,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         'previous_policy_details',
         this.previousPolicyDetailsForm
       );
-      this.navigateToProposalReview();
+      /**
+       * Unsubscribe before subscribing to avoid multiple subscriptions
+       */
+      if (this.previousPolicyDetailsSubscription) {
+        this.previousPolicyDetailsSubscription.unsubscribe();
+      }
+
+      /**
+       * subscribe to getProposalDetails and navigate after the response
+       */
+      this.previousPolicyDetailsSubscription =
+        this.sharedData.getProposalDetails.subscribe((proposal) => {
+          if (proposal.vehicle_details !== null) {
+            this.router.navigate([
+              `/motor/quotes/proposal/${this.transactionId}/review`,
+            ]);
+            /**
+             * Unsubscribe after navigation to avoid repeated navigation
+             */
+            this.previousPolicyDetailsSubscription.unsubscribe();
+          }
+        });
     }
   }
 }

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import moment from 'moment';
 import {
   Observable,
+  Subscription,
   debounceTime,
   distinctUntilChanged,
   of,
@@ -33,6 +34,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   financerList: any;
   transactionId: any;
   proposalData: any;
+  private proposalDetailsSubscription!: Subscription;
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
   @ViewChild('financedToggle', { static: false }) financedToggle!: ElementRef;
@@ -206,16 +208,29 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         'vehilce_details',
         this.proposalVehilceDetailsForm
       );
+
       /**
-       * navigate after the response
+       * Unsubscribe before subscribing to avoid multiple subscriptions
        */
-      this.shareData.getProposalDetails.subscribe((proposal) => {
-        if (this.vehicleType === 'new' && proposal.vehicle_details !== null) {
-          this.router.navigate([
-            `/motor/quotes/proposal/${this.transactionId}/review`,
-          ]);
-        }
-      });
+      if (this.proposalDetailsSubscription) {
+        this.proposalDetailsSubscription.unsubscribe();
+      }
+
+      /**
+       * subscribe to getProposalDetails and navigate after the response
+       */
+      this.proposalDetailsSubscription =
+        this.shareData.getProposalDetails.subscribe((proposal) => {
+          if (this.vehicleType === 'new' && proposal.vehicle_details !== null) {
+            this.router.navigate([
+              `/motor/quotes/proposal/${this.transactionId}/review`,
+            ]);
+            /**
+             * Unsubscribe after navigation to avoid repeated navigation
+             */
+            this.proposalDetailsSubscription.unsubscribe();
+          }
+        });
     }
   }
   /**
