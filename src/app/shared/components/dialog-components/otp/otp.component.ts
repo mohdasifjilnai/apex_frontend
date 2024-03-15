@@ -106,7 +106,7 @@ export class OtpComponent implements OnInit {
             }&proposal_id=${this.proposalId}`
           )
           .subscribe((generatedProposal: any) => {
-            if (generatedProposal) {
+            if (generatedProposal.status) {
               this.apiService
                 .getRequestedResponse(
                   `${ApiConstants['redirection_payment_getway']}${this.proposalId}`

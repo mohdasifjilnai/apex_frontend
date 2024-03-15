@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  MaxLengthValidator,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -12,7 +18,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 @Component({
   selector: 'app-proposal-share',
   templateUrl: './proposal-share.component.html',
-  styleUrls: ['./proposal-share.component.scss']
+  styleUrls: ['./proposal-share.component.scss'],
 })
 export class ProposalShareComponent implements OnInit {
   otpDialog: {
@@ -35,12 +41,12 @@ export class ProposalShareComponent implements OnInit {
   isActiveIcon: any;
   inputPlaceholder: any;
   shareQuotationForm!: FormGroup;
-  quotes_id: any[]=[];
-  successMessage: boolean=false;
+  quotes_id: any[] = [];
+  successMessage: boolean = false;
   formControlName: any;
   partner_name: any;
   message: any;
-  failureMessage: boolean=false;
+  failureMessage: boolean = false;
   gstToggleData: any;
   currentDate: Date = new Date();
   startDate: any;
@@ -48,90 +54,113 @@ export class ProposalShareComponent implements OnInit {
   proposalNumber: any;
   generateProposalData: any;
   quoteData: any;
-  constructor(public dialogRef: MatDialogRef<ProposalShareComponent>,
+  startDateRollover: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public sharedDataService:SharedDataService,
+    public sharedDataService: SharedDataService,
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     public matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet,) {
-      this.shareQuotationForm = this.formBuilder.group({
-        whatsApp_number: new FormControl('',[Validators.pattern(/^[6-9]\d{9}$/)]),
-        contact_number: new FormControl('',[Validators.pattern(/^[6-9]\d{9}$/)]),
-        email: new FormControl('',[Validators.pattern(/^.+@.+[.].+$/)]),
-      });
-     }
+    public bottomSheet: MatBottomSheet
+  ) {
+    this.shareQuotationForm = this.formBuilder.group({
+      whatsApp_number: new FormControl('', [
+        Validators.pattern(/^[6-9]\d{9}$/),
+      ]),
+      contact_number: new FormControl('', [Validators.pattern(/^[6-9]\d{9}$/)]),
+      email: new FormControl('', [Validators.pattern(/^.+@.+[.].+$/)]),
+    });
+  }
 
-    ngOnInit(): void {
-      this.partner_name=localStorage.getItem('ta_user_name')
-      for (let value of this.data?.data){
-        this.quotes_id.push(value?.quote_id)
-      }
-      let gstValue = sessionStorage.getItem('gstValue');
-      if (gstValue) {
-        this.gstToggleData = JSON.parse(gstValue);
-      }
-      this.sharedDataService.previousPolicyDetails$.subscribe(details => {
-        this.previousPolicyDetails = details[0];
-        this.proposalNumber=details[1];
-        this.generateProposalData=details[2];
-        this.quoteData=details[3]
+  ngOnInit(): void {
+    this.partner_name = localStorage.getItem('ta_user_name');
+    for (let value of this.data?.data) {
+      this.quotes_id.push(value?.quote_id);
+    }
+    let gstValue = sessionStorage.getItem('gstValue');
+    if (gstValue) {
+      this.gstToggleData = JSON.parse(gstValue);
+    }
+    this.sharedDataService.previousPolicyDetails$.subscribe((details) => {
+      this.previousPolicyDetails = details[0];
+      this.proposalNumber = details[1];
+      this.generateProposalData = details[2];
+      this.quoteData = details[3];
+    });
+    if (this.previousPolicyDetails == null) {
+      this.startDate = this.currentDate;
+    } else if (this.previousPolicyDetails?.policy_expiry_date) {
+      this.startDateRollover = this.previousPolicyDetails?.policy_expiry_date;
+    }
+  }
+  /**
+   * this fucntion use for close pop up
+   */
+  onClose(): void {
+    this.dialogRef.close();
+  }
+  /**
+   * this fucntion use for share inspection
+   */
+  share() {
+    this.isCommunicationGroup = false;
+  }
+  /**
+   * this fucntion use for share inspection by social media
+   */
+  communication(event: any) {
+    this.isActiveIcon = event;
+    this.isCommunicationField = true;
+  }
+  anyFieldValid() {
+    return Object.values(this.shareQuotationForm.controls).some(
+      (control) => control.touched && control.valid
+    );
+  }
+  /**
+   * Share Quotes Api Integration
+   */
+  shareQuotes() {
+    let message: any;
+    if (this.shareQuotationForm.get('email')?.value != '') {
+      message =
+        'Send to Email ' +
+        this.shareQuotationForm.get('email')?.value +
+        ' successfully';
+    } else if (this.shareQuotationForm.get('contact_number')?.value != null) {
+      message =
+        'Send to Mobile Number +91-' +
+        this.shareQuotationForm.get('contact_number')?.value +
+        ' successfully';
+    }
+    this.sharedDataService
+      .shareQuotes(
+        this.data?.data,
+        'proposal',
+        this.partner_name,
+        `motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,
+        this.shareQuotationForm.get('email')?.value,
+        this.shareQuotationForm.get('contact_number')?.value,
+        this.quotes_id
+      )
+      .subscribe((res) => {
+        if (res?.message == 'Success') {
+          this.sharedDataService.openSnackBar(message, true);
+          this.shareQuotationForm.reset();
+        } else {
+          this.failureMessage = true;
+          this.message = res?.message;
+          setTimeout(() => {
+            this.failureMessage = false;
+          }, 5000);
+          this.shareQuotationForm.reset();
+        }
       });
-      if(this.previousPolicyDetails==null){
-        this.startDate=this.currentDate
-      }
-    }
-    /**
-     * this fucntion use for close pop up
-     */
-    onClose(): void {
-      this.dialogRef.close();
-    }
-    /**
-     * this fucntion use for share inspection
-     */
-    share() {
-      this.isCommunicationGroup = false;
-    }
-    /**
-     * this fucntion use for share inspection by social media
-     */
-    communication(event: any) {
-      this.isActiveIcon=event
-      this.isCommunicationField = true;    
-    }
-    anyFieldValid() {
-      return Object.values(this.shareQuotationForm.controls).some(control => control.touched && control.valid);
-    }
-    /**
-     * Share Quotes Api Integration
-     */
-    shareQuotes() {
-      let message: any 
-    if(this.shareQuotationForm.get('email')?.value !=""){
-      message='Send to Email '+this.shareQuotationForm.get('email')?.value+' successfully'
-    }
-    else if(this.shareQuotationForm.get('contact_number')?.value !=null){
-      message='Send to Mobile Number +91-'+this.shareQuotationForm.get('contact_number')?.value+' successfully'
-    }
-      this.sharedDataService
-    .shareQuotes(this.data?.data,"proposal",this.partner_name,`motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,this.shareQuotationForm.get('email')?.value,this.shareQuotationForm.get('contact_number')?.value,this.quotes_id)
-        .subscribe((res) => {
-          if(res?.message=='Success'){
-            this.sharedDataService.openSnackBar(message,true)
-            this.shareQuotationForm.reset();
-          }else{
-            this.failureMessage=true
-            this.message=res?.message  
-            setTimeout(() => {
-              this.failureMessage = false;
-            }, 5000);
-            this.shareQuotationForm.reset();
-          }
-        });
-    }
-    proceedToPayment(){
-      this.dialogRef.close();
+  }
+  proceedToPayment() {
+    this.dialogRef.close();
     let sendCommunicationObject = {
       transaction_id: this.quoteData?.transaction_id,
       share_type: 'otp',
@@ -156,30 +185,30 @@ export class ProposalShareComponent implements OnInit {
           }
         }
       });
+  }
+  openModal(sendCommunicationObject: any, jsonData: any) {
+    sendCommunicationObject['share_type'] = 'resend';
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '100%';
+      resTop = '5%';
     }
-    openModal(sendCommunicationObject: any, jsonData: any) {
-      sendCommunicationObject['share_type'] = 'resend';
-      let resWidth;
-      let resTop;
-      if (window.screen.width <= 767) {
-        resWidth = '95%';
-        resTop = '5%';
-      } else {
-        resWidth = '100%';
-        resTop = '5%';
-      }
-      const obj: any = {
-        modalName: jsonData['modalName'],
-        width: jsonData['widthObtained'],
-        height: jsonData['heightObtained'],
-        classNameObtained: jsonData['classObtained'],
-        isOutSideClose: jsonData['isOutSideClose'],
-        minWidth: resWidth,
-        dataInfo: {
-          sendCommunicationObject,
-          top: resTop,
-        },
-      };
-      this.matDialog.openDialog(obj);
-    }
+    const obj: any = {
+      modalName: jsonData['modalName'],
+      width: jsonData['widthObtained'],
+      height: jsonData['heightObtained'],
+      classNameObtained: jsonData['classObtained'],
+      isOutSideClose: jsonData['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        sendCommunicationObject,
+        top: resTop,
+      },
+    };
+    this.matDialog.openDialog(obj);
+  }
 }

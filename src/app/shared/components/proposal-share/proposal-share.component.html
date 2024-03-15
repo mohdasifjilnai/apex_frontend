@@ -27,11 +27,7 @@
           </p>
           <p class="total-premium-payable-amount text-light-blue">
             &#8377;
-            {{
-              gstToggleData
-                ? (data?.data[0]?.premium_details?.total_premium | numberFormat)
-                : (data?.data[0]?.premium_details?.gross_premium | numberFormat)
-            }}
+            {{ data?.data[0]?.premium_details?.total_premium | numberFormat }}
           </p>
         </div>
       </div>
@@ -42,8 +38,11 @@
         </div>
         <div class="proposal-number-group d-flex justify-content-between">
           <p class="proposal-number-text">Start Date</p>
-          <p class="proposal-number-id">
+          <p class="proposal-number-id" *ngIf="startDate">
             {{ startDate | date : "dd/MM/yyyy" }}
+          </p>
+          <p class="proposal-number-id" *ngIf="startDateRollover">
+            {{ startDateRollover }}
           </p>
         </div>
       </div>

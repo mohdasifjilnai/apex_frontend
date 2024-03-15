@@ -95,7 +95,7 @@ export class AddOnsComponent implements OnInit {
         if (this.selectedVoluntryValue) {
           this.selectedVoluntryValue = '';
         }
-        if (this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox') {
+        if (this.addOnsArray[i].fe_template[j].next_type == 'multi_checkbox') {
           for (
             let k = 0;
             k <=
@@ -199,7 +199,7 @@ export class AddOnsComponent implements OnInit {
               this.selectedVoluntryValue = '';
             }
             if (
-              this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox'
+              this.addOnsArray[i].fe_template[j].next_type == 'multi_checkbox'
             ) {
               for (
                 let k = 0;
@@ -329,7 +329,7 @@ export class AddOnsComponent implements OnInit {
             j++
           ) {
             if (
-              this.addOnsArray[i].fe_template[j].next_type == 'multi_chcekbox'
+              this.addOnsArray[i].fe_template[j].next_type == 'multi_checkbox'
             ) {
               for (
                 let k = 0;
@@ -394,10 +394,10 @@ export class AddOnsComponent implements OnInit {
       delete this.inputTagIndex[index];
     } else if (event == '' && type == 'int_input') {
       this.inputTagIndex[index] = index;
-    } else if (event?.checked && type == 'multi_chcekbox') {
+    } else if (event?.checked && type == 'multi_checkbox') {
       this.subCheckBox.push(event?.source?.id);
       delete this.multiCheckbox[index];
-    } else if (!event?.checked && type == 'multi_chcekbox') {
+    } else if (!event?.checked && type == 'multi_checkbox') {
       /**
        * Find the index of the object that meets the condition
        */
@@ -426,7 +426,7 @@ export class AddOnsComponent implements OnInit {
         if (typeof event != 'object') {
           key[keys[0]] = JSON.parse(event);
         }
-        if (type == 'multi_chcekbox') {
+        if (type == 'multi_checkbox') {
           key[keys[0]] = this.subCheckBox.join(',');
         }
       }
@@ -442,10 +442,10 @@ export class AddOnsComponent implements OnInit {
     } else if (!isChecked && type == 'int_input') {
       delete this.inputTagIndex[index];
       delete this.inputFieldIndex[index];
-    } else if (isChecked && type == 'multi_chcekbox') {
+    } else if (isChecked && type == 'multi_checkbox') {
       this.multiCheckbox[index] = index;
       this.multiCheckboxField[index] = index;
-    } else if (!isChecked && type == 'multi_chcekbox') {
+    } else if (!isChecked && type == 'multi_checkbox') {
       delete this.multiCheckbox[index];
       delete this.multiCheckboxField[index];
     } else if (isChecked && type == 'dropdown') {
