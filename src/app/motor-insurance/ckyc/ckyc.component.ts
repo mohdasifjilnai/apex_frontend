@@ -299,6 +299,9 @@ export class CkycComponent implements OnInit {
     this.documentName = this.filterDocumentType(event);
     this.ckycFormGroup.patchValue({
       document_number_based_field: '',
+      dob: '',
+      ckyc_full_name: '',
+      ckyc_gender: '',
     });
     if (this.documentName == 'aadhaar_number') {
       this.ckycFormGroup

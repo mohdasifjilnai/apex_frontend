@@ -111,47 +111,38 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    * @param event - The event object
    */
 
-  onFileSelected(event: any) {
-    this.getUploadFile = event.target.files;
-    let file: File = this.getUploadFile[0];
-    let formData: FormData = new FormData();
-    this.fileName = file.name;
-    formData.append('file', file, file.name);
-    this.isDcocumentUploadProceesing = true;
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
-        formData
-      )
-      .subscribe((res) => {
-        if (res['status_code'] == 201) {
-          this.isDcocumentUploadProceesing = false;
-          this.isDocumentUploaded = false;
-          this.uploadedImage = '/assets/gif/success.gif';
-        }
-      });
-  }
+  // onFileSelected(event: any) {
+  //   this.getUploadFile = event.target.files;
+  //   let file: File = this.getUploadFile[0];
+  //   let formData: FormData = new FormData();
+  //   this.fileName = file.name;
+  //   formData.append('file', file, file.name);
+  //   this.isDcocumentUploadProceesing = true;
+  //   this.apiService
+  //     .postRequestedResponse(
+  //       `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
+  //       formData
+  //     )
+  //     .subscribe((res) => {
+  //       if (res['status_code'] == 201) {
+  //         this.isDcocumentUploadProceesing = false;
+  //         this.isDocumentUploaded = false;
+  //         this.uploadedImage = '/assets/gif/success.gif';
+  //       }
+  //     });
+  // }
 
-  /**
-   * Uploads the selected file to the server
-   * @param file - The selected file
-   */
-  uploadDocument() {
-    if (this.isDocumentUploaded == false) {
-      this.dialogRef.close();
-    }
-  }
   /**
    * Opens a modal dialog to display the uploaded document image.
    * @param fileName - The name of the uploaded file.
    */
-  viewPics(fileName: any) {
-    this.isShowPhoto = true;
-    let url = `${ApiConstants['get_document_image_url']}?document_url=documents/ckyc/${this.transactionId}/${fileName}`;
-    this.apiService.getRequestedResponse(url).subscribe((res) => {
-      this.document_image_url = res;
-    });
-  }
+  // viewPics(fileName: any) {
+  //   this.isShowPhoto = true;
+  //   let url = `${ApiConstants['get_document_image_url']}?document_url=documents/ckyc/${this.transactionId}/${fileName}`;
+  //   this.apiService.getRequestedResponse(url).subscribe((res) => {
+  //     this.document_image_url = res;
+  //   });
+  // }
   /**
    * Fetches the list of document types supported by the insurer.
    */
@@ -177,19 +168,5 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    * submits the form data to the backend for uploading the required documents
    * @param isValid - boolean value indicating whether the form is valid or not
    */
-  submitUploadDocumentsForm(isValid: boolean) {
-    let file: File = this.uploadDocumentsForm.get('file')?.value;
-    let formData: FormData = new FormData();
-    this.fileName = file.name;
-    formData.append('file', file, file.name);
-    this.isDcocumentUploadProceesing = true;
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
-        formData
-      )
-      .subscribe((res) => {
-        console.log(res, 'upload');
-      });
-  }
+  submitUploadDocumentsForm(isValid: boolean) {}
 }

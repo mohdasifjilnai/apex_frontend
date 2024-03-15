@@ -25,8 +25,16 @@ export class RegistrationDateComponent implements OnInit {
   @Input() isRegistrationDateDisbaled!: any;
 
   constructor(private ctrlContainer: FormGroupDirective) {
-    this.minDate = new Date(1970, 0);
+    // this.minDate = new Date(1970, 0);
     this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
+    const currentYear = moment().year();
+    /**
+     * Set minDate to the first day of January 1990
+     */
+
+    this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf(
+      'month'
+    );
   }
 
   ngOnInit(): void {

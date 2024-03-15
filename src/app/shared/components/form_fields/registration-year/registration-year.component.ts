@@ -109,7 +109,10 @@ export class RegistrationYearComponent implements OnInit {
     /**
      * Set minDate to the first day of January 1990
      */
-    this.minDate = moment({ year: 1990, month: 0 }).startOf('month');
+
+    this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf(
+      'month'
+    );
     this.form.controls['registration_date'].setValue('');
 
     /**

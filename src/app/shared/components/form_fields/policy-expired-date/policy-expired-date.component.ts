@@ -66,9 +66,9 @@ export class PolicyExpiredDateComponent implements OnInit {
     const currentUrl = this.router.url.split('/');
     this.proposalUrl = currentUrl[currentUrl.length - 1];
     const currentDate = new Date();
-    const minDateOffset = -90; // Subtract 90 days
-    const maxDateOffset = 90; // Add 90 days
-    this.minDate = this.getDateOffset(currentDate, minDateOffset);
+    const minDateOffset = -20; // Subtract 20 years from current date
+    const maxDateOffset = 90; //add days to current date
+    this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
   }
 
@@ -98,16 +98,16 @@ export class PolicyExpiredDateComponent implements OnInit {
    */
   previousExpiryDate() {
     const inputValue = 'Not Sure';
-    this.form.get('policy_expiry_date')?.setValue(inputValue)
+    this.form.get('policy_expiry_date')?.setValue(inputValue);
     this.form.get('policy_expiry_date')?.clearValidators();
     this.form.get('policy_expiry_date')?.updateValueAndValidity();
     this.policyExpiryDateInput.nativeElement.value = inputValue;
     this.expiryDate.close();
     const previousInsurerControl = this.form.get('previous_insurer');
-  if (previousInsurerControl) {
-    previousInsurerControl.clearValidators();
-    previousInsurerControl.updateValueAndValidity();
-  }
+    if (previousInsurerControl) {
+      previousInsurerControl.clearValidators();
+      previousInsurerControl.updateValueAndValidity();
+    }
   }
 
   /**
@@ -128,6 +128,16 @@ export class PolicyExpiredDateComponent implements OnInit {
   getDateOffset(date: Date, offset: number): Date {
     const result = new Date(date);
     result.setDate(result.getDate() + offset);
+    return result;
+  }
+  /**
+   * Returns a new Date that is the specified number of years after the specified date.
+   * @param date The date to add years to.
+   * @param offset The number of years to add.
+   */
+  getYearDateOffset(date: Date, offset: number): Date {
+    const result = new Date(date);
+    result.setFullYear(result.getFullYear() + offset);
     return result;
   }
 }
