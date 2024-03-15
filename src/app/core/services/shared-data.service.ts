@@ -565,7 +565,7 @@ export class SharedDataService {
       quote_request_id: quotes_data[0]?.quote_request_id,
     };
     return this.apiService.postRequestedResponse(
-      `${ApiConstants.share_quotes}`,
+      `${ApiConstants.send_communication}`,
       data
     );
   }

@@ -5,6 +5,9 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { environment } from 'src/environments/environment';
+import { OtpComponent } from '../dialog-components/otp/otp.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 
 @Component({
   selector: 'app-proposal-share',
@@ -12,6 +15,21 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./proposal-share.component.scss']
 })
 export class ProposalShareComponent implements OnInit {
+  otpDialog: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: OtpComponent,
+    widthObtained: '100%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'otp-popup',
+  };
   isCommunicationGroup: boolean = true;
   isCommunicationField: boolean = false;
   isActiveIcon: any;
@@ -28,11 +46,15 @@ export class ProposalShareComponent implements OnInit {
   startDate: any;
   previousPolicyDetails: any;
   proposalNumber: any;
+  generateProposalData: any;
+  quoteData: any;
   constructor(public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public sharedDataService:SharedDataService,
     private formBuilder: FormBuilder,
-    private apiService: ApiService) {
+    private apiService: ApiService,
+    public matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet,) {
       this.shareQuotationForm = this.formBuilder.group({
         whatsApp_number: ['',[Validators.pattern(/^[6-9]\d{9}$/)]],
         contact_number: ['',[Validators.pattern(/^[6-9]\d{9}$/)]],
@@ -52,6 +74,8 @@ export class ProposalShareComponent implements OnInit {
       this.sharedDataService.previousPolicyDetails$.subscribe(details => {
         this.previousPolicyDetails = details[0];
         this.proposalNumber=details[1];
+        this.generateProposalData=details[2];
+        this.quoteData=details[3]
       });
       if(this.previousPolicyDetails==null){
         this.startDate=this.currentDate
@@ -99,5 +123,56 @@ export class ProposalShareComponent implements OnInit {
           }
         });
     }
-
+    proceedToPayment(){
+      this.dialogRef.close();
+    let sendCommunicationObject = {
+      transaction_id: this.quoteData?.transaction_id,
+      share_type: 'otp',
+      partner_name: this.generateProposalData?.customer_details?.full_name,
+      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+      mail_id: this.generateProposalData?.customer_details?.email_id,
+      mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+      quote_id: [this.quoteData?.quote_id],
+      quote_request_id: this.quoteData?.quote_request_id,
+    };
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants.send_communication}`,
+        sendCommunicationObject
+      )
+      .subscribe((res) => {
+        if (res['message'] == 'Success') {
+          if (window.innerWidth <= 999) {
+            this.bottomSheet.open(OtpComponent);
+          } else {
+            this.openModal(sendCommunicationObject, this.otpDialog);
+          }
+        }
+      });
+    }
+    openModal(sendCommunicationObject: any, jsonData: any) {
+      sendCommunicationObject['share_type'] = 'resend';
+      let resWidth;
+      let resTop;
+      if (window.screen.width <= 767) {
+        resWidth = '95%';
+        resTop = '5%';
+      } else {
+        resWidth = '100%';
+        resTop = '5%';
+      }
+      const obj: any = {
+        modalName: jsonData['modalName'],
+        width: jsonData['widthObtained'],
+        height: jsonData['heightObtained'],
+        classNameObtained: jsonData['classObtained'],
+        isOutSideClose: jsonData['isOutSideClose'],
+        minWidth: resWidth,
+        dataInfo: {
+          sendCommunicationObject,
+          top: resTop,
+        },
+      };
+      this.matDialog.openDialog(obj);
+    }
 }

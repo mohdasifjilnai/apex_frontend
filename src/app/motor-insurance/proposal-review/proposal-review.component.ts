@@ -9,6 +9,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
+import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-proposal-review',
@@ -16,7 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./proposal-review.component.scss'],
 })
 export class ProposalReviewComponent implements OnInit {
-  otpDialog: {
+  insuranceDetailsJSON: {
     modalName: any;
     widthObtained: string;
     heightObtained: string;
@@ -24,12 +25,12 @@ export class ProposalReviewComponent implements OnInit {
     isOutSideClose: boolean;
     classObtained: string;
   } = {
-    modalName: OtpComponent,
+    modalName: ProposalShareComponent,
     widthObtained: '100%',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
-    classObtained: 'otp-popup',
+    classObtained: 'insurance-details-class',
   };
   termsAndConditionJson: {
     modalName: any;
@@ -80,36 +81,13 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
-    let sendCommunicationObject = {
-      transaction_id: this.quoteData?.transaction_id,
-      share_type: 'otp',
-      partner_name: this.generateProposalData?.customer_details?.full_name,
-      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-      mail_id: this.generateProposalData?.customer_details?.email_id,
-      mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-      quote_id: [this.quoteData?.quote_id],
-      quote_request_id: this.quoteData?.quote_request_id,
-    };
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants.send_communication}`,
-        sendCommunicationObject
-      )
-      .subscribe((res) => {
-        if (res['message'] == 'Success') {
-          if (window.innerWidth <= 999) {
-            this.bottomSheet.open(OtpComponent);
-          } else {
-            this.openModal(sendCommunicationObject, this.otpDialog);
-          }
-        }
-      });
+    this.openModal([this.quoteData], this.insuranceDetailsJSON);
+
   }
   /**
    * this fucntion use open pop up modal
    */
-  openModal(sendCommunicationObject: any, jsonData: any) {
-    sendCommunicationObject['share_type'] = 'resend';
+  openModal(ObjData: any, jsonData: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -127,7 +105,7 @@ export class ProposalReviewComponent implements OnInit {
       isOutSideClose: jsonData['isOutSideClose'],
       minWidth: resWidth,
       dataInfo: {
-        sendCommunicationObject,
+        data:ObjData,
         top: resTop,
       },
     };
@@ -140,7 +118,6 @@ export class ProposalReviewComponent implements OnInit {
       this.openModal('', this.termsAndConditionJson);
     }
   }
-  previousPolicyDetails: any = {};
   generateProposal() {
     this.apiService
       .getRequestedResponse(
@@ -150,10 +127,11 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((res) => {
         this.generateProposalData = res;
-        this.previousPolicyDetails = res?.previous_policy_details;
         const dataToSend = [
-          res?.previous_policy_details,
-          res?.proposal_number, // Replace otherData with your other variable
+          res?.previous_policy_details, //Previous Policy Details
+          res?.proposal_number, //Proposal Number
+          res, //Proposal Details 
+          this.quoteData //Quotes Details Data
         ];
         this.shareData.setPreviousPolicyDetails(dataToSend);
       });

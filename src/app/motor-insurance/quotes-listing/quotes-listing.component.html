@@ -52,7 +52,11 @@
           </mat-form-field>
         </div>
         <div class="col-lg-3 col-md-3 col-4 shareQuotes">
-          <button mat-button (click)="shareQuotesDropdown()">
+          <button
+            mat-button
+            (click)="shareQuotesDropdown()"
+            [disabled]="enableIdvCard"
+          >
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
             Share Quotes
           </button>

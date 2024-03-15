@@ -21,12 +21,12 @@ export class InsuranceDetailsComponent implements OnInit {
     isOutSideClose: boolean;
     classObtained: string;
   } = {
-    modalName: ProposalShareComponent,
+    modalName: ShareQuotesComponent,
     widthObtained: '100%',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
-    classObtained: 'insurance-details-class',
+    classObtained: 'share-qoutes-class',
   };
   showCard: boolean = false;
   quoteData: any;

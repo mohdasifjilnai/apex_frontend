@@ -61,7 +61,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   variantId: any;
   rtoDataNotAvailable = '';
   rtoId: any;
-  ncbDiscountData = false;
+  ncbDiscountData = true;
   vehicleMMVValue: any;
   vehicleMMVData: any;
   convertExpiryDate: any;
@@ -102,6 +102,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehiclePopupList: any;
   rto_id: any;
   NoExpiryPolicy: boolean = false;
+  hidePreviousClaimed: boolean=true;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -222,19 +223,21 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getNcbList();
       this.getPolicyExpiryList();
     }, 2000);
+    
 
     this.regNumber = sessionStorage.getItem('registrationNumber');
     if (this.regNumber) {
       this.sharedDataService.vehicleDetails('registrationNumber');
     }
-
-    this.vehicleDetailsForm.patchValue({
-      user_car: false,
-      previous_claimed: false,
-    });
-
+    if(!this.vehicleDetailsForm.get('user_car')?.value){
+      if(!this.vehicleDetailsForm.get('previous_claimed')?.value)
+      this.vehicleDetailsForm.patchValue({
+        user_car: false,
+        previous_claimed: false,
+      });
+    }
+    
     this.sharedDataService.getRegistrationData.subscribe((res) => {
-      // this.maxManufactureDate = new Date(res);
       let regDateValue = new Date(res);
       this.getExpiringPolicy(regDateValue);
     });
@@ -272,6 +275,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: data?.policy_expiry,
       policy_expiry_date: new Date(this.policyExpiredDateObject),
     });
+    this.onRCTransferChange(data.user_car)
+    this.claimedPolicy(data.previous_claimed)
   }
 
   onClose(): void {
@@ -765,10 +770,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   claimedPolicy(data: any) {
-    if (data.value.claimedName == 'yes') {
-      this.ncbDiscountData = true;
-    } else {
+    if (data) {
       this.ncbDiscountData = false;
+      this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+    } else {
+      this.ncbDiscountData = true;
     }
   }
 
@@ -930,6 +936,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
+    }
+  }
+  onRCTransferChange(event:any){
+    if(event){
+      this.hidePreviousClaimed=false
+      this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
+      this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+    }else{
+      this.hidePreviousClaimed=true
     }
   }
 }

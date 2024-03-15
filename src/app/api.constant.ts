@@ -49,9 +49,6 @@ export class ApiConstants {
   public static verify_otp: string = `/api/v1/spear/verify_otp/`;
 
   public static redirection_payment_getway: string = `/api/v1/payment/redirection/`;
-
-  // share Quotes
-  public static share_quotes: string = `api/v1/spear/send_communication/`;
   //Occupation Type
   public static occupation_type: string = `/api/v1/occupation_type/`;
 

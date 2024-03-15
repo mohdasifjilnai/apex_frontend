@@ -110,6 +110,7 @@ export class QuotesListingComponent implements OnInit {
   isCheckboxChecked: boolean = false;
   selectAddOnsList: any;
   shareType: any='';
+  enableIdvCard: boolean=true;
 
   constructor(
     private router: Router,
@@ -129,6 +130,9 @@ export class QuotesListingComponent implements OnInit {
   noQuotesInformation: any;
 
   ngOnInit(): void {
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      this.enableIdvCard = false;
+    });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.router.events.subscribe((event) => {
