@@ -165,15 +165,11 @@
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"
-            [disabled]="shareQuotationForm.invalid"
-          >
+            [disabled]="!anyFieldValid()">
             Send
           </button>
         </div>
       </form>
-      <div class="col-lg-12 text-center" *ngIf="successMessage">
-        <span class="succsessMessage">Quotes Share Successfully</span>
-      </div>
       <div class="col-lg-12 text-center" *ngIf="failureMessage">
         <span class="failureMessage">{{ message }}</span>
       </div>

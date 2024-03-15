@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -56,9 +56,9 @@ export class ProposalShareComponent implements OnInit {
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,) {
       this.shareQuotationForm = this.formBuilder.group({
-        whatsApp_number: ['',[Validators.pattern(/^[6-9]\d{9}$/)]],
-        contact_number: ['',[Validators.pattern(/^[6-9]\d{9}$/)]],
-        email: ['',[Validators.pattern(/^.+@.+[.].+$/)]],
+        whatsApp_number: new FormControl('',[Validators.pattern(/^[6-9]\d{9}$/)]),
+        contact_number: new FormControl('',[Validators.pattern(/^[6-9]\d{9}$/)]),
+        email: new FormControl('',[Validators.pattern(/^.+@.+[.].+$/)]),
       });
      }
 
@@ -100,18 +100,25 @@ export class ProposalShareComponent implements OnInit {
       this.isActiveIcon=event
       this.isCommunicationField = true;    
     }
+    anyFieldValid() {
+      return Object.values(this.shareQuotationForm.controls).some(control => control.touched && control.valid);
+    }
     /**
      * Share Quotes Api Integration
      */
     shareQuotes() {
+      let message: any 
+    if(this.shareQuotationForm.get('email')?.value !=""){
+      message='Send to Email '+this.shareQuotationForm.get('email')?.value+' successfully'
+    }
+    else if(this.shareQuotationForm.get('contact_number')?.value !=null){
+      message='Send to Mobile Number +91-'+this.shareQuotationForm.get('contact_number')?.value+' successfully'
+    }
       this.sharedDataService
     .shareQuotes(this.data?.data,"proposal",this.partner_name,`motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,this.shareQuotationForm.get('email')?.value,this.shareQuotationForm.get('contact_number')?.value,this.quotes_id)
         .subscribe((res) => {
           if(res?.message=='Success'){
-            this.successMessage=true
-            setTimeout(() => {
-              this.successMessage = false;
-            }, 5000);
+            this.sharedDataService.openSnackBar(message,true)
             this.shareQuotationForm.reset();
           }else{
             this.failureMessage=true

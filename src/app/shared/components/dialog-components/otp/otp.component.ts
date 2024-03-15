@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-otp',
@@ -38,7 +39,7 @@ export class OtpComponent implements OnInit {
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
-    private _snackBar: MatSnackBar
+    private sharedDataService:SharedDataService
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -91,7 +92,7 @@ export class OtpComponent implements OnInit {
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
-        this._snackBar.open('Please enter valid otp');
+        this.sharedDataService.openSnackBar('Please enter valid otp',false)
       } else {
         if (window.innerWidth <= 999) {
           this.bottomSheetRef.dismiss();

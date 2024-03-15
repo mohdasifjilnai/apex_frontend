@@ -50,6 +50,7 @@ import { RegistrationNumberDirective } from './directives/registration-number.di
 import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
 import { TermsComponent } from './components/dialog-components/terms/terms.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { SnackbarComponent } from './components/dialog-components/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
     RegistrationNumberDirective,
     MmYyyyformatDirective,
     TermsComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    SnackbarComponent
   ],
   imports: [
     CommonModule,

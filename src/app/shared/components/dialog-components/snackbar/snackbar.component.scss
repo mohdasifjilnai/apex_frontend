@@ -1,0 +1,16 @@
+
+.snackbar{
+// margin: 12px !important;
+ border-radius: 8px;
+  padding: 8px 16px !important;
+  background-color: #535353 !important;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
+  right: 20px;
+  min-height: 36px !important;
+  max-width: none !important;
+  min-width: fit-content !important;
+  .success-img { width: 20px; height: 20px;}
+}

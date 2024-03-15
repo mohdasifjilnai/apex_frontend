@@ -15,7 +15,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 export class ShareQuotesComponent implements OnInit {
   shareQuotationForm!: FormGroup;
   quotes_id: any[]=[];
-  successMessage: boolean=false;
   quotesData: any;
   partner_name: any;
   constructor(
@@ -60,14 +59,18 @@ export class ShareQuotesComponent implements OnInit {
      * Share Quotes Api Integration
      */
   shareQuotes() {
+    let message: any 
+    if(this.shareQuotationForm.get('email')?.value !=""){
+      message='Send to Email '+this.shareQuotationForm.get('email')?.value+' successfully'
+    }
+    else if(this.shareQuotationForm.get('contact_number')?.value !=null){
+      message='Send to Mobile Number +91-'+this.shareQuotationForm.get('contact_number')?.value+' successfully'
+    }
     this.sharedDataService
     .shareQuotes(this.quotesData,"quote",this.partner_name,'motor/quotes',this.shareQuotationForm.get('email')?.value,this.shareQuotationForm.get('contact_number')?.value,this.quotes_id)
     .subscribe((res) => {
       if(res?.message=='Success'){
-        this.successMessage=true  
-        setTimeout(() => {
-          this.successMessage = false;
-        }, 5000);
+        this.sharedDataService.openSnackBar(message,true)
         this.shareQuotationForm.reset();
       }
     });

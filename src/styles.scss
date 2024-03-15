@@ -625,6 +625,21 @@ input.mat-input-element {
   }
   
 }
+.my-custom-snackbar {
+  position: absolute;
+  right: 50px;
+  top: 25px;
+}
+
+.mat-snack-bar-container{
+  margin: 0px !important;
+  padding: 0px !important;
+  background-color: #535353 !important;
+  min-height: 36px !important;
+  max-width: none !important;
+  min-width: fit-content !important;
+  border-radius: 8px;
+}
 .mat-bottom-sheet-container {
   border-radius: 20px 20px 0px 0px;
   padding-top: 10px 0px 10px 0px;

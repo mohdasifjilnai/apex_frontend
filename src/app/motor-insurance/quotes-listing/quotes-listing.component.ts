@@ -140,7 +140,7 @@ export class QuotesListingComponent implements OnInit {
         this.renderer.removeClass(document.body, 'dropdown-focus');
       }
     });
-    // this.startProgress();
+    this.startProgress();
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         // if (this.progressValue == 100) {

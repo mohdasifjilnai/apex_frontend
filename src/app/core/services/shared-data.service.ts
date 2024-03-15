@@ -10,6 +10,8 @@ import { LongPollingService } from './long-polling.service';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from 'src/app/shared/components/dialog-components/snackbar/snackbar.component';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +64,8 @@ export class SharedDataService {
     private sseService: SseService,
     private loaderService: LoaderService,
     public longPollingService: LongPollingService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private snackbar:MatSnackBar
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -367,6 +370,19 @@ export class SharedDataService {
 
   vehicleCardData(fromData: any) {
     this.vehicleCardValue.next(fromData);
+  }
+  openSnackBar(message: string,success:any) {
+    const snackBarRef = this.snackbar.openFromComponent(SnackbarComponent, {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: 'my-custom-snackbar',
+      data: { message:message,
+              success:success },
+    });
+  
+    snackBarRef.afterDismissed().subscribe(() => {
+    });
   }
   /**
    *
