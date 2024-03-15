@@ -1,157 +1,182 @@
 <div class="procceed-inspection">
-    <div >
-      <!-- Dialog title -->
-      <div mat-dialog-title>
-        <div class="failure-popup-header d-flex justify-content-end">
-          <img
-            src="/assets/icon/cross.svg"
-            (click)="onClose()"
-            class="cursor-pointer"
-            alt="close"
-          />
+  <div>
+    <!-- Dialog title -->
+    <div mat-dialog-title>
+      <div class="failure-popup-header d-flex justify-content-end">
+        <img
+          src="/assets/icon/cross.svg"
+          (click)="onClose()"
+          class="cursor-pointer"
+          alt="close"
+        />
+      </div>
+    </div>
+    <!-- Dialog content -->
+    <div class="row scroll">
+      <div class="col-12 text-center">
+        <img
+          src="/assets/icon/insurance.svg"
+          class="insurance-icon"
+          alt="close"
+        />
+      </div>
+      <div class="col-12 text-center my-2">
+        <div class="premium-payable-group p-2">
+          <p class="total-premium-payable-text text-light-blue">
+            Total Premium Payable
+          </p>
+          <p class="total-premium-payable-amount text-light-blue">
+            &#8377;
+            {{
+              gstToggleData
+                ? (data?.data[0]?.premium_details?.total_premium | numberFormat)
+                : (data?.data[0]?.premium_details?.gross_premium | numberFormat)
+            }}
+          </p>
         </div>
       </div>
-      <!-- Dialog content -->
-      <div class="row scroll">
-        <div class="col-12 text-center">
-          <img
-            src="/assets/icon/insurance.svg"
-            class="insurance-icon"
-            alt="close"
-          />
+      <div class="col-12 my-1">
+        <div class="proposal-number-group d-flex justify-content-between">
+          <p class="proposal-number-text">Proposal Number</p>
+          <p class="proposal-number-id">{{ proposalNumber }}</p>
         </div>
-        <div class="col-12  text-center my-2">
-          <div class="premium-payable-group p-2">
-            <p class="total-premium-payable-text text-light-blue">
-              Total Premium Payable
-            </p>
-            <p class="total-premium-payable-amount text-light-blue">
-              &#8377;
-              {{
-                gstToggleData
-                  ? (data?.data[0]?.premium_details?.total_premium | numberFormat)
-                  : (data?.data[0]?.premium_details?.gross_premium | numberFormat)
-              }}
-            </p>
+        <div class="proposal-number-group d-flex justify-content-between">
+          <p class="proposal-number-text">Start Date</p>
+          <p class="proposal-number-id">
+            {{ startDate | date : "dd/MM/yyyy" }}
+          </p>
+        </div>
+      </div>
+      <div class="col-12">
+        <button
+          class="submit-btn inspection-btn"
+          type="submit"
+          (click)="proceedToPayment()"
+        >
+          Proceed for Payment
+        </button>
+      </div>
+      <div class="col-12 my-2">
+        <div class="communication-group d-flex justify-content-between">
+          <div
+            class="share-group light-blue d-flex justify-content-center me-2"
+            (click)="share()"
+            *ngIf="isCommunicationGroup"
+          >
+            <img src="/assets/icon/share.svg" class="share-icon" />
+            <p class="share-text text-light-blue">Share</p>
+          </div>
+          <div
+            class="download-group light-green justify-content-center d-flex"
+            [ngClass]="{ 'download-group-after-share': !isCommunicationGroup }"
+          >
+            <img src="/assets/icon/download.svg" class="download-icon" />
+            <p class="download-text text-light-green">Download</p>
           </div>
         </div>
-        <div class="col-12  my-1">
-          <div class="proposal-number-group d-flex justify-content-between">
-            <p class="proposal-number-text">Proposal Number</p>
-            <p class="proposal-number-id">{{proposalNumber}}</p>
-          </div>
-          <div class="proposal-number-group d-flex justify-content-between">
-            <p class="proposal-number-text">Start Date</p>
-            <p class="proposal-number-id">{{startDate |date:'dd/MM/yyyy'  }}</p>
-          </div>
+      </div>
+
+      <div class="col-12 my-1" *ngIf="!isCommunicationGroup">
+        <div class="communication-group">
+          <p class="communication-mode-text">
+            Select type of communication mode
+          </p>
         </div>
-        <div class="col-12 ">
-          <button class="submit-btn inspection-btn" type="submit" (click)="proceedToPayment()">
-            Proceed for Payment
-          </button>
-        </div>
-        <div class="col-12  my-2">
-          <div class="communication-group d-flex justify-content-between">
-            <div
-              class="share-group light-blue d-flex justify-content-center me-2"
-              (click)="share()"
-              *ngIf="isCommunicationGroup"
-            >
-              <img src="/assets/icon/share.svg" class="share-icon" />
-              <p class="share-text text-light-blue">Share</p>
-            </div>
-            <div
-              class="download-group light-green justify-content-center d-flex"
-              [ngClass]="{ 'download-group-after-share': !isCommunicationGroup }"
-            >
-              <img src="/assets/icon/download.svg" class="download-icon" />
-              <p class="download-text text-light-green">Download</p>
-            </div>
+        <div class="communication-group d-flex justify-content-between">
+          <div
+            class="whatsapp-group light-green me-2"
+            [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp' }"
+            (click)="communication('whatsapp')"
+          >
+            <img src="/assets/icon/whatsapp.svg" class="whatsapp-icon" />
+          </div>
+          <div
+            class="sms-group light-blue me-2"
+            [ngClass]="{ 'sms-border': isActiveIcon == 'sms' }"
+            (click)="communication('sms')"
+          >
+            <img src="/assets/icon/sms.svg" class="sms-icon" />
+          </div>
+          <div
+            class="mail-group light-blue"
+            [ngClass]="{ 'mail-border': isActiveIcon == 'mail' }"
+            (click)="communication('mail')"
+          >
+            <img src="/assets/icon/mail.svg" class="mail-icon" />
           </div>
         </div>
-        <div class="col-12 text-center" *ngIf="isCommunicationGroup">
-          <span class="note">Note: You’ll be redirected to an external website</span>
-        </div>
-        <div class="col-12  my-1" *ngIf="!isCommunicationGroup">
-          <div class="communication-group">
-            <p class="communication-mode-text">
-              Select type of communication mode
-            </p>
-          </div>
-          <div class="communication-group d-flex justify-content-between">
-            <div
-              class="whatsapp-group light-green me-2"
-              [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp' }"
-              (click)="communication('whatsapp')"
-            >
-              <img src="/assets/icon/whatsapp.svg" class="whatsapp-icon" />
-            </div>
-            <div
-              class="sms-group light-blue me-2"
-              [ngClass]="{ 'sms-border': isActiveIcon == 'sms' }"
-              (click)="communication('sms')"
-            >
-              <img src="/assets/icon/sms.svg" class="sms-icon" />
-            </div>
-            <div
-              class="mail-group light-blue"
-              [ngClass]="{ 'mail-border': isActiveIcon == 'mail' }"
-              (click)="communication('mail')"
-            >
-              <img src="/assets/icon/mail.svg" class="mail-icon" />
-            </div>
-          </div>
-        </div>
-        <form [formGroup]="shareQuotationForm" (ngSubmit)="shareQuotes()">
-        <div class="col-12  my-1" *ngIf="isCommunicationField">
-         
+      </div>
+      <form [formGroup]="shareQuotationForm" (ngSubmit)="shareQuotes()">
+        <div class="col-12 my-1" *ngIf="isCommunicationField">
           <mat-form-field
             appearance="outline"
             class="registration-number communication-input-field"
-            *ngIf="isActiveIcon=='whatsapp'"
+            *ngIf="isActiveIcon == 'whatsapp'"
           >
-          <mat-label>Enter Whatsapp Number</mat-label>
-            <input matInput maxlength="10" appNumbersOnly placeholder='Enter Whatsapp Number' formControlName='whatsApp_number'/>
+            <mat-label>Enter Whatsapp Number</mat-label>
+            <input
+              matInput
+              maxlength="10"
+              appNumbersOnly
+              placeholder="Enter Whatsapp Number"
+              formControlName="whatsApp_number"
+            />
           </mat-form-field>
           <mat-form-field
             appearance="outline"
             class="registration-number communication-input-field"
-            *ngIf="isActiveIcon=='sms'"
+            *ngIf="isActiveIcon == 'sms'"
           >
-          <mat-label>Enter Mobile Number</mat-label>
-            <input matInput maxlength="10" appNumbersOnly placeholder='Enter Mobile Number' formControlName='contact_number'/>
-            <mat-error *ngIf="shareQuotationForm.get('contact_number')?.hasError('pattern')">
+            <mat-label>Enter Mobile Number</mat-label>
+            <input
+              matInput
+              maxlength="10"
+              appNumbersOnly
+              placeholder="Enter Mobile Number"
+              formControlName="contact_number"
+            />
+            <mat-error
+              *ngIf="
+                shareQuotationForm.get('contact_number')?.hasError('pattern')
+              "
+            >
               Invalid contact number
             </mat-error>
           </mat-form-field>
           <mat-form-field
             appearance="outline"
             class="registration-number communication-input-field"
-            *ngIf="isActiveIcon=='mail'"
+            *ngIf="isActiveIcon == 'mail'"
           >
-          <mat-label>Enter Email Id</mat-label>
-            <input matInput placeholder='Enter Email Id' formControlName='email'/>
-            <mat-error *ngIf="shareQuotationForm.get('email')?.hasError('pattern')">
+            <mat-label>Enter Email Id</mat-label>
+            <input
+              matInput
+              placeholder="Enter Email Id"
+              formControlName="email"
+            />
+            <mat-error
+              *ngIf="shareQuotationForm.get('email')?.hasError('pattern')"
+            >
               Invalid email address
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-12 " *ngIf="isCommunicationField">
+        <div class="col-12" *ngIf="isCommunicationField">
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"
-            [disabled]="shareQuotationForm.invalid">
+            [disabled]="shareQuotationForm.invalid"
+          >
             Send
           </button>
         </div>
       </form>
       <div class="col-lg-12 text-center" *ngIf="successMessage">
-        <span class="succsessMessage ">Quotes Share Successfully</span>
+        <span class="succsessMessage">Quotes Share Successfully</span>
       </div>
       <div class="col-lg-12 text-center" *ngIf="failureMessage">
-        <span class="failureMessage ">{{message}}</span>
-      </div>
+        <span class="failureMessage">{{ message }}</span>
       </div>
     </div>
   </div>
-  
+</div>

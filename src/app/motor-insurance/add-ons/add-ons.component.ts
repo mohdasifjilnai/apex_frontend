@@ -219,8 +219,16 @@ export class AddOnsComponent implements OnInit {
       }
 
       if (this.checkBoxValueArray.length == 0) {
-        this.showButtons = false;
-        this.showUpdateButton = false;
+        if (this.updateAddOns) {
+          this.showButtons = true;
+          this.showUpdateButton = true;
+        } else {
+          this.showButtons = false;
+          this.showUpdateButton = false;
+        }
+      } else {
+        this.showButtons = true;
+        this.showUpdateButton = true;
       }
     }
   }
