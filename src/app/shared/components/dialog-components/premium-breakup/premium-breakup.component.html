@@ -83,18 +83,81 @@
       }}</span
     >
   </div>
-  <!-- <div class="d-flex justify-content-between mt-3">
-    <span class="own-damage-text text-bold"> Addons </span>
-    <span class="own-damage-amount text-bold">
-      &#8377; 6,00,000
+  <div class="d-flex justify-content-between mt-3">
+    <span class="own-damage-text text-bold">
+      Total Addons
+      <img
+        src="/assets/icon/cpa-hover.svg"
+        (mouseenter)="showCard = true"
+        (mouseleave)="showCard = false"
+        alt=""
+        class="addons-hover-image"
+      />
     </span>
-  </div> -->
+    <span class="own-damage-amount text-bold"> &#8377; 6,00,000 </span>
+  </div>
+  <div class="d-flex justify-content-end">
+    <div class="addons-card-popup" *ngIf="showCard">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text text-bold"> Total Addons </span>
+              <span class="own-damage-amount text-bold">
+                &#8377; 6,00,000
+              </span>
+            </div>
+            <div class="d-flex justify-content-between mt-1">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="own-damage-text"> Zero Depreciation </span>
+              <span class="own-damage-amount text-bold"> &#8377; 416 </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- <div class="d-flex justify-content-between">
     <span class="d-flex justify-content-start own-damage-text">
       Zero Depreciation
     </span>
     <span class="d-flex justify-content-end own-damage-amount">&#8377;  </span>
-  </div> -->
+  </div>-->
 
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold"> GST (18%) </span>

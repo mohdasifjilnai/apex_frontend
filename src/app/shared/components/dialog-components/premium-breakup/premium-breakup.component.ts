@@ -17,6 +17,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 export class PremiumBreakupComponent implements OnInit {
   initiateQuotes: any;
   gstToggleData = true;
+  showCard: boolean = false;
   shareQuotesJSON: {
     modalName: any;
     widthObtained: string;
