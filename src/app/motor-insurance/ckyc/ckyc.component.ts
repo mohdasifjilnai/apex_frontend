@@ -186,6 +186,7 @@ export class CkycComponent implements OnInit {
         ckycData['document_type'] = this.filterDocumentType(
           this.ckycFormGroup.get('document_type_based_field')?.value
         );
+        ckycData['is_consent_given'] = true;
         ckycData['full_name'] =
           this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
           this.ckycFormGroup.get('ckyc_full_name')?.value != ''

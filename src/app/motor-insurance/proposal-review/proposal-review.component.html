@@ -79,7 +79,7 @@
           }}</span>
         </div>
         <div class="col-lg-3 col-md-3 col-6 mt-3">
-          <span class="field-title">PAN Number</span><br />
+          <span class="field-title">Document Number</span><br />
           <span class="field-value">{{
             generateProposalData?.ckyc_details?.document_number || "-"
           }}</span>
@@ -193,6 +193,56 @@
             <span class="field-title">Mfg. Date</span><br />
             <span class="field-value">{{
               generateProposalData?.vehicle_details?.manufacture_date || "-"
+            }}</span>
+          </div>
+          <hr
+            class="mt-3"
+            *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
+          />
+          <span
+            class="field-value col-lg-12 col-md-12 col-12"
+            *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
+            >Is your Vehicle Registration address same as Communication
+            Address?</span
+          >
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
+          >
+            <span class="field-title">Address</span><br />
+            <span class="field-value">{{
+              generateProposalData?.vehicle_details?.registration_address
+                .address_line || "-"
+            }}</span>
+          </div>
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
+          >
+            <span class="field-title">Pincode</span><br />
+            <span class="field-value">{{
+              generateProposalData?.vehicle_details?.registration_address
+                .pincode || "-"
+            }}</span>
+          </div>
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
+          >
+            <span class="field-title">City</span><br />
+            <span class="field-value">{{
+              generateProposalData?.vehicle_details?.registration_address
+                .rb_city_name || "-"
+            }}</span>
+          </div>
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="generateProposalData?.vehicle_details?.is_same_location"
+          >
+            <span class="field-title">State</span><br />
+            <span class="field-value">{{
+              generateProposalData?.vehicle_details?.registration_address
+                .rb_state_name || "-"
             }}</span>
           </div>
         </div>
