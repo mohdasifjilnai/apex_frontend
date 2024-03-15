@@ -102,7 +102,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehiclePopupList: any;
   rto_id: any;
   NoExpiryPolicy: boolean = false;
-  hidePreviousClaimed: boolean=true;
+  hidePreviousClaimed: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -223,20 +223,19 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.getNcbList();
       this.getPolicyExpiryList();
     }, 2000);
-    
 
     this.regNumber = sessionStorage.getItem('registrationNumber');
     if (this.regNumber) {
       this.sharedDataService.vehicleDetails('registrationNumber');
     }
-    if(!this.vehicleDetailsForm.get('user_car')?.value){
-      if(!this.vehicleDetailsForm.get('previous_claimed')?.value)
-      this.vehicleDetailsForm.patchValue({
-        user_car: false,
-        previous_claimed: false,
-      });
+    if (!this.vehicleDetailsForm.get('user_car')?.value) {
+      if (!this.vehicleDetailsForm.get('previous_claimed')?.value)
+        this.vehicleDetailsForm.patchValue({
+          user_car: false,
+          previous_claimed: false,
+        });
     }
-    
+
     this.sharedDataService.getRegistrationData.subscribe((res) => {
       let regDateValue = new Date(res);
       this.getExpiringPolicy(regDateValue);
@@ -275,8 +274,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: data?.policy_expiry,
       policy_expiry_date: new Date(this.policyExpiredDateObject),
     });
-    this.onRCTransferChange(data.user_car)
-    this.claimedPolicy(data.previous_claimed)
+    this.onRCTransferChange(data.user_car);
+    this.claimedPolicy(data.previous_claimed);
   }
 
   onClose(): void {
@@ -309,6 +308,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
         }
         this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
       }
+    } else {
+      this.vehicleDetailsForm.value.ncb_discount = 0;
     }
     if (this.vehicleDetailsForm.value?.policy_expiry) {
       for (let i = 0; i <= this.expiryList.length - 1; i++) {
@@ -835,13 +836,27 @@ export class VehicleDetailsPopupComponent implements OnInit {
               : null;
 
           if (!this.vehiclePopupList) {
-            this.vehicleDetailsForm.patchValue({
-              manufacture_date: this.manufactureDate,
-              policy_expiry: this.expiring_policy_type
-                ? this.expiring_policy_type
-                : '',
-              ncb_discount: this.ncbDiscount ? this.ncbDiscount : '',
-            });
+            if (this.vehicleMMVValue.policy_expiry_date === 'Not Sure') {
+              for (let expiry of this.expiryList) {
+                if (
+                  expiry.rb_expiring_policy_type ===
+                  "I don't know my expiring policy type"
+                )
+                  this.vehicleDetailsForm.patchValue({
+                    manufacture_date: this.manufactureDate,
+                    policy_expiry: expiry.rb_expiring_policy_type_code,
+                    ncb_discount: this.ncbDiscount ? this.ncbDiscount : 0,
+                  });
+              }
+            } else {
+              this.vehicleDetailsForm.patchValue({
+                manufacture_date: this.manufactureDate,
+                policy_expiry: this.expiring_policy_type
+                  ? this.expiring_policy_type
+                  : '',
+                ncb_discount: this.ncbDiscount ? this.ncbDiscount : 0,
+              });
+            }
           }
         }
       });
@@ -938,13 +953,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
     }
   }
-  onRCTransferChange(event:any){
-    if(event){
-      this.hidePreviousClaimed=false
+  onRCTransferChange(event: any) {
+    if (event) {
+      this.hidePreviousClaimed = false;
       this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
       this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
-    }else{
-      this.hidePreviousClaimed=true
+    } else {
+      this.hidePreviousClaimed = true;
     }
   }
 }

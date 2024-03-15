@@ -28,7 +28,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   previousPolicyDetailsForm: FormGroup = new FormGroup({
     prev_policy_number: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9]+$/),
+      Validators.pattern(/^[a-zA-Z0-9\/\-]+$/),
     ]),
     previous_insurer: new FormControl('', Validators.required),
     policy_expiry_date: new FormControl('', Validators.required),

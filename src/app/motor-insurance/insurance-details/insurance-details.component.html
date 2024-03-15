@@ -172,11 +172,7 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;
-      {{
-        gstToggleData
-          ? (quoteData.premium_details.total_premium | numberFormat)
-          : (quoteData.premium_details.gross_premium | numberFormat)
-      }}</span
+      {{ quoteData.premium_details.total_premium | numberFormat }}</span
     >
   </div>
   <button
