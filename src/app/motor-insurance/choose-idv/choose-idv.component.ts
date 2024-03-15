@@ -28,7 +28,7 @@ export class ChooseIDVComponent implements OnInit {
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
-  customIDV: boolean=false;
+  customIDV: boolean = false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
@@ -189,9 +189,22 @@ export class ChooseIDVComponent implements OnInit {
     let formControlIdv = this.chooseIdvForm.value.chooseIdv;
     if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
       this.idvError = true;
+    } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+      this.idvError = true;
     } else {
       this.idvError = false;
     }
+    let count = 0;
+
+    for (let i = 0; i <= this.quotationData.length - 1; i++) {
+      if (
+        parseInt(formControlIdv) >= this.minIdv &&
+        parseInt(formControlIdv) <= this.maxIdv
+      ) {
+        count += 1;
+      }
+    }
+    this.quotesCount = count;
   }
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();

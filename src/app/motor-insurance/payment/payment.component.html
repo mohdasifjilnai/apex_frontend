@@ -8,9 +8,8 @@
     <span class="congratulations-text mt-4">Congratulations!</span><br />
     <div class="sub-text mt-2">
       Your generated <span class="blue-text">Policy Number</span> is
-      <span class="blue-text">OG-23-1105-1826-00001013</span>.<br
-        class="next-line"
-      />
+      <span class="blue-text">{{ policyNumber }}</span
+      >.<br class="next-line" />
       It’ll be sent to your registered email address shortly.
     </div>
     <br />
@@ -27,7 +26,11 @@
       <span class="blue-text">Click Here</span>
     </div>
     <div class="mt-3">
-      <button class="submit-btn homepage-btn" type="submit">
+      <button
+        class="submit-btn homepage-btn"
+        type="submit"
+        (click)="goTohome()"
+      >
         Go to Homepage
       </button>
     </div>
@@ -43,6 +46,11 @@
     <div class="opps-text mt-3">Oops!</div>
     <div class="non-successfull-text mt-2">
       Your transaction was unsuccessful
+    </div>
+
+    <div class="sub-text mt-2">
+      Your <span class="blue-text">Proposal Number</span> is
+      <span class="blue-text">{{ proposalNumber }}</span>
     </div>
     <div class="sub-text mt-2">
       Process could not be completed, please ensure the information you provided
@@ -65,6 +73,8 @@
         Retry Payment
       </button>
     </div>
-    <div class="homepage-text mt-3">Go to Homepage</div>
+    <div class="homepage-text mt-3" (click)="goTohome()">
+      <a>Go to Homepage</a>
+    </div>
   </div>
 </div>

@@ -45,6 +45,7 @@ export class AddOnsComponent implements OnInit {
   selectAddOnsOnly: any = [];
   dynamicShowObject: any = [];
   enableAddOns = true;
+  updateAddOns = false;
 
   constructor(
     private apiService: ApiService,
@@ -121,23 +122,25 @@ export class AddOnsComponent implements OnInit {
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber',
-        this.selected_addons
-      );
-    } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes',
-        this.selected_addons
-      );
+    if (this.updateAddOns) {
+      if (this.registrationNumber) {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'registrationNumber',
+          this.selected_addons
+        );
+      } else {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'mmvQuotes',
+          this.selected_addons
+        );
+      }
+      this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+      this.enableAddOns = true;
     }
-    this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
-    this.enableAddOns = true;
   }
   @Output() checkBoxValue = new EventEmitter<any>();
   onCheckboxSelect(
@@ -261,6 +264,7 @@ export class AddOnsComponent implements OnInit {
     this.showButtons = false;
     this.showUpdateButton = true;
     this.enableAddOns = true;
+    this.updateAddOns = true;
   }
   /**
    *
