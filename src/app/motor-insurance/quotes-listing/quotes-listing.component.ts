@@ -109,8 +109,8 @@ export class QuotesListingComponent implements OnInit {
   selectedShareData: any;
   isCheckboxChecked: boolean = false;
   selectAddOnsList: any;
-  shareType: any='';
-  enableIdvCard: boolean=true;
+  shareType: any = '';
+  enableIdvCard: boolean = true;
 
   constructor(
     private router: Router,
@@ -132,6 +132,10 @@ export class QuotesListingComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableIdvCard = false;
+      this.quotationData.sort(
+        (a: any, b: any) =>
+          a.premium_details.total_premium - b.premium_details.total_premium
+      );
     });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
@@ -327,14 +331,14 @@ export class QuotesListingComponent implements OnInit {
   onDocumentClick(event: Event) {
     if (!this.el.nativeElement.contains(event.target)) {
       this.shareQuotesDropdownValue = false;
-      if(this.shareType=='all'){
-        this.isChecked=true
-        this.shareType=''
-      }else if(this.shareType=='single'){
-        this.isChecked=false
-        this.shareType=''
-      }else{
-        this.isChecked=false
+      if (this.shareType == 'all') {
+        this.isChecked = true;
+        this.shareType = '';
+      } else if (this.shareType == 'single') {
+        this.isChecked = false;
+        this.shareType = '';
+      } else {
+        this.isChecked = false;
       }
       // this.checkboxRef.checked = false;
     }
@@ -343,7 +347,7 @@ export class QuotesListingComponent implements OnInit {
    * Selected Quotes Count UI Open
    */
   selectQuotes(count: any) {
-    this.shareType=count
+    this.shareType = count;
     this.addShare = true;
     this.shareQuotesDropdownValue = false;
     if (count == 'all') {
@@ -519,5 +523,35 @@ export class QuotesListingComponent implements OnInit {
       this.defaultGST = event.checked;
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
+  }
+  sorting(data: any) {
+    console.log(data);
+    if (this.quotationData.length > 0) {
+      if (this.defaultGST) {
+        if (data.value == 'low') {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              a.premium_details.total_premium - b.premium_details.total_premium
+          );
+        } else {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              b.premium_details.total_premium - a.premium_details.total_premium
+          );
+        }
+      } else {
+        if (data.value == 'low') {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              a.premium_details.gross_premium - b.premium_details.gross_premium
+          );
+        } else {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              b.premium_details.gross_premium - a.premium_details.gross_premium
+          );
+        }
+      }
+    }
   }
 }

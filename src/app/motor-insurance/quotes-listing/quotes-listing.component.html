@@ -45,7 +45,11 @@
         </div>
         <div class="col-lg-3 col-md-3 sort-dropdown me-2">
           <mat-form-field appearance="outline">
-            <mat-select [(value)]="lowHighSelected">
+            <mat-select
+              [(value)]="lowHighSelected"
+              (selectionChange)="sorting($event)"
+              [disabled]="enableIdvCard"
+            >
               <mat-option value="low">Low to High</mat-option>
               <mat-option value="high">High to Low</mat-option>
             </mat-select>
@@ -80,145 +84,134 @@
       </div>
     </div>
   </div>
-  <div class="progress-container" *ngIf="quotationData?.length==0">
-    <img src="/assets/gif/Car.gif" alt="Overlay Image" class="overlay-image" [style.transform]="getImagePosition()">
-    <mat-progress-bar mode="determinate" [value]="progressValue"></mat-progress-bar>
-
+  <div class="progress-container" *ngIf="quotationData?.length == 0">
+    <img
+      src="/assets/gif/Car.gif"
+      alt="Overlay Image"
+      class="overlay-image"
+      [style.transform]="getImagePosition()"
+    />
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progressValue"
+    ></mat-progress-bar>
   </div>
-  <ng-container *ngIf="quotationData?.length>0">  
-  <div class="quotation-listing" *ngIf="showComprehensiveDiv">
-    <div *ngFor="let quotes of quotationData">
-      <div class="row comprehensive-card">
-        <div class="comprehensive-tab ps-4 pe-4 pt-4">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-12">
-              <div class="d-flex justify-content-between">
-                <img [src]="quotes?.insurer_logo" class="insurer-logo" alt="" />
-                <div *ngIf="addShare" class="responsive-checkbox">
-                  <mat-checkbox
-                    (change)="onCheckboxChange(quotes, $event)"
-                    [checked]="isCheckboxChecked"
-                  ></mat-checkbox>
+  <ng-container *ngIf="quotationData?.length > 0">
+    <div class="quotation-listing" *ngIf="showComprehensiveDiv">
+      <div *ngFor="let quotes of quotationData">
+        <div class="row comprehensive-card">
+          <div class="comprehensive-tab ps-4 pe-4 pt-4">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-12">
+                <div class="d-flex justify-content-between">
+                  <img
+                    [src]="quotes?.insurer_logo"
+                    class="insurer-logo"
+                    alt=""
+                  />
+                  <div *ngIf="addShare" class="responsive-checkbox">
+                    <mat-checkbox
+                      (change)="onCheckboxChange(quotes, $event)"
+                      [checked]="isCheckboxChecked"
+                    ></mat-checkbox>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-6 col-md-6 col-6">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <span class="idv-amount">
-                    IDV (&#8377;
-                    {{ quotes?.premium_details?.min_idv | numberFormat }}-
-                    &#8377;
-                    {{ quotes?.premium_details?.max_idv | numberFormat }})
-                  </span>
-                  <p class="idv-choose-amount mt-1">
-                    &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
-                  </p>
-                </div>
-                <div *ngIf="addShare" class="web-checkbox">
-                  <mat-checkbox
-                    (change)="onCheckboxChange(quotes, $event)"
-                    [checked]="isCheckboxChecked"
-                    #checkboxRef
-                    >Add to Share</mat-checkbox
-                  >
+              <!-- {{quotes.insurer_name}} -->
+              <div class="col-lg-6 col-md-6 col-6">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <span class="idv-amount">
+                      IDV (&#8377;
+                      {{ quotes?.premium_details?.min_idv | numberFormat }}-
+                      &#8377;
+                      {{ quotes?.premium_details?.max_idv | numberFormat }})
+                    </span>
+                    <p class="idv-choose-amount mt-1">
+                      &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
+                    </p>
+                  </div>
+                  <div *ngIf="addShare" class="web-checkbox">
+                    <mat-checkbox
+                      (change)="onCheckboxChange(quotes, $event)"
+                      [checked]="isCheckboxChecked"
+                      #checkboxRef
+                      >Add to Share</mat-checkbox
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 premium-btn">
-              <span
-                class="premium-breakup-amount cursor-pointer text-center"
-                (click)="getProposalDetails(quotes)"
-              >
-                <span class="d-none">{{ quotes?.insurer_name }}</span>
-                &#8377;
-                {{
-                  defaultGST
-                    ? (quotes?.premium_details?.total_premium | numberFormat)
-                    : (quotes?.premium_details?.gross_premium | numberFormat)
-                }}
-              </span>
-              <p
-                class="premium-breakup"
-                (click)="openPremiumBreakupModal(quotes, $event)"
-              >
-                <span>Premium Breakup</span>
-              </p>
+              <div class="col-lg-3 col-md-3 col-6 premium-btn">
+                <span
+                  class="premium-breakup-amount cursor-pointer text-center"
+                  (click)="getProposalDetails(quotes)"
+                >
+                  <span class="d-none">{{ quotes?.insurer_name }}</span>
+                  &#8377;
+                  {{
+                    defaultGST
+                      ? (quotes?.premium_details?.total_premium | numberFormat)
+                      : (quotes?.premium_details?.gross_premium | numberFormat)
+                  }}
+                </span>
+                <p
+                  class="premium-breakup"
+                  (click)="openPremiumBreakupModal(quotes, $event)"
+                >
+                  <span>Premium Breakup</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- comprehensive key feature web view -->
-      <div class="comprehensive-key-features">
-        <div class="comprehensive-key-features-value">
-          <div
-            class="key-features-value me-3"
-            *ngFor="let data of selectAddOnsList"
-          >
-            <span *ngIf="data != ''">
-              <img src="assets/icon/insurer-key-feature.svg" />
-
-              {{ data }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- comprehensive key feature mobile view -->
-      <div class="row res-comprehensive-key-features">
-        <span class="key-features">
-          <div
-            class="key-features-value me-3"
-            *ngFor="let data of selectAddOnsList"
-          >
-            <span *ngIf="data != ''">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              {{ data }}
-            </span>
-          </div>
-        </span>
-      </div>
-    </div>
-
-    <br />
-
-    <div class="w-100 comprehensive-no-quotes-information">
-      <div>
-        <div
-          class="d-flex justify-content-between no-quotes-information-card"
-          *ngIf="!noQuotesInformation"
-        >
-          <div class="col-lg-8 col-8 d-flex">
-            <img
-              src="/assets/icon/quotes-warning.svg"
-              alt=""
-              class="warning-img mt-1"
-            />
-            <span class="comprehensive-no-quotes-information-text ms-2 my-1">
-              Some of the Insurance providers didn’t produce quotes for the
-              selected category
-            </span>
-          </div>
-          <div class="col-lg-4 col-4">
-            <p
-              class="comprehensive-know-more-text tag-right cursor-pointer"
-              (click)="noQuotes(knowMoreText)"
+        <!-- comprehensive key feature web view -->
+        <div class="comprehensive-key-features">
+          <div class="comprehensive-key-features-value">
+            <div
+              class="key-features-value me-3"
+              *ngFor="let data of selectAddOnsList"
             >
-              {{ knowMoreText }}
-            </p>
+              <span *ngIf="data != ''">
+                <img src="assets/icon/insurer-key-feature.svg" />
+
+                {{ data }}
+              </span>
+            </div>
           </div>
         </div>
-        <div *ngIf="noQuotesInformation">
-          <div class="row no-quotes-information-card-white">
+
+        <!-- comprehensive key feature mobile view -->
+        <div class="row res-comprehensive-key-features">
+          <span class="key-features">
+            <div
+              class="key-features-value me-3"
+              *ngFor="let data of selectAddOnsList"
+            >
+              <span *ngIf="data != ''">
+                <img src="assets/icon/insurer-key-feature.svg" />
+                {{ data }}
+              </span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="w-100 comprehensive-no-quotes-information">
+        <div>
+          <div
+            class="d-flex justify-content-between no-quotes-information-card"
+            *ngIf="!noQuotesInformation"
+          >
             <div class="col-lg-8 col-8 d-flex">
               <img
                 src="/assets/icon/quotes-warning.svg"
                 alt=""
                 class="warning-img mt-1"
               />
-              <span class="comprehensive-no-quotes-information-text ms-3 my-1">
+              <span class="comprehensive-no-quotes-information-text ms-2 my-1">
                 Some of the Insurance providers didn’t produce quotes for the
                 selected category
               </span>
@@ -232,25 +225,49 @@
               </p>
             </div>
           </div>
-          <div class="row ps-5 pe-4 pt-2 pb-4">
-            <div class="col-12">
-              <p class="insurer-no-quotes-reasons mb-0">
-                Following are the possible reasons
-              </p>
-              <p class="mb-0" *ngFor="let quotesError of errorQuotationArray">
-                <span class="insurer-no-quotes-reasons">
-                  {{ quotesError.insurer_name }}
+          <div *ngIf="noQuotesInformation">
+            <div class="row no-quotes-information-card-white">
+              <div class="col-lg-8 col-8 d-flex">
+                <img
+                  src="/assets/icon/quotes-warning.svg"
+                  alt=""
+                  class="warning-img mt-1"
+                />
+                <span
+                  class="comprehensive-no-quotes-information-text ms-3 my-1"
+                >
+                  Some of the Insurance providers didn’t produce quotes for the
+                  selected category
                 </span>
-                <span class="insurer-no-quotes-reasons-value">
-                  {{ quotesError.error_message }}
-                  <!-- Error in calculate: UW Service Messages => UW status is
+              </div>
+              <div class="col-lg-4 col-4">
+                <p
+                  class="comprehensive-know-more-text tag-right cursor-pointer"
+                  (click)="noQuotes(knowMoreText)"
+                >
+                  {{ knowMoreText }}
+                </p>
+              </div>
+            </div>
+            <div class="row ps-5 pe-4 pt-2 pb-4">
+              <div class="col-12">
+                <p class="insurer-no-quotes-reasons mb-0">
+                  Following are the possible reasons
+                </p>
+                <p class="mb-0" *ngFor="let quotesError of errorQuotationArray">
+                  <span class="insurer-no-quotes-reasons">
+                    {{ quotesError.insurer_name }}
+                  </span>
+                  <span class="insurer-no-quotes-reasons-value">
+                    {{ quotesError.error_message }}
+                    <!-- Error in calculate: UW Service Messages => UW status is
                   <span class="insurer-no-quotes-reasons-warning">
                     DECLINING
                   </span>
                   the loading screen -->
-                </span>
-              </p>
-              <!-- <p class="mb-0">
+                  </span>
+                </p>
+                <!-- <p class="mb-0">
                 <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
                 <span class="insurer-no-quotes-reasons-value">
                   Previous Policy Expiry Date is mandatory
@@ -262,155 +279,137 @@
                   RTO declined Zero NCB
                 </span>
               </p> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br />
-    <div class="changeIDV-sort-btn" *ngIf="!isChecked">
-      <div class="row">
-        <div
-          class="fixed-btn col-4 d-flex justify-content-between"
-          (click)="openChangeIDV()"
-        >
-          Change IDV
-          <div class="pipe">|</div>
-        </div>
-        <div
-          class="fixed-btn col-4 d-flex justify-content-between"
-          (click)="openAddons()"
-        >
-          <img src="/assets/icon/addOn.svg" alt="" class="icons me-3" />Addons
-          <div class="pipe">|</div>
-        </div>
-        <div class="fixed-btn col-4" (click)="openSort('Addons')">
-          <img src="/assets/icon/sort.svg" alt="" class="icons me-3" />Sort
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
-    <div *ngFor="let quotes of quotationData">
-      <div class="row comprehensive-card">
-        <div class="comprehensive-tab ps-4 pe-4 pt-4">
-          <div class="row">
-            <div class="col-lg-3 col-md-3 col-12">
-              <div class="d-flex justify-content-between">
-                <img [src]="quotes?.insurer_logo" class="insurer-logo" alt="" />
-                <div *ngIf="addShare" class="responsive-checkbox">
-                  <mat-checkbox
-                    (change)="onCheckboxChange(quotes, $event)"
-                    [checked]="isCheckboxChecked"
-                  ></mat-checkbox>
-                </div>
               </div>
             </div>
-
-            <!-- {{quotes.insurer_name}} -->
-            <div class="col-lg-6 col-md-6 col-6">
-              <div class="d-flex justify-content-between">
-                <div *ngIf="addShare" class="web-checkbox">
-                  <mat-checkbox
-                    (change)="onCheckboxChange(quotes, $event)"
-                    [checked]="isCheckboxChecked"
-                    >Add to Share</mat-checkbox
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 premium-btn">
-              <span
-                class="premium-breakup-amount cursor-pointer text-center"
-                (click)="getProposalDetails(quotes)"
-              >
-                <span class="d-none">{{ quotes?.insurer_name }}</span>
-                &#8377;
-                {{
-                  defaultGST
-                    ? (quotes?.premium_details?.total_premium | numberFormat)
-                    : (quotes?.premium_details?.gross_premium | numberFormat)
-                }}
-              </span>
-              <p
-                class="premium-breakup"
-                (click)="openPremiumBreakupModal(quotes, $event)"
-              >
-                <span>Premium Breakup</span>
-              </p>
-            </div>
           </div>
         </div>
       </div>
-      <!-- comprehensive key feature web view -->
-      <div class="comprehensive-key-features">
-        <div class="comprehensive-key-features-value">
+      <br />
+      <div class="changeIDV-sort-btn" *ngIf="!isChecked">
+        <div class="row">
           <div
-            class="key-features-value me-3"
-            *ngFor="let data of selectAddOnsList"
+            class="fixed-btn col-4 d-flex justify-content-between"
+            (click)="openChangeIDV()"
           >
-            <span *ngIf="data != ''">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              {{ data }}
-            </span>
+            Change IDV
+            <div class="pipe">|</div>
+          </div>
+          <div
+            class="fixed-btn col-4 d-flex justify-content-between"
+            (click)="openAddons()"
+          >
+            <img src="/assets/icon/addOn.svg" alt="" class="icons me-3" />Addons
+            <div class="pipe">|</div>
+          </div>
+          <div class="fixed-btn col-4" (click)="openSort('Addons')">
+            <img src="/assets/icon/sort.svg" alt="" class="icons me-3" />Sort
           </div>
         </div>
-      </div>
-
-      <!-- comprehensive key feature mobile view -->
-      <div class="row res-comprehensive-key-features">
-        <span class="key-features">
-          <div
-            class="key-features-value me-3"
-            *ngFor="let data of selectAddOnsList"
-          >
-            <span *ngIf="data != ''">
-              <img src="assets/icon/insurer-key-feature.svg" />
-              {{ data }}
-            </span>
-          </div>
-        </span>
       </div>
     </div>
 
-    <br />
+    <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
+      <div *ngFor="let quotes of quotationData">
+        <div class="row comprehensive-card">
+          <div class="comprehensive-tab ps-4 pe-4 pt-4">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-12">
+                <div class="d-flex justify-content-between">
+                  <img
+                    [src]="quotes?.insurer_logo"
+                    class="insurer-logo"
+                    alt=""
+                  />
+                  <div *ngIf="addShare" class="responsive-checkbox">
+                    <mat-checkbox
+                      (change)="onCheckboxChange(quotes, $event)"
+                      [checked]="isCheckboxChecked"
+                    ></mat-checkbox>
+                  </div>
+                </div>
+              </div>
 
-    <div class="w-100 comprehensive-no-quotes-information">
-      <div>
-        <div
-          class="d-flex justify-content-between no-quotes-information-card"
-          *ngIf="!noQuotesInformation"
-        >
-          <div class="col-lg-8 col-8 d-flex">
-            <img
-              src="/assets/icon/quotes-warning.svg"
-              alt=""
-              class="warning-img mt-1"
-            />
-            <span class="comprehensive-no-quotes-information-text ms-2 my-1">
-              Some of the Insurance providers didn’t produce quotes for the
-              selected category
-            </span>
+              <!-- {{quotes.insurer_name}} -->
+              <div class="col-lg-6 col-md-6 col-6">
+                <div class="d-flex justify-content-between">
+                  <div *ngIf="addShare" class="web-checkbox">
+                    <mat-checkbox
+                      (change)="onCheckboxChange(quotes, $event)"
+                      [checked]="isCheckboxChecked"
+                      >Add to Share</mat-checkbox
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-6 premium-btn">
+                <span
+                  class="premium-breakup-amount cursor-pointer text-center"
+                  (click)="getProposalDetails(quotes)"
+                >
+                  <span class="d-none">{{ quotes?.insurer_name }}</span>
+                  &#8377;
+                  {{
+                    defaultGST
+                      ? (quotes?.premium_details?.total_premium | numberFormat)
+                      : (quotes?.premium_details?.gross_premium | numberFormat)
+                  }}
+                </span>
+                <p
+                  class="premium-breakup"
+                  (click)="openPremiumBreakupModal(quotes, $event)"
+                >
+                  <span>Premium Breakup</span>
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="col-lg-4 col-4">
-            <p
-              class="comprehensive-know-more-text tag-right cursor-pointer"
-              (click)="noQuotes(knowMoreText)"
+        </div>
+        <!-- comprehensive key feature web view -->
+        <div class="comprehensive-key-features">
+          <div class="comprehensive-key-features-value">
+            <div
+              class="key-features-value me-3"
+              *ngFor="let data of selectAddOnsList"
             >
-              {{ knowMoreText }}
-            </p>
+              <span *ngIf="data != ''">
+                <img src="assets/icon/insurer-key-feature.svg" />
+                {{ data }}
+              </span>
+            </div>
           </div>
         </div>
-        <div *ngIf="noQuotesInformation">
-          <div class="row no-quotes-information-card-white">
+
+        <!-- comprehensive key feature mobile view -->
+        <div class="row res-comprehensive-key-features">
+          <span class="key-features">
+            <div
+              class="key-features-value me-3"
+              *ngFor="let data of selectAddOnsList"
+            >
+              <span *ngIf="data != ''">
+                <img src="assets/icon/insurer-key-feature.svg" />
+                {{ data }}
+              </span>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="w-100 comprehensive-no-quotes-information">
+        <div>
+          <div
+            class="d-flex justify-content-between no-quotes-information-card"
+            *ngIf="!noQuotesInformation"
+          >
             <div class="col-lg-8 col-8 d-flex">
               <img
                 src="/assets/icon/quotes-warning.svg"
                 alt=""
                 class="warning-img mt-1"
               />
-              <span class="comprehensive-no-quotes-information-text ms-3 my-1">
+              <span class="comprehensive-no-quotes-information-text ms-2 my-1">
                 Some of the Insurance providers didn’t produce quotes for the
                 selected category
               </span>
@@ -424,25 +423,49 @@
               </p>
             </div>
           </div>
-          <div class="row ps-5 pe-4 pt-2 pb-4">
-            <div class="col-12">
-              <p class="insurer-no-quotes-reasons mb-0">
-                Following are the possible reasons
-              </p>
-              <p class="mb-0" *ngFor="let quotesError of errorQuotationArray">
-                <span class="insurer-no-quotes-reasons">
-                  {{ quotesError.insurer_name }}
+          <div *ngIf="noQuotesInformation">
+            <div class="row no-quotes-information-card-white">
+              <div class="col-lg-8 col-8 d-flex">
+                <img
+                  src="/assets/icon/quotes-warning.svg"
+                  alt=""
+                  class="warning-img mt-1"
+                />
+                <span
+                  class="comprehensive-no-quotes-information-text ms-3 my-1"
+                >
+                  Some of the Insurance providers didn’t produce quotes for the
+                  selected category
                 </span>
-                <span class="insurer-no-quotes-reasons-value">
-                  {{ quotesError.error_message }}
-                  <!-- Error in calculate: UW Service Messages => UW status is
+              </div>
+              <div class="col-lg-4 col-4">
+                <p
+                  class="comprehensive-know-more-text tag-right cursor-pointer"
+                  (click)="noQuotes(knowMoreText)"
+                >
+                  {{ knowMoreText }}
+                </p>
+              </div>
+            </div>
+            <div class="row ps-5 pe-4 pt-2 pb-4">
+              <div class="col-12">
+                <p class="insurer-no-quotes-reasons mb-0">
+                  Following are the possible reasons
+                </p>
+                <p class="mb-0" *ngFor="let quotesError of errorQuotationArray">
+                  <span class="insurer-no-quotes-reasons">
+                    {{ quotesError.insurer_name }}
+                  </span>
+                  <span class="insurer-no-quotes-reasons-value">
+                    {{ quotesError.error_message }}
+                    <!-- Error in calculate: UW Service Messages => UW status is
                   <span class="insurer-no-quotes-reasons-warning">
                     DECLINING
                   </span>
                   the loading screen -->
-                </span>
-              </p>
-              <!-- <p class="mb-0">
+                  </span>
+                </p>
+                <!-- <p class="mb-0">
                 <span class="insurer-no-quotes-reasons"> ROYAL SUNDARAM: </span>
                 <span class="insurer-no-quotes-reasons-value">
                   Previous Policy Expiry Date is mandatory
@@ -454,35 +477,35 @@
                   RTO declined Zero NCB
                 </span>
               </p> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <br />
-    <div class="changeIDV-sort-btn" *ngIf="!isChecked">
-      <div class="row">
-        <div
-          class="fixed-btn col-4 d-flex justify-content-between"
-          (click)="openChangeIDV()"
-        >
-          Change IDV
-          <div class="pipe">|</div>
-        </div>
-        <div
-          class="fixed-btn col-4 d-flex justify-content-between"
-          (click)="openAddons()"
-        >
-          <img src="/assets/icon/addOn.svg" alt="" class="icons me-3" />Addons
-          <div class="pipe">|</div>
-        </div>
-        <div class="fixed-btn col-4" (click)="openSort('Addons')">
-          <img src="/assets/icon/sort.svg" alt="" class="icons me-3" />Sort
+      <br />
+      <div class="changeIDV-sort-btn" *ngIf="!isChecked">
+        <div class="row">
+          <div
+            class="fixed-btn col-4 d-flex justify-content-between"
+            (click)="openChangeIDV()"
+          >
+            Change IDV
+            <div class="pipe">|</div>
+          </div>
+          <div
+            class="fixed-btn col-4 d-flex justify-content-between"
+            (click)="openAddons()"
+          >
+            <img src="/assets/icon/addOn.svg" alt="" class="icons me-3" />Addons
+            <div class="pipe">|</div>
+          </div>
+          <div class="fixed-btn col-4" (click)="openSort('Addons')">
+            <img src="/assets/icon/sort.svg" alt="" class="icons me-3" />Sort
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </ng-container>  
+  </ng-container>
 </form>
 <div class="selected-share">
   <app-selected-share
