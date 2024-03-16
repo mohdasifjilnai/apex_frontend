@@ -10,16 +10,16 @@
       }
     }
   }
-  .trace-id{
-    font-size: 14px;
+  .trace-id {
+    font-size: 12px;
     font-weight: 500;
     color: #535353;
     border-radius: 12px;
-    border: 1px solid #EAEAEA;
-    background-color: #FFFFFF;
+    border: 1px solid #eaeaea;
+    background-color: #ffffff;
     padding: 10px 20px;
-    height: 40px;
-    width: 268px;
+    height: 50px;
+    width: 280px;
   }
   .nav-item {
     font-size: 14px;
@@ -118,7 +118,7 @@
     .nav-item {
       font-size: 12px !important;
     }
-   
+
     .dedicated_support {
       margin-bottom: 10px;
     }
@@ -175,15 +175,15 @@
       border-right: unset !important;
     }
   }
-  .navbar-section{
+  .navbar-section {
     border-bottom: none;
-  .trace-id{
-    font-size: 11px;
-    padding: 8px 12px;
-    width: 205px;
-    height: 32px;
+    .trace-id {
+      font-size: 11px;
+      padding: 8px 12px;
+      width: 205px;
+      height: 32px;
+    }
   }
-}
 
   .columns {
     p {

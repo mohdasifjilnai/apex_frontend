@@ -78,12 +78,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     private shareData: SharedDataService,
     private router: Router
   ) {
-    this.agreementList = [
-      {
-        id: 1,
-        agreementName: 'other',
-      },
-    ];
     this.financerList = {
       id: 1,
       financerName: 'other',
@@ -195,6 +189,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
     // this.getFinancierList();
     this.getPincodeList();
+    this.getAgreementList();
   }
 
   filterInsurer(name: string) {}
@@ -373,5 +368,15 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         vehicle_state: pincodeData.rb_state_name,
       });
     }
+  }
+  /**
+   * getAgreementList is a function that returns the agreement list for the vehicle Details
+   */
+  getAgreementList() {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.aggreement_type)
+      .subscribe((response) => {
+        this.agreementList = response;
+      });
   }
 }

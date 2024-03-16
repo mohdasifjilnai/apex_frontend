@@ -65,4 +65,6 @@ export class ApiConstants {
   public static upload_document: string = `/api/v1/ckyc/upload_document/`;
   // get document image url
   public static get_document_image_url: string = `/api/v1/ckyc/get_document/`;
+  // agreement type list
+  public static aggreement_type: string = `/api/v1/agreement_type/`;
 }

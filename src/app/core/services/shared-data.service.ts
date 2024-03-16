@@ -42,6 +42,7 @@ export class SharedDataService {
   idvSliderHide: Subject<any> = new Subject();
   selectedADDOnsList: Subject<any> = new Subject();
   enableQuotesAction: Subject<any> = new Subject();
+  getTransactionId: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -65,7 +66,7 @@ export class SharedDataService {
     private loaderService: LoaderService,
     public longPollingService: LongPollingService,
     private datePipe: DatePipe,
-    private snackbar:MatSnackBar
+    private snackbar: MatSnackBar
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -222,6 +223,7 @@ export class SharedDataService {
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
         this.transactionId = res.transaction_id;
+        this.sendTransactionId(res.transaction_id);
         sessionStorage.setItem('transaction_id', res.transaction_id);
         this.quotesId = res.quote_request_id;
         this.longPollingInfo = this.longPollingService.getAllQuotes(
@@ -371,18 +373,16 @@ export class SharedDataService {
   vehicleCardData(fromData: any) {
     this.vehicleCardValue.next(fromData);
   }
-  openSnackBar(message: string,success:any) {
+  openSnackBar(message: string, success: any) {
     const snackBarRef = this.snackbar.openFromComponent(SnackbarComponent, {
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
       panelClass: 'my-custom-snackbar',
-      data: { message:message,
-              success:success },
+      data: { message: message, success: success },
     });
-  
-    snackBarRef.afterDismissed().subscribe(() => {
-    });
+
+    snackBarRef.afterDismissed().subscribe(() => {});
   }
   /**
    *
@@ -558,6 +558,17 @@ export class SharedDataService {
           this.createdProposalId = res;
           sessionStorage.setItem('proposal_Id', res?.proposal_id);
           this.sendProposalData(res);
+          if (this.createdProposalId?.ckyc_details !== null) {
+            this.openSnackBar('Ckyc Details is Saved', 'Success');
+          } else if (this.createdProposalId?.customer_details !== null) {
+            this.openSnackBar('Customer Details is Saved', 'Success');
+          } else if (this.createdProposalId?.nominee_details !== null) {
+            this.openSnackBar('Nominee Details is Saved', 'Success');
+          } else if (this.createdProposalId?.vehicle_details !== null) {
+            this.openSnackBar('Vehicle Details is Saved', 'Success');
+          } else if (this.createdProposalId?.previous_policy_details !== null) {
+            this.openSnackBar('Previous Policy Details is Saved', 'Success');
+          }
         }
       });
   }
@@ -642,5 +653,8 @@ export class SharedDataService {
    */
   selectedADDOns(data: any) {
     this.selectedADDOnsList.next(data);
+  }
+  sendTransactionId(data: any) {
+    this.getTransactionId.next(data);
   }
 }

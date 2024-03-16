@@ -119,9 +119,9 @@
         <mat-select formControlName="agreement_type">
           <mat-option
             *ngFor="let agreement of agreementList"
-            [value]="agreement?.agreementName"
+            [value]="agreement?.rb_name"
           >
-            {{ agreement?.agreementName }}
+            {{ agreement?.rb_name }}
           </mat-option>
         </mat-select>
       </mat-form-field>

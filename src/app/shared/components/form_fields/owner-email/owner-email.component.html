@@ -1,16 +1,16 @@
 <mat-form-field appearance="outline" class="mat-input-custom">
   <mat-label>Email</mat-label>
-  <input matInput placeholder="Enter Email" formControlName="owner_email" appSpecialCharcaterExceptAt/>
-  <mat-error
-    *ngIf="form.controls['owner_email']?.hasError('required')"
-   
-  >
+  <input
+    matInput
+    placeholder="Enter Email"
+    formControlName="owner_email"
+    appSpecialCharcaterExceptAt
+    maxlength="40"
+  />
+  <mat-error *ngIf="form.controls['owner_email']?.hasError('required')">
     This is a required field.
   </mat-error>
-  <mat-error
-    *ngIf="form.controls['owner_email']?.hasError('pattern')"
-   
-  >
+  <mat-error *ngIf="form.controls['owner_email']?.hasError('pattern')">
     Invalid email
   </mat-error>
 </mat-form-field>

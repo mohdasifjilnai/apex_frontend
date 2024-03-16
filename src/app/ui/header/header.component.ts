@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { environment } from 'src/environments/environment';
 
@@ -17,10 +19,37 @@ export class HeaderComponent implements OnInit {
   d2dExecutive: any;
   partnerStatusData: any;
   qrDisabled: boolean = false;
+  isTracId: boolean = false;
+  transactionId: any;
+  currentUrl: any;
   @ViewChild('widgetId') widgetId!: ElementRef;
-  constructor(private win: WindowRef, private authService: AuthService) {}
+  constructor(
+    private win: WindowRef,
+    private authService: AuthService,
+    private router: Router,
+    private sharedService: SharedDataService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.sharedService.getTransactionId.subscribe((res: any) => {
+      this.transactionId = res;
+    });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentUrl = this.router.url;
+        this.isTracId = this.currentUrl !== '/motor';
+      }
+    });
+
+    /**
+     * If the current URL is lost after a refresh, navigate to the current URL
+     */
+    if (!this.currentUrl) {
+      this.currentUrl = this.router.url;
+      this.isTracId = this.currentUrl !== '/motor';
+    }
+  }
 
   ngAfterViewInit() {
     this.elem = this.widgetId.nativeElement;

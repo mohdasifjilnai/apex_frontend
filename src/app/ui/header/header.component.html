@@ -17,13 +17,13 @@
           alt="logo"
         />
       </a>
-      <div class="trace-id">
+      <div class="trace-id" *ngIf="isTracId">
         <div class="d-flex justify-content-between">
-          <span>Trace ID: 127563897465786</span>
+          <span>Trace ID: {{ transactionId }}</span>
           <img
             src="assets/icon/copy.svg"
             alt="logo"
-            (click)="copyMessage('127563897465786')"
+            (click)="copyMessage(transactionId)"
             class="cursor-pointer"
             matTooltip="Copy To Clipboard"
             mat-raised-button

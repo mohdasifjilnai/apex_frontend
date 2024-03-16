@@ -64,7 +64,8 @@ export class PolicyExpiredDateComponent implements OnInit {
       this.form.controls[this.formControlNameData].disable();
     }
     const currentUrl = this.router.url.split('/');
-    this.proposalUrl = currentUrl[currentUrl.length - 1];
+    this.proposalUrl = currentUrl[currentUrl.length - 2];
+
     const currentDate = new Date();
     const minDateOffset = -20; // Subtract 20 years from current date
     const maxDateOffset = 90; //add days to current date
