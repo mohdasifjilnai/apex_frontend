@@ -169,4 +169,11 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    * @param isValid - boolean value indicating whether the form is valid or not
    */
   submitUploadDocumentsForm(isValid: boolean) {}
+  /**
+   * Closes the dialog and returns the result to the dialog opener.
+   * @param resData - The result to be returned.
+   */
+  onClose(resData: any) {
+    this.dialogRef.close(resData);
+  }
 }

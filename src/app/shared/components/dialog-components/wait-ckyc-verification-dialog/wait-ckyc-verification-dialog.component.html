@@ -74,30 +74,55 @@
   </div>
 </div>
 <!-- Dialog content -->
-<div
-  mat-dialog-content
-  *ngIf="isWaitingTime && !isCustomerDetails && !isUpload"
->
-  <div class="row">
-    <div class="col-4 offset-3">
-      <div class="error-gif">
-        <img src="/assets/gif/error.gif" class="error-gif-image" alt="close" />
-        <p class="text-orange gif-icon-text">ATENTION</p>
+<div *ngIf="isWaitingTime && !isCustomerDetails && !isUpload">
+  <!-- Dialog title -->
+  <div mat-dialog-title>
+    <div class="success-popup-header d-flex justify-content-end">
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose(ckycData)"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
+  </div>
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-8 offset-3">
+        <div class="error-gif">
+          <img
+            src="/assets/gif/error.gif"
+            class="error-gif-image"
+            alt="close"
+          />
+          <p class="text-orange gif-icon-text">ATTENTION</p>
+        </div>
       </div>
-    </div>
-    <div class="col-12">
-      <p class="text-content text-center">
-        {{ error_message }}
-      </p>
-    </div>
-    <div class="col-12 text-center">
-      <button
-        class="submit-btn success-submission"
-        type="submit"
-        (click)="redirectInsurer(redirectionUrlViaForm)"
-      >
-        Proceed
-      </button>
+      <div class="col-3 offset-3">
+        <p class="text-content">
+          {{ ckycBody["document_type"].split("_")[0] | uppercase }}
+          {{ ckycBody["document_type"].split("_")[1] | uppercase }}
+        </p>
+      </div>
+      <div class="col-4">
+        <p class="text-content">
+          {{ ckycBody["document_number"] }}
+        </p>
+      </div>
+      <div class="col-12">
+        <p class="text-content text-center">
+          {{ error_message }}
+        </p>
+      </div>
+      <div class="col-12 text-center">
+        <button
+          class="submit-btn success-submission"
+          type="submit"
+          (click)="redirectInsurer(redirectionUrlViaForm)"
+        >
+          Proceed
+        </button>
+      </div>
     </div>
   </div>
 </div>
