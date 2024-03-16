@@ -51,6 +51,7 @@ import { MmYyyyformatDirective } from './directives/mm-yyyyformat.directive';
 import { TermsComponent } from './components/dialog-components/terms/terms.component';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { SnackbarComponent } from './components/dialog-components/snackbar/snackbar.component';
+import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-starting.directive';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { SnackbarComponent } from './components/dialog-components/snackbar/snack
     MmYyyyformatDirective,
     TermsComponent,
     ClickOutsideDirective,
-    SnackbarComponent
+    SnackbarComponent,
+    RemoveZeroFromStartingDirective,
   ],
   imports: [
     CommonModule,
@@ -150,6 +152,7 @@ import { SnackbarComponent } from './components/dialog-components/snackbar/snack
     SpecialCharacterNotAllowedDirective,
     DateFormatDirective,
     MmYyyyformatDirective,
+    RemoveZeroFromStartingDirective,
   ],
 })
 export class SharedModule {}

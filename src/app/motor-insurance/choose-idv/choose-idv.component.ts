@@ -28,7 +28,7 @@ export class ChooseIDVComponent implements OnInit {
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
-  customIDV: boolean=false;
+  customIDV: boolean = false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService

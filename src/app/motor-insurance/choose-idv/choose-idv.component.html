@@ -87,6 +87,7 @@
               name="customIDV"
               [disabled]="enableIdvCard"
               (ngModelChange)="chooseIdvData()"
+              appRemoveZeroFromStarting
             />
           </mat-form-field>
           <div
@@ -208,7 +209,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- <div class="idv-range-res">
     <div class="changeIdv-card">

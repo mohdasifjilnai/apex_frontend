@@ -525,7 +525,6 @@ export class QuotesListingComponent implements OnInit {
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
   }
   sorting(data: any) {
-    console.log(data);
     if (this.quotationData.length > 0) {
       if (this.defaultGST) {
         if (data.value == 'low') {
