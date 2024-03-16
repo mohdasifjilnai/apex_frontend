@@ -41,8 +41,8 @@
           <p class="proposal-number-id" *ngIf="startDate">
             {{ startDate | date : "dd/MM/yyyy" }}
           </p>
-          <p class="proposal-number-id" *ngIf="startDateRollover">
-            {{ startDateRollover }}
+          <p class="proposal-number-id" *ngIf="nextDateValue">
+            {{ nextDateValue }}
           </p>
         </div>
       </div>
@@ -164,7 +164,8 @@
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"
-            [disabled]="!anyFieldValid()">
+            [disabled]="!anyFieldValid()"
+          >
             Send
           </button>
         </div>

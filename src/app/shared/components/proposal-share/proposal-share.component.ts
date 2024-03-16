@@ -55,6 +55,7 @@ export class ProposalShareComponent implements OnInit {
   generateProposalData: any;
   quoteData: any;
   startDateRollover: any;
+  nextDateValue: any;
 
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
@@ -93,6 +94,24 @@ export class ProposalShareComponent implements OnInit {
       this.startDate = this.currentDate;
     } else if (this.previousPolicyDetails?.policy_expiry_date) {
       this.startDateRollover = this.previousPolicyDetails?.policy_expiry_date;
+      const [day, month, year] = this.startDateRollover.split('/'); // Split the string into parts
+
+      // Create a new Date object with the provided date
+      const currentDate = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day)
+      );
+
+      // Get the next day
+      const nextDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+
+      // Format the updated date back into 'dd/mm/yyyy' format
+      const newDay = ('0' + nextDate.getDate()).slice(-2);
+      const newMonth = ('0' + (nextDate.getMonth() + 1)).slice(-2);
+      const newYear = nextDate.getFullYear();
+
+      this.nextDateValue = `${newDay}/${newMonth}/${newYear}`;
     }
   }
   /**
