@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import initiate_quotes_payload from './initiate_quotes_payload.json';
 import { ApiConstants } from '../../api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { PremiumBreakupComponent } from '../../shared/components/dialog-components/premium-breakup/premium-breakup.component';
@@ -111,6 +110,7 @@ export class QuotesListingComponent implements OnInit {
   selectAddOnsList: any;
   shareType: any = '';
   enableIdvCard: boolean = true;
+  inspectionCase = '';
 
   constructor(
     private router: Router,
@@ -477,6 +477,13 @@ export class QuotesListingComponent implements OnInit {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
           sessionStorage.setItem('productType', this.selectedProductType);
+          let productTypeValue = sessionStorage.getItem('productType');
+          if (
+            productTypeValue == 'comprehensive' &&
+            this.parsedVehicleData?.policy_expiry == 'satp'
+          ) {
+            this.inspectionCase = 'Inspection';
+          }
           this.registrationNumber =
             sessionStorage.getItem('registrationNumber');
           this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');

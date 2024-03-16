@@ -14,14 +14,14 @@
       font-size: 12px;
       opacity: 50%;
     }
-    
+
     .idv-choose-amount {
       color: #282828;
       font-weight: 600;
       font-size: 14px;
       opacity: 100%;
     }
-    .premium-btn{
+    .premium-btn {
       text-align: center;
     }
     .premium-breakup-amount {
@@ -50,7 +50,7 @@
     margin: 0px;
     overflow-y: hidden;
     overflow-x: hidden;
-    background-color: #F5F8FE;
+    background-color: #f5f8fe;
     .key-features-text {
       color: #535353;
       font-size: 11px;
@@ -92,8 +92,8 @@
   }
   .no-quotes-information-card {
     padding: 12px 12px 0px 12px;
-    background-color: #F5F8FE;
-    .warning-img{
+    background-color: #f5f8fe;
+    .warning-img {
       width: 22px;
       height: 18px;
     }
@@ -101,7 +101,7 @@
   .no-quotes-information-card-white {
     padding: 12px 12px 0px 12px;
     background-color: #fff;
-    .warning-img{
+    .warning-img {
       width: 22px;
       height: 18px;
     }
@@ -137,34 +137,32 @@
   .progress-container {
     position: relative;
   }
-  
- 
 }
 .progress-container {
   position: relative;
   width: 100%;
   height: 30px; /* Adjust height as needed */
 }
-::ng-deep .mat-progress-bar-background{
+::ng-deep .mat-progress-bar-background {
   fill: white !important;
-} 
-::ng-deep .mat-progress-bar-buffer{
+}
+::ng-deep .mat-progress-bar-buffer {
   background-color: white;
 }
 ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
   height: 60% !important;
 }
-::ng-deep .mat-progress-bar-fill::after{
-  background-color: #0055FF !important;
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #0055ff !important;
 }
 .overlay-image {
-  width: 53px; 
-  height: 25px; 
+  width: 53px;
+  height: 25px;
 }
-.shareQuotes{
+.shareQuotes {
   position: relative;
 }
-.selected-share{
+.selected-share {
   position: sticky;
   bottom: 0;
 }
@@ -240,7 +238,6 @@
   ::ng-deep .mat-form-field {
     width: 100%;
   }
-  
 
   ::ng-deep .mat-button {
     margin-top: 12px;
@@ -253,25 +250,25 @@
     padding: 0 !important;
     font-weight: 600;
   }
-  .quotesDropdownvalue{
+  .quotesDropdownvalue {
     padding: 4px;
-    border: 1px solid #EAEAEA;
+    border: 1px solid #eaeaea;
     width: 100%;
     background-color: #fff;
     border-radius: 8px;
     position: absolute;
-    .all-btn{
+    .all-btn {
       background-color: #fff;
       border: none;
       width: 100%;
       color: #282828;
       font-size: 12px;
     }
-    .all-btn:hover{
-      background-color: #F5F8FE;
-      color: #5384EA;
+    .all-btn:hover {
+      background-color: #f5f8fe;
+      color: #5384ea;
       border-radius: 4px;
-      border: 1px solid #F5F8FE;
+      border: 1px solid #f5f8fe;
       width: 100%;
       font-size: 12px;
     }
@@ -287,22 +284,21 @@
     justify-content: space-around;
     margin-top: 20px;
 
-    ::ng-deep .mat-slide-toggle-thumb{
+    ::ng-deep .mat-slide-toggle-thumb {
       width: 12px !important;
       height: 12px !important;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
     }
-    ::ng-deep .mat-slide-toggle-thumb-container{
+    ::ng-deep .mat-slide-toggle-thumb-container {
       top: 2.8px !important;
       left: 5px !important;
     }
-    ::ng-deep .mat-slide-toggle-bar{
+    ::ng-deep .mat-slide-toggle-bar {
       width: 36px;
       height: 18px;
     }
-    ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
-      background-color: #FFB171;
-
+    ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+      background-color: #ffb171;
     }
   }
   .owner-type-res {
@@ -311,17 +307,16 @@
   .owner-type {
     display: block;
   }
-
 }
 .insurer-logo {
   width: 100%;
   height: 40px;
   object-fit: scale-down;
 }
-.responsive-checkbox{
+.responsive-checkbox {
   display: none;
 }
-.web-checkbox{
+.web-checkbox {
   display: block;
 }
 @media screen and (max-width: 999px) {
@@ -330,14 +325,14 @@
       padding: 0px 15px !important;
       width: 50%;
     }
-    .count{
+    .count {
       margin-left: 10px !important;
     }
   }
-  .responsive-checkbox{
+  .responsive-checkbox {
     display: block;
   }
-  .web-checkbox{
+  .web-checkbox {
     display: none;
   }
   .sort-dropdown {
@@ -359,33 +354,31 @@
     .gst {
       font-size: 10px;
     }
-   
+
     .owner-type-res {
       display: block;
     }
     .owner-type {
       display: none;
     }
-    
-    
   }
-  
-  .quotation-listing{
-    .no-quotes-information-card{
+
+  .quotation-listing {
+    .no-quotes-information-card {
       background-color: #fff;
     }
-    .comprehensive-key-features{
+    .comprehensive-key-features {
       display: none;
     }
-    .comprehensive-tab{
-      .premium-btn{
+    .comprehensive-tab {
+      .premium-btn {
         text-align: end;
       }
     }
-    ::ng-deep .mat-radio-button{
+    ::ng-deep .mat-radio-button {
       width: 100% !important;
     }
-    
+
     .res-comprehensive-key-features {
       border: 1px solid #eaeaea;
       border-radius: 0 0 16px 16px;
@@ -446,10 +439,12 @@
 }
 @media screen and (max-width: 1321px) {
   .toggle-btn {
-    .count{
+    .count {
       margin-left: 0px;
     }
   }
 }
-
-
+.inspectionCase {
+  background-color: #f5f8fe;
+  font-size: 12px;
+}
