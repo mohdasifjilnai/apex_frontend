@@ -113,6 +113,8 @@ export class QuotesListingComponent implements OnInit {
   enableIdvCard: boolean = true;
   isIdvGreaterThan50Lac: any;
   inspectionCase = '';
+  tabChangeOninit = true;
+  proposalTypeOninit = true;
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -214,6 +216,7 @@ export class QuotesListingComponent implements OnInit {
       this.vehicleData = cardData;
 
       this.parsedVehicleData = JSON.parse(this.vehicleData);
+      this.tabChangeOninit = true;
       this.quotesTabData();
     });
 
@@ -300,34 +303,38 @@ export class QuotesListingComponent implements OnInit {
    */
 
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
-    this.selectedProductType = event.tab.textLabel;
-    sessionStorage.setItem('productType', this.selectedProductType);
-    let productTypeValue = sessionStorage.getItem('productType');
-    let mmvFormData = sessionStorage.getItem('mmv_data');
-    this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    this.quotationData = [];
-    this.errorQuotationArray = [];
-    if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber'
-      );
-    } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes'
-      );
-    }
-    this.sharedDataService.addOnsChange(mmvFormData);
-    if (event.index === 1) {
-      this.showComprehensiveDiv = false;
-    } else {
-      this.showComprehensiveDiv = true;
-    }
+    this.selectAddOnsList = [];
+    if (!this.tabChangeOninit) {
+      this.selectedProductType = event.tab.textLabel;
+      sessionStorage.setItem('productType', this.selectedProductType);
+      let productTypeValue = sessionStorage.getItem('productType');
+      let mmvFormData = sessionStorage.getItem('mmv_data');
+      this.registrationNumber = sessionStorage.getItem('registrationNumber');
+      this.quotationData = [];
+      this.errorQuotationArray = [];
+      if (this.registrationNumber) {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'registrationNumber'
+        );
+      } else {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'mmvQuotes'
+        );
+      }
+      this.sharedDataService.addOnsChange(mmvFormData);
+      if (event.index === 1) {
+        this.showComprehensiveDiv = false;
+      } else {
+        this.showComprehensiveDiv = true;
+      }
 
-    this.sharedDataService.chooseIdvHide(this.selectedProductType);
+      this.sharedDataService.chooseIdvHide(this.selectedProductType);
+    }
+    this.tabChangeOninit = false;
   }
 
   /**
@@ -447,32 +454,42 @@ export class QuotesListingComponent implements OnInit {
    * get proposer type in proposal list
    */
   changeProposalType(event: any) {
-    sessionStorage.setItem(
-      'proposerType',
-      this.proposalList.filter((res: any) => res.proposer_id == event)[0][
-        'proposer_name'
-      ]
-    );
-    let productTypeValue = sessionStorage.getItem('productType');
-    let mmvFormData = sessionStorage.getItem('mmv_data');
-    this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    this.quotationData = [];
-    this.errorQuotationArray = [];
-    this.chooseIdvArray = [];
-    if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber'
+    if (!this.proposalTypeOninit) {
+      sessionStorage.setItem(
+        'proposerType',
+        this.proposalList.filter((res: any) => res.proposer_id == event)[0][
+          'proposer_name'
+        ]
       );
+      let productTypeValue = sessionStorage.getItem('productType');
+      let mmvFormData = sessionStorage.getItem('mmv_data');
+      this.registrationNumber = sessionStorage.getItem('registrationNumber');
+      this.quotationData = [];
+      this.errorQuotationArray = [];
+      this.chooseIdvArray = [];
+      if (this.registrationNumber) {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'registrationNumber'
+        );
+      } else {
+        this.sharedDataService.vehicleMMVDetails(
+          productTypeValue,
+          mmvFormData,
+          'mmvQuotes'
+        );
+      }
+      this.sharedDataService.addOnsChange(mmvFormData);
     } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes'
+      sessionStorage.setItem(
+        'proposerType',
+        this.proposalList.filter((res: any) => res.proposer_id == event)[0][
+          'proposer_name'
+        ]
       );
+      this.proposalTypeOninit = false;
     }
-    this.sharedDataService.addOnsChange(mmvFormData);
   }
 
   quotesTabData() {
