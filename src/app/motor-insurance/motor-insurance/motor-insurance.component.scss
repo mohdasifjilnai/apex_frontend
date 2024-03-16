@@ -43,8 +43,8 @@
     left: 0px;
     margin-bottom: 0 !important;
   }
-  .content{
-    padding: 0!important;
+  .content {
+    padding: 0 !important;
   }
 }
 @media screen and (max-width: 999px) {
@@ -69,7 +69,7 @@
   .res-header-icon {
     display: block;
   }
-  .registration-number{
+  .registration-number {
     width: 100%;
   }
 }
@@ -86,4 +86,10 @@
   font-size: 12px;
   font-weight: 500;
   color: #f44336;
+}
+.displayData {
+  display: none;
+}
+.displayValue {
+  display: block;
 }

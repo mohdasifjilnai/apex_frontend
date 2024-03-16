@@ -43,6 +43,7 @@ export class MotorInsuranceComponent implements OnInit {
   insurerDisable = false;
   disableInsurer: boolean = true;
   vehicleNotFound: any;
+  notSureHide = true;
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
@@ -90,7 +91,6 @@ export class MotorInsuranceComponent implements OnInit {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
       this.motorInsurance.reset();
-      
     });
     this.sharedDataService.detailNotFound.subscribe((res) => {
       this.vehicleNotFound = res;
@@ -181,6 +181,16 @@ export class MotorInsuranceComponent implements OnInit {
         }
       }
     );
+
+    this.motorInsurance.controls['policy_expiry_date'].valueChanges.subscribe(
+      (val: any) => {
+        if (val == 'Not Sure') {
+          this.notSureHide = false;
+        } else {
+          this.notSureHide = true;
+        }
+      }
+    );
   }
 
   monthDiff = (d1: any, d2: any) => {
@@ -197,10 +207,10 @@ export class MotorInsuranceComponent implements OnInit {
   }
   rtoComponentResponse(response: string) {
     // Do something with the response value received from the rto component
-    if(response=='Error fetching data'){
-      this.rtoResponse=''
-    }else{
-      this.rtoResponse=response
+    if (response == 'Error fetching data') {
+      this.rtoResponse = '';
+    } else {
+      this.rtoResponse = response;
     }
   }
   /**

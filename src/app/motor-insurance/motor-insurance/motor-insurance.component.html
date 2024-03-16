@@ -70,6 +70,7 @@
           <div
             class="col-lg-4 col-md-6 col-12"
             *ngIf="withoutVehicleNumber && isResponsive()"
+            [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
             [@slideUp]
           >
             <app-previous-insurer
@@ -89,10 +90,12 @@
               [formControlNameData]="'policy_expiry_date'"
             ></app-policy-expired-date>
           </div>
+
           <ng-container *ngIf="!disableInsurer">
             <div
               class="col-lg-4 col-md-6 col-12"
               *ngIf="withoutVehicleNumber && !isResponsive()"
+              [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
             >
               <app-previous-insurer
                 [previousInsurer]="'previous-insurer'"
@@ -101,6 +104,7 @@
               ></app-previous-insurer>
             </div>
           </ng-container>
+
           <div
             [ngClass]="{
               'col-12': !withoutVehicleNumber,
