@@ -78,6 +78,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   newVehicleData: any;
   policyExpiredDateObject: any;
   ncbAllData: any;
+  claimedField = true;
+  patchData = false;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -246,6 +248,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     let registrationDateObject;
     let manufactureDateObject;
     let previousInsurerObject;
+    this.patchData = true;
+    this.hidePreviousClaimed = data?.hidePreviousClaimed;
+    this.NoExpiryPolicy = data?.NoExpiryPolicy;
     if (data?.registration_date) {
       let registrationDate = new Date(data?.registration_date);
       registrationDateObject = moment(registrationDate, 'MM/YYYY');
@@ -296,6 +301,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     sessionStorage.setItem('vehiclePopup', 'true');
+    this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
+    this.vehicleDetailsForm.value.hidePreviousClaimed =
+      this.hidePreviousClaimed;
+
     if (this.vehicleDetailsForm.value?.policy_expiry != 'IDK') {
       if (this.vehicleDetailsForm.value?.ncb_discount) {
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {
@@ -929,6 +938,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   hideFieldOnExpiryPolicy(selectedValue: any) {
     if (selectedValue == 'IDK') {
       this.NoExpiryPolicy = true;
+      this.hidePreviousClaimed = false;
       this.vehicleDetailsForm.get('policy_expiry_date')?.clearValidators();
       this.vehicleDetailsForm.get('previous_insurer')?.clearValidators();
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
@@ -939,8 +949,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
+    } else if (selectedValue == 'satp') {
+      this.NoExpiryPolicy = false;
+      this.hidePreviousClaimed = false;
+      this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
+      this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
+      this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
+      this.vehicleDetailsForm.get('previous_claimed')?.updateValueAndValidity();
     } else {
       this.NoExpiryPolicy = false;
+      this.hidePreviousClaimed = true;
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
@@ -951,15 +969,24 @@ export class VehicleDetailsPopupComponent implements OnInit {
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
+      // this.vehicleDetailsForm.value.ncb_discount = 0;
+      this.vehicleDetailsForm.patchValue({
+        ncb_discount: 0,
+      });
+      this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
+      this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
     }
   }
   onRCTransferChange(event: any) {
-    if (event) {
-      this.hidePreviousClaimed = false;
-      this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
-      this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
-    } else {
-      this.hidePreviousClaimed = true;
+    if (!this.patchData) {
+      if (event) {
+        this.hidePreviousClaimed = false;
+        this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
+        this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+      } else {
+        this.hidePreviousClaimed = true;
+      }
     }
+    this.patchData = false;
   }
 }
