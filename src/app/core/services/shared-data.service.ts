@@ -560,13 +560,17 @@ export class SharedDataService {
           this.sendProposalData(res);
           if (this.createdProposalId?.ckyc_details !== null) {
             this.openSnackBar('Ckyc Details is Saved', 'Success');
-          } else if (this.createdProposalId?.customer_details !== null) {
+          }
+          if (this.createdProposalId?.customer_details !== null) {
             this.openSnackBar('Customer Details is Saved', 'Success');
-          } else if (this.createdProposalId?.nominee_details !== null) {
+          }
+          if (this.createdProposalId?.nominee_details !== null) {
             this.openSnackBar('Nominee Details is Saved', 'Success');
-          } else if (this.createdProposalId?.vehicle_details !== null) {
+          }
+          if (this.createdProposalId?.vehicle_details !== null) {
             this.openSnackBar('Vehicle Details is Saved', 'Success');
-          } else if (this.createdProposalId?.previous_policy_details !== null) {
+          }
+          if (this.createdProposalId?.previous_policy_details !== null) {
             this.openSnackBar('Previous Policy Details is Saved', 'Success');
           }
         }

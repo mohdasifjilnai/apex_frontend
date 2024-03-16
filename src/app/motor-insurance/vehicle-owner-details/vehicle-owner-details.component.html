@@ -10,9 +10,9 @@
         <mat-select formControlName="ownner_salutation_type">
           <mat-option
             *ngFor="let salutation of salutationList"
-            [value]="salutation?.salutationName"
+            [value]="salutation?.rb_salutation"
           >
-            {{ salutation?.salutationName }}
+            {{ salutation?.rb_salutation }}
           </mat-option>
         </mat-select>
       </mat-form-field>

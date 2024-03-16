@@ -108,9 +108,7 @@ export class CkycComponent implements OnInit {
       if (proposal?.ckyc_details !== null) {
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
-          document_type_based_field: this.filterDocumentType(
-            proposal?.ckyc_details?.document_type
-          ),
+          document_type_based_field: proposal?.ckyc_details?.document_type,
           document_number_based_field: proposal?.ckyc_details?.document_number,
           dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,

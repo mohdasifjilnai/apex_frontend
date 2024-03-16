@@ -67,4 +67,8 @@ export class ApiConstants {
   public static get_document_image_url: string = `/api/v1/ckyc/get_document/`;
   // agreement type list
   public static aggreement_type: string = `/api/v1/agreement_type/`;
+  //salutation List
+  public static salutation: string = `/api/v1/salutation/`;
+  //financier name
+  public static financier_List: string = `/api/v1/financiers/`;
 }

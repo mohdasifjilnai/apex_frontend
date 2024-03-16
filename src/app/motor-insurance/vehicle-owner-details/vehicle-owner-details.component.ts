@@ -38,6 +38,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   ckycItem: any;
   vehicleOwnerName: boolean = false;
   proposalData: any;
+  quoteData: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -80,17 +81,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private apiService: ApiService
   ) {
-    this.salutationList = [
-      {
-        id: 1,
-        salutationName: 'MR',
-      },
-      {
-        id: 2,
-        salutationName: 'MRs',
-      },
-    ];
-
     this.maritalStatusList = [
       {
         id: 1,
@@ -104,6 +94,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.quoteData = sessionStorage.getItem('quotes_data');
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (proposal?.customer_details !== null) {
@@ -156,6 +147,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     });
     this.getOccupationType();
     this.getPincodeList();
+    this.getSalutationType();
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {
@@ -228,5 +220,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         })
       );
     }
+  }
+  getSalutationType() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.salutation}?insurer_code=${
+          JSON.parse(this.quoteData)['insurer_code']
+        }`
+      )
+      .subscribe((salutation) => {
+        this.salutationList = salutation;
+      });
   }
 }

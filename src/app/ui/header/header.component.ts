@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   partnerStatusData: any;
   qrDisabled: boolean = false;
   isTracId: boolean = false;
+  isCopied: boolean = false;
   transactionId: any;
   currentUrl: any;
   @ViewChild('widgetId') widgetId!: ElementRef;
@@ -79,6 +80,9 @@ export class HeaderComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    setTimeout(() => {}, 2000);
+    this.isCopied = true; // Set isCopied to true after copying
+    setTimeout(() => {
+      this.isCopied = false; // Reset isCopied after 2 seconds
+    }, 5000);
   }
 }

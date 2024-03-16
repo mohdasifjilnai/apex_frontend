@@ -43,6 +43,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isManufactureDateDisbaled: boolean = false;
   isRegistrationDateDisbaled: boolean = false;
   isRegistrationNumber: boolean = false;
+  quoteData: any;
   proposalVehilceDetailsForm: FormGroup = new FormGroup({
     registration_number: new FormControl(''),
     vehicle_colour: new FormControl(''),
@@ -77,14 +78,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     private apiservice: ApiService,
     private shareData: SharedDataService,
     private router: Router
-  ) {
-    this.financerList = {
-      id: 1,
-      financerName: 'other',
-    };
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.quoteData = sessionStorage.getItem('quotes_data');
+
     let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     if (fetchQuotesData) {
       const quoteData = JSON.parse(fetchQuotesData);
@@ -187,9 +185,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_number: regNumber,
       });
     }
-    // this.getFinancierList();
     this.getPincodeList();
     this.getAgreementList();
+    this.getFinancierList();
   }
 
   filterInsurer(name: string) {}
@@ -317,13 +315,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   /**
    * initializes the age list with ages between 18 and 70
    */
-  getFinancierList() {
-    this.apiservice
-      .getRequestedResponse(ApiConstants.financier_type)
-      .subscribe((response) => {
-        this.financerList = response;
-      });
-  }
   getPincodeList() {
     const vehiclePincodeControl =
       this.proposalVehilceDetailsForm.get('vehicle_pincode');
@@ -374,9 +365,46 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    */
   getAgreementList() {
     this.apiservice
-      .getRequestedResponse(ApiConstants.aggreement_type)
+      .getRequestedResponse(
+        `${ApiConstants.aggreement_type}?insurer_code=${
+          JSON.parse(this.quoteData)['insurer_code']
+        }`
+      )
       .subscribe((response) => {
         this.agreementList = response;
       });
+  }
+  getFinancierList() {
+    const financierData = this.proposalVehilceDetailsForm.get('financer');
+
+    if (financierData) {
+      /**
+       * Check if financierData is not null
+       */
+      this.financerList = financierData.valueChanges.pipe(
+        debounceTime(300), // Debounce for 300 milliseconds
+        distinctUntilChanged(),
+        switchMap((value) => {
+          /**
+           * Check if at least 3 characters are entered
+           */
+          if (value && value.length >= 3) {
+            /**
+             * Make API call with the entered value
+             */
+            return this.apiservice.getRequestedResponse(
+              `${ApiConstants.financier_List}?insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }&search_element=${value}`
+            );
+          } else {
+            /**
+             * If less than 3 characters, return an empty array
+             */
+            return of([]);
+          }
+        })
+      );
+    }
   }
 }

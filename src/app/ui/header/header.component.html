@@ -25,11 +25,13 @@
             alt="logo"
             (click)="copyMessage(transactionId)"
             class="cursor-pointer"
-            matTooltip="Copy To Clipboard"
+            [matTooltip]="isCopied ? 'Copied!' : 'Copy To Clipboard'"
             mat-raised-button
           />
         </div>
       </div>
+      <!-- Display the message when text is copied -->
+      <!-- <div *ngIf="isCopied" class="copied-message">Copied!</div> -->
     </div>
     <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false">
 			<span class="line"></span>

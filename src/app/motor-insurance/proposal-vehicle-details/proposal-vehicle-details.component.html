@@ -87,18 +87,10 @@
         <mat-autocomplete #autoFinancier="matAutocomplete">
           <span>
             <mat-option
-              *ngFor="let financier of filteredFinancierList | async"
-              [value]="financier?.rb_id"
+              *ngFor="let financer of financerList | async"
+              [value]="financer?.financier_name"
             >
-              <span>{{ financier.rb_financier_name }}</span>
-            </mat-option>
-          </span>
-          <span>
-            <mat-option
-              *ngFor="let financier of filteredFinancierList | async"
-              [value]="financier"
-            >
-              <span>{{ financier }}</span>
+              {{ financer?.financier_name }}
             </mat-option>
           </span>
         </mat-autocomplete>
@@ -119,7 +111,7 @@
         <mat-select formControlName="agreement_type">
           <mat-option
             *ngFor="let agreement of agreementList"
-            [value]="agreement?.rb_name"
+            [value]="agreement?.rb_code"
           >
             {{ agreement?.rb_name }}
           </mat-option>
@@ -129,14 +121,13 @@
     <div class="col-lg-4 col-md-6 col-12" *ngIf="financedToggle.checked">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label class="proposal-header">Financer City/Branch</mat-label>
-        <mat-select formControlName="financer_city">
-          <mat-option
-            *ngFor="let financer of financerList"
-            [value]="financer?.financerName"
-          >
-            {{ financer?.financerName }}
-          </mat-option>
-        </mat-select>
+        <input
+          matInput
+          placeholder="Financer City/Branch"
+          aria-label="Financer City/Branch"
+          formControlName="financer_city"
+          id-automation="financier_name"
+        />
       </mat-form-field>
     </div>
     <div class="col-lg-12 col-md-12 col-12">
