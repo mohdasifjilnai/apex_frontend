@@ -27,6 +27,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
 import { SelectedShareComponent } from 'src/app/shared/components/dialog-components/selected-share/selected-share.component';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -110,8 +111,23 @@ export class QuotesListingComponent implements OnInit {
   selectAddOnsList: any;
   shareType: any = '';
   enableIdvCard: boolean = true;
+  isIdvGreaterThan50Lac: any;
   inspectionCase = '';
-
+  nonPOSJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NonPosPopupComponent,
+    widthObtained: '70%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -131,11 +147,22 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
-      this.enableIdvCard = false;
-      this.quotationData.sort(
-        (a: any, b: any) =>
-          a.premium_details.total_premium - b.premium_details.total_premium
-      );
+      if (this.enableIdvCard) {
+        this.enableIdvCard = false;
+        this.quotationData.sort(
+          (a: any, b: any) =>
+            a.premium_details.total_premium - b.premium_details.total_premium
+        );
+        for (const item of this.quotationData) {
+          if (item.premium_details && item?.premium_details?.idv > 5000000) {
+            this.isIdvGreaterThan50Lac = true;
+            break;
+          }
+        }
+        if (this.isIdvGreaterThan50Lac) {
+          this.openNonPOSPopup(null);
+        }
+      }
     });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
@@ -559,5 +586,31 @@ export class QuotesListingComponent implements OnInit {
         }
       }
     }
+  }
+
+  openNonPOSPopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '900px';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.nonPOSJSON['modalName'],
+      width: this.nonPOSJSON['widthObtained'],
+      height: this.nonPOSJSON['heightObtained'],
+      classNameObtained: this.nonPOSJSON['classObtained'],
+      isOutSideClose: this.nonPOSJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

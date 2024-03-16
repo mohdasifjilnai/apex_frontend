@@ -1,0 +1,71 @@
+.edit-vehicle-details {
+  overflow-x: hidden;
+  .vehicle-submission {
+    width: 100%;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    background-color: linear-gradient(#ffb171 100%, #ff943d 10%);
+    border-radius: 12px;
+  }
+  .vehicle-details-popup-header {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .vehicle-details-dropdown {
+    ::ng-deep {
+      .mat-form-field-infix {
+        width: 300px !important;
+      }
+    }
+  }
+  .mat-form-field {
+    width: 100%;
+  }
+  .mat-form-field-label-wrapper {
+    top: -12px !important;
+    left: 10px;
+  }
+  .line {
+    display: none;
+  }
+  .cdk-overlay-pane {
+    max-height: 75% !important;
+  }
+}
+.dropdown-focus {
+  .mat-autocomplete-panel.mat-autocomplete-visible {
+    visibility: hidden !important;
+  }
+}
+@media screen and (max-width: 999px) {
+  .edit-vehicle-details {
+    .line {
+      display: block;
+    }
+    .vehicle-details-popup-header {
+      padding: 15px 30px;
+    }
+    .vehicle-details-form {
+      padding: 0px 15px 15px 15px;
+      ::ng-deep .mat-form-field {
+        width: 100% !important;
+      }
+      ::ng-deep .mat-button {
+        width: 100%;
+      }
+    }
+    .submit-btn {
+      width: 100%;
+      margin: auto;
+      border-radius: 12px;
+      background-color: linear-gradient(270deg, #ffb171 100%, #ff943d 10%);
+    }
+  }
+}
+.custom-modalbox {
+  mat-dialog-container {
+    border-radius: 20px;
+  }
+}

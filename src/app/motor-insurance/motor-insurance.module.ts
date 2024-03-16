@@ -25,6 +25,7 @@ import { ProposalReviewComponent } from './proposal-review/proposal-review.compo
 import { PaymentComponent } from './payment/payment.component';
 import { SkeletonLoadingComponent } from './skeleton-loading/skeleton-loading.component';
 import { SelectedShareComponent } from '../shared/components/dialog-components/selected-share/selected-share.component';
+import { NonPosPopupComponent } from './non-pos-popup/non-pos-popup.component';
 
 
 
@@ -50,7 +51,8 @@ import { SelectedShareComponent } from '../shared/components/dialog-components/s
     ProposalReviewComponent,
     PaymentComponent,
     SkeletonLoadingComponent,
-    SelectedShareComponent
+    SelectedShareComponent,
+    NonPosPopupComponent
   ],
   imports: [
     CommonModule,

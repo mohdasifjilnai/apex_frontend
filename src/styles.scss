@@ -161,7 +161,7 @@ th.mat-header-cell:last-of-type {
     margin: auto !important;
     margin-top: 50% !important;
     margin-left: 0 !important;
-    margin-right: 0!important;
+    margin-right: 0 !important;
     .mat-dialog-container {
       border-radius: 23px;
     }
@@ -175,27 +175,27 @@ th.mat-header-cell:last-of-type {
 
 .submit-btn {
   flex-wrap: wrap;
-  background-color: #FF943D;
+  background-color: #ff943d;
   color: white;
   font-size: 14px;
   font-weight: 600;
   border-radius: 12px;
   // width: 150px;
-  border: 1px solid #FF943D;
+  border: 1px solid #ff943d;
   padding: 5px 15px 5px 15px;
 }
-.mat-tooltip{
+.mat-tooltip {
   background: black !important;
 }
 .submit-btn:disabled {
   flex-wrap: wrap;
-  background-color: #D6D6D6;
+  background-color: #d6d6d6;
   color: white;
   font-size: 14px;
   font-weight: 600;
   border-radius: 12px;
   // width: 150px;
-  border: 1px solid #D6D6D6;
+  border: 1px solid #d6d6d6;
   padding: 5px 15px 5px 15px;
 }
 
@@ -483,7 +483,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
   border-radius: 10px;
   border: 1px solid rgb(202, 201, 201);
 }
-.terms-class{
+.terms-class {
   margin-left: 50% !important;
   .mat-dialog-container {
     border-radius: 30px !important;
@@ -501,6 +501,19 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     border-radius: 30px !important;
     overflow: unset !important;
     width: 750px !important;
+    height: 100% !important;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+}
+
+.nonPOS-class {
+  margin-left: 30% !important;
+  .mat-dialog-container {
+    border-radius: 30px !important;
+    overflow: unset !important;
+    width: 570px !important;
     height: 100% !important;
   }
   .mat-dialog-content {
@@ -623,7 +636,6 @@ input.mat-input-element {
     border-radius: 30px !important;
     width: 40% !important;
   }
-  
 }
 .my-custom-snackbar {
   position: absolute;
@@ -631,7 +643,7 @@ input.mat-input-element {
   top: 25px;
 }
 
-.mat-snack-bar-container{
+.mat-snack-bar-container {
   margin: 0px !important;
   padding: 0px !important;
   background-color: #535353 !important;
@@ -643,9 +655,8 @@ input.mat-input-element {
 .mat-bottom-sheet-container {
   border-radius: 20px 20px 0px 0px;
   padding-top: 10px 0px 10px 0px;
-
 }
-.mat-select-value-text{
+.mat-select-value-text {
   padding-left: 10px;
   font-size: 12px !important;
 }

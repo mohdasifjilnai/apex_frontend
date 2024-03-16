@@ -1,0 +1,35 @@
+<div>
+  <!-- Dialog title -->
+  <div mat-dialog-title class="row">
+    <div class="success-popup-header d-flex justify-content-end">
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose()"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
+  </div>
+  <!-- Dialog content -->
+  <div mat-dialog-content>
+    <div class="row vehicle-details-form">
+      <div class="col-12">
+        Dear Partner, IDV greater than 50 Lakhs sum-insured is above the
+        eligiblity limit and is a Non-POS product. It can be purchased by the
+        customer directly through our website. Please wait while we redirect you
+        to the RenewBuy website.
+      </div>
+
+      <div class="col-12 text-center mt-3">
+        <button
+          class="submit-btn success-submission"
+          type="submit"
+          (click)="onClose()"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
