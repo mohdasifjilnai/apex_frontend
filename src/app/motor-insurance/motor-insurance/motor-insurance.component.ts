@@ -244,6 +244,7 @@ export class MotorInsuranceComponent implements OnInit {
         .get('registration_date')
         ?.setValidators([Validators.required]);
       this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      sessionStorage.removeItem('checkWheeler');
     } else {
       this.motorInsurance
         .get('registration_number')

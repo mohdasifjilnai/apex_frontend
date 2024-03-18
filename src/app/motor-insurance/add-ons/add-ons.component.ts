@@ -297,10 +297,15 @@ export class AddOnsComponent implements OnInit {
     let bussinessType = sessionStorage.getItem('newVehicleType');
     let proposalType = sessionStorage.getItem('proposerType');
     let productType = sessionStorage.getItem('productType');
-
+    let diesel;
+    if (this.parsedVehicleData?.vehicle_fuel == 'DIESEL') {
+      diesel = true;
+    } else {
+      diesel = false;
+    }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addons}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}`
+        `${ApiConstants?.addonsApi}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
       )
       .subscribe((res: any) => {
         this.addonList = res;

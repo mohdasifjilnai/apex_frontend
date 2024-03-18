@@ -256,7 +256,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.checkWheeler = JSON.parse(
       sessionStorage.getItem('checkWheeler') || '{}'
     );
-    if (editVehicleDetails) {
+    if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
       if (
         (localStorage.getItem('vehicleType') == 'private_car' &&
           this.checkWheeler['is_four_wheeler']) ||

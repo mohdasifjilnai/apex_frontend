@@ -180,7 +180,7 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data != ''">
+              <span *ngIf="data?.addon_name != ''">
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.addon_name }}
@@ -198,7 +198,7 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data != ''">
+              <span *ngIf="data?.addon_name != ''">
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.addon_name }}
@@ -380,11 +380,13 @@
           <div class="comprehensive-key-features-value">
             <div
               class="key-features-value me-3"
-              *ngFor="let data of selectAddOnsList"
+              *ngFor="
+                let data of quotes?.premium_details?.addon_premium_details
+              "
             >
-              <span *ngIf="data != ''">
+              <span *ngIf="data?.addon_name != ''">
                 <img src="assets/icon/insurer-key-feature.svg" />
-                {{ data }}
+                {{ data?.addon_name }}
               </span>
             </div>
           </div>

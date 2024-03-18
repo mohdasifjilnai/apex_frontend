@@ -13,7 +13,7 @@ export class ApiConstants {
 
   //addons end point
 
-  public static addons: string = `/api/v1/addon/`;
+  public static addonsApi: string = `/api/v1/addon/`;
 
   // fetch ckyc data
   public static fetch_ckyc_data: string = `/api/v1/ckyc/fetch_ckyc_data/`;
