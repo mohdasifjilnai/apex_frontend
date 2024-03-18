@@ -155,15 +155,15 @@ export class QuotesListingComponent implements OnInit {
           (a: any, b: any) =>
             a.premium_details.total_premium - b.premium_details.total_premium
         );
-        for (const item of this.quotationData) {
-          if (item.premium_details && item?.premium_details?.idv > 5000000) {
-            this.isIdvGreaterThan50Lac = true;
-            break;
-          }
-        }
-        if (this.isIdvGreaterThan50Lac) {
-          this.openNonPOSPopup(null);
-        }
+        // for (const item of this.quotationData) {
+        //   if (item.premium_details && item?.premium_details?.idv > 5000000) {
+        //     this.isIdvGreaterThan50Lac = true;
+        //     break;
+        //   }
+        // }
+        // if (this.isIdvGreaterThan50Lac) {
+        //   this.openNonPOSPopup(null);
+        // }
       }
     });
     this.getProposalType();
@@ -270,7 +270,15 @@ export class QuotesListingComponent implements OnInit {
   getProposalDetails(quotes_data: any) {
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
     const transactionId = sessionStorage.getItem('transaction_id');
-    this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
+
+    if (quotes_data?.premium_details?.idv > 5000000) {
+      this.isIdvGreaterThan50Lac = true;
+    }
+    if (this.isIdvGreaterThan50Lac) {
+      this.openNonPOSPopup(null);
+    } else {
+      this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
+    }
   }
   /**
    * this function is used for the no quotes information details

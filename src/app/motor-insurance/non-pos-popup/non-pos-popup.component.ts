@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 
@@ -13,7 +14,8 @@ export class NonPosPopupComponent implements OnInit {
     private matDialog: WindowRef,
     private sharedDataService: SharedDataService,
     public dialogRef: MatDialogRef<NonPosPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router
   ) {}
   nonPosProduct = true;
   ngOnInit(): void {}
@@ -61,5 +63,11 @@ export class NonPosPopupComponent implements OnInit {
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  continueQuotes() {
+    const transactionId = sessionStorage.getItem('transaction_id');
+    this.dialogRef.close();
+    this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
   }
 }
