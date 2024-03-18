@@ -949,7 +949,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
-    } else if (selectedValue == 'satp') {
+    } else if (selectedValue == 'satp' || selectedValue == 'bundled_tp') {
       this.NoExpiryPolicy = false;
       this.hidePreviousClaimed = false;
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();

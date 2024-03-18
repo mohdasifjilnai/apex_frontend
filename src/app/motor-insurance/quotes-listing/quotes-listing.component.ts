@@ -340,6 +340,16 @@ export class QuotesListingComponent implements OnInit {
         this.showComprehensiveDiv = true;
       }
 
+      if (
+        productTypeValue == 'comprehensive' &&
+        this.parsedVehicleData?.policy_expiry == 'satp'
+      ) {
+        this.inspectionCase = 'Inspection';
+      } else {
+        this.inspectionCase = '';
+      }
+      this.sharedDataService.inspectionCaseData(this.inspectionCase);
+
       this.sharedDataService.chooseIdvHide(this.selectedProductType);
     }
     this.tabChangeOninit = false;
@@ -536,6 +546,8 @@ export class QuotesListingComponent implements OnInit {
             this.parsedVehicleData?.policy_expiry == 'satp'
           ) {
             this.inspectionCase = 'Inspection';
+          } else {
+            this.inspectionCase = '';
           }
           this.sharedDataService.inspectionCaseData(this.inspectionCase);
           this.registrationNumber =
