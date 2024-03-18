@@ -39,7 +39,7 @@ deploy:
     - chmod 400 -v ${DEV_SERVER_KEY} 
     - echo ${DEV_SERVER_KEY}
     - scp -o StrictHostKeyChecking=no -i ${DEV_SERVER_KEY} deploy.sh docker-compose.yml ubuntu@${DEV_SERVER_IP}://home/ubuntu/repos/apex-frontend
-    - ssh -o stricthostkeychecking=no -i ${DEV_SERVER_KEY} ubuntu@${DEV_SERVER_IP} "sudo su - ubuntu; cd repos/apex-frontend; sh deploy.sh"
+    - ssh -o stricthostkeychecking=no -i ${DEV_SERVER_KEY} ubuntu@${DEV_SERVER_IP} "sudo su - ubuntu; cd repos/apex-frontend; sh deploy.sh; sh deploy-preprod.sh"
 
   only:
     - master
