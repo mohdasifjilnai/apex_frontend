@@ -43,5 +43,6 @@ Thumbs.db
 **/local_*
 
 #test api automation file
-/test_automated_*/reports/
-/test_automated_*/target/
+/test_automated_*/test_report/
+test_automated_ui/apexenv/
+/test_automated_*/__pycache__
