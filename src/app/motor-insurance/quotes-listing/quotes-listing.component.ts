@@ -49,6 +49,7 @@ export class QuotesListingComponent implements OnInit {
   registrationNumber: any;
   progressValue = 0;
   chooseIdvArray: any;
+  mmvFormData: any = '';
 
   initiateQuotesJSON: {
     modalName: any;
@@ -115,6 +116,9 @@ export class QuotesListingComponent implements OnInit {
   inspectionCase = '';
   tabChangeOninit = true;
   proposalTypeOninit = true;
+  policyExpiryInspection: any = '';
+  currentDate: any = '';
+
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -320,24 +324,25 @@ export class QuotesListingComponent implements OnInit {
       this.selectedProductType = event.tab.textLabel;
       sessionStorage.setItem('productType', this.selectedProductType);
       let productTypeValue = sessionStorage.getItem('productType');
-      let mmvFormData = sessionStorage.getItem('mmv_data');
+      this.mmvFormData = sessionStorage.getItem('mmv_data');
+      let mmvFormValue = JSON.parse(this.mmvFormData);
       this.registrationNumber = sessionStorage.getItem('registrationNumber');
       this.quotationData = [];
       this.errorQuotationArray = [];
       if (this.registrationNumber) {
         this.sharedDataService.vehicleMMVDetails(
           productTypeValue,
-          mmvFormData,
+          this.mmvFormData,
           'registrationNumber'
         );
       } else {
         this.sharedDataService.vehicleMMVDetails(
           productTypeValue,
-          mmvFormData,
+          this.mmvFormData,
           'mmvQuotes'
         );
       }
-      this.sharedDataService.addOnsChange(mmvFormData);
+      this.sharedDataService.addOnsChange(this.mmvFormData);
       if (event.index === 1) {
         this.showComprehensiveDiv = false;
       } else {
@@ -349,6 +354,21 @@ export class QuotesListingComponent implements OnInit {
         this.parsedVehicleData?.policy_expiry == 'satp'
       ) {
         this.inspectionCase = 'Inspection';
+      } else if (mmvFormValue?.policy_expiry_date) {
+        this.policyExpiryInspection = new Date(
+          mmvFormValue?.policy_expiry_date
+        );
+
+        this.currentDate = new Date();
+        this.currentDate.setHours(0, 0, 0, 0); // Set time part to midnight
+
+        this.policyExpiryInspection.setHours(0, 0, 0, 0); // Set time part to midnight
+        this.inspectionCase = '';
+        if (this.policyExpiryInspection < this.currentDate) {
+          if (productTypeValue == 'saod') {
+            this.inspectionCase = 'Inspection';
+          }
+        }
       } else {
         this.inspectionCase = '';
       }
@@ -545,11 +565,29 @@ export class QuotesListingComponent implements OnInit {
           this.selectedProductType = this.tabDataList[0].code;
           sessionStorage.setItem('productType', this.selectedProductType);
           let productTypeValue = sessionStorage.getItem('productType');
+          this.mmvFormData = sessionStorage.getItem('mmv_data');
+          let mmvFormValue = JSON.parse(this.mmvFormData);
+
           if (
             productTypeValue == 'comprehensive' &&
             this.parsedVehicleData?.policy_expiry == 'satp'
           ) {
             this.inspectionCase = 'Inspection';
+          } else if (mmvFormValue?.policy_expiry_date) {
+            this.policyExpiryInspection = new Date(
+              mmvFormValue?.policy_expiry_date
+            );
+
+            this.currentDate = new Date();
+            this.currentDate.setHours(0, 0, 0, 0); // Set time part to midnight
+
+            this.policyExpiryInspection.setHours(0, 0, 0, 0); // Set time part to midnight
+            this.inspectionCase = '';
+            if (this.policyExpiryInspection < this.currentDate) {
+              if (productTypeValue == 'saod') {
+                this.inspectionCase = 'Inspection';
+              }
+            }
           } else {
             this.inspectionCase = '';
           }
@@ -557,21 +595,20 @@ export class QuotesListingComponent implements OnInit {
           this.registrationNumber =
             sessionStorage.getItem('registrationNumber');
           this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-          let mmvFormData = sessionStorage.getItem('mmv_data');
           if (this.registrationNumber) {
             this.sharedDataService.vehicleMMVDetails(
               this.selectedProductType,
-              mmvFormData,
+              this.mmvFormData,
               'registrationNumber'
             );
           } else {
             this.sharedDataService.vehicleMMVDetails(
               this.selectedProductType,
-              mmvFormData,
+              this.mmvFormData,
               'mmvQuotes'
             );
           }
-          this.sharedDataService.addOnsChange(mmvFormData);
+          this.sharedDataService.addOnsChange(this.mmvFormData);
         });
     }
   }
