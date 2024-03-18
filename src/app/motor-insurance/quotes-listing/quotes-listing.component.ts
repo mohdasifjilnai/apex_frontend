@@ -148,6 +148,7 @@ export class QuotesListingComponent implements OnInit {
   noQuotesInformation: any;
 
   ngOnInit(): void {
+    
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
@@ -173,7 +174,10 @@ export class QuotesListingComponent implements OnInit {
         this.renderer.removeClass(document.body, 'dropdown-focus');
       }
     });
-    this.startProgress();
+    this.startProgress(0);
+    this.sharedDataService.getProgressValue.subscribe((res) => {
+      this.startProgress(0);
+    });
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         // if (this.progressValue == 100) {
@@ -572,7 +576,8 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   intervalId: any = null;
-  startProgress() {
+  startProgress(progressValue:any) {
+    this.progressValue=progressValue
     this.intervalId = setInterval(() => {
       this.progressValue += 1;
       if (this.progressValue >= 100) {

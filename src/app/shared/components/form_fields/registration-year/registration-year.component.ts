@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -57,6 +57,8 @@ export class RegistrationYearComponent implements OnInit {
   currentDate: any;
   dateAppointment: any;
   private registrationDateSubscription!: Subscription;
+  @ViewChild('registrationYear') registrationYear!: MatDatepicker<Date>;
+  @ViewChild('registrationInput') registrationInput!: ElementRef;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -154,5 +156,8 @@ export class RegistrationYearComponent implements OnInit {
      * Perform specific action based on the value change
      */
     this.sharedDataService.getRegistrationDate(value);
+  }
+  EnterKey(event: Event) {
+    this.sharedDataService.handleEnterKey(event,this.registrationYear)
   }
 }

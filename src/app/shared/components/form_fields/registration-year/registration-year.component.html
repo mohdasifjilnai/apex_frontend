@@ -2,6 +2,7 @@
   <mat-label>Select Registration Date</mat-label>
   <input
     matInput
+    #registrationInput
     id-automation="registration_year_id"
     [matDatepicker]="registrationYear"
     placeholder="Month and Year"
@@ -11,6 +12,8 @@
     appMmYyyyformat
     [readonly]="true"
     (click)="registrationYear.open()"
+    (keyup.enter)="EnterKey($event)"
+
   />
   <mat-datepicker-toggle
     matSuffix

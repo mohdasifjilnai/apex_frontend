@@ -8,6 +8,7 @@
   <mat-label>Manufacture Date</mat-label>
   <input
     matInput
+    #manufactureInput
     [matDatepicker]="manufactureDate"
     placeholder="Manufacture Date"
     formControlName="manufacture_date"
@@ -18,6 +19,7 @@
     [max]="maxManufactureDate"
     [readonly]="true"
     (click)="manufactureDate.open()"
+    (keyup.enter)="EnterKey($event,manufactureDate)"
   />
   <mat-datepicker-toggle
     matSuffix

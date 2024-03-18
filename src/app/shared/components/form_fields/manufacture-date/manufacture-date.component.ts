@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -55,10 +55,11 @@ export class ManufactureDateComponent implements OnInit {
   @Input() customManufactureDate!: string;
   @Input() isManufactureDateDisbaled!: any;
   manufactureDate: any;
+  @ViewChild('manufactureDates') manufactureDates!: MatDatepicker<Date>;
+  @ViewChild('manufactureInput') manufactureInput!: ElementRef;
   minDate: any;
   maxDate: any;
   maxManufactureDate!: Date;
-
   constructor(
     private ctrlContainer: FormGroupDirective,
     private shared: SharedDataService
@@ -113,5 +114,8 @@ export class ManufactureDateComponent implements OnInit {
      * remove form control for the Manufacture Date
      */
     this.form.removeControl('manufacture_date');
+  }
+  EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
+    this.shared.handleEnterKey(event, manufacture);
   }
 }

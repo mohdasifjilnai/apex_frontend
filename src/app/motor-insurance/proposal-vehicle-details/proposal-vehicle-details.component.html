@@ -62,7 +62,9 @@
             checked
             formControlName="is_financed"
             #financedToggle
+            [checked]="isFinanced"
             (change)="getFinacedValue()"
+            (keyup.enter)="toggleCheckbox()"
           />
         </div>
       </div>
@@ -141,10 +143,11 @@
             type="checkbox"
             role="switch"
             id="flexSwitchCheckChecked"
-            checked
+            [checked]="isVehicle"
             formControlName="is_vehicle_address"
             #registrationAddressToggle
             (change)="getRegistrationAddressValue()"
+            (keyup.enter)="toggleCheckboxForIsVehicle()"
           />
         </div>
       </div>

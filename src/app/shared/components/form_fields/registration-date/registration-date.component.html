@@ -8,6 +8,7 @@
   <mat-label>Registration Date</mat-label>
   <input
     matInput
+    #registrationInput
     id-automation="registration_date_id"
     [matDatepicker]="registrationDate"
     placeholder="Registration Date"
@@ -17,6 +18,7 @@
     [max]="maxDate"
     [readonly]="true"
     (click)="registrationDate.open()"
+    (keyup.enter)="EnterKey($event)"
   />
   <mat-datepicker-toggle
     matSuffix

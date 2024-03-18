@@ -407,4 +407,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       );
     }
   }
+  isFinanced: boolean = false;
+  isVehicle:boolean=false
+  toggleCheckbox() {
+    this.isFinanced = !this.isFinanced; // Toggle the state
+    this.getFinacedValue(); // Call your method to handle the change
+  }
+  toggleCheckboxForIsVehicle() {
+    this.isVehicle = !this.isVehicle; // Toggle the state
+    this.getRegistrationAddressValue(this.isVehicle); // Call your method to handle the change
+  }
 }

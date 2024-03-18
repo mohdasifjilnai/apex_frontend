@@ -130,6 +130,7 @@ export class ProposalShareComponent implements OnInit {
    * this fucntion use for share inspection by social media
    */
   communication(event: any) {
+    this.shareQuotationForm.reset();
     this.isActiveIcon = event;
     this.isCommunicationField = true;
   }
@@ -159,7 +160,7 @@ export class ProposalShareComponent implements OnInit {
         this.data?.data,
         'proposal',
         this.partner_name,
-        `motor/quotes/proposal/${this.data?.data[0]?.transaction_id}`,
+        `motor/quotes/proposal/${this.data?.data[0]?.transaction_id}/review?proposal=true`,
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
         this.quotes_id
@@ -176,6 +177,8 @@ export class ProposalShareComponent implements OnInit {
           }, 5000);
           this.shareQuotationForm.reset();
         }
+      },(error) => {
+        this.shareQuotationForm.reset();
       });
   }
   proceedToPayment() {
@@ -184,7 +187,7 @@ export class ProposalShareComponent implements OnInit {
       transaction_id: this.quoteData?.transaction_id,
       share_type: 'otp',
       partner_name: this.generateProposalData?.customer_details?.full_name,
-      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
       mail_id: this.generateProposalData?.customer_details?.email_id,
       mobile_no: this.generateProposalData?.customer_details?.mobile_number,
       quote_id: [this.quoteData?.quote_id],

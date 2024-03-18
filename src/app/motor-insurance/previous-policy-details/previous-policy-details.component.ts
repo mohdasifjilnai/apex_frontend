@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -152,5 +153,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           }
         });
     }
+  }
+  EnterKey(event: Event,manufacture:MatDatepicker<Date>) {
+    this.sharedData.handleEnterKey(event,manufacture)
   }
 }

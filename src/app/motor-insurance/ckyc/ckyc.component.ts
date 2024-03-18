@@ -13,6 +13,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -359,5 +360,8 @@ export class CkycComponent implements OnInit {
    */
   checkedTerms(event: any) {
     this.isDownloading = event.checked;
+  }
+  EnterKey(event: Event,manufacture:MatDatepicker<Date>) {
+    this.sharedDataService.handleEnterKey(event,manufacture)
   }
 }

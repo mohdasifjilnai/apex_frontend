@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -6,7 +6,9 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { MatDatepicker } from '@angular/material/datepicker';
 import moment from 'moment';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-registration-date',
@@ -23,8 +25,10 @@ export class RegistrationDateComponent implements OnInit {
   @Input('required') isRequired = false;
   @Input() customRegistrationDate!: string;
   @Input() isRegistrationDateDisbaled!: any;
+  @ViewChild('registrationDate') registrationDate!: MatDatepicker<Date>;
+  @ViewChild('registrationInput') registrationInput!: ElementRef;
 
-  constructor(private ctrlContainer: FormGroupDirective) {
+  constructor(private ctrlContainer: FormGroupDirective,private sharedDataService:SharedDataService) {
     // this.minDate = new Date(1970, 0);
     this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
     const currentYear = moment().year();
@@ -53,5 +57,8 @@ export class RegistrationDateComponent implements OnInit {
   ngOnDestroy(): void {
     // remove form control for the Registration Date
     this.form.removeControl('registration_date');
+  }
+  EnterKey(event: Event) {
+    this.sharedDataService.handleEnterKey(event,this.registrationDate)
   }
 }

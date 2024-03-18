@@ -30,6 +30,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   proposalUrl: any;
   minDate!: Date;
   maxDate!: Date;
+  @ViewChild('registrationInput') registrationInput!: ElementRef;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -140,5 +141,8 @@ export class PolicyExpiredDateComponent implements OnInit {
     const result = new Date(date);
     result.setFullYear(result.getFullYear() + offset);
     return result;
+  }
+  EnterKey(event: Event) {
+    this.sharedDataService.handleEnterKey(event,this.expiryDate)
   }
 }

@@ -77,6 +77,7 @@
           formControlName="tp_policy_start_date"
           id-automation="tp_policy_start_date"
           (click)="tpPolicyStartDate.open()"
+          (keyup.enter)="EnterKey($event,tpPolicyStartDate)"
         />
         <mat-datepicker-toggle
           matSuffix

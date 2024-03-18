@@ -28,7 +28,7 @@ export class ChooseIDVComponent implements OnInit {
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
-  customIDV: boolean = false;
+  customIDV: boolean=false;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
@@ -88,6 +88,7 @@ export class ChooseIDVComponent implements OnInit {
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
+    this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
       // Show input field if "Choose IDV" option is selected
       this.customIDV = true; // Reset custom IDV value
