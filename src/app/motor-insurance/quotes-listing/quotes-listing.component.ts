@@ -152,7 +152,6 @@ export class QuotesListingComponent implements OnInit {
   noQuotesInformation: any;
 
   ngOnInit(): void {
-    
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
@@ -170,6 +169,7 @@ export class QuotesListingComponent implements OnInit {
         //   this.openNonPOSPopup(null);
         // }
       }
+      console.log(this.quotationData);
     });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
@@ -613,8 +613,8 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   intervalId: any = null;
-  startProgress(progressValue:any) {
-    this.progressValue=progressValue
+  startProgress(progressValue: any) {
+    this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
       this.progressValue += 1;
       if (this.progressValue >= 100) {

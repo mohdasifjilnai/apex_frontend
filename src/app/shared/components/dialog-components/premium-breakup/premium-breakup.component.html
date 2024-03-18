@@ -99,7 +99,7 @@
       {{ initiateQuotes?.premium_details?.total_addon_premium | numberFormat }}
     </span>
   </div>
-  <!-- <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-end">
     <div class="addons-card-popup" *ngIf="showCard">
       <div class="card">
         <div class="card-body">
@@ -107,18 +107,30 @@
             <div class="d-flex justify-content-between">
               <span class="own-damage-text text-bold"> Total Addons </span>
               <span class="own-damage-amount text-bold">
-                &#8377; 6,00,000
+                &#8377;
+                {{
+                  initiateQuotes?.premium_details?.total_addon_premium
+                    | numberFormat
+                }}
               </span>
             </div>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="own-damage-text"> Zero Depreciation </span>
-              <span class="own-damage-amount text-bold"> &#8377; 0 </span>
+            <div
+              class="d-flex justify-content-between mt-1"
+              *ngFor="
+                let addOns of initiateQuotes?.premium_details
+                  ?.addon_premium_details
+              "
+            >
+              <span class="own-damage-text"> {{ addOns?.addon_name }} </span>
+              <span class="own-damage-amount text-bold">
+                &#8377; {{ addOns?.add_on_premium }}
+              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
   <!-- <div class="d-flex justify-content-between">
     <span class="d-flex justify-content-start own-damage-text">
       Zero Depreciation
