@@ -19,6 +19,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { Router, RouterState } from '@angular/router';
 import moment from 'moment';
 import {
   Observable,
@@ -80,6 +81,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
   ncbAllData: any;
   claimedField = true;
   patchData = false;
+  isCheckWheeler: boolean = true;
+  vaahanName: any;
+  checkWheeler: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -113,7 +117,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
     public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public router: Router
   ) {
     this.vehicleDetailsFormControler();
     // this.getClaimedList();
@@ -242,7 +247,39 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let regDateValue = new Date(res);
       this.getExpiringPolicy(regDateValue);
     });
+    this.checkWheelerType(this.editVehicleDetails);
   }
+  /**
+   * Get the MMV popup data
+   */
+  checkWheelerType(editVehicleDetails: boolean) {
+    this.checkWheeler = JSON.parse(
+      sessionStorage.getItem('checkWheeler') || '{}'
+    );
+    if (editVehicleDetails) {
+      if (
+        (localStorage.getItem('vehicleType') == 'private_car' &&
+          this.checkWheeler['is_four_wheeler']) ||
+        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+          this.checkWheeler['is_two_wheeler'])
+      ) {
+        this.isCheckWheeler = true;
+      } else {
+        if (this.checkWheeler['is_two_wheeler']) {
+          this.vaahanName = 'bike';
+        }
+        if (this.checkWheeler['is_four_wheeler']) {
+          this.vaahanName = 'car';
+        }
+        this.isCheckWheeler = false;
+      }
+    }
+  }
+
+  /**
+   * This function is used to patch the vehicle details
+   * @param data
+   */
 
   patchVehicleData(data: any) {
     let registrationDateObject;
@@ -988,5 +1025,24 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     }
     this.patchData = false;
+  }
+  /**
+   * navigates to the motor insurance  page
+   */
+  newNumber() {
+    this.router.navigate(['/motor']);
+    this.dialogRef.close();
+  }
+  /**
+   * continue with current Journey
+   */
+  proccedToCurrentJourney(checkWheeler: any) {
+    if (localStorage.getItem('vehicleType') == 'private_car') {
+      checkWheeler['is_four_wheeler'] = true;
+    } else if (localStorage.getItem('vehicleType') == 'two_wheeler') {
+      checkWheeler['is_two_wheeler'] = true;
+    }
+    sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
+    this.isCheckWheeler = true;
   }
 }

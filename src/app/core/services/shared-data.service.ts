@@ -129,6 +129,11 @@ export class SharedDataService {
       )
       .subscribe((res: any) => {
         if (res?.detail != 'Vehicle details not found.') {
+          let checkWheeler = {
+            is_two_wheeler: res['is_two_wheeler'],
+            is_four_wheeler: res['is_four_wheeler'],
+          };
+          sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
           this.regNumberData.next(res);
           // this.getQuotationListing(res, data);
           this.router.navigate(['/motor/quotes']);

@@ -1,161 +1,158 @@
 ::ng-deep {
-    .mat-dialog-container {
-      border-radius: 20px !important;
-      width: 368px !important;
-      height: 100% !important;
-    }
-    .mat-form-field{
-      width: 100%;
-    }
+  .mat-dialog-container {
+    border-radius: 20px !important;
+    width: 368px !important;
+    // height: 100% !important;
   }
-  .procceed-inspection {
-    .insurance-icon {
-      position: relative;
-     
-      width: 193px;
-      height: 140px;
-    }
-    .premium-payable-group {
-      background-color: rgb(0 83 255 / 13%);
-      border-radius: 12px;
-      width: 100%;
-      height: 71px;
-    }
-    .total-premium-payable-amount,
-    .total-premium-payable-text {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .total-premium-payable-amount {
-      position: relative;
-      bottom: 10px;
-    }
-    .start-date-group,
-    .proposal-number-text {
-      font-size: 12px;
-      font-weight: 500;
-      color: #282828;
-    }
-    .proposal-number-id,
-    .start-date-data {
-      font-size: 14px;
-      font-weight: 600;
-      color: #282828;
-    }
-    
-    .start-date-data {
-      position: relative;
-      left: 100px;
-    }
-    .inspection-btn {
-      width: 100%;
-      font-size: 14px;
-      font-weight: 600;
-      color: white;
-    }
-    .share-group,
-    .download-group {
-      width: 100%;
-      height: 32px;
-      border-radius: 9px;
-      padding-right: 11px;
-      padding-top: 6px;
-      cursor: pointer;
-    }
-    .light-blue {
-      background-color: #5384ea45;
-    }
-    .download-group {
-      background-color: #47be8857;
-    }
-    .light-green {
-      background-color: #47be8857;
-    }
-    .share-icon,
-    .download-icon,
-    .whatsapp-icon,
-    .sms-icon,
-    .mail-icon {
-      width: 12px;
-      height: 22px;
-    }
-    .share-text,
-    .download-text {
-      font-size: 11px;
-      font-weight: 600;
-      position: relative;
-      bottom: -2px;
-      left: 6px;
-    }
-    .download-group-after-share {
+  .mat-form-field {
+    width: 100%;
+  }
+}
+.procceed-inspection {
+  .insurance-icon {
+    position: relative;
 
-      width: 100% ;
-    }
-    .communication-mode-text {
-      color: #282828;
-      font-size: 12px;
-      font-weight: 500;
-    }
-    .whatsapp-group,
-    .sms-group,
-    .mail-group {
-      width: 100%;
-      height: 32px;
-      border-radius: 8px;
-      text-align: center;
-      cursor: pointer;
-    }
-    .whatsapp-icon,
-    .sms-icon,
-    .mail-icon {
-      width: 22px;
-      height: 22px;
-      padding-top: 5px;
-    }
-    .whatsapp-border {
-      border: 1px solid #47be88;
-    }
-    .sms-border,
-    .mail-border {
-      border: 1px solid #5384ea;
-    }
-    .mat-form-field {
-      margin-top: 10px;
-    }
-    .send-btn {
-      background-color: #5384ea45;
-      border:none;
-    }
-    .send-btn:disabled{
-      background-color: #D6D6D6;
-      color: white !important;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .mat-dialog-content {
-      overflow: unset !important;
-    }
-    .note{
-      font-size: 11px;
-      font-weight: 500;
-      color: #282828;
-    }
-    .succsessMessage{
-      color: #47BE88;
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 20px;
-    }
-    .failureMessage{
-      color:red;
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 20px;
-    } 
-    .scroll{
-      max-height: 500px;
-      overflow: scroll;
-    }
-    
+    width: 193px;
+    height: 140px;
   }
-  
+  .premium-payable-group {
+    background-color: rgb(0 83 255 / 13%);
+    border-radius: 12px;
+    width: 100%;
+    height: 71px;
+  }
+  .total-premium-payable-amount,
+  .total-premium-payable-text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .total-premium-payable-amount {
+    position: relative;
+    bottom: 10px;
+  }
+  .start-date-group,
+  .proposal-number-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: #282828;
+  }
+  .proposal-number-id,
+  .start-date-data {
+    font-size: 14px;
+    font-weight: 600;
+    color: #282828;
+  }
+
+  .start-date-data {
+    position: relative;
+    left: 100px;
+  }
+  .inspection-btn {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+  .share-group,
+  .download-group {
+    width: 100%;
+    height: 32px;
+    border-radius: 9px;
+    padding-right: 11px;
+    padding-top: 6px;
+    cursor: pointer;
+  }
+  .light-blue {
+    background-color: #5384ea45;
+  }
+  .download-group {
+    background-color: #47be8857;
+  }
+  .light-green {
+    background-color: #47be8857;
+  }
+  .share-icon,
+  .download-icon,
+  .whatsapp-icon,
+  .sms-icon,
+  .mail-icon {
+    width: 12px;
+    height: 22px;
+  }
+  .share-text,
+  .download-text {
+    font-size: 11px;
+    font-weight: 600;
+    position: relative;
+    bottom: -2px;
+    left: 6px;
+  }
+  .download-group-after-share {
+    width: 100%;
+  }
+  .communication-mode-text {
+    color: #282828;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .whatsapp-group,
+  .sms-group,
+  .mail-group {
+    width: 100%;
+    height: 32px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .whatsapp-icon,
+  .sms-icon,
+  .mail-icon {
+    width: 22px;
+    height: 22px;
+    padding-top: 5px;
+  }
+  .whatsapp-border {
+    border: 1px solid #47be88;
+  }
+  .sms-border,
+  .mail-border {
+    border: 1px solid #5384ea;
+  }
+  .mat-form-field {
+    margin-top: 10px;
+  }
+  .send-btn {
+    background-color: #5384ea45;
+    border: none;
+  }
+  .send-btn:disabled {
+    background-color: #d6d6d6;
+    color: white !important;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+  .note {
+    font-size: 11px;
+    font-weight: 500;
+    color: #282828;
+  }
+  .succsessMessage {
+    color: #47be88;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+  .failureMessage {
+    color: red;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+  .scroll {
+    max-height: 500px;
+    overflow: scroll;
+  }
+}

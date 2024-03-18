@@ -660,3 +660,9 @@ input.mat-input-element {
   padding-left: 10px;
   font-size: 12px !important;
 }
+// for mobile devices
+@media screen and (max-width: 767px) {
+  .insurance-details-class {
+    margin-left: 1%;
+  }
+}
