@@ -335,6 +335,7 @@ export class QuotesListingComponent implements OnInit {
       this.sharedDataService.chooseIdvHide(this.selectedProductType);
     }
     this.tabChangeOninit = false;
+    this.sharedDataService.tabChangeModified(true);
   }
 
   /**
@@ -528,6 +529,7 @@ export class QuotesListingComponent implements OnInit {
           ) {
             this.inspectionCase = 'Inspection';
           }
+          this.sharedDataService.inspectionCaseData(this.inspectionCase);
           this.registrationNumber =
             sessionStorage.getItem('registrationNumber');
           this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');

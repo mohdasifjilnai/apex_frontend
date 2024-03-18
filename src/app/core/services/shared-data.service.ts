@@ -43,6 +43,8 @@ export class SharedDataService {
   selectedADDOnsList: Subject<any> = new Subject();
   enableQuotesAction: Subject<any> = new Subject();
   getTransactionId: Subject<any> = new Subject();
+  tabChanges: Subject<any> = new Subject();
+  inspectionCard: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -660,5 +662,18 @@ export class SharedDataService {
   }
   sendTransactionId(data: any) {
     this.getTransactionId.next(data);
+  }
+  /**
+   * Fires an event to notify other components that the tab has changed.
+   *
+   * @param data - The data associated with the tab change.
+   */
+
+  tabChangeModified(data: any) {
+    this.tabChanges.next(data);
+  }
+
+  inspectionCaseData(data: any) {
+    this.inspectionCard.next(data);
   }
 }

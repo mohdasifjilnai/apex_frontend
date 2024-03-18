@@ -68,6 +68,17 @@ export class AddOnsComponent implements OnInit {
       this.enableAddOns = false;
     });
 
+    this.sharedDataService.tabChanges.subscribe((data) => {
+      this.subCheckBox = [];
+      this.selectedCheckedArray = [];
+      this.selectAddOnsOnly = [];
+      this.checkBoxValueArray = [];
+      this.inputValues = [];
+      this.showButtons = false;
+      this.showUpdateButton = false;
+      this.selected_addons = {};
+    });
+
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);

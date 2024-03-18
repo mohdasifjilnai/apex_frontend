@@ -44,6 +44,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   previousNCB: any;
   vehiclePopupList: any;
   newNCB: any;
+  inspectionValue: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -73,6 +74,10 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.vehicleCardData(this.parsedVehicleData);
+    });
+
+    this.sharedDataService.inspectionCard.subscribe((cardData) => {
+      this.inspectionValue = cardData;
     });
   }
 

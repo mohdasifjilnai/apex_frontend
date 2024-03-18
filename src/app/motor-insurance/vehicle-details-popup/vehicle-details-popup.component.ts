@@ -845,7 +845,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
               : null;
 
           if (!this.vehiclePopupList) {
-            if (this.vehicleMMVValue.policy_expiry_date === 'Not Sure') {
+            if (this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') {
               for (let expiry of this.expiryList) {
                 if (
                   expiry.rb_expiring_policy_type ===

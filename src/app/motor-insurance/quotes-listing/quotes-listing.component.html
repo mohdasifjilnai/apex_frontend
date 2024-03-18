@@ -97,9 +97,11 @@
     ></mat-progress-bar>
   </div>
   <ng-container *ngIf="quotationData?.length > 0">
-    <div *ngIf="inspectionCase == 'Inspection'" class="row">
-      <div class="col-12 inspectionCase">Inspection Case</div>
-    </div>
+    <!-- <div *ngIf="inspectionCase == 'Inspection'" class="row">
+      <div class="col-12 inspectionCase">
+        Vehicle inspection is required as your previous policy is not available
+      </div>
+    </div> -->
     <div class="quotation-listing" *ngIf="showComprehensiveDiv">
       <div *ngFor="let quotes of quotationData">
         <div class="row comprehensive-card">
