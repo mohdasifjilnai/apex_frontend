@@ -168,7 +168,24 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    * submits the form data to the backend for uploading the required documents
    * @param isValid - boolean value indicating whether the form is valid or not
    */
-  submitUploadDocumentsForm(isValid: boolean) {}
+  submitUploadDocumentsForm(isValid: boolean) {
+    if (isValid) {
+      let body = {
+        document_no: this.uploadDocumentsForm.get('document_number_based_field')
+          ?.value,
+        document_type: this.uploadDocumentsForm.get('document_type_based_field')
+          ?.value,
+        document_url: this.uploadDocumentsForm.get('file')?.value,
+        proposal_id: this.proposalId,
+        transaction_id: this.transactionId,
+      };
+      this.apiService
+        .postRequestedResponse(`${ApiConstants['upload_document_save']}`, body)
+        .subscribe((data) => {
+          this.dialogRef.close(data);
+        });
+    }
+  }
   /**
    * Closes the dialog and returns the result to the dialog opener.
    * @param resData - The result to be returned.
