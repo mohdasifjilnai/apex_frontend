@@ -54,6 +54,7 @@ export class ProposalReviewComponent implements OnInit {
   isTpDetailsDisabled: boolean = false;
   isAcknowledged: boolean = false;
   proposalParam: any;
+  proposalId: any;
 
   constructor(
     private route: Router,
@@ -68,7 +69,6 @@ export class ProposalReviewComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
-    this.generateProposal();
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     let productTypeValue = sessionStorage.getItem('productType');
     if (productTypeValue === 'saod') {
@@ -77,9 +77,15 @@ export class ProposalReviewComponent implements OnInit {
     this.router.queryParams.subscribe((params) => {
       this.proposalParam = params['proposal'] === 'true';
       if (this.proposalParam) {
-        this.getInsurerCode();
+        console.log('Proposal  provided');
+        this.router.url.subscribe((segments) => {
+          const urlSegments = segments.map((segment) => segment.path);
+          this.proposalId = urlSegments[urlSegments.length - 2];
+          this.getInsurerCode();
+        });
       } else {
         console.log('Proposal is false or not provided');
+        this.generateProposal();
       }
     });
   }
@@ -149,9 +155,7 @@ export class ProposalReviewComponent implements OnInit {
   getInsurerCode() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_insurer_code}/${sessionStorage.getItem(
-          'transaction_id'
-        )}/${this.quoteData?.quote_id}`
+        `${ApiConstants.get_insurer_code}/${this.proposalId}/${this.quoteData?.quote_id}`
       )
       .subscribe((response) => {
         if (response) {

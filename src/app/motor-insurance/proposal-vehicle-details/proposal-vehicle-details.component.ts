@@ -123,11 +123,22 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         // this.getRegistrationAddressValue();
         this.proposalData = proposal;
-        // if (this.proposalData?.vehicle_details?.financer_details?.financer_id) {
-        //   this.proposalVehilceDetailsForm.patchValue({
-        //     financer: this.proposalData?.vehicle_details?.financer_details,
-        //   });
-        // }
+        if (this.proposalData?.vehicle_details?.financer_details?.financer_id) {
+          this.apiservice
+            .getRequestedResponse(
+              `${ApiConstants.financier_List}?insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }&financier_id=${
+                this.proposalData?.vehicle_details?.financer_details
+                  ?.financer_id
+              }`
+            )
+            .subscribe((response) => {
+              this.proposalVehilceDetailsForm.patchValue({
+                financer: response[0],
+              });
+            });
+        }
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: proposal?.vehicle_details?.registration_no,
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
