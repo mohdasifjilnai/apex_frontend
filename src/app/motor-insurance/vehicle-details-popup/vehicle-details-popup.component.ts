@@ -226,7 +226,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         );
       }
       this.getExpiringPolicy();
-      this.getRTOData();
+      this.getRTOData('rto_code');
       this.getNcbList();
       this.getPolicyExpiryList();
     }, 2000);
@@ -416,7 +416,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
               (model: any) =>
                 model?.rb_mmv_id === this.registrationNumber?.rb_mmv_id
             );
-
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
@@ -456,7 +455,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
               (model: any) =>
                 model?.rb_mmv_id === this.vehicleMMVValue?.vehicle?.rb_mmv_id
             );
-
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
@@ -666,7 +664,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
       apiData = `?rb_rto_id=${this.rto_id}`;
     } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
-      apiData = '';
+      apiData =
+        type == 'rto_code'
+          ? `?search_element=${this.registrationNumber?.rb_rto_code}`
+          : '';
     }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
@@ -1036,12 +1037,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
   /**
    * continue with current Journey
    */
-  proccedToCurrentJourney(checkWheeler: any) {
-    if (localStorage.getItem('vehicleType') == 'private_car') {
-      checkWheeler['is_four_wheeler'] = true;
-    } else if (localStorage.getItem('vehicleType') == 'two_wheeler') {
-      checkWheeler['is_two_wheeler'] = true;
+  proccedToCurrentJourney(checkWheeler: any, rb_mmv_id: any) {
+    if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
+      localStorage.setItem('vehicleType', 'private_car');
     }
+    if (!checkWheeler['is_four_wheeler'] && checkWheeler['is_two_wheeler']) {
+      localStorage.setItem('vehicleType', 'two_wheeler');
+    }
+    checkWheeler['is_four_wheeler'] = true;
+    checkWheeler['is_two_wheeler'] = true;
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.getVehicleMMVPopup('', rb_mmv_id);
+    this.getRTOData('rto_code');
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;
   }

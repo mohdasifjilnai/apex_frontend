@@ -342,7 +342,9 @@
       <div class="col-6 text-center">
         <button
           class="submit-btn success-submission"
-          (click)="proccedToCurrentJourney(checkWheeler)"
+          (click)="
+            proccedToCurrentJourney(checkWheeler, registrationNumber?.rb_mmv_id)
+          "
           type="submit"
         >
           Procced to {{ vaahanName }} journey
