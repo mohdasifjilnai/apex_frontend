@@ -43,15 +43,14 @@ export class ShareQuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.partner_name=localStorage.getItem('ta_user_name')
-    if(Object.keys(this.bottomSheetdata).length>0){
-      this.quotesData=this.bottomSheetdata
+    this.partner_name = localStorage.getItem('ta_user_name');
+    if (Object.keys(this.bottomSheetdata).length > 0) {
+      this.quotesData = this.bottomSheetdata;
+    } else {
+      this.quotesData = this.data?.data;
     }
-    else{
-      this.quotesData=this.data?.data
-    }
-    for (let value of this.quotesData){
-      this.quotes_id.push(value?.quote_id)
+    for (let value of this.quotesData) {
+      this.quotes_id.push(value?.quote_id);
     }
   }
   /**
@@ -62,11 +61,11 @@ export class ShareQuotesComponent implements OnInit {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();
-    } 
+    }
   }
   /**
-     * Share Quotes Api Integration
-     */
+   * Share Quotes Api Integration
+   */
   shareQuotes() {
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
@@ -80,7 +79,7 @@ export class ShareQuotesComponent implements OnInit {
         this.shareQuotationForm.get('contact_number')?.value +
         ' successfully';
     }
-    if ((this.endPath = 'review')) {
+    if (this.endPath == 'review') {
       this.sharedDataService
         .shareQuotes(
           this.quotesData,
@@ -103,12 +102,13 @@ export class ShareQuotesComponent implements OnInit {
           }
         );
     } else {
+      let transactionId = sessionStorage.getItem('transaction_id');
       this.sharedDataService
         .shareQuotes(
           this.quotesData,
           'quote',
           this.partner_name,
-          'motor/quotes',
+          `motor/quotes/?transaction_id${transactionId}`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
           this.quotes_id

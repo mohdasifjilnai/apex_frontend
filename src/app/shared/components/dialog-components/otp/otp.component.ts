@@ -6,6 +6,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 
 @Component({
   selector: 'app-otp',
@@ -26,6 +28,22 @@ export class OtpComponent implements OnInit {
       'border-radius': '8px',
     },
   };
+
+  failureJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: FailureDialogComponent,
+    widthObtained: '70%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
   resendDisabled = false;
   countdown = 60;
   btnDisable: boolean = true;
@@ -39,7 +57,8 @@ export class OtpComponent implements OnInit {
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
-    private sharedDataService:SharedDataService
+    private sharedDataService: SharedDataService,
+    private matDialog: WindowRef
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -92,7 +111,7 @@ export class OtpComponent implements OnInit {
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
-        this.sharedDataService.openSnackBar('Please enter valid otp',false)
+        this.sharedDataService.openSnackBar('Please enter valid otp', false);
       } else {
         if (window.innerWidth <= 999) {
           this.bottomSheetRef.dismiss();
@@ -116,6 +135,8 @@ export class OtpComponent implements OnInit {
                     window.location.href = payment_getway_response['url'];
                   }
                 });
+            } else {
+              this.openFailurePopup(generatedProposal);
             }
           });
       }
@@ -132,5 +153,31 @@ export class OtpComponent implements OnInit {
           console.log(res, 'resend');
         }
       });
+  }
+
+  openFailurePopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = '900px';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.failureJSON['modalName'],
+      width: this.failureJSON['widthObtained'],
+      height: this.failureJSON['heightObtained'],
+      classNameObtained: this.failureJSON['classObtained'],
+      isOutSideClose: this.failureJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }
