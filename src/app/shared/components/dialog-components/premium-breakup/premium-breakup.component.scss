@@ -105,3 +105,11 @@
   width: 13%;
   z-index: 9999;
 }
+// for mobile devices
+@media screen and (max-width: 767px) {
+  .addons-card-popup {
+    right: 2%;
+    top: 1%;
+    width: 60%;
+  }
+}
