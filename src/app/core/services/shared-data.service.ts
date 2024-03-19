@@ -625,7 +625,7 @@ export class SharedDataService {
     let data = {
       transaction_id: quotes_data[0]?.transaction_id,
       share_type: share_type,
-      partner_name: partner_name,
+      partner_name: 'Ravi Kumar',
       URL: `${environment['apex']}${url}`,
       mail_id: mail_id ? mail_id : '',
       mobile_no: mobile_name ? mobile_name : null,

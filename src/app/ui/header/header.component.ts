@@ -53,16 +53,18 @@ export class HeaderComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.elem = this.widgetId.nativeElement;
+    if (this.widgetId != undefined) {
+      this.elem = this.widgetId.nativeElement;
 
-    new this.win.nativeWindow.RB_AMS_SDK({
-      userInfo: this.elem,
-      islogIn: this.authService.setUser,
-      UserlogOut: this.authService.logOut,
-      amsurl: this.env.amsurl,
-      partnerJourney: true,
-      partnerUrl: this.env.profile_redirection,
-    });
+      new this.win.nativeWindow.RB_AMS_SDK({
+        userInfo: this.elem,
+        islogIn: this.authService.setUser,
+        UserlogOut: this.authService.logOut,
+        amsurl: this.env.amsurl,
+        partnerJourney: true,
+        partnerUrl: this.env.profile_redirection,
+      });
+    }
   }
   /**
    * Copies the given text to the clipboard.

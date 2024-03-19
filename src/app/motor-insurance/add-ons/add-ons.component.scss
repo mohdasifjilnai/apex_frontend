@@ -15,13 +15,11 @@
     .mat-accordion > .mat-expansion-panel-spacing:first-child {
       margin-top: 16px;
       border-radius: 16px;
-
-      
     }
-    .mat-expansion-panel.mat-expanded .mat-expansion-panel-header{
+    .mat-expansion-panel.mat-expanded .mat-expansion-panel-header {
       height: 41px !important;
     }
-    .mat-expansion-panel-body{
+    .mat-expansion-panel-body {
       padding-top: 8px;
     }
     .mat-checkbox-inner-container {
@@ -45,7 +43,6 @@
         border-top: 1px solid #eaeaea;
       }
     }
-    
   }
   .card-header {
     border-radius: 16px 16px 0px 0px;
@@ -77,7 +74,7 @@
       cursor: pointer;
     }
   }
-  .voluntry-btn{
+  .voluntry-btn {
     .voluntry {
       border: 1px solid #ababab;
       border-radius: 8px;
@@ -99,12 +96,12 @@
       color: #5384ea;
     }
   }
- 
+
   .bottom-btn {
     position: sticky;
     bottom: 0;
     background-color: #fff;
-    .submit-btn{
+    .submit-btn {
       width: 48%;
     }
   }
@@ -116,7 +113,7 @@
     border: 1px solid #ffb171;
     height: 36px;
     border-radius: 12px;
-    width: 48%;
+    width: 240%;
   }
 }
 .add-ons-res {
@@ -150,13 +147,13 @@
       ::ng-deep .mat-form-field {
         width: 100% !important;
       }
-      ::ng-deep .mat-input-custom .mat-form-field-infix{
+      ::ng-deep .mat-input-custom .mat-form-field-infix {
         width: 100% !important;
       }
       ::ng-deep .mat-form-field-wrapper {
         padding-bottom: 0 !important;
       }
-      .voluntry-btn{
+      .voluntry-btn {
         .voluntry {
           border: 1px solid #ababab;
           border-radius: 8px;
@@ -185,6 +182,5 @@
       bottom: 0;
       background-color: #fff;
     }
-    
   }
 }

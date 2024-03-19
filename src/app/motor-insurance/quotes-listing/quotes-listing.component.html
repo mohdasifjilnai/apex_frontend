@@ -180,12 +180,18 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data?.add_on_name && data?.is_offered">
+              <span
+                *ngIf="data?.add_on_name && data?.is_offered"
+                class="key-features-value"
+              >
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.add_on_name }}
               </span>
-              <span *ngIf="data?.add_on_name && !data?.is_offered">
+              <span
+                *ngIf="data?.add_on_name && !data?.is_offered"
+                class="key-features-value-not-offered"
+              >
                 <img src="assets/icon/quotes_cross.svg" />
 
                 {{ data?.add_on_name }}
@@ -203,13 +209,19 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data?.add_on_name && data?.is_offered">
+              <span
+                *ngIf="data?.add_on_name && data?.is_offered"
+                class="key-features-value"
+              >
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.add_on_name }}
               </span>
-              <span *ngIf="data?.add_on_name && !data?.is_offered">
-                <img src="assets/icon/quotes-cross.svg" />
+              <span
+                *ngIf="data?.add_on_name && !data?.is_offered"
+                class="key-features-value-not-offered"
+              >
+                <img src="assets/icon/quotes_cross.svg" />
 
                 {{ data?.add_on_name }}
               </span>
@@ -394,13 +406,19 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data?.add_on_name && data?.is_offered">
+              <span
+                *ngIf="data?.add_on_name && data?.is_offered"
+                class="key-features-value"
+              >
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.add_on_name }}
               </span>
-              <span *ngIf="data?.add_on_name && !data?.is_offered">
-                <img src="assets/icon/quotes-cross.svg" />
+              <span
+                *ngIf="data?.add_on_name && !data?.is_offered"
+                class="key-features-value-not-offered"
+              >
+                <img src="assets/icon/quotes_cross.svg" />
 
                 {{ data?.add_on_name }}
               </span>
@@ -417,13 +435,19 @@
                 let data of quotes?.premium_details?.addon_premium_details
               "
             >
-              <span *ngIf="data?.add_on_name && data?.is_offered">
+              <span
+                *ngIf="data?.add_on_name && data?.is_offered"
+                class="key-features-value"
+              >
                 <img src="assets/icon/insurer-key-feature.svg" />
 
                 {{ data?.add_on_name }}
               </span>
-              <span *ngIf="data?.add_on_name && !data?.is_offered">
-                <img src="assets/icon/quotes-cross.svg" />
+              <span
+                *ngIf="data?.add_on_name && !data?.is_offered"
+                class="key-features-value-not-offered"
+              >
+                <img src="assets/icon/quotes_cross.svg" />
 
                 {{ data?.add_on_name }}
               </span>

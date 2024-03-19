@@ -35,6 +35,7 @@ export class AddOnsComponent implements OnInit {
   dynamicObject: any;
   showButtons: boolean = false;
   showUpdateButton = false;
+  clearAllButton = false;
   forFetchQuotes: any;
   selected_addons: any;
   vehicleData: any;
@@ -76,6 +77,7 @@ export class AddOnsComponent implements OnInit {
       this.inputValues = [];
       this.showButtons = false;
       this.showUpdateButton = false;
+      this.clearAllButton = false;
       this.selected_addons = {};
     });
 
@@ -128,6 +130,7 @@ export class AddOnsComponent implements OnInit {
     this.inputValues = [];
     this.showButtons = false;
     this.showUpdateButton = false;
+    this.clearAllButton = false;
     this.selected_addons = {};
 
     let productTypeValue = sessionStorage.getItem('productType');
@@ -177,6 +180,7 @@ export class AddOnsComponent implements OnInit {
       if (this.checkBoxValueArray.length >= 1) {
         this.showButtons = true;
         this.showUpdateButton = true;
+        this.clearAllButton = true;
       }
     } else {
       const valueToRemove = rb_code;
@@ -233,13 +237,16 @@ export class AddOnsComponent implements OnInit {
         if (this.updateAddOns) {
           this.showButtons = true;
           this.showUpdateButton = true;
+          this.clearAllButton = false;
         } else {
           this.showButtons = false;
           this.showUpdateButton = false;
+          this.clearAllButton = false;
         }
       } else {
         this.showButtons = true;
         this.showUpdateButton = true;
+        this.clearAllButton = true;
       }
     }
   }
@@ -283,10 +290,12 @@ export class AddOnsComponent implements OnInit {
     this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
     this.showButtons = false;
     this.showUpdateButton = true;
+    this.clearAllButton = true;
     this.enableAddOns = true;
     this.updateAddOns = true;
     if (this.checkBoxValueArray.length == 0) {
       this.showUpdateButton = false;
+      this.clearAllButton = false;
     }
   }
   /**

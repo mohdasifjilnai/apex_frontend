@@ -143,13 +143,16 @@
   </mat-accordion>
   <div class="bottom-btn p-2" *ngIf="showUpdateButton">
     <div class="d-flex justify-content-between mt-2">
-      <button
-        class="cancel-btn"
-        (click)="clearAllChecked()"
-        [disabled]="enableAddOns"
-      >
-        Clear All
-      </button>
+      <div *ngIf="clearAllButton">
+        <button
+          class="cancel-btn"
+          (click)="clearAllChecked()"
+          [disabled]="enableAddOns"
+        >
+          Clear All
+        </button>
+      </div>
+
       <button *ngIf="showButtons" class="submit-btn" (click)="update()">
         Update
       </button>

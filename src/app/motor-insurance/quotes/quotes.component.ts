@@ -71,6 +71,9 @@ export class QuotesComponent implements OnInit {
 
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
+      if (shareTransaction) {
+        sessionStorage.setItem('transaction_id', shareTransaction);
+      }
     });
   }
   receivedData: any;
