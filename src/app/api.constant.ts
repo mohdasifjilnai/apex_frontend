@@ -71,4 +71,8 @@ export class ApiConstants {
   public static salutation: string = `/api/v1/salutation/`;
   //financier name
   public static financier_List: string = `/api/v1/financiers/`;
+  //Get Insurer Code
+  public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
+  //make model and variant
+  public static make_model_and_variant: string = `/api/v1/get_depending_mmv/`;
 }

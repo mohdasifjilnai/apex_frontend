@@ -53,6 +53,7 @@ export class ProposalReviewComponent implements OnInit {
   vehicleType: any;
   isTpDetailsDisabled: boolean = false;
   isAcknowledged: boolean = false;
+  proposalParam: any;
 
   constructor(
     private route: Router,
@@ -61,7 +62,8 @@ export class ProposalReviewComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     private apiService: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: ActivatedRoute
   ) {}
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
@@ -72,6 +74,14 @@ export class ProposalReviewComponent implements OnInit {
     if (productTypeValue === 'saod') {
       this.isTpDetailsDisabled = true;
     }
+    this.router.queryParams.subscribe((params) => {
+      this.proposalParam = params['proposal'] === 'true';
+      if (this.proposalParam) {
+        this.getInsurerCode();
+      } else {
+        console.log('Proposal is false or not provided');
+      }
+    });
   }
   navigateToUrl(titleName: string) {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
@@ -82,7 +92,6 @@ export class ProposalReviewComponent implements OnInit {
   }
   submitReview() {
     this.openModal([this.quoteData], this.insuranceDetailsJSON);
-
   }
   /**
    * this fucntion use open pop up modal
@@ -105,7 +114,7 @@ export class ProposalReviewComponent implements OnInit {
       isOutSideClose: jsonData['isOutSideClose'],
       minWidth: resWidth,
       dataInfo: {
-        data:ObjData,
+        data: ObjData,
         top: resTop,
       },
     };
@@ -121,22 +130,34 @@ export class ProposalReviewComponent implements OnInit {
   generateProposal() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_proposal}/?insurer_code=${
-          this.quoteData['insurer_code']
-        }&proposal_id=${sessionStorage.getItem('proposal_Id')}`
+        `${ApiConstants.get_proposal}/?insurer_code=${this.quoteData['insurer_code']}&transaction_id=${this.quoteData?.transaction_id}`
       )
       .subscribe((res) => {
         this.generateProposalData = res;
         const dataToSend = [
           res?.previous_policy_details, //Previous Policy Details
           res?.proposal_number, //Proposal Number
-          res, //Proposal Details 
-          this.quoteData //Quotes Details Data
+          res, //Proposal Details
+          this.quoteData, //Quotes Details Data
         ];
         this.shareData.setPreviousPolicyDetails(dataToSend);
       });
   }
   updateCheckBoxState(checked: boolean) {
     this.isAcknowledged = checked;
+  }
+  getInsurerCode() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_insurer_code}/${sessionStorage.getItem(
+          'transaction_id'
+        )}/${this.quoteData?.quote_id}`
+      )
+      .subscribe((response) => {
+        if (response) {
+          // this.generateProposal(response?.insurer_code);
+        }
+        // this.agreementList = response;
+      });
   }
 }
