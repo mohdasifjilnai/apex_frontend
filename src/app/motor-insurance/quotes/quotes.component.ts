@@ -14,6 +14,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 export class QuotesComponent implements OnInit {
   withoutVehicleNumber: any;
   waitquotationData: any = sessionStorage.getItem('waitquotationData');
+  checkWheeler: any;
   vehicleDetailsJSON: {
     modalName: any;
     widthObtained: string;
@@ -43,6 +44,15 @@ export class QuotesComponent implements OnInit {
         return;
       }
     });
+
+    this.checkWheeler = JSON.parse(
+      sessionStorage.getItem('checkWheeler') || '{}'
+    );
+    if (Object.keys(this.checkWheeler).length > 0) {
+      this.vehicleDetailsJSON['classObtained'] = 'warn-details-class';
+    } else {
+      this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
+    }
   }
 
   ngOnInit(): void {

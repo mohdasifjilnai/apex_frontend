@@ -315,7 +315,7 @@
   <!-- Dialog content -->
   <div mat-dialog-content>
     <div class="row">
-      <div class="col-6 offset-4">
+      <div class="col-6 offset-3">
         <div class="error-gif">
           <img
             src="/assets/gif/error.gif"
@@ -331,17 +331,13 @@
         </p>
       </div>
       <div class="col-6 text-center">
-        <button
-          class="submit-btn success-submission"
-          (click)="newNumber()"
-          type="submit"
-        >
+        <button class="submit-btn" (click)="newNumber()" type="submit">
           Enter new Number
         </button>
       </div>
       <div class="col-6 text-center">
         <button
-          class="submit-btn success-submission"
+          class="submit-btn"
           (click)="
             proccedToCurrentJourney(checkWheeler, registrationNumber?.rb_mmv_id)
           "

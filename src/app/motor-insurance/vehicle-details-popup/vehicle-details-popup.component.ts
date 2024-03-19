@@ -1051,5 +1051,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.getRTOData('rto_code');
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;
+    this.dialogRef.removePanelClass('warn-details-class');
+    this.dialogRef.addPanelClass('vehicle-details-class');
   }
 }

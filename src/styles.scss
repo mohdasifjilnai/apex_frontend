@@ -619,6 +619,20 @@ input.mat-input-element {
     max-height: 100%;
   }
 }
+.warn-details-class {
+  margin-left: 36%;
+  margin-top: 5% !important;
+  overflow: none !important;
+  .mat-dialog-container {
+    border-radius: 20px;
+    width: 515px !important;
+    overflow: unset !important;
+    padding: 4% !important;
+  }
+  .mat-dialog-content {
+    max-height: 100%;
+  }
+}
 .mat-input-share-social-media {
   .mat-form-field-infix {
     width: 300px !important;
