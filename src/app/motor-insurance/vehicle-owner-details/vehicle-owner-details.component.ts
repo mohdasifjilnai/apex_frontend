@@ -73,7 +73,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ownner_occupation_type: new FormControl('', Validators.required),
     owner_communication_addres: new FormControl('', [Validators.required]),
     marital_status: new FormControl('1', Validators.required),
-    owner_gender: new FormControl('1', Validators.required),
+    owner_gender: new FormControl('', Validators.required),
     ownner_salutation_type: new FormControl('1', Validators.required),
   });
 

@@ -37,6 +37,7 @@ export class SharedDataService {
   quotesData: Subject<any> = new Subject();
   fetchCKycFormData: Subject<any> = new Subject();
   registrationAddressData: Subject<any> = new Subject();
+  financedAddressData: Subject<any> = new Subject();
   fetchedCkycData: Subject<any> = new Subject();
   addOnsBaseProposalType: Subject<any> = new Subject();
   idvValue: Subject<any> = new Subject();
@@ -61,6 +62,7 @@ export class SharedDataService {
   registrationAddressItem: any;
   idvData: any;
   quotesCount: any;
+  financedAddressItem: any;
 
   constructor(
     private apiService: ApiService,
@@ -502,11 +504,6 @@ export class SharedDataService {
           formData?.get('is_financed')?.value || ''
             ? formData?.get('is_financed')?.value || ''
             : 'false',
-        financer_details: {
-          financer_id: formData?.get('financer')?.value?.rb_financier_id || '',
-          agreement_type: formData?.get('agreement_type')?.value || '',
-          financer_branch: formData?.get('financer_city')?.value || '',
-        },
         is_same_location:
           formData?.get('is_vehicle_address')?.value || ''
             ? formData?.get('is_vehicle_address')?.value || ''
@@ -529,12 +526,23 @@ export class SharedDataService {
         };
       } else {
         proposalData['vehicle_details'].registration_address = {
-          pincode: formData?.get('vehicle_pincode')?.value || '',
-          rb_city_id: 8 || '', // Set to appropriate default value
-          rb_state_id: 43 || '', // Set to appropriate default value
+          pincode: formData?.get('vehicle_pincode')?.value?.rb_pincode || '',
+          rb_city_id:
+            formData?.get('vehicle_pincode')?.value?.rb_city_code || '' || '', // Set to appropriate default value
+          rb_state_id:
+            formData?.get('vehicle_pincode')?.value?.rb_state_id || '' || '', // Set to appropriate default value
           address_line:
             formData?.get('vehicle_registration_address')?.value || '',
         };
+      }
+      if (this.financedAddressItem) {
+        proposalData['vehicle_details'].financer_details = {
+          financer_id: formData?.get('financer')?.value?.rb_financier_id || '',
+          agreement_type: formData?.get('agreement_type')?.value || '',
+          financer_branch: formData?.get('financer_city')?.value || '',
+        };
+      } else {
+        proposalData['vehicle_details'].financer_details = {};
       }
     }
     if (flag === 'previous_policy_details') {
@@ -641,6 +649,10 @@ export class SharedDataService {
   registrationAddress(data: any) {
     this.registrationAddressData.next(data);
     this.registrationAddressItem = data;
+  }
+  isFinancedAddress(data: any) {
+    this.financedAddressData.next(data);
+    this.financedAddressItem = data;
   }
   getFetchedCkycData(data: any) {
     this.fetchedCkycData.next(data);

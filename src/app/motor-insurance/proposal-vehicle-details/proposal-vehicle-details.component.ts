@@ -73,7 +73,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     is_vehicle_address: new FormControl(''),
   });
   isChecked: any;
+  isFinancedChecked: any;
   vehicleType: any;
+  pincodeData: any;
 
   constructor(
     private apiservice: ApiService,
@@ -121,6 +123,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         // this.getRegistrationAddressValue();
         this.proposalData = proposal;
+        // if (this.proposalData?.vehicle_details?.financer_details?.financer_id) {
+        //   this.proposalVehilceDetailsForm.patchValue({
+        //     financer: this.proposalData?.vehicle_details?.financer_details,
+        //   });
+        // }
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: proposal?.vehicle_details?.registration_no,
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
@@ -136,7 +143,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           ),
           vehicle_pincode:
             proposal?.vehicle_details?.registration_address?.pincode,
-          financer: proposal?.vehicle_details?.financer_details?.financer_name,
+          financer: proposal?.vehicle_details?.financer_details?.financer_id,
           agreement_type:
             proposal?.vehicle_details?.financer_details?.agreement_type,
           financer_city:
@@ -146,17 +153,22 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
-        if (
-          this.proposalData?.customer_details?.communication_address?.pincode
-        ) {
+        if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}`
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.vehicle_details?.registration_address?.pincode}`
             )
             .subscribe((res) => {
+              if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
+                this.proposalVehilceDetailsForm.addControl(
+                  'vehicle_state',
+                  new FormControl('')
+                );
+              }
               this.proposalVehilceDetailsForm.patchValue({
-                owner_city: res[0].rb_city_name,
-                vehilce_city: res[0].rb_state_name,
+                vehicle_pincode: res[0],
+                vehilce_city: res[0].rb_city_name,
+                vehicle_state: res[0].rb_state_name,
               });
             });
         }
@@ -231,8 +243,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    * we can access the checkbox value using this.financedToggle.nativeElement.checked
    */
   getFinacedValue() {
-    const isChecked = this.financedToggle.nativeElement.checked;
-    if (isChecked) {
+    this.isFinancedChecked = this.financedToggle.nativeElement.checked
+      ? this.financedToggle?.nativeElement?.checked
+      : this.isFinancedChecked;
+    this.shareData.isFinancedAddress(this.isFinancedChecked);
+    if (this.isFinancedChecked) {
       this.proposalVehilceDetailsForm
         .get('financer')
         ?.setValidators([Validators.required]);
@@ -423,6 +438,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.financierId = data.rb_financier_id;
 
       return data ? data.financier_name : undefined;
+    }
+  }
+
+  displayPincode(data?: any) {
+    if (data != null && data != 'No data') {
+      this.financierId = data.rb_financier_id;
+
+      return data ? data.rb_pincode : undefined;
     }
   }
 }

@@ -190,10 +190,13 @@
         >
           This is a required field.
         </mat-error>
-        <mat-autocomplete #pincodeAuto="matAutocomplete">
+        <mat-autocomplete
+          #pincodeAuto="matAutocomplete"
+          [displayWith]="displayPincode.bind(this)"
+        >
           <mat-option
             *ngFor="let pincode of filteredPincodeList | async"
-            [value]="pincode.rb_pincode"
+            [value]="pincode"
             (click)="getSepratedPincodeData(pincode)"
           >
             <span>{{ pincode.rb_pincode }}</span>

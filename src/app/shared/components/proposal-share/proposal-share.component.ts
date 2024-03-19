@@ -165,21 +165,24 @@ export class ProposalShareComponent implements OnInit {
         this.shareQuotationForm.get('contact_number')?.value,
         this.quotes_id
       )
-      .subscribe((res) => {
-        if (res?.message == 'Success') {
-          this.sharedDataService.openSnackBar(message, true);
-          this.shareQuotationForm.reset();
-        } else {
-          this.failureMessage = true;
-          this.message = res?.message;
-          setTimeout(() => {
-            this.failureMessage = false;
-          }, 5000);
+      .subscribe(
+        (res) => {
+          if (res?.message == 'Success') {
+            this.sharedDataService.openSnackBar(message, true);
+            this.shareQuotationForm.reset();
+          } else {
+            this.failureMessage = true;
+            this.message = res?.message;
+            setTimeout(() => {
+              this.failureMessage = false;
+            }, 5000);
+            this.shareQuotationForm.reset();
+          }
+        },
+        (error) => {
           this.shareQuotationForm.reset();
         }
-      },(error) => {
-        this.shareQuotationForm.reset();
-      });
+      );
   }
   proceedToPayment() {
     this.dialogRef.close();
