@@ -82,6 +82,7 @@ export class ProposalReviewComponent implements OnInit {
           const urlSegments = segments.map((segment) => segment.path);
           this.proposalId = urlSegments[urlSegments.length - 2];
           this.getInsurerCode();
+          this.generateProposal(this.proposalId);
         });
       } else {
         console.log('Proposal is false or not provided');
@@ -133,21 +134,38 @@ export class ProposalReviewComponent implements OnInit {
       this.openModal('', this.termsAndConditionJson);
     }
   }
-  generateProposal() {
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.get_proposal}/?insurer_code=${this.quoteData['insurer_code']}&transaction_id=${this.quoteData?.transaction_id}`
-      )
-      .subscribe((res) => {
-        this.generateProposalData = res;
-        const dataToSend = [
-          res?.previous_policy_details, //Previous Policy Details
-          res?.proposal_number, //Proposal Number
-          res, //Proposal Details
-          this.quoteData, //Quotes Details Data
-        ];
-        this.shareData.setPreviousPolicyDetails(dataToSend);
-      });
+  generateProposal(transactionId?: any) {
+    if (transactionId) {
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.get_proposal}/?transaction_id=${transactionId}`
+        )
+        .subscribe((res) => {
+          this.generateProposalData = res;
+          const dataToSend = [
+            res?.previous_policy_details, //Previous Policy Details
+            res?.proposal_number, //Proposal Number
+            res, //Proposal Details
+            this.quoteData, //Quotes Details Data
+          ];
+          this.shareData.setPreviousPolicyDetails(dataToSend);
+        });
+    } else {
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.get_proposal}/?transaction_id=${this.quoteData?.transaction_id}`
+        )
+        .subscribe((res) => {
+          this.generateProposalData = res;
+          const dataToSend = [
+            res?.previous_policy_details, //Previous Policy Details
+            res?.proposal_number, //Proposal Number
+            res, //Proposal Details
+            this.quoteData, //Quotes Details Data
+          ];
+          this.shareData.setPreviousPolicyDetails(dataToSend);
+        });
+    }
   }
   updateCheckBoxState(checked: boolean) {
     this.isAcknowledged = checked;

@@ -190,3 +190,8 @@
 .addonShow {
   opacity: none;
 }
+@media screen and (max-width: 1280px) {
+  .add-ons .cancel-btn {
+    width: 150%;
+  }
+}
