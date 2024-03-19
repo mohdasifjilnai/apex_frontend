@@ -466,9 +466,9 @@ export class SharedDataService {
         salutation: formData?.get('ownner_salutation_type')?.value || '',
         nationality: 'INDIAN',
         communication_address: {
-          pincode: formData?.get('owner_pincode')?.value || '',
-          rb_city_id: 8 || '',
-          rb_state_id: 43 || '',
+          pincode: formData?.get('owner_pincode')?.value?.rb_pincode || '',
+          rb_city_id: formData?.get('owner_pincode')?.value?.rb_city_code || '',
+          rb_state_id: formData?.get('owner_pincode')?.value?.rb_state_id || '',
           address_line:
             formData?.get('owner_communication_addres')?.value || '',
         },

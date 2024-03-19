@@ -64,9 +64,29 @@ export class ManufactureDateComponent implements OnInit {
     private ctrlContainer: FormGroupDirective,
     private shared: SharedDataService
   ) {
-    this.minDate = new Date(1970, 0);
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
+    const currentDate = new Date();
+
+    /**
+     * Set the minDate to 15 years before the current date
+     */
+    this.minDate = new Date(
+      currentDate.getFullYear() - 15,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    /**
+     * Use the existing maxDate initialization
+     */
+    this.maxDate = new Date(new Date().setDate(currentDate.getDate() + 15));
+
+    /**
+     * Subscribe to the shared observable to get the manufacturing date
+     */
     this.shared.getRegistrationData.subscribe((res) => {
+      /**
+       * Set the maxManufactureDate based on the received response
+       */
       this.maxManufactureDate = new Date(res);
     });
   }

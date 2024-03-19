@@ -39,6 +39,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   vehicleOwnerName: boolean = false;
   proposalData: any;
   quoteData: any;
+  pincodeId: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -64,7 +65,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
     owner_pincode: new FormControl('', [
       Validators.required,
-      Validators.pattern('^[0-9]*$'),
       Validators.minLength(6),
       Validators.maxLength(6),
     ]),
@@ -105,8 +105,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_gstin: proposal?.customer_details?.gst_no,
           additional_contact:
             proposal?.customer_details?.additional_mobile_number,
-          owner_pincode:
-            proposal?.customer_details?.communication_address?.pincode,
           ownner_occupation_type:
             proposal?.customer_details?.occupation_type_id,
           owner_communication_addres:
@@ -124,6 +122,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             )
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
+                owner_pincode: res[0],
                 owner_city: res[0].rb_city_name,
                 owner_state: res[0].rb_state_name,
               });
@@ -231,5 +230,20 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .subscribe((salutation) => {
         this.salutationList = salutation;
       });
+  }
+  onEnterKeyPressedForPincode() {
+    const vehiclePincodeControl =
+      this.owenerVehicleDetailsForm.get('owner_pincode');
+    if (vehiclePincodeControl && vehiclePincodeControl.valid) {
+      const enteredPincode = vehiclePincodeControl.value;
+      this.getSepratedPincodeData(enteredPincode);
+    }
+  }
+  displayPincode(data?: any) {
+    if (data != null && data != 'No data') {
+      this.pincodeId = data.rb_pincode;
+
+      return data ? data.rb_pincode : undefined;
+    }
   }
 }

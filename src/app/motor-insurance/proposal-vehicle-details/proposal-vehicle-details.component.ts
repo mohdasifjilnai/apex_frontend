@@ -35,6 +35,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   transactionId: any;
   proposalData: any;
   financierId: any;
+  pinocodeId: any;
   private proposalDetailsSubscription!: Subscription;
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
@@ -454,9 +455,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   displayPincode(data?: any) {
     if (data != null && data != 'No data') {
-      this.financierId = data.rb_financier_id;
+      this.pinocodeId = data.rb_pincode;
 
       return data ? data.rb_pincode : undefined;
+    }
+  }
+  onEnterKeyPressedForPincode() {
+    const vehiclePincodeControl =
+      this.proposalVehilceDetailsForm.get('vehicle_pincode');
+    if (vehiclePincodeControl && vehiclePincodeControl.valid) {
+      const enteredPincode = vehiclePincodeControl.value;
+      this.getSepratedPincodeData(enteredPincode);
     }
   }
 }

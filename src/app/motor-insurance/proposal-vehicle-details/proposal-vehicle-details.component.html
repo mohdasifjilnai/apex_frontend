@@ -180,6 +180,7 @@
           maxlength="6"
           minlength="6"
           appNumbersOnly
+          (keyup.enter)="onEnterKeyPressedForPincode()"
         />
         <mat-error
           *ngIf="

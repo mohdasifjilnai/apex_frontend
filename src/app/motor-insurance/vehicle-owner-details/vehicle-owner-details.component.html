@@ -154,11 +154,15 @@
           id-automation="owner_pincode"
           maxlength="6"
           appNumbersOnly
+          (keyup.enter)="onEnterKeyPressedForPincode()"
         />
-        <mat-autocomplete #pincodeAuto="matAutocomplete">
+        <mat-autocomplete
+          #pincodeAuto="matAutocomplete"
+          [displayWith]="displayPincode.bind(this)"
+        >
           <mat-option
             *ngFor="let pincode of filteredPincodeList | async"
-            [value]="pincode.rb_pincode"
+            [value]="pincode"
             (click)="getSepratedPincodeData(pincode)"
           >
             <span>{{ pincode.rb_pincode }}</span>
