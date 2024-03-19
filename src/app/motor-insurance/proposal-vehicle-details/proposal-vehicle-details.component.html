@@ -86,11 +86,14 @@
           formControlName="financer"
           appAlphaNumeric
         />
-        <mat-autocomplete #autoFinancier="matAutocomplete">
+        <mat-autocomplete
+          #autoFinancier="matAutocomplete"
+          [displayWith]="displayFinancier.bind(this)"
+        >
           <span>
             <mat-option
               *ngFor="let financer of financerList | async"
-              [value]="financer?.rb_financier_id"
+              [value]="financer"
             >
               {{ financer?.financier_name }}
             </mat-option>

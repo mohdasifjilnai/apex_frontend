@@ -503,7 +503,7 @@ export class SharedDataService {
             ? formData?.get('is_financed')?.value || ''
             : 'false',
         financer_details: {
-          financer_id: formData?.get('financer')?.value || '',
+          financer_id: formData?.get('financer')?.value?.rb_financier_id || '',
           agreement_type: formData?.get('agreement_type')?.value || '',
           financer_branch: formData?.get('financer_city')?.value || '',
         },

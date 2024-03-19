@@ -34,6 +34,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   financerList: any;
   transactionId: any;
   proposalData: any;
+  financierId: any;
   private proposalDetailsSubscription!: Subscription;
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
@@ -408,7 +409,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
   }
   isFinanced: boolean = false;
-  isVehicle:boolean=false
+  isVehicle: boolean = false;
   toggleCheckbox() {
     this.isFinanced = !this.isFinanced; // Toggle the state
     this.getFinacedValue(); // Call your method to handle the change
@@ -416,5 +417,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   toggleCheckboxForIsVehicle() {
     this.isVehicle = !this.isVehicle; // Toggle the state
     this.getRegistrationAddressValue(this.isVehicle); // Call your method to handle the change
+  }
+  displayFinancier(data?: any) {
+    if (data != null && data != 'No data') {
+      this.financierId = data.rb_financier_id;
+
+      return data ? data.financier_name : undefined;
+    }
   }
 }
