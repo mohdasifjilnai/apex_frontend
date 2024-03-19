@@ -81,8 +81,9 @@ export class HeaderComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.isCopied = true; // Set isCopied to true after copying
+    this.sharedService.openSnackBar('Trace ID copied', 'Success');
     setTimeout(() => {
-      this.isCopied = false; // Reset isCopied after 2 seconds
-    }, 5000);
+      this.isCopied = false; // Reset isCopied after 3 seconds
+    }, 3000);
   }
 }

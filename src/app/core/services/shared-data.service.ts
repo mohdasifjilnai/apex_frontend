@@ -85,11 +85,11 @@ export class SharedDataService {
   setPreviousPolicyDetails(details: any) {
     this.previousPolicyDetailsSubject.next(details);
   }
-  sendCarLoaderMessage(data: any){
-    this.getProgressValue.next(data)
+  sendCarLoaderMessage(data: any) {
+    this.getProgressValue.next(data);
   }
-  handleEnterKey(event: Event,MatDatePickerName:any) {
-    const keyboardEvent = event as KeyboardEvent; 
+  handleEnterKey(event: Event, MatDatePickerName: any) {
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
       keyboardEvent.preventDefault(); // Prevent default Enter behavior
       MatDatePickerName.open(); // Open the MatDatepicker
@@ -576,20 +576,30 @@ export class SharedDataService {
           this.createdProposalId = res;
           sessionStorage.setItem('proposal_Id', res?.proposal_id);
           this.sendProposalData(res);
-          if (this.createdProposalId?.ckyc_details !== null) {
-            this.openSnackBar('Ckyc Details is Saved', 'Success');
+          if (flag === 'ckyc') {
+            if (this.createdProposalId?.ckyc_details !== null) {
+              this.openSnackBar('Ckyc Details is Saved', 'Success');
+            }
           }
-          if (this.createdProposalId?.customer_details !== null) {
-            this.openSnackBar('Customer Details is Saved', 'Success');
+          if (flag === 'vehicle_owner_detail') {
+            if (this.createdProposalId?.customer_details !== null) {
+              this.openSnackBar('Customer Details is Saved', 'Success');
+            }
           }
-          if (this.createdProposalId?.nominee_details !== null) {
-            this.openSnackBar('Nominee Details is Saved', 'Success');
+          if (flag === 'nominne_details') {
+            if (this.createdProposalId?.nominee_details !== null) {
+              this.openSnackBar('Nominee Details is Saved', 'Success');
+            }
           }
-          if (this.createdProposalId?.vehicle_details !== null) {
-            this.openSnackBar('Vehicle Details is Saved', 'Success');
+          if (flag === 'vehilce_details') {
+            if (this.createdProposalId?.vehicle_details !== null) {
+              this.openSnackBar('Vehicle Details is Saved', 'Success');
+            }
           }
-          if (this.createdProposalId?.previous_policy_details !== null) {
-            this.openSnackBar('Previous Policy Details is Saved', 'Success');
+          if (flag === 'previous_policy_details') {
+            if (this.createdProposalId?.previous_policy_details !== null) {
+              this.openSnackBar('Previous Policy Details is Saved', 'Success');
+            }
           }
         }
       });
