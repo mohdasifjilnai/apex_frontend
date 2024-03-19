@@ -503,7 +503,7 @@ export class SharedDataService {
             ? formData?.get('is_financed')?.value || ''
             : 'false',
         financer_details: {
-          financer_name: '' || '',
+          financer_id: formData?.get('financer')?.value || '',
           agreement_type: formData?.get('agreement_type')?.value || '',
           financer_branch: formData?.get('financer_city')?.value || '',
         },
@@ -552,7 +552,8 @@ export class SharedDataService {
       let productTypeValue = sessionStorage.getItem('productType');
       if (productTypeValue === 'saod') {
         proposalData['previous_policy_details'].tp_policy_details = {
-          tp_insurer_code: formData?.get('tp_insurance_company')?.value,
+          tp_insurer_code: formData?.get('tp_insurance_company')?.value
+            ?.rb_insurer_code,
           tp_policy_no: formData?.get('tp_policy_number')?.value,
           tp_policy_expiry_date:
             this.datePipe.transform(
