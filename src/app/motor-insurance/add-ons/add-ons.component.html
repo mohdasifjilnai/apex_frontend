@@ -1,4 +1,4 @@
-<div class="add-ons">
+<div class="add-ons" [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'">
   <mat-accordion *ngFor="let addOns of addOnsArray">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>

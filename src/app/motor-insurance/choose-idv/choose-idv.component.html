@@ -1,5 +1,6 @@
 <div
   class="idv-range"
+  [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
   [hidden]="idvShowHide == 'bundled_tp' || idvShowHide == 'satp'"
 >
   <div class="card my-2">
@@ -209,7 +210,6 @@
       </div>
     </div>
   </div>
-
 
   <!-- <div class="idv-range-res">
     <div class="changeIdv-card">

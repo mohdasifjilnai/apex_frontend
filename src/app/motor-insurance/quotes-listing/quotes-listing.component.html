@@ -1,9 +1,12 @@
 <form [formGroup]="quotesListing">
   <div class="row">
-    <div class="col-lg-4 col-md-4 col-12 toggle-btn">
+    <div
+      class="col-lg-4 col-md-4 col-12 toggle-btn"
+      [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+    >
       <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)"
         ><ng-container *ngFor="let quotesTab of tabDataList">
-          <mat-tab label="{{ quotesTab?.code }}">
+          <mat-tab label="{{ quotesTab?.code }}" [disabled]="enableIdvCard">
             <ng-template mat-tab-label id="{{ quotesTab?.code }}">
               {{ quotesTab.name }}
               <!-- <span class="count">20</span> -->
@@ -15,7 +18,10 @@
     <div class="col-lg-8 col-md-12 col-12">
       <div class="d-flex justify-content-between quotesDropdown">
         <!-- owner type for web view -->
-        <div class="col-lg-3 col-4 owner-type me-2">
+        <div
+          class="col-lg-3 col-4 owner-type me-2"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
           <mat-form-field appearance="outline">
             <mat-select
               formControlName="proposalType"
@@ -43,7 +49,10 @@
             />
           </button>
         </div>
-        <div class="col-lg-3 col-md-3 sort-dropdown me-2">
+        <div
+          class="col-lg-3 col-md-3 sort-dropdown me-2"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
           <mat-form-field appearance="outline">
             <mat-select
               [(value)]="lowHighSelected"
@@ -55,7 +64,10 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-lg-3 col-md-3 col-4 shareQuotes">
+        <div
+          class="col-lg-3 col-md-3 col-4 shareQuotes"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
           <button
             mat-button
             (click)="shareQuotesDropdown()"
@@ -76,7 +88,10 @@
             </button>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-4 inc-gst">
+        <div
+          class="col-lg-3 col-md-3 col-4 inc-gst"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
           <div class="gst me-2 pb-1">Inc. GST</div>
           <mat-slide-toggle [checked]="defaultGST" (change)="gstToggle($event)">
           </mat-slide-toggle>
@@ -160,9 +175,14 @@
                       : (quotes?.premium_details?.gross_premium | numberFormat)
                   }}
                 </span>
-                <p (click)="openPremiumBreakupModal(quotes, $event)">
+                <p>
                   <span>
-                    <button class="premium-breakup" [disabled]="enableIdvCard">
+                    <button
+                      (click)="openPremiumBreakupModal(quotes, $event)"
+                      class="premium-breakup"
+                      [disabled]="enableIdvCard"
+                      [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+                    >
                       Premium Breakup
                     </button>
                   </span>

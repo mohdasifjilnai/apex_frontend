@@ -1,19 +1,19 @@
 .idv-range {
-  .insurer{
+  .insurer {
     border-radius: 8px;
-    background-color: #FFB1711A;
-    color: #FF943D;
+    background-color: #ffb1711a;
+    color: #ff943d;
     font-size: 14px;
     font-weight: 600;
     line-height: 17px;
     padding: 6px;
     height: 30px;
-    .insurer-icon{
+    .insurer-icon {
       width: 18px;
       height: 21px;
     }
   }
-  .idv{
+  .idv {
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
@@ -21,7 +21,7 @@
     display: flex;
     align-items: center;
   }
-  ::ng-deep .mat-radio-label-content{
+  ::ng-deep .mat-radio-label-content {
     font-size: 12px;
     padding-left: 8px;
     font-weight: 500;
@@ -29,14 +29,14 @@
     color: #282828 !important;
     opacity: 50%;
   }
-  ::ng-deep .mat-radio-container{
+  ::ng-deep .mat-radio-container {
     width: 14px;
     height: 14px;
-  } 
-  .update-btn{
+  }
+  .update-btn {
     width: 100%;
   }
-  
+
   input[type="range"] {
     outline: none;
     width: 100%;
@@ -62,7 +62,7 @@
     /* Move background-color property to the thumb selector */
     background: #000000 !important;
     background: linear-gradient(180deg, #ffb171 100%, #ff943d 100%) !important;
-    box-shadow: 1px 1px 1px #d6c8c8; 
+    box-shadow: 1px 1px 1px #d6c8c8;
     cursor: pointer;
   }
 
@@ -78,8 +78,8 @@
     ) !important;
   }
   .main-card-body {
-    background-color: #F5F8FE !important;
-    border-radius:16px;
+    background-color: #f5f8fe !important;
+    border-radius: 16px;
   }
   .card {
     border: none !important;
@@ -113,11 +113,11 @@
     opacity: 50%;
     color: #282828;
   }
-  .amount-format-text{
+  .amount-format-text {
     opacity: 100% !important;
   }
 }
-.idv-range-res{
+.idv-range-res {
   display: none;
   input[type="range"] {
     outline: none;
@@ -144,7 +144,7 @@
     /* Move background-color property to the thumb selector */
     background: #000000 !important;
     background: linear-gradient(180deg, #ffb171 100%, #ff943d 100%) !important;
-    box-shadow: 1px 1px 1px #d6c8c8; 
+    box-shadow: 1px 1px 1px #d6c8c8;
     cursor: pointer;
   }
 
@@ -160,22 +160,22 @@
     ) !important;
   }
   .main-card-body {
-    background-color: #FFFFFF !important;
+    background-color: #ffffff !important;
   }
   .changeIdv-card {
     border: none !important;
-    .header{
-      .change-text{
+    .header {
+      .change-text {
         font-size: 14px;
         font-weight: 600;
         color: #535353;
       }
-      .cross-icon{
+      .cross-icon {
         cursor: pointer;
       }
     }
-    .cancel-btn{
-      color: #FFB171;
+    .cancel-btn {
+      color: #ffb171;
       font-size: 14px;
       font-weight: 600;
       background-color: #fff;
@@ -183,7 +183,6 @@
       height: 36px;
     }
   }
-  
 }
 .amount-value {
   font-weight: 500;
@@ -213,40 +212,38 @@
     opacity: 50%;
     color: #282828;
   }
-  .amount-format-text{
+  .amount-format-text {
     opacity: 100% !important;
   }
- 
 }
-::ng-deep .mat-bottom-sheet-container{
-  
+::ng-deep .mat-bottom-sheet-container {
   padding: 0 !important;
   border-radius: 20px 20px 0px 0px;
   overflow-x: hidden !important;
 }
 
 @media screen and (max-width: 999px) {
-  .idv-range{
+  .idv-range {
     display: none;
   }
-  .idv-range-res{
+  .idv-range-res {
     display: block;
   }
-  .insurer{
+  .insurer {
     border-radius: 8px;
-    background-color: #FFB1711A;
-    color: #FF943D;
+    background-color: #ffb1711a;
+    color: #ff943d;
     font-size: 14px;
     font-weight: 600;
     line-height: 17px;
     padding: 6px;
     height: 30px;
-    .insurer-icon{
+    .insurer-icon {
       width: 18px;
       height: 21px;
     }
   }
-  .idv{
+  .idv {
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
@@ -254,17 +251,23 @@
     display: flex;
     align-items: center;
   }
-  ::ng-deep .mat-radio-label-content{
+  ::ng-deep .mat-radio-label-content {
     font-size: 12px;
     padding-left: 8px;
     font-weight: 500;
     padding-top: 7px;
   }
-  ::ng-deep .mat-radio-container{
+  ::ng-deep .mat-radio-container {
     width: 14px;
     height: 14px;
-  } 
-  .update-btn{
+  }
+  .update-btn {
     width: 100%;
   }
+}
+.addonBlur {
+  opacity: 0.5;
+}
+.addonShow {
+  opacity: none;
 }

@@ -45,6 +45,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   vehiclePopupList: any;
   newNCB: any;
   inspectionValue: any;
+  enableIdvCard = true;
 
   constructor(
     private matDialog: WindowRef,
@@ -78,6 +79,10 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.inspectionCard.subscribe((cardData) => {
       this.inspectionValue = cardData;
+    });
+
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      this.enableIdvCard = false;
     });
   }
 
