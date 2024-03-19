@@ -3,7 +3,7 @@ import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-d
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
@@ -36,7 +36,8 @@ export class QuotesComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
-    public loaderService: LoaderService
+    public loaderService: LoaderService,
+    private route: ActivatedRoute
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -67,6 +68,10 @@ export class QuotesComponent implements OnInit {
     }
 
     sessionStorage.removeItem('proposal_Id');
+
+    this.route.queryParamMap.subscribe((params) => {
+      const shareTransaction = params?.get('transaction_id_share');
+    });
   }
   receivedData: any;
   // receivedCheckBoxValue: any;
