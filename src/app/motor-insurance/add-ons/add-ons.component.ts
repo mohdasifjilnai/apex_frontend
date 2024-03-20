@@ -48,6 +48,11 @@ export class AddOnsComponent implements OnInit {
   enableAddOns = true;
   updateAddOns = false;
   selectedVoluntryValue: any;
+  selectedAddOnsValue: any;
+  getAddonValueList: any = [];
+  getAddonValueData: any = [];
+  addonsValue: any;
+  selectedAddOns: any;
 
   constructor(
     private apiService: ApiService,
@@ -68,6 +73,45 @@ export class AddOnsComponent implements OnInit {
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableAddOns = false;
+      this.selectedAddOnsValue = idvData;
+
+      this.addonsValue = sessionStorage.getItem('selectedAddons');
+      this.selectedAddOns = JSON.parse(this.addonsValue);
+      if (this.selectedAddOns) {
+        for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+          for (
+            let k = 0;
+            k <= this.addOnsArray[i].fe_template.length - 1;
+            k++
+          ) {
+            for (let key of this.selectedAddOns) {
+              const keys = Object.keys(key);
+              const value = Object.values(key);
+              if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
+                this.addOnsArray[i].fe_template[k].checked = true;
+                if (
+                  this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
+                  value[0]
+                ) {
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.next_type == 'int_input'
+                  ) {
+                    this.inputFieldIndex[k] = k;
+                  }
+                  if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
+                    this.tabIndex[k] = k;
+                    this.selectedVoluntryValue = value[0];
+                  }
+                  if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
+                    this.dropDownFieldIndex[k] = k;
+                  }
+                  this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
+                }
+              }
+            }
+          }
+        }
+      }
     });
 
     this.sharedDataService.tabChanges.subscribe((data) => {
@@ -262,6 +306,10 @@ export class AddOnsComponent implements OnInit {
       let variableValue = keys[0];
       this.selected_addons[variableValue] = key[variableValue];
     }
+    sessionStorage.setItem(
+      'selectedAddons',
+      JSON.stringify(this.selectedCheckedArray)
+    );
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
