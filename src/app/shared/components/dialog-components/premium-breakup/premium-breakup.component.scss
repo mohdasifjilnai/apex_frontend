@@ -19,7 +19,7 @@
   .own-damage-text,
   .own-damage-amount {
     font-size: 12px;
-
+    font-weight: 400;
     color: #282828;
   }
   .text-bold {
@@ -100,13 +100,19 @@
 }
 .addons-card-popup {
   position: absolute;
-  right: 15%;
-  top: 25%;
-  width: 13%;
+  right: 5%;
+  top: 40%;
+  width: 24%;
   z-index: 9999;
+  .card{
+    border: 1px solid #D6D6D6;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+  }
+ 
 }
 // for mobile devices
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 999px) {
   .addons-card-popup {
     right: 2%;
     top: 1%;
