@@ -60,7 +60,9 @@ export class QuotesComponent implements OnInit {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {
-      this.bottomSheet.open(VehicleDetailsPopupComponent);
+      this.bottomSheet.open(VehicleDetailsPopupComponent,{
+        disableClose: true // Disable closing on outside click
+      });
     } else {
       if (!popupData) {
         this.openVehicleDetailsPopup(null);

@@ -443,6 +443,9 @@
     height: 40px;
     object-fit: scale-down;
   }
+  ::ng-deep .mat-progress-bar-buffer {
+    background-color: #edf2fc;
+  }
 }
 @media screen and (max-width: 1321px) {
   .toggle-btn {

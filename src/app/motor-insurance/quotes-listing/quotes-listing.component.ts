@@ -169,7 +169,6 @@ export class QuotesListingComponent implements OnInit {
         //   this.openNonPOSPopup(null);
         // }
       }
-      console.log(this.quotationData);
     });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
@@ -180,7 +179,8 @@ export class QuotesListingComponent implements OnInit {
     });
     this.startProgress(0);
     this.sharedDataService.getProgressValue.subscribe((res) => {
-      this.startProgress(0);
+      this.progressValue = 0;
+      this.startProgress(res);
     });
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
@@ -624,11 +624,16 @@ export class QuotesListingComponent implements OnInit {
         // Use the position value as needed, for example, update the style of an element
         const translatedX = this.getImagePosition();
       }
-    }, 200); // Interval of 1 second
+    }, 500); // Interval of 1 second
   }
   getImagePosition(): string {
-    const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
-    return `translateX(${position}%)`;
+    if (window.innerWidth <= 999) {
+      const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } else {
+      const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    }
   }
 
   gstToggle(event: any) {
