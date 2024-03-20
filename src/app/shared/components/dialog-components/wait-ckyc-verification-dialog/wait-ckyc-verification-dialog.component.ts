@@ -145,7 +145,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
       let body = {
         document_no: this.uploadDocumentsForm.get('document_number_based_field')
           ?.value,
-        document_type: this.uploadDocumentsForm.get('document_type_based_field')
+        document_code: this.uploadDocumentsForm.get('document_type_based_field')
           ?.value,
         document_url: this.uploadDocumentsForm.get('file')?.value,
         proposal_id: this.proposalId,
