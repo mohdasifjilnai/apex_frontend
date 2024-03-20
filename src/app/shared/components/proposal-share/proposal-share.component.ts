@@ -30,7 +30,7 @@ export class ProposalShareComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: OtpComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -253,7 +253,7 @@ export class ProposalShareComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '100%';
+      resWidth = 'auto';
       resTop = '5%';
     }
     const obj: any = {

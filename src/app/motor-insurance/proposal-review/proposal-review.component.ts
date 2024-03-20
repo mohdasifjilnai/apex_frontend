@@ -26,7 +26,7 @@ export class ProposalReviewComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: ProposalShareComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -41,7 +41,7 @@ export class ProposalReviewComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: TermsComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: '5%',
     isOutSideClose: true,
@@ -109,8 +109,8 @@ export class ProposalReviewComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '100%';
-      resTop = '5%';
+      resWidth = 'auto';
+      resTop = '1%';
     }
     const obj: any = {
       modalName: jsonData['modalName'],

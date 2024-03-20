@@ -128,7 +128,7 @@ export class QuotesListingComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: NonPosPopupComponent,
-    widthObtained: '70%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -319,8 +319,12 @@ export class QuotesListingComponent implements OnInit {
    */
 
   onComprehensiveTabChange(event: MatTabChangeEvent): void {
+    // this.progressValue = 0;
+    // this.startProgress(0);
     this.selectAddOnsList = [];
     if (!this.tabChangeOninit) {
+      this.progressValue = 0;
+      this.startProgress(0);
       this.selectedProductType = event.tab.textLabel;
       sessionStorage.setItem('productType', this.selectedProductType);
       let productTypeValue = sessionStorage.getItem('productType');
@@ -474,7 +478,7 @@ export class QuotesListingComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '100%';
+      resWidth = 'auto';
       resTop = '0';
     }
 
@@ -498,6 +502,8 @@ export class QuotesListingComponent implements OnInit {
    */
   changeProposalType(event: any) {
     if (!this.proposalTypeOninit) {
+      this.progressValue = 0;
+      this.startProgress(0);
       sessionStorage.setItem(
         'proposerType',
         this.proposalList.filter((res: any) => res.proposer_id == event)[0][
@@ -629,6 +635,12 @@ export class QuotesListingComponent implements OnInit {
   getImagePosition(): string {
     if (window.innerWidth <= 999) {
       const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } else if (window.innerWidth > 1000 && window.innerWidth <= 1100) {
+      const position = this.progressValue * 12; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
+      const position = this.progressValue * 13; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else {
       const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement

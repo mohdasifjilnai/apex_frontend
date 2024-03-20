@@ -25,7 +25,7 @@ export class InsuranceDetailsComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: ShareQuotesComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,

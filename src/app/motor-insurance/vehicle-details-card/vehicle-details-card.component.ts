@@ -22,7 +22,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: VehicleDetailsPopupComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: '5%',
     isOutSideClose: true,
@@ -141,10 +141,10 @@ export class VehicleDetailsCardComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = '5%';
     } else {
-      resWidth = '900px';
+      resWidth = 'auto';
       resTop = '5%';
     }
     const obj: any = {

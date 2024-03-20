@@ -38,7 +38,7 @@ export class OtpComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: FailureDialogComponent,
-    widthObtained: '70%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -162,7 +162,7 @@ export class OtpComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '900px';
+      resWidth = 'auto';
       resTop = '5%';
     }
     const obj: any = {

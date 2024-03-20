@@ -49,7 +49,7 @@ export class CkycComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: WaitCkycVerificationDialogComponent,
-    widthObtained: '75%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -269,7 +269,7 @@ export class CkycComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '75%';
+      resWidth = 'auto';
       resTop = '5%';
     }
 

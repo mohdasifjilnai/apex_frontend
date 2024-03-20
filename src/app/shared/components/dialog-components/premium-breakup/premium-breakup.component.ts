@@ -96,7 +96,7 @@ export class PremiumBreakupComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '100%';
+      resWidth = 'auto';
       resTop = '0';
     }
 

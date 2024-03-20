@@ -65,7 +65,7 @@ export class MotorInsuranceComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: NotCertifiedComponent,
-    widthObtained: '75%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
