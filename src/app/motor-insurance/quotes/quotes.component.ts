@@ -49,8 +49,17 @@ export class QuotesComponent implements OnInit {
     this.checkWheeler = JSON.parse(
       sessionStorage.getItem('checkWheeler') || '{}'
     );
-    if (Object.keys(this.checkWheeler).length > 0) {
-      this.vehicleDetailsJSON['classObtained'] = 'warn-details-class';
+    if (sessionStorage.getItem('registrationNumber')) {
+      if (
+        (localStorage.getItem('vehicleType') == 'private_car' &&
+          this.checkWheeler['is_four_wheeler']) ||
+        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+          this.checkWheeler['is_two_wheeler'])
+      ) {
+        this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
+      } else {
+        this.vehicleDetailsJSON['classObtained'] = 'warn-details-class';
+      }
     } else {
       this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
     }
