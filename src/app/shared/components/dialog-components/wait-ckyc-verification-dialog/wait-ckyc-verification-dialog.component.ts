@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from '../../../../api.constant';
@@ -21,7 +27,6 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   redirectionUrlViaForm: any;
   error_message: any;
   isUpload: boolean = false;
-  uploadedImage: any = '/assets/icon/browseFile.svg';
   getUploadFile: any;
   transactionId: any;
   proposalId: any;
@@ -31,12 +36,16 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   documentName: any;
   isShowPhoto: boolean = false;
   document_image_url: any;
+  isUploadDocment: boolean = false;
+  document_url: any;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -107,43 +116,6 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   }
 
   /**
-   * Event triggered when a file is selected
-   * @param event - The event object
-   */
-
-  // onFileSelected(event: any) {
-  //   this.getUploadFile = event.target.files;
-  //   let file: File = this.getUploadFile[0];
-  //   let formData: FormData = new FormData();
-  //   this.fileName = file.name;
-  //   formData.append('file', file, file.name);
-  //   this.isDcocumentUploadProceesing = true;
-  //   this.apiService
-  //     .postRequestedResponse(
-  //       `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
-  //       formData
-  //     )
-  //     .subscribe((res) => {
-  //       if (res['status_code'] == 201) {
-  //         this.isDcocumentUploadProceesing = false;
-  //         this.isDocumentUploaded = false;
-  //         this.uploadedImage = '/assets/gif/success.gif';
-  //       }
-  //     });
-  // }
-
-  /**
-   * Opens a modal dialog to display the uploaded document image.
-   * @param fileName - The name of the uploaded file.
-   */
-  // viewPics(fileName: any) {
-  //   this.isShowPhoto = true;
-  //   let url = `${ApiConstants['get_document_image_url']}?document_url=documents/ckyc/${this.transactionId}/${fileName}`;
-  //   this.apiService.getRequestedResponse(url).subscribe((res) => {
-  //     this.document_image_url = res;
-  //   });
-  // }
-  /**
    * Fetches the list of document types supported by the insurer.
    */
   getDocumentType() {
@@ -192,5 +164,30 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    */
   onClose(resData: any) {
     this.dialogRef.close(resData);
+  }
+  /**
+   * Closes the dialog and returns the result to the dialog opener.
+   * @param resData - The result to be returned.
+   */
+  popupCLose() {
+    this.dialogRef.close();
+  }
+  /**
+   * This function is used to check if the uploaded document is valid or not.
+   * @param event - The event object that contains the file information.
+   */
+  checkUploadDocment(event: boolean) {
+    this.isUploadDocment = event;
+    if (this.isUploadDocment) {
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.get_document_image_url}?document_path=${
+            this.uploadDocumentsForm.get('file')?.value
+          }`
+        )
+        .subscribe((res) => {
+          this.document_url = res['document_url'];
+        });
+    }
   }
 }

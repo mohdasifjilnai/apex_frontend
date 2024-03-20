@@ -132,3 +132,24 @@
   height: 80px;
   z-index: 1;
 }
+
+.document-popup-header {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.uploaded-image {
+  width: 195px;
+  height: 134px;
+}
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #5384ea47;
+  color: #5384ea;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin: 10px 0px 0px 33px;
+}

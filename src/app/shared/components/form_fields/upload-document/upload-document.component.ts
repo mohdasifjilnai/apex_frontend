@@ -21,6 +21,8 @@ export class UploadDocumentComponent implements OnInit {
   transactionId: any;
   proposalId: any;
   @Input('required') isRequired = false;
+  @Output() isUploadDocument = new EventEmitter<boolean>();
+
   fileName: any = 'Upload Document';
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -56,6 +58,7 @@ Event handler for when a file is selected.
         formData
       )
       ?.subscribe((res) => {
+        this.isUploadDocument.emit(true);
         this.formFileUpload.patchValue({
           file: res['document_url'],
         });
