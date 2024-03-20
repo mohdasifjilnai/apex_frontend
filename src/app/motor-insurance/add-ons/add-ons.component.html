@@ -129,7 +129,9 @@
                 <button
                   class="voluntry"
                   [disabled]="enableAddOns"
-                  (click)="selectVoluntry(amount, listValue?.name)"
+                  (click)="
+                    selectVoluntry(amount, listValue?.name, listValue?.rb_code)
+                  "
                   [class.active]="selectedVoluntryValue == amount"
                 >
                   &#8377;{{ amount }}
@@ -288,7 +290,13 @@
                 >
                   <button
                     class="voluntry"
-                    (click)="selectVoluntry(amount, listValue?.name)"
+                    (click)="
+                      selectVoluntry(
+                        amount,
+                        listValue?.name,
+                        listValue?.rb_code
+                      )
+                    "
                     [class.active]="selectedVoluntryValue == amount"
                   >
                     &#8377;{{ amount }}

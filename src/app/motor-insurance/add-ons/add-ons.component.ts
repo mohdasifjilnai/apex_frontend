@@ -47,6 +47,7 @@ export class AddOnsComponent implements OnInit {
   dynamicShowObject: any = [];
   enableAddOns = true;
   updateAddOns = false;
+  selectedVoluntryValue: any;
 
   constructor(
     private apiService: ApiService,
@@ -397,14 +398,19 @@ export class AddOnsComponent implements OnInit {
   isChecked(value: string): boolean {
     return this.selectedAccessories.includes(value);
   }
+  /**
+   * This function is used to set the selected value for the add-on.
+   * @param amount - The selected value for the add-on.
+   * @param name - The name of the add-on.
+   * @param rb_code - The code of the add-on.
+   */
 
-  selectedVoluntryValue: any;
-  selectVoluntry(amount: any, name: any): void {
+  selectVoluntry(amount: any, name: any, rb_code: any): void {
     this.selectedVoluntryValue = amount;
 
     for (let key of this.selectedCheckedArray) {
       const keys = Object.keys(key);
-      if (keys[0] == name) {
+      if (keys[0] == rb_code) {
         key[keys[0]] = amount;
       }
     }
