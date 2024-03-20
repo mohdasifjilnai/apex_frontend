@@ -145,14 +145,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
-          registration_date: this.shareData.parseDate(
-            proposal?.vehicle_details?.registration_date,
-            'DD/MM/YYYY'
-          ),
-          manufacture_date: this.shareData.parseDate(
-            proposal?.vehicle_details?.manufacture_date,
-            'MM/YYYY'
-          ),
+
           vehicle_pincode:
             proposal?.vehicle_details?.registration_address?.pincode,
           financer: proposal?.vehicle_details?.financer_details?.financer_id,
