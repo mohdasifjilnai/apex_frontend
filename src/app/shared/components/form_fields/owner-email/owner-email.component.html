@@ -5,6 +5,7 @@
     placeholder="Enter Email"
     formControlName="owner_email"
     appSpecialCharcaterExceptAt
+    appNotAllowDot
     maxlength="40"
   />
   <mat-error *ngIf="form.controls['owner_email']?.hasError('required')">

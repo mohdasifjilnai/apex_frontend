@@ -47,6 +47,8 @@ export class SharedDataService {
   getTransactionId: Subject<any> = new Subject();
   tabChanges: Subject<any> = new Subject();
   inspectionCard: Subject<any> = new Subject();
+  insurerDetails: Subject<any> = new Subject();
+  redirectInsurerDetails: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -714,5 +716,18 @@ export class SharedDataService {
 
   inspectionCaseData(data: any) {
     this.inspectionCard.next(data);
+  }
+  /**
+   * when user is redirect from review page to review page on click of share
+   *
+   */
+  getInsurerDetail(data: any) {
+    this.insurerDetails.next(data);
+  }
+  /**
+   * when user is redirect from review page to review page on click of share the data send into the Insurer detail
+   */
+  setRedirectDataForInsurer(data: any) {
+    this.redirectInsurerDetails.next(data);
   }
 }

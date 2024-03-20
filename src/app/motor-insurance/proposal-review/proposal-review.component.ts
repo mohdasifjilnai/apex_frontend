@@ -81,7 +81,6 @@ export class ProposalReviewComponent implements OnInit {
         this.router.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
           this.proposalId = urlSegments[urlSegments.length - 2];
-          this.getInsurerCode();
           this.generateProposal(this.proposalId);
         });
       } else {
@@ -149,6 +148,13 @@ export class ProposalReviewComponent implements OnInit {
             this.quoteData, //Quotes Details Data
           ];
           this.shareData.setPreviousPolicyDetails(dataToSend);
+          this.shareData?.setRedirectDataForInsurer(res);
+          if (res) {
+            this.getInsurerCode(
+              this.generateProposalData?.transaction_id,
+              this.generateProposalData?.insurer_quote_id
+            );
+          }
         });
     } else {
       this.apiService
@@ -170,16 +176,15 @@ export class ProposalReviewComponent implements OnInit {
   updateCheckBoxState(checked: boolean) {
     this.isAcknowledged = checked;
   }
-  getInsurerCode() {
+  getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_insurer_code}/${this.proposalId}/${this.quoteData?.quote_id}`
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
       )
       .subscribe((response) => {
         if (response) {
-          // this.generateProposal(response?.insurer_code);
+          this.shareData.getInsurerDetail(response);
         }
-        // this.agreementList = response;
       });
   }
 }

@@ -52,6 +52,7 @@ import { TermsComponent } from './components/dialog-components/terms/terms.compo
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { SnackbarComponent } from './components/dialog-components/snackbar/snackbar.component';
 import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-starting.directive';
+import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-s
     ClickOutsideDirective,
     SnackbarComponent,
     RemoveZeroFromStartingDirective,
+    NotAllowDotDirective,
   ],
   imports: [
     CommonModule,
@@ -153,6 +155,7 @@ import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-s
     DateFormatDirective,
     MmYyyyformatDirective,
     RemoveZeroFromStartingDirective,
+    NotAllowDotDirective,
   ],
 })
 export class SharedModule {}

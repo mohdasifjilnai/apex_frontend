@@ -67,11 +67,9 @@ export class ProposalShareComponent implements OnInit {
     public bottomSheet: MatBottomSheet
   ) {
     this.shareQuotationForm = this.formBuilder.group({
-      whatsApp_number: new FormControl('', [
-        Validators.pattern(/^[6-9]\d{9}$/),
-      ]),
-      contact_number: new FormControl('', [Validators.pattern(/^[6-9]\d{9}$/)]),
-      email: new FormControl('', [Validators.pattern(/^.+@.+[.].+$/)]),
+      whatsApp_number: new FormControl(''),
+      contact_number: new FormControl(''),
+      email: new FormControl(''),
     });
   }
 
@@ -133,6 +131,42 @@ export class ProposalShareComponent implements OnInit {
     this.shareQuotationForm.reset();
     this.isActiveIcon = event;
     this.isCommunicationField = true;
+    if (event === 'whatsapp') {
+      this.shareQuotationForm
+        .get('whatsApp_number')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[6-9]\d{9}$/),
+        ]);
+      this.shareQuotationForm.get('contact_number')?.clearValidators();
+      this.shareQuotationForm.get('email')?.clearValidators();
+    } else if (event === 'sms') {
+      this.shareQuotationForm.get('whatsApp_number')?.clearValidators();
+      this.shareQuotationForm
+        .get('contact_number')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[6-9]\d{9}$/),
+        ]);
+      this.shareQuotationForm.get('email')?.clearValidators();
+    } else if (event === 'mail') {
+      this.shareQuotationForm.get('whatsApp_number')?.clearValidators();
+      this.shareQuotationForm.get('contact_number')?.clearValidators();
+      this.shareQuotationForm
+        .get('email')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^.+@.+[.].+$/),
+        ]);
+    } else {
+      this.shareQuotationForm.get('whatsApp_number')?.clearValidators();
+      this.shareQuotationForm.get('contact_number')?.clearValidators();
+      this.shareQuotationForm.get('email')?.clearValidators();
+    }
+
+    this.shareQuotationForm.get('whatsApp_number')?.updateValueAndValidity();
+    this.shareQuotationForm.get('contact_number')?.updateValueAndValidity();
+    this.shareQuotationForm.get('email')?.updateValueAndValidity();
   }
   anyFieldValid() {
     return Object.values(this.shareQuotationForm.controls).some(
@@ -144,7 +178,7 @@ export class ProposalShareComponent implements OnInit {
    */
   shareQuotes() {
     let message: any;
-    if (this.shareQuotationForm.get('email')?.value != '') {
+    if (this.shareQuotationForm.get('email')?.value != null) {
       message =
         'Send to Email ' +
         this.shareQuotationForm.get('email')?.value +

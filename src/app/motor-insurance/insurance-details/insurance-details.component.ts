@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
@@ -33,13 +36,18 @@ export class InsuranceDetailsComponent implements OnInit {
   mmvData: any;
   reviewURL: boolean = false;
   gstToggleData: any;
+  isRedirectData: boolean = false;
+  redirectInsurerData: any;
+  mmvItem: any;
 
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedData: SharedDataService,
+    private apiservice: ApiService
   ) {
     this.route.url.subscribe((segments) => {
       const proposalSegment = segments.find(
@@ -59,6 +67,24 @@ export class InsuranceDetailsComponent implements OnInit {
     if (gstValue) {
       this.gstToggleData = JSON.parse(gstValue);
     }
+    /**
+     * subscribe when the redirection is done from Review page on clicking of share button
+     */
+    this.sharedData?.insurerDetails?.subscribe((res) => {
+      if (res) {
+        this.quoteData = res?.quote_response;
+        this.getVehicleMMVPopup(
+          res?.quote_request?.vehicle_type,
+          res?.quote_request?.rb_mmv_id
+        );
+      }
+    });
+    this.sharedData?.redirectInsurerDetails?.subscribe((res) => {
+      if (res) {
+        this.isRedirectData = true;
+        this.redirectInsurerData = res;
+      }
+    });
   }
 
   openShareModal() {
@@ -98,5 +124,14 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   premiumBreakup() {
     this.bottomSheet.open(PremiumBreakupComponent);
+  }
+  getVehicleMMVPopup(productType: any, mmvId: any) {
+    let apiData;
+    apiData = `?product_name=${productType}&rb_mmv_id=${mmvId}`;
+    this.apiservice
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .subscribe((res) => {
+        this.mmvItem = res;
+      });
   }
 }

@@ -50,6 +50,14 @@ export class HeaderComponent implements OnInit {
       this.currentUrl = this.router.url;
       this.isTracId = this.currentUrl !== '/motor';
     }
+    /**
+     * subscribe when the redirection is done from Review page on clicking of share button
+     */
+    this.sharedService?.insurerDetails?.subscribe((res) => {
+      if (res) {
+        this.transactionId = res?.quote_response?.transaction_id;
+      }
+    });
   }
 
   ngAfterViewInit() {

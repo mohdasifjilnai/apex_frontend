@@ -152,6 +152,7 @@
               matInput
               placeholder="Enter Email Id"
               formControlName="email"
+              appNotAllowDot
             />
             <mat-error
               *ngIf="shareQuotationForm.get('email')?.hasError('pattern')"
@@ -164,7 +165,7 @@
           <button
             class="submit-btn inspection-btn send-btn text-light-blue"
             type="submit"
-            [disabled]="!anyFieldValid()"
+            [disabled]="shareQuotationForm.invalid"
           >
             Send
           </button>
