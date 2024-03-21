@@ -132,7 +132,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
       this.vehicleOwnerName = true;
-      if (ckycData) {
+      if (ckycData?.customer_details?.pincode) {
         this.apiService
           .getRequestedResponse(
             `${ApiConstants.pincode}?pincode=${ckycData?.customer_details?.pincode}`
