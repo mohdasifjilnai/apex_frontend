@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -8,7 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PaymentComponent implements OnInit {
   paymentSuccess: boolean = true;
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private apiService: ApiService
+  ) {}
   policyNumber: any;
   proposalNumber: any;
   ngOnInit(): void {
@@ -24,6 +29,7 @@ export class PaymentComponent implements OnInit {
       const proposalNo = params?.get('proposal_no');
       if (policyNo) {
         this.policyNumber = policyNo;
+        this.downloadPolicy();
       }
       if (proposalNo) {
         this.proposalNumber = proposalNo;
@@ -36,5 +42,16 @@ export class PaymentComponent implements OnInit {
    */
   goTohome() {
     this.router.navigate(['/motor']);
+  }
+
+  downloadPolicy() {
+    let transactionId = sessionStorage.getItem('transaction_id');
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants?.downloadPolicy}?transaction_id=${transactionId}`
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 }

@@ -77,4 +77,6 @@ export class ApiConstants {
   public static make_model_and_variant: string = `/api/v1/get_depending_mmv/`;
   // document save api
   public static upload_document_save: string = `/api/v1/ckyc/upload_document/save/`;
+
+  public static downloadPolicy: string = `/api/v1/policy/get_policy_document`;
 }
