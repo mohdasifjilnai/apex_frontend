@@ -19,24 +19,29 @@ export class FailureDialogComponent implements OnInit {
     private matDialog: WindowRef
   ) {
     this.faliureData = data['data'];
+    if (data?.statusdata?.status == 422) {
+      this.errorMessage = data['statusdata']['message'];
+    } else {
+      this.errorMessage = 'Not Found';
+    }
   }
-  failureJSON: {
-    modalName: any;
-    widthObtained: string;
-    heightObtained: string;
-    topObtained: string;
-    isOutSideClose: boolean;
-    classObtained: string;
-  } = {
-    modalName: FailureDialogComponent,
-    widthObtained: '70%',
-    heightObtained: 'auto',
-    topObtained: 'auto',
-    isOutSideClose: true,
-    classObtained: 'nonPOS-class',
-  };
+  // failureJSON: {
+  //   modalName: any;
+  //   widthObtained: string;
+  //   heightObtained: string;
+  //   topObtained: string;
+  //   isOutSideClose: boolean;
+  //   classObtained: string;
+  // } = {
+  //   modalName: FailureDialogComponent,
+  //   widthObtained: '70%',
+  //   heightObtained: 'auto',
+  //   topObtained: 'auto',
+  //   isOutSideClose: true,
+  //   classObtained: 'nonPOS-class',
+  // };
   ngOnInit(): void {
-    this.failurePopup(this.faliureData);
+    // this.failurePopup(this.faliureData);
   }
   /**
    * this fucntion use for close pop up
@@ -45,33 +50,33 @@ export class FailureDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  failurePopup(data: any) {
-    this.errorMessage = data?.error_message;
-  }
+  // failurePopup(data: any) {
+  //   this.errorMessage = data?.error_message;
+  // }
 
-  openFailurePopup(objData: any) {
-    let resWidth;
-    let resTop;
-    if (window.screen.width <= 767) {
-      resWidth = '95%';
-      resTop = '5%';
-    } else {
-      resWidth = '900px';
-      resTop = '5%';
-    }
-    const obj: any = {
-      modalName: this.failureJSON['modalName'],
-      width: this.failureJSON['widthObtained'],
-      height: this.failureJSON['heightObtained'],
-      classNameObtained: this.failureJSON['classObtained'],
-      isOutSideClose: this.failureJSON['isOutSideClose'],
-      minWidth: resWidth,
-      dataInfo: {
-        data: objData,
-        top: resTop,
-      },
-    };
+  // openFailurePopup(objData: any) {
+  //   let resWidth;
+  //   let resTop;
+  //   if (window.screen.width <= 767) {
+  //     resWidth = '95%';
+  //     resTop = '5%';
+  //   } else {
+  //     resWidth = '900px';
+  //     resTop = '5%';
+  //   }
+  //   const obj: any = {
+  //     modalName: this.failureJSON['modalName'],
+  //     width: this.failureJSON['widthObtained'],
+  //     height: this.failureJSON['heightObtained'],
+  //     classNameObtained: this.failureJSON['classObtained'],
+  //     isOutSideClose: this.failureJSON['isOutSideClose'],
+  //     minWidth: resWidth,
+  //     dataInfo: {
+  //       data: objData,
+  //       top: resTop,
+  //     },
+  //   };
 
-    this.matDialog.openDialog(obj);
-  }
+  //   this.matDialog.openDialog(obj);
+  // }
 }

@@ -32,12 +32,12 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   proposalId: any;
   isDocumentUploaded: boolean = true;
   isDcocumentUploadProceesing: boolean = false;
-  fileName: any;
   documentName: any;
   isShowPhoto: boolean = false;
   document_image_url: any;
   isUploadDocment: boolean = false;
   document_url: any;
+  fileName: any = 'Upload Document';
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -134,6 +134,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.uploadDocumentsForm = this.formBuilder.group({
       document_type_based_field: ['', [Validators.required]],
       document_number_based_field: ['', [Validators.required]],
+      file: ['', [Validators.required]],
     });
   }
   /**
@@ -176,18 +177,37 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    * This function is used to check if the uploaded document is valid or not.
    * @param event - The event object that contains the file information.
    */
-  checkUploadDocment(event: boolean) {
-    this.isUploadDocment = event;
+  checkUploadDocment(url: string) {
+    this.isUploadDocment = true;
     if (this.isUploadDocment) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.get_document_image_url}?document_path=${
-            this.uploadDocumentsForm.get('file')?.value
-          }`
+          `${ApiConstants.get_document_image_url}?document_path=${url}`
         )
         .subscribe((res) => {
           this.document_url = res['document_url'];
         });
     }
+  }
+  /**
+Event handler for when a file is selected.
+@param event - The file selection event.
+ */
+  onFileSelected(event: any): void {
+    const selectedFile: File = event.target.files[0];
+    this.fileName = selectedFile.name;
+    let formData: FormData = new FormData();
+    formData.append('file', selectedFile, selectedFile.name);
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
+        formData
+      )
+      ?.subscribe((res) => {
+        this.checkUploadDocment(res['document_url']);
+        this.uploadDocumentsForm.patchValue({
+          file: res['document_url'],
+        });
+      });
   }
 }

@@ -9,10 +9,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   ],
 })
 export class ErrorDialogComponent implements OnInit {
+  errorMessage: any;
+  link: any;
   constructor(
     public dialogRef: MatDialogRef<ErrorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.errorMessage = data['data']['message'];
+    this.link = data['data']['link'];
+  }
 
   ngOnInit(): void {}
 
@@ -21,5 +26,8 @@ export class ErrorDialogComponent implements OnInit {
    */
   onClose(): void {
     this.dialogRef.close();
+  }
+  shareLink(link: any) {
+    window.location.href = link;
   }
 }

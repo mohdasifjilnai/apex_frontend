@@ -1,38 +1,36 @@
-  <!-- Dialog title -->
-  <div mat-dialog-title>
-    <div class="error-popup-header d-flex justify-content-end">
-      <img
-        src="/assets/icon/cross.svg"
-        (click)="onClose()"
-        class="cursor-pointer"
-        alt="close"
-      />
-    </div>
+<!-- Dialog title -->
+<div mat-dialog-title>
+  <div class="error-popup-header d-flex justify-content-end">
+    <img
+      src="/assets/icon/cross.svg"
+      (click)="onClose()"
+      class="cursor-pointer"
+      alt="close"
+    />
   </div>
-  <!-- Dialog content -->
-  <div mat-dialog-content>
-    <div class="row">
-      <div class="col-4 offset-3">
-        <div class="error-gif">
-          <img
-            src="/assets/gif/error.gif"
-            class="error-gif-image"
-            alt="close"
-          />
-          <p class="text-orange gif-icon-text">Lorem Ipsum</p>
-        </div>
-      </div>
-      <div class="col-12">
-        <p class="text-content text-center">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien. Lorem ipsum
-          dolor sit amet consectetur adipiscing elit Ut et massa mi.
-        </p>
-      </div>
-      <div class="col-6 offset-2">
-        <button class="submit-btn success-submission" type="submit">
-          Submit
-        </button>
+</div>
+<!-- Dialog content -->
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-4 offset-3">
+      <div class="error-gif">
+        <img src="/assets/gif/error.gif" class="error-gif-image" alt="close" />
+        <!-- <p class="text-orange gif-icon-text">Lorem Ipsum</p> -->
       </div>
     </div>
+    <div class="col-12">
+      <p class="text-content text-center">
+        {{ errorMessage }}
+      </p>
+    </div>
+    <div class="col-6 offset-2">
+      <button
+        class="submit-btn success-submission"
+        (click)="shareLink(link)"
+        type="submit"
+      >
+        Procced
+      </button>
+    </div>
   </div>
+</div>

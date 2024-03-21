@@ -287,8 +287,10 @@ export class CkycComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj).subscribe((data) => {
-      this.afterProceedGetData.emit(data);
-      this.sharedDataService.kycFetched(data);
+      if (!data['error']) {
+        this.afterProceedGetData.emit(data);
+        this.sharedDataService.kycFetched(data);
+      }
     });
   }
   /**
@@ -361,7 +363,7 @@ export class CkycComponent implements OnInit {
   checkedTerms(event: any) {
     this.isDownloading = event.checked;
   }
-  EnterKey(event: Event,manufacture:MatDatepicker<Date>) {
-    this.sharedDataService.handleEnterKey(event,manufacture)
+  EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
+    this.sharedDataService.handleEnterKey(event, manufacture);
   }
 }

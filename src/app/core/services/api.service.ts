@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Subject, catchError, map, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { FailureDialogComponent } from '../../../app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService, public dialog: MatDialog) {}
   getStatusEvent: Subject<any> = new Subject();
 
   /**
@@ -16,14 +17,14 @@ export class ApiService {
   getRequestedResponse(
     url: string,
     productModuleName?: string,
-    queryParamsUrl?: string,
+    queryParamsUrl?: string
   ) {
     if (queryParamsUrl) {
       url = url + queryParamsUrl;
     }
     return this.httpService.getRequest(url, productModuleName).pipe(
       map((response: any) => response),
-      catchError((err: any) => JSON.stringify(this.errorHandler(err))),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
   }
   errorHandler(err: any) {
@@ -39,20 +40,19 @@ export class ApiService {
     }
 
     if (err.status !== 401) {
-      // if ((err.status !== 200)) {
-      //     const dialogRef = this.dialog.open(ErrorHandlerComponent, {
-      //         width: '50%',
-      //         height: '50%',
-      //         data: {
-      //             errorData: error,
-      //             statusdata: status
-      //         }
-      //     });
-      //     dialogRef.afterClosed().subscribe((result: any) => { });
-      // }
+      if (err.status !== 200) {
+        const dialogRef = this.dialog.open(FailureDialogComponent, {
+          width: '50%',
+          height: '50%',
+          data: {
+            errorData: error,
+            statusdata: status,
+          },
+        });
+        dialogRef.afterClosed().subscribe((result: any) => {});
+      }
     } else if (err.status == 401) {
       localStorage.clear();
-      // this.router.navigate(['rb-login'])
     }
   }
 
@@ -74,11 +74,7 @@ export class ApiService {
   postRequestedResponse(url: any, body: any) {
     return this.httpService.postRequest(url, body).pipe(
       map((response: any) => response),
-      catchError((err: HttpErrorResponse) => {
-
-        JSON.stringify(err);
-        return throwError(err);
-      }),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
   }
   /**
@@ -87,10 +83,7 @@ export class ApiService {
   putRequestedResponse(url: any, body: any) {
     return this.httpService.putRequest(url, body).pipe(
       map((response: any) => response),
-      catchError((err: HttpErrorResponse) => {
-        JSON.stringify(err);
-        return throwError(err);
-      }),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
   }
   /**
@@ -99,11 +92,7 @@ export class ApiService {
   patchRequestedResponse(url: any, body: any) {
     return this.httpService.patchRequest(url, body).pipe(
       map((response: any) => response),
-      catchError((err: HttpErrorResponse) => {
-
-        JSON.stringify(err);
-        return throwError(err);
-      }),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
   }
 
@@ -115,13 +104,13 @@ export class ApiService {
       catchError((err: HttpErrorResponse) => {
         JSON.stringify(err);
         return throwError(err);
-      }),
+      })
     );
   }
   deleteData(url: any, body?: any) {
     return this.httpService.deleteRequestWithToken(url, body).pipe(
       map((response) => response),
-      catchError((err) => JSON.stringify(err)),
+      catchError((err) => JSON.stringify(err))
     );
   }
 

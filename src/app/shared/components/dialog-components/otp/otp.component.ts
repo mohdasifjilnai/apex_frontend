@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-otp',
@@ -37,8 +38,8 @@ export class OtpComponent implements OnInit {
     isOutSideClose: boolean;
     classObtained: string;
   } = {
-    modalName: FailureDialogComponent,
-    widthObtained: 'auto',
+    modalName: ErrorDialogComponent,
+    widthObtained: '70%',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,
@@ -64,6 +65,11 @@ export class OtpComponent implements OnInit {
     this.proposalId = sessionStorage.getItem('proposal_Id');
     this.communicationData = data['sendCommunicationObject'];
     this.quoteData = sessionStorage.getItem('quotes_data');
+    if (JSON.parse(this.quoteData)['insurer_code'] == 'digit') {
+      this.failureJSON['modalName'] = ErrorDialogComponent;
+    } else {
+      this.failureJSON['modalName'] = FailureDialogComponent;
+    }
   }
 
   ngOnInit(): void {
