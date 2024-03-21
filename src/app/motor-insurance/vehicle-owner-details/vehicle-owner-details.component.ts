@@ -132,18 +132,20 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
       this.vehicleOwnerName = true;
-      if (ckycData?.customer_details?.pincode) {
-        this.apiService
-          .getRequestedResponse(
-            `${ApiConstants.pincode}?pincode=${ckycData?.customer_details?.pincode}`
-          )
-          .subscribe((res) => {
-            this.owenerVehicleDetailsForm.patchValue({
-              owner_pincode: res[0],
-              owner_city: res[0].rb_city_name,
-              owner_state: res[0].rb_state_name,
+      if (ckycData) {
+        if (ckycData?.customer_details?.pincode) {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${ckycData?.customer_details?.pincode}`
+            )
+            .subscribe((res) => {
+              this.owenerVehicleDetailsForm.patchValue({
+                owner_pincode: res[0],
+                owner_city: res[0].rb_city_name,
+                owner_state: res[0].rb_state_name,
+              });
             });
-          });
+        }
 
         this.owenerVehicleDetailsForm.patchValue({
           owner_full_Name: ckycData?.customer_details?.full_name,

@@ -565,7 +565,7 @@ export class SharedDataService {
           financer_branch: formData?.get('financer_city')?.value || '',
         };
       } else {
-        this.proposalDataItem['vehicle_details'].financer_details = {};
+        this.proposalDataItem['vehicle_details'];
       }
     }
     if (flag === 'previous_policy_details') {
