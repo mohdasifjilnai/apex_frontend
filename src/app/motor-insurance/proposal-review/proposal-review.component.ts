@@ -82,14 +82,12 @@ export class ProposalReviewComponent implements OnInit {
         JSON.stringify(this.proposalParam)
       );
       if (this.proposalParam) {
-        console.log('Proposal  provided');
         this.router.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
           this.proposalId = urlSegments[urlSegments.length - 2];
           this.generateProposal(this.proposalId);
         });
       } else {
-        console.log('Proposal is false or not provided');
         this.generateProposal();
       }
     });

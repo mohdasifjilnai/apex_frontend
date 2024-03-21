@@ -172,7 +172,6 @@ export class ProposalComponent implements OnInit {
    */
   getProceedData(data: any) {
     this.proceedData = data;
-    console.log(this.proceedData, 'vehicleOwnerDetails');
     if (data) {
       this.step1 = false;
       this.step2 = true;

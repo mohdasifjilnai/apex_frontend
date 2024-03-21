@@ -36,13 +36,13 @@ export class InsuranceDetailsComponent implements OnInit {
   mmvData: any;
   reviewURL: boolean = false;
   gstToggleData: any;
-  isRedirectData: boolean = false;
   redirectInsurerData: any;
   mmvItem: any;
   planType: any;
   addonsValue: any;
   selectedAddOns: any;
   addonsList: any = [];
+  proposalParam: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -84,14 +84,12 @@ export class InsuranceDetailsComponent implements OnInit {
         );
       }
     });
-    const proposalParam = sessionStorage.getItem('proposal_param');
-    if (proposalParam) {
-      this.isRedirectData = true;
-    }
+    this.proposalParam = sessionStorage.getItem('proposal_param');
     let mmvData = JSON.parse(sessionStorage.getItem('mmvData') || '{}');
-    if (mmvData) {
+    if (mmvData && Object.keys(mmvData).length > 0) {
       this.mmvItem = mmvData;
     }
+
     this.sharedData?.redirectInsurerDetails?.subscribe((res) => {
       if (res) {
         this.redirectInsurerData = res;
