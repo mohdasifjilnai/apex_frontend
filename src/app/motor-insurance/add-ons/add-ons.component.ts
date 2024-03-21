@@ -102,7 +102,9 @@ export class AddOnsComponent implements OnInit {
                     this.tabIndex[k] = k;
                     this.selectedVoluntryValue = value[0];
                   }
-                  if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.next_type == 'dropdown'
+                  ) {
                     this.dropDownFieldIndex[k] = k;
                   }
                   this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
