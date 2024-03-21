@@ -379,9 +379,9 @@ export class QuotesListingComponent implements OnInit {
       this.sharedDataService.inspectionCaseData(this.inspectionCase);
 
       this.sharedDataService.chooseIdvHide(this.selectedProductType);
+      this.sharedDataService.tabChangeModified(true);
     }
     this.tabChangeOninit = false;
-    this.sharedDataService.tabChangeModified(true);
   }
 
   /**

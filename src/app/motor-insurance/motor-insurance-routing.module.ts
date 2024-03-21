@@ -31,7 +31,9 @@ const routes: Routes = [
       breadcrumb: [
         { name: 'Motor Insurance', path: ['motor'] },
         { name: 'Quotes Listing', path: ['motor/quotes'] },
-        { name: 'Proposal Form', path: [''] },
+        {
+          name: 'Proposal Form',
+        },
       ],
     },
   },
@@ -55,7 +57,7 @@ const routes: Routes = [
         { name: 'Motor Insurance', path: ['motor'] },
         { name: 'Quotes Listing', path: ['motor/quotes'] },
         { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
-        { name: 'Proposal Review', path: ['motor/quotes/proposal/review'] },
+        { name: 'Proposal Review' },
       ],
     },
   },

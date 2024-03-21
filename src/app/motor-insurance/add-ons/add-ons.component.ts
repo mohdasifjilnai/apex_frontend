@@ -71,6 +71,14 @@ export class AddOnsComponent implements OnInit {
     //   );
     // });
 
+    this.addonsValue = sessionStorage.getItem('selectedAddons');
+    this.selectedAddOns = JSON.parse(this.addonsValue);
+    if (this.selectedAddOns) {
+      this.showUpdateButton = true;
+      this.clearAllButton = true;
+      this.showButtons = true;
+    }
+
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableAddOns = false;
       this.selectedAddOnsValue = idvData;
@@ -126,6 +134,11 @@ export class AddOnsComponent implements OnInit {
       this.showUpdateButton = false;
       this.clearAllButton = false;
       this.selected_addons = {};
+      this.addonsValue = sessionStorage.getItem('selectedAddons');
+      this.selectedAddOns = JSON.parse(this.addonsValue);
+      if (this.selectedAddOns) {
+        sessionStorage.removeItem('selectedAddons');
+      }
     });
 
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
