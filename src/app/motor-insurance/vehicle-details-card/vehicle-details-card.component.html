@@ -3,7 +3,7 @@
   [ngClass]="inspectionValue ? 'vehicle-card-inspection' : 'vehicle-card'"
 >
   <div class="row vehicle-card-heading mt-3 pb-3">
-    <div class="col-lg-4">
+    <div class="col-lg-3 col-md-3">
       <span class="vehicle-card-heading-details"
         >Vehicle Variant, Fuel & RTO/City</span
       ><br />
@@ -18,29 +18,29 @@
         {{ parsedVehicleData?.registration_city?.display_name }}
       </span>
     </div>
-    <div class="col-lg-8">
-      <div class="d-flex justify-content-between">
-        <div>
+    <div class="col-lg-9 col-md-9">
+      <div class="row">
+        <div class="col-lg-2">
           <span class="vehicle-card-heading-details">Mfg. Year</span><br />
           <span class="vehicle-card-heading-details-data"
             >{{ manufactureMonth }} {{ manufactureYear }}</span
           >
         </div>
-        <div>
+        <div class="col-lg-2">
           <span class="vehicle-card-heading-details">Registration Date</span
           ><br />
           <span class="vehicle-card-heading-details-data">
             {{ registrationMonth }} {{ registrationYear }}
           </span>
         </div>
-        <div>
+        <div class="col-lg-2">
           <span class="vehicle-card-heading-details">Policy Expiry Date</span
           ><br />
           <span class="vehicle-card-heading-details-data text-center">{{
             policyDate ? policyDate : "-"
           }}</span>
         </div>
-        <div>
+        <div class="col-lg-2">
           <span class="vehicle-card-heading-details">Previous Insurer</span
           ><br />
           <span
@@ -48,21 +48,21 @@
             >{{ previousInsurer ? previousInsurer : "-" }}</span
           >
         </div>
-        <div>
+        <div class="col-lg-1">
           <span class="vehicle-card-heading-details">Previous NCB</span><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ previousNCB ? previousNCB : "0" }}</span
           >
         </div>
-        <div>
+        <div class="col-lg-1">
           <span class="vehicle-card-heading-details">New NCB</span><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ newNCB ? newNCB : "0" }}</span
           >
         </div>
-        <div>
+        <div class="col-lg-2">
           <button
             type="button"
             class="edit-button"

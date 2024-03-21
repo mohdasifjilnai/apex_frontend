@@ -94,6 +94,12 @@ export class SharedDataService {
   }
   handleEnterKey(event: Event, MatDatePickerName: any) {
     const keyboardEvent = event as KeyboardEvent;
+    const target = keyboardEvent.target as HTMLInputElement;
+    const isDisabled = target.getAttribute('data-disabled') === 'true'; // Check the custom attribute
+    // If the input field is disabled, return without executing further logic
+    if (isDisabled) {
+      return;
+    }
     if (keyboardEvent.key === 'Enter') {
       keyboardEvent.preventDefault(); // Prevent default Enter behavior
       MatDatePickerName.open(); // Open the MatDatepicker

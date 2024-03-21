@@ -20,10 +20,13 @@
     [readonly]="true"
     (click)="manufactureDate.open()"
     (keyup.enter)="EnterKey($event,manufactureDate)"
+    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
   />
   <mat-datepicker-toggle
     matSuffix
     [for]="manufactureDate"
+    (keydown.enter)="!isManufactureDateDisbaled && $event.preventDefault()"
+    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
   ></mat-datepicker-toggle>
   <mat-datepicker
     #manufactureDate

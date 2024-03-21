@@ -19,10 +19,13 @@
     [readonly]="true"
     (click)="registrationDate.open()"
     (keyup.enter)="EnterKey($event)"
+    [attr.data-disabled]="isRegistrationDateDisbaled ? 'true' : null"
   />
   <mat-datepicker-toggle
     matSuffix
     [for]="registrationDate"
+    (keydown.enter)="!isRegistrationDateDisbaled && $event.preventDefault()"
+    [attr.data-disabled]="isRegistrationDateDisbaled ? 'true' : null"
   ></mat-datepicker-toggle>
   <mat-datepicker
     #registrationDate
