@@ -201,6 +201,10 @@ export class AddOnsComponent implements OnInit {
       }
       this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
       this.enableAddOns = true;
+      let addOnsValue = sessionStorage.getItem('selectedAddons');
+      if (addOnsValue) {
+        sessionStorage.removeItem('selectedAddons');
+      }
     }
   }
   @Output() checkBoxValue = new EventEmitter<any>();
