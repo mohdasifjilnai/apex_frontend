@@ -40,6 +40,9 @@ export class InsuranceDetailsComponent implements OnInit {
   redirectInsurerData: any;
   mmvItem: any;
   planType: any;
+  addonsValue: any;
+  selectedAddOns: any;
+  addonsList: any = [];
 
   constructor(
     public matDialog: WindowRef,
@@ -94,8 +97,41 @@ export class InsuranceDetailsComponent implements OnInit {
         this.redirectInsurerData = res;
       }
     });
-  }
+    this.addonsList = [];
+    this.addonsValue = sessionStorage.getItem('selectedAddons');
+    this.selectedAddOns = JSON.parse(this.addonsValue);
+    if (this.selectedAddOns) {
+      for (let key of this.selectedAddOns) {
+        const keys = Object.keys(key);
+        const value = Object.values(key);
+        let addons = {
+          lable: value[1],
+          value: value[0],
+        };
 
+        this.addonsList.push(addons);
+      }
+    }
+  }
+  /**
+   * Returns a boolean indicating whether the specified value is a number.
+   *
+   * @param value - The value to test.
+   * @returns `true` if the value is a number, otherwise `false`.
+   */
+
+  isNumber(value: any): boolean {
+    return typeof value === 'number';
+  }
+  /**
+   * Returns a boolean indicating whether the specified value is a string.
+   *
+   * @param value - The value to test.
+   * @returns `true` if the value is a string, otherwise `false`.
+   */
+  isString(value: any): boolean {
+    return typeof value === 'string';
+  }
   openShareModal() {
     this.openModal([this.quoteData], this.insuranceDetailsJSON);
   }

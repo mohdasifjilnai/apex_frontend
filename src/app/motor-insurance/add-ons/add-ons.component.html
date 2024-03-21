@@ -8,6 +8,45 @@
       </mat-expansion-panel-header>
       <span *ngFor="let listValue of addOns.fe_template; index as i">
         <section class="d-grid">
+          <span *ngIf="listValue.type == 'radio'">
+            <!-- <mat-checkbox
+              [(ngModel)]="listValue.checked"
+              [id]="listValue.name"
+              (change)="
+                onCheckboxSelect(
+                  $event,
+                  listValue.name,
+                  listValue?.next_type,
+                  i,
+                  addOns.displayName,
+                  listValue.rb_code
+                )
+              "
+              [disabled]="enableAddOns"
+              >{{ listValue?.name }}</mat-checkbox
+            > -->
+
+            <mat-radio-group
+              aria-label="Select an option"
+              class="d-grid"
+              [(ngModel)]="listValue.checked"
+              (change)="
+                onCheckboxSelect(
+                  $event,
+                  listValue.name,
+                  listValue?.next_type,
+                  i,
+                  addOns.displayName,
+                  listValue.rb_code
+                )
+              "
+              [disabled]="enableAddOns"
+            >
+              <div class="d-flex justify-content-between mt-2">
+                <mat-radio-button>{{ listValue?.name }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </span>
           <span *ngIf="listValue.type == 'check_box'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"

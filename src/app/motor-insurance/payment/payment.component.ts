@@ -16,6 +16,7 @@ export class PaymentComponent implements OnInit {
   ) {}
   policyNumber: any;
   proposalNumber: any;
+  transactionId: any;
   ngOnInit(): void {
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
@@ -23,6 +24,8 @@ export class PaymentComponent implements OnInit {
       } else {
         this.paymentSuccess = false;
       }
+
+      this.transactionId = params[2]['path'];
     });
     this.route.queryParamMap.subscribe((params) => {
       const policyNo = params?.get('policy_no');
@@ -45,13 +48,12 @@ export class PaymentComponent implements OnInit {
   }
 
   downloadPolicy() {
-    let transactionId = sessionStorage.getItem('transaction_id');
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.downloadPolicy}?transaction_id=${transactionId}`
+        `${ApiConstants?.downloadPolicy}?transaction_id=${this.transactionId}`
       )
       .subscribe((res: any) => {
-        console.log(res);
+        window.open(res?.document_url);
       });
   }
 }
