@@ -56,6 +56,7 @@ export class ProposalShareComponent implements OnInit {
   quoteData: any;
   startDateRollover: any;
   nextDateValue: any;
+  proposalData: any;
 
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
@@ -111,6 +112,7 @@ export class ProposalShareComponent implements OnInit {
 
       this.nextDateValue = `${newDay}/${newMonth}/${newYear}`;
     }
+    this.proposalData = this.sharedDataService.proposalData;
   }
   /**
    * this fucntion use for close pop up
@@ -180,12 +182,12 @@ export class ProposalShareComponent implements OnInit {
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != null) {
       message =
-        'Send to Email ' +
+        'Sent to Email ' +
         this.shareQuotationForm.get('email')?.value +
         ' successfully';
     } else if (this.shareQuotationForm.get('contact_number')?.value != null) {
       message =
-        'Send to Mobile Number +91-' +
+        'Sent to Mobile Number +91-' +
         this.shareQuotationForm.get('contact_number')?.value +
         ' successfully';
     }
@@ -219,31 +221,59 @@ export class ProposalShareComponent implements OnInit {
       );
   }
   proceedToPayment() {
-    this.dialogRef.close();
-    let sendCommunicationObject = {
-      transaction_id: this.quoteData?.transaction_id,
-      share_type: 'otp',
-      partner_name: this.generateProposalData?.customer_details?.full_name,
-      URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
-      mail_id: this.generateProposalData?.customer_details?.email_id,
-      mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-      quote_id: [this.quoteData?.quote_id],
-      quote_request_id: this.quoteData?.quote_request_id,
-    };
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants.send_communication}`,
-        sendCommunicationObject
-      )
-      .subscribe((res) => {
-        if (res['message'] == 'Success') {
-          if (window.innerWidth <= 999) {
-            this.bottomSheet.open(OtpComponent);
-          } else {
-            this.openModal(sendCommunicationObject, this.otpDialog);
+    if (this.proposalData) {
+      this.dialogRef.close();
+      let sendCommunicationObject = {
+        transaction_id: this.proposalData?.quote_response?.transaction_id,
+        share_type: 'otp',
+        partner_name: this.generateProposalData?.customer_details?.full_name,
+        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
+        mail_id: this.generateProposalData?.customer_details?.email_id,
+        mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+        quote_id: [this.proposalData?.quote_response?.quote_id],
+        quote_request_id: this.proposalData?.quote_response?.quote_request_id,
+      };
+      this.apiService
+        .postRequestedResponse(
+          `${ApiConstants.send_communication}`,
+          sendCommunicationObject
+        )
+        .subscribe((res) => {
+          if (res['message'] == 'Success') {
+            if (window.innerWidth <= 999) {
+              this.bottomSheet.open(OtpComponent);
+            } else {
+              this.openModal(sendCommunicationObject, this.otpDialog);
+            }
           }
-        }
-      });
+        });
+    } else {
+      this.dialogRef.close();
+      let sendCommunicationObject = {
+        transaction_id: this.quoteData?.transaction_id,
+        share_type: 'otp',
+        partner_name: this.generateProposalData?.customer_details?.full_name,
+        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
+        mail_id: this.generateProposalData?.customer_details?.email_id,
+        mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+        quote_id: [this.quoteData?.quote_id],
+        quote_request_id: this.quoteData?.quote_request_id,
+      };
+      this.apiService
+        .postRequestedResponse(
+          `${ApiConstants.send_communication}`,
+          sendCommunicationObject
+        )
+        .subscribe((res) => {
+          if (res['message'] == 'Success') {
+            if (window.innerWidth <= 999) {
+              this.bottomSheet.open(OtpComponent);
+            } else {
+              this.openModal(sendCommunicationObject, this.otpDialog);
+            }
+          }
+        });
+    }
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';

@@ -128,7 +128,7 @@ export class OtpComponent implements OnInit {
           .getRequestedResponse(
             `${ApiConstants.generate_proposal}?insurer_code=${
               JSON.parse(this.quoteData)['insurer_code']
-            }&proposal_id=${this.proposalId}`
+            }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
           )
           .subscribe((generatedProposal: any) => {
             if (generatedProposal.status) {

@@ -113,6 +113,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.vehicle_details !== null) {
+        const proposalParam = sessionStorage.getItem('proposal_param');
+        if (proposalParam && proposalParam === 'true') {
+          this.proposalVehilceDetailsForm.patchValue({
+            registration_date: moment(
+              proposal?.vehicle_details?.registration_date,
+              'DD/MM/YYYY'
+            ).toDate(),
+            manufacture_date: moment(
+              proposal?.vehicle_details?.manufacture_date,
+              'DD/MM/YYYY'
+            ).toDate(),
+          });
+        }
         if (proposal.vehicle_details?.is_same_location) {
           this.getRegistrationAddressValue(
             proposal.vehicle_details?.is_same_location

@@ -322,6 +322,19 @@ export class QuotesListingComponent implements OnInit {
     // this.progressValue = 0;
     // this.startProgress(0);
     this.selectAddOnsList = [];
+    const selectedIndex = event.index;
+
+    /**
+     * Access the tab data using the index
+     */
+    const selectedTab = this.tabDataList[selectedIndex];
+    const selectedName = selectedTab.name;
+    const selectedCode = selectedTab.code;
+    /**
+     * Create an object to store both name and code
+     */
+    const selectedTabData = { name: selectedName, code: selectedCode };
+    sessionStorage.setItem('planType', JSON.stringify(selectedTabData));
     if (!this.tabChangeOninit) {
       this.progressValue = 0;
       this.startProgress(0);

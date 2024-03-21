@@ -55,6 +55,7 @@ export class ProposalReviewComponent implements OnInit {
   isAcknowledged: boolean = false;
   proposalParam: any;
   proposalId: any;
+  proposalData: any;
 
   constructor(
     private route: Router,
@@ -76,6 +77,10 @@ export class ProposalReviewComponent implements OnInit {
     }
     this.router.queryParams.subscribe((params) => {
       this.proposalParam = params['proposal'] === 'true';
+      sessionStorage.setItem(
+        'proposal_param',
+        JSON.stringify(this.proposalParam)
+      );
       if (this.proposalParam) {
         console.log('Proposal  provided');
         this.router.url.subscribe((segments) => {
@@ -88,10 +93,28 @@ export class ProposalReviewComponent implements OnInit {
         this.generateProposal();
       }
     });
+    this.shareData.insurerDetails?.subscribe((res) => {
+      this.proposalData = res;
+      sessionStorage.setItem(
+        'transaction_id',
+        this.proposalData?.quote_response?.transaction_id
+      );
+      const quoteResponseToStore = this.proposalData.quote_response;
+      sessionStorage.setItem(
+        'quotes_data',
+        JSON.stringify(quoteResponseToStore)
+      );
+    });
   }
   navigateToUrl(titleName: string) {
-    this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
-    this.shareData.sendProposalReviewEditId(titleName);
+    if (this.proposalData) {
+      this.route.navigate([
+        `/motor/quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
+      ]);
+    } else {
+      this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
+      this.shareData.sendProposalReviewEditId(titleName);
+    }
   }
   back() {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
@@ -141,6 +164,10 @@ export class ProposalReviewComponent implements OnInit {
         )
         .subscribe((res) => {
           this.generateProposalData = res;
+          sessionStorage.setItem(
+            'proposal_Id',
+            JSON.stringify(this.generateProposalData?.proposal_id)
+          );
           const dataToSend = [
             res?.previous_policy_details, //Previous Policy Details
             res?.proposal_number, //Proposal Number

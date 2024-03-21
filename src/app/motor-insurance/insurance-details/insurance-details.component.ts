@@ -39,6 +39,7 @@ export class InsuranceDetailsComponent implements OnInit {
   isRedirectData: boolean = false;
   redirectInsurerData: any;
   mmvItem: any;
+  planType: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -63,6 +64,7 @@ export class InsuranceDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
     let gstValue = sessionStorage.getItem('gstValue');
     if (gstValue) {
       this.gstToggleData = JSON.parse(gstValue);
@@ -79,9 +81,16 @@ export class InsuranceDetailsComponent implements OnInit {
         );
       }
     });
+    const proposalParam = sessionStorage.getItem('proposal_param');
+    if (proposalParam) {
+      this.isRedirectData = true;
+    }
+    let mmvData = JSON.parse(sessionStorage.getItem('mmvData') || '{}');
+    if (mmvData) {
+      this.mmvItem = mmvData;
+    }
     this.sharedData?.redirectInsurerDetails?.subscribe((res) => {
       if (res) {
-        this.isRedirectData = true;
         this.redirectInsurerData = res;
       }
     });
@@ -132,6 +141,7 @@ export class InsuranceDetailsComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res) => {
         this.mmvItem = res;
+        sessionStorage.setItem('mmvData', JSON.stringify(res));
       });
   }
 }

@@ -65,6 +65,9 @@ export class SharedDataService {
   idvData: any;
   quotesCount: any;
   financedAddressItem: any;
+  proposalData: any;
+  proposalDataItem: any;
+  redirectProposalId: any;
 
   constructor(
     private apiService: ApiService,
@@ -435,16 +438,28 @@ export class SharedDataService {
   createProposalId(flag?: any, formData?: any) {
     this.quoteData = sessionStorage.getItem('quotes_data');
     const proposalId = sessionStorage.getItem('proposal_Id');
-    let proposalData: any = {
-      transaction_id: sessionStorage.getItem('transaction_id') || '',
-      insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
-      insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
-      proposal_id: proposalId !== undefined ? proposalId : '',
-    };
+    const proposalParam = sessionStorage.getItem('proposal_param');
+
+    if (proposalParam && proposalParam === 'true') {
+      this.redirectProposalId = sessionStorage.getItem('proposal_Id');
+      this.proposalDataItem = {
+        transaction_id: sessionStorage.getItem('transaction_id') || '',
+        insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
+        insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
+        proposal_id: this.redirectProposalId.replace(/['"]+/g, ''),
+      };
+    } else {
+      this.proposalDataItem = {
+        transaction_id: sessionStorage.getItem('transaction_id') || '',
+        insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
+        insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
+        proposal_id: proposalId !== undefined ? proposalId : '',
+      };
+    }
     const ckycIdValue = formData?.get('ckyc_id')?.value;
     const isCkycVerified = ckycIdValue !== 2; // Set to true if ckyc_id is not 2, false if it is 2
     if (flag === 'ckyc') {
-      proposalData['ckyc_details'] = {
+      this.proposalDataItem['ckyc_details'] = {
         full_name: formData?.get('ckyc_full_name')?.value || '',
         dob:
           this.datePipe.transform(
@@ -459,7 +474,7 @@ export class SharedDataService {
       };
     }
     if (flag === 'vehicle_owner_detail') {
-      proposalData['customer_details'] = {
+      this.proposalDataItem['customer_details'] = {
         full_name: formData?.get('owner_full_Name')?.value || '',
         mobile_number: formData?.get('contact_number')?.value || '',
         email_id: formData?.get('owner_email')?.value || '',
@@ -483,16 +498,16 @@ export class SharedDataService {
       };
     }
     if (flag === 'nominne_details') {
-      proposalData['nominee_details'] = {
+      this.proposalDataItem['nominee_details'] = {
         name: formData?.get('nominne_full_Name')?.value,
         age: formData?.get('age')?.value,
         relation_id: formData?.get('nominne_relation')?.value,
       };
     }
     if (flag === 'vehilce_details') {
-      proposalData['vehicle_details'] = {};
-      proposalData['vehicle_details'].registration_address = {};
-      proposalData['vehicle_details'] = {
+      this.proposalDataItem['vehicle_details'] = {};
+      this.proposalDataItem['vehicle_details'].registration_address = {};
+      this.proposalDataItem['vehicle_details'] = {
         registration_no:
           formData?.get('registration_number')?.value.toUpperCase() || '',
         engine_no: formData?.get('engine_number')?.value.toUpperCase() || '',
@@ -518,7 +533,7 @@ export class SharedDataService {
             : 'false',
       };
       if (this.registrationAddressItem) {
-        proposalData['vehicle_details'].registration_address = {
+        this.proposalDataItem['vehicle_details'].registration_address = {
           pincode:
             this.createdProposalId.customer_details?.communication_address
               ?.pincode || '',
@@ -533,7 +548,7 @@ export class SharedDataService {
               ?.address_line || '',
         };
       } else {
-        proposalData['vehicle_details'].registration_address = {
+        this.proposalDataItem['vehicle_details'].registration_address = {
           pincode: formData?.get('vehicle_pincode')?.value?.rb_pincode || '',
           rb_city_id:
             formData?.get('vehicle_pincode')?.value?.rb_city_code || '' || '', // Set to appropriate default value
@@ -544,19 +559,19 @@ export class SharedDataService {
         };
       }
       if (this.financedAddressItem) {
-        proposalData['vehicle_details'].financer_details = {
+        this.proposalDataItem['vehicle_details'].financer_details = {
           financer_id: formData?.get('financer')?.value?.rb_financier_id || '',
           agreement_type: formData?.get('agreement_type')?.value || '',
           financer_branch: formData?.get('financer_city')?.value || '',
         };
       } else {
-        proposalData['vehicle_details'].financer_details = {};
+        this.proposalDataItem['vehicle_details'].financer_details = {};
       }
     }
     if (flag === 'previous_policy_details') {
-      proposalData['previous_policy_details'] = {};
-      proposalData['previous_policy_details'].tp_policy_details = {};
-      proposalData['previous_policy_details'] = {
+      this.proposalDataItem['previous_policy_details'] = {};
+      this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+      this.proposalDataItem['previous_policy_details'] = {
         insurer_code: formData?.get('previous_insurer')?.value?.rb_insurer_code,
         policy_no: formData?.get('prev_policy_number')?.value,
         policy_expiry_date:
@@ -567,7 +582,7 @@ export class SharedDataService {
       };
       let productTypeValue = sessionStorage.getItem('productType');
       if (productTypeValue === 'saod') {
-        proposalData['previous_policy_details'].tp_policy_details = {
+        this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value
             ?.rb_insurer_code,
           tp_policy_no: formData?.get('tp_policy_number')?.value,
@@ -583,11 +598,14 @@ export class SharedDataService {
             ) || '',
         };
       } else {
-        proposalData['previous_policy_details'].tp_policy_details = {};
+        this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
       }
     }
     this.apiService
-      .postRequestedResponse(ApiConstants.create_proposal, proposalData)
+      .postRequestedResponse(
+        ApiConstants.create_proposal,
+        this.proposalDataItem
+      )
       .subscribe((res) => {
         if (res) {
           this.createdProposalId = res;
@@ -729,6 +747,7 @@ export class SharedDataService {
    */
   getInsurerDetail(data: any) {
     this.insurerDetails.next(data);
+    this.proposalData = data;
   }
   /**
    * when user is redirect from review page to review page on click of share the data send into the Insurer detail

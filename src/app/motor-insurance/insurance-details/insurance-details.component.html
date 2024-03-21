@@ -1,6 +1,6 @@
 <div class="row p-2 insurer-details">
   <div class="col-lg-12 col-md-12 d-flex gap-2 mt-3">
-    <img [src]="quoteData.insurer_logo" alt="" class="logo" />
+    <img [src]="quoteData?.insurer_logo" alt="" class="logo" />
     <div class="insurer-title">
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div>
@@ -25,9 +25,9 @@
     <div class="d-flex" *ngIf="isRedirectData">
       <img src="/assets/icon/four-wheeler.svg" alt="" class="vehicle-icon" />
       <p class="pt-3">
-        {{ this.mmvItem[0]?.rb_make_name }}
-        {{ this.mmvItem[0]?.rb_model_name }}
-        {{ this.mmvItem[0]?.rb_variant_name }} , {{ this.mmvItem[0]?.fuel }} ,
+        {{ this.mmvItem?.[0]?.rb_make_name }}
+        {{ this.mmvItem?.[0]?.rb_model_name }}
+        {{ this.mmvItem?.[0]?.rb_variant_name }}, {{ this.mmvItem?.[0]?.fuel }},
         {{
           this.redirectInsurerData?.customer_details?.communication_address
             ?.rb_city_name
@@ -43,7 +43,7 @@
         <p class="plan-type">Total IDV</p>
       </div>
       <div class="d-flex justify-content-between mt-2">
-        <p class="anunual-commericial">Comprehensive- Annual</p>
+        <p class="anunual-commericial">{{ planType?.name }}</p>
         <p class="plan-type">{{ quoteData?.premium_details?.idv }}</p>
       </div>
     </div>
@@ -88,7 +88,7 @@
       <p class="od-value">
         &#x20B9;
         {{
-          quoteData.premium_details.od_premium_details.od_discount
+          quoteData?.premium_details?.od_premium_details?.od_discount
             | numberFormat
         }}
       </p>
@@ -101,7 +101,7 @@
       <p class="plan-type">
         &#x20B9;
         {{
-          quoteData.premium_details.tp_premium_details.basic_tp_premium
+          quoteData?.premium_details?.tp_premium_details?.basic_tp_premium
             | numberFormat
         }}
       </p>
@@ -175,7 +175,7 @@
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)</p>
       <p class="plan-type">
-        &#x20B9; {{ quoteData.premium_details.total_gst | numberFormat }}
+        &#x20B9; {{ quoteData?.premium_details?.total_gst | numberFormat }}
       </p>
     </div>
   </div>
@@ -184,7 +184,7 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;
-      {{ quoteData.premium_details.total_premium | numberFormat }}</span
+      {{ quoteData?.premium_details?.total_premium | numberFormat }}</span
     >
   </div>
   <button
