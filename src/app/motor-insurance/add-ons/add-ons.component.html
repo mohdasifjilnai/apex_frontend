@@ -112,6 +112,15 @@
                   listValue?.rb_code
                 )
               "
+              (click)="
+                onInputChange(
+                  listValue.addOnsValue,
+                  listValue?.next_type,
+                  i,
+                  listValue?.name,
+                  listValue?.rb_code
+                )
+              "
               [disabled]="enableAddOns"
             />
           </mat-form-field>

@@ -21,8 +21,10 @@ export class FailureDialogComponent implements OnInit {
     this.faliureData = data['data'];
     if (data?.statusdata?.status == 422) {
       this.errorMessage = data['statusdata']['message'];
-    } else {
-      this.errorMessage = 'Not Found';
+    } else if (data?.statusdata?.status == 500) {
+      this.errorMessage = data['statusdata']['statusText'];
+    } else if (data?.data?.status == false) {
+      this.errorMessage = data?.data?.error_message;
     }
   }
   // failureJSON: {

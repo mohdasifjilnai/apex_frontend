@@ -53,7 +53,7 @@ export class AddOnsComponent implements OnInit {
   getAddonValueData: any = [];
   addonsValue: any;
   selectedAddOns: any;
-
+  isInputBox: boolean = false;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
