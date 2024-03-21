@@ -248,39 +248,29 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    * we can access the checkbox value using this.financedToggle.nativeElement.checked
    */
   getFinacedValue() {
-    this.isFinancedChecked = this.financedToggle.nativeElement.checked
-      ? this.financedToggle?.nativeElement?.checked
-      : this.isFinancedChecked;
+    this.isFinancedChecked =
+      this.financedToggle?.nativeElement?.checked ?? this.isFinancedChecked;
     this.shareData.isFinancedAddress(this.isFinancedChecked);
+
+    const financerControl = this.proposalVehilceDetailsForm.get('financer');
+    const agreementTypeControl =
+      this.proposalVehilceDetailsForm.get('agreement_type');
+    const financerCityControl =
+      this.proposalVehilceDetailsForm.get('financer_city');
+
     if (this.isFinancedChecked) {
-      this.proposalVehilceDetailsForm
-        .get('financer')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm.get('financer')?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('agreement_type')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('agreement_type')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
-        .get('financer_city')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('financer_city')
-        ?.updateValueAndValidity();
+      financerControl?.setValidators([Validators.required]);
+      agreementTypeControl?.setValidators([Validators.required]);
+      financerCityControl?.setValidators([Validators.required]);
     } else {
-      this.proposalVehilceDetailsForm.get('financer')?.setValidators([]);
-      this.proposalVehilceDetailsForm.get('financer')?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm.get('agreement_type')?.setValidators([]);
-      this.proposalVehilceDetailsForm
-        .get('agreement_type')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm.get('financer_city')?.setValidators([]);
-      this.proposalVehilceDetailsForm
-        .get('financer_city')
-        ?.updateValueAndValidity();
+      financerControl?.clearValidators();
+      agreementTypeControl?.clearValidators();
+      financerCityControl?.clearValidators();
     }
+
+    financerControl?.updateValueAndValidity();
+    agreementTypeControl?.updateValueAndValidity();
+    financerCityControl?.updateValueAndValidity();
   }
   getRegistrationAddressValue(isChecked?: any) {
     this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
