@@ -14,6 +14,7 @@ export class dropdown {
   styleUrls: ['./add-ons.component.scss'],
 })
 export class AddOnsComponent implements OnInit {
+  selectedItem: any;
   add_ons_list: any;
   addonList: any;
   AccessoriesChecked: boolean = false;
@@ -54,6 +55,7 @@ export class AddOnsComponent implements OnInit {
   addonsValue: any;
   selectedAddOns: any;
   isInputBox: boolean = false;
+  ischeckInput: boolean = false;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -229,13 +231,7 @@ export class AddOnsComponent implements OnInit {
     displayName: any,
     rb_code: any
   ) {
-    let checkboxValue;
-    if (event?.checked) {
-      checkboxValue = event.checked;
-    } else {
-      checkboxValue = 'radio';
-    }
-    this.addInputValidation(checkboxValue, type, index);
+    this.addInputValidation(event.checked, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
       this.dynamicObject = {};
@@ -367,6 +363,7 @@ export class AddOnsComponent implements OnInit {
     this.clearAllButton = true;
     this.enableAddOns = true;
     this.updateAddOns = true;
+
     if (this.checkBoxValueArray.length == 0) {
       this.showUpdateButton = false;
       this.clearAllButton = false;
@@ -480,9 +477,9 @@ export class AddOnsComponent implements OnInit {
 
   selectVoluntry(amount: any, name: any, rb_code: any): void {
     this.selectedVoluntryValue = amount;
-
     for (let key of this.selectedCheckedArray) {
       const keys = Object.keys(key);
+      this.ischeckInput = false;
       if (keys[0] == rb_code) {
         key[keys[0]] = amount;
       }
@@ -499,10 +496,13 @@ export class AddOnsComponent implements OnInit {
     rb_code?: any
   ) {
     if (event != '' && type == 'int_input') {
+      this.ischeckInput = false;
       delete this.inputTagIndex[index];
     } else if (event == '' && type == 'int_input') {
+      this.ischeckInput = true;
       this.inputTagIndex[index] = index;
     } else if (event?.checked && type == 'multi_checkbox') {
+      this.ischeckInput = false;
       this.subCheckBox.push(event?.source?.id);
       delete this.multiCheckbox[index];
     } else if (!event?.checked && type == 'multi_checkbox') {
@@ -521,10 +521,12 @@ export class AddOnsComponent implements OnInit {
         this.subCheckBox.splice(indexMultiCheckoxRemove, 1);
       }
       if (this.subCheckBox.length == 0) {
+        this.ischeckInput = true;
         this.multiCheckbox[index] = index;
       }
     } else if (event.value != '' && type == 'dropdown') {
       this.dropDownValue = event;
+      this.ischeckInput = false;
       delete this.dropDownIndex[index];
     }
 
@@ -545,28 +547,36 @@ export class AddOnsComponent implements OnInit {
    */
   addInputValidation(isChecked: boolean, type: any, index: number) {
     if (isChecked && type == 'int_input') {
-      this.inputTagIndex[index] = index;
+      this.ischeckInput = true;
+      // this.inputTagIndex[index] = index;
       this.inputFieldIndex[index] = index;
     } else if (!isChecked && type == 'int_input') {
+      this.ischeckInput = false;
       delete this.inputTagIndex[index];
       delete this.inputFieldIndex[index];
     } else if (isChecked && type == 'multi_checkbox') {
-      this.multiCheckbox[index] = index;
+      this.ischeckInput = true;
+      // this.multiCheckbox[index] = index;
       this.multiCheckboxField[index] = index;
     } else if (!isChecked && type == 'multi_checkbox') {
+      this.ischeckInput = false;
       delete this.multiCheckbox[index];
       delete this.multiCheckboxField[index];
     } else if (isChecked && type == 'dropdown') {
-      this.dropDownIndex[index] = index;
+      this.ischeckInput = true;
+      // this.dropDownIndex[index] = index;
       this.dropDownFieldIndex[index] = index;
     } else if (!isChecked && type == 'dropdown') {
+      this.ischeckInput = false;
       delete this.dropDownIndex[index];
       delete this.dropDownFieldIndex[index];
     }
     if (isChecked && type == 'tab') {
+      this.ischeckInput = true;
       this.tabIndex[index] = index;
       this.tabIndex[index] = index;
     } else if (!isChecked && type == 'tab') {
+      this.ischeckInput = false;
       delete this.tabIndex[index];
       delete this.tabIndex[index];
     }

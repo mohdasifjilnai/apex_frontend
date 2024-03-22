@@ -202,8 +202,12 @@
           Clear All
         </button>
       </div>
-
-      <button *ngIf="showButtons" class="submit-btn" (click)="update()">
+      <button
+        *ngIf="showButtons"
+        class="submit-btn"
+        (click)="update()"
+        [disabled]="ischeckInput"
+      >
         Update
       </button>
     </div>
@@ -313,7 +317,7 @@
               <input
                 matInput
                 [(ngModel)]="inputValues[i]"
-                (ngModelChange)="
+                (blur)="
                   onInputChange(
                     $event,
                     listValue?.next_type,
