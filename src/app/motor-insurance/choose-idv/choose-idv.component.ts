@@ -24,11 +24,13 @@ export class ChooseIDVComponent implements OnInit {
   chooseIdvValue: any;
   quotesCount: any;
   idvError: any;
+  updateIdvButton = true;
   chooseIdvForm: FormGroup = new FormGroup({
     chooseIdv: new FormControl('', [Validators.required]),
   });
   errorQuotationArray: any;
-  customIDV: boolean=false;
+  customIDV: boolean = false;
+
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     private sharedDataService: SharedDataService
@@ -160,6 +162,7 @@ export class ChooseIDVComponent implements OnInit {
         'idvData',
         JSON.stringify(idvObject)
       );
+      this.updateIdvButton = false;
       this.idvBaseQuotes();
     }
   }
@@ -188,6 +191,7 @@ export class ChooseIDVComponent implements OnInit {
    */
   chooseIdvData() {
     let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+    this.updateIdvButton = true;
     if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
       this.idvError = true;
     } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {

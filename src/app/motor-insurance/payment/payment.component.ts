@@ -17,6 +17,8 @@ export class PaymentComponent implements OnInit {
   policyNumber: any;
   proposalNumber: any;
   transactionId: any;
+  paymentPendingCase: any;
+
   ngOnInit(): void {
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
@@ -36,6 +38,9 @@ export class PaymentComponent implements OnInit {
       }
       if (proposalNo) {
         this.proposalNumber = proposalNo;
+      }
+      if (this.paymentSuccess && proposalNo) {
+        this.paymentPendingCase = true;
       }
     });
   }

@@ -231,7 +231,13 @@ export class AddOnsComponent implements OnInit {
     displayName: any,
     rb_code: any
   ) {
-    this.addInputValidation(event.checked, type, index);
+    let checkboxValue;
+    if (event?.checked) {
+      checkboxValue = event.checked;
+    } else {
+      checkboxValue = 'radio';
+    }
+    this.addInputValidation(checkboxValue, type, index);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
       this.dynamicObject = {};
