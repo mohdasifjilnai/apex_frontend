@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -12,13 +14,28 @@ export class PaymentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private matDialog: WindowRef
   ) {}
   policyNumber: any;
   proposalNumber: any;
   transactionId: any;
   paymentPendingCase: any;
-
+  failureJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: FailureDialogComponent,
+    widthObtained: '70%',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
   ngOnInit(): void {
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
@@ -58,7 +75,37 @@ export class PaymentComponent implements OnInit {
         `${ApiConstants?.downloadPolicy}?transaction_id=${this.transactionId}`
       )
       .subscribe((res: any) => {
-        window.open(res?.document_url);
+        if (res?.err_code != 1) {
+          window.open(res?.document_url);
+        } else {
+          this.openFailurePopup(res);
+        }
       });
+  }
+
+  openFailurePopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.failureJSON['modalName'],
+      width: this.failureJSON['widthObtained'],
+      height: this.failureJSON['heightObtained'],
+      classNameObtained: this.failureJSON['classObtained'],
+      isOutSideClose: this.failureJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

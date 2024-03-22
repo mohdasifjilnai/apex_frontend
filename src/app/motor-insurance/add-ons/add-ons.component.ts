@@ -32,6 +32,7 @@ export class AddOnsComponent implements OnInit {
   dropDownIndex: any[] = [];
   dropDownFieldIndex: any[] = [];
   tabIndex: any[] = [];
+  radioIndex: any[] = [];
   dropDownValue: any;
   dynamicObject: any;
   showButtons: boolean = false;
@@ -229,7 +230,8 @@ export class AddOnsComponent implements OnInit {
     type: any,
     index: number,
     displayName: any,
-    rb_code: any
+    rb_code: any,
+    tagType: any = null
   ) {
     let checkboxValue;
     if (event?.checked) {
@@ -237,12 +239,10 @@ export class AddOnsComponent implements OnInit {
     } else {
       checkboxValue = 'radio';
     }
-    this.addInputValidation(checkboxValue, type, index);
+    this.addInputValidation(checkboxValue, type, index, tagType);
     if (event.checked) {
       this.checkBoxValueArray.push(value);
       this.dynamicObject = {};
-
-      // Adding dynamic keys to the object
       var keyName = rb_code;
       var keyValue = 0;
 
@@ -551,7 +551,12 @@ export class AddOnsComponent implements OnInit {
   /**
    *  add ons list add validation on based on tag
    */
-  addInputValidation(isChecked: boolean, type: any, index: number) {
+  addInputValidation(
+    isChecked: boolean,
+    type: any,
+    index: number,
+    tagType: any
+  ) {
     if (isChecked && type == 'int_input') {
       this.ischeckInput = true;
       // this.inputTagIndex[index] = index;
@@ -585,6 +590,24 @@ export class AddOnsComponent implements OnInit {
       this.ischeckInput = false;
       delete this.tabIndex[index];
       delete this.tabIndex[index];
+    }
+    if (isChecked && tagType == 'radio') {
+      this.radioIndex[index] = index;
+      for (const addons of this.addOnsArray) {
+        if (addons['rb_type'] == 'cpa') {
+          for (const key in addons?.fe_template) {
+            if (index == 0) {
+              if (addons.fe_template.hasOwnProperty(key)) {
+                addons.fe_template[1].checked = false;
+              }
+            } else if (index == 1) {
+              if (addons.fe_template.hasOwnProperty(0)) {
+                addons.fe_template[0].checked = false;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

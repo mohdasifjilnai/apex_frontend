@@ -23,7 +23,7 @@ export class FailureDialogComponent implements OnInit {
       this.errorMessage = data['statusdata']['message'];
     } else if (data?.statusdata?.status == 500) {
       this.errorMessage = data['statusdata']['statusText'];
-    } else if (data?.data?.status == false) {
+    } else if (data?.data?.status == false || data?.data?.err_code == 1) {
       this.errorMessage = data?.data?.error_message;
     }
   }
