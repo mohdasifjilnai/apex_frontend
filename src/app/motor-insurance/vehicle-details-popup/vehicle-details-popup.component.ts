@@ -189,6 +189,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationNumber: any;
   dataWithoutRegistration: any;
   ngOnInit(): void {
+    const expiryPolicy = this.vehicleDetailsForm.get('policy_expiry')?.value;
+    if (expiryPolicy === 'bundled_tp') {
+      this.hideFieldOnExpiryPolicy('bundled_tp');
+    }
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
@@ -343,10 +347,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.hidePreviousClaimed;
 
     if (this.vehicleDetailsForm.value?.policy_expiry != 'IDK') {
-      if (this.vehicleDetailsForm.value?.ncb_discount) {
+      if (
+        this.vehicleDetailsForm.value?.ncb_discount ||
+        this.vehicleDetailsForm.value?.ncb_discount == 0
+      ) {
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {
           if (
-            this.expiryListData[i].new_ncb_value ==
+            this.expiryListData[i].old_ncb_value ==
             this.vehicleDetailsForm.value.ncb_discount
           ) {
             this.ncbAllData = this.expiryListData[i];
