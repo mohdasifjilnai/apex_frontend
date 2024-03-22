@@ -78,5 +78,5 @@ export class ApiConstants {
   // document save api
   public static upload_document_save: string = `/api/v1/ckyc/upload_document/save/`;
 
-  public static downloadPolicy: string = `/api/v1/policy/get_policy_document`;
+  public static downloadPolicy: string = `/api/v1/policy/get_policy_document/`;
 }
