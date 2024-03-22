@@ -9,6 +9,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ShareQuotesComponent } from '../share-quotes/share-quotes.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { ApiService } from 'src/app/core/services/api.service';
+import { ApiConstants } from 'src/app/api.constant';
 @Component({
   selector: 'app-premium-breakup',
   templateUrl: './premium-breakup.component.html',
@@ -18,6 +20,7 @@ export class PremiumBreakupComponent implements OnInit {
   initiateQuotes: any;
   gstToggleData = true;
   showCard: boolean = false;
+  transactionId: any;
   shareQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -35,6 +38,7 @@ export class PremiumBreakupComponent implements OnInit {
   };
 
   thirdParty: any;
+  vehicleTypeValue: any;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -43,7 +47,8 @@ export class PremiumBreakupComponent implements OnInit {
     public matDialog: WindowRef,
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private apiService: ApiService
   ) {
     if (data['data'] != null) {
       this.initiateQuotes = data.data;
@@ -114,5 +119,21 @@ export class PremiumBreakupComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  /**
+   * Downloads the premium breakup for the given quote.
+   * @param data - The quote data.
+   */
+  downloadPremiumBreakup(data: any) {
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.transactionId = sessionStorage.getItem('transaction_id');
+
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants?.downloadPremiumBreakup}?transaction_id=${this.transactionId}&vehicle_type=${this.vehicleTypeValue}&quote_id=${data.quote_id}`
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 }

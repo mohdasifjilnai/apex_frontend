@@ -89,6 +89,8 @@ export class AddOnsComponent implements OnInit {
       this.addonsValue = sessionStorage.getItem('selectedAddons');
       this.selectedAddOns = JSON.parse(this.addonsValue);
       if (this.selectedAddOns) {
+        this.selectedCheckedArray = this.selectedAddOns;
+
         for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
           for (
             let k = 0;
@@ -100,6 +102,9 @@ export class AddOnsComponent implements OnInit {
               const value = Object.values(key);
               if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
                 this.addOnsArray[i].fe_template[k].checked = true;
+                this.checkBoxValueArray.push(
+                  this.addOnsArray[i].fe_template[k].name
+                );
                 if (
                   this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
                   value[0]

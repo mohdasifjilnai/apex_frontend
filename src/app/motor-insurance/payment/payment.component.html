@@ -26,7 +26,9 @@
     <br />
     <div class="sub-text" *ngIf="!paymentPendingCase">
       If download doesn’t start automatically then
-      <span class="blue-text" (click)="downloadPolicy()">Click Here</span>
+      <span class="blue-text cursor-pointer" (click)="downloadPolicy()"
+        >Click Here</span
+      >
     </div>
     <div class="mt-3">
       <button
