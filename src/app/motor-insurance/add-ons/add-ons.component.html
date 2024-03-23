@@ -158,7 +158,12 @@
                   class="voluntry"
                   [disabled]="enableAddOns"
                   (click)="
-                    selectVoluntry(amount, listValue?.name, listValue?.rb_code)
+                    selectVoluntry(
+                      amount,
+                      listValue?.name,
+                      listValue?.rb_code,
+                      i
+                    )
                   "
                   [class.active]="selectedVoluntryValue == amount"
                 >
@@ -186,7 +191,7 @@
         *ngIf="showButtons"
         class="submit-btn"
         (click)="update()"
-        [disabled]="ischeckInput"
+        [disabled]="ischeckInput || isMultiCheckbox || isTab"
       >
         Update
       </button>
@@ -326,7 +331,8 @@
                       selectVoluntry(
                         amount,
                         listValue?.name,
-                        listValue?.rb_code
+                        listValue?.rb_code,
+                        i
                       )
                     "
                     [class.active]="selectedVoluntryValue == amount"
