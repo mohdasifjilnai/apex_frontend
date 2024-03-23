@@ -84,6 +84,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableIdvCard = false;
     });
+    this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
+      this.enableIdvCard = true;
+    });
   }
 
   vehicleCardData(data: any) {

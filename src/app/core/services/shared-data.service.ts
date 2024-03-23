@@ -49,6 +49,7 @@ export class SharedDataService {
   inspectionCard: Subject<any> = new Subject();
   insurerDetails: Subject<any> = new Subject();
   redirectInsurerDetails: Subject<any> = new Subject();
+  disableInitiatesQuotes: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -754,5 +755,15 @@ export class SharedDataService {
    */
   setRedirectDataForInsurer(data: any) {
     this.redirectInsurerDetails.next(data);
+  }
+
+  /**
+   * Disables the Initiates Quotes base functionality.
+   *
+   * @param data - The data to be passed to the next component.
+   */
+
+  disableInitiatesQuotesBase(data: any) {
+    this.disableInitiatesQuotes.next(data);
   }
 }

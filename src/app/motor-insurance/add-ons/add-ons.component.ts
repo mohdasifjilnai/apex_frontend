@@ -132,6 +132,10 @@ export class AddOnsComponent implements OnInit {
       }
     });
 
+    this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
+      this.enableAddOns = true;
+    });
+
     this.sharedDataService.tabChanges.subscribe((data) => {
       this.subCheckBox = [];
       this.selectedCheckedArray = [];
@@ -360,6 +364,7 @@ export class AddOnsComponent implements OnInit {
         this.selected_addons
       );
     }
+
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss(this.checkBoxValueArray);
     }
@@ -379,6 +384,8 @@ export class AddOnsComponent implements OnInit {
       this.showUpdateButton = false;
       this.clearAllButton = false;
     }
+
+    this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
   }
   /**
    *

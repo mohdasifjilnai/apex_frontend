@@ -170,6 +170,10 @@ export class QuotesListingComponent implements OnInit {
         // }
       }
     });
+
+    this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
+      this.enableIdvCard = true;
+    });
     this.getProposalType();
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.router.events.subscribe((event) => {
@@ -393,6 +397,7 @@ export class QuotesListingComponent implements OnInit {
 
       this.sharedDataService.chooseIdvHide(this.selectedProductType);
       this.sharedDataService.tabChangeModified(true);
+      this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
     }
     this.tabChangeOninit = false;
   }
@@ -543,6 +548,7 @@ export class QuotesListingComponent implements OnInit {
         );
       }
       this.sharedDataService.addOnsChange(mmvFormData);
+      this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
     } else {
       sessionStorage.setItem(
         'proposerType',
@@ -628,6 +634,7 @@ export class QuotesListingComponent implements OnInit {
             );
           }
           this.sharedDataService.addOnsChange(this.mmvFormData);
+          this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
         });
     }
   }
