@@ -581,6 +581,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
       };
+
       let productTypeValue = sessionStorage.getItem('productType');
       if (productTypeValue === 'saod') {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
@@ -589,12 +590,12 @@ export class SharedDataService {
           tp_policy_no: formData?.get('tp_policy_number')?.value,
           tp_policy_expiry_date:
             this.datePipe.transform(
-              formData?.get('tp_policy_start_date')?.value,
+              formData?.get('tp_policy_end_date')?.value,
               'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
             ) || '',
           tp_policy_start_date:
             this.datePipe.transform(
-              formData?.get('tp_policy_end_date')?.value,
+              formData?.get('tp_policy_start_date')?.value,
               'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
             ) || '',
         };
