@@ -18,98 +18,124 @@
           <app-vehicle-type></app-vehicle-type>
         </div>
         <div class="row mt-4">
-          <div class="col-12" *ngIf="!withoutVehicleNumber">
+          <ng-container *ngIf="isPolicyNumber">
             <div class="d-flex justify-content-center">
-              <app-registration-number
-                [required]="true"
-                [registrationNumber]="'registration-number'"
-                class="registration-number"
-              ></app-registration-number>
+              <mat-form-field appearance="outline" class="policyNumber">
+                <mat-label>Enter Previous Policy Number</mat-label>
+                <input
+                  id-automation="policynumberId"
+                  matInput
+                  placeholder="Enter Previous Policy Number"
+                  formControlName="policy_number"
+                  class="tagPolicyNumber"
+                />
+                <mat-error
+                  *ngIf="
+                    motorInsurance.controls['policy_number']?.hasError(
+                      'required'
+                    )
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
             </div>
-          </div>
-          <!-- Fields Without Vehicle Number  -->
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && isResponsive()"
-            [@slideUp]
-          >
-            <app-vehicle [required]="true"></app-vehicle>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && !isResponsive()"
-          >
-            <app-vehicle [required]="true"></app-vehicle>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && isResponsive()"
-            [@slideUp]
-          >
-            <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && !isResponsive()"
-          >
-            <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && isResponsive()"
-            [@slideUp]
-          >
-            <app-registration-year></app-registration-year>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && !isResponsive()"
-          >
-            <app-registration-year></app-registration-year>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && isResponsive()"
-            [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
-            [@slideUp]
-          >
-            <app-previous-insurer
-              [previousInsurer]="'previous-insurer'"
-              *ngIf="!disableInsurer"
-              [label]="'Search Previous Insurer'"
-              [formControlNameData]="'previous_insurer'"
-            ></app-previous-insurer>
-          </div>
-          <div
-            class="col-lg-4 col-md-6 col-12"
-            *ngIf="withoutVehicleNumber && !isResponsive()"
-          >
-            <app-policy-expired-date
-              [policyExpiryDate]="'expiry-date'"
-              *ngIf="!disableInsurer"
-              [formControlNameData]="'policy_expiry_date'"
-            ></app-policy-expired-date>
-          </div>
+          </ng-container>
+          <ng-container *ngIf="!isPolicyNumber">
+            <div class="col-12" *ngIf="!withoutVehicleNumber">
+              <div class="d-flex justify-content-center">
+                <app-registration-number
+                  [required]="true"
+                  [registrationNumber]="'registration-number'"
+                  class="registration-number"
+                ></app-registration-number>
+              </div>
+            </div>
 
-          <ng-container *ngIf="!disableInsurer">
+            <!-- Fields Without Vehicle Number  -->
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
+              [@slideUp]
+            >
+              <app-vehicle [required]="true"></app-vehicle>
+            </div>
             <div
               class="col-lg-4 col-md-6 col-12"
               *ngIf="withoutVehicleNumber && !isResponsive()"
+            >
+              <app-vehicle [required]="true"></app-vehicle>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
+              [@slideUp]
+            >
+              <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && !isResponsive()"
+            >
+              <app-rto (responseEvent)="rtoComponentResponse($event)"></app-rto>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
+              [@slideUp]
+            >
+              <app-registration-year></app-registration-year>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && !isResponsive()"
+            >
+              <app-registration-year></app-registration-year>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
               [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
+              [@slideUp]
             >
               <app-previous-insurer
                 [previousInsurer]="'previous-insurer'"
-                [formControlNameData]="'previous_insurer'"
+                *ngIf="!disableInsurer"
                 [label]="'Search Previous Insurer'"
+                [formControlNameData]="'previous_insurer'"
               ></app-previous-insurer>
             </div>
-          </ng-container>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && !isResponsive()"
+            >
+              <app-policy-expired-date
+                [policyExpiryDate]="'expiry-date'"
+                *ngIf="!disableInsurer"
+                [formControlNameData]="'policy_expiry_date'"
+              ></app-policy-expired-date>
+            </div>
 
+            <ng-container *ngIf="!disableInsurer">
+              <div
+                class="col-lg-4 col-md-6 col-12"
+                *ngIf="withoutVehicleNumber && !isResponsive()"
+                [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
+              >
+                <app-previous-insurer
+                  [previousInsurer]="'previous-insurer'"
+                  [formControlNameData]="'previous_insurer'"
+                  [label]="'Search Previous Insurer'"
+                ></app-previous-insurer>
+              </div>
+            </ng-container>
+          </ng-container>
           <div
             [ngClass]="{
-              'col-12': !withoutVehicleNumber,
-              'col-lg-4 col-md-6 col-12': withoutVehicleNumber,
-              'text-center': !withoutVehicleNumber
+              'col-12': !withoutVehicleNumber || isPolicyNumber,
+              'col-lg-4 col-md-6 col-12':
+                withoutVehicleNumber && !isPolicyNumber,
+              'text-center': !withoutVehicleNumber || isPolicyNumber
             }"
           >
             <div *ngIf="vehicleNotFound" class="details-not-found">
@@ -126,9 +152,25 @@
               [disabled]="rtoResponse == '' || motorInsurance.invalid"
               (click)="getVehicleDetails()"
             >
-              Get Vehicle Details
+              {{ isPolicyNumber ? "Continue" : "Get Vehicle Details" }}
             </button>
           </div>
+        </div>
+
+        <div class="col-12 text-center">
+          <span>
+            <span
+              class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
+              id-automation="withoutVehicleNumberText"
+              (click)="getPolicyNumber()"
+            >
+              {{
+                !isPolicyNumber
+                  ? "I already have a policy"
+                  : "Continue with Registration Number"
+              }}
+            </span>
+          </span>
         </div>
         <!-- </div> -->
         <div class="col-12 text-center mb-5">

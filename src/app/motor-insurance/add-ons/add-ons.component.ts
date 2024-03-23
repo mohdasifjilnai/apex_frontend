@@ -548,11 +548,13 @@ export class AddOnsComponent implements OnInit {
         this.checkMultiCheckBox(this.multiCheckboxFlagIndex);
         this.multiCheckbox[index] = index;
       }
-    } else if (event.value != '' && type == 'dropdown') {
+    } else if (event != '' && type == 'dropdown') {
       this.dropDownValue = event;
       this.multiCheckboxFlagIndex[index] = false;
       this.checkMultiCheckBox(this.multiCheckboxFlagIndex);
       delete this.dropDownIndex[index];
+    } else if (event == 0 && type == 'dropdown') {
+      this.dropDownIndex[index] = index;
     }
 
     for (let key of this.selectedCheckedArray) {

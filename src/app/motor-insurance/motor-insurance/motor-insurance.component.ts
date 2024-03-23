@@ -44,6 +44,7 @@ export class MotorInsuranceComponent implements OnInit {
   disableInsurer: boolean = true;
   vehicleNotFound: any;
   notSureHide = true;
+  isPolicyNumber: boolean = false;
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
@@ -55,6 +56,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_date: new FormControl(moment()),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
+    policy_number: new FormControl(''),
   });
   notCertifiedComponentJSON: {
     modalName: any;
@@ -237,6 +239,7 @@ export class MotorInsuranceComponent implements OnInit {
   }
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
+    this.isPolicyNumber = false;
     if (this.withoutVehicleNumber) {
       this.motorInsurance.get('registration_number')?.setValidators([]);
       this.motorInsurance.get('registration_number')?.updateValueAndValidity();
@@ -307,5 +310,44 @@ export class MotorInsuranceComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  /**
+   * Switches between the registration number and policy number fields as the primary field for the user to enter.
+   *
+   * @remarks
+   * The policy number field is only available when the "I don't know my policy number" option is selected.
+   * When the policy number field is active, the user is required to enter a policy number to continue.
+   * When the registration number field is active, the user is required to enter a registration number to continue.
+   * If the user enters an invalid policy number, an error message is displayed.
+   */
+  getPolicyNumber() {
+    this.isPolicyNumber = !this.isPolicyNumber;
+    if (this.isPolicyNumber) {
+      this.motorInsurance
+        .get('policy_number')
+        ?.setValidators([Validators.required]);
+      this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_number')?.setValidators([]);
+      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
+      this.motorInsurance.get('vehicle')?.setValidators([]);
+      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+      this.motorInsurance.get('rto_city')?.setValidators([]);
+      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.setValidators([]);
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+    } else {
+      this.motorInsurance
+        .get('registration_number')
+        ?.setValidators([Validators.required]);
+      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
+      this.motorInsurance.get('policy_number')?.setValidators([]);
+      this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+      this.motorInsurance.get('vehicle')?.setValidators([]);
+      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+      this.motorInsurance.get('rto_city')?.setValidators([]);
+      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+      this.motorInsurance.get('registration_date')?.setValidators([]);
+      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+    }
   }
 }

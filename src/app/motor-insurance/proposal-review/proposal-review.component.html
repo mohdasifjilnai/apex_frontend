@@ -1,5 +1,16 @@
 <div class="row m-1">
   <div class="col-3 proposal-review">
+    <div class="renewalsCard mb-3" *ngIf="vehicleType == 'renewal'">
+      <img
+        src="/assets/icon/explore-insurance.svg"
+        alt=""
+        class="explore-insurance-image"
+      />
+      <div class="explore-insurance-content">
+        <p class="explore-insurance-text">Explore a wider range of Insurers</p>
+        <button class="explore-insurance-btn">Check Quotes</button>
+      </div>
+    </div>
     <app-insurance-details></app-insurance-details>
   </div>
   <div class="res-proposal-review">

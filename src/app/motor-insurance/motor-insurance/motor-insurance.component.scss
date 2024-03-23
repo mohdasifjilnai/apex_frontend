@@ -93,3 +93,28 @@
 .displayValue {
   display: block;
 }
+.policyNumber {
+  ::ng-deep .mat-form-field-flex {
+    margin-right: 110px;
+    margin-left: 13px;
+  }
+  ::ng-deep .mat-input-element {
+    font-size: 12px !important;
+    font-weight: 500;
+    color: #282828;
+    padding-left: 10px;
+  }
+
+  ::ng-deep {
+    .mat-form-field-infix {
+      width: 450px !important;
+    }
+  }
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 15px 0 0 15px !important;
+    min-width: 15px !important;
+  }
+  ::ng-deep .mat-form-field-label-wrapper {
+    left: 10px !important;
+  }
+}

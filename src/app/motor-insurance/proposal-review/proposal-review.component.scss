@@ -79,6 +79,27 @@
 .res-proposal-review {
   display: none;
 }
+.renewalsCard {
+  display: flex;
+  background-color: #5384ea36;
+  border-radius: 12px;
+  padding: 20px;
+}
+.explore-insurance-content {
+  padding-left: 10%;
+}
+.explore-insurance-text {
+  color: #5384ea;
+  font-weight: 500;
+  font-size: 16px;
+}
+.explore-insurance-btn {
+  background-color: #5384ea;
+  color: #fff;
+  border: 0px solid #5384ea;
+  border-radius: 8px;
+  padding: 10px;
+}
 @media screen and (max-width: 999px) {
   .proposal-review {
     display: none;
