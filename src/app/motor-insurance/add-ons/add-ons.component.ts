@@ -114,21 +114,21 @@ export class AddOnsComponent implements OnInit {
                   this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
                   value[0]
                 ) {
-                  if (
-                    this.addOnsArray[i].fe_template[k]?.next_type == 'int_input'
-                  ) {
-                    this.inputFieldIndex[k] = k;
-                  }
-                  if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
-                    this.tabIndex[k] = k;
-                    this.selectedVoluntryValue = value[0];
-                  }
-                  if (
-                    this.addOnsArray[i].fe_template[k]?.next_type == 'dropdown'
-                  ) {
-                    this.dropDownFieldIndex[k] = k;
-                  }
                   this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
+                }
+                if (
+                  this.addOnsArray[i].fe_template[k]?.next_type == 'int_input'
+                ) {
+                  this.inputFieldIndex[k] = k;
+                }
+                if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
+                  this.tabIndex[k] = k;
+                  this.selectedVoluntryValue = value[0];
+                }
+                if (
+                  this.addOnsArray[i].fe_template[k]?.next_type == 'dropdown'
+                ) {
+                  this.dropDownFieldIndex[k] = k;
                 }
               }
             }
@@ -231,10 +231,11 @@ export class AddOnsComponent implements OnInit {
       }
       this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
       this.enableAddOns = true;
-      let addOnsValue = sessionStorage.getItem('selectedAddons');
-      if (addOnsValue) {
-        sessionStorage.removeItem('selectedAddons');
-      }
+    }
+
+    let addOnsValue = sessionStorage.getItem('selectedAddons');
+    if (addOnsValue) {
+      sessionStorage.removeItem('selectedAddons');
     }
   }
   @Output() checkBoxValue = new EventEmitter<any>();
@@ -245,12 +246,27 @@ export class AddOnsComponent implements OnInit {
     index: number,
     displayName: any,
     rb_code: any,
-    tagType: any = null
+    tagType: any = null,
+    addons?: any
   ) {
     let checkboxValue;
     checkboxValue = event.checked;
     this.addInputValidation(checkboxValue, type, index, tagType);
     if (event.checked) {
+      if (tagType == 'radio') {
+        let readionValue = addons?.fe_template.findIndex(
+          (item: { checked: any }) => item.checked
+        );
+        if (readionValue != -1) {
+          let selectedData = this.selectedCheckedArray.findIndex(
+            (item: any) => item?.type === 'radio'
+          );
+          if (selectedData != -1) {
+            this.selectedCheckedArray.splice(selectedData, 1);
+            this.checkBoxValueArray.splice(selectedData, 1);
+          }
+        }
+      }
       this.checkBoxValueArray.push(value);
       this.dynamicObject = {};
       var keyName = rb_code;
@@ -258,7 +274,10 @@ export class AddOnsComponent implements OnInit {
 
       this.dynamicObject[keyName] = keyValue;
       this.dynamicObject['showAddOns'] = value;
+      this.dynamicObject['type'] = tagType;
+
       this.selectedCheckedArray.push(this.dynamicObject);
+
       if (this.checkBoxValueArray.length >= 1) {
         this.showButtons = true;
         this.showUpdateButton = true;

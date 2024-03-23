@@ -20,7 +20,8 @@
                   i,
                   addOns.displayName,
                   listValue.rb_code,
-                  listValue.type
+                  listValue.type,
+                  addOns
                 )
               "
               [disabled]="enableAddOns"
@@ -38,7 +39,9 @@
                   listValue?.next_type,
                   i,
                   addOns.displayName,
-                  listValue.rb_code
+                  listValue.rb_code,
+                  listValue.type,
+                  addOns
                 )
               "
               [disabled]="enableAddOns"
@@ -238,7 +241,9 @@
                     listValue?.next_type,
                     i,
                     addOns.displayName,
-                    listValue.rb_code
+                    listValue.rb_code,
+                    listValue.type,
+                    addOns
                   )
                 "
                 >{{ listValue?.name }}</mat-checkbox
