@@ -1,49 +1,32 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import { NgControl } from '@angular/forms';
 
 @Directive({
   selector: '[appRegistrationNumber]',
 })
 export class RegistrationNumberDirective {
-  constructor(private el: ElementRef<HTMLInputElement>) {}
+  constructor(private el: ElementRef) {}
 
   @HostListener('input', ['$event']) onInput(event: Event): void {
-    const input = this.el.nativeElement;
-    const caretStart: any = input.selectionStart; // Store the start position of the cursor
-    const caretEnd: any = input.selectionEnd; // Store the end position of the cursor
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
 
     // Remove existing hyphens
-    let value = input.value.replace(/-/g, '');
+    const sanitizedValue = value.replace(/-/g, '');
 
-    // Format the value
-    if (value.length > 2) {
-      value = value.substring(0, 2) + '-' + value.substring(2);
-    }
-    if (value.length > 5) {
-      value = value.substring(0, 5) + '-' + value.substring(5);
-    }
-
-    // Calculate the new cursor position
-    let newCaretStart: any = caretStart;
-    let newCaretEnd: any = caretEnd;
-    const diff = value.length - input.value.length;
-
-    if (caretStart === caretEnd) {
-      // If cursor is not a selection
-      newCaretStart += diff;
-      newCaretEnd += diff;
+    if (sanitizedValue.length < 7) {
+      const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
+      value = formattedValue.replace(/-$/, '');
     } else {
-      // If cursor is a selection
-      const selectionLength = caretEnd - caretStart;
-      newCaretStart +=
-        (diff > 0 ? 1 : -1) * Math.min(selectionLength, Math.abs(diff));
-      newCaretEnd +=
-        (diff > 0 ? 1 : -1) * Math.min(selectionLength, Math.abs(diff));
+      // Add hyphen between consecutive numbers or letters after the 4th character
+      const prefix = sanitizedValue.substring(0, 2);
+      const prefix2 = sanitizedValue.substring(2, 4);
+      const postfix = sanitizedValue.substring(4);
+      const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
+      value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
     }
 
     // Update the input value
     input.value = value;
-
-    // Restore cursor position
-    input.setSelectionRange(newCaretStart, newCaretEnd);
   }
 }

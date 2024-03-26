@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
+import moment from 'moment';
 import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
@@ -60,6 +61,22 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.proposalData.previous_policy_details?.insurer_code,
           policy_expiry_date: this.sharedData.parseDate(
             this.proposalData.previous_policy_details?.policy_expiry_date,
+            'DD/MM/YYYY'
+          ),
+          tp_insurance_company:
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_insurer_code,
+          tp_policy_number:
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_no,
+          tp_policy_start_date: moment(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_start_date,
+            'DD/MM/YYYY'
+          ).toDate(),
+          tp_policy_end_date: moment(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_expiry_date,
             'DD/MM/YYYY'
           ),
         });
@@ -154,7 +171,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         });
     }
   }
-  EnterKey(event: Event,manufacture:MatDatepicker<Date>) {
-    this.sharedData.handleEnterKey(event,manufacture)
+  EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
+    this.sharedData.handleEnterKey(event, manufacture);
   }
 }

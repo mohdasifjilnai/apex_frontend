@@ -60,36 +60,14 @@ export class ManufactureDateComponent implements OnInit {
   minDate: any;
   maxDate: any;
   maxManufactureDate!: Date;
+  registrationNumber: any;
+  registrationDate: any;
+  vehicleMMVData: any;
+
   constructor(
     private ctrlContainer: FormGroupDirective,
     private shared: SharedDataService
-  ) {
-    const currentDate = new Date();
-
-    /**
-     * Set the minDate to 15 years before the current date
-     */
-    this.minDate = new Date(
-      currentDate.getFullYear() - 15,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
-
-    /**
-     * Use the existing maxDate initialization
-     */
-    this.maxDate = new Date(new Date().setDate(currentDate.getDate() + 15));
-
-    /**
-     * Subscribe to the shared observable to get the manufacturing date
-     */
-    this.shared.getRegistrationData.subscribe((res) => {
-      /**
-       * Set the maxManufactureDate based on the received response
-       */
-      this.maxManufactureDate = new Date(res);
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -105,6 +83,11 @@ export class ManufactureDateComponent implements OnInit {
       this.form.addControl('manufacture_date', new FormControl(null));
     }
     // this.form.controls['manufacture_date'].setValue(null);
+    this.vehicleMMVData = JSON.parse(
+      sessionStorage.getItem('vehicleMMVData') || '{}'
+    );
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    this.manufactureDateValidation();
   }
 
   /**
@@ -137,5 +120,70 @@ export class ManufactureDateComponent implements OnInit {
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.shared.handleEnterKey(event, manufacture);
+  }
+
+  /**
+   * Manufacture date validation
+   *
+   * This function sets the minimum and maximum dates for the manufacture date based on the vehicle registration number.
+   * If the registration number is null, the minimum date is set 15 years in the past, and the maximum date is set to the current date.
+   * If the registration number starts with a letter, the minimum date is set 15 years in the past, and the maximum date is set 15 years in the future.
+   * If the registration number starts with a number, the minimum date is set 3 years in the past, and the maximum date is set 15 years in the future.
+   * The maximum manufacture date is also set to the latest of the current date or the registration date.
+   */
+  manufactureDateValidation() {
+    this.shared.getRegistrationData.subscribe((data) => {
+      this.registrationDate = new Date(data);
+
+      if (this.registrationNumber === null) {
+        this.setMinMaxDates(15);
+      } else if (/^[A-Za-z]/.test(this.registrationNumber)) {
+        this.setMinMaxDates(15);
+      } else if (/^[0-9]/.test(this.registrationNumber)) {
+        this.setMinMaxDates(3);
+      }
+    });
+  }
+
+  /**
+   * Manufacture date validation
+   *
+   * This function sets the minimum and maximum dates for the manufacture date based on the vehicle registration number.
+   * If the registration number is null, the minimum date is set 15 years in the past, and the maximum date is set to the current date.
+   * If the registration number starts with a letter, the minimum date is set 15 years in the past, and the maximum date is set 15 years in the future.
+   * If the registration number starts with a number, the minimum date is set 3 years in the past, and the maximum date is set 15 years in the future.
+   * The maximum manufacture date is also set to the latest of the current date or the registration date.
+   *
+   * @param yearsToAdd - The number of years to add to the minimum and maximum dates
+   */
+
+  setMinMaxDates(yearsToAdd: any) {
+    if (this.vehicleMMVData?.registration_date) {
+      const registrationDate = new Date(this.vehicleMMVData?.registration_date);
+      this.minDate = new Date(
+        registrationDate.getFullYear() - yearsToAdd,
+        registrationDate.getMonth(),
+        registrationDate.getDate()
+      );
+      this.maxDate = new Date(
+        new Date().setDate(registrationDate.getDate() + 15)
+      );
+      this.shared.getRegistrationData.subscribe((res) => {
+        this.maxManufactureDate = new Date(res);
+      });
+    } else if (this.registrationDate) {
+      const registrationDate = new Date(this.registrationDate);
+      this.minDate = new Date(
+        registrationDate.getFullYear() - yearsToAdd,
+        registrationDate.getMonth(),
+        registrationDate.getDate()
+      );
+      this.maxDate = new Date(
+        new Date().setDate(registrationDate.getDate() + 15)
+      );
+      this.shared.getRegistrationData.subscribe((res) => {
+        this.maxManufactureDate = new Date(res);
+      });
+    }
   }
 }
