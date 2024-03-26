@@ -30,7 +30,7 @@ export class PremiumBreakupComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: ShareQuotesComponent,
-    widthObtained: '100%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: '0',
     isOutSideClose: true,

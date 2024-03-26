@@ -39,7 +39,7 @@ export class OtpComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: ErrorDialogComponent,
-    widthObtained: '70%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,

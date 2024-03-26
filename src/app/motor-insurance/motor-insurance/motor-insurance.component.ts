@@ -302,7 +302,7 @@ export class MotorInsuranceComponent implements OnInit {
       resWidth = '95%';
       resTop = '5%';
     } else {
-      resWidth = '75%';
+      resWidth = 'auto';
       resTop = '5%';
     }
 

@@ -131,8 +131,10 @@
         class="d-flex justify-content-between mt-1 w-100"
         *ngIf="addons.add_on_code != 'CPA' || addons.add_on_code != 'CPA3'"
       >
-        <p class="od-value">{{ addons.add_on_name }}</p>
-        <p class="od-value">&#x20B9; {{ addons.add_on_premium }}</p>
+        <span class="od-value">{{ addons.add_on_name }}</span>
+        <span class="od-value"
+          >&#x20B9; {{ addons.add_on_premium }}</span
+        >
       </div>
     </div>
   </div>
