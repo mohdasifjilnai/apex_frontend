@@ -103,9 +103,6 @@ export class OtpComponent implements OnInit {
     }, 1000);
   }
 
-  resendOtp() {
-    this.startResendTimer();
-  }
   onClose(): void {
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
@@ -149,6 +146,7 @@ export class OtpComponent implements OnInit {
     });
   }
   resendotp() {
+    this.resendDisabled = false;
     this.apiService
       .postRequestedResponse(
         `${ApiConstants.send_communication}`,
@@ -156,6 +154,7 @@ export class OtpComponent implements OnInit {
       )
       .subscribe((res) => {
         if (res) {
+          this.startResendTimer();
           this.sharedDataService.openSnackBar(
             'The otp send successfully',
             'Success'

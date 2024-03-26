@@ -16,8 +16,9 @@
     <div class="col-lg-6 col-md-12 col-12">
       <div>
         <span class="enter-otp">
-          Enter <span class="otp">OTP</span> generated on {{communicationData?.mobile_no}}
-          and {{communicationData?.mail_id}}
+          Enter <span class="otp">OTP</span> generated on
+          {{ communicationData?.mobile_no }} and
+          {{ communicationData?.mail_id }}
         </span>
       </div>
       <div mat-dialog-content>
@@ -36,7 +37,7 @@
             </div>
             <div class="col-lg-12 col-12 resend-otp-msg text-end">
               <div>
-                <div *ngIf="resendDisabled" (click)="resendOtp()">
+                <div *ngIf="resendDisabled">
                   <span class="expire">
                     Resend
                     <ng-container *ngIf="resendDisabled">
@@ -49,7 +50,7 @@
                 </div>
               </div>
               <a
-                *ngIf="!resendDisabled && countdown <= 0"
+                *ngIf="!resendDisabled"
                 class="resend-otp mt-1"
                 (click)="resendotp()"
               >
