@@ -128,11 +128,12 @@
             *ngIf="i == inputFieldIndex[i]"
             id="{{ listValue?.name }}"
           >
-            <mat-label>{{ listValue?.name }}</mat-label>
+            <mat-label>Enter Value</mat-label>
             <input
               matInput
               [(ngModel)]="listValue.addOnsValue"
               appNumbersOnly
+              placeholder="Enter Value"
               id="{{ listValue?.name }}"
               (ngModelChange)="
                 onInputChange(
