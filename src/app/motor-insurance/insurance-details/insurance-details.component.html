@@ -123,15 +123,12 @@
       <p class="plan-type">Addons</p>
       <p class="plan-type" *ngIf="addonsList.length == 0">&#x20B9; 0</p>
     </div>
-    <div
-      class="d-flex justify-content-between mt-2"
-      *ngFor="let addons of addonsList"
-    >
+    <div class="mt-2" *ngFor="let addons of addonsList">
       <div
         class="d-flex justify-content-between mt-1 w-100"
         *ngIf="addons.add_on_code != 'CPA' || addons.add_on_code != 'CPA3'"
       >
-        <span class="od-value">{{ addons.add_on_name }}</span>
+        <span class="od-value od-name">{{ addons.add_on_name }}</span>
         <span class="od-value"
           >&#x20B9; {{ addons.add_on_premium }}</span
         >
