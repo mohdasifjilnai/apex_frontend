@@ -98,18 +98,24 @@ export class InsuranceDetailsComponent implements OnInit {
       }
     });
     this.addonsList = [];
-    this.addonsValue = sessionStorage.getItem('selectedAddons');
-    this.selectedAddOns = JSON.parse(this.addonsValue);
-    if (this.selectedAddOns) {
-      for (let key of this.selectedAddOns) {
-        const keys = Object.keys(key);
-        const value = Object.values(key);
-        let addons = {
-          lable: value[1],
-          value: value[0],
-        };
+    // this.addonsValue = sessionStorage.getItem('selectedAddons');
+    // this.selectedAddOns = JSON.parse(this.addonsValue);
+    // if (this.selectedAddOns) {
+    //   for (let key of this.selectedAddOns) {
+    //     const keys = Object.keys(key);
+    //     const value = Object.values(key);
+    //     let addons = {
+    //       lable: value[1],
+    //       value: value[0],
+    //     };
 
-        this.addonsList.push(addons);
+    //     this.addonsList.push(addons);
+    //   }
+    // }
+    if (this.quoteData) {
+      this.addonsValue = this.quoteData?.premium_details?.addon_premium_details;
+      if (this.addonsValue.length > 0) {
+        this.addonsList = this.addonsValue;
       }
     }
   }

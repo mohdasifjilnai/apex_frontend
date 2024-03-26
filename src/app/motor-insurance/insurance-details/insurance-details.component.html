@@ -127,11 +127,13 @@
       class="d-flex justify-content-between mt-2"
       *ngFor="let addons of addonsList"
     >
-      <p class="od-value">{{ addons.lable }}</p>
-      <p class="od-value" *ngIf="isNumber(addons.value)">
-        &#x20B9; {{ addons.value }}
+      <p class="od-value">{{ addons.add_on_name }}</p>
+      <p class="od-value" *ngIf="isNumber(addons.add_on_premium)">
+        &#x20B9; {{ addons.add_on_premium }}
       </p>
-      <p class="od-value" *ngIf="isString(addons.value)">{{ addons.value }}</p>
+      <p class="od-value" *ngIf="isString(addons.add_on_premium)">
+        {{ addons.add_on_premium }}
+      </p>
     </div>
   </div>
   <div class="col-12 policy" *ngIf="!reviewURL">
