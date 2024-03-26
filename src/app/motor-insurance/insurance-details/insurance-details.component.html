@@ -121,19 +121,19 @@
   <div class="col-lg-12 col-md-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Addons</p>
-      <p class="plan-type">&#x20B9; 0</p>
+      <p class="plan-type" *ngIf="addonsList.length == 0">&#x20B9; 0</p>
     </div>
     <div
       class="d-flex justify-content-between mt-2"
       *ngFor="let addons of addonsList"
     >
-      <p class="od-value">{{ addons.add_on_name }}</p>
-      <p class="od-value" *ngIf="isNumber(addons.add_on_premium)">
-        &#x20B9; {{ addons.add_on_premium }}
-      </p>
-      <p class="od-value" *ngIf="isString(addons.add_on_premium)">
-        {{ addons.add_on_premium }}
-      </p>
+      <div
+        class="d-flex justify-content-between mt-1 w-100"
+        *ngIf="addons.add_on_code != 'CPA' || addons.add_on_code != 'CPA3'"
+      >
+        <p class="od-value">{{ addons.add_on_name }}</p>
+        <p class="od-value">&#x20B9; {{ addons.add_on_premium }}</p>
+      </div>
     </div>
   </div>
   <div class="col-12 policy" *ngIf="!reviewURL">
