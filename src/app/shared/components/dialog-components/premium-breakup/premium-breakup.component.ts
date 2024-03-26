@@ -124,16 +124,10 @@ export class PremiumBreakupComponent implements OnInit {
    * Downloads the premium breakup for the given quote.
    * @param data - The quote data.
    */
+
   downloadPremiumBreakup(data: any) {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    this.transactionId = sessionStorage.getItem('transaction_id');
-
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants?.downloadPremiumBreakup}?transaction_id=${this.transactionId}&vehicle_type=${this.vehicleTypeValue}&quote_id=${data.quote_id}`
-      )
-      .subscribe((res: any) => {
-        console.log(res);
-      });
+    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premim_breakup`;
+    this.sharedDataService.downloadPolicy(url);
   }
 }

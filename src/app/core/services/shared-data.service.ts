@@ -767,4 +767,16 @@ export class SharedDataService {
   disableInitiatesQuotesBase(data: any) {
     this.disableInitiatesQuotes.next(data);
   }
+  /**
+   * Downloads the policy premium breakup as a PDF file.
+   *
+   * @param url - The URL of the policy document.
+   */
+  downloadPolicy(url: any) {
+    this.apiService
+      .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
+      .subscribe((res: any) => {
+        window.open(res);
+      });
+  }
 }

@@ -43,6 +43,8 @@ export class InsuranceDetailsComponent implements OnInit {
   selectedAddOns: any;
   addonsList: any = [];
   proposalParam: any;
+  vehicleTypeValue: any;
+  quotesDetails: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -177,5 +179,18 @@ export class InsuranceDetailsComponent implements OnInit {
         this.mmvItem = res;
         sessionStorage.setItem('mmvData', JSON.stringify(res));
       });
+  }
+
+  /**
+   * Downloads the premium breakup for the given quote.
+   * @param data - The quote data.
+   */
+  downloadUnderwritting() {
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.quotesDetails = sessionStorage.getItem('quotes_data');
+
+    let quotesValue = JSON.parse(this.quotesDetails);
+    let url = `?quote_id=${quotesValue.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details`;
+    this.sharedData.downloadPolicy(url);
   }
 }
