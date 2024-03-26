@@ -88,33 +88,36 @@
   </div>
   <div mat-dialog-content>
     <div class="row">
-      <div class="col-8 offset-3">
+      <div class="col-12 d-flex justify-content-center">
         <div class="error-gif">
           <img
             src="/assets/gif/error.gif"
             class="error-gif-image"
             alt="close"
           />
-          <p class="text-orange gif-icon-text">ATTENTION</p>
+          <p class="text-orange">ATTENTION</p>
         </div>
       </div>
-      <div class="col-3 offset-3">
-        <p class="text-content">
-          {{ ckycBody["document_type"].split("_")[0] | uppercase }}
-          {{ ckycBody["document_type"].split("_")[1] | uppercase }}
-        </p>
+      <div class="col-12 d-flex justify-content-center">
+        <div class="me-1">
+          <p class="text-content">
+            {{ ckycBody["document_type"].split("_")[0] | uppercase }}
+            {{ ckycBody["document_type"].split("_")[1] | uppercase }}
+          </p>
+        </div>
+        <div class="ms-3">
+          <p class="text-content document-number">
+            {{ ckycBody["document_number"] }}
+          </p>
+        </div>
       </div>
-      <div class="col-4">
+
+      <div class="col-12 d-flex justify-content-center">
         <p class="text-content">
-          {{ ckycBody["document_number"] }}
-        </p>
-      </div>
-      <div class="col-12">
-        <p class="text-content text-center">
           {{ error_message }}
         </p>
       </div>
-      <div class="col-12 text-center">
+      <div class="col-12 d-flex justify-content-center">
         <button
           class="submit-btn success-submission"
           type="submit"

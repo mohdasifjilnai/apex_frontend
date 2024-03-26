@@ -156,7 +156,10 @@ export class OtpComponent implements OnInit {
       )
       .subscribe((res) => {
         if (res) {
-          this.sharedDataService.openSnackBar('Resend OTP', 'Success');
+          this.sharedDataService.openSnackBar(
+            'The otp send successfully',
+            'Success'
+          );
         }
       });
   }

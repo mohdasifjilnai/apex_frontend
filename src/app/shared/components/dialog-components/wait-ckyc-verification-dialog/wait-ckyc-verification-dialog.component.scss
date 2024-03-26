@@ -34,16 +34,14 @@
   font-size: 16px;
   font-weight: 600;
 }
-.error-gif {
-  position: relative;
-  left: 55px;
-}
+
 .error-gif-image {
   width: 100px;
   height: 100px;
   position: relative;
   bottom: 4px;
 }
+
 .success-submission {
   width: 300px;
   height: 48px;
@@ -56,7 +54,6 @@
   color: #282828;
   font-size: 14px;
   line-height: 20px;
-  align-items: center;
   opacity: 90%;
 }
 // ::ng-deep .mat-dialog-container {
@@ -64,10 +61,6 @@
 //   width: 515px !important;
 //   height: 372px !important;
 // }
-.gif-icon-text {
-  position: relative;
-  left: 10px;
-}
 
 .fileUpload {
   position: relative;
