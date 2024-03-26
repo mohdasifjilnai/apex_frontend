@@ -650,11 +650,12 @@ export class SharedDataService {
     mobile_name: any,
     quote_id: any
   ) {
+    const baseURL = `${window.location.protocol}//${window.location.hostname}/`;
     let data = {
       transaction_id: quotes_data[0]?.transaction_id,
       share_type: share_type,
       partner_name: 'Ravi Kumar',
-      URL: `${environment['apex']}${url}`,
+      URL: `${baseURL}${url}`,
       mail_id: mail_id ? mail_id : '',
       mobile_no: mobile_name ? mobile_name : null,
       quote_id: quote_id,

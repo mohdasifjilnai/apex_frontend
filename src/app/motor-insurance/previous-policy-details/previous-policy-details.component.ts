@@ -78,7 +78,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_expiry_date,
             'DD/MM/YYYY'
-          ),
+          ).toDate(),
         });
       }
     });

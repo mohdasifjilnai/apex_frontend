@@ -77,6 +77,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isFinancedChecked: any;
   vehicleType: any;
   pincodeData: any;
+  mmvData: any;
 
   constructor(
     private apiservice: ApiService,
@@ -87,30 +88,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
 
-    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
-    if (fetchQuotesData) {
-      const quoteData = JSON.parse(fetchQuotesData);
-      const manufacture_month = quoteData['manufacture_month'];
-      const manufacture_year = quoteData['manufacture_year'];
-
-      const manufactureDate = new Date(
-        manufacture_year,
-        manufacture_month - 1,
-        1
-      );
-      if (manufactureDate) {
+    this.mmvData = sessionStorage.getItem('mmv_data');
+    const mmvItem = JSON.parse(this.mmvData);
+    if (mmvItem) {
+      if (mmvItem?.manufacture_date) {
         this.isManufactureDateDisbaled = true;
       }
-      if (quoteData['registration_date']) {
+      if (mmvItem?.registration_date) {
         this.isRegistrationDateDisbaled = true;
       }
-
       this.proposalVehilceDetailsForm.patchValue({
-        registration_date: quoteData['registration_date'],
-        manufacture_date: manufactureDate,
+        registration_date: mmvItem?.registration_date,
+        manufacture_date: mmvItem?.manufacture_date,
       });
     }
-
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
