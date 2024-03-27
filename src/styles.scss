@@ -627,6 +627,15 @@ input.mat-input-element {
   .mat-dialog-content {
     max-height: 100%;
   }
+  .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0px 0px 7px 7px !important;
+  }
+  .mat-form-field{
+    width: 100%;
+    input.mat-input-element{
+      padding-left: 0 !important;
+    }
+  }
 }
 .warn-details-class {
   margin-left: 36%;

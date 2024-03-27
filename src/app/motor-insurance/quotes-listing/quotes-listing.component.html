@@ -8,7 +8,7 @@
         ><ng-container *ngFor="let quotesTab of tabDataList">
           <mat-tab label="{{ quotesTab?.code }}" [disabled]="enableIdvCard">
             <ng-template mat-tab-label id="{{ quotesTab?.code }}">
-              {{ quotesTab.name }}
+              {{ quotesTab.name | titlecase}}
               <!-- <span class="count">20</span> -->
             </ng-template>
           </mat-tab>

@@ -150,8 +150,14 @@
               class="submit-btn vehicle-submission"
               type="submit"
               [disabled]="rtoResponse == '' || motorInsurance.invalid"
-              (click)="getVehicleDetails()"
+              (click)="loader ? null : getVehicleDetails()"
             >
+              <img
+                src="/assets/gif/button-loader.gif"
+                alt="close"
+                class="loader me-2"
+                *ngIf="loader"
+              />
               {{ isPolicyNumber ? "Continue" : "Get Vehicle Details" }}
             </button>
           </div>

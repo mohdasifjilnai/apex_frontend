@@ -45,6 +45,7 @@ export class MotorInsuranceComponent implements OnInit {
   vehicleNotFound: any;
   notSureHide = true;
   isPolicyNumber: boolean = false;
+  loader: boolean = false;
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
@@ -234,6 +235,7 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
+    this.loader = true;
     localStorage.setItem(
       'withoutVehicleNumber',
       `${this.withoutVehicleNumber}`
@@ -312,6 +314,16 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.setItem('registrationNumber', `${regn_no}`);
 
       this.sharedDataService.vehicleDetails('registrationNumber');
+      this.sharedDataService.regNumberData.subscribe((numberData) => {
+        if(numberData){
+          this.loader=false
+        }
+      });
+      this.sharedDataService.detailNotFound.subscribe((numberData) => {
+        if(numberData){
+          this.loader=false
+        }
+      });
     }
   }
   /**
