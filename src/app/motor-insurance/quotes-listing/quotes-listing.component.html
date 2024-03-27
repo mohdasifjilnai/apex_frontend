@@ -8,7 +8,7 @@
         ><ng-container *ngFor="let quotesTab of tabDataList">
           <mat-tab label="{{ quotesTab?.code }}" [disabled]="enableIdvCard">
             <ng-template mat-tab-label id="{{ quotesTab?.code }}">
-              {{ quotesTab.name | titlecase}}
+              {{ quotesTab.name | titlecase }}
               <!-- <span class="count">20</span> -->
             </ng-template>
           </mat-tab>
@@ -42,7 +42,8 @@
         <!-- owner type for mobile view -->
         <div class="col-lg-3 col-md-3 col-4 owner-type-res me-2">
           <button mat-button (click)="openSort('Owner Type')">
-            Individual<img
+            {{ owner_type | titlecase
+            }}<img
               src="/assets/icon/dropdown.svg"
               class="share-icon ms-3"
               alt=""

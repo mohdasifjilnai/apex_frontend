@@ -13,9 +13,9 @@
           </mat-radio-group>
     </div>
     <div class="dropdown-list p-3" *ngIf="data=='Owner Type'">
-        <mat-radio-group aria-label="Select an option" *ngFor="let proposalData of proposalList"
-        >
-            <mat-radio-button [value]="proposalData.proposer_id">{{ proposalData.proposer_name | titlecase}}</mat-radio-button><hr>
+        <mat-radio-group aria-label="Select an option" 
+        (change)="changeProposalType($event)">
+            <mat-radio-button *ngFor="let proposalData of proposalList" [value]="proposalData.proposer_id">{{ proposalData.proposer_name | titlecase}}</mat-radio-button>
           </mat-radio-group>
     </div>
 </div>

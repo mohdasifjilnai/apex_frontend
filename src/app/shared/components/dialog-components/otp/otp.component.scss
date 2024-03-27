@@ -37,6 +37,11 @@
   cursor: pointer;
   // color: #282828;
 }
+.loader{
+  width: 28px;
+  height: 16px;
+  margin-bottom: 6px;
+}
 .custom-otp-input {
   ::ng-deep .ng-otp-input-wrapper {
     display: flex;

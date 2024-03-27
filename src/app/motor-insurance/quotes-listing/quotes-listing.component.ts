@@ -50,7 +50,7 @@ export class QuotesListingComponent implements OnInit {
   progressValue = 0;
   chooseIdvArray: any;
   mmvFormData: any = '';
-
+  owner_type:any=''
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -252,6 +252,7 @@ export class QuotesListingComponent implements OnInit {
           this.quotesListing.patchValue({
             proposalType: 1,
           });
+          this.owner_type=this.proposalList[0]?.proposer_name
         }
       });
   }
@@ -313,10 +314,17 @@ export class QuotesListingComponent implements OnInit {
     });
   }
   openSort(dropdownType: any): void {
+    
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: dropdownType, // Pass your data here
     };
-    this.bottomSheet.open(QuotesDropdownComponent, bottomSheetConfig);
+    const bottomSheetRef =this.bottomSheet.open(QuotesDropdownComponent, bottomSheetConfig);
+    bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
+      this.progressValue = 0;
+      this.startProgress(this.progressValue);
+      // Handle the data received from the bottom sheet
+      this.owner_type=dataReceived
+    });
   }
   /**
    * get initiate quotes list
