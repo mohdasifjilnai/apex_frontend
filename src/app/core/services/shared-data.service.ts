@@ -69,6 +69,8 @@ export class SharedDataService {
   proposalData: any;
   proposalDataItem: any;
   redirectProposalId: any;
+  addOnsList: any = [];
+  selected_addons: any;
 
   constructor(
     private apiService: ApiService,
@@ -167,11 +169,22 @@ export class SharedDataService {
       sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
     }
     let setectedAddons;
+    let addonsValue = sessionStorage.getItem('selectedAddons');
     if (data?.selected_addons) {
       setectedAddons = data?.selected_addons;
+    } else if (addonsValue) {
+      let addOnsList = JSON.parse(addonsValue);
+      this.selected_addons = {};
+      for (let key of addOnsList) {
+        const keys = Object.keys(key);
+        let variableValue = keys[0];
+        this.selected_addons[variableValue] = key[variableValue];
+      }
+      setectedAddons = this.selected_addons;
     } else {
       setectedAddons = {};
     }
+
     let registrationValue;
     let registrationMonth;
     let registrationYear;
