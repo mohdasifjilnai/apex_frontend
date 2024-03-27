@@ -10,20 +10,18 @@
   </div>
 </div>
 <!-- Dialog content -->
-<div mat-dialog-content>
+<div>
   <div class="row">
-    <div class="col-4 offset-3">
+    <div class="col-12 text-center">
       <div class="fail-gif">
         <img src="/assets/gif/fail.gif" class="fail-gif-image" alt="close" />
         <!-- <p class="text-red gif-icon-text">Lorem Ipsum</p> -->
       </div>
     </div>
-    <div class="col-12">
-      <p class="text-content text-center">
-        {{ errorMessage }}
-      </p>
+    <div class="col-12 message">
+      {{ errorMessage }}
     </div>
-    <div class="col-6 offset-2">
+    <div class="col-12 d-flex justify-content-center mt-2">
       <button
         class="submit-btn success-submission"
         type="submit"

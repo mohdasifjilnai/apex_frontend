@@ -42,12 +42,13 @@ export class ApiService {
     if (err.status !== 401) {
       if (err.status !== 200) {
         const dialogRef = this.dialog.open(FailureDialogComponent, {
-          width: '50%',
-          height: '50%',
+          width: 'auto',
+          height: 'auto',
           data: {
             errorData: error,
             statusdata: status,
           },
+          panelClass: 'failure-dialog-class'
         });
         dialogRef.afterClosed().subscribe((result: any) => {});
       }
