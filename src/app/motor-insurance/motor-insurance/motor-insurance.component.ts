@@ -250,32 +250,54 @@ export class MotorInsuranceComponent implements OnInit {
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
     this.isPolicyNumber = false;
+    this.motorInsurance.reset();
     if (this.withoutVehicleNumber) {
-      this.motorInsurance.get('registration_number')?.setValidators([]);
-      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
-      this.motorInsurance.get('vehicle')?.setValidators([Validators.required]);
-      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-      this.motorInsurance.get('rto_city')?.setValidators([Validators.required]);
-      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance
-        .get('registration_date')
-        ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
-      sessionStorage.removeItem('checkWheeler');
+      setTimeout(() => {
+        this.motorInsurance.get('registration_number')?.setValidators([]);
+        this.motorInsurance.get('registration_number')?.clearValidators();
+        this.motorInsurance
+          .get('registration_number')
+          ?.updateValueAndValidity();
+        this.motorInsurance.get('policy_number')?.setValidators([]);
+        this.motorInsurance.get('policy_number')?.clearValidators();
+        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+        this.motorInsurance
+          .get('vehicle')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+        this.motorInsurance
+          .get('rto_city')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+        this.motorInsurance
+          .get('registration_date')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+        sessionStorage.removeItem('checkWheeler');
+      }, 0);
     } else {
-      this.motorInsurance
-        .get('registration_number')
-        ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
-      this.motorInsurance.get('vehicle')?.setValidators([]);
-      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-      this.motorInsurance.get('rto_city')?.setValidators([]);
-      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_date')?.setValidators([]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      setTimeout(() => {
+        this.motorInsurance
+          .get('registration_number')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance
+          .get('registration_number')
+          ?.updateValueAndValidity();
+        this.motorInsurance.get('policy_number')?.setValidators([]);
+        this.motorInsurance.get('policy_number')?.clearValidators();
+        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+        this.motorInsurance.get('vehicle')?.setValidators([]);
+        this.motorInsurance.get('vehicle')?.clearValidators();
+        this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+        this.motorInsurance.get('rto_city')?.setValidators([]);
+        this.motorInsurance.get('rto_city')?.clearValidators();
+        this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+        this.motorInsurance.get('registration_date')?.setValidators([]);
+        this.motorInsurance.get('registration_date')?.clearValidators();
+        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      }, 0);
     }
   }
-
   /**
    * Retrieves vehicle details information by making a request to the API with a specific registration number.
    * Uses the ApiService to fetch the requested response and subscribes to the observable.
@@ -332,32 +354,43 @@ export class MotorInsuranceComponent implements OnInit {
    */
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
+    this.motorInsurance.reset();
     if (this.isPolicyNumber) {
-      this.motorInsurance
-        .get('policy_number')
-        ?.setValidators([Validators.required]);
-      this.motorInsurance.get('policy_number')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_number')?.setValidators([]);
-      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
-      this.motorInsurance.get('vehicle')?.setValidators([]);
-      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-      this.motorInsurance.get('rto_city')?.setValidators([]);
-      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_date')?.setValidators([]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      setTimeout(() => {
+        this.motorInsurance
+          .get('policy_number')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+        this.motorInsurance.get('registration_number')?.setValidators([]);
+        this.motorInsurance.get('registration_number')?.clearValidators();
+        this.motorInsurance
+          .get('registration_number')
+          ?.updateValueAndValidity();
+        this.motorInsurance.get('vehicle')?.setValidators([]);
+        this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+        this.motorInsurance.get('rto_city')?.setValidators([]);
+        this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+        this.motorInsurance.get('registration_date')?.setValidators([]);
+        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      }, 0);
     } else {
-      this.motorInsurance
-        .get('registration_number')
-        ?.setValidators([Validators.required]);
-      this.motorInsurance.get('registration_number')?.updateValueAndValidity();
-      this.motorInsurance.get('policy_number')?.setValidators([]);
-      this.motorInsurance.get('policy_number')?.updateValueAndValidity();
-      this.motorInsurance.get('vehicle')?.setValidators([]);
-      this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-      this.motorInsurance.get('rto_city')?.setValidators([]);
-      this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-      this.motorInsurance.get('registration_date')?.setValidators([]);
-      this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      setTimeout(() => {
+        this.motorInsurance
+          .get('registration_number')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance
+          .get('registration_number')
+          ?.updateValueAndValidity();
+        this.motorInsurance.get('policy_number')?.setValidators([]);
+        this.motorInsurance.get('policy_number')?.clearValidators();
+        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+        this.motorInsurance.get('vehicle')?.setValidators([]);
+        this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+        this.motorInsurance.get('rto_city')?.setValidators([]);
+        this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+        this.motorInsurance.get('registration_date')?.setValidators([]);
+        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+      }, 0);
     }
   }
 }

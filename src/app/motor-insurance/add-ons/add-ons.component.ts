@@ -534,6 +534,7 @@ export class AddOnsComponent implements OnInit {
     name?: any,
     rb_code?: any
   ) {
+    this.showButtons = true;
     if (event != '' && type == 'int_input') {
       this.inputFlagIndex[index] = false;
       this.checkInputBox(this.inputFlagIndex);
