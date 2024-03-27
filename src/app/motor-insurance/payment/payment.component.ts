@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 @Component({
@@ -15,7 +16,8 @@ export class PaymentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    private sharedService: SharedDataService
   ) {}
   policyNumber: any;
   proposalNumber: any;
@@ -78,7 +80,8 @@ export class PaymentComponent implements OnInit {
         if (res?.err_code != 1) {
           window.open(res?.document_url);
         } else {
-          this.openFailurePopup(res);
+          this.sharedService.openSnackBar(res?.data?.error_message, 'Success');
+          // this.openFailurePopup(res);
         }
       });
   }
