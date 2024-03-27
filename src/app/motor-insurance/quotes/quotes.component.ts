@@ -5,6 +5,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-quotes',
@@ -31,13 +33,15 @@ export class QuotesComponent implements OnInit {
     classObtained: 'vehicle-details-class',
   };
   isLoading: boolean = true;
+  quotesRequest: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
     public loaderService: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private apiService: ApiService
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -69,8 +73,8 @@ export class QuotesComponent implements OnInit {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {
-      this.bottomSheet.open(VehicleDetailsPopupComponent,{
-        disableClose: true // Disable closing on outside click
+      this.bottomSheet.open(VehicleDetailsPopupComponent, {
+        disableClose: true, // Disable closing on outside click
       });
     } else {
       if (!popupData) {
@@ -82,8 +86,10 @@ export class QuotesComponent implements OnInit {
 
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
+      const insurer_quote_id = params?.get('insurer_quote_id');
       if (shareTransaction) {
         sessionStorage.setItem('transaction_id', shareTransaction);
+        this.getInsurerCode(shareTransaction, insurer_quote_id);
       }
     });
   }
@@ -124,5 +130,23 @@ export class QuotesComponent implements OnInit {
   }
   back() {
     this.router.navigate(['/motor']);
+  }
+  /**
+   * Get the insurer code for the given transaction id and insurer quote id.
+   *
+   * @param transaction_id - The transaction id.
+   * @param insurer_quote_id - The insurer quote id.
+   */
+  getInsurerCode(transaction_id: any, insurer_quote_id: any) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+      )
+      .subscribe((response: any) => {
+        if (response) {
+          this.quotesRequest = response.quote_request;
+          localStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
+        }
+      });
   }
 }

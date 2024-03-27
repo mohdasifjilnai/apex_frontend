@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class FailureDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FailureDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    private sharedService: SharedDataService
   ) {
     this.faliureData = data['data'];
     if (data?.statusdata?.status == 422) {
@@ -24,7 +26,8 @@ export class FailureDialogComponent implements OnInit {
     } else if (data?.statusdata?.status == 500) {
       this.errorMessage = data['statusdata']['statusText'];
     } else if (data?.data?.status == false || data?.data?.err_code == 1) {
-      this.errorMessage = data?.data?.error_message;
+      // this.errorMessage = data?.data?.error_message;
+      this.sharedService.openSnackBar(data?.data?.error_message, 'Success');
     }
   }
   // failureJSON: {

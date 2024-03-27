@@ -8,7 +8,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
-import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 
 @Component({
   selector: 'app-insurance-details',
@@ -45,9 +44,12 @@ export class InsuranceDetailsComponent implements OnInit {
   proposalParam: any;
   vehicleTypeValue: any;
   quotesDetails: any;
+  downloadButtonShow = false;
+  downloadUrl: any;
 
   constructor(
     public matDialog: WindowRef,
+
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     public router: Router,
@@ -105,6 +107,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.addonsList = this.addonsValue;
       }
     }
+    this.downloadUnderwritting();
   }
   /**
    * Returns a boolean indicating whether the specified value is a number.
@@ -184,6 +187,18 @@ export class InsuranceDetailsComponent implements OnInit {
 
     let quotesValue = JSON.parse(this.quotesDetails);
     let url = `?quote_id=${quotesValue.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details`;
-    this.sharedData.downloadPolicy(url);
+
+    this.apiservice
+      .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
+      .subscribe((res: any) => {
+        if (res != null) {
+          this.downloadButtonShow = true;
+          this.downloadUrl = res;
+        }
+      });
+  }
+
+  downloadUnderWritting() {
+    window.open(this.downloadUrl);
   }
 }

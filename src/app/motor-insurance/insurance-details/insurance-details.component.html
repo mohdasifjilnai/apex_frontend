@@ -193,11 +193,11 @@
     >
   </div>
   <button
-    *ngIf="!reviewURL"
+    *ngIf="!reviewURL && downloadButtonShow"
     type="button"
     class="download-button mt-3"
     id-automation="download_underwriting"
-    (click)="downloadUnderwritting()"
+    (click)="downloadUnderWritting()"
   >
     <img src="/assets/icon/download.svg" alt="" class="edit-image" />
     Download Policy Underwriting
