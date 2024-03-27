@@ -1,213 +1,214 @@
-<div class="row" *ngIf="!isWaitingTime && isCustomerDetails && !isUpload">
-  <div class="col-12 text-center">
-    <img
-      src="/assets/gif/verification.gif"
-      class="verification-gif-image"
-      alt="close"
-    />
-  </div>
-  <div class="col-12">
-    <p class="text-center wait-ckyc-text">
-      <span class="wait-text-font">Please wait a few minutes for the</span>
-      <br />
-      <span class="verification-text-font"
-        ><strong>CKYC Verification</strong> to be completed</span
-      >
-    </p>
-  </div>
-</div>
-
-<div class="row" *ngIf="isWaitingTime && isCustomerDetails && !isUpload">
-  <div class="col-12">
-    <p class="review-fetch-text">
-      Please review the data we have fetched after CKYC Verification
-    </p>
-  </div>
-  <div class="ckyc-data">
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Full Name</span>
-        <span class="details-value">{{
-          ckycData["full_name"] ? ckycData["full_name"] : "-"
-        }}</span>
-      </div>
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Gender</span>
-        <span class="details-value">{{
-          ckycData["gender"] ? ckycData["gender"] : "-"
-        }}</span>
-      </div>
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Date of Birth</span>
-        <span class="details-value">{{
-          ckycData["dob"] ? ckycData["dob"] : "-"
-        }}</span>
-      </div>
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Owner Type</span>
-        <span class="details-value">{{
-          ckycData["proposer_type"] ? ckycData["proposer_type"] : "-"
-        }}</span>
-      </div>
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Contact Number</span>
-        <span class="details-value">{{
-          ckycData["mobile_number"] ? ckycData["mobile_number"] : "-"
-        }}</span>
-      </div>
-      <div class="col-lg-4 col-md-4 col-6 d-grid">
-        <span class="details-header">Email</span>
-        <span class="details-value">{{
-          ckycData["email"] ? ckycData["email"] : "-"
-        }}</span>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 proceed-btn">
-    <button
-      class="submit-btn w-100"
-      type="submit"
-      (click)="onProceedData(ckycData)"
-    >
-      Proceed
-    </button>
-  </div>
-</div>
-<!-- Dialog content -->
-<div *ngIf="isWaitingTime && !isCustomerDetails && !isUpload">
-  <!-- Dialog title -->
-  <div mat-dialog-title>
-    <div class="success-popup-header d-flex justify-content-end">
+<div class="wait-ckyc-main">
+  <div class="row" *ngIf="!isWaitingTime && isCustomerDetails && !isUpload">
+    <div class="col-12 text-center">
       <img
-        src="/assets/icon/cross.svg"
-        (click)="onClose(ckycData)"
-        class="cursor-pointer"
+        src="/assets/gif/verification.gif"
+        class="verification-gif-image"
         alt="close"
       />
     </div>
-  </div>
-  <div mat-dialog-content>
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center">
-        <div class="error-gif">
-          <img
-            src="/assets/gif/error.gif"
-            class="error-gif-image"
-            alt="close"
-          />
-          <p class="text-orange">ATTENTION</p>
-        </div>
-      </div>
-      <div class="col-12 d-flex justify-content-center">
-        <div class="me-1">
-          <p class="text-content">
-            {{ ckycBody["document_type"].split("_")[0] | uppercase }}
-            {{ ckycBody["document_type"].split("_")[1] | uppercase }}
-          </p>
-        </div>
-        <div class="ms-3">
-          <p class="text-content document-number">
-            {{ ckycBody["document_number"] }}
-          </p>
-        </div>
-      </div>
-
-      <div class="col-12 d-flex justify-content-center">
-        <p class="text-content">
-          {{ error_message }}
-        </p>
-      </div>
-      <div class="col-12 d-flex justify-content-center">
-        <button
-          class="submit-btn success-submission"
-          type="submit"
-          (click)="redirectInsurer(redirectionUrlViaForm)"
+    <div class="col-12">
+      <p class="text-center wait-ckyc-text">
+        <span class="wait-text-font">Please wait a few minutes for the</span>
+        <br />
+        <span class="verification-text-font"
+          ><strong>CKYC Verification</strong> to be completed</span
         >
-          Proceed
-        </button>
-      </div>
+      </p>
     </div>
   </div>
-</div>
 
-<!-- Upload documents -->
-<div *ngIf="isWaitingTime && isCustomerDetails && isUpload">
-  <div mat-dialog-title>
-    <div class="document-popup-header d-flex justify-content-end">
-      <img
-        src="/assets/icon/cross.svg"
-        (click)="popupCLose()"
-        class="cursor-pointer"
-        alt="close"
-      />
+  <div class="row" *ngIf="isWaitingTime && isCustomerDetails && !isUpload">
+    <div class="col-12">
+      <p class="review-fetch-text">
+        Please review the data we have fetched after CKYC Verification
+      </p>
     </div>
-  </div>
-  <div mat-dialog-content>
-    <form
-      [formGroup]="uploadDocumentsForm"
-      (ngSubmit)="submitUploadDocumentsForm(uploadDocumentsForm.valid)"
-      novalidate
-    >
+    <div class="ckyc-data">
       <div class="row">
-        <div
-          [ngClass]="{ 'col-8': isUploadDocment, 'col-12': !isUploadDocment }"
-        >
-          <div class="row">
-            <div class="col-12">
-              <p class="text-center">Please complete document details</p>
-            </div>
-            <div class="col-12">
-              <mat-form-field
-                appearance="outline"
-                class="document-list mat-input-custom"
-              >
-                <mat-label>Select Document Type</mat-label>
-                <mat-select
-                  placeholder="Select Document Type"
-                  formControlName="document_type_based_field"
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Full Name</span>
+          <span class="details-value">{{
+            ckycData["full_name"] ? ckycData["full_name"] : "-"
+          }}</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Gender</span>
+          <span class="details-value">{{
+            ckycData["gender"] ? ckycData["gender"] : "-"
+          }}</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Date of Birth</span>
+          <span class="details-value">{{
+            ckycData["dob"] ? ckycData["dob"] : "-"
+          }}</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Owner Type</span>
+          <span class="details-value">{{
+            ckycData["proposer_type"] ? ckycData["proposer_type"] : "-"
+          }}</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Contact Number</span>
+          <span class="details-value">{{
+            ckycData["mobile_number"] ? ckycData["mobile_number"] : "-"
+          }}</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-6 d-grid">
+          <span class="details-header">Email</span>
+          <span class="details-value">{{
+            ckycData["email"] ? ckycData["email"] : "-"
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 proceed-btn">
+      <button
+        class="submit-btn w-100"
+        type="submit"
+        (click)="onProceedData(ckycData)"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+  <!-- Dialog content -->
+  <div *ngIf="isWaitingTime && !isCustomerDetails && !isUpload">
+    <!-- Dialog title -->
+    <div mat-dialog-title>
+      <div class="success-popup-header d-flex justify-content-end">
+        <img
+          src="/assets/icon/cross.svg"
+          (click)="onClose(ckycData)"
+          class="cursor-pointer"
+          alt="close"
+        />
+      </div>
+    </div>
+    <div mat-dialog-content>
+      <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+          <div>
+            <img
+              src="/assets/gif/error.gif"
+              class="error-gif-image"
+              alt="close"
+            />
+            <p class="text-orange">ATTENTION</p>
+          </div>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <div class="me-1">
+            <p class="text-content">
+              {{ ckycBody["document_type"].split("_")[0] | uppercase }}
+              {{ ckycBody["document_type"].split("_")[1] | uppercase }}
+            </p>
+          </div>
+          <div class="ms-3">
+            <p class="text-content document-number">
+              {{ ckycBody["document_number"] }}
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+          <p class="text-content">
+            {{ error_message }}
+          </p>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <button
+            class="submit-btn success-submission"
+            type="submit"
+            (click)="redirectInsurer(redirectionUrlViaForm)"
+          >
+            Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload documents -->
+  <div *ngIf="isWaitingTime && isCustomerDetails && isUpload">
+    <div mat-dialog-title>
+      <div class="document-popup-header d-flex justify-content-end">
+        <img
+          src="/assets/icon/cross.svg"
+          (click)="popupCLose()"
+          class="cursor-pointer"
+          alt="close"
+        />
+      </div>
+    </div>
+    <div mat-dialog-content>
+      <form
+        [formGroup]="uploadDocumentsForm"
+        (ngSubmit)="submitUploadDocumentsForm(uploadDocumentsForm.valid)"
+        novalidate
+      >
+        <div class="row">
+          <div
+            [ngClass]="{ 'col-8': isUploadDocment, 'col-12': !isUploadDocment }"
+          >
+            <div class="row">
+              <div class="col-12">
+                <p class="text-center">Please complete document details</p>
+              </div>
+              <div class="col-12">
+                <mat-form-field
+                  appearance="outline"
+                  class="document-list mat-input-custom"
                 >
-                  <mat-option
-                    *ngFor="let document of documentList"
-                    [value]="document?.document_code"
+                  <mat-label>Select Document Type</mat-label>
+                  <mat-select
+                    placeholder="Select Document Type"
+                    formControlName="document_type_based_field"
                   >
-                    {{ document?.document_name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error
-                  *ngIf="
-                    uploadDocumentsForm
-                      .get('document_type_based_field')
-                      ?.hasError('required')
-                  "
+                    <mat-option
+                      *ngFor="let document of documentList"
+                      [value]="document?.document_code"
+                    >
+                      {{ document?.document_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      uploadDocumentsForm
+                        .get('document_type_based_field')
+                        ?.hasError('required')
+                    "
+                  >
+                    This is a required field.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <mat-form-field
+                  appearance="outline"
+                  class="document_number mat-input-custom"
                 >
-                  This is a required field.
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="col-12">
-              <mat-form-field
-                appearance="outline"
-                class="document_number mat-input-custom"
-              >
-                <mat-label>Enter Document Number</mat-label>
-                <input
-                  id-automation="documentNumber"
-                  formControlName="document_number_based_field"
-                  matInput
-                  aria-label="document_number"
-                  placeholder="Enter Document Number"
-                  class="text-uppercase"
-                />
-                <mat-error
-                  *ngIf="
-                    uploadDocumentsForm
-                      .get('document_number_based_field')
-                      ?.hasError('required')
-                  "
-                >
-                  This is a required field.
-                </mat-error>
-                <!-- <mat-error
+                  <mat-label>Enter Document Number</mat-label>
+                  <input
+                    id-automation="documentNumber"
+                    formControlName="document_number_based_field"
+                    matInput
+                    aria-label="document_number"
+                    placeholder="Enter Document Number"
+                    class="text-uppercase"
+                  />
+                  <mat-error
+                    *ngIf="
+                      uploadDocumentsForm
+                        .get('document_number_based_field')
+                        ?.hasError('required')
+                    "
+                  >
+                    This is a required field.
+                  </mat-error>
+                  <!-- <mat-error
               *ngIf="
                 ckycFormGroup
                   .get('document_number_based_field')
@@ -216,61 +217,62 @@
             >
               Please enter the valid {{ documentName }} number
             </mat-error> -->
-              </mat-form-field>
-            </div>
-            <div class="col-12">
-              <!-- <app-upload-document
+                </mat-form-field>
+              </div>
+              <div class="col-12">
+                <!-- <app-upload-document
                 [required]="true"
                 (isUploadDocument)="checkUploadDocment($event)"
               ></app-upload-document> -->
-              <div class="form-group">
-                <label class="lable-file-input" for="fileInput">
-                  <p class="file-input-text">{{ fileName }}</p>
-                  <img
-                    src="/assets/icon/upload.svg"
-                    alt=""
-                    class="upload-doc-image"
+                <div class="form-group">
+                  <label class="lable-file-input" for="fileInput">
+                    <p class="file-input-text">{{ fileName }}</p>
+                    <img
+                      src="/assets/icon/upload.svg"
+                      alt=""
+                      class="upload-doc-image"
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    class="form-control-file"
+                    (change)="onFileSelected($event)"
+                    formControlName="file"
                   />
-                </label>
-                <input
-                  type="file"
-                  id="fileInput"
-                  class="form-control-file"
-                  (change)="onFileSelected($event)"
-                  formControlName="file"
-                />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <ng-container *ngIf="isUploadDocment">
-          <div class="col-4 mt-4">
-            <div class="image-main">
-              <img [src]="document_url" class="uploaded-image" alt="close" />
+          <ng-container *ngIf="isUploadDocment">
+            <div class="col-4 mt-4">
+              <div class="image-main">
+                <img [src]="document_url" class="uploaded-image" alt="close" />
+              </div>
+              <label for="fileInput" class="custom-file-upload">
+                <img
+                  src="/assets/icon/reupload.svg"
+                  class="reuploaded-image"
+                  alt="close"
+                />
+                Reupload
+              </label>
+              <input type="file" id="fileInput" />
             </div>
-            <label for="fileInput" class="custom-file-upload">
-              <img
-                src="/assets/icon/reupload.svg"
-                class="reuploaded-image"
-                alt="close"
-              />
-              Reupload
-            </label>
-            <input type="file" id="fileInput" />
-          </div>
-        </ng-container>
+          </ng-container>
 
-        <div class="col-12 mt-4">
-          <button
-            class="submit-btn success-submission"
-            [disabled]="!uploadDocumentsForm.valid"
-            type="submit"
-          >
-            Continue
-          </button>
+          <div class="col-12 mt-4">
+            <button
+              class="submit-btn success-submission"
+              [disabled]="!uploadDocumentsForm.valid"
+              type="submit"
+            >
+              Continue
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 <!-- <div mat-dialog-content *ngIf="isWaitingTime && isCustomerDetails && isUpload">

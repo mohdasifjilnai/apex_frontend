@@ -1,174 +1,176 @@
-.wait-ckyc-text {
-  font-size: 16px;
-  color: #282828;
-}
-.wait-text-font,
-.verification-text-font {
-  font-weight: 500;
-}
-.verification-gif-image {
-  width: 150px;
-}
-.ckyc-data {
-  .details-value {
-    font-size: 14px;
-    font-weight: 500;
+.wait-ckyc-main {
+  .wait-ckyc-text {
+    font-size: 16px;
     color: #282828;
   }
-  .details-header {
-    font-size: 12px;
+  .wait-text-font,
+  .verification-text-font {
     font-weight: 500;
-    color: #939393;
   }
-}
+  .verification-gif-image {
+    width: 150px;
+  }
+  .ckyc-data {
+    .details-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #282828;
+    }
+    .details-header {
+      font-size: 12px;
+      font-weight: 500;
+      color: #939393;
+    }
+  }
 
-.review-fetch-text {
-  font-size: 14px;
-  font-weight: 600;
-}
-.proceed-btn {
-  margin-top: 2rem;
-}
+  .review-fetch-text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .proceed-btn {
+    margin-top: 2rem;
+  }
 
-.failure-popup-header {
-  font-size: 16px;
-  font-weight: 600;
-}
+  .failure-popup-header {
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-.error-gif-image {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  bottom: 4px;
-}
+  .error-gif-image {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    bottom: 4px;
+  }
 
-.success-submission {
-  width: 300px;
-  height: 48px;
-  font-size: 14px;
-  font-weight: 600;
-  border: 1px solid #fd7e14 !important;
-}
-.text-content {
-  font-weight: 400;
-  color: #282828;
-  font-size: 14px;
-  line-height: 20px;
-  opacity: 90%;
-}
-// ::ng-deep .mat-dialog-container {
-//   border-radius: 20px !important;
-//   width: 515px !important;
-//   height: 372px !important;
-// }
+  .success-submission {
+    width: 300px;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #fd7e14 !important;
+  }
+  .text-content {
+    font-weight: 400;
+    color: #282828;
+    font-size: 14px;
+    line-height: 20px;
+    opacity: 90%;
+  }
+  // ::ng-deep .mat-dialog-container {
+  //   border-radius: 20px !important;
+  //   width: 515px !important;
+  //   height: 372px !important;
+  // }
 
-.fileUpload {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-}
+  .fileUpload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
 
-.upload {
-  position: absolute;
-  font-size: 100px;
-  opacity: 0;
-  right: 0;
-  top: 0;
-}
-.centerImage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px; /* Set width and height as required */
-  height: 70px;
-  z-index: 1;
-}
+  .upload {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+  }
+  .centerImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px; /* Set width and height as required */
+    height: 70px;
+    z-index: 1;
+  }
 
-.uploadIcon {
-  cursor: pointer;
-}
-.browserText {
-  position: absolute;
-  top: 87%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  font-size: 11px;
-  color: #9c9c9c;
-}
-#fileInput {
-  display: none;
-}
-.document-upload-btn {
-  width: 300px;
-  height: 48px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 20px;
-  color: #fff;
-}
-.document-upload-btn-pending {
-  border: 1px solid #9c9c9c !important;
-  background-color: #9c9c9c;
-}
-.document-upload-btn-success {
-  border: 1px solid #fd7e14 !important;
-  background-color: #fd7e14;
-}
-.uploadingFile {
-  position: absolute;
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 80px;
-  z-index: 1;
-}
+  .uploadIcon {
+    cursor: pointer;
+  }
+  .browserText {
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 11px;
+    color: #9c9c9c;
+  }
+  #fileInput {
+    display: none;
+  }
+  .document-upload-btn {
+    width: 300px;
+    height: 48px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 20px;
+    color: #fff;
+  }
+  .document-upload-btn-pending {
+    border: 1px solid #9c9c9c !important;
+    background-color: #9c9c9c;
+  }
+  .document-upload-btn-success {
+    border: 1px solid #fd7e14 !important;
+    background-color: #fd7e14;
+  }
+  .uploadingFile {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 80px;
+    z-index: 1;
+  }
 
-.document-popup-header {
-  font-size: 16px;
-  font-weight: 600;
-}
+  .document-popup-header {
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-.uploaded-image {
-  width: 195px;
-  height: 134px;
-}
-.custom-file-upload {
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  background-color: #5384ea47;
-  color: #5384ea;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  margin: 10px 0px 0px 33px;
-}
-/* Hide the default file input */
-input[type="file"] {
-  display: none;
-}
+  .uploaded-image {
+    width: 195px;
+    height: 134px;
+  }
+  .custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #5384ea47;
+    color: #5384ea;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin: 10px 0px 0px 33px;
+  }
+  /* Hide the default file input */
+  input[type="file"] {
+    display: none;
+  }
 
-/* Style the label to look like a button */
-.lable-file-input {
-  cursor: pointer;
-  display: inline-block;
-  padding: 6px 12px;
-  border: 1px solid #ccccccc4;
-  border-radius: 12px;
-  width: 100%;
-  height: 53px;
-}
+  /* Style the label to look like a button */
+  .lable-file-input {
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ccccccc4;
+    border-radius: 12px;
+    width: 100%;
+    height: 53px;
+  }
 
-.upload-doc-image {
-  float: right;
-  position: relative;
-  bottom: 25px;
-}
-.file-input-text {
-  position: relative;
-  top: 10px;
-  color: #212529ad;
+  .upload-doc-image {
+    float: right;
+    position: relative;
+    bottom: 25px;
+  }
+  .file-input-text {
+    position: relative;
+    top: 10px;
+    color: #212529ad;
+  }
 }
