@@ -17,7 +17,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 })
 export class OtpComponent implements OnInit {
   otp: any;
-  loader:boolean=false
+  loader: boolean = false;
   config = {
     allowNumbersOnly: true,
     length: 6,
@@ -112,14 +112,12 @@ export class OtpComponent implements OnInit {
     }
   }
   verify() {
-
-    this.loader=true
+    this.loader = true;
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
         this.sharedDataService.openSnackBar('Please enter valid otp', false);
       } else {
-        
         this.apiService
           .getRequestedResponse(
             `${ApiConstants.generate_proposal}?insurer_code=${
@@ -127,7 +125,7 @@ export class OtpComponent implements OnInit {
             }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
           )
           .subscribe((generatedProposal: any) => {
-            this.loader=false
+            this.loader = false;
             if (window.innerWidth <= 999) {
               this.bottomSheetRef.dismiss();
             } else {
@@ -162,7 +160,7 @@ export class OtpComponent implements OnInit {
           this.startResendTimer();
           this.sharedDataService.openSnackBar(
             'The otp send successfully',
-            'Success'
+            true
           );
         }
       });

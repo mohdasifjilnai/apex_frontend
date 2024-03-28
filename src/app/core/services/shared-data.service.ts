@@ -628,27 +628,27 @@ export class SharedDataService {
           this.sendProposalData(res);
           if (flag === 'ckyc') {
             if (this.createdProposalId?.ckyc_details !== null) {
-              this.openSnackBar('Ckyc Details is Saved', 'Success');
+              this.openSnackBar('Ckyc Details is Saved', true);
             }
           }
           if (flag === 'vehicle_owner_detail') {
             if (this.createdProposalId?.customer_details !== null) {
-              this.openSnackBar('Customer Details is Saved', 'Success');
+              this.openSnackBar('Customer Details is Saved', true);
             }
           }
           if (flag === 'nominne_details') {
             if (this.createdProposalId?.nominee_details !== null) {
-              this.openSnackBar('Nominee Details is Saved', 'Success');
+              this.openSnackBar('Nominee Details is Saved', true);
             }
           }
           if (flag === 'vehilce_details') {
             if (this.createdProposalId?.vehicle_details !== null) {
-              this.openSnackBar('Vehicle Details is Saved', 'Success');
+              this.openSnackBar('Vehicle Details is Saved', true);
             }
           }
           if (flag === 'previous_policy_details') {
             if (this.createdProposalId?.previous_policy_details !== null) {
-              this.openSnackBar('Previous Policy Details is Saved', 'Success');
+              this.openSnackBar('Previous Policy Details is Saved', true);
             }
           }
         }

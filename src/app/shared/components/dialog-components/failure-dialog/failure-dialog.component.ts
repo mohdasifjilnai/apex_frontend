@@ -27,7 +27,7 @@ export class FailureDialogComponent implements OnInit {
       this.errorMessage = data['statusdata']['statusText'];
     } else if (data?.data?.status == false || data?.data?.err_code == 1) {
       // this.errorMessage = data?.data?.error_message;
-      this.sharedService.openSnackBar(data?.data?.error_message, 'Success');
+      this.sharedService.openSnackBar(data?.data?.error_message, true);
     }
   }
   // failureJSON: {

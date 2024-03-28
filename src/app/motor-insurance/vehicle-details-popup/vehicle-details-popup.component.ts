@@ -346,7 +346,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.vehicleDetailsForm.value.hidePreviousClaimed =
       this.hidePreviousClaimed;
 
-    if (this.vehicleDetailsForm.value?.policy_expiry != 'IDK') {
+    if (
+      this.vehicleDetailsForm.value?.policy_expiry != 'IDK' &&
+      this.vehicleDetailsForm.value?.policy_expiry != ''
+    ) {
       if (
         this.vehicleDetailsForm.value?.ncb_discount ||
         this.vehicleDetailsForm.value?.ncb_discount == 0
