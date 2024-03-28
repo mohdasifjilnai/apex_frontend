@@ -165,7 +165,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${this.proposalData?.vehicle_details?.registration_address?.pincode}`
+              `${ApiConstants.pincode}?pincode=${
+                this.proposalData?.vehicle_details?.registration_address
+                  ?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
             .subscribe((res) => {
               if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
@@ -350,7 +353,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
              * Make API call with the entered value
              */
             return this.apiservice.getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${value}`
+              `${ApiConstants.pincode}?pincode=${value}&insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }`
             );
           } else {
             /**

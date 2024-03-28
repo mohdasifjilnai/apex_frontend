@@ -118,7 +118,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         ) {
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}`
+              `${ApiConstants.pincode}?pincode=${
+                this.proposalData?.customer_details?.communication_address
+                  ?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
@@ -136,7 +139,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         if (ckycData?.customer_details?.pincode) {
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${ckycData?.customer_details?.pincode}`
+              `${ApiConstants.pincode}?pincode=${
+                ckycData?.customer_details?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
@@ -221,7 +226,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
              * Make API call with the entered value
              */
             return this.apiService.getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${value}`
+              `${ApiConstants.pincode}?pincode=${value}&insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }`
             );
           } else {
             /**

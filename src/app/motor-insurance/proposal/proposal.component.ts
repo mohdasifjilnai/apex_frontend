@@ -25,7 +25,7 @@ export class ProposalComponent implements OnInit {
   step5: boolean = false;
   proposalDetails: any;
   proposerType: any;
-  isNotShowNomineeDetails: boolean = true;
+  isNotShowNomineeDetails: boolean = false;
   @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
   previousPolicyDetailsPanel!: ElementRef;
   @ViewChild('vehilceOwnerPanel', { read: ElementRef })
@@ -39,6 +39,7 @@ export class ProposalComponent implements OnInit {
   isNotShowInNewPolicyDetails: boolean = true;
   accordianExpanded: string = 'ckyc';
   quoteData: any;
+  reviewData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -51,106 +52,27 @@ export class ProposalComponent implements OnInit {
     this.sharedData.createProposalId();
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
+    this.reviewData = this.sharedData.getProposalReviewDetails;
     if (this.vehicleType === 'new') {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
-    if (this.proposerType === 'corporate') {
+    if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
+      for (let isCpa of this.quoteData?.premium_details
+        ?.addon_premium_details) {
+        if (
+          (isCpa?.add_on_code === 'CPA' || 'CPA3') &&
+          this.proposerType !== 'corporate'
+        ) {
+          this.isNotShowNomineeDetails = true;
+        }
+      }
+    } else if (this.proposerType === 'corporate') {
       this.isNotShowNomineeDetails = false;
     } else {
-      this.isNotShowNomineeDetails = true;
+      this.isNotShowNomineeDetails = false;
     }
-    this.sharedData.getProposalDetails.subscribe((proposal) => {
-      if (
-        proposal?.ckyc_details !== null &&
-        this.quoteData['insurer_code'] === 'digit'
-      ) {
-        this.showVehicleOwnerDetails = true;
-        this.accordianExpanded = 'vehicleOwnerDetails';
-      } else if (
-        proposal?.ckyc_details !== null &&
-        !this.quoteData['insurer_code']
-      ) {
-        this.showVehicleOwnerDetails = true;
-      }
-      if (
-        proposal.customer_details !== null &&
-        this.proposerType === 'corporate'
-      ) {
-        this.showVehicleDetails = true;
-        this.accordianExpanded = 'vehicleDetails';
-      } else if (
-        proposal.customer_details !== null &&
-        this.proposerType !== 'corporate'
-      ) {
-        this.showNomineeDetails = true;
-        this.showVehicleOwnerDetails = true;
-
-        this.accordianExpanded = 'nomineeDetails';
-      }
-      if (proposal.nominee_details !== null) {
-        this.showVehicleDetails = true;
-        this.accordianExpanded = 'vehicleDetails';
-      }
-      if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
-        this.showPreviousPolicyDetails = true;
-        this.accordianExpanded = 'vehicleDetails';
-      } else if (
-        proposal.vehicle_details !== null &&
-        this.vehicleType !== 'new'
-      ) {
-        this.accordianExpanded = 'previousPolicyDetails';
-      }
-    });
-    this.sharedData.fetchKycData.subscribe((data) => {
-      if (data) {
-        this.showVehicleOwnerDetails = true;
-        this.accordianExpanded = 'vehicleOwnerDetails';
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.sharedData.getProposalReviewDetails.subscribe((res) => {
-      if (res === 'previousPolicyDetailsPanel') {
-        let el = this.previousPolicyDetailsPanel.nativeElement;
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000);
-        } else {
-          console.error('Element not found: previousPolicyDetailsPanel');
-        }
-      }
-      if (res === 'vehilceOwnerPanel') {
-        let el = this.vehilceOwnerPanel.nativeElement;
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000);
-        } else {
-        }
-      }
-      if (res === 'nomineDetailsPanel') {
-        let el = this.nomineDetailsPanel.nativeElement;
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000);
-        } else {
-        }
-      }
-      if (res === 'vehicleDetailPanel') {
-        let el = this.vehicleDetailPanel.nativeElement;
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }, 5000);
-        } else {
-          console.error('Element not found: vehicleDetailPanel');
-        }
-      }
-    });
+    this.getProposalDataForPatch();
   }
 
   loadCkyc(expansionName: string) {
@@ -213,5 +135,88 @@ export class ProposalComponent implements OnInit {
   }
   back() {
     this.router.navigate(['/motor/quotes']);
+  }
+  getProposalDataForPatch() {
+    this.sharedData.getProposalDetails.subscribe((proposal) => {
+      if (
+        proposal?.ckyc_details !== null &&
+        this.quoteData['insurer_code'] === 'digit'
+      ) {
+        this.showVehicleOwnerDetails = true;
+        this.accordianExpanded = 'vehicleOwnerDetails';
+      } else if (
+        proposal?.ckyc_details !== null &&
+        this.quoteData['insurer_code'] !== 'digit'
+      ) {
+        this.showVehicleOwnerDetails = true;
+      }
+      if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
+        if (this.reviewData === 'vehilceOwnerPanel') {
+          this.showVehicleDetails = true;
+          this.accordianExpanded = 'vehicleOwnerDetails';
+        } else {
+          this.showVehicleDetails = true;
+          this.accordianExpanded = 'vehicleDetails';
+        }
+      } else if (
+        proposal.customer_details !== null &&
+        this.isNotShowNomineeDetails
+      ) {
+        if (this.reviewData === 'vehilceOwnerPanel') {
+          this.showNomineeDetails = true;
+          this.showVehicleOwnerDetails = true;
+
+          this.accordianExpanded = 'vehicleOwnerDetails';
+        } else {
+          this.showNomineeDetails = true;
+          this.showVehicleOwnerDetails = true;
+
+          this.accordianExpanded = 'nomineeDetails';
+        }
+      }
+      if (proposal.nominee_details !== null) {
+        if (this.reviewData === 'nomineDetailsPanel') {
+          this.showVehicleDetails = true;
+          this.accordianExpanded = 'nomineeDetails';
+        } else {
+          this.showVehicleDetails = true;
+          this.accordianExpanded = 'vehicleDetails';
+        }
+      }
+      if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
+        if (this.reviewData === 'vehilceOwnerPanel') {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'vehicleOwnerDetails';
+        } else if (this.reviewData === 'nomineDetailsPanel') {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'nomineeDetails';
+        } else {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'vehicleDetails';
+        }
+      } else if (
+        proposal.vehicle_details !== null &&
+        this.vehicleType !== 'new'
+      ) {
+        if (this.reviewData === 'vehicleDetailPanel') {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'vehicleDetails';
+        } else if (this.reviewData === 'vehilceOwnerPanel') {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'vehicleOwnerDetails';
+        } else if (this.reviewData === 'nomineDetailsPanel') {
+          this.showPreviousPolicyDetails = true;
+          this.accordianExpanded = 'nomineeDetails';
+        } else {
+          this.accordianExpanded = 'previousPolicyDetails';
+        }
+      }
+    });
+    this.sharedData.fetchKycData.subscribe((data) => {
+      if (data) {
+        this.showVehicleOwnerDetails = true;
+        this.accordianExpanded = 'vehicleOwnerDetails';
+      }
+    });
   }
 }

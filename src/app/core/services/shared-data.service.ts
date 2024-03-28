@@ -437,7 +437,7 @@ export class SharedDataService {
     this.addOnsBaseProposalType.next(data);
   }
   sendProposalReviewEditId(data: any) {
-    this.getProposalReviewDetails.next(data);
+    this.getProposalReviewDetails = data;
   }
   getRegistrationDate(data: any) {
     this.getRegistrationData.next(data);
@@ -460,7 +460,7 @@ export class SharedDataService {
         transaction_id: sessionStorage.getItem('transaction_id') || '',
         insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
         insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
-        proposal_id: this.redirectProposalId.replace(/['"]+/g, ''),
+        proposal_id: this.redirectProposalId?.replace(/['"]+/g, ''),
       };
     } else {
       this.proposalDataItem = {
