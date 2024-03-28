@@ -46,6 +46,7 @@ export class InsuranceDetailsComponent implements OnInit {
   quotesDetails: any;
   downloadButtonShow = false;
   downloadUrl: any;
+  addPremiumWithTp: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -106,6 +107,14 @@ export class InsuranceDetailsComponent implements OnInit {
       if (this.addonsValue.length > 0) {
         this.addonsList = this.addonsValue;
       }
+      // if (
+      //   this.quoteData?.premium_details?.addon_premium_details[0]
+      //     ?.add_on_name === 'Compulsory Personal Accident'
+      // ) {
+      //   this.onCpaCheckboxChange(true);
+      // } else {
+      //   this.onCpaCheckboxChange(false);
+      // }
     }
     this.downloadUnderwritting();
   }
@@ -201,4 +210,24 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadUnderWritting() {
     window.open(this.downloadUrl);
   }
+  // onCpaCheckboxChange(data: boolean) {
+  //   if (data) {
+  //     if (
+  //       this.quoteData?.premium_details?.addon_premium_details[0]
+  //         ?.add_on_name === 'Compulsory Personal Accident'
+  //     ) {
+  //       this.addPremiumWithTp =
+  //         this.quoteData?.premium_details?.addon_premium_details[0]
+  //           ?.add_on_premium +
+  //         this.quoteData?.premium_details?.tp_premium_details?.basic_tp_premium;
+  //     }
+  //   } else {
+  //     this.addPremiumWithTp =
+  //       this.quoteData?.premium_details?.tp_premium_details?.basic_tp_premium;
+  //     console.log(this.addPremiumWithTp, 'shivam');
+  //   }
+  // }
+  // onCpaChange(event: any) {
+  //   this.onCpaCheckboxChange(event.checked);
+  // }
 }

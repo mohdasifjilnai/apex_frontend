@@ -133,10 +133,17 @@
       </div>
     </div>
   </div>
-  <div class="col-12 policy" *ngIf="!reviewURL">
+  <!-- <div class="col-12 policy" *ngIf="!reviewURL">
     <div class="d-flex justify-content-between mt-2">
       <section class="my-2 d-grid cpa-cover-section">
-        <mat-checkbox id-automation="cpa_cover">
+        <mat-checkbox
+          id-automation="cpa_cover"
+          [checked]="
+            quoteData?.premium_details?.addon_premium_details[0]
+              ?.add_on_name === 'Compulsory Personal Accident'
+          "
+          (change)="onCpaChange($event)"
+        >
           <span class="cpa-cover-section"
             >Add CPA cover
             <img
@@ -175,7 +182,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="col-12 mt-3 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)</p>

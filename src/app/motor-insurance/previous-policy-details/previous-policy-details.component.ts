@@ -9,6 +9,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { Subscription } from 'rxjs';
+import { ApiConstants } from 'src/app/api.constant';
+import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -40,7 +42,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     tp_policy_end_date: new FormControl(''),
   });
 
-  constructor(private router: Router, private sharedData: SharedDataService) {
+  constructor(
+    private router: Router,
+    private sharedData: SharedDataService,
+    private apiservice: ApiService
+  ) {
     this.insuranceCompanyList = [
       {
         id: 1,
@@ -57,15 +63,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
-          previous_insurer:
-            this.proposalData.previous_policy_details?.insurer_code,
+
           policy_expiry_date: this.sharedData.parseDate(
             this.proposalData.previous_policy_details?.policy_expiry_date,
             'DD/MM/YYYY'
           ),
-          tp_insurance_company:
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_insurer_code,
+
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_no,
@@ -80,6 +83,35 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             'DD/MM/YYYY'
           ).toDate(),
         });
+        if (
+          this.proposalData.previous_policy_details?.insurer_code ||
+          this.proposalData.previous_policy_details?.tp_policy_details
+            ?.tp_insurer_code
+        ) {
+          this.apiservice
+            .getRequestedResponse(ApiConstants.get_previous_insurer)
+            .subscribe((response: any) => {
+              for (let insurer of response) {
+                if (
+                  insurer?.rb_insurer_code ===
+                  this.proposalData.previous_policy_details?.insurer_code
+                ) {
+                  this.previousPolicyDetailsForm.patchValue({
+                    previous_insurer: insurer,
+                  });
+                }
+                if (
+                  insurer?.rb_insurer_code ===
+                  this.proposalData.previous_policy_details?.tp_policy_details
+                    ?.tp_insurer_code
+                ) {
+                  this.previousPolicyDetailsForm.patchValue({
+                    tp_insurance_company: insurer,
+                  });
+                }
+              }
+            });
+        }
       }
     });
     this.vehicleType = sessionStorage.getItem('newVehicleType');

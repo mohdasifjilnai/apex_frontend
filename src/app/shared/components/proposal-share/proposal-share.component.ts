@@ -200,6 +200,8 @@ export class ProposalShareComponent implements OnInit {
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
         this.quotes_id
+          ? this.quotes_id
+          : this.proposalData?.quote_response?.quote_id
       )
       .subscribe(
         (res) => {
