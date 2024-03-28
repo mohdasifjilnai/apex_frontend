@@ -44,19 +44,19 @@
             ckycData["dob"] ? ckycData["dob"] : "-"
           }}</span>
         </div>
-        <div class="col-lg-4 col-md-4 col-6 d-grid">
+        <div class="col-lg-4 col-md-4 col-6 d-grid mt-1">
           <span class="details-header">Owner Type</span>
           <span class="details-value">{{
             ckycData["proposer_type"] ? ckycData["proposer_type"] : "-"
           }}</span>
         </div>
-        <div class="col-lg-4 col-md-4 col-6 d-grid">
+        <div class="col-lg-4 col-md-4 col-6 d-grid mt-1">
           <span class="details-header">Contact Number</span>
           <span class="details-value">{{
             ckycData["mobile_number"] ? ckycData["mobile_number"] : "-"
           }}</span>
         </div>
-        <div class="col-lg-4 col-md-4 col-6 d-grid">
+        <div class="col-lg-4 col-md-4 col-6 d-grid mt-1">
           <span class="details-header">Email</span>
           <span class="details-value">{{
             ckycData["email"] ? ckycData["email"] : "-"
@@ -66,7 +66,7 @@
     </div>
     <div class="col-12 proceed-btn">
       <button
-        class="submit-btn w-100"
+        class="submit-btn"
         type="submit"
         (click)="onProceedData(ckycData)"
       >

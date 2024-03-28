@@ -205,13 +205,13 @@ export class QuotesListingComponent implements OnInit {
             }
             if (this.sortObjectkey == 'high') {
               this.quotationData.sort((a: any, b: any) => {
-                b.premium_details.total_premium -
-                  a.premium_details.total_premium;
+                b.premium_details.gross_premium -
+                  a.premium_details.gross_premium;
               });
             } else {
               this.quotationData.sort((a: any, b: any) => {
-                a.premium_details.total_premium -
-                  b.premium_details.total_premium;
+                a.premium_details.gross_premium -
+                  b.premium_details.gross_premium;
               });
             }
             for (let i = 0; i <= this.quotationData.length - 1; i++) {
@@ -706,24 +706,24 @@ export class QuotesListingComponent implements OnInit {
         if (data == 'low' || data.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
-              a.premium_details.total_premium - b.premium_details.total_premium
-          );
-        } else {
-          this.quotationData.sort(
-            (a: any, b: any) =>
-              b.premium_details.total_premium - a.premium_details.total_premium
-          );
-        }
-      } else {
-        if (data == 'low' || data.value == 'low') {
-          this.quotationData.sort(
-            (a: any, b: any) =>
               a.premium_details.gross_premium - b.premium_details.gross_premium
           );
         } else {
           this.quotationData.sort(
             (a: any, b: any) =>
               b.premium_details.gross_premium - a.premium_details.gross_premium
+          );
+        }
+      } else {
+        if (data == 'low' || data.value == 'low') {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              a.premium_details.net_premium - b.premium_details.net_premium
+          );
+        } else {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              b.premium_details.net_premium - a.premium_details.net_premium
           );
         }
       }

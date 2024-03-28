@@ -30,6 +30,7 @@ export class ChooseIDVComponent implements OnInit {
   });
   errorQuotationArray: any;
   customIDV: boolean = false;
+  clearIdvButton: boolean = false;
 
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
@@ -62,6 +63,9 @@ export class ChooseIDVComponent implements OnInit {
       this.currentAmount = this.averageIdv;
       this.chooseIdvValue = sessionStorage.getItem('idvData');
       let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
+      if(chooseIdvAmount){
+        this.clearIdvButton=true
+      }
       if (chooseIdvAmount?.chooseIdv) {
         this.investedAmount = chooseIdvAmount.chooseIdv;
         this.selectedIDVOption = 'choose';
@@ -96,6 +100,7 @@ export class ChooseIDVComponent implements OnInit {
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
+    this.clearIdvButton = true;
     this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
       // Show input field if "Choose IDV" option is selected
@@ -143,6 +148,12 @@ export class ChooseIDVComponent implements OnInit {
       this.updateIdvButton = false;
       this.idvBaseQuotes();
     }
+  }
+  cancelIdv() {
+    this.selectedIDVOption = '';
+    sessionStorage.removeItem('idvData');
+    this.clearIdvButton = false;
+    this.updateIdvButton = false;
   }
   idvBaseQuotes() {
     let productTypeValue = sessionStorage.getItem('productType');

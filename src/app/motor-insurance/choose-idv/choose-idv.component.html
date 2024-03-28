@@ -5,7 +5,7 @@
 >
   <div class="card my-2">
     <div class="main-card-body">
-      <div class="card-body">
+      <div class="card-body choose-value">
         <!-- <div class="range-flex">
           <div class="small-amount-value tag-text">Choose IDV</div>
           <div class="small-amount-value text-orange amount-format-text">
@@ -91,7 +91,17 @@
               appRemoveZeroFromStarting
             />
           </mat-form-field>
-          <div class="col-lg-12 col-md-12 col-12 mt-3" *ngIf="updateIdvButton">
+          <div class="col-lg-6 col-md-12 col-12 mt-3" *ngIf="clearIdvButton">
+            <button
+              class="submit-btn cancel-btn"
+              type="submit"
+              (click)="cancelIdv()"
+              [disabled]="idvError || enableIdvCard"
+            >
+              Clear
+            </button>
+          </div>
+          <div class="col-lg-6 col-md-12 col-12 mt-3" *ngIf="updateIdvButton">
             <button
               class="submit-btn update-btn"
               type="submit"

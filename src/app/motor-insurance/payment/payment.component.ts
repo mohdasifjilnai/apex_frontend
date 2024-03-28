@@ -32,7 +32,7 @@ export class PaymentComponent implements OnInit {
     classObtained: string;
   } = {
     modalName: FailureDialogComponent,
-    widthObtained: '70%',
+    widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: 'auto',
     isOutSideClose: true,

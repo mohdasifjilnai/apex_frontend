@@ -84,6 +84,12 @@
   .card {
     border: none !important;
   }
+  .choose-value{
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline{
+      background-color: #fff;
+      border-radius: 16px;
+    }
+  }
 }
 .amount-value {
   font-weight: 500;
@@ -193,7 +199,16 @@
   padding: 5px 2px 0px 7px;
   text-align: center;
 }
-
+.cancel-btn {
+  color: #ffb171;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #fff;
+  border: 1px solid #ffb171;
+  height: 36px;
+  border-radius: 12px;
+  width: 100%;
+}
 .range-flex {
   display: flex;
   justify-content: space-between;

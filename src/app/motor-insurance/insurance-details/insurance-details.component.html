@@ -44,7 +44,9 @@
       </div>
       <div class="d-flex justify-content-between mt-2">
         <p class="anunual-commericial">{{ planType?.name }}</p>
-        <p class="plan-type">{{ quoteData?.premium_details?.idv }}</p>
+        <p class="plan-type">
+          &#x20B9;{{ quoteData?.premium_details?.idv | numberFormat }}
+        </p>
       </div>
     </div>
   </div>
@@ -196,7 +198,7 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;
-      {{ quoteData?.premium_details?.total_premium | numberFormat }}</span
+      {{ quoteData?.premium_details?.gross_premium | numberFormat }}</span
     >
   </div>
   <button
@@ -234,7 +236,7 @@
     <div class="d-flex justify-content-between">
       <div>
         <img
-          src="/assets/images/sbi-insurer.svg"
+          [src]="quoteData?.insurer_logo"
           alt=""
           width="100"
           height="60"
@@ -243,11 +245,16 @@
       </div>
       <div class="mt-2">
         <span class="plan-text">Total IDV</span><br />
-        <span class="plan-value">6,00,000</span>
+        <span class="plan-value"
+          >&#x20B9;{{ quoteData?.premium_details?.idv | numberFormat }}</span
+        >
       </div>
       <div class="mt-2">
         <span class="plan-text">Total Premium</span><br />
-        <span class="plan-value">6,00,000</span>
+        <span class="plan-value"
+          >&#x20B9;
+          {{ quoteData?.premium_details?.gross_premium | numberFormat }}</span
+        >
       </div>
     </div>
   </div>
