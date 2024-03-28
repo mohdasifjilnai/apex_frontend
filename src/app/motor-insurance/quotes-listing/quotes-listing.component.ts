@@ -50,7 +50,7 @@ export class QuotesListingComponent implements OnInit {
   progressValue = 0;
   chooseIdvArray: any;
   mmvFormData: any = '';
-  owner_type:any=''
+  owner_type: any = '';
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -118,7 +118,7 @@ export class QuotesListingComponent implements OnInit {
   proposalTypeOninit = true;
   policyExpiryInspection: any = '';
   currentDate: any = '';
-
+  sortObjectkey: any;
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -155,10 +155,6 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
-        this.quotationData.sort(
-          (a: any, b: any) =>
-            a.premium_details.total_premium - b.premium_details.total_premium
-        );
         // for (const item of this.quotationData) {
         //   if (item.premium_details && item?.premium_details?.idv > 5000000) {
         //     this.isIdvGreaterThan50Lac = true;
@@ -203,6 +199,21 @@ export class QuotesListingComponent implements OnInit {
             }
           }
           if (this.quotationData.length > 0) {
+            this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
+            if (this.sortObjectkey) {
+              this.lowHighSelected = this.sortObjectkey;
+            }
+            if (this.sortObjectkey == 'high') {
+              this.quotationData.sort((a: any, b: any) => {
+                b.premium_details.total_premium -
+                  a.premium_details.total_premium;
+              });
+            } else {
+              this.quotationData.sort((a: any, b: any) => {
+                a.premium_details.total_premium -
+                  b.premium_details.total_premium;
+              });
+            }
             for (let i = 0; i <= this.quotationData.length - 1; i++) {
               if (this.quotationData[i]?.premium_details?.min_idv) {
                 let idvData = {
@@ -252,7 +263,7 @@ export class QuotesListingComponent implements OnInit {
           this.quotesListing.patchValue({
             proposalType: 1,
           });
-          this.owner_type=this.proposalList[0]?.proposer_name
+          this.owner_type = this.proposalList[0]?.proposer_name;
         }
       });
   }
@@ -314,16 +325,18 @@ export class QuotesListingComponent implements OnInit {
     });
   }
   openSort(dropdownType: any): void {
-    
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: dropdownType, // Pass your data here
     };
-    const bottomSheetRef =this.bottomSheet.open(QuotesDropdownComponent, bottomSheetConfig);
+    const bottomSheetRef = this.bottomSheet.open(
+      QuotesDropdownComponent,
+      bottomSheetConfig
+    );
     bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
       this.progressValue = 0;
       this.startProgress(this.progressValue);
       // Handle the data received from the bottom sheet
-      this.owner_type=dataReceived
+      this.owner_type = dataReceived;
     });
   }
   /**
@@ -686,8 +699,11 @@ export class QuotesListingComponent implements OnInit {
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {
+      if (data.value) {
+        sessionStorage.setItem('sortObjectkey', data.value);
+      }
       if (this.defaultGST) {
-        if (data.value == 'low') {
+        if (data == 'low' || data.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
               a.premium_details.total_premium - b.premium_details.total_premium
@@ -699,7 +715,7 @@ export class QuotesListingComponent implements OnInit {
           );
         }
       } else {
-        if (data.value == 'low') {
+        if (data == 'low' || data.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
               a.premium_details.gross_premium - b.premium_details.gross_premium

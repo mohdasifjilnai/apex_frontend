@@ -51,7 +51,8 @@
             <span
               *ngIf="
                 listValue?.next_type == 'multi_checkbox' &&
-                i == multiCheckboxField[i]
+                i == multiCheckboxField[i] &&
+                listValue.checked
               "
               class="d-grid m-1"
             >
@@ -78,7 +79,9 @@
           </span>
         </section>
         <section class="d-grid">
-          <ng-container *ngIf="listValue?.next_type == 'dropdown'">
+          <ng-container
+            *ngIf="listValue?.next_type == 'dropdown' && listValue.checked"
+          >
             <mat-form-field
               appearance="outline"
               *ngIf="i == dropDownFieldIndex[i]"
@@ -121,7 +124,10 @@
           </ng-container>
         </section>
 
-        <section class="d-grid" *ngIf="listValue?.next_type == 'int_input'">
+        <section
+          class="d-grid"
+          *ngIf="listValue?.next_type == 'int_input' && listValue.checked"
+        >
           <mat-form-field
             appearance="outline"
             class="mat-input-custom"
@@ -161,7 +167,9 @@
           </mat-error>
         </section>
         <section class="d-grid">
-          <ng-container *ngIf="listValue?.next_type == 'tab'">
+          <ng-container
+            *ngIf="listValue?.next_type == 'tab' && listValue.checked"
+          >
             <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
               <div
                 class="col-lg-6 col-md-6 col-6 mt-1"
