@@ -63,8 +63,8 @@ export class ChooseIDVComponent implements OnInit {
       this.currentAmount = this.averageIdv;
       this.chooseIdvValue = sessionStorage.getItem('idvData');
       let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
-      if(chooseIdvAmount){
-        this.clearIdvButton=true
+      if (chooseIdvAmount) {
+        this.clearIdvButton = true;
       }
       if (chooseIdvAmount?.chooseIdv) {
         this.investedAmount = chooseIdvAmount.chooseIdv;

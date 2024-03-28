@@ -56,6 +56,7 @@ export class CkycComponent implements OnInit {
     classObtained: 'wait-ckyc-verification-class',
   };
   ckycData: any;
+  isProposerTrue: boolean=true;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -104,6 +105,7 @@ export class CkycComponent implements OnInit {
     if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
+    this.proposerType=='individual'? this.isProposerTrue=true:this.isProposerTrue=false
     this.getDocumentType();
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
@@ -239,7 +241,7 @@ export class CkycComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${this.quoteData?.insurer_code}`
+        `${ApiConstants.document_type}?insurer_code=${this.quoteData?.insurer_code}&is_individual=${this.isProposerTrue}&is_corporate=${!this.isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
       )
       .subscribe((res) => {
         this.documentList = res;

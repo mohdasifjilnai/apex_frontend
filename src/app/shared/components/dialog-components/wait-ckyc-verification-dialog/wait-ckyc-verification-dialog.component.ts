@@ -38,6 +38,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   isUploadDocment: boolean = false;
   document_url: any;
   fileName: any = 'Upload Document';
+  proposerType: any;
+  isProposerTrue: boolean=true;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -51,6 +53,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.documentName = this.ckycBody['document_type'].split('_')[0];
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
+    this.proposerType = sessionStorage.getItem('proposerType');
+    this.proposerType=='individual'? this.isProposerTrue=true:this.isProposerTrue=false
   }
 
   ngOnInit(): void {
@@ -121,7 +125,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${this.ckycBody?.insurer_code}`
+        `${ApiConstants.document_type}?insurer_code=${this.ckycBody?.insurer_code}&is_individual=${this.isProposerTrue}&is_corporate=${!this.isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`
       )
       .subscribe((res) => {
         this.documentList = res;
