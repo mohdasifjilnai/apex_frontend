@@ -129,9 +129,10 @@
               "
             >
               <span class="own-damage-text"> {{ addOns?.add_on_name }} </span>
-              <span class="own-damage-amount">
+              <span class="own-damage-amount" *ngIf="!(addOns?.is_offered && addOns?.add_on_premium==0)">
                 &#8377; {{ addOns?.add_on_premium }}
               </span>
+              <span *ngIf="addOns?.is_offered && addOns?.add_on_premium==0" class="included">Included</span>
             </div>
           </div>
         </div>

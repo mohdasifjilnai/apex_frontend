@@ -131,7 +131,8 @@
         *ngIf="addons.add_on_code != 'CPA' || addons.add_on_code != 'CPA3'"
       >
         <span class="od-value od-name">{{ addons.add_on_name }}</span>
-        <span class="od-value">&#x20B9; {{ addons.add_on_premium }}</span>
+        <span class="od-value" *ngIf="!(addons?.is_offered && addons?.add_on_premium==0)">&#x20B9; {{ addons.add_on_premium }}</span>
+        <span *ngIf="addons?.is_offered && addons?.add_on_premium==0" class="included">Included</span>
       </div>
     </div>
   </div>

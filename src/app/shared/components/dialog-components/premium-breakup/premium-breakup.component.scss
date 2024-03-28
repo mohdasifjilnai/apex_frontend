@@ -70,6 +70,14 @@
   .share-download-btn-res {
     display: none;
   }
+  .included{
+    font-size: 8px;
+    font-weight: 600;
+    background-color: blue;
+    padding: 3px;
+    border-radius: 5px;
+    color: #fff;
+  }
 }
 @media screen and (max-width: 999px) {
   .premium-brealdown-res {
@@ -121,6 +129,7 @@
     background-color: #FFFFFF;
     border-radius: 16px;
   }
+
 }
 
 // for mobile devices
