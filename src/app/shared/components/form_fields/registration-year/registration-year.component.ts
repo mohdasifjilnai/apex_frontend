@@ -82,6 +82,7 @@ export class RegistrationYearComponent implements OnInit {
       this.form.controls['registration_date']
     );
     datepicker.close();
+    this.onRegistrationDateChange(this.ctrlValue);
   }
   ngOnInit(): void {
     /**
@@ -126,11 +127,10 @@ export class RegistrationYearComponent implements OnInit {
       /**
        * value' contains the selected date
        */
-
       /**
        * You can perform any specific action here based on the value change
        */
-      this.onRegistrationDateChange(value);
+      // this.onRegistrationDateChange(value);
     });
   }
 
@@ -158,6 +158,6 @@ export class RegistrationYearComponent implements OnInit {
     this.sharedDataService.getRegistrationDate(value);
   }
   EnterKey(event: Event) {
-    this.sharedDataService.handleEnterKey(event,this.registrationYear)
+    this.sharedDataService.handleEnterKey(event, this.registrationYear);
   }
 }

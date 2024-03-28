@@ -84,6 +84,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   isCheckWheeler: boolean = true;
   vaahanName: any;
   checkWheeler: any;
+  vehicleAllData: any;
+  isNewVehicleUpdate = true;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -109,6 +111,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   rto_id: any;
   NoExpiryPolicy: boolean = false;
   hidePreviousClaimed: boolean = true;
+  editClick = '';
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -156,31 +159,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.sharedDataService.getVehicleDetails.subscribe((res) => {
       if (res === 'edit') {
         this.editVehicleDetails = false;
+        this.editClick = res;
         this.vehiclePopupList = sessionStorage.getItem('mmv_data');
         let vehicleCard = JSON.parse(this.vehiclePopupList);
+        this.vehicleAllData = vehicleCard;
         if (vehicleCard) {
           this.patchVehicleData(vehicleCard);
         }
       }
-    });
-  }
-  /**
-   * Initialize the form using FormBuilder
-   */
-  vehicleDetailsFormControler() {
-    this.vehicleDetailsForm = this.FormBuilder.group({
-      vehicle_model: ['', Validators.required],
-      vehicle_variant: ['', Validators.required],
-      vehicle_fuel: ['', Validators.required],
-      registration_city: ['', Validators.required],
-      user_car: [''],
-      policy_expiry_date: [''],
-      policy_expiry: [''],
-      previous_claimed: [''],
-      ncb_discount: [''],
-      manufacture_date: [moment(), Validators.required],
-      registration_date: [moment(), Validators.required],
-      previous_insurer: [''],
     });
   }
 
@@ -229,7 +215,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
           'mmvData'
         );
       }
-      this.getExpiringPolicy();
+      if (this.editClick == '') {
+        this.getExpiringPolicy();
+      }
+
       this.getRTOData('rto_code');
       this.getNcbList();
       this.getPolicyExpiryList();
@@ -249,9 +238,34 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
       let regDateValue = new Date(res);
+      // if (this.editClick == '') {
       this.getExpiringPolicy(regDateValue);
+      // }
+      // else {
+      //   this.expiryPolicyGetList(regDateValue);
+      // }
     });
     this.checkWheelerType(this.editVehicleDetails);
+  }
+
+  /**
+   * Initialize the form using FormBuilder
+   */
+  vehicleDetailsFormControler() {
+    this.vehicleDetailsForm = this.FormBuilder.group({
+      vehicle_model: ['', Validators.required],
+      vehicle_variant: ['', Validators.required],
+      vehicle_fuel: ['', Validators.required],
+      registration_city: ['', Validators.required],
+      user_car: [''],
+      policy_expiry_date: [''],
+      policy_expiry: [''],
+      previous_claimed: [''],
+      ncb_discount: [''],
+      manufacture_date: [moment(), Validators.required],
+      registration_date: [moment(), Validators.required],
+      previous_insurer: [''],
+    });
   }
   /**
    * Get the MMV popup data
@@ -320,8 +334,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: data?.policy_expiry,
       policy_expiry_date: new Date(this.policyExpiredDateObject),
     });
+    this.isNewVehicle = data?.isNewVehicleUpdate;
     this.onRCTransferChange(data.user_car);
     this.claimedPolicy(data.previous_claimed);
+    this.expiryPolicyGetList(registrationDateObject);
   }
 
   onClose(): void {
@@ -348,7 +364,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     if (
       this.vehicleDetailsForm.value?.policy_expiry != 'IDK' &&
-      this.vehicleDetailsForm.value?.policy_expiry != ''
+      this.vehicleDetailsForm.value?.policy_expiry != '' &&
+      !this.isNewVehicle
     ) {
       if (
         this.vehicleDetailsForm.value?.ncb_discount ||
@@ -367,6 +384,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       this.vehicleDetailsForm.value.ncb_discount = 0;
     }
+
     if (this.vehicleDetailsForm.value?.policy_expiry) {
       for (let i = 0; i <= this.expiryList.length - 1; i++) {
         if (
@@ -378,7 +396,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         }
       }
     }
-
+    this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
     let vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
 
     sessionStorage.setItem('mmv_data', vehicleFrom);
@@ -467,18 +485,34 @@ export class VehicleDetailsPopupComponent implements OnInit {
             );
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
+            }
+
+            if (this.editClick == '') {
+              this.sharedDataService.getRegistrationDate(
+                this.vehicleMMVValue?.registration_date
+              );
+              let regDateValue = new Date(
+                this.vehicleMMVValue?.registration_date
+              );
               this.vehicleDetailsForm.patchValue({
+                registration_date: moment(regDateValue, 'MM/YYYY'),
                 vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
                 vehicle_fuel: matchingModel.fuel,
               });
+            } else {
+              let registrationDateObject;
+              if (this.vehicleAllData?.registration_date) {
+                let registrationDate = new Date(
+                  this.vehicleAllData?.registration_date
+                );
+                registrationDateObject = moment(registrationDate, 'MM/YYYY');
+              }
+              this.vehicleDetailsForm.patchValue({
+                registration_date: registrationDateObject,
+              });
             }
-            let regDateValue = new Date(
-              this.vehicleMMVValue?.registration_date
-            );
-            this.sharedDataService.getRegistrationDate(
-              this.vehicleMMVValue?.registration_date
-            );
+
             if (this.vehicleMMVValue?.policy_expiry_date) {
               let policyExpiryValue = new Date(
                 this.vehicleMMVValue?.policy_expiry_date
@@ -493,10 +527,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 });
               }
             }
-
-            this.vehicleDetailsForm.patchValue({
-              registration_date: moment(regDateValue, 'MM/YYYY'),
-            });
 
             if (this.vehicleMMVValue?.previous_insurer) {
               if (!this.vehiclePopupList) {
@@ -1063,5 +1093,50 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.isCheckWheeler = true;
     this.dialogRef.removePanelClass('warn-details-class');
     this.dialogRef.addPanelClass('vehicle-details-class');
+  }
+
+  /**
+Get the expiring policy list based on the given date or the registration details
+@param date - The date for which the expiring policy list needs to be retrieved
+ */
+  expiryPolicyGetList(date: any) {
+    let expiringPolicyType;
+    let vehicleType = localStorage.getItem('vehicleType');
+    if (this.registrationNumber) {
+      if (
+        this.registrationNumber?.registration_month &&
+        this.registrationNumber?.registration_year
+      ) {
+        this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+
+        expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${vehicleType}`;
+      }
+    } else if (date) {
+      let dateObj = moment(date, 'MM/YYYY');
+      let regMonth = moment(dateObj).month();
+      this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
+      this.registrationYear = moment(dateObj).year();
+      let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
+      expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${vehicleType}`;
+    } else {
+      this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+      let vehicleRegDate = new Date(this.vehicleMMVValue?.registration_date);
+
+      let dateObj = moment(vehicleRegDate, 'MM/YYYY');
+      let regMonth = moment(dateObj).month();
+      this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
+      this.registrationYear = moment(dateObj).year();
+      let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
+      expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${vehicleType}`;
+    }
+    this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
+      )
+      ?.subscribe((res) => {
+        if (res) {
+          this.expiryList = res.expiring_policy_type;
+        }
+      });
   }
 }
