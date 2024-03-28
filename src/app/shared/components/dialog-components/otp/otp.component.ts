@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FailureDialogComponent } from '../failure-dialog/failure-dialog.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
   selector: 'app-otp',
@@ -16,6 +17,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
   styleUrls: ['./otp.component.scss'],
 })
 export class OtpComponent implements OnInit {
+  @ViewChild('ngOtpInput') ngOtpInput!: NgOtpInputComponent;
   otp: any;
   loader: boolean = false;
   config = {
@@ -117,6 +119,8 @@ export class OtpComponent implements OnInit {
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
         this.sharedDataService.openSnackBar('Please enter valid otp', false);
+        this.loader = false;
+        this.ngOtpInput.setValue('');
       } else {
         this.apiService
           .getRequestedResponse(
@@ -150,6 +154,7 @@ export class OtpComponent implements OnInit {
   }
   resendotp() {
     this.resendDisabled = false;
+    this.ngOtpInput.setValue('');
     this.apiService
       .postRequestedResponse(
         `${ApiConstants.send_communication}`,

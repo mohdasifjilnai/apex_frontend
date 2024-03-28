@@ -288,7 +288,6 @@ export class QuotesListingComponent implements OnInit {
       totalIdv += item.idv;
     });
     const averageIdv = totalIdv / this.chooseIdvArray.length;
-
     this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
   }
   getProposalDetails(quotes_data: any) {
@@ -316,6 +315,7 @@ export class QuotesListingComponent implements OnInit {
     this.noQuotesInformation = !this.noQuotesInformation;
   }
   openChangeIDV(): void {
+    this.chooseIdv();
     this.bottomSheet.open(ChooseIDVComponent);
   }
   openAddons(): void {

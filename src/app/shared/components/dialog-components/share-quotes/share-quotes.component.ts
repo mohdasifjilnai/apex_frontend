@@ -39,7 +39,6 @@ export class ShareQuotesComponent implements OnInit {
     const segments = currentUrl.split('/');
     const lastSegment = segments[segments.length - 1];
     this.endPath = lastSegment;
-    console.log(lastSegment);
   }
 
   ngOnInit(): void {

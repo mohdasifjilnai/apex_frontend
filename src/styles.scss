@@ -167,9 +167,15 @@ th.mat-header-cell:last-of-type {
     }
   }
   .share-qoutes-class {
-    margin-left: 4% !important;
-    margin-bottom: 75% !important;
-    margin-top: 0 !important;
+    .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0px 0px 7px 7px !important;
+    }
+    .mat-form-field{
+      width: 100%;
+      input.mat-input-element{
+        padding-left: 0 !important;
+      }
+    }
   }
 }
 

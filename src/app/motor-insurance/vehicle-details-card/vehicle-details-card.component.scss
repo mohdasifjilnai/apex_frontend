@@ -160,16 +160,17 @@
   }
 }
 .inspectionCase {
-  color: #5384ea;
+  color: #F64140;
   font-size: 12px;
   display: flex;
   justify-content: center;
 }
 .inspectionData {
-  background-color: #eaeaea;
+  background-color: #fff2f2;
   border: 1px solid #eaeaea;
   border-radius: 0px 0px 12px 12px;
   display: block;
+  margin-top: -10px;
 }
 .addonBlur {
   opacity: 0.5;

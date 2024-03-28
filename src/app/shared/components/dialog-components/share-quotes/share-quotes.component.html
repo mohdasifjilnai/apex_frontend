@@ -1,11 +1,11 @@
 <!-- Dialog title -->
 <form [formGroup]="shareQuotationForm">
   <!-- Dialog content -->
-  <div mat-dialog-content class="mt-2">
+  <div mat-dialog-content class="mt-2 share-quotes">
     <div class="d-flex justify-content-between">
       <div class="plans-name">
         <div class="header-share-text">Share selected quotes</div>
-        <div *ngFor="let value of data?.data">
+        <div *ngFor="let value of quotesData">
           <span class="header-sub-text">{{ value?.insurer_name }}, </span>
         </div>
       </div>

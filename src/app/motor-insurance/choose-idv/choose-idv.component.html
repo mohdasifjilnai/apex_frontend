@@ -164,14 +164,14 @@
               
             >
               <div class="d-flex justify-content-between mt-2">
-                <mat-radio-button value="min">Minimum IDV</mat-radio-button>
-                <div class="insurer">
+                <mat-radio-button value="min">Minimum IDV{{minIdv}}</mat-radio-button>
+                <div class="insurer" *ngIf="minIdv">
                   <span class="text-center">{{ minIdv | numberFormat }}</span>
                 </div>
               </div>
               <div class="d-flex justify-content-between mt-2">
                 <mat-radio-button value="max">Maximum IDV</mat-radio-button>
-                <div class="insurer">
+                <div class="insurer" *ngIf="maxIdv">
                   <span class="text-center">{{ maxIdv | numberFormat }}</span>
                 </div>
               </div>
@@ -179,8 +179,8 @@
                 <mat-radio-button value="choose"
                   >Choose IDV</mat-radio-button
                 >
-                <div class="insurer">
-                  <span class="text-center" *ngIf="amountShow">{{
+                <div class="insurer" *ngIf="amountShow">
+                  <span class="text-center" >{{
                     amountShow | numberFormat
                   }}</span>
                 </div>
