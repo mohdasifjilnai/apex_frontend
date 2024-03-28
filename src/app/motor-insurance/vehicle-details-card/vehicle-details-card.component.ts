@@ -46,7 +46,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   newNCB: any;
   inspectionValue: any;
   enableIdvCard = true;
-
+  breakIn = false;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -83,6 +83,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableIdvCard = false;
+      this.breakIn = idvData[0].is_breakin;
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
