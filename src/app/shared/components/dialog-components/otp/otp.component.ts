@@ -55,6 +55,7 @@ export class OtpComponent implements OnInit {
   communicationData: any;
   proposalId: any;
   quoteData: any;
+  breakIn: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     public dialogRef: MatDialogRef<OtpComponent>,
@@ -68,6 +69,8 @@ export class OtpComponent implements OnInit {
     this.proposalId = sessionStorage.getItem('proposal_Id');
     this.communicationData = data['sendCommunicationObject'];
     this.quoteData = sessionStorage.getItem('quotes_data');
+    this.breakIn = JSON.parse(this.quoteData)['is_breakin'];
+    
     if (JSON.parse(this.quoteData)['insurer_code'] == 'digit') {
       this.failureJSON['modalName'] = ErrorDialogComponent;
     } else {
@@ -135,7 +138,10 @@ export class OtpComponent implements OnInit {
             } else {
               this.dialogRef.close();
             }
-            if (generatedProposal.status) {
+            if (this.breakIn==true) {
+              this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/inspection`]);
+            }
+            else if (generatedProposal.status) {
               this.apiService
                 .getRequestedResponse(
                   `${ApiConstants['redirection_payment_getway']}${this.proposalId}`

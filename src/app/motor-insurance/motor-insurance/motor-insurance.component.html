@@ -133,7 +133,7 @@
           <div
             [ngClass]="{
               'col-12': !withoutVehicleNumber || isPolicyNumber,
-              'col-lg-4 col-md-6 col-12':
+              'col-lg-4 col-md-6 col-12 d-flex justify-content-center':
                 withoutVehicleNumber && !isPolicyNumber,
               'text-center': !withoutVehicleNumber || isPolicyNumber
             }"
@@ -144,7 +144,7 @@
             <button
               id-automation="getVehicleDetailsId"
               [ngClass]="{
-                'me-3': withoutVehicleNumber,
+                '': withoutVehicleNumber,
                 'disabled-btn mb-2': motorInsurance.invalid
               }"
               class="submit-btn vehicle-submission"

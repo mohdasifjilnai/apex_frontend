@@ -38,14 +38,12 @@ const routes: Routes = [
     },
   },
   {
-    path: 'quotes/inspection',
+    path: 'quotes/proposal/:transactionId/review/inspection',
     component: VehicleInspectionComponent,
     data: {
       breadcrumb: [
         { name: 'Motor Insurance', path: ['motor'] },
-        { name: 'Quotes Listing', path: ['motor/quotes'] },
-        { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
-        { name: 'Vehicle Inspection', path: [''] },
+       
       ],
     },
   },
@@ -53,11 +51,11 @@ const routes: Routes = [
     path: 'quotes/proposal/:transactionId/review',
     component: ProposalReviewComponent,
     data: {
-      breadcrumb: [
-        { name: 'Motor Insurance', path: ['motor'] },
-        { name: 'Quotes Listing', path: ['motor/quotes'] },
-        { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
-      ],
+      // breadcrumb: [
+      //   { name: 'Motor Insurance', path: ['motor'] },
+      //   { name: 'Quotes Listing', path: ['motor/quotes'] },
+      //   { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
+      // ],
     },
   },
   {

@@ -1,5 +1,6 @@
 .vehicle-number {
   position: relative;
+  width: 100%;
   ::ng-deep {
     .mat-form-field-infix {
       width: 300px !important;
