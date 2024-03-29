@@ -235,7 +235,11 @@
         type="submit"
         [disabled]="proposalVehilceDetailsForm.invalid"
       >
-        {{ vehicleType === "new" ? "Confirm & Review" : "Save & Continue" }}
+        {{
+          vehicleType === "new" || (isBreakIn && productTypeValue === "satp")
+            ? "Confirm & Review"
+            : "Save & Continue"
+        }}
       </button>
     </div>
   </div>

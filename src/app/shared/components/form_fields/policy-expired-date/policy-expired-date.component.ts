@@ -22,6 +22,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
   @Input() policyExpiryDate!: string;
+  @Input() isExpiryDateDisbaled: any;
   disablEexpiryDate = false;
   @Input() disablePreviousInsurer: any;
   @Input() formControlNameData: any;

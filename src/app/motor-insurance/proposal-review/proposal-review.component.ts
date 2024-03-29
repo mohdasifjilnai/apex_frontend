@@ -91,18 +91,7 @@ export class ProposalReviewComponent implements OnInit {
         this.generateProposal();
       }
     });
-    this.shareData.insurerDetails?.subscribe((res) => {
-      this.proposalData = res;
-      sessionStorage.setItem(
-        'transaction_id',
-        this.proposalData?.quote_response?.transaction_id
-      );
-      const quoteResponseToStore = this.proposalData.quote_response;
-      sessionStorage.setItem(
-        'quotes_data',
-        JSON.stringify(quoteResponseToStore)
-      );
-    });
+    this.getInsurerDetailsOnRedirection();
   }
   navigateToUrl(titleName: string) {
     if (this.proposalData) {
@@ -211,5 +200,43 @@ export class ProposalReviewComponent implements OnInit {
           this.shareData.getInsurerDetail(response);
         }
       });
+  }
+  /**
+   * Subscribes to the insurer details observable and stores the data in the component's state.
+   * This function is used to retrieve the insurer details from the backend and store them in the component's state.
+   * The insurer details are retrieved by subscribing to the insurer details observable and storing the data in the component's state.
+   **/
+  getInsurerDetailsOnRedirection() {
+    this.shareData.insurerDetails?.subscribe((res) => {
+      this.proposalData = res;
+
+      const transactionId = this.proposalData?.quote_response?.transaction_id;
+      if (transactionId) {
+        sessionStorage.setItem('transaction_id', transactionId);
+      }
+
+      const quoteResponseToStore = this.proposalData?.quote_response;
+      if (quoteResponseToStore) {
+        sessionStorage.setItem(
+          'quotes_data',
+          JSON.stringify(quoteResponseToStore)
+        );
+      }
+
+      const newVehicleType = this.proposalData?.quote_request?.business_type;
+      if (newVehicleType) {
+        sessionStorage.setItem('newVehicleType', newVehicleType);
+      }
+
+      const proposerType = this.proposalData?.quote_request?.customer_type;
+      if (proposerType) {
+        sessionStorage.setItem('proposerType', proposerType);
+      }
+
+      const productType = this.proposalData?.quote_request?.product_type;
+      if (productType) {
+        sessionStorage.setItem('productType', productType);
+      }
+    });
   }
 }

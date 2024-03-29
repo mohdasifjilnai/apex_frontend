@@ -44,6 +44,7 @@
         [policyExpiryDate]="'proposal-expiry-date'"
         [required]="true"
         [formControlNameData]="'policy_expiry_date'"
+        [isExpiryDateDisbaled]="'isExpiryDate'"
       ></app-policy-expired-date>
     </div>
     <hr *ngIf="isTpPolicyDetails" />
@@ -77,7 +78,7 @@
           formControlName="tp_policy_start_date"
           id-automation="tp_policy_start_date"
           (click)="tpPolicyStartDate.open()"
-          (keyup.enter)="EnterKey($event,tpPolicyStartDate)"
+          (keyup.enter)="EnterKey($event, tpPolicyStartDate)"
         />
         <mat-datepicker-toggle
           matSuffix

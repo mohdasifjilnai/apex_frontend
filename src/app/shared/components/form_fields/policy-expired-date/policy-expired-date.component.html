@@ -1,4 +1,10 @@
-<mat-form-field appearance="outline" [class]="policyExpiryDate">
+<mat-form-field
+  appearance="outline"
+  [class]="policyExpiryDate"
+  [ngClass]="{
+    isExpiryDate: isExpiryDateDisbaled
+  }"
+>
   <mat-label>Select Policy Expiry Date</mat-label>
   <input
     matInput

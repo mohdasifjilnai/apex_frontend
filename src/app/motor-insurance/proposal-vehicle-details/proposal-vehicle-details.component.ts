@@ -78,6 +78,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   vehicleType: any;
   pincodeData: any;
   mmvData: any;
+  productTypeValue: any;
+  isBreakIn: any;
 
   constructor(
     private apiservice: ApiService,
@@ -87,7 +89,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
-
+    this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
+    this.productTypeValue = sessionStorage.getItem('productType');
     this.mmvData = sessionStorage.getItem('mmv_data');
     const mmvItem = JSON.parse(this.mmvData);
     if (mmvItem) {
@@ -247,6 +250,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
              * Unsubscribe after navigation to avoid repeated navigation
              */
             this.proposalDetailsSubscription.unsubscribe();
+          } else if (
+            this.isBreakIn &&
+            this.productTypeValue === 'satp' &&
+            proposal.vehicle_details !== null
+          ) {
+            this.router.navigate([
+              `/motor/quotes/proposal/${this.transactionId}/review`,
+            ]);
           }
         });
     }

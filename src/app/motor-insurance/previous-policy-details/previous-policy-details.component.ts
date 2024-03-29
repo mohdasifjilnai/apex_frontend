@@ -23,6 +23,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   transactionId: any;
   proposalData: any;
   vehicleType: any;
+  quoteData: any;
+  vehicleMMVData: any;
+  vehicleMMVValue: any;
+  isExpiryDate: boolean = false;
   isTpPolicyDetails: boolean = false;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
@@ -57,6 +61,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactionId = sessionStorage.getItem('transaction_id');
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (this.proposalData.previous_policy_details !== null) {
@@ -112,6 +117,26 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               }
             });
         }
+      } else {
+        this.apiservice
+          .getRequestedResponse(ApiConstants.get_previous_insurer)
+          .subscribe((response: any) => {
+            for (let insurer of response) {
+              if (insurer?.rb_insurer_code === this.quoteData?.insurer_code) {
+                this.previousPolicyDetailsForm.patchValue({
+                  previous_insurer: insurer,
+                });
+              }
+            }
+          });
+        this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+        this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+        if (this.vehicleMMVValue?.policy_expiry_date) {
+          this.isExpiryDate = true;
+          this.previousPolicyDetailsForm.patchValue({
+            policy_expiry_date: this.vehicleMMVValue?.policy_expiry_date,
+          });
+        }
       }
     });
     this.vehicleType = sessionStorage.getItem('newVehicleType');
@@ -119,7 +144,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.isDisabledPreviousPolicyDetails = true;
     }
     let productTypeValue = sessionStorage.getItem('productType');
-    if (productTypeValue === 'saod') {
+    if (
+      (this.quoteData?.is_breakin && productTypeValue === 'saod') ||
+      (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
+    ) {
       this.isTpPolicyDetails = true;
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')

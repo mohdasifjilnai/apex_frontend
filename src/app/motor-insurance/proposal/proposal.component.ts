@@ -40,6 +40,9 @@ export class ProposalComponent implements OnInit {
   accordianExpanded: string = 'ckyc';
   quoteData: any;
   reviewData: any;
+  vehicleMMVData: any;
+  vehicleMMVValue: any;
+  productTypeValue: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -52,8 +55,11 @@ export class ProposalComponent implements OnInit {
     this.sharedData.createProposalId();
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
+    this.productTypeValue = sessionStorage.getItem('productType');
     this.reviewData = this.sharedData.getProposalReviewDetails;
     if (this.vehicleType === 'new') {
+      this.isNotShowInNewPolicyDetails = false;
+    } else if (this.quoteData?.is_breakin && this.productTypeValue === 'satp') {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
@@ -195,8 +201,8 @@ export class ProposalComponent implements OnInit {
           this.accordianExpanded = 'vehicleDetails';
         }
       } else if (
-        proposal.vehicle_details !== null &&
-        this.vehicleType !== 'new'
+        (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
+        (this.quoteData?.is_breakin && this.productTypeValue === 'satp')
       ) {
         if (this.reviewData === 'vehicleDetailPanel') {
           this.showPreviousPolicyDetails = true;
@@ -218,5 +224,10 @@ export class ProposalComponent implements OnInit {
         this.accordianExpanded = 'vehicleOwnerDetails';
       }
     });
+    // this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+    // if (this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') {
+
+    // }
   }
 }
