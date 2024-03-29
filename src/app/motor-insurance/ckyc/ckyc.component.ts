@@ -56,7 +56,8 @@ export class CkycComponent implements OnInit {
     classObtained: 'wait-ckyc-verification-class',
   };
   ckycData: any;
-  isProposerTrue: boolean=true;
+  isProposerTrue: boolean = true;
+  isCkycDone: boolean=false;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -105,10 +106,13 @@ export class CkycComponent implements OnInit {
     if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
-    this.proposerType=='individual'? this.isProposerTrue=true:this.isProposerTrue=false
+    this.proposerType == 'individual'
+      ? (this.isProposerTrue = true)
+      : (this.isProposerTrue = false);
     this.getDocumentType();
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
+        this.isCkycDone=true
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
           document_type_based_field: proposal?.ckyc_details?.document_type,
@@ -116,6 +120,7 @@ export class CkycComponent implements OnInit {
           dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
+          ckyc_download_data:true
         });
       }
     });
@@ -241,7 +246,10 @@ export class CkycComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${this.quoteData?.insurer_code}&is_individual=${this.isProposerTrue}&is_corporate=${!this.isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
+        `${ApiConstants.document_type}?insurer_code=${
+          this.quoteData?.insurer_code
+        }&is_individual=${this.isProposerTrue}&is_corporate=${!this
+          .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
       )
       .subscribe((res) => {
         this.documentList = res;
@@ -290,6 +298,7 @@ export class CkycComponent implements OnInit {
 
     this.matDialog.openDialog(obj).subscribe((data) => {
       if (!data['error']) {
+        this.isCkycDone=true
         this.afterProceedGetData.emit(data);
         this.sharedDataService.kycFetched(data);
       }

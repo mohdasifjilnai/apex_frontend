@@ -136,11 +136,22 @@ export class ManufactureDateComponent implements OnInit {
       this.registrationDate = new Date(data);
 
       if (this.registrationNumber === null) {
-        this.setMinMaxDates(15);
+        const minDateYear = this.registrationDate.getFullYear() - 14;
+        const minDateMonth = this.registrationDate.getMonth();
+        const minDateDay = this.registrationDate.getDate();
+        this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
+        // this.setMinMaxDates(15);
       } else if (/^[A-Za-z]/.test(this.registrationNumber)) {
-        this.setMinMaxDates(15);
+        const minDateYear = this.registrationDate.getFullYear() - 2;
+        const minDateMonth = this.registrationDate.getMonth();
+        const minDateDay = this.registrationDate.getDate();
+        this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
+        // this.setMinMaxDates(15);
       } else if (/^[0-9]/.test(this.registrationNumber)) {
-        this.setMinMaxDates(3);
+        const minDateYear = this.registrationDate.getFullYear() - 14;
+        const minDateMonth = this.registrationDate.getMonth();
+        const minDateDay = this.registrationDate.getDate();
+        this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
       }
     });
   }

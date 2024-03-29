@@ -177,7 +177,12 @@ export class QuotesListingComponent implements OnInit {
         this.renderer.removeClass(document.body, 'dropdown-focus');
       }
     });
-    this.startProgress(0);
+    let popupData = sessionStorage.getItem('vehiclePopup');
+    if(popupData){
+      this.progressValue=0
+      this.startProgress(0);
+    }
+    
     this.sharedDataService.getProgressValue.subscribe((res) => {
       this.progressValue = 0;
       this.startProgress(res);
@@ -671,7 +676,7 @@ export class QuotesListingComponent implements OnInit {
         // Use the position value as needed, for example, update the style of an element
         const translatedX = this.getImagePosition();
       }
-    }, 500); // Interval of 1 second
+    }, 500);
   }
   getImagePosition(): string {
     if (window.innerWidth <= 999) {

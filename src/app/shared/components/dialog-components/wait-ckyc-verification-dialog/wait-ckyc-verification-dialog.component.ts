@@ -39,7 +39,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   document_url: any;
   fileName: any = 'Upload Document';
   proposerType: any;
-  isProposerTrue: boolean=true;
+  isProposerTrue: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -54,7 +54,9 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
     this.proposerType = sessionStorage.getItem('proposerType');
-    this.proposerType=='individual'? this.isProposerTrue=true:this.isProposerTrue=false
+    this.proposerType == 'individual'
+      ? (this.isProposerTrue = true)
+      : (this.isProposerTrue = false);
   }
 
   ngOnInit(): void {
@@ -125,7 +127,10 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${this.ckycBody?.insurer_code}&is_individual=${this.isProposerTrue}&is_corporate=${!this.isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`
+        `${ApiConstants.document_type}?insurer_code=${
+          this.ckycBody?.insurer_code
+        }&is_individual=${this.isProposerTrue}&is_corporate=${!this
+          .isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`
       )
       .subscribe((res) => {
         this.documentList = res;
@@ -199,7 +204,10 @@ Event handler for when a file is selected.
  */
   onFileSelected(event: any): void {
     const selectedFile: File = event.target.files[0];
-    this.fileName = selectedFile.name;
+    this.fileName =
+      selectedFile.name.length > 30
+        ? selectedFile.name.substring(0, 30) + '...'
+        : selectedFile.name;
     let formData: FormData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);
     this.apiService

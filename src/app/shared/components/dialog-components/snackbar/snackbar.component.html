@@ -14,3 +14,19 @@
 
   <span>{{ data.message }}</span>
 </div>
+<div [@slideInFromRight]="true" class="res-snackbar">
+  <img
+    *ngIf="data?.success"
+    src="/assets/icon/success.svg"
+    alt="Image"
+    class="success-img me-2"
+  />
+  <img
+    *ngIf="!data?.success"
+    src="/assets/icon/payment-failure.svg"
+    alt="Image"
+    class="success-img me-2"
+  />
+
+  <span>{{ data.message }}</span>
+</div>

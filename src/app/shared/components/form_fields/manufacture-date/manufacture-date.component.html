@@ -15,11 +15,10 @@
     id-automation="manufacture_date"
     appMmYyyyformat
     [min]="minDate"
-    [max]="maxDate"
-    [max]="maxManufactureDate"
+    [max]="registrationDate"
     [readonly]="true"
     (click)="manufactureDate.open()"
-    (keyup.enter)="EnterKey($event,manufactureDate)"
+    (keyup.enter)="EnterKey($event, manufactureDate)"
     [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
   />
   <mat-datepicker-toggle

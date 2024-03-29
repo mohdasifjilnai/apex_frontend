@@ -17,19 +17,32 @@
           alt="logo"
         />
       </a>
-      <div class="trace-id" *ngIf="isTracId">
-        <div class="d-flex justify-content-between">
-          <span>Trace ID: {{ transactionId }}</span>
-          <img
-            src="assets/icon/copy.svg"
-            alt="logo"
-            (click)="copyMessage(transactionId)"
-            class="cursor-pointer"
-            [matTooltip]="isCopied ? 'Copied!' : 'Copy To Clipboard'"
-            mat-raised-button
-          />
+      <div >
+        <div class="d-flex pt-2">
+          <div class="helpline me-2">
+            <div class="d-flex">
+              <img
+                src="assets/icon/helpline.svg"
+                alt="logo"
+                class="cursor-pointer me-2"
+              />
+              <span >Helpline: 18004197852</span>
+            </div>
+          </div>
+          <div class="trace-id d-flex justify-content-between" *ngIf="isTracId">
+            <span>Trace ID: {{ transactionId }}</span>
+            <img
+              src="assets/icon/copy.svg"
+              alt="logo"
+              (click)="copyMessage(transactionId)"
+              class="cursor-pointer ms-2"
+              [matTooltip]="isCopied ? 'Copied!' : 'Copy To Clipboard'"
+              mat-raised-button
+            />
+          </div>
         </div>
       </div>
+
       <!-- Display the message when text is copied -->
       <!-- <div *ngIf="isCopied" class="copied-message">Copied!</div> -->
     </div>
