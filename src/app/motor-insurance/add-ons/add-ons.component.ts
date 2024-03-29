@@ -642,13 +642,21 @@ export class AddOnsComponent implements OnInit {
       for (const addons of this.addOnsArray) {
         if (addons['rb_type'] == 'cpa') {
           for (const key in addons?.fe_template) {
-            if (index == 0) {
-              if (addons.fe_template.hasOwnProperty(key)) {
-                addons.fe_template[1].checked = false;
+            if (addons?.fe_template.length > 1) {
+              if (index == 0) {
+                if (addons.fe_template.hasOwnProperty(key)) {
+                  addons.fe_template[1].checked = false;
+                }
+              } else if (index == 1) {
+                if (addons.fe_template.hasOwnProperty(0)) {
+                  addons.fe_template[0].checked = false;
+                }
               }
-            } else if (index == 1) {
-              if (addons.fe_template.hasOwnProperty(0)) {
-                addons.fe_template[0].checked = false;
+            } else {
+              if (index == 0) {
+                if (addons.fe_template.hasOwnProperty(key)) {
+                  addons.fe_template[0].checked = isChecked;
+                }
               }
             }
           }

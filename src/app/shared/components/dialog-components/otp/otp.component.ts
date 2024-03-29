@@ -70,7 +70,7 @@ export class OtpComponent implements OnInit {
     this.communicationData = data['sendCommunicationObject'];
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.breakIn = JSON.parse(this.quoteData)['is_breakin'];
-    
+
     if (JSON.parse(this.quoteData)['insurer_code'] == 'digit') {
       this.failureJSON['modalName'] = ErrorDialogComponent;
     } else {
@@ -138,19 +138,27 @@ export class OtpComponent implements OnInit {
             } else {
               this.dialogRef.close();
             }
-            if (this.breakIn==true) {
-              this.router.navigate([`motor/quotes/proposal/${this.transactionId}/review/inspection`]);
-            }
-            else if (generatedProposal.status) {
-              this.apiService
-                .getRequestedResponse(
-                  `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
-                )
-                .subscribe((payment_getway_response) => {
-                  if (payment_getway_response['url']) {
-                    window.location.href = payment_getway_response['url'];
-                  }
-                });
+
+            if (generatedProposal.status) {
+              if (generatedProposal.is_breakin) {
+                sessionStorage.setItem(
+                  'breakIn',
+                  JSON.stringify(generatedProposal)
+                );
+                this.router.navigate([
+                  `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                ]);
+              } else {
+                this.apiService
+                  .getRequestedResponse(
+                    `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+                  )
+                  .subscribe((payment_getway_response) => {
+                    if (payment_getway_response['url']) {
+                      window.location.href = payment_getway_response['url'];
+                    }
+                  });
+              }
             } else {
               this.loader = false;
               this.openFailurePopup(generatedProposal);

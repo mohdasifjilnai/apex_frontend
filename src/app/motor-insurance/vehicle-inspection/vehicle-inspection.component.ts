@@ -8,8 +8,12 @@ import { Router } from '@angular/router';
 })
 export class VehicleInspectionComponent implements OnInit {
   constructor(public router: Router) {}
-
-  ngOnInit(): void {}
+  inspection: any;
+  inspectionList: any;
+  ngOnInit(): void {
+    this.inspection = sessionStorage.getItem('breakIn');
+    this.inspectionList = JSON.parse(this.inspection);
+  }
   back() {
     this.router.navigate(['/motor/quotes/proposal']);
   }
