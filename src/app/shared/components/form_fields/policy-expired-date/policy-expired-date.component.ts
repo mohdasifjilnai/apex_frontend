@@ -69,7 +69,7 @@ export class PolicyExpiredDateComponent implements OnInit {
 
     const currentDate = new Date();
     const minDateOffset = -20; // Subtract 20 years from current date
-    const maxDateOffset = 90; //add days to current date
+    const maxDateOffset = 45; //add days to current date
     this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
   }
@@ -143,6 +143,6 @@ export class PolicyExpiredDateComponent implements OnInit {
     return result;
   }
   EnterKey(event: Event) {
-    this.sharedDataService.handleEnterKey(event,this.expiryDate)
+    this.sharedDataService.handleEnterKey(event, this.expiryDate);
   }
 }
