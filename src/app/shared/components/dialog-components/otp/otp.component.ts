@@ -161,9 +161,10 @@ export class OtpComponent implements OnInit {
               }
             } else {
               this.loader = false;
-              this.openFailurePopup(generatedProposal);
             }
-          });
+      },(error) => {
+                      this.loader = false;
+});
       }
     });
   }

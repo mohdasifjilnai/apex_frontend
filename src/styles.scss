@@ -154,12 +154,8 @@ th.mat-header-cell:last-of-type {
     max-width: 0% !important;
     min-width: 0% !important;
   }
-  .cdk-global-overlay-wrapper {
-    align-items: flex-end !important;
-  }
   .wait-ckyc-verification-class {
     margin: auto !important;
-    margin-top: 50% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
     .mat-dialog-container {
@@ -644,7 +640,7 @@ input.mat-input-element {
   }
 }
 .warn-details-class {
-  margin-left: 36%;
+  // margin-left: 36%;
   margin-top: 5% !important;
   overflow: none !important;
   .mat-dialog-container {
@@ -672,7 +668,7 @@ input.mat-input-element {
   margin-top: 10% !important;
   .mat-dialog-container {
     border-radius: 30px !important;
-    width: 40% !important;
+    // width: 40% !important;
   }
 }
 .my-custom-snackbar {

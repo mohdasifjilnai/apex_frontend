@@ -95,6 +95,17 @@
             <div
               class="col-lg-4 col-md-6 col-12"
               *ngIf="withoutVehicleNumber && isResponsive()"
+              [@slideUp]
+            >
+              <app-policy-expired-date
+              [policyExpiryDate]="'expiry-date'"
+              *ngIf="!disableInsurer"
+              [formControlNameData]="'policy_expiry_date'"
+              ></app-policy-expired-date>
+            </div>
+            <div
+              class="col-lg-4 col-md-6 col-12"
+              *ngIf="withoutVehicleNumber && isResponsive()"
               [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
               [@slideUp]
             >

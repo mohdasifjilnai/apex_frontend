@@ -98,7 +98,15 @@
           <div class="d-grid">
             <span class="step-text">Step 1/5</span>
             <span class="step-header-text">CKYC Details</span>
-            <img src="/assets/icon/stepper-1.svg" alt="" class="stepper-icon" />
+            <div class="d-flex justify-content-between mt-1">
+              <span class="stepper-1 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+            </div>
+
+            <!-- <img src="/assets/icon/stepper-1.svg" alt="" class="stepper-icon" /> -->
           </div>
         </div>
       </div>
@@ -116,13 +124,20 @@
           <div class="d-grid">
             <span class="step-text">Step 2/5</span>
             <span class="step-header-text">Vehicle Owner Details</span>
-            <img src="/assets/icon/stepper-2.svg" alt="" class="stepper-icon" />
+            <div class="d-flex justify-content-between mt-1">
+              <span class="stepper-0 me-2"></span>
+              <span class="stepper-1 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+            </div>
           </div>
         </div>
       </div>
       <hr />
       <div class="row mb-5">
         <app-vehicle-owner-details
+          [fetchCkycData]="proceedData"
           (afterVehicleOwnerData)="vehicleOwnerDetailsData($event)"
         ></app-vehicle-owner-details>
       </div>
@@ -136,7 +151,13 @@
           <div class="d-grid">
             <span class="step-text">Step 3/5</span>
             <span class="step-header-text">Nominee Details</span>
-            <img src="/assets/icon/stepper-3.svg" alt="" class="stepper-icon" />
+            <div class="d-flex justify-content-between mt-1">
+              <span class="stepper-1 me-2"></span>
+              <span class="stepper-1 me-2"></span>
+              <span class="stepper-1 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+              <span class="stepper-2 me-2"></span>
+            </div>
           </div>
         </div>
       </div>

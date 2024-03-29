@@ -57,7 +57,7 @@ export class CkycComponent implements OnInit {
   };
   ckycData: any;
   isProposerTrue: boolean = true;
-  isCkycDone: boolean=false;
+  isCkycDone: boolean = false;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -112,7 +112,7 @@ export class CkycComponent implements OnInit {
     this.getDocumentType();
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
-        this.isCkycDone=true
+        this.isCkycDone = true;
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
           document_type_based_field: proposal?.ckyc_details?.document_type,
@@ -120,7 +120,6 @@ export class CkycComponent implements OnInit {
           dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
-          ckyc_download_data:true
         });
       }
     });
@@ -297,8 +296,11 @@ export class CkycComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj).subscribe((data) => {
+      if(data==undefined){
+        this.isCkycDone = false;
+      }
       if (!data['error']) {
-        this.isCkycDone=true
+        this.isCkycDone = true;
         this.afterProceedGetData.emit(data);
         this.sharedDataService.kycFetched(data);
       }

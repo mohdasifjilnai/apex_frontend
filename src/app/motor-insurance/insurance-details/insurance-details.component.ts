@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
@@ -172,8 +172,11 @@ export class InsuranceDetailsComponent implements OnInit {
   changeInsurer() {
     this.router.navigate(['/motor/quotes']);
   }
-  premiumBreakup() {
-    this.bottomSheet.open(PremiumBreakupComponent);
+  premiumBreakup(quoteData:any) {
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: quoteData,
+    };
+    this.bottomSheet.open(PremiumBreakupComponent,bottomSheetConfig);
   }
   getVehicleMMVPopup(productType: any, mmvId: any) {
     let apiData;

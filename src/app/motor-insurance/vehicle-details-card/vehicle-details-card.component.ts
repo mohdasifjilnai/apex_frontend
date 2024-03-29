@@ -47,6 +47,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   inspectionValue: any;
   enableIdvCard = true;
   breakIn = false;
+  vehicleInspectionMessage: any;
+  vehicleMMVData: any;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -67,6 +69,11 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
     this.vehiclePopupList = sessionStorage.getItem('mmv_data');
+    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    let policy_expiry_date = JSON.parse(
+      this.vehicleMMVData
+    )?.policy_expiry_date;
+    
     let vehicleCard = JSON.parse(this.vehiclePopupList);
     if (vehicleCard) {
       this.vehicleCardData(vehicleCard);
@@ -83,8 +90,25 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableIdvCard = false;
-      if (idvData.length > 0) {
-        this.breakIn = idvData[0]?.is_breakin;
+      let quotationArray = idvData;
+      for (let i = 0; i <= quotationArray.length - 1; i++) {
+        if (
+          quotationArray[i]['status'] &&
+          quotationArray[i]['is_breakin'] &&
+          policy_expiry_date != 'Not Sure'
+        ) {
+          this.vehicleInspectionMessage =
+            'Vehicle inspection is required as your previous policy is expired';
+          this.breakIn = true;
+        }
+        else if(quotationArray[i]['status'] &&
+        quotationArray[i]['is_breakin'] &&
+        policy_expiry_date == 'Not Sure'){
+              this.vehicleInspectionMessage =
+        'Vehicle inspection is required as your previous policy is not available';
+        this.breakIn = true;
+      
+        }
       }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
