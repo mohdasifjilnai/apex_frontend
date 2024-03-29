@@ -140,7 +140,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
     let productTypeValue = sessionStorage.getItem('productType');
     if (
-      (this.quoteData?.is_breakin && productTypeValue === 'saod') ||
+      this.quoteData?.is_breakin ||
+      productTypeValue === 'saod' ||
       (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
     ) {
       this.isTpPolicyDetails = true;
