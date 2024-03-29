@@ -125,6 +125,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               if (insurer?.rb_insurer_code === this.quoteData?.insurer_code) {
                 this.previousPolicyDetailsForm.patchValue({
                   previous_insurer: insurer,
+                  tp_insurance_company: insurer,
                 });
               }
             }
