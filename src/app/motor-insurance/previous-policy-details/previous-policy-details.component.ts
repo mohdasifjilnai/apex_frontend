@@ -118,24 +118,18 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             });
         }
       } else {
-        this.apiservice
-          .getRequestedResponse(ApiConstants.get_previous_insurer)
-          .subscribe((response: any) => {
-            for (let insurer of response) {
-              if (insurer?.rb_insurer_code === this.quoteData?.insurer_code) {
-                this.previousPolicyDetailsForm.patchValue({
-                  previous_insurer: insurer,
-                  tp_insurance_company: insurer,
-                });
-              }
-            }
-          });
         this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
         this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
         if (this.vehicleMMVValue?.policy_expiry_date) {
           this.isExpiryDate = true;
           this.previousPolicyDetailsForm.patchValue({
             policy_expiry_date: this.vehicleMMVValue?.policy_expiry_date,
+          });
+        }
+        if (this.vehicleMMVValue?.previous_insurer) {
+          this.previousPolicyDetailsForm.patchValue({
+            previous_insurer: this.vehicleMMVValue?.previous_insurer,
+            tp_insurance_company: this.vehicleMMVValue?.previous_insurer,
           });
         }
       }
