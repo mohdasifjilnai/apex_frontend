@@ -10,22 +10,22 @@ export class RegistrationNumberDirective {
   @HostListener('input', ['$event']) onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value = input.value;
+    if (sessionStorage.getItem('registration_form_isValid') === 'false') {
+      // Remove existing hyphens
+      const sanitizedValue = value.replace(/-/g, '');
 
-    // Remove existing hyphens
-    const sanitizedValue = value.replace(/-/g, '');
-
-    if (sanitizedValue.length < 7) {
-      const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
-      value = formattedValue.replace(/-$/, '');
-    } else {
-      // Add hyphen between consecutive numbers or letters after the 4th character
-      const prefix = sanitizedValue.substring(0, 2);
-      const prefix2 = sanitizedValue.substring(2, 4);
-      const postfix = sanitizedValue.substring(4);
-      const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
-      value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
+      if (sanitizedValue.length < 7) {
+        const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
+        value = formattedValue.replace(/-$/, '');
+      } else {
+        // Add hyphen between consecutive numbers or letters after the 4th character
+        const prefix = sanitizedValue.substring(0, 2);
+        const prefix2 = sanitizedValue.substring(2, 4);
+        const postfix = sanitizedValue.substring(4);
+        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
+        value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
+      }
     }
-
     // Update the input value
     input.value = value;
   }

@@ -178,11 +178,11 @@ export class QuotesListingComponent implements OnInit {
       }
     });
     let popupData = sessionStorage.getItem('vehiclePopup');
-    if(popupData){
-      this.progressValue=0
+    if (popupData) {
+      this.progressValue = 0;
       this.startProgress(0);
     }
-    
+
     this.sharedDataService.getProgressValue.subscribe((res) => {
       this.progressValue = 0;
       this.startProgress(res);

@@ -16,6 +16,7 @@
     [ngClass]="{
       isRegistrationNumber: isRegistrationNumber
     }"
+    class="uppercase-input"
   />
   <mat-error *ngIf="form.controls['registration_number']?.hasError('required')">
     This is a required field.

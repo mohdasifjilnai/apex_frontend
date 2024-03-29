@@ -308,20 +308,21 @@ export class MotorInsuranceComponent implements OnInit {
   getVehicleDetailsInfo() {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
 
-    const regn_no = this.motorInsurance.controls['registration_number']?.value;
+    const regn_no =
+      this.motorInsurance.controls['registration_number']?.value.toUpperCase();
 
     if (regn_no) {
       sessionStorage.setItem('registrationNumber', `${regn_no}`);
 
       this.sharedDataService.vehicleDetails('registrationNumber');
       this.sharedDataService.regNumberData.subscribe((numberData) => {
-        if(numberData){
-          this.loader=false
+        if (numberData) {
+          this.loader = false;
         }
       });
       this.sharedDataService.detailNotFound.subscribe((numberData) => {
-        if(numberData){
-          this.loader=false
+        if (numberData) {
+          this.loader = false;
         }
       });
     }
