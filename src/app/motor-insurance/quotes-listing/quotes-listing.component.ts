@@ -155,15 +155,6 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
-        // for (const item of this.quotationData) {
-        //   if (item.premium_details && item?.premium_details?.idv > 5000000) {
-        //     this.isIdvGreaterThan50Lac = true;
-        //     break;
-        //   }
-        // }
-        // if (this.isIdvGreaterThan50Lac) {
-        //   this.openNonPOSPopup(null);
-        // }
       }
     });
 

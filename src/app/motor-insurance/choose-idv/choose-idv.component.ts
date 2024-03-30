@@ -151,7 +151,12 @@ export class ChooseIDVComponent implements OnInit {
   }
   cancelIdv() {
     this.selectedIDVOption = '';
-    sessionStorage.removeItem('idvData');
+    let idvData = sessionStorage.getItem('idvData');
+    if (idvData) {
+      sessionStorage.removeItem('idvData');
+      this.idvBaseQuotes();
+    }
+
     this.clearIdvButton = false;
     this.updateIdvButton = false;
   }
