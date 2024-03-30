@@ -5,10 +5,94 @@
 >
   <div class="row mt-3">
     <div class="col-lg-4 col-md-6 col-12">
-      <app-registration-number
+      <div
+        class="input-group registration-number-input-wrap"
+        [ngClass]="{
+          'error-border':
+            proposalVehilceDetailsForm.controls[
+              'registration_number_last_digit'
+            ].touched &&
+            this.proposalVehilceDetailsForm.controls[
+              'registration_number_last_digit'
+            ].invalid
+        }"
+      >
+        <input
+          type="text"
+          aria-label="Registration number first"
+          class="registration-number-first"
+          formControlName="registration_number_first"
+          readonly
+        />
+        <input
+          type="text"
+          aria-label="Registration number second"
+          class="registration-number-second"
+          formControlName="registration_number_second"
+          readonly
+        />
+        <input
+          type="text"
+          aria-label="Registration number digit"
+          class="form-control registration-number-last-digit capitalize-text"
+          placeholder="Enter Reg. Number"
+          formControlName="registration_number_last_digit"
+          maxlength="10"
+          (input)="addHyphen($event)"
+        />
+      </div>
+      <ng-container
+        *ngIf="
+          proposalVehilceDetailsForm.controls['registration_number_last_digit']
+            ?.touched
+        "
+      >
+        <div
+          class="mt-1 error"
+          *ngIf="
+            proposalVehilceDetailsForm.controls[
+              'registration_number_last_digit'
+            ]?.hasError('required')
+          "
+        >
+          This is a required field.
+        </div>
+        <div
+          class="mt-1 error"
+          *ngIf="
+            proposalVehilceDetailsForm
+              .get('registration_number_last_digit')
+              ?.hasError('minlength')
+          "
+        >
+          Minimum length 8
+        </div>
+        <div
+          class="mt-1 error"
+          *ngIf="
+            proposalVehilceDetailsForm
+              .get('registration_number_last_digit')
+              ?.hasError('maxlength')
+          "
+        >
+          Max Length 11
+        </div>
+        <div
+          class="mt-1 error"
+          *ngIf="
+            proposalVehilceDetailsForm
+              .get('registration_number_last_digit')
+              ?.hasError('pattern')
+          "
+        >
+          Invalid Registration Number
+        </div>
+      </ng-container>
+
+      <!-- <app-registration-number
         [required]="true"
         [registrationNumber]="'proposal-registration-number'"
-      ></app-registration-number>
+      ></app-registration-number> -->
     </div>
     <div class="col-lg-4 col-md-6 col-12">
       <app-engine-number [required]="true"></app-engine-number>

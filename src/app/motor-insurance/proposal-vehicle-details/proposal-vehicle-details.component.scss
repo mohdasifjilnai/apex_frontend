@@ -8,6 +8,35 @@
   font-size: 14px;
   font-weight: 600;
 }
-::ng-deep .mat-form-field{
+::ng-deep .mat-form-field {
   width: 100%;
+}
+.registration-number-input-wrap {
+  height: 51px;
+  position: relative;
+  top: 6px;
+}
+.registration-number-first {
+  width: 40px;
+  border: 1px solid #dee2e6;
+  border-radius: 7px 0px 0px 7px;
+  background-color: #e9ecef;
+}
+.registration-number-second {
+  width: 40px;
+  border: 1px solid #dee2e6;
+  background-color: #e9ecef;
+}
+.capitalize-text {
+  text-transform: uppercase;
+}
+.error {
+  color: #f44336;
+}
+.error-border {
+  border: 1px solid #f44336;
+  border-radius: 9px;
+}
+.registration-number-last-digit:disabled {
+  color: rgb(0 0 0 / 54%);
 }

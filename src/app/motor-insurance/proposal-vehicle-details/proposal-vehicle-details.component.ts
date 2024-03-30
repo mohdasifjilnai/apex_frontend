@@ -7,7 +7,12 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import {
@@ -46,33 +51,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isRegistrationDateDisbaled: boolean = false;
   isRegistrationNumber: boolean = false;
   quoteData: any;
-  proposalVehilceDetailsForm: FormGroup = new FormGroup({
-    registration_number: new FormControl(''),
-    vehicle_colour: new FormControl(''),
-    engine_number: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z0-9]+$/),
-    ]),
-    chassis_number: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
-      ),
-      Validators.minLength(17),
-      Validators.maxLength(25),
-    ]),
-    registration_date: new FormControl('', Validators.required),
-    manufacture_date: new FormControl('', Validators.required),
-    vehicle_pincode: new FormControl('', Validators.required),
-    vehilce_city: new FormControl('', Validators.required),
-    vehicle_state: new FormControl('', Validators.required),
-    financer: new FormControl(''),
-    agreement_type: new FormControl(''),
-    financer_city: new FormControl(''),
-    is_financed: new FormControl(''),
-    vehicle_registration_address: new FormControl('', Validators.required),
-    is_vehicle_address: new FormControl(''),
-  });
+  proposalVehilceDetailsForm!: FormGroup;
   isChecked: any;
   isFinancedChecked: any;
   vehicleType: any;
@@ -84,9 +63,49 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
-    private router: Router
-  ) {}
-
+    private router: Router,
+    private formBuild: FormBuilder
+  ) {
+    this.proposalForm();
+  }
+  /**
+   * Initializes the form group with the appropriate controls and validators.
+   */
+  proposalForm() {
+    this.proposalVehilceDetailsForm = this.formBuild.group({
+      registration_number: [''],
+      vehicle_colour: [''],
+      engine_number: [
+        '',
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
+      ],
+      chassis_number: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
+          ),
+          Validators.minLength(17),
+          Validators.maxLength(25),
+        ],
+      ],
+      registration_date: ['', Validators.required],
+      manufacture_date: ['', Validators.required],
+      vehicle_pincode: ['', Validators.required],
+      vehilce_city: ['', Validators.required],
+      vehicle_state: ['', Validators.required],
+      financer: [''],
+      agreement_type: [''],
+      financer_city: [''],
+      is_financed: [''],
+      vehicle_registration_address: ['', Validators.required],
+      is_vehicle_address: [''],
+      registration_number_first: [''],
+      registration_number_second: [''],
+      registration_number_last_digit: [''],
+    });
+  }
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
@@ -103,6 +122,23 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm.patchValue({
         registration_date: mmvItem?.registration_date,
         manufacture_date: mmvItem?.manufacture_date,
+        registration_number_first: this.divideString(
+          mmvItem?.registration_city?.rb_rto_code
+        )[0],
+        registration_number_second: this.divideString(
+          mmvItem?.registration_city?.rb_rto_code
+        )[1],
+      });
+      this.proposalVehilceDetailsForm
+        .get('registration_number_first')
+        ?.disable();
+      this.proposalVehilceDetailsForm
+        .get('registration_number_second')
+        ?.disable();
+    }
+    if (sessionStorage.getItem('registrationNumber')) {
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_number: sessionStorage.getItem('registrationNumber'),
       });
     }
     this.shareData.getProposalDetails.subscribe((proposal) => {
@@ -149,6 +185,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: proposal?.vehicle_details?.registration_no,
+          registration_number_first:
+            proposal?.vehicle_details?.registration_no.split('-')[0],
+          registration_number_second:
+            proposal?.vehicle_details?.registration_no.split('-')[1],
+          registration_number_last_digit:
+            proposal?.vehicle_details?.registration_no.split('-')[2] +
+            '-' +
+            proposal?.vehicle_details?.registration_no.split('-')[3],
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
@@ -198,6 +242,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('registration_number')
         ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('registration_number_last_digit')
+        ?.setValidators([Validators.minLength(4), Validators.maxLength(10)]);
     } else {
       this.proposalVehilceDetailsForm
         .get('registration_number')
@@ -205,13 +252,34 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('registration_number')
         ?.updateValueAndValidity();
+      this.proposalVehilceDetailsForm
+        .get('registration_number_last_digit')
+        ?.setValidators([
+          Validators.required,
+          this.registrationNumberCheckLength.bind(this),
+        ]);
+      this.proposalVehilceDetailsForm
+        .get('registration_number_last_digit')
+        ?.updateValueAndValidity();
     }
     let regNumber = sessionStorage.getItem('registrationNumber');
     if (regNumber) {
       this.isRegistrationNumber = true;
       this.proposalVehilceDetailsForm.patchValue({
-        registration_number: regNumber,
+        registration_number_first: regNumber.split('-')[0],
+        registration_number_second: regNumber.split('-')[1],
+        registration_number_last_digit:
+          regNumber.split('-')[2] + '-' + regNumber.split('-')[3],
       });
+      this.proposalVehilceDetailsForm
+        .get('registration_number_first')
+        ?.disable();
+      this.proposalVehilceDetailsForm
+        .get('registration_number_second')
+        ?.disable();
+      this.proposalVehilceDetailsForm
+        .get('registration_number_last_digit')
+        ?.disable();
     }
     this.getPincodeList();
     this.getAgreementList();
@@ -470,5 +538,89 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       const enteredPincode = vehiclePincodeControl.value;
       this.getSepratedPincodeData(enteredPincode);
     }
+  }
+  /**
+   * Checks the length of a registration number and ensures it meets the minimum and maximum requirements.
+   *
+   * @param control - The FormControl to be validated.
+   * @returns An object containing any validation errors or null if the control is valid.
+   */
+  registrationNumberCheckLength(control: FormControl) {
+    if (!control.value || typeof control.value !== 'string') {
+      return null; // Don't validate if the control is empty or not a string
+    }
+    const valueToCheck = control.value.replace(/-/g, '');
+    const minLength = 4;
+    const maxLength = 10;
+
+    if (valueToCheck.length < minLength) {
+      return { minlength: true };
+    }
+    if (valueToCheck.length > maxLength) {
+      return { maxlength: true };
+    }
+    if (
+      !/^[A-Za-z]+\-[0-9]+$/.test(control.value) &&
+      !/^[0-9]+\-[A-Za-z]+$/.test(control.value)
+    ) {
+      return { pattern: true };
+    }
+
+    return null;
+  }
+  /**
+   * Adds a hyphen to the end of the input value, if it does not already have one.
+   * If the input value does not have a valid registration number format, it will attempt to correct it by adding hyphens where necessary.
+   *
+   * @param event - The input event that triggered this function.
+   */
+  addHyphen(event: any) {
+    let value = event.target.value;
+    sessionStorage.setItem(
+      'isRegistrationNumber',
+      String(
+        this.proposalVehilceDetailsForm.controls[
+          'registration_number_last_digit'
+        ].valid
+      )
+    );
+    if (
+      this.proposalVehilceDetailsForm.controls['registration_number_last_digit']
+        .valid
+    ) {
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_number:
+          this.proposalVehilceDetailsForm.get('registration_number_first')
+            ?.value +
+          '-' +
+          this.proposalVehilceDetailsForm.get('registration_number_second')
+            ?.value +
+          '-' +
+          this.proposalVehilceDetailsForm.get('registration_number_last_digit')
+            ?.value,
+      });
+    }
+    if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
+      value = value.replace(/-/g, '');
+      value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_number_last_digit: value.toUpperCase(),
+      });
+      event.target.setSelectionRange(value.length, value.length);
+    }
+  }
+  /**
+   * Divides a string into two parts, splitting it down the middle.
+   *
+   * @param input - The string to split.
+   * @returns An array containing the two parts of the split string.
+   */
+  divideString(input: string): [string, string] {
+    const firstPartLength = Math.ceil(input.length / 2);
+
+    const firstPart = input.slice(0, firstPartLength);
+    const secondPart = input.slice(firstPartLength);
+
+    return [firstPart, secondPart];
   }
 }
