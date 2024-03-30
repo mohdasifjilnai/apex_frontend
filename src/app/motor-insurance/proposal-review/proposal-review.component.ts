@@ -72,7 +72,11 @@ export class ProposalReviewComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     let productTypeValue = sessionStorage.getItem('productType');
-    if (productTypeValue === 'saod') {
+    if (
+      this.quoteData?.is_breakin ||
+      productTypeValue === 'saod' ||
+      (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
+    ) {
       this.isTpDetailsDisabled = true;
     }
     this.router.queryParams.subscribe((params) => {

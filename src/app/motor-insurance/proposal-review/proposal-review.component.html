@@ -131,6 +131,7 @@
         </div>
         <div
           class="d-flex justify-content-between vehicle-owner-details mt-2 p-2"
+          *ngIf="generateProposalData?.nominee_details !== null"
         >
           <span class="review-header ps-3">Nominee Details</span>
           <div
@@ -142,7 +143,7 @@
             Edit
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="generateProposalData?.nominee_details !== null">
           <div class="col-lg-3 col-md-3 col-6 mt-3">
             <span class="field-title">Full Name</span><br />
             <span class="field-value">{{
@@ -291,7 +292,7 @@
         </div>
         <div
           class="d-flex justify-content-between vehicle-owner-details mt-2 p-2"
-          *ngIf="vehicleType !== 'new'"
+          *ngIf="generateProposalData?.previous_policy_details !== null"
         >
           <span class="review-header ps-3">Previous Policy Details</span>
           <div
@@ -306,7 +307,7 @@
         <div class="row">
           <div
             class="col-lg-3 col-md-3 col-6 mt-3"
-            *ngIf="vehicleType !== 'new'"
+            *ngIf="generateProposalData?.previous_policy_details !== null"
           >
             <span class="field-title">Previous Insurer</span><br />
             <span class="field-value">{{
@@ -315,7 +316,7 @@
           </div>
           <div
             class="col-lg-3 col-md-3 col-6 mt-3"
-            *ngIf="vehicleType !== 'new'"
+            *ngIf="generateProposalData?.previous_policy_details !== null"
           >
             <span class="field-title">Previous Policy Number</span><br />
             <span class="field-value">{{
@@ -324,7 +325,7 @@
           </div>
           <div
             class="col-lg-3 col-md-3 col-6 mt-3"
-            *ngIf="vehicleType !== 'new'"
+            *ngIf="generateProposalData?.previous_policy_details !== null"
           >
             <span class="field-title">Policy Expiry Date</span><br />
             <span class="field-value">{{
