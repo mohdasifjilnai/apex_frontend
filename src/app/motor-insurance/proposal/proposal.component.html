@@ -104,7 +104,7 @@
           [linear]="true"
           (selectionChange)="onStepChange($event)"
         >
-          <mat-step>
+          <mat-step [completed]="showVehicleOwnerDetails">
             <hr />
             <div class="row mb-5">
               <app-ckyc
@@ -112,7 +112,7 @@
               ></app-ckyc>
             </div>
           </mat-step>
-          <mat-step>
+          <mat-step [completed]="showNomineeDetails">
             <hr />
             <div class="row mb-5">
               <app-vehicle-owner-details
@@ -121,7 +121,10 @@
               ></app-vehicle-owner-details>
             </div>
           </mat-step>
-          <mat-step>
+          <mat-step
+            [completed]="showVehicleDetails"
+            *ngIf="isNotShowNomineeDetails"
+          >
             <hr />
             <div class="row mb-5">
               <app-nominee-details
@@ -129,7 +132,7 @@
               ></app-nominee-details>
             </div>
           </mat-step>
-          <mat-step>
+          <mat-step [completed]="showPreviousPolicyDetails">
             <hr />
             <div class="row mb-5">
               <app-proposal-vehicle-details
@@ -137,7 +140,7 @@
               ></app-proposal-vehicle-details>
             </div>
           </mat-step>
-          <mat-step>
+          <mat-step *ngIf="isNotShowInNewPolicyDetails">
             <hr />
             <div class="row mb-5">
               <app-previous-policy-details></app-previous-policy-details>

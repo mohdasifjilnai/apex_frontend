@@ -597,8 +597,8 @@ export class SharedDataService {
 
       let productTypeValue = sessionStorage.getItem('productType');
       if (
-        (JSON.parse(this.quoteData)['is_breakin'] &&
-          productTypeValue === 'saod') ||
+        JSON.parse(this.quoteData)['is_breakin'] ||
+        productTypeValue === 'saod' ||
         (JSON.parse(this.quoteData)['is_breakin'] &&
           productTypeValue === 'comprehensive')
       ) {
