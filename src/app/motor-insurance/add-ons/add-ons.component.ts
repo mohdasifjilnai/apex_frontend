@@ -237,6 +237,7 @@ export class AddOnsComponent implements OnInit {
     if (addOnsValue) {
       sessionStorage.removeItem('selectedAddons');
     }
+    this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
   }
   @Output() checkBoxValue = new EventEmitter<any>();
   onCheckboxSelect(

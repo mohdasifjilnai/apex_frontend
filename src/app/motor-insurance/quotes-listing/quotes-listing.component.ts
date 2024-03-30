@@ -51,6 +51,7 @@ export class QuotesListingComponent implements OnInit {
   chooseIdvArray: any;
   mmvFormData: any = '';
   owner_type: any = '';
+  gstValue: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -155,6 +156,13 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
+        this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
+        if (this.sortObjectkey) {
+          this.lowHighSelected = this.sortObjectkey;
+        }
+        this.gstValue = sessionStorage.getItem('gstValue');
+        this.defaultGST = JSON.parse(this.gstValue);
+        this.sorting(this.sortObjectkey);
       }
     });
 
@@ -195,21 +203,6 @@ export class QuotesListingComponent implements OnInit {
             }
           }
           if (this.quotationData.length > 0) {
-            this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
-            if (this.sortObjectkey) {
-              this.lowHighSelected = this.sortObjectkey;
-            }
-            if (this.sortObjectkey == 'high') {
-              this.quotationData.sort((a: any, b: any) => {
-                b.premium_details.gross_premium -
-                  a.premium_details.gross_premium;
-              });
-            } else {
-              this.quotationData.sort((a: any, b: any) => {
-                a.premium_details.gross_premium -
-                  b.premium_details.gross_premium;
-              });
-            }
             for (let i = 0; i <= this.quotationData.length - 1; i++) {
               if (this.quotationData[i]?.premium_details?.min_idv) {
                 let idvData = {
@@ -695,7 +688,7 @@ export class QuotesListingComponent implements OnInit {
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {
-      if (data.value) {
+      if (data?.value) {
         sessionStorage.setItem('sortObjectkey', data.value);
       }
       if (this.defaultGST) {
