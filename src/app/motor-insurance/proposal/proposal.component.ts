@@ -43,6 +43,9 @@ export class ProposalComponent implements OnInit {
   vehicleMMVData: any;
   vehicleMMVValue: any;
   productTypeValue: any;
+  stepNumber: any = 'Step 1/5';
+  stepHeader: any = 'CKYC Details';
+  stepImage: any = '/assets/icon/step-1.svg';
 
   constructor(
     public matDialog: WindowRef,
@@ -95,40 +98,63 @@ export class ProposalComponent implements OnInit {
     }
   }
 
-  step(stepper:any){
-    if(stepper=='ckyc'){
-      this.step1=true
-      this.step2=false
-      this.step3=false
-      this.step4=false
-      this.step5=false
-    }else if (stepper === 'Vehicle Owner Details') {
-      this.step1=false
-      this.step2=true
-      this.step3=false
-      this.step4=false
-      this.step5=false
-    } else if (stepper === 'Nominee Details') {
-      this.step1=false
-      this.step2=false
-      this.step3=true
-      this.step4=false
-      this.step5=false
-    } else if (stepper === 'Vehicle Details') {
-      this.step1=false
-      this.step2=false
-      this.step3=false
-      this.step4=true
-      this.step5=false
-    } else if (stepper === 'Previous Policy Details') {
-      this.step1=false
-      this.step2=false
-      this.step3=false
-      this.step4=false
-      this.step5=true
+  // step(stepper: any) {
+  //   if (stepper == 'ckyc') {
+  //     this.step1 = true;
+  //     this.step2 = false;
+  //     this.step3 = false;
+  //     this.step4 = false;
+  //     this.step5 = false;
+  //   } else if (stepper === 'Vehicle Owner Details') {
+  //     this.step1 = false;
+  //     this.step2 = true;
+  //     this.step3 = false;
+  //     this.step4 = false;
+  //     this.step5 = false;
+  //   } else if (stepper === 'Nominee Details') {
+  //     this.step1 = false;
+  //     this.step2 = false;
+  //     this.step3 = true;
+  //     this.step4 = false;
+  //     this.step5 = false;
+  //   } else if (stepper === 'Vehicle Details') {
+  //     this.step1 = false;
+  //     this.step2 = false;
+  //     this.step3 = false;
+  //     this.step4 = true;
+  //     this.step5 = false;
+  //   } else if (stepper === 'Previous Policy Details') {
+  //     this.step1 = false;
+  //     this.step2 = false;
+  //     this.step3 = false;
+  //     this.step4 = false;
+  //     this.step5 = true;
+  //   }
+  // }
+  onStepChange(event: any) {
+    const selectedStep = event.selectedIndex + 1;
+    if (selectedStep == 1) {
+      this.stepNumber = 'Step 1/5';
+      this.stepHeader = 'CKYC Details';
+      this.stepImage = '/assets/icon/step-1.svg';
+    } else if (selectedStep == 2) {
+      this.stepNumber = 'Step 2/5';
+      this.stepHeader = 'Vehicle Owner Details';
+      this.stepImage = '/assets/icon/step-2.svg';
+    } else if (selectedStep == 3) {
+      this.stepNumber = 'Step 3/5';
+      this.stepHeader = 'Nominee Details';
+      this.stepImage = '/assets/icon/step-3.svg';
+    } else if (selectedStep == 4) {
+      this.stepNumber = 'Step 4/5';
+      this.stepHeader = 'Vehicle Details';
+      this.stepImage = '/assets/icon/step-4.svg';
+    } else if (selectedStep == 5) {
+      this.stepNumber = 'Step 5/5';
+      this.stepHeader = 'Previous Policy Details';
+      this.stepImage = '/assets/icon/step-5.svg';
     }
   }
-
   /**
    * get ckyc data
    */

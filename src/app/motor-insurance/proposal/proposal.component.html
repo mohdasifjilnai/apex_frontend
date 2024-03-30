@@ -89,7 +89,65 @@
     <app-insurance-details></app-insurance-details>
   </div>
   <div class="stepper p-2 mt-3">
-    <div class="ckyc" *ngIf="step1">
+    <div class="row">
+      <div class="col-2">
+        <img src="{{ stepImage }}" alt="" class="step-icon" />
+      </div>
+      <div class="col-10">
+        <div class="d-grid">
+          <span class="step-text">{{ stepNumber }}</span>
+          <span class="step-header-text">{{ stepHeader }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <mat-horizontal-stepper
+          [linear]="true"
+          (selectionChange)="onStepChange($event)"
+        >
+          <mat-step>
+            <hr />
+            <div class="row mb-5">
+              <app-ckyc
+                (afterProceedGetData)="getProceedData($event)"
+              ></app-ckyc>
+            </div>
+          </mat-step>
+          <mat-step>
+            <hr />
+            <div class="row mb-5">
+              <app-vehicle-owner-details
+                [fetchCkycData]="proceedData"
+                (afterVehicleOwnerData)="getVehicleOwnerData($event)"
+              ></app-vehicle-owner-details>
+            </div>
+          </mat-step>
+          <mat-step>
+            <hr />
+            <div class="row mb-5">
+              <app-nominee-details
+                (afterNomineeGetData)="nomineeDetailsData($event)"
+              ></app-nominee-details>
+            </div>
+          </mat-step>
+          <mat-step>
+            <hr />
+            <div class="row mb-5">
+              <app-proposal-vehicle-details
+                (afterVehicleData)="proposerVehicleDetailsData($event)"
+              ></app-proposal-vehicle-details>
+            </div>
+          </mat-step>
+          <mat-step>
+            <hr />
+            <div class="row mb-5">
+              <app-previous-policy-details></app-previous-policy-details>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </div>
+    </div>
+
+    <!-- <div class="ckyc" *ngIf="step1">
       <div class="row">
         <div class="col-2">
           <img src="/assets/icon/step-1.svg" alt="" class="step-icon" />
@@ -100,13 +158,24 @@
             <span class="step-header-text">CKYC Details</span>
             <div class="d-flex justify-content-between mt-1">
               <span class="stepper-1 me-2" (click)="step('ckyc')"></span>
-              <span class="stepper-2 me-2" (click)="step('Vehicle Owner Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Nominee Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Vehicle Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Previous Policy Details')"></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Vehicle Owner Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Nominee Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Vehicle Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Previous Policy Details')"
+              ></span>
             </div>
 
-            <!-- <img src="/assets/icon/stepper-1.svg" alt="" class="stepper-icon" /> -->
           </div>
         </div>
       </div>
@@ -126,10 +195,22 @@
             <span class="step-header-text">Vehicle Owner Details</span>
             <div class="d-flex justify-content-between mt-1">
               <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span class="stepper-1 me-2" (click)="step('Vehicle Owner Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Nominee Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Vehicle Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Previous Policy Details')"></span>
+              <span
+                class="stepper-1 me-2"
+                (click)="step('Vehicle Owner Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Nominee Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Vehicle Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Previous Policy Details')"
+              ></span>
             </div>
           </div>
         </div>
@@ -153,10 +234,22 @@
             <span class="step-header-text">Nominee Details</span>
             <div class="d-flex justify-content-between mt-1">
               <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span class="stepper-0 me-2" (click)="step('Vehicle Owner Details')"></span>
-              <span class="stepper-1 me-2" (click)="step('Nominee Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Vehicle Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Previous Policy Details')"></span>
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Vehicle Owner Details')"
+              ></span>
+              <span
+                class="stepper-1 me-2"
+                (click)="step('Nominee Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Vehicle Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Previous Policy Details')"
+              ></span>
             </div>
           </div>
         </div>
@@ -179,10 +272,22 @@
             <span class="step-header-text">Vehicle Details</span>
             <div class="d-flex justify-content-between mt-1">
               <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span class="stepper-0 me-2" (click)="step('Vehicle Owner Details')"></span>
-              <span class="stepper-0 me-2" (click)="step('Nominee Details')"></span>
-              <span class="stepper-1 me-2" (click)="step('Vehicle Details')"></span>
-              <span class="stepper-2 me-2" (click)="step('Previous Policy Details')"></span>
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Vehicle Owner Details')"
+              ></span>
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Nominee Details')"
+              ></span>
+              <span
+                class="stepper-1 me-2"
+                (click)="step('Vehicle Details')"
+              ></span>
+              <span
+                class="stepper-2 me-2"
+                (click)="step('Previous Policy Details')"
+              ></span>
             </div>
           </div>
         </div>
@@ -205,11 +310,23 @@
             <span class="step-header-text">Previous Policy Details</span>
             <div class="d-flex justify-content-between mt-1">
               <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span class="stepper-0 me-2" (click)="step('Vehicle Owner Details')"></span>
-              <span class="stepper-0 me-2" (click)="step('Nominee Details')"></span>
-              <span class="stepper-0 me-2" (click)="step('Vehicle Details')"></span>
-              <span class="stepper-1 me-2" (click)="step('Previous Policy Details')"></span>
-            </div>          
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Vehicle Owner Details')"
+              ></span>
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Nominee Details')"
+              ></span>
+              <span
+                class="stepper-0 me-2"
+                (click)="step('Vehicle Details')"
+              ></span>
+              <span
+                class="stepper-1 me-2"
+                (click)="step('Previous Policy Details')"
+              ></span>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +334,6 @@
       <div class="row mb-5">
         <app-previous-policy-details></app-previous-policy-details>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
