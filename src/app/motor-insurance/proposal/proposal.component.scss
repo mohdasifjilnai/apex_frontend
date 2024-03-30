@@ -46,32 +46,21 @@
         border: 2.5px solid #47BE88;
         width: 17%;
         border-radius: 20px;
+        cursor: pointer;
       }
       .stepper-1{
         border: 2.5px solid #5384EA;
         width: 17%;
         border-radius: 20px;
+        cursor: pointer;
       }
       .stepper-2{
         border: 2.5px solid #DCDCDC;
         width: 17%;
         border-radius: 20px;
+        cursor: pointer;
       }
-      // .stepper-3{
-      //   border: 2.5px solid #DCDCDC;
-      //   width: 17%;
-      //   border-radius: 20px;
-      // }
-      // .stepper-4{
-      //   border: 2.5px solid #DCDCDC;
-      //   width: 17%;
-      //   border-radius: 20px;
-      // }
-      // .stepper-5{
-      //   border: 2.5px solid #DCDCDC;
-      //   width: 17%;
-      //   border-radius: 20px;
-      // }
+
       ::ng-deep .mat-horizontal-stepper-header-container {
         justify-content: space-between;
         margin-left: 17%;

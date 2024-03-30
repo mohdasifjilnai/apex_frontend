@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet,
+  MatBottomSheetConfig,
+} from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
@@ -56,6 +59,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalParam: any;
   proposalId: any;
   proposalData: any;
+  proposalDataSend: any;
 
   constructor(
     private route: Router,
@@ -111,7 +115,15 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
-    this.openModal([this.quoteData], this.insuranceDetailsJSON);
+    if (window.innerWidth <= 999) {
+      const bottomSheetConfig: MatBottomSheetConfig = {
+        data: [this.quoteData], // Pass your data here
+      };
+      this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
+      this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
+    } else {
+      this.openModal([this.quoteData], this.insuranceDetailsJSON);
+    }
   }
   /**
    * this fucntion use open pop up modal
@@ -165,7 +177,8 @@ export class ProposalReviewComponent implements OnInit {
             res, //Proposal Details
             this.quoteData, //Quotes Details Data
           ];
-          this.shareData.setPreviousPolicyDetails(dataToSend);
+          this.proposalDataSend = dataToSend;
+          this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
           this.shareData?.setRedirectDataForInsurer(res);
           if (res) {
             this.getInsurerCode(
@@ -187,7 +200,8 @@ export class ProposalReviewComponent implements OnInit {
             res, //Proposal Details
             this.quoteData, //Quotes Details Data
           ];
-          this.shareData.setPreviousPolicyDetails(dataToSend);
+          this.proposalDataSend = dataToSend;
+          this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
         });
     }
   }

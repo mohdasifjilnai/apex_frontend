@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -58,6 +61,7 @@ export class OtpComponent implements OnInit {
   breakIn: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
     public dialogRef: MatDialogRef<OtpComponent>,
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -67,7 +71,12 @@ export class OtpComponent implements OnInit {
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
-    this.communicationData = data['sendCommunicationObject'];
+    if (window.innerWidth <= 999) {
+      this.communicationData=this.bottomSheetdata
+    }else{
+      this.communicationData = data['sendCommunicationObject'];
+    }
+    
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.breakIn = JSON.parse(this.quoteData)['is_breakin'];
 
@@ -131,40 +140,43 @@ export class OtpComponent implements OnInit {
               JSON.parse(this.quoteData)['insurer_code']
             }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
           )
-          .subscribe((generatedProposal: any) => {
-            this.loader = false;
-            if (window.innerWidth <= 999) {
-              this.bottomSheetRef.dismiss();
-            } else {
-              this.dialogRef.close();
-            }
-
-            if (generatedProposal.status) {
-              if (generatedProposal.is_breakin) {
-                sessionStorage.setItem(
-                  'breakIn',
-                  JSON.stringify(generatedProposal)
-                );
-                this.router.navigate([
-                  `motor/quotes/proposal/${this.transactionId}/review/inspection`,
-                ]);
+          .subscribe(
+            (generatedProposal: any) => {
+              this.loader = false;
+              if (window.innerWidth <= 999) {
+                this.bottomSheetRef.dismiss();
               } else {
-                this.apiService
-                  .getRequestedResponse(
-                    `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
-                  )
-                  .subscribe((payment_getway_response) => {
-                    if (payment_getway_response['url']) {
-                      window.location.href = payment_getway_response['url'];
-                    }
-                  });
+                this.dialogRef.close();
               }
-            } else {
+
+              if (generatedProposal.status) {
+                if (generatedProposal.is_breakin) {
+                  sessionStorage.setItem(
+                    'breakIn',
+                    JSON.stringify(generatedProposal)
+                  );
+                  this.router.navigate([
+                    `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                  ]);
+                } else {
+                  this.apiService
+                    .getRequestedResponse(
+                      `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+                    )
+                    .subscribe((payment_getway_response) => {
+                      if (payment_getway_response['url']) {
+                        window.location.href = payment_getway_response['url'];
+                      }
+                    });
+                }
+              } else {
+                this.loader = false;
+              }
+            },
+            (error) => {
               this.loader = false;
             }
-      },(error) => {
-                      this.loader = false;
-});
+          );
       }
     });
   }

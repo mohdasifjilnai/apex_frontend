@@ -12,7 +12,12 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { environment } from 'src/environments/environment';
 import { OtpComponent } from '../dialog-components/otp/otp.component';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheet,
+  MatBottomSheetConfig,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 
 @Component({
@@ -57,6 +62,7 @@ export class ProposalShareComponent implements OnInit {
   startDateRollover: any;
   nextDateValue: any;
   proposalData: any;
+  quotesData: any;
 
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
@@ -65,7 +71,9 @@ export class ProposalShareComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     public matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    public bottomSheetRef: MatBottomSheetRef<ProposalShareComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any
   ) {
     this.shareQuotationForm = this.formBuilder.group({
       whatsApp_number: new FormControl(''),
@@ -75,8 +83,14 @@ export class ProposalShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.bottomSheetdata.length>0) {
+      this.quotesData = this.bottomSheetdata;
+      
+    } else {
+      this.quotesData = this.data?.data;
+    }
     this.partner_name = localStorage.getItem('ta_user_name');
-    for (let value of this.data?.data) {
+    for (let value of this.quotesData) {
       this.quotes_id.push(value?.quote_id);
     }
     let gstValue = sessionStorage.getItem('gstValue');
@@ -118,7 +132,11 @@ export class ProposalShareComponent implements OnInit {
    * this fucntion use for close pop up
    */
   onClose(): void {
-    this.dialogRef.close();
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
   }
   /**
    * this fucntion use for share inspection
@@ -196,7 +214,7 @@ export class ProposalShareComponent implements OnInit {
         this.data?.data,
         'proposal',
         this.partner_name,
-        `motor/quotes/proposal/${this.data?.data[0]?.transaction_id}/review?proposal=true`,
+        `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review?proposal=true`,
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
         this.quotes_id
@@ -250,7 +268,11 @@ export class ProposalShareComponent implements OnInit {
           }
         });
     } else {
-      this.dialogRef.close();
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      } else {
+        this.dialogRef.close();
+      }
       let sendCommunicationObject = {
         transaction_id: this.quoteData?.transaction_id,
         share_type: 'otp',
@@ -269,7 +291,10 @@ export class ProposalShareComponent implements OnInit {
         .subscribe((res) => {
           if (res['message'] == 'Success') {
             if (window.innerWidth <= 999) {
-              this.bottomSheet.open(OtpComponent);
+              const bottomSheetConfig: MatBottomSheetConfig = {
+                data: sendCommunicationObject, // Pass your data here
+              };
+              this.bottomSheet.open(OtpComponent,bottomSheetConfig);
             } else {
               this.openModal(sendCommunicationObject, this.otpDialog);
             }
