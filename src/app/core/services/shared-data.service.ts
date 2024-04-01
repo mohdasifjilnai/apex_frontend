@@ -50,6 +50,7 @@ export class SharedDataService {
   insurerDetails: Subject<any> = new Subject();
   redirectInsurerDetails: Subject<any> = new Subject();
   disableInitiatesQuotes: Subject<any> = new Subject();
+  throughEmailVehicle: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -797,5 +798,12 @@ export class SharedDataService {
       .subscribe((res: any) => {
         window.open(res);
       });
+  }
+  /**
+ 
+   * @param url - use when user come through the email
+   */
+  vehicleCardDataEmail(data: any) {
+    this.throughEmailVehicle.next(data);
   }
 }

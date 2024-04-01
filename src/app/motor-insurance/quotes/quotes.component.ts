@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-quotes',
@@ -34,6 +35,7 @@ export class QuotesComponent implements OnInit {
   };
   isLoading: boolean = true;
   quotesRequest: any;
+  vehicleMMVData: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -41,7 +43,8 @@ export class QuotesComponent implements OnInit {
     public router: Router,
     public loaderService: LoaderService,
     private route: ActivatedRoute,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private shareDataService: SharedDataService
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -74,10 +77,10 @@ export class QuotesComponent implements OnInit {
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {
       if (!popupData) {
-      this.bottomSheet.open(VehicleDetailsPopupComponent, {
-        disableClose: true, // Disable closing on outside click
-      });
-    }
+        this.bottomSheet.open(VehicleDetailsPopupComponent, {
+          disableClose: true, // Disable closing on outside click
+        });
+      }
     } else {
       if (!popupData) {
         this.openVehicleDetailsPopup(null);
@@ -90,6 +93,7 @@ export class QuotesComponent implements OnInit {
       const shareTransaction = params?.get('transaction_id_share');
       const insurer_quote_id = params?.get('insurer_quote_id');
       if (shareTransaction) {
+        sessionStorage.setItem('vehiclePopup', 'true');
         sessionStorage.setItem('transaction_id', shareTransaction);
         this.getInsurerCode(shareTransaction, insurer_quote_id);
       }
@@ -148,6 +152,36 @@ export class QuotesComponent implements OnInit {
         if (response) {
           this.quotesRequest = response.quote_request;
           localStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
+          this.getVehicleMMVPopup(
+            '',
+            this.quotesRequest.rb_mmv_id,
+            this.quotesRequest.vehicle_type,
+            this.quotesRequest
+          );
+        }
+      });
+  }
+
+  /**
+   * Fetches the list of vehicle makes, models, and variants based on the vehicle type and stores them in the component's state.
+   * @param name - The search term used to filter the list of makes, models, and variants.
+   * @param id - The ID of the make, model, or variant to be preselected.
+   */
+  getVehicleMMVPopup(name: any, id: any, type?: any, allRequestData?: any) {
+    let apiData;
+    if (id) {
+      apiData = `?product_name=${type}&rb_mmv_id=${id}`;
+    }
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .subscribe((res: any) => {
+        if (res) {
+          this.vehicleMMVData = res;
+          let mmvData = {
+            vehicle_model: this.vehicleMMVData[0],
+            allQuotesRequest: allRequestData,
+          };
+          this.shareDataService.vehicleCardDataEmail(mmvData);
         }
       });
   }

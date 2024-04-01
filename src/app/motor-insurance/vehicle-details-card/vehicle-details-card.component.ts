@@ -6,6 +6,8 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 import moment from 'moment';
+import { ApiService } from 'src/app/core/services/api.service';
+import { ApiConstants } from 'src/app/api.constant';
 
 @Component({
   selector: 'app-vehicle-details-card',
@@ -55,7 +57,8 @@ export class VehicleDetailsCardComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private apiservice: ApiService
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +76,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     let policy_expiry_date = JSON.parse(
       this.vehicleMMVData
     )?.policy_expiry_date;
-    
+
     let vehicleCard = JSON.parse(this.vehiclePopupList);
     if (vehicleCard) {
       this.vehicleCardData(vehicleCard);
@@ -100,19 +103,24 @@ export class VehicleDetailsCardComponent implements OnInit {
           this.vehicleInspectionMessage =
             'Vehicle inspection is required as your previous policy is expired';
           this.breakIn = true;
-        }
-        else if(quotationArray[i]['status'] &&
-        quotationArray[i]['is_breakin'] &&
-        policy_expiry_date == 'Not Sure'){
-              this.vehicleInspectionMessage =
-        'Vehicle inspection is required as your previous policy is not available';
-        this.breakIn = true;
-      
+        } else if (
+          quotationArray[i]['status'] &&
+          quotationArray[i]['is_breakin'] &&
+          policy_expiry_date == 'Not Sure'
+        ) {
+          this.vehicleInspectionMessage =
+            'Vehicle inspection is required as your previous policy is not available';
+          this.breakIn = true;
         }
       }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
+    });
+
+    this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
+      this.parsedVehicleData = vehicleData;
+      this.throughEmail(vehicleData);
     });
   }
 
@@ -198,5 +206,72 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (text == 'More') {
       this.viewText = 'Less';
     }
+  }
+  /**
+   
+   *  this function use when use come through email to the quotes page
+   */
+  throughEmail(data: any) {
+    this.policyDate = '';
+    this.previousInsurer = '';
+    this.previousNCB = '';
+    this.newNCB = '';
+    let regDateValue = new Date(data.allQuotesRequest?.registration_date);
+    this.registrationDate = moment(regDateValue, 'MM/YYYY');
+    let regMonth = moment(this.registrationDate).month();
+    this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
+    this.registrationYear = moment(this.registrationDate).year();
+    if (data.allQuotesRequest?.manufacture_date) {
+      let manufactureDateValue = new Date(
+        data.allQuotesRequest?.manufacture_date
+      );
+      this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
+      let manufactureMonth = moment(this.manufactureDate).month();
+      this.manufactureMonth = moment(manufactureMonth + 1, 'MM').format('MMM');
+      this.manufactureYear = moment(this.manufactureDate).year();
+    }
+    if (data.allQuotesRequest?.previous_policy_exp_date) {
+      let inputDate = data.allQuotesRequest?.previous_policy_exp_date;
+      let [day, month, year] = inputDate.split('/');
+      let reformattedDate = `${month}/${day}/${year}`;
+      this.policyDate = moment(reformattedDate).format('DD-MMM-YYYY');
+    }
+
+    this.getRTOData('rto_code', data.allQuotesRequest?.rb_rto_code);
+    if (data.allQuotesRequest?.previous_insurer_code) {
+      this.getInsurerData(data.allQuotesRequest?.previous_insurer_code);
+    }
+  }
+  /**
+   
+   *  this function use when use come through email to the quotes page
+   */
+  getRTOData(type?: any, rb_rto_code?: any) {
+    let apiData;
+
+    apiData = type == 'rto_code' ? `?search_element=${rb_rto_code}` : '';
+
+    this.apiservice
+      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+      .subscribe((res) => {
+        this.parsedVehicleData.registration_city = res[0];
+      });
+  }
+  /**
+   
+   * this function use when use come through email to the quotes page
+   */
+  getInsurerData(insurer_code: any) {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.get_previous_insurer)
+      .subscribe((res) => {
+        if (res) {
+          for (let i = 0; i <= res.length - 1; i++) {
+            if (res[i].rb_insurer_code == insurer_code) {
+              this.previousInsurer = res[i].rb_insurer_name;
+            }
+          }
+        }
+      });
   }
 }
