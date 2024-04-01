@@ -187,7 +187,14 @@ export class MotorInsuranceComponent implements OnInit {
     if (proposalTypeData) {
       sessionStorage.removeItem('proposerType');
     }
-
+    let proposalParam = sessionStorage.getItem('proposal_param');
+    if (proposalParam) {
+      sessionStorage.removeItem('proposal_param');
+    }
+    let proposalId = sessionStorage.getItem('proposal_Id');
+    if (proposalId) {
+      sessionStorage.removeItem('proposal_Id');
+    }
     let breakIn = sessionStorage.getItem('breakIn');
     if (breakIn) {
       sessionStorage.removeItem('breakIn');
@@ -196,6 +203,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (quote_data) {
       sessionStorage.removeItem('quotes_data');
     }
+
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {
