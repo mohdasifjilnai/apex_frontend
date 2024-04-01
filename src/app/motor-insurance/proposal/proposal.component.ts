@@ -284,10 +284,10 @@ export class ProposalComponent implements OnInit {
         this.accordianExpanded = 'vehicleOwnerDetails';
       }
     });
-    // this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    // if (this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') {
-
-    // }
+    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+    if (this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') {
+      this.isNotShowInNewPolicyDetails = false;
+    }
   }
 }

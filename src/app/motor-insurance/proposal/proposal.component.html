@@ -112,7 +112,7 @@
               ></app-ckyc>
             </div>
           </mat-step>
-          <mat-step [completed]="showNomineeDetails">
+          <mat-step [completed]="showNomineeDetails || showVehicleDetails">
             <hr />
             <div class="row mb-5">
               <app-vehicle-owner-details

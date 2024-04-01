@@ -320,7 +320,9 @@
         [disabled]="proposalVehilceDetailsForm.invalid"
       >
         {{
-          vehicleType === "new" || (isBreakIn && productTypeValue === "satp")
+          vehicleType === "new" ||
+          (isBreakIn && productTypeValue === "satp") ||
+          this.vehicleMMVValue?.policy_expiry_date === "Not Sure"
             ? "Confirm & Review"
             : "Save & Continue"
         }}

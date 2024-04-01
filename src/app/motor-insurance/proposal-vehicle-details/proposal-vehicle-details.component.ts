@@ -59,6 +59,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   mmvData: any;
   productTypeValue: any;
   isBreakIn: any;
+  vehicleMMVData: any;
+  vehicleMMVValue: any;
 
   constructor(
     private apiservice: ApiService,
@@ -111,6 +113,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
     this.productTypeValue = sessionStorage.getItem('productType');
     this.mmvData = sessionStorage.getItem('mmv_data');
+    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+    this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
     const mmvItem = JSON.parse(this.mmvData);
     if (mmvItem) {
       if (mmvItem?.manufacture_date) {
@@ -310,22 +314,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
        */
       this.proposalDetailsSubscription =
         this.shareData.getProposalDetails.subscribe((proposal) => {
-          if (this.vehicleType === 'new' && proposal.vehicle_details !== null) {
-            this.router.navigate([
-              `/motor/quotes/proposal/${this.transactionId}/review`,
-            ]);
-            /**
-             * Unsubscribe after navigation to avoid repeated navigation
-             */
-            this.proposalDetailsSubscription.unsubscribe();
-          } else if (
-            this.isBreakIn &&
-            this.productTypeValue === 'satp' &&
+          if (
+            (this.vehicleType === 'new' ||
+              (this.isBreakIn && this.productTypeValue === 'satp') ||
+              this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') &&
             proposal.vehicle_details !== null
           ) {
             this.router.navigate([
               `/motor/quotes/proposal/${this.transactionId}/review`,
             ]);
+            this.proposalDetailsSubscription.unsubscribe();
           }
         });
     }
