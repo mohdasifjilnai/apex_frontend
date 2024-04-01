@@ -53,6 +53,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { SnackbarComponent } from './components/dialog-components/snackbar/snackbar.component';
 import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-starting.directive';
 import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
+import { HelplineNumberComponent } from './components/dialog-components/helpline-number/helpline-number.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
     SnackbarComponent,
     RemoveZeroFromStartingDirective,
     NotAllowDotDirective,
+    HelplineNumberComponent,
   ],
   imports: [
     CommonModule,

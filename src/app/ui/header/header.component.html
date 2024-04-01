@@ -17,16 +17,16 @@
           alt="logo"
         />
       </a>
-      <div >
+      <div>
         <div class="d-flex pt-2">
           <div class="helpline me-2">
             <div class="d-flex">
               <img
                 src="assets/icon/helpline.svg"
                 alt="logo"
-                class="cursor-pointer me-2"
-              />
-              <span >Helpline: 18004197852</span>
+                class="cursor-pointer"
+              (click)="helplineNumber()"/>
+              <span class="helpline-number ms-2">Helpline: 18004197852</span>
             </div>
           </div>
           <div class="trace-id d-flex justify-content-between" *ngIf="isTracId">

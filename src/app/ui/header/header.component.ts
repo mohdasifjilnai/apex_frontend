@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { HelplineNumberComponent } from 'src/app/shared/components/dialog-components/helpline-number/helpline-number.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -28,13 +30,19 @@ export class HeaderComponent implements OnInit {
     private win: WindowRef,
     private authService: AuthService,
     private router: Router,
-    private sharedService: SharedDataService
+    private sharedService: SharedDataService,
+    public bottomSheet: MatBottomSheet,
   ) {}
 
   ngOnInit(): void {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.sharedService.getTransactionId.subscribe((res: any) => {
-      this.transactionId = res;
+      if (window.innerWidth <= 999) {
+        this.transactionId = res.length > 10 ? res.substring(0, 10) + '...' : res;
+      }else{
+        this.transactionId = res
+      }
+
     });
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -55,7 +63,16 @@ export class HeaderComponent implements OnInit {
      */
     this.sharedService?.insurerDetails?.subscribe((res) => {
       if (res) {
-        this.transactionId = res?.quote_response?.transaction_id;
+        if (window.innerWidth <= 999) {
+          this.transactionId =
+          res?.quote_response?.transaction_id.length > 10
+            ? res?.quote_response?.transaction_id.substring(0, 10) + '...'
+            : res?.quote_response?.transaction_id;
+        }else{
+          this.transactionId =
+          res?.quote_response?.transaction_id
+        }
+        
       }
     });
   }
@@ -72,6 +89,12 @@ export class HeaderComponent implements OnInit {
         partnerJourney: true,
         partnerUrl: this.env.profile_redirection,
       });
+    }
+  }
+  helplineNumber() {
+    
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(HelplineNumberComponent);
     }
   }
   /**
