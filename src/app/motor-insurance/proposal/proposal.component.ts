@@ -72,7 +72,7 @@ export class ProposalComponent implements OnInit {
       for (let isCpa of this.quoteData?.premium_details
         ?.addon_premium_details) {
         if (
-          (isCpa?.add_on_code === 'CPA' || 'CPA3') &&
+          (isCpa?.add_on_code === 'CPA' || isCpa?.add_on_code === 'CPA3') &&
           this.proposerType !== 'corporate'
         ) {
           this.isNotShowNomineeDetails = true;
