@@ -61,6 +61,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isBreakIn: any;
   vehicleMMVData: any;
   vehicleMMVValue: any;
+  mmvItem: any;
 
   constructor(
     private apiservice: ApiService,
@@ -115,22 +116,22 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.mmvData = sessionStorage.getItem('mmv_data');
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    const mmvItem = JSON.parse(this.mmvData);
-    if (mmvItem) {
-      if (mmvItem?.manufacture_date) {
+    this.mmvItem = JSON.parse(this.mmvData);
+    if (this.mmvItem) {
+      if (this.mmvItem?.manufacture_date) {
         this.isManufactureDateDisbaled = true;
       }
-      if (mmvItem?.registration_date) {
+      if (this.mmvItem?.registration_date) {
         this.isRegistrationDateDisbaled = true;
       }
       this.proposalVehilceDetailsForm.patchValue({
-        registration_date: mmvItem?.registration_date,
-        manufacture_date: mmvItem?.manufacture_date,
+        registration_date: this.mmvItem?.registration_date,
+        manufacture_date: this.mmvItem?.manufacture_date,
         registration_number_first: this.divideString(
-          mmvItem?.registration_city?.rb_rto_code
+          this.mmvItem?.registration_city?.rb_rto_code
         )[0],
         registration_number_second: this.divideString(
-          mmvItem?.registration_city?.rb_rto_code
+          this.mmvItem?.registration_city?.rb_rto_code
         )[1],
       });
       this.proposalVehilceDetailsForm
@@ -188,15 +189,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
         this.proposalVehilceDetailsForm.patchValue({
-          registration_number: proposal?.vehicle_details?.registration_no,
-          registration_number_first:
-            proposal?.vehicle_details?.registration_no.split('-')[0],
-          registration_number_second:
-            proposal?.vehicle_details?.registration_no.split('-')[1],
           registration_number_last_digit:
-            proposal?.vehicle_details?.registration_no.split('-')[2] +
-            '-' +
-            proposal?.vehicle_details?.registration_no.split('-')[3],
+            proposal?.vehicle_details?.registration_no?.split('-')[2],
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
@@ -317,7 +311,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           if (
             (this.vehicleType === 'new' ||
               (this.isBreakIn && this.productTypeValue === 'satp') ||
-              this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') &&
+              this.mmvItem?.policy_expiry === 'IDK') &&
             proposal.vehicle_details !== null
           ) {
             this.router.navigate([

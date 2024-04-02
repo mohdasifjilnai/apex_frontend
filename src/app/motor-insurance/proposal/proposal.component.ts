@@ -40,12 +40,11 @@ export class ProposalComponent implements OnInit {
   accordianExpanded: string = 'ckyc';
   quoteData: any;
   reviewData: any;
-  vehicleMMVData: any;
-  vehicleMMVValue: any;
   productTypeValue: any;
   stepNumber: any = 'Step 1/5';
   stepHeader: any = 'CKYC Details';
   stepImage: any = '/assets/icon/step-1.svg';
+  mmvData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -284,9 +283,8 @@ export class ProposalComponent implements OnInit {
         this.accordianExpanded = 'vehicleOwnerDetails';
       }
     });
-    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    if (this.vehicleMMVValue?.policy_expiry_date === 'Not Sure') {
+    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    if (this.mmvData?.policy_expiry === 'IDK') {
       this.isNotShowInNewPolicyDetails = false;
     }
   }

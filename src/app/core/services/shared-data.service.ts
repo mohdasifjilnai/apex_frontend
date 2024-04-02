@@ -525,7 +525,9 @@ export class SharedDataService {
       this.proposalDataItem['vehicle_details'].registration_address = {};
       this.proposalDataItem['vehicle_details'] = {
         registration_no:
-          formData?.get('registration_number')?.value.toUpperCase() || '',
+          formData?.get('registration_number_last_digit') !== null
+            ? formData?.get('registration_number')?.value.toUpperCase() || ''
+            : null,
         engine_no: formData?.get('engine_number')?.value.toUpperCase() || '',
         chassis_no: formData?.get('chassis_number')?.value.toUpperCase() || '',
         registration_date:
