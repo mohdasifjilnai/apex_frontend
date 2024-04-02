@@ -24,10 +24,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   proposalData: any;
   vehicleType: any;
   quoteData: any;
-  vehicleMMVData: any;
-  vehicleMMVValue: any;
   isExpiryDate: boolean = false;
   isTpPolicyDetails: boolean = false;
+  mmvData: any;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
@@ -118,18 +117,18 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             });
         }
       } else {
-        this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-        this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-        if (this.vehicleMMVValue?.policy_expiry_date) {
+        this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+
+        if (this.mmvData?.policy_expiry_date) {
           this.isExpiryDate = true;
           this.previousPolicyDetailsForm.patchValue({
-            policy_expiry_date: this.vehicleMMVValue?.policy_expiry_date,
+            policy_expiry_date: this.mmvData?.policy_expiry_date,
           });
         }
-        if (this.vehicleMMVValue?.previous_insurer) {
+        if (this.mmvData?.previous_insurer) {
           this.previousPolicyDetailsForm.patchValue({
-            previous_insurer: this.vehicleMMVValue?.previous_insurer,
-            tp_insurance_company: this.vehicleMMVValue?.previous_insurer,
+            previous_insurer: this.mmvData?.previous_insurer,
+            tp_insurance_company: this.mmvData?.previous_insurer,
           });
         }
       }
