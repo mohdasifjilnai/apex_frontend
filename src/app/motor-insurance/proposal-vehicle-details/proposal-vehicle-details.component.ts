@@ -583,6 +583,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ?.value,
       });
     }
+    if (this.vehicleType === 'new') {
+      if (
+        !/^[A-Za-z]+\-[0-9]+$/.test(value) &&
+        !/^[0-9]+\-[A-Za-z]+$/.test(value)
+      ) {
+        this.proposalVehilceDetailsForm
+          .get('registration_number_last_digit')
+          ?.setErrors({ pattern: true });
+      }
+    }
+
     if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
       value = value.replace(/-/g, '');
       value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
