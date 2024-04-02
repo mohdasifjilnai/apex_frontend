@@ -74,18 +74,6 @@ export class QuotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
-    let popupData = sessionStorage.getItem('vehiclePopup');
-    if (window.innerWidth <= 999) {
-      if (!popupData) {
-        this.bottomSheet.open(VehicleDetailsPopupComponent, {
-          disableClose: true, // Disable closing on outside click
-        });
-      }
-    } else {
-      if (!popupData) {
-        this.openVehicleDetailsPopup(null);
-      }
-    }
 
     sessionStorage.removeItem('proposal_Id');
 
@@ -98,6 +86,19 @@ export class QuotesComponent implements OnInit {
         this.getInsurerCode(shareTransaction, insurer_quote_id);
       }
     });
+
+    let popupData = sessionStorage.getItem('vehiclePopup');
+    if (window.innerWidth <= 999) {
+      if (!popupData) {
+        this.bottomSheet.open(VehicleDetailsPopupComponent, {
+          disableClose: true, // Disable closing on outside click
+        });
+      }
+    } else {
+      if (!popupData) {
+        this.openVehicleDetailsPopup(null);
+      }
+    }
   }
   receivedData: any;
   // receivedCheckBoxValue: any;
@@ -177,6 +178,7 @@ export class QuotesComponent implements OnInit {
       .subscribe((res: any) => {
         if (res) {
           this.vehicleMMVData = res;
+          this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
           let mmvData = {
             vehicle_model: this.vehicleMMVData[0],
             allQuotesRequest: allRequestData,

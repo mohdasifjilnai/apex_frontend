@@ -52,6 +52,7 @@ export class QuotesListingComponent implements OnInit {
   mmvFormData: any = '';
   owner_type: any = '';
   gstValue: any;
+  emailInsurer: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -652,6 +653,20 @@ export class QuotesListingComponent implements OnInit {
             this.sharedDataService.getQuotesOnTransactionId(
               this.parsedVehicleData?.allQuotesRequest
             );
+            let inputDate =
+              this.parsedVehicleData.allQuotesRequest?.previous_policy_exp_date;
+            let [day, month, year] = inputDate.split('/');
+            let reformattedDate = `${month}/${day}/${year}`;
+
+            this.parsedVehicleData.policy_expiry_date = new Date(
+              reformattedDate
+            );
+
+            this.emailInsurer = sessionStorage.getItem('mmv_data_email');
+
+            let vehicleForm = JSON.stringify(this.parsedVehicleData);
+
+            sessionStorage.setItem('mmv_data', vehicleForm);
           } else {
             this.sharedDataService.vehicleMMVDetails(
               this.selectedProductType,
@@ -688,11 +703,10 @@ export class QuotesListingComponent implements OnInit {
     } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
       const position = this.progressValue * 13; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
+    } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
       const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }
-     else if (window.innerWidth > 1400 && window.innerWidth <= 1600) {
+    } else if (window.innerWidth > 1400 && window.innerWidth <= 1600) {
       const position = this.progressValue * 17; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1600 && window.innerWidth <= 1900) {
