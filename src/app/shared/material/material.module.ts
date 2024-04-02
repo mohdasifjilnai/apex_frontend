@@ -15,7 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import {  MatRadioModule } from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -33,12 +33,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatBottomSheetModule, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
-import {MatDialogRef} from '@angular/material/dialog';
+import { MatSliderModule } from '@angular/material/slider';
+import {
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+  MAT_BOTTOM_SHEET_DATA,
+} from '@angular/material/bottom-sheet';
+import { MatDialogRef } from '@angular/material/dialog';
 
-
-let matModuleArray=[
+let matModuleArray = [
   CommonModule,
   MatSlideToggleModule,
   MatToolbarModule,
@@ -74,13 +77,12 @@ let matModuleArray=[
   MatTooltipModule,
   MatSliderModule,
   MatAutocompleteModule,
-  MatBottomSheetModule
-  
-]
+  MatBottomSheetModule,
+];
 @NgModule({
   declarations: [],
   imports: matModuleArray,
-  exports:matModuleArray,
+  exports: matModuleArray,
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
     { provide: MatBottomSheetRef, useValue: {} },
@@ -90,10 +92,10 @@ let matModuleArray=[
       useValue: { duration: 5000, verticalPosition: 'top' },
     },
     {
-      provide: MAT_DIALOG_DATA, useValue: {}
-      
+      provide: MAT_DIALOG_DATA,
+      useValue: {},
     },
-    {provide: MatDialogRef,useValue:{}}
+    { provide: MatDialogRef, useValue: {} },
   ],
 })
 export class MaterialModule {}

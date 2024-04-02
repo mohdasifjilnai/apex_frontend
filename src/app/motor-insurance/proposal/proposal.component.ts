@@ -4,6 +4,8 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { MatStepper } from '@angular/material/stepper';
+
 @Component({
   selector: 'app-proposal',
   templateUrl: './proposal.component.html',
@@ -26,6 +28,7 @@ export class ProposalComponent implements OnInit {
   proposalDetails: any;
   proposerType: any;
   isNotShowNomineeDetails: boolean = false;
+  @ViewChild(MatStepper) stepper!: MatStepper;
   @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
   previousPolicyDetailsPanel!: ElementRef;
   @ViewChild('vehilceOwnerPanel', { read: ElementRef })
@@ -160,32 +163,28 @@ export class ProposalComponent implements OnInit {
   getProceedData(data: any) {
     this.proceedData = data;
     if (data) {
-      this.step1 = false;
-      this.step2 = true;
-      // this.showVehicleOwnerDetails = true;
+      this.stepper.next();
     }
   }
   vehicleOwnerDetailsData(data: any) {
     if (data) {
-      this.step2 = false;
-      this.step3 = true;
+      this.stepper.next();
     }
   }
   nomineeDetailsData(data: any) {
     if (data) {
-      this.step3 = false;
-      this.step4 = true;
+      this.stepper.next();
     }
   }
   proposerVehicleDetailsData(data: any) {
     if (data) {
-      this.step4 = false;
-      this.step5 = true;
+      this.stepper.next();
     }
   }
   getVehicleOwnerData(data: any) {
     if (data) {
       // this.showNomineeDetails = true;
+      this.stepper.next();
     }
   }
   getNomineeData(data: any) {
@@ -208,6 +207,7 @@ export class ProposalComponent implements OnInit {
         this.quoteData['insurer_code'] === 'digit'
       ) {
         this.showVehicleOwnerDetails = true;
+        this.stepper.next();
         this.accordianExpanded = 'vehicleOwnerDetails';
       } else if (
         proposal?.ckyc_details !== null &&

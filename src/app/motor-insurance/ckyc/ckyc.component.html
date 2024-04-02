@@ -120,7 +120,7 @@
               [readonly]="true"
               placeholder="{{ dobPlaceholder }}"
               (click)="ckyc_dob.open()"
-              (keyup.enter)="EnterKey($event,ckyc_dob)"
+              (keyup.enter)="EnterKey($event, ckyc_dob)"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -177,7 +177,7 @@
         <button
           class="submit-btn owner-vehicle-submission"
           type="submit"
-          [disabled]="!ckycFormGroup.valid || !isDownloading || isCkycDone"
+          [disabled]="!ckycFormGroup.valid || !isDownloading"
         >
           {{ changeSubmitCkycName ? "Save & Continue" : "Fetch Details" }}
         </button>

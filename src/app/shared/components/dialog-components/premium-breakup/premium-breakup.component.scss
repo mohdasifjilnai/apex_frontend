@@ -108,8 +108,9 @@
 }
 .addons-card-popup {
   position: absolute;
-  right: 5%;
-  top: 40%;
+  // right: 5%;
+  // top: 40%;
+  transform: translate(74%, -10%);
   width: 24%;
   z-index: 9999;
   .card{
@@ -120,8 +121,9 @@
  
 }
 .Zero-addons{
-  right: 2%;
-  top: 62% !important;
+  // right: 2%;
+  // top: 62% !important;
+  transform: translate(56%, -56%);
   width: 24%;
   z-index: 9999;
   .card{
@@ -135,12 +137,12 @@
 // for mobile devices
 @media screen and (max-width: 999px) {
   .addons-card-popup {
-    right: 2%;
-    top: 1%;
-    width: 80%;
+    transform: translate(9%, -75%);
+
+    width: 70%;
   }
   .Zero-addons{
-    right: 2%;
-    top: 56%;
+    transform: translate(9%, -75%);
+
   }
 }

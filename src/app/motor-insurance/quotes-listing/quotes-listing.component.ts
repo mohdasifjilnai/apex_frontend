@@ -688,8 +688,18 @@ export class QuotesListingComponent implements OnInit {
     } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
       const position = this.progressValue * 13; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } else {
+    }else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
       const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    }
+     else if (window.innerWidth > 1400 && window.innerWidth <= 1600) {
+      const position = this.progressValue * 17; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } else if (window.innerWidth > 1600 && window.innerWidth <= 1900) {
+      const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } else {
+      const position = this.progressValue * 24; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     }
   }
