@@ -296,7 +296,7 @@ export class CkycComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj).subscribe((data) => {
-      if(data==undefined){
+      if (data == undefined) {
         this.isCkycDone = false;
       }
       if (!data['error']) {

@@ -109,6 +109,14 @@
       alt="Overlay Image"
       class="overlay-image"
       [style.transform]="getImagePosition()"
+      *ngIf="vehicleTypeValue == 'private_car'"
+    />
+    <img
+      src="/assets/gif/Motorbike.gif"
+      alt="Overlay Image"
+      class="overlay-image"
+      [style.transform]="getImagePosition()"
+      *ngIf="vehicleTypeValue == 'two_wheeler'"
     />
     <mat-progress-bar
       mode="determinate"
