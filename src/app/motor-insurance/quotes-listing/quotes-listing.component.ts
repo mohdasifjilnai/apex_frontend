@@ -231,6 +231,13 @@ export class QuotesListingComponent implements OnInit {
       this.tabChangeOninit = true;
       this.quotesTabData();
     });
+    this.sharedDataService.vehicleCardEmailValue.subscribe((cardData) => {
+      this.vehicleData = cardData;
+
+      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      this.tabChangeOninit = true;
+      this.quotesTabData();
+    });
 
     this.sharedDataService.selectedADDOnsList.subscribe((addons) => {
       this.selectAddOnsList = [];
@@ -587,6 +594,8 @@ export class QuotesListingComponent implements OnInit {
           this.parsedVehicleData?.policy_expiry_date
         );
         expiredDate = moment(policyExpired).format('DD/MM/YYYY');
+      } else if (this.parsedVehicleData?.policy_expiry_date_email) {
+        expiredDate = this.parsedVehicleData?.policy_expiry_date_email;
       } else {
         expiredDate = '';
       }
@@ -635,6 +644,13 @@ export class QuotesListingComponent implements OnInit {
               this.selectedProductType,
               this.mmvFormData,
               'registrationNumber'
+            );
+          } else if (
+            this.parsedVehicleData?.policy_expiry_date_email &&
+            this.parsedVehicleData?.allQuotesRequest
+          ) {
+            this.sharedDataService.getQuotesOnTransactionId(
+              this.parsedVehicleData?.allQuotesRequest
             );
           } else {
             this.sharedDataService.vehicleMMVDetails(
@@ -692,7 +708,7 @@ export class QuotesListingComponent implements OnInit {
         sessionStorage.setItem('sortObjectkey', data.value);
       }
       if (this.defaultGST) {
-        if (data == 'low' || data.value == 'low') {
+        if (data == 'low' || data?.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
               a.premium_details.gross_premium - b.premium_details.gross_premium
@@ -704,7 +720,7 @@ export class QuotesListingComponent implements OnInit {
           );
         }
       } else {
-        if (data == 'low' || data.value == 'low') {
+        if (data == 'low' || data?.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
               a.premium_details.net_premium - b.premium_details.net_premium

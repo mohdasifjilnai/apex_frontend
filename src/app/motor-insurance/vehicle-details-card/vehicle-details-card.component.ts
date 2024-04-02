@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
@@ -51,6 +51,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   breakIn = false;
   vehicleInspectionMessage: any;
   vehicleMMVData: any;
+  expiryListData: any;
+  vehicleValueForm: any;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -58,7 +60,8 @@ export class VehicleDetailsCardComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private sharedDataService: SharedDataService,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -120,6 +123,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
       this.parsedVehicleData = vehicleData;
+      this.router.navigate(['/motor/quotes']);
       this.throughEmail(vehicleData);
     });
   }
@@ -241,6 +245,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (data.allQuotesRequest?.previous_insurer_code) {
       this.getInsurerData(data.allQuotesRequest?.previous_insurer_code);
     }
+    if (data.allQuotesRequest?.previous_year_ncb) {
+      this.getNcbList(data.allQuotesRequest?.previous_year_ncb);
+    }
   }
   /**
    
@@ -255,6 +262,37 @@ export class VehicleDetailsCardComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
       .subscribe((res) => {
         this.parsedVehicleData.registration_city = res[0];
+        let vehicleEmailData = {
+          vehicle_variant: this.parsedVehicleData?.vehicle_model,
+          vehicle_model: this.parsedVehicleData?.vehicle_model,
+          registration_city: this.parsedVehicleData.registration_city,
+          registration_date:
+            this.parsedVehicleData?.allQuotesRequest.registration_date,
+          policy_expiry_date_email:
+            this.parsedVehicleData?.allQuotesRequest.previous_policy_exp_date,
+          policy_expiry: this.parsedVehicleData?.allQuotesRequest.product_type,
+          manufacture_date:
+            this.parsedVehicleData?.allQuotesRequest.manufacture_date,
+          previous_claimed: this.parsedVehicleData?.allQuotesRequest.is_claimed,
+          user_car:
+            this.parsedVehicleData?.allQuotesRequest.is_ownership_transfer,
+          vehicle_fuel: this.parsedVehicleData?.vehicle_model.fuel,
+          ncb_discount:
+            this.parsedVehicleData?.allQuotesRequest.previous_year_ncb,
+          allQuotesRequest: this.parsedVehicleData?.allQuotesRequest,
+          isNewVehicleUpdate:
+            this.parsedVehicleData?.allQuotesRequest.business_type == 'renewal'
+              ? false
+              : true,
+        };
+
+        let vehicleFrom = JSON.stringify(vehicleEmailData);
+        sessionStorage.setItem(
+          'newVehicleType',
+          this.parsedVehicleData?.allQuotesRequest.business_type
+        );
+        sessionStorage.setItem('mmv_data', vehicleFrom);
+        this.sharedDataService.vehicleCardEmailData(vehicleFrom);
       });
   }
   /**
@@ -272,6 +310,28 @@ export class VehicleDetailsCardComponent implements OnInit {
             }
           }
         }
+      });
+  }
+  /**
+   *  this function use when use come through email to the quotes page
+   */
+  getNcbList(previousYearNCB: any) {
+    this.apiservice
+      .getRequestedResponse(ApiConstants.ncb_list)
+      .subscribe((res) => {
+        this.expiryListData = res;
+        this.vehicleValueForm = sessionStorage.getItem('mmv_data');
+        let vehicleFormUpdate = JSON.parse(this.vehicleValueForm);
+
+        for (let data of this.expiryListData) {
+          if (data.old_ncb_value === previousYearNCB) {
+            this.previousNCB = previousYearNCB;
+            this.newNCB = data.new_ncb_value;
+            vehicleFormUpdate.addNcbBoth = data;
+          }
+        }
+
+        sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
       });
   }
 }

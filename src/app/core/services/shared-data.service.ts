@@ -51,6 +51,7 @@ export class SharedDataService {
   redirectInsurerDetails: Subject<any> = new Subject();
   disableInitiatesQuotes: Subject<any> = new Subject();
   throughEmailVehicle: Subject<any> = new Subject();
+  vehicleCardEmailValue: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -805,5 +806,55 @@ export class SharedDataService {
    */
   vehicleCardDataEmail(data: any) {
     this.throughEmailVehicle.next(data);
+  }
+  /**
+ 
+   * @param url - use for get Quotes when transaction id already genrated
+   */
+  getQuotesOnTransactionId(data: any) {
+    this.transactionId = data.transaction_id;
+    this.sendTransactionId(data.transaction_id);
+
+    this.quotesId = data.quote_request_id;
+    this.longPollingInfo = this.longPollingService.getAllQuotes(
+      this.transactionId,
+      this.quotesId
+    );
+
+    /**
+     * Define an empty array to store emitted values
+     */
+    let dataArray: any[] = [];
+
+    this.longPollingInfo.subscribe({
+      next: (value: any) => {
+        dataArray = [];
+        dataArray.push(value);
+
+        const quotesArray = dataArray[0].quotes;
+
+        const parsedQuotesArray = quotesArray.map((quote: string) =>
+          JSON.parse(quote)
+        );
+        this.quotesCount = '';
+        this.quotesCount = parsedQuotesArray;
+        this.quotationListing.next(parsedQuotesArray);
+      },
+      complete: () => {
+        /**
+         * When the Observable completes, dataArray contains all emitted values
+         */
+
+        this.enableQuotesAction.next(this.quotesCount);
+      },
+      error: (error: any) => {
+        // Handle errors if any
+        console.error('Error occurred:', error);
+      },
+    });
+  }
+
+  vehicleCardEmailData(fromData: any) {
+    this.vehicleCardEmailValue.next(fromData);
   }
 }
