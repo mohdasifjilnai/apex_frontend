@@ -333,34 +333,67 @@
                 ?.policy_expiry_date || "-"
             }}</span>
           </div>
-          <hr class="mt-3" *ngIf="isTpDetailsDisabled" />
+          <hr
+            class="mt-3"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
+          />
           <span
             class="field-value col-lg-12 col-md-12 col-12"
-            *ngIf="isTpDetailsDisabled"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
             >Third Party (TP) Policy Details</span
           >
-          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
+          >
             <span class="field-title">TP Insurance Company</span><br />
             <span class="field-value">{{
               generateProposalData?.previous_policy_details?.tp_policy_details
                 ?.tp_insurer_name || "-"
             }}</span>
           </div>
-          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
+          >
             <span class="field-title">TP Policy Number</span><br />
             <span class="field-value">{{
               generateProposalData?.previous_policy_details?.tp_policy_details
                 ?.tp_policy_no || "-"
             }}</span>
           </div>
-          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
+          >
             <span class="field-title">TP Policy Start Date</span><br />
             <span class="field-value">{{
               generateProposalData?.previous_policy_details?.tp_policy_details
                 ?.tp_policy_start_date || "-"
             }}</span>
           </div>
-          <div class="col-lg-3 col-md-3 col-6 mt-3" *ngIf="isTpDetailsDisabled">
+          <div
+            class="col-lg-3 col-md-3 col-6 mt-3"
+            *ngIf="
+              isTpDetailsDisabled &&
+              generateProposalData?.previous_policy_details !== null
+            "
+          >
             <span class="field-title">TP Policy End Date</span><br />
             <span class="field-value">{{
               generateProposalData?.previous_policy_details?.tp_policy_details
