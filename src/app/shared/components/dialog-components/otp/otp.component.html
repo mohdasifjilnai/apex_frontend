@@ -53,6 +53,7 @@
                 *ngIf="!resendDisabled"
                 class="resend-otp mt-1"
                 (click)="resendotp()"
+                [ngClass]="{ 'disabled-link': loader }"
               >
                 Resend OTP
               </a>

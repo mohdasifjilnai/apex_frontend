@@ -17,6 +17,10 @@
   font-size: 14px;
   font-weight: 500;
 }
+.disabled-link{
+  pointer-events: none; /* Disable mouse events */
+  opacity: 0.5; 
+}
 .expire {
   font-size: 12px;
   font-weight: 400;

@@ -72,11 +72,11 @@ export class OtpComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
     if (window.innerWidth <= 999) {
-      this.communicationData=this.bottomSheetdata
-    }else{
+      this.communicationData = this.bottomSheetdata;
+    } else {
       this.communicationData = data['sendCommunicationObject'];
     }
-    
+
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.breakIn = JSON.parse(this.quoteData)['is_breakin'];
 
@@ -182,6 +182,7 @@ export class OtpComponent implements OnInit {
   }
   resendotp() {
     this.resendDisabled = false;
+    this.loader = false;
     this.ngOtpInput.setValue('');
     this.apiService
       .postRequestedResponse(
