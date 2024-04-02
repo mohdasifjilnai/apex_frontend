@@ -190,7 +190,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         this.proposalVehilceDetailsForm.patchValue({
           registration_number_last_digit:
-            proposal?.vehicle_details?.registration_no?.split('-')[2],
+            proposal?.vehicle_details?.registration_no
+              ?.split('-')
+              .slice(2)
+              .join('-'),
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
@@ -235,21 +238,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType === 'new') {
       this.proposalVehilceDetailsForm
-        .get('registration_number')
-        ?.setValidators([]);
-      this.proposalVehilceDetailsForm
-        .get('registration_number')
-        ?.updateValueAndValidity();
-      this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators([Validators.minLength(4), Validators.maxLength(10)]);
     } else {
-      this.proposalVehilceDetailsForm
-        .get('registration_number')
-        ?.setValidators([Validators.required]);
-      this.proposalVehilceDetailsForm
-        .get('registration_number')
-        ?.updateValueAndValidity();
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators([
