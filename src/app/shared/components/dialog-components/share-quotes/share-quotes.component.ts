@@ -69,12 +69,12 @@ export class ShareQuotesComponent implements OnInit {
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
       message =
-        'Send to Email ' +
+        'Sent to Email ' +
         this.shareQuotationForm.get('email')?.value +
         ' successfully';
     } else if (this.shareQuotationForm.get('contact_number')?.value != null) {
       message =
-        'Send to Mobile Number +91-' +
+        'Sent to Mobile Number +91-' +
         this.shareQuotationForm.get('contact_number')?.value +
         ' successfully';
     }
