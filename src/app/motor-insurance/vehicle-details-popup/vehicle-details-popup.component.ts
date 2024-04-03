@@ -305,7 +305,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   vehicleDetailsFormControler() {
     this.vehicleDetailsForm = this.FormBuilder.group({
-      vehicle_make: ['', Validators.required],
+      // vehicle_make: ['', Validators.required],
       vehicle_model: ['', Validators.required],
       vehicle_variant: ['', Validators.required],
       vehicle_fuel: ['', Validators.required],
