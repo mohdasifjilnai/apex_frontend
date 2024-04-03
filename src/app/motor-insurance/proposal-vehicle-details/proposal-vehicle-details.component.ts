@@ -8,9 +8,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -239,7 +241,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (this.vehicleType === 'new') {
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
-        ?.setValidators([Validators.minLength(4), Validators.maxLength(10)]);
+        ?.setValidators(this.registrationNumberCheckLength.bind(this));
     } else {
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
@@ -528,29 +530,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    * @param control - The FormControl to be validated.
    * @returns An object containing any validation errors or null if the control is valid.
    */
-  registrationNumberCheckLength(control: FormControl) {
-    if (!control.value || typeof control.value !== 'string') {
-      return null; // Don't validate if the control is empty or not a string
-    }
-    const valueToCheck = control.value.replace(/-/g, '');
-    const minLength = 4;
-    const maxLength = 10;
+  registrationNumberCheckLength: ValidatorFn = (control: AbstractControl) => {
+    if (control instanceof FormControl) {
+      if (!control.value || typeof control.value !== 'string') {
+        return null; // Don't validate if the control is empty or not a string
+      }
+      const valueToCheck = control.value.replace(/-/g, '');
+      const minLength = 4;
+      const maxLength = 7;
 
-    if (valueToCheck.length < minLength) {
-      return { minlength: true };
-    }
-    if (valueToCheck.length > maxLength) {
-      return { maxlength: true };
-    }
-    if (
-      !/^[A-Za-z]+\-[0-9]+$/.test(control.value) &&
-      !/^[0-9]+\-[A-Za-z]+$/.test(control.value)
-    ) {
-      return { pattern: true };
+      if (valueToCheck.length < minLength) {
+        return { minlength: true };
+      }
+      if (valueToCheck.length > maxLength) {
+        return { maxlength: true };
+      }
+      if (
+        !/^[A-Za-z]+\-[0-9]+$/.test(control.value) &&
+        !/^[0-9]+\-[A-Za-z]+$/.test(control.value)
+      ) {
+        return { pattern: true };
+      }
     }
 
     return null;
-  }
+  };
   /**
    * Adds a hyphen to the end of the input value, if it does not already have one.
    * If the input value does not have a valid registration number format, it will attempt to correct it by adding hyphens where necessary.
@@ -573,25 +577,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     ) {
       this.proposalVehilceDetailsForm.patchValue({
         registration_number:
-          this.proposalVehilceDetailsForm.get('registration_number_first')
-            ?.value +
-          '-' +
-          this.proposalVehilceDetailsForm.get('registration_number_second')
-            ?.value +
-          '-' +
           this.proposalVehilceDetailsForm.get('registration_number_last_digit')
-            ?.value,
+            ?.value != ''
+            ? this.proposalVehilceDetailsForm.get('registration_number_first')
+                ?.value +
+              '-' +
+              this.proposalVehilceDetailsForm.get('registration_number_second')
+                ?.value +
+              '-' +
+              this.proposalVehilceDetailsForm.get(
+                'registration_number_last_digit'
+              )?.value
+            : '',
       });
-    }
-    if (this.vehicleType === 'new') {
-      if (
-        !/^[A-Za-z]+\-[0-9]+$/.test(value) &&
-        !/^[0-9]+\-[A-Za-z]+$/.test(value)
-      ) {
-        this.proposalVehilceDetailsForm
-          .get('registration_number_last_digit')
-          ?.setErrors({ pattern: true });
-      }
     }
 
     if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
