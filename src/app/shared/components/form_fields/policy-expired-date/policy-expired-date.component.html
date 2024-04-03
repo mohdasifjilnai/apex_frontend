@@ -19,6 +19,7 @@
     [max]="maxDate"
     (click)="expiryDate.open()"
     (keyup.enter)="EnterKey($event)"
+    [disabled]="isExpiryDateDisbaled"
   />
   <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
   <mat-datepicker

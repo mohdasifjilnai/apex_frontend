@@ -75,8 +75,6 @@ export class QuotesComponent implements OnInit {
   ngOnInit(): void {
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
 
-    sessionStorage.removeItem('proposal_Id');
-
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
       const insurer_quote_id = params?.get('insurer_quote_id');

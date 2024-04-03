@@ -40,6 +40,8 @@ export class CkycComponent implements OnInit {
   insurer_code: any;
   changeSubmitCkycName: boolean = false;
   isDownloading: boolean = false;
+  insurerCode: any;
+  isDisableCKyc: boolean = false;
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -123,6 +125,14 @@ export class CkycComponent implements OnInit {
         });
       }
     });
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    this.insurerCode = sessionStorage.getItem('insurer_code');
+    if (
+      this.insurerCode === this.quoteData['insurer_code'] &&
+      kycData?.verification_status === true
+    ) {
+      this.isDisableCKyc = true;
+    }
   }
 
   /**

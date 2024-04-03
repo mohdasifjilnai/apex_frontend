@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -25,6 +32,7 @@ export class ProposalComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   step5: boolean = false;
+  isMobileView: boolean = false;
   proposalDetails: any;
   proposerType: any;
   isNotShowNomineeDetails: boolean = false;
@@ -84,6 +92,9 @@ export class ProposalComponent implements OnInit {
       this.isNotShowNomineeDetails = false;
     }
     this.getProposalDataForPatch();
+    if (window.innerWidth <= 999) {
+      this.isMobileView = true;
+    }
   }
 
   loadCkyc(expansionName: string) {

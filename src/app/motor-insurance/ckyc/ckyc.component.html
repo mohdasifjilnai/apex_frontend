@@ -177,7 +177,7 @@
         <button
           class="submit-btn owner-vehicle-submission"
           type="submit"
-          [disabled]="!ckycFormGroup.valid || !isDownloading"
+          [disabled]="!ckycFormGroup.valid || !isDownloading || isDisableCKyc"
         >
           {{ changeSubmitCkycName ? "Save & Continue" : "Fetch Details" }}
         </button>

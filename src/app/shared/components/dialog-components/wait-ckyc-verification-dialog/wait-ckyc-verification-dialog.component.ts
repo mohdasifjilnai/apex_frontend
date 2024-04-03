@@ -85,6 +85,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             this.sharedDataService?.createProposalId('ckyc', res);
           });
           this.sharedDataService.getFetchedCkycData(res);
+          sessionStorage.setItem('kycData', JSON.stringify(res));
         } else if (
           res['customer_details'] == null &&
           res['upload_document'] == false
