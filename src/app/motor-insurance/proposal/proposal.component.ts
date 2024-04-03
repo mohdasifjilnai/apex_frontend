@@ -218,7 +218,7 @@ export class ProposalComponent implements OnInit {
         this.quoteData['insurer_code'] === 'digit'
       ) {
         this.showVehicleOwnerDetails = true;
-        this.stepper.next();
+        this.stepper?.next();
         this.accordianExpanded = 'vehicleOwnerDetails';
       } else if (
         proposal?.ckyc_details !== null &&
