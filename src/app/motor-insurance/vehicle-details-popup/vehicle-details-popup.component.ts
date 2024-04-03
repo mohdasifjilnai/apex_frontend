@@ -95,6 +95,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   autocomplete!: MatAutocompleteTrigger;
 
   filteredPopupVariant!: any;
+  filteredPopupMake!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocompleteVariant!: MatAutocompleteTrigger;
 
@@ -112,6 +113,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
   NoExpiryPolicy: boolean = false;
   hidePreviousClaimed: boolean = true;
   editClick = '';
+  makeList: any;
+  filteredPopupModel!: any;
+  makeSelected: any;
+  modelSelected: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -246,6 +251,53 @@ export class VehicleDetailsPopupComponent implements OnInit {
       // }
     });
     this.checkWheelerType(this.editVehicleDetails);
+
+    // ONInit Function Call
+
+    // this.vehicleTypeValue = localStorage.getItem('vehicleType');
+
+    // this.sharedDataService.regNumberData.subscribe((numberData) => {
+    //   this.registrationNumber = numberData;
+    //   if (this.registrationNumber?.rb_mmv_id) {
+    //     this.getVehicleDetailsPopup(
+    //       '',
+    //       '',
+    //       '',
+    //       this.registrationNumber.rb_mmv_id
+    //     );
+    //   }
+    // });
+    // this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+
+    // if (this.registrationNumber?.rb_mmv_id) {
+    //   // this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
+    // } else {
+    //   this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+    //   let registrationDate = new Date(this.vehicleMMVValue?.registration_date);
+    //   let registrationDateObject = moment(registrationDate, 'MM/YYYY');
+    //   this.vehicleDetailsForm.patchValue({
+    //     vehicle_make: this.vehicleMMVValue?.vehicle.rb_make_name,
+    //     vehicle_model: this.vehicleMMVValue?.vehicle.rb_model_name,
+    //     vehicle_variant: this.vehicleMMVValue?.vehicle.rb_variant_name,
+    //     registration_city: this.vehicleMMVValue?.rto_city.display_name,
+    //     vehicle_fuel: this.vehicleMMVValue?.vehicle.fuel,
+    //     registration_date: registrationDateObject
+    //     // manufacture_date: manufactureDateObject,
+    //     // user_car: this.vehicleMMVData.user_car,
+    //     // previous_claimed: this.vehicleMMVData.previous_claimed,
+    //     // previous_insurer: this.vehicleMMVData?.previous_insurer,
+    //     // ncb_discount: this.vehicleMMVData?.ncb_discount,
+    //     // policy_expiry: this.vehicleMMVData?.policy_expiry,
+    //     // policy_expiry_date: new Date(this.policyExpiredDateObject),
+    //   });
+    //   console.log(moment(this.vehicleMMVValue?.registration_date, 'MM/YYYY'));
+    //   this.getVehicleDetailsPopup(
+    //     '',
+    //     '',
+    //     '',
+    //     this.vehicleMMVValue?.vehicle.rb_mmv_id
+    //   );
+    // }
   }
 
   /**
@@ -253,6 +305,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   vehicleDetailsFormControler() {
     this.vehicleDetailsForm = this.FormBuilder.group({
+      vehicle_make: ['', Validators.required],
       vehicle_model: ['', Validators.required],
       vehicle_variant: ['', Validators.required],
       vehicle_fuel: ['', Validators.required],
@@ -1142,4 +1195,287 @@ Get the expiring policy list based on the given date or the registration details
         }
       });
   }
+
+  // Make Model Variant New Functions
+
+  // vehcileMake(data: any) {
+  //   if (data.length >= 3) {
+  //     this.makeSelected = data;
+  //     this.vehicleDetailsForm.get('vehicle_model')?.reset();
+  //     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
+  //     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+  //     this.getVehicleDetailsPopup(data, '', '');
+  //   }
+  // }
+  // vehcileModel(data: any) {
+  //   if (data.length >= 3) {
+  //     this.modelSelected = data;
+  //     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
+  //     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+  //     this.getVehicleDetailsPopup(this.makeSelected, data, '');
+  //   }
+  // }
+
+  // vehcileVarient(data: any) {
+  //   this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+  //   this.getVehicleDetailsPopup(this.makeSelected, this.modelSelected, data);
+  // }
+
+  // getVehicleDetailsPopup(make?: any, model?: any, variant?: any, id?: any) {
+  //   let apiData;
+  //   if (id) {
+  //     apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
+  //   } else {
+  //     this.renderer.removeClass(document.body, 'dropdown-focus');
+  //     apiData = `?product_name=${this.vehicleTypeValue}&make=${make}&model=${model}&variant=${variant}`;
+  //   }
+
+  //   this.apiservice
+  //     .getRequestedResponse(`${ApiConstants.get_depending_mmv}${apiData}`)
+  //     .subscribe((res) => {
+  //       if (res) {
+  //         this.makeList = res;
+  //         this.modelList = res;
+  //         this.variantList = res;
+  //         this.fuelList = res;
+  //         if (res.length > 0) {
+  //           this.filteredPopupMake = this.vehicleDetailsForm.controls[
+  //             'vehicle_make'
+  //           ].valueChanges.pipe(
+  //             debounceTime(500),
+  //             startWith(''),
+  //             map((name) => {
+  //               return name ? this.filterMakePopup(name) : this.makeList;
+  //             })
+  //           );
+  //           this.filteredPopupModel = this.vehicleDetailsForm.controls[
+  //             'vehicle_model'
+  //           ].valueChanges.pipe(
+  //             debounceTime(500),
+  //             startWith(''),
+  //             map((name) => {
+  //               return name ? this.filterModelPopup(name) : this.modelList;
+  //             })
+  //           );
+  //           this.mmDataNotAvailable = '';
+
+  //           this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+  //             'vehicle_variant'
+  //           ].valueChanges.pipe(
+  //             debounceTime(500),
+  //             startWith(''),
+  //             map((name) => {
+  //               return name ? this.filterVariantPopup(name) : this.variantList;
+  //             })
+  //           );
+
+  //           this.variantDataNotAvailable = '';
+  //         } else {
+  //           this.mmDataNotAvailable = res.message;
+  //           this.variantDataNotAvailable = res.message;
+
+  //           this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+  //             'vehicle_model'
+  //           ].valueChanges.pipe(
+  //             debounceTime(500),
+  //             startWith(''),
+  //             map((name) => {
+  //               return name ? this.filterMMVPopup(name) : ['No data'];
+  //             })
+  //           );
+
+  //           this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+  //             'vehicle_variant'
+  //           ].valueChanges.pipe(
+  //             debounceTime(500),
+  //             startWith(''),
+  //             map((name) => {
+  //               return name ? this.filterVariantPopup(name) : ['No data'];
+  //             })
+  //           );
+  //         }
+  //       }
+  //     });
+  // }
+  // filterMakePopup(name: string) {
+  //   if (typeof name != 'object') {
+  //     this.renderer.removeClass(document.body, 'dropdown-focus');
+  //     this.apiservice
+  //       .getRequestedResponse(
+  //         `${ApiConstants.get_depending_mmv}?product_name=${this.vehicleTypeValue}&make=${name}&model=&variant=`
+  //       )
+  //       .subscribe(
+  //         (res) => {
+  //           console.log(res, '4444444');
+  //           if (Array.isArray(res) && res.length > 0) {
+  //             this.makeList = res.map((item) => ({
+  //               ...item,
+  //               displayMM: `${item.rb_make_name}`,
+  //             }));
+  //             this.variantList = res;
+  //             this.fuelList = res;
+
+  //             this.mmDataNotAvailable = '';
+  //             this.fuelData = Object.values(
+  //               this.fuelList.reduce(
+  //                 (data: any, obj: { fuel: any; id: any }) => ({
+  //                   ...data,
+  //                   [obj.fuel]: obj,
+  //                 }),
+  //                 {}
+  //               )
+  //             );
+  //             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+  //               'vehicle_model'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name ? this.filterMakePopup(name) : this.modelList;
+  //               })
+  //             );
+
+  //             this.mmDataNotAvailable = '';
+  //           } else {
+  //             this.mmDataNotAvailable = 'No data';
+  //             this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+  //               'vehicle_model'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name ? this.filterMakePopup(name) : ['No data'];
+  //               })
+  //             );
+  //           }
+  //         },
+  //         (error) => {}
+  //       );
+  //   }
+  // }
+  // filterModelPopup(name: string) {
+  //   if (typeof name != 'object') {
+  //     this.renderer.removeClass(document.body, 'dropdown-focus');
+  //     this.apiservice
+  //       .getRequestedResponse(
+  //         `${ApiConstants.get_depending_mmv}?product_name=${this.vehicleTypeValue}&make=${name}&model=&variant=`
+  //       )
+  //       .subscribe(
+  //         (res) => {
+  //           console.log(res, '4444444');
+  //           if (Array.isArray(res) && res.length > 0) {
+  //             this.modelList = res.map((item) => ({
+  //               ...item,
+  //               displayMM: `${item.rb_model_name}`,
+  //             }));
+  //             console.log(this.modelList);
+  //             this.variantList = res;
+  //             this.fuelList = res;
+
+  //             this.mmDataNotAvailable = '';
+  //             this.fuelData = Object.values(
+  //               this.fuelList.reduce(
+  //                 (data: any, obj: { fuel: any; id: any }) => ({
+  //                   ...data,
+  //                   [obj.fuel]: obj,
+  //                 }),
+  //                 {}
+  //               )
+  //             );
+  //             this.filteredPopupModel = this.vehicleDetailsForm.controls[
+  //               'vehicle_model'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name ? this.filterModelPopup(name) : this.modelList;
+  //               })
+  //             );
+
+  //             this.mmDataNotAvailable = '';
+  //           } else {
+  //             this.mmDataNotAvailable = 'No data';
+  //             this.filteredPopupModel = this.vehicleDetailsForm.controls[
+  //               'vehicle_model'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name ? this.filterModelPopup(name) : ['No data'];
+  //               })
+  //             );
+  //           }
+  //         },
+  //         (error) => {}
+  //       );
+  //   }
+  // }
+  // filterVarientPopup(name: string) {
+  //   if (typeof name != 'object') {
+  //     this.renderer.removeClass(document.body, 'dropdown-focus');
+  //     this.apiservice
+  //       .getRequestedResponse(
+  //         `${ApiConstants.get_depending_mmv}?product_name=${this.vehicleTypeValue}&make=${this.modelSelected}&model=${name}&variant=`
+  //       )
+  //       .subscribe(
+  //         (res) => {
+  //           console.log(res, '4444444');
+  //           if (Array.isArray(res) && res.length > 0) {
+  //             this.variantList = res.map((item) => ({
+  //               ...item,
+  //               displayMM: `${item.rb_variant_name}`,
+  //             }));
+  //             console.log(this.variantList);
+  //             this.variantList = res;
+  //             this.fuelList = res;
+
+  //             this.mmDataNotAvailable = '';
+  //             this.fuelData = Object.values(
+  //               this.fuelList.reduce(
+  //                 (data: any, obj: { fuel: any; id: any }) => ({
+  //                   ...data,
+  //                   [obj.fuel]: obj,
+  //                 }),
+  //                 {}
+  //               )
+  //             );
+  //             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+  //               'vehicle_variant'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name
+  //                   ? this.filterVarientPopup(name)
+  //                   : this.variantList;
+  //               })
+  //             );
+
+  //             this.mmDataNotAvailable = '';
+  //           } else {
+  //             this.mmDataNotAvailable = 'No data';
+  //             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+  //               'vehicle_model'
+  //             ].valueChanges.pipe(
+  //               debounceTime(500),
+  //               startWith(''),
+  //               map((name) => {
+  //                 return name ? this.filteredPopupVariant(name) : ['No data'];
+  //               })
+  //             );
+  //           }
+  //         },
+  //         (error) => {}
+  //       );
+  //   }
+  // }
+  // onOptionMakeSelected(event: any) {
+  //   this.filterModelPopup(event.option.value);
+  // }
+  // onOptionModelSelected(event: any) {
+  //   this.filterVariantPopup(event.option.value);
+  // }
+  // onOptionVariantSelected(event: any) {
+  //   console.log(event.option.value, '--------------');
+  // }
 }

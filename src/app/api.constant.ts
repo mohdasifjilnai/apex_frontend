@@ -2,6 +2,9 @@ export class ApiConstants {
   //get vehicle
   public static get_vehicle_mmv: string = `/api/v1/vehicle_search/`;
 
+  // getdepending mmv
+  public static get_depending_mmv: string = `/api/v1/get_depending_mmv/`;
+
   //With Registration Number
   public static registration_number = `/api/v1/vaahan/registration_number/`;
   public static get_rto_list: string = `/api/v1/rto_search/`;

@@ -31,6 +31,108 @@
       <div mat-dialog-content>
         <div class="row vehicle-details-form">
           <!-- Make/Model dropdown -->
+          <!-- <div class="col-lg-6 col-md-6 col-12">
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+            >
+              <mat-label>Make</mat-label>
+              <input
+                matInput
+                placeholder="Search Make/Model"
+                (ngModelChange)="vehcileMake($event)"
+                aria-label="vehicle_model"
+                #autoCompleteInput
+                [matAutocomplete]="autoMake"
+                formControlName="vehicle_make"
+              />
+              <mat-autocomplete
+                #autoMake="matAutocomplete"
+                (optionSelected)="onOptionMakeSelected($event)"
+              >
+                <span>
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupMake | async"
+                    [value]="mmData.rb_make_name"
+                  >
+                    <span>{{ mmData.rb_make_name }}</span>
+                  </mat-option>
+                </span>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+            >
+              <mat-label>Model</mat-label>
+              <input
+                matInput
+                placeholder="Search Make/Model"
+                (ngModelChange)="vehcileModel($event)"
+                aria-label="vehicle_model"
+                #autoCompleteInput
+                [matAutocomplete]="autoModel"
+                formControlName="vehicle_model"
+              />
+              <mat-autocomplete
+                #autoModel="matAutocomplete"
+                (optionSelected)="onOptionModelSelected($event)"
+              >
+                <span>
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupModel | async"
+                    [value]="mmData.rb_model_name"
+                  >
+                    <span>{{ mmData.rb_model_name }}</span>
+                  </mat-option>
+                </span>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+            >
+              <mat-label>Variant</mat-label>
+              <input
+                matInput
+                placeholder="Search Make/Model"
+                (ngModelChange)="vehcileVarient($event)"
+                aria-label="vehicle_variant"
+                #autoCompleteInput
+                [matAutocomplete]="autoVariant"
+                formControlName="vehicle_variant"
+              />
+              <mat-autocomplete #autoVariant="matAutocomplete"
+              (optionSelected)="onOptionVariantSelected($event)">
+                <span>
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupVariant | async"
+                    [value]="mmData.rb_variant_name"
+                  >
+                    <span>{{ mmData.rb_variant_name }}</span>
+                  </mat-option>
+                </span>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6 col-md-6 col-12">
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+            >
+              <mat-label>Fuel</mat-label>
+              <mat-select formControlName="vehicle_fuel">
+                <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.fuel">
+                  {{ fuel?.fuel }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
           <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
