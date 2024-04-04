@@ -16,7 +16,7 @@
 .res-header-icon {
   display: none;
 }
-.loader{
+.loader {
   width: 28px;
   height: 16px;
   margin-bottom: 6px;
@@ -121,4 +121,9 @@
   ::ng-deep .mat-form-field-label-wrapper {
     left: 10px !important;
   }
+}
+.withoutVehicleNumberTextBtn {
+  color: #fff;
+  background-color: #fff;
+  border: none;
 }

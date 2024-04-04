@@ -338,6 +338,7 @@
                   [previousInsurer]="'previous-insurer'"
                   [formControlNameData]="'previous_insurer'"
                   [label]="'Search Previous Insurer'"
+                  (keydown.enter)="handlePreviousInsurerKeyPress($event)"
                 ></app-previous-insurer>
               </div>
               <!-- Is Previous Policy Claimed dropdown -->

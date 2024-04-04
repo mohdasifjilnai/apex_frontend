@@ -98,9 +98,9 @@
               [@slideUp]
             >
               <app-policy-expired-date
-              [policyExpiryDate]="'expiry-date'"
-              *ngIf="!disableInsurer"
-              [formControlNameData]="'policy_expiry_date'"
+                [policyExpiryDate]="'expiry-date'"
+                *ngIf="!disableInsurer"
+                [formControlNameData]="'policy_expiry_date'"
               ></app-policy-expired-date>
             </div>
             <div
@@ -176,8 +176,9 @@
 
         <div class="col-12 text-center">
           <span>
-            <span
-              class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
+            <button
+              tabindex="0"
+              class="text-primary without-vehicle-no cursor-pointer withoutVehicleNumberTextBtn"
               id-automation="withoutVehicleNumberText"
               (click)="getPolicyNumber()"
             >
@@ -186,14 +187,15 @@
                   ? "Already bought from RenewBuy"
                   : "Continue with Registration Number"
               }}
-            </span>
+            </button>
           </span>
         </div>
         <!-- </div> -->
         <div class="col-12 text-center mb-5">
           <span>
-            <span
-              class="text-primary mb-3 mt-4 without-vehicle-no cursor-pointer"
+            <button
+              tabindex="0"
+              class="text-primary without-vehicle-no cursor-pointer withoutVehicleNumberTextBtn"
               id-automation="withoutVehicleNumberText"
               (click)="getVehicleNumber()"
             >
@@ -202,7 +204,7 @@
                   ? "Proceed with Vehicle Number"
                   : "Proceed without Vehicle Number"
               }}
-            </span>
+            </button>
           </span>
         </div>
       </form>

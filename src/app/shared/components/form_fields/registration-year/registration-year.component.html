@@ -1,6 +1,7 @@
 <mat-form-field appearance="outline" class="registration-year">
   <mat-label>Select Registration Date</mat-label>
   <input
+    tabindex="1"
     matInput
     #registrationInput
     id-automation="registration_year_id"
@@ -13,7 +14,6 @@
     [readonly]="true"
     (click)="registrationYear.open()"
     (keyup.enter)="EnterKey($event)"
-
   />
   <mat-datepicker-toggle
     matSuffix

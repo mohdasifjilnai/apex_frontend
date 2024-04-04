@@ -13,6 +13,7 @@ import {
   FormControl,
   FormGroup,
   FormGroupDirective,
+  NgForm,
   Validators,
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -1480,4 +1481,10 @@ Get the expiring policy list based on the given date or the registration details
   // onOptionVariantSelected(event: any) {
   //   console.log(event.option.value, '--------------');
   // }
+  // Method to handle Enter key press in the previous insurer field
+  handlePreviousInsurerKeyPress(event: any) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
 }
