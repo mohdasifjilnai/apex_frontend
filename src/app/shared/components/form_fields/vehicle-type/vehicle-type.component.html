@@ -4,7 +4,7 @@
     *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList; let i = index"
     (click)="!isLast(i) && selectVehicle(vehicle)"
   >
-    <button
+    <span
       tabindex="0"
       class="vehicle-card"
       [style.backgroundColor]="vehicle?.backgroundColor"
@@ -23,7 +23,7 @@
         alt="{{ vehicle?.imageInformation }}"
         class="vehicle-image"
       /><span class="vehicle-name ms-3">{{ vehicle?.optionName }}</span>
-    </button>
+    </span>
     <img
       *ngIf="isLast(i)"
       class="comming-soon"
