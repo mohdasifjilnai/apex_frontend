@@ -80,10 +80,15 @@
           (click)="tpPolicyStartDate.open()"
           (keyup.enter)="EnterKey($event, tpPolicyStartDate)"
         />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="tpPolicyStartDate"
-        ></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="tpPolicyStartDate"
+          ><mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            />
+          </mat-icon>
+        </mat-datepicker-toggle>
         <mat-datepicker #tpPolicyStartDate></mat-datepicker>
       </mat-form-field>
     </div>
@@ -98,9 +103,13 @@
           id-automation="tp_policy_end_date"
           (click)="tpPolicyEndDate.open()"
         />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="tpPolicyEndDate"
+        <mat-datepicker-toggle matSuffix [for]="tpPolicyEndDate"
+          ><mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            /> </mat-icon
         ></mat-datepicker-toggle>
         <mat-datepicker #tpPolicyEndDate></mat-datepicker>
       </mat-form-field>

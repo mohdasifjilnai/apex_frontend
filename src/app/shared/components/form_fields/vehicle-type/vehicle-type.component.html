@@ -5,9 +5,12 @@
     (click)="!isLast(i) && selectVehicle(vehicle)"
   >
     <span
-      tabindex="0"
       class="vehicle-card"
-      [style.backgroundColor]="vehicle?.backgroundColor"
+      [style.backgroundColor]="
+        selectedVehicleType.optionNameValue == vehicle.optionNameValue
+          ? vehicle?.backgroundColorActive
+          : vehicle?.backgroundColor
+      "
       [style.border]="
         selectedVehicleType === vehicle
           ? '1px solid ' + vehicle?.borderColor

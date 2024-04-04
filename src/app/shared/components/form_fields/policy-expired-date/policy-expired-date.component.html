@@ -21,7 +21,15 @@
     (keyup.enter)="EnterKey($event)"
     [disabled]="isExpiryDateDisbaled"
   />
-  <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
+  <mat-datepicker-toggle matSuffix [for]="expiryDate">
+    <mat-icon matDatepickerToggleIcon>
+      <img
+        src="/assets/icon/calendar.svg"
+        class="cursor-pointer mb-2"
+        alt="calendar"
+      />
+    </mat-icon>
+  </mat-datepicker-toggle>
   <mat-datepicker
     #expiryDate
     (opened)="onOpen()"

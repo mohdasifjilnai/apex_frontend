@@ -122,10 +122,15 @@
               (click)="ckyc_dob.open()"
               (keyup.enter)="EnterKey($event, ckyc_dob)"
             />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="ckyc_dob"
-            ></mat-datepicker-toggle>
+            <mat-datepicker-toggle matSuffix [for]="ckyc_dob"
+              ><mat-icon matDatepickerToggleIcon>
+                <img
+                  src="/assets/icon/calendar.svg"
+                  class="cursor-pointer mb-2"
+                  alt="calendar"
+                />
+              </mat-icon>
+            </mat-datepicker-toggle>
             <mat-datepicker
               #ckyc_dob
               id-automation="datepickerCkycDOB"

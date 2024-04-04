@@ -15,10 +15,15 @@
     (click)="registrationYear.open()"
     (keyup.enter)="EnterKey($event)"
   />
-  <mat-datepicker-toggle
-    matSuffix
-    [for]="registrationYear"
-  ></mat-datepicker-toggle>
+  <mat-datepicker-toggle matSuffix [for]="registrationYear">
+    <mat-icon matDatepickerToggleIcon>
+      <img
+        src="/assets/icon/calendar.svg"
+        class="cursor-pointer mb-2"
+        alt="calendar"
+      />
+    </mat-icon>
+  </mat-datepicker-toggle>
   <mat-datepicker
     #registrationYear
     startView="multi-year"

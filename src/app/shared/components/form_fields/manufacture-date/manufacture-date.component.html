@@ -26,7 +26,14 @@
     [for]="manufactureDate"
     (keydown.enter)="!isManufactureDateDisbaled && $event.preventDefault()"
     [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
-  ></mat-datepicker-toggle>
+    ><mat-icon matDatepickerToggleIcon>
+      <img
+        src="/assets/icon/calendar.svg"
+        class="cursor-pointer mb-2"
+        alt="calendar"
+      />
+    </mat-icon>
+  </mat-datepicker-toggle>
   <mat-datepicker
     #manufactureDate
     startView="multi-year"
