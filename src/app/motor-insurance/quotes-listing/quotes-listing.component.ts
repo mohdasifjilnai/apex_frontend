@@ -663,6 +663,11 @@ export class QuotesListingComponent implements OnInit {
             );
 
             this.emailInsurer = sessionStorage.getItem('mmv_data_email');
+            if (this.emailInsurer) {
+              let insurerData = JSON.parse(this.emailInsurer);
+              this.parsedVehicleData.previous_insurer = insurerData;
+              sessionStorage.removeItem('mmv_data_email');
+            }
 
             let vehicleForm = JSON.stringify(this.parsedVehicleData);
 

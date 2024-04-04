@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet,
+  MatBottomSheetConfig,
+} from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
@@ -77,6 +80,7 @@ export class InsuranceDetailsComponent implements OnInit {
     if (gstValue) {
       this.gstToggleData = JSON.parse(gstValue);
     }
+
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
      */
@@ -116,7 +120,10 @@ export class InsuranceDetailsComponent implements OnInit {
       //   this.onCpaCheckboxChange(false);
       // }
     }
-    this.downloadUnderwritting();
+  }
+
+  ngAfterViewInit() {
+    this.downloadUnderwriting();
   }
   /**
    * Returns a boolean indicating whether the specified value is a number.
@@ -172,11 +179,11 @@ export class InsuranceDetailsComponent implements OnInit {
   changeInsurer() {
     this.router.navigate(['/motor/quotes']);
   }
-  premiumBreakup(quoteData:any) {
+  premiumBreakup(quoteData: any) {
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: quoteData,
     };
-    this.bottomSheet.open(PremiumBreakupComponent,bottomSheetConfig);
+    this.bottomSheet.open(PremiumBreakupComponent, bottomSheetConfig);
   }
   getVehicleMMVPopup(productType: any, mmvId: any) {
     let apiData;
@@ -193,7 +200,7 @@ export class InsuranceDetailsComponent implements OnInit {
    * Downloads the premium breakup for the given quote.
    * @param data - The quote data.
    */
-  downloadUnderwritting() {
+  downloadUnderwriting() {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.quotesDetails = sessionStorage.getItem('quotes_data');
 
@@ -210,7 +217,7 @@ export class InsuranceDetailsComponent implements OnInit {
       });
   }
 
-  downloadUnderWritting() {
+  downloadUnderwritingUrl() {
     window.open(this.downloadUrl);
   }
   // onCpaCheckboxChange(data: boolean) {

@@ -265,6 +265,7 @@ export class SharedDataService {
       manufacture_year: data.manufacture_year,
       vehicle_idv: data?.vehicle_idv,
       previous_policy_type: previousPolicyType,
+      meta_data: data?.meta_data,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -397,6 +398,12 @@ export class SharedDataService {
       } else {
         selectedIdv = 0;
       }
+      let popupHideShowData = {
+        NoExpiryPolicy: mmvData?.NoExpiryPolicy,
+        hidePreviousClaimed: mmvData?.hidePreviousClaimed,
+        policy_expiry_id_data: mmvData?.policy_expiry_id_data,
+        policy_expiry_type: mmvData?.policy_expiry,
+      };
       let mmvValues = {
         rb_mmv_id: mmvData?.vehicle_model,
         rto_code: mmvData?.registration_city?.rb_rto_code,
@@ -411,6 +418,7 @@ export class SharedDataService {
         selected_addons: selectedAddOns,
         vehicle_idv: selectedIdv,
         policy_expiry_id_data: mmvData?.policy_expiry_id_data,
+        meta_data: popupHideShowData,
       };
       this.getValueWithoutRegistration.next(mmvValues);
       this.getQuotationListing(mmvValues, producttype, data);

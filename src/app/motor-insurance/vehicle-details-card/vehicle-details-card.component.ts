@@ -270,7 +270,10 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.parsedVehicleData?.allQuotesRequest.registration_date,
           policy_expiry_date_email:
             this.parsedVehicleData?.allQuotesRequest.previous_policy_exp_date,
-          policy_expiry: this.parsedVehicleData?.allQuotesRequest.product_type,
+          // policy_expiry: this.parsedVehicleData?.allQuotesRequest.product_type,
+          policy_expiry_type:
+            this.parsedVehicleData?.allQuotesRequest.meta_data
+              .policy_expiry_id_data,
           manufacture_date:
             this.parsedVehicleData?.allQuotesRequest.manufacture_date,
           previous_claimed: this.parsedVehicleData?.allQuotesRequest.is_claimed,
@@ -284,6 +287,14 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.parsedVehicleData?.allQuotesRequest.business_type == 'renewal'
               ? false
               : true,
+          policy_expiry:
+            this.parsedVehicleData?.allQuotesRequest.meta_data
+              .policy_expiry_type,
+          NoExpiryPolicy:
+            this.parsedVehicleData?.allQuotesRequest.meta_data.NoExpiryPolicy,
+          hidePreviousClaimed:
+            this.parsedVehicleData?.allQuotesRequest.meta_data
+              .hidePreviousClaimed,
         };
 
         let vehicleFrom = JSON.stringify(vehicleEmailData);

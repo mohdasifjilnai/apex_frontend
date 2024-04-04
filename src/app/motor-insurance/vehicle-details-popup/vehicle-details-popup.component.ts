@@ -86,6 +86,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   checkWheeler: any;
   vehicleAllData: any;
   isNewVehicleUpdate = true;
+  vehiclePopupListEmail: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -213,12 +214,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
         // this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
       } else {
         this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-
-        this.getVehicleMMVPopup(
-          '',
-          this.vehicleMMVValue?.vehicle.rb_mmv_id,
-          'mmvData'
-        );
+        // this.mmvData =
+        this.vehiclePopupListEmail = sessionStorage.getItem('mmv_data');
+        let vehicleCardEmail = JSON.parse(this.vehiclePopupListEmail);
+        let rbMMVId = this.vehicleMMVValue?.vehicle.rb_mmv_id
+          ? this.vehicleMMVValue?.vehicle.rb_mmv_id
+          : vehicleCardEmail?.vehicle_model?.rb_mmv_id;
+        this.getVehicleMMVPopup('', rbMMVId, 'mmvData');
       }
       if (this.editClick == '') {
         this.getExpiringPolicy();
@@ -248,7 +250,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       // }
       // else {
       //   this.expiryPolicyGetList(regDateValue);
-      // }
+      // }hidePreviousClaimed
     });
     this.checkWheelerType(this.editVehicleDetails);
 
