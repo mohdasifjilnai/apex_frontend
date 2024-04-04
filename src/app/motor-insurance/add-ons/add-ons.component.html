@@ -54,7 +54,7 @@
                 i == multiCheckboxField[i] &&
                 listValue.checked
               "
-              class="d-grid m-1"
+              class="d-grid m-1 ms-4"
             >
               <mat-checkbox
                 *ngFor="let data of listValue.modifiedMultiCheckList"
@@ -78,7 +78,7 @@
             </span>
           </span>
         </section>
-        <section class="d-grid">
+        <section class="d-grid ms-3">
           <ng-container
             *ngIf="listValue?.next_type == 'dropdown' && listValue.checked"
           >
@@ -125,7 +125,7 @@
         </section>
 
         <section
-          class="d-grid"
+          class="d-grid ms-3"
           *ngIf="listValue?.next_type == 'int_input' && listValue.checked"
         >
           <mat-form-field
@@ -166,7 +166,7 @@
             This is a required field.
           </mat-error>
         </section>
-        <section class="d-grid">
+        <section class="d-grid ms-3">
           <ng-container
             *ngIf="listValue?.next_type == 'tab' && listValue.checked"
           >
@@ -282,7 +282,7 @@
                   listValue?.next_type == 'multi_checkbox' &&
                   i == multiCheckboxField[i]
                 "
-                class="d-grid m-1"
+                class="d-grid m-1 ms-4"
               >
                 <mat-checkbox
                   *ngFor="let data of listValue.value"
@@ -303,11 +303,12 @@
               </span>
             </span>
           </section>
-          <section class="d-grid">
+          <section class="d-grid ms-3">
             <ng-container *ngIf="listValue?.next_type == 'dropdown'">
               <mat-form-field
                 appearance="outline"
                 *ngIf="i == dropDownFieldIndex[i]"
+                class="ms-2"
               >
                 <mat-label>Select Value</mat-label>
                 <mat-select
@@ -334,7 +335,10 @@
             </ng-container>
           </section>
 
-          <section class="d-grid" *ngIf="listValue?.next_type == 'int_input'">
+          <section
+            class="d-grid ms-3"
+            *ngIf="listValue?.next_type == 'int_input'"
+          >
             <mat-form-field
               appearance="outline"
               class="mat-input-custom"
@@ -360,7 +364,7 @@
             </mat-error>
           </section>
 
-          <section class="d-grid">
+          <section class="d-grid ms-3">
             <ng-container *ngIf="listValue?.next_type == 'tab'">
               <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
                 <div
@@ -393,7 +397,6 @@
     <button
       class="cancel-btn col-6"
       *ngIf="clearAllButton"
-      
       (click)="clearAllChecked()"
     >
       Clear All

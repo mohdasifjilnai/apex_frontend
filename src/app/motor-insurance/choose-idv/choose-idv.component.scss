@@ -86,7 +86,7 @@
   }
   .choose-value{
     ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline{
-      background-color: #fff;
+      // background-color: #fff;
       border-radius: 16px;
     }
   }
@@ -184,7 +184,7 @@
       color: #ffb171;
       font-size: 14px;
       font-weight: 600;
-      background-color: #fff;
+      background: #fff;
       border: none;
       height: 36px;
     }
@@ -203,7 +203,7 @@
   color: #ffb171;
   font-size: 14px;
   font-weight: 600;
-  background-color: #fff;
+  background: #fff;
   border: 1px solid #ffb171;
   height: 36px;
   border-radius: 12px;
