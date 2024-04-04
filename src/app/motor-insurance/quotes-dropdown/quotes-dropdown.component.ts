@@ -21,6 +21,10 @@ export class QuotesDropdownComponent implements OnInit {
   chooseIdvArray: any;
   proposalTypeOninit = true;
   enableIdvCard: boolean = true;
+  sortObjectkey: any;
+  lowHighSelected = 'low';
+  gstValue: any;
+  defaultGST = true;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<QuotesDropdownComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -29,6 +33,20 @@ export class QuotesDropdownComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.quotationData = this.sharedDataService.quoteItem;
+    this.defaultGST = JSON.parse(sessionStorage.getItem('gstValue') || '{}');
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      if (this.enableIdvCard) {
+        this.enableIdvCard = false;
+        this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
+        if (this.sortObjectkey) {
+          this.lowHighSelected = this.sortObjectkey;
+        }
+        this.gstValue = sessionStorage.getItem('gstValue');
+        this.defaultGST = JSON.parse(this.gstValue);
+        this.sortingChange(this.sortObjectkey);
+      }
+    });
     this.getProposalType();
   }
   cancelChangeIDv(event: MouseEvent): void {
@@ -96,10 +114,37 @@ export class QuotesDropdownComponent implements OnInit {
    *
    */
   sortingChange(data: any) {
-    if (data?.value) {
-      sessionStorage.setItem('sortObjectkey', data.value);
-      this.bottomSheetRef.dismiss();
-      data.preventDefault();
+    if (this.quotationData.length > 0) {
+      if (data?.value) {
+        sessionStorage.setItem('sortObjectkey', data.value);
+        this.bottomSheetRef.dismiss();
+        data.preventDefault();
+      }
+      if (this.defaultGST) {
+        if (data == 'low' || data?.value == 'low') {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              a.premium_details.gross_premium - b.premium_details.gross_premium
+          );
+        } else {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              b.premium_details.gross_premium - a.premium_details.gross_premium
+          );
+        }
+      } else {
+        if (data == 'low' || data?.value == 'low') {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              a.premium_details.net_premium - b.premium_details.net_premium
+          );
+        } else {
+          this.quotationData.sort(
+            (a: any, b: any) =>
+              b.premium_details.net_premium - a.premium_details.net_premium
+          );
+        }
+      }
     }
   }
 }

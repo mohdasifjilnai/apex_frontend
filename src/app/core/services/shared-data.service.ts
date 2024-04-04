@@ -73,6 +73,7 @@ export class SharedDataService {
   redirectProposalId: any;
   addOnsList: any = [];
   selected_addons: any;
+  quoteItem: any;
 
   constructor(
     private apiService: ApiService,
@@ -871,5 +872,8 @@ export class SharedDataService {
 
   vehicleCardEmailData(fromData: any) {
     this.vehicleCardEmailValue.next(fromData);
+  }
+  sendQuoteData(quoteData: any) {
+    this.quoteItem = quoteData;
   }
 }

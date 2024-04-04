@@ -3,7 +3,10 @@
   (ngSubmit)="getPreviousVehicleData(previousPolicyDetailsForm.value)"
 >
   <div class="row mt-3" [attr.disabled]="isDisabledPreviousPolicyDetails">
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-12" *ngIf="isTpPolicyDetails">
+      <label>Own Damage (OD) Policy Details</label>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
       <app-previous-insurer
         [previousInsurer]="'proposal-previous-insurer'"
         [required]="true"
@@ -51,9 +54,9 @@
     <div class="col-12" *ngIf="isTpPolicyDetails">
       <label>Third Party (TP) Policy Details</label>
     </div>
-    <div class="col-lg-4 col-md-4 col-12 mt-1" *ngIf="isTpPolicyDetails">
+    <div class="col-lg-4 col-md-4 col-12 mt-2" *ngIf="isTpPolicyDetails">
       <app-previous-insurer
-        [label]="'Select TP Insurance Company'"
+        [label]="'TP Insurance Company'"
         [formControlNameData]="'tp_insurance_company'"
       ></app-previous-insurer>
     </div>

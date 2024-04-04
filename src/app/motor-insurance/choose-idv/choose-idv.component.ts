@@ -25,6 +25,7 @@ export class ChooseIDVComponent implements OnInit {
   quotesCount: any;
   idvError: any;
   updateIdvButton = false;
+  isMobileView: boolean = false;
   chooseIdvForm: FormGroup = new FormGroup({
     chooseIdv: new FormControl('', [Validators.required]),
   });
@@ -123,6 +124,9 @@ export class ChooseIDVComponent implements OnInit {
     this.sharedDataService.idvSliderHide.subscribe((idvHide) => {
       this.idvShowHide = idvHide;
     });
+    if (window.innerWidth <= 999) {
+      this.isMobileView = true;
+    }
   }
   selectedIDVOption: string = ''; // Default selected option
 

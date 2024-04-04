@@ -222,6 +222,9 @@ export class QuotesListingComponent implements OnInit {
           this.errorQuotationArray = [];
           this.chooseIdvArray = [];
         }
+        if (window.innerWidth <= 999) {
+          this.sharedDataService?.sendQuoteData(this.quotationData);
+        }
       }
     });
 
@@ -323,8 +326,7 @@ export class QuotesListingComponent implements OnInit {
   }
   openSort(dropdownType: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
-
-      disableClose:true,
+      disableClose: true,
       data: dropdownType, // Pass your data here
     };
     const bottomSheetRef = this.bottomSheet.open(
