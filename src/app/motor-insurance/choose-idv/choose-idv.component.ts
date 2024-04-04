@@ -55,6 +55,33 @@ export class ChooseIDVComponent implements OnInit {
       } else {
         this.quotesCount = 0;
       }
+
+      this.chooseIdvValue = sessionStorage.getItem('idvData');
+      let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
+      if (chooseIdvAmount) {
+        this.clearIdvButton = true;
+      }
+      if (chooseIdvAmount?.chooseIdv) {
+        this.investedAmount = chooseIdvAmount.chooseIdv;
+        this.selectedIDVOption = 'choose';
+        this.amountShow = this.averageIdv;
+      } else if (chooseIdvAmount?.minIdv) {
+        this.selectedIDVOption = 'min';
+
+        this.amountShow = this.averageIdv;
+        this.investedAmount = this.averageIdv;
+      } else if (chooseIdvAmount?.maxIdv) {
+        this.selectedIDVOption = 'max';
+        this.amountShow = this.averageIdv;
+
+        this.investedAmount = this.averageIdv;
+      } else {
+        this.investedAmount = this.averageIdv;
+        this.amountShow = this.averageIdv;
+      }
+      this.chooseIdvForm.patchValue({
+        chooseIdv: this.investedAmount,
+      });
     });
     this.sharedDataService.idvValue.subscribe((idvData) => {
       this.minIdv = idvData.min_idv;

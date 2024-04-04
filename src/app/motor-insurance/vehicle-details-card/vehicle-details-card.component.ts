@@ -123,7 +123,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
       this.parsedVehicleData = vehicleData;
-      // this.router.navigate(['/motor/quotes']);
+      this.router.navigate(['/motor/quotes']);
       this.throughEmail(vehicleData);
     });
   }
@@ -296,7 +296,14 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.parsedVehicleData?.allQuotesRequest.meta_data
               .hidePreviousClaimed,
         };
-
+        sessionStorage.setItem(
+          'idvData',
+          this.parsedVehicleData?.allQuotesRequest.meta_data.idvData
+        );
+        sessionStorage.setItem(
+          'selectedAddons',
+          this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons
+        );
         let vehicleFrom = JSON.stringify(vehicleEmailData);
         sessionStorage.setItem(
           'newVehicleType',

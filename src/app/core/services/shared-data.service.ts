@@ -403,6 +403,8 @@ export class SharedDataService {
         hidePreviousClaimed: mmvData?.hidePreviousClaimed,
         policy_expiry_id_data: mmvData?.policy_expiry_id_data,
         policy_expiry_type: mmvData?.policy_expiry,
+        idvData: sessionStorage.getItem('idvData'),
+        selectedAddons: sessionStorage.getItem('selectedAddons'),
       };
       let mmvValues = {
         rb_mmv_id: mmvData?.vehicle_model,
