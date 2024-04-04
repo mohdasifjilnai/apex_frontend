@@ -323,6 +323,8 @@ export class QuotesListingComponent implements OnInit {
   }
   openSort(dropdownType: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
+
+      disableClose:true,
       data: dropdownType, // Pass your data here
     };
     const bottomSheetRef = this.bottomSheet.open(

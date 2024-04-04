@@ -240,6 +240,25 @@
       <section class="my-2 section-value">
         <span *ngFor="let listValue of addOns.fe_template; index as i">
           <section class="d-grid">
+            <span *ngIf="listValue.type == 'radio'">
+              <mat-checkbox
+                [(ngModel)]="listValue.checked"
+                [id]="listValue.name"
+                (change)="
+                  onCheckboxSelect(
+                    $event,
+                    listValue.name,
+                    listValue?.next_type,
+                    i,
+                    addOns.displayName,
+                    listValue.rb_code,
+                    listValue.type,
+                    addOns
+                  )
+                "
+                >{{ listValue?.name }}</mat-checkbox
+              >
+            </span>
             <span *ngIf="listValue.type == 'check_box'">
               <mat-checkbox
                 [(ngModel)]="listValue.checked"
@@ -370,14 +389,22 @@
       </section>
     </div>
   </div>
-  <div class="d-flex p-2 bottom-btn">
+  <div class="d-flex p-2 bottom-btn" *ngIf="showUpdateButton">
     <button
       class="cancel-btn col-6"
-      [disabled]="enableAddOns"
+      *ngIf="clearAllButton"
+      
       (click)="clearAllChecked()"
     >
       Clear All
     </button>
-    <button class="submit-btn col-6" (click)="update()">Update</button>
+    <button
+      class="submit-btn col-6"
+      *ngIf="showButtons"
+      (click)="update()"
+      [disabled]="ischeckInput || isMultiCheckbox || isTab"
+    >
+      Update
+    </button>
   </div>
 </div>
