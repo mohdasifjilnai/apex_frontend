@@ -48,15 +48,17 @@ export class QuotesDropdownComponent implements OnInit {
    * get proposer type in proposal list
    */
   changeProposalType(event: any) {
-    this.bottomSheetRef.dismiss(this.proposalList.filter((res: any) => res.proposer_id == event.value)[0][
-      'proposer_name'
-    ]);
+    this.bottomSheetRef.dismiss(
+      this.proposalList.filter((res: any) => res.proposer_id == event.value)[0][
+        'proposer_name'
+      ]
+    );
     if (this.proposalTypeOninit) {
       sessionStorage.setItem(
         'proposerType',
-        this.proposalList.filter((res: any) => res.proposer_id == event.value)[0][
-          'proposer_name'
-        ]
+        this.proposalList.filter(
+          (res: any) => res.proposer_id == event.value
+        )[0]['proposer_name']
       );
       let productTypeValue = sessionStorage.getItem('productType');
       let mmvFormData = sessionStorage.getItem('mmv_data');
@@ -87,6 +89,17 @@ export class QuotesDropdownComponent implements OnInit {
         ]
       );
       this.proposalTypeOninit = false;
+    }
+  }
+  /**
+   * Function used for Sorting in responsive
+   *
+   */
+  sortingChange(data: any) {
+    if (data?.value) {
+      sessionStorage.setItem('sortObjectkey', data.value);
+      this.bottomSheetRef.dismiss();
+      data.preventDefault();
     }
   }
 }

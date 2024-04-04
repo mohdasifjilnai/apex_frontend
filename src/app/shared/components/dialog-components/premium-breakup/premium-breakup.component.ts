@@ -11,6 +11,8 @@ import { ShareQuotesComponent } from '../share-quotes/share-quotes.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
+import { Router } from '@angular/router';
+import { NonPosPopupComponent } from 'src/app/motor-insurance/non-pos-popup/non-pos-popup.component';
 @Component({
   selector: 'app-premium-breakup',
   templateUrl: './premium-breakup.component.html',
@@ -36,9 +38,25 @@ export class PremiumBreakupComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
   };
+  nonPOSJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NonPosPopupComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
 
   thirdParty: any;
   vehicleTypeValue: any;
+  isIdvGreaterThan50Lac: any;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -48,7 +66,8 @@ export class PremiumBreakupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any,
     public bottomSheet: MatBottomSheet,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private router: Router
   ) {
     if (data['data'] != null) {
       this.initiateQuotes = data.data;
@@ -129,5 +148,53 @@ export class PremiumBreakupComponent implements OnInit {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premim_breakup`;
     this.sharedDataService.downloadPolicy(url);
+  }
+  /**
+   * Function used for buy Now Button in responsive
+   * 
+   */
+  getProposalDetails(quotes_data: any) {
+    this.bottomSheetRef.dismiss();
+    sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
+    const transactionId = sessionStorage.getItem('transaction_id');
+
+    if (quotes_data?.premium_details?.idv > 5000000) {
+      this.isIdvGreaterThan50Lac = true;
+    }
+    if (this.isIdvGreaterThan50Lac) {
+      this.openNonPOSPopup(null);
+    } else {
+      this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
+    }
+  }
+
+  /**
+   * Function used for open non POS Popup
+   * 
+   */
+  openNonPOSPopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.nonPOSJSON['modalName'],
+      width: this.nonPOSJSON['widthObtained'],
+      height: this.nonPOSJSON['heightObtained'],
+      classNameObtained: this.nonPOSJSON['classObtained'],
+      isOutSideClose: this.nonPOSJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }
