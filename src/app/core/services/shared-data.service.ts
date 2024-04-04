@@ -471,6 +471,7 @@ export class SharedDataService {
         insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
         insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
         proposal_id: this.redirectProposalId?.replace(/['"]+/g, ''),
+        is_breakin: JSON.parse(this.quoteData)['is_breakin'],
       };
     } else {
       this.proposalDataItem = {
@@ -478,6 +479,7 @@ export class SharedDataService {
         insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
         insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
         proposal_id: proposalId !== undefined ? proposalId : '',
+        is_breakin: JSON.parse(this.quoteData)['is_breakin'],
       };
     }
     const ckycIdValue = formData?.get('ckyc_id')?.value;

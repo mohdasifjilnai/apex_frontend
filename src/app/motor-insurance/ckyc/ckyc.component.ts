@@ -105,7 +105,10 @@ export class CkycComponent implements OnInit {
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    if (this.quoteData['insurer_code'] === 'digit') {
+    if (
+      this.quoteData['insurer_code'] === 'digit' ||
+      this.quoteData['insurer_code'] === 'liberty'
+    ) {
       this.changeSubmitCkycName = true;
     }
     this.proposerType == 'individual'
@@ -133,6 +136,11 @@ export class CkycComponent implements OnInit {
     ) {
       this.isDisableCKyc = true;
     }
+    this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
+      if (kyc?.verification_status === true) {
+        this.isDisableCKyc = true;
+      }
+    });
   }
 
   /**
