@@ -33,6 +33,24 @@ body {
   // margin-top: 11px !important;
 }
 
+.mat-form-field-outline-thick {
+  color: #d6d6d6 !important;
+}
+.mat-form-field.mat-focused {
+  .mat-form-field-label {
+    color: rgb(0 0 0 / 42%) !important;
+  }
+}
+.mat-form-field.mat-form-field-invalid {
+  .mat-form-field-label {
+    color: #f44336 !important;
+  }
+}
+.mat-form-field-invalid {
+  .mat-form-field-outline-thick {
+    color: #f44336 !important;
+  }
+}
 th.mat-header-cell:first-of-type {
   padding-left: 0px !important;
 }
@@ -166,15 +184,15 @@ th.mat-header-cell:last-of-type {
     .mat-form-field-appearance-outline .mat-form-field-infix {
       padding: 0px 0px 7px 7px !important;
     }
-    .mat-form-field{
+    .mat-form-field {
       width: 100%;
-      input.mat-input-element{
+      input.mat-input-element {
         padding-left: 0 !important;
       }
     }
   }
-  .insurance-details-class{
-    .mat-form-field{
+  .insurance-details-class {
+    .mat-form-field {
       width: 100%;
     }
   }
@@ -564,10 +582,10 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     width: 368px !important;
   }
   .mat-form-field {
-        width: 100%;
-      }
+    width: 100%;
+  }
 }
-.failure-dialog-class{
+.failure-dialog-class {
   .mat-dialog-container {
     border-radius: 20px !important;
     width: 515px !important;
@@ -643,9 +661,9 @@ input.mat-input-element {
   .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0px 0px 7px 7px !important;
   }
-  .mat-form-field{
+  .mat-form-field {
     width: 100%;
-    input.mat-input-element{
+    input.mat-input-element {
       padding-left: 0 !important;
     }
   }
