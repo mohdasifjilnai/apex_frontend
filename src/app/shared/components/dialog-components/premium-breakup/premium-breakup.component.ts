@@ -57,6 +57,7 @@ export class PremiumBreakupComponent implements OnInit {
   thirdParty: any;
   vehicleTypeValue: any;
   isIdvGreaterThan50Lac: any;
+  endPath: string;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -74,6 +75,11 @@ export class PremiumBreakupComponent implements OnInit {
     } else if (dataToBottomSheet != null) {
       this.initiateQuotes = dataToBottomSheet;
     }
+    const currentUrl = window.location.href;
+    const segments = currentUrl.split('/');
+    const lastSegment = segments[segments.length - 1];
+    this.endPath = lastSegment;
+    
   }
   ngOnInit(): void {
     let gstValue = sessionStorage.getItem('gstValue');
@@ -151,7 +157,7 @@ export class PremiumBreakupComponent implements OnInit {
   }
   /**
    * Function used for buy Now Button in responsive
-   * 
+   *
    */
   getProposalDetails(quotes_data: any) {
     this.bottomSheetRef.dismiss();
@@ -170,7 +176,7 @@ export class PremiumBreakupComponent implements OnInit {
 
   /**
    * Function used for open non POS Popup
-   * 
+   *
    */
   openNonPOSPopup(objData: any) {
     let resWidth;

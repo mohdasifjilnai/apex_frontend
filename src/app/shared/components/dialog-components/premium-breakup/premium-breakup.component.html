@@ -206,7 +206,7 @@
     </div>
   </div>
   <div class="share-download-btn-res mt-2">
-    <div class="row">
+    <div class="row" *ngIf="endPath == 'quotes'">
       <div class="col-3">
         <button mat-button class="light-blue" (click)="shareQuotes()">
           <img src="/assets/icon/share.svg" class="share-icon" alt="" />
@@ -217,8 +217,38 @@
           <img src="/assets/icon/download.svg" class="share-icon" alt="" />
         </button>
       </div>
-      <div class="col-6">
-        <button mat-button class="submit-btn"(click)="getProposalDetails(initiateQuotes)">Buy Now</button>
+      <div class="col-6" *ngIf="endPath == 'quotes'">
+        <button
+          mat-button
+          class="submit-btn"
+          (click)="getProposalDetails(initiateQuotes)"
+        >
+          Buy Now
+        </button>
+      </div>
+    </div>
+    <div *ngIf="endPath != 'quotes'">
+      <div class="">
+        <div class="communication-group row">
+          <div
+            class="share-group col-6 light-blue d-flex justify-content-center"
+            (click)="shareQuotes()"
+          >
+            <img src="/assets/icon/share.svg" class="share-icon" />
+            <p class="share-text text-light-blue">Share</p>
+          </div>
+          <div
+            class="download-group col-6 light-green justify-content-center d-flex"
+          >
+            <img src="/assets/icon/download.svg" class="download-icon" />
+            <p
+              class="download-text text-light-green"
+              (click)="downloadPremiumBreakup(initiateQuotes)"
+            >
+              Download
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

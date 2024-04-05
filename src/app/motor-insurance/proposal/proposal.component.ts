@@ -146,26 +146,78 @@ export class ProposalComponent implements OnInit {
   // }
   onStepChange(event: any) {
     const selectedStep = event.selectedIndex + 1;
-    if (selectedStep == 1) {
-      this.stepNumber = 'Step 1/5';
-      this.stepHeader = 'CKYC Details';
-      this.stepImage = '/assets/icon/step-1.svg';
-    } else if (selectedStep == 2) {
-      this.stepNumber = 'Step 2/5';
-      this.stepHeader = 'Vehicle Owner Details';
-      this.stepImage = '/assets/icon/step-2.svg';
-    } else if (selectedStep == 3) {
-      this.stepNumber = 'Step 3/5';
-      this.stepHeader = 'Nominee Details';
-      this.stepImage = '/assets/icon/step-3.svg';
-    } else if (selectedStep == 4) {
-      this.stepNumber = 'Step 4/5';
-      this.stepHeader = 'Vehicle Details';
-      this.stepImage = '/assets/icon/step-4.svg';
-    } else if (selectedStep == 5) {
-      this.stepNumber = 'Step 5/5';
-      this.stepHeader = 'Previous Policy Details';
-      this.stepImage = '/assets/icon/step-5.svg';
+    if (this.isNotShowInNewPolicyDetails && this.isNotShowNomineeDetails) {
+      if (selectedStep == 1) {
+        this.stepNumber = 'Step 1/5';
+        this.stepHeader = 'CKYC Details';
+        this.stepImage = '/assets/icon/step-1.svg';
+      } else if (selectedStep == 2) {
+        this.stepNumber = 'Step 2/5';
+        this.stepHeader = 'Vehicle Owner Details';
+        this.stepImage = '/assets/icon/step-2.svg';
+      } else if (selectedStep == 3) {
+        this.stepNumber = 'Step 3/5';
+        this.stepHeader = 'Nominee Details';
+        this.stepImage = '/assets/icon/step-3.svg';
+      } else if (selectedStep == 4) {
+        this.stepNumber = 'Step 4/5';
+        this.stepHeader = 'Vehicle Details';
+        this.stepImage = '/assets/icon/step-4.svg';
+      } else if (selectedStep == 5) {
+        this.stepNumber = 'Step 5/5';
+        this.stepHeader = 'Previous Policy Details';
+        this.stepImage = '/assets/icon/step-5.svg';
+      }
+    } else if (this.isNotShowInNewPolicyDetails) {
+      if (selectedStep == 1) {
+        this.stepNumber = 'Step 1/4';
+        this.stepHeader = 'CKYC Details';
+        this.stepImage = '/assets/icon/step-1.svg';
+      } else if (selectedStep == 2) {
+        this.stepNumber = 'Step 2/4';
+        this.stepHeader = 'Vehicle Owner Details';
+        this.stepImage = '/assets/icon/step-2.svg';
+      } else if (selectedStep == 3) {
+        this.stepNumber = 'Step 3/4';
+        this.stepHeader = 'Vehicle Details';
+        this.stepImage = '/assets/icon/step-4.svg';
+      } else if (selectedStep == 4) {
+        this.stepNumber = 'Step 4/4';
+        this.stepHeader = 'Previous Policy Details';
+        this.stepImage = '/assets/icon/step-5.svg';
+      }
+    } else if (this.isNotShowNomineeDetails) {
+      if (selectedStep == 1) {
+        this.stepNumber = 'Step 1/4';
+        this.stepHeader = 'CKYC Details';
+        this.stepImage = '/assets/icon/step-1.svg';
+      } else if (selectedStep == 2) {
+        this.stepNumber = 'Step 2/4';
+        this.stepHeader = 'Vehicle Owner Details';
+        this.stepImage = '/assets/icon/step-2.svg';
+      } else if (selectedStep == 3) {
+        this.stepNumber = 'Step 3/4';
+        this.stepHeader = 'Nominee Details';
+        this.stepImage = '/assets/icon/step-3.svg';
+      } else if (selectedStep == 4) {
+        this.stepNumber = 'Step 4/4';
+        this.stepHeader = 'Vehicle Details';
+        this.stepImage = '/assets/icon/step-4.svg';
+      }
+    } else {
+      if (selectedStep == 1) {
+        this.stepNumber = 'Step 1/3';
+        this.stepHeader = 'CKYC Details';
+        this.stepImage = '/assets/icon/step-1.svg';
+      } else if (selectedStep == 2) {
+        this.stepNumber = 'Step 2/3';
+        this.stepHeader = 'Vehicle Owner Details';
+        this.stepImage = '/assets/icon/step-2.svg';
+      } else if (selectedStep == 3) {
+        this.stepNumber = 'Step 3/3';
+        this.stepHeader = 'Vehicle Details';
+        this.stepImage = '/assets/icon/step-4.svg';
+      }
     }
   }
   /**
@@ -189,23 +241,30 @@ export class ProposalComponent implements OnInit {
   }
   proposerVehicleDetailsData(data: any) {
     if (data) {
+      if(this.isNotShowInNewPolicyDetails){
+        this.showPreviousPolicyDetails = true;
+      }
       this.stepper.next();
     }
   }
   getVehicleOwnerData(data: any) {
     if (data) {
-      // this.showNomineeDetails = true;
+      if(this.isNotShowNomineeDetails){
+        this.showNomineeDetails = true;
+      }
       this.stepper.next();
     }
   }
   getNomineeData(data: any) {
     if (data) {
-      // this.showVehicleDetails = true;
+      this.stepper.next();
+      this.showVehicleDetails = true;
     }
   }
   getVehicleData(data: any) {
     if (data) {
       // this.showPreviousPolicyDetails = true;
+      this.stepper.next();
     }
   }
   back() {

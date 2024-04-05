@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   transactionId: any;
   currentUrl: any;
   @ViewChild('widgetId') widgetId!: ElementRef;
+  id: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
@@ -35,7 +36,12 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.transactionId = sessionStorage.getItem('transaction_id');
+    this.id = sessionStorage.getItem('transaction_id');
+    if (window.innerWidth <= 999) {
+      this.transactionId = this.id.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
+    }else{
+      this.transactionId = this.id
+    }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {
         this.transactionId = res.length > 10 ? res.substring(0, 10) + '...' : res;
