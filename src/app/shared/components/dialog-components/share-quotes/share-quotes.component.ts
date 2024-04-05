@@ -51,6 +51,36 @@ export class ShareQuotesComponent implements OnInit {
     for (let value of this.quotesData) {
       this.quotes_id.push(value?.quote_id);
     }
+    this.shareQuotationForm
+      .get('whatsApp_number')
+      ?.valueChanges.subscribe((whatsAppNumber) => {
+        if (whatsAppNumber) {
+          this.shareQuotationForm.patchValue({
+            contact_number: '',
+            email: '',
+          });
+        }
+      });
+    this.shareQuotationForm
+      .get('contact_number')
+      ?.valueChanges.subscribe((whatsAppNumber) => {
+        if (whatsAppNumber) {
+          this.shareQuotationForm.patchValue({
+            whatsApp_number: '',
+            email: '',
+          });
+        }
+      });
+    this.shareQuotationForm
+      .get('email')
+      ?.valueChanges.subscribe((whatsAppNumber) => {
+        if (whatsAppNumber) {
+          this.shareQuotationForm.patchValue({
+            whatsApp_number: '',
+            contact_number: '',
+          });
+        }
+      });
   }
   /**
    * this fucntion use for close pop up

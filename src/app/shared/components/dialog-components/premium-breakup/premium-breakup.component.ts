@@ -152,7 +152,7 @@ export class PremiumBreakupComponent implements OnInit {
 
   downloadPremiumBreakup(data: any) {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premim_breakup`;
+    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup`;
     this.sharedDataService.downloadPolicy(url);
   }
   /**
