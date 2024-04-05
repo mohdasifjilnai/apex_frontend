@@ -7,10 +7,10 @@
       <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)"
         ><ng-container *ngFor="let quotesTab of tabDataList">
           <mat-tab label="{{ quotesTab?.code }}" [disabled]="enableIdvCard">
-            <span mat-tab-label id="{{ quotesTab?.code }}">
+            <ng-template mat-tab-label id="{{ quotesTab?.code }}">
               {{ quotesTab.name | titlecase }}
               <!-- <span class="count">20</span> -->
-            </span>
+            </ng-template>
           </mat-tab>
         </ng-container>
       </mat-tab-group>
