@@ -463,6 +463,8 @@ export class SharedDataService {
    * @param formData - The form data containing the customer, vehicle, and other details.
    */
   createProposalId(flag?: any, formData?: any) {
+    this.proposerType = sessionStorage.getItem('proposerType');
+    this.vehicleType = localStorage.getItem('vehicleType');
     this.quoteData = sessionStorage.getItem('quotes_data');
     const proposalId = sessionStorage.getItem('proposal_Id');
     const proposalParam = sessionStorage.getItem('proposal_param');
@@ -524,6 +526,7 @@ export class SharedDataService {
           address_line:
             formData?.get('owner_communication_addres')?.value || '',
         },
+        customer_type: this.proposerType || '',
       };
     }
     if (flag === 'nominne_details') {
@@ -543,6 +546,7 @@ export class SharedDataService {
             : null,
         engine_no: formData?.get('engine_number')?.value.toUpperCase() || '',
         chassis_no: formData?.get('chassis_number')?.value.toUpperCase() || '',
+        vehicle_type: this.vehicleType,
         registration_date:
           this.datePipe.transform(
             formData?.get('registration_date')?.value,
