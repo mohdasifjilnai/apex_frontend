@@ -1,0 +1,41 @@
+<!-- Dialog title -->
+<div mat-dialog-title>
+  <div class="error-popup-header d-flex justify-content-end">
+    <img
+      src="/assets/icon/cross.svg"
+      (click)="onClose()"
+      class="cursor-pointer"
+      alt="close"
+    />
+  </div>
+</div>
+<!-- Dialog content -->
+<div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <div class="error-gif">
+        <img src="/assets/gif/error.gif" class="error-gif-image" alt="close" />
+      </div>
+    </div>
+    <div class="col-12">
+      <p class="text-content text-center">Attention</p>
+    </div>
+    <div class="col-12">
+      <p class="text-content text-center">
+        Your proposal has <span class="text-red">expired</span>
+      </p>
+      <p class="text-content text-center">
+        Please proceed to generate fresh quotes.
+      </p>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+      <button
+        class="submit-btn get-quotes-btn"
+        (click)="onClose()"
+        type="submit"
+      >
+        Get Quotes
+      </button>
+    </div>
+  </div>
+</div>

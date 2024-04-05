@@ -54,6 +54,7 @@ import { SnackbarComponent } from './components/dialog-components/snackbar/snack
 import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-starting.directive';
 import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
 import { HelplineNumberComponent } from './components/dialog-components/helpline-number/helpline-number.component';
+import { ProposalExpiredComponent } from './components/dialog-components/proposal-expired/proposal-expired.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { HelplineNumberComponent } from './components/dialog-components/helpline
     RemoveZeroFromStartingDirective,
     NotAllowDotDirective,
     HelplineNumberComponent,
+    ProposalExpiredComponent,
   ],
   imports: [
     CommonModule,
