@@ -94,10 +94,10 @@ export class ManufactureDateComponent implements OnInit {
    * for use year selection
    */
   chosenYearManufacture(normalizedYear: Moment) {
-    this.manufactureDate =
-      this.form.controls['manufacture_date'].value || moment(); // Set to the current date if null
-    this.manufactureDate.year(normalizedYear.year());
-    this.form.controls['manufacture_date'].setValue(this.manufactureDate);
+    // this.manufactureDate =
+    //   this.form.controls['manufacture_date'].value || moment(); // Set to the current date if null
+    // this.manufactureDate.year(normalizedYear.year());
+    // this.form.controls['manufacture_date'].setValue(this.manufactureDate);
   }
   /**
    * for use month selection
@@ -106,6 +106,8 @@ export class ManufactureDateComponent implements OnInit {
     normalizedMonth: Moment,
     datepicker: MatDatepicker<Moment>
   ) {
+    this.manufactureDate =
+      this.form.controls['manufacture_date'].value || moment();
     this.manufactureDate.month(normalizedMonth.month());
     this.manufactureDate?.year(normalizedMonth.year());
     this.form.controls['manufacture_date'].setValue(this.manufactureDate);

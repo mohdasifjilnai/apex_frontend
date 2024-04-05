@@ -66,15 +66,16 @@ export class RegistrationYearComponent implements OnInit {
   ) {}
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
-    this.ctrlValue = this.form.controls['registration_date'].value || moment();
-    this.ctrlValue?.year(normalizedYear.year());
-    this.form.controls['registration_date'].setValue(this.ctrlValue);
+    // this.ctrlValue = this.form.controls['registration_date'].value || moment();
+    // this.ctrlValue?.year(normalizedYear.year());
+    // this.form.controls['registration_date'].setValue(this.ctrlValue);
   }
 
   chosenMonthHandler(
     normalizedMonth: Moment,
     datepicker: MatDatepicker<Moment>
   ) {
+    this.ctrlValue = this.form.controls['registration_date'].value || moment();
     this.ctrlValue?.month(normalizedMonth.month());
     this.ctrlValue?.year(normalizedMonth.year());
     this.form.controls['registration_date'].setValue(this.ctrlValue);
