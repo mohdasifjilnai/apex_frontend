@@ -45,6 +45,8 @@ export class VehicleComponent implements OnInit {
   mmvListValue: any;
   mmvId: any;
   private debounceSubjectVehcileMMV = new Subject<any>();
+  vehicleSelectedData: any;
+  showSelectedFuelandCapacity: boolean = false;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -89,31 +91,38 @@ export class VehicleComponent implements OnInit {
    */
   filterMMV(name: string) {
     if (typeof name != 'object') {
-      let vehicleType = localStorage.getItem('vehicleType');
-      return this.apiservice
-        .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
-        )
-        .pipe(
-          map((res) => {
-            if (res && res.length > 0) {
-              this.mmvList = res.map((item: any) => ({
-                ...item,
-                displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
-              }));
-              this.mmvDataNotAvailable = '';
-            } else {
-              this.mmvDataNotAvailable = 'No data';
-              return [this.mmvDataNotAvailable];
-            }
-            return this.mmvList;
-          })
-        );
+      if (name.length > 2) {
+        let vehicleType = localStorage.getItem('vehicleType');
+        return this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
+          )
+          .pipe(
+            map((res) => {
+              if (res && res.length > 0) {
+                this.mmvList = res.map((item: any) => ({
+                  ...item,
+                  displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
+                }));
+                this.mmvDataNotAvailable = '';
+              } else {
+                this.mmvDataNotAvailable = 'No data';
+                return [this.mmvDataNotAvailable];
+              }
+              return this.mmvList;
+            })
+          );
+      }
     }
     return of([]);
   }
 
   vehcileMMV(data: any) {
+    this.showSelectedFuelandCapacity = false;
+    if (data?.fuel) {
+      this.showSelectedFuelandCapacity = true;
+      this.vehicleSelectedData = data;
+    }
     this.debounceSubjectVehcileMMV.next(data);
   }
 
@@ -123,20 +132,25 @@ export class VehicleComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
       )
-      .subscribe((res) => {
-        if (res) {
-          this.mmvList = res.map((item: any) => ({
-            ...item,
-            displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
-          }));
-          this.mmvDataNotAvailable = res.length > 0 ? '' : res.message;
-          this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
-            debounceTime(500),
-            startWith(name),
-            switchMap((name: any) => this.filterMMV(name))
-          );
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.mmvList = res.map((item: any) => ({
+              ...item,
+              displayMMV: `${item.rb_make_name} | ${item.rb_model_name} | ${item.rb_variant_name}`,
+            }));
+            this.mmvDataNotAvailable = res.length > 0 ? '' : res.message;
+            this.filteredMMV = this.form.controls['vehicle'].valueChanges.pipe(
+              debounceTime(500),
+              startWith(name),
+              switchMap((name: any) => this.filterMMV(name))
+            );
+          }
+        },
+        (error) => {
+          this.showSelectedFuelandCapacity = false;
         }
-      });
+      );
   }
 
   ngOnDestroy(): void {

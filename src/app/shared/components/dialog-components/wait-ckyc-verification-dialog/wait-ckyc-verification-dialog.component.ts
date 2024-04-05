@@ -72,40 +72,45 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.isWaitingTime = false;
     this.apiService
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
-      .subscribe((res) => {
-        if (
-          res['customer_details'] != null &&
-          res['upload_document'] == false
-        ) {
-          this.isWaitingTime = true;
-          this.isCustomerDetails = true;
-          this.isUpload = false;
-          this.ckycData = res.customer_details;
-          this.sharedDataService?.fetchCKycFormData.subscribe((res) => {
-            this.sharedDataService?.createProposalId('ckyc', res);
-          });
-          this.sharedDataService.getFetchedCkycData(res);
-          sessionStorage.setItem('kycData', JSON.stringify(res));
-        } else if (
-          res['customer_details'] == null &&
-          res['upload_document'] == false
-        ) {
-          this.redirectionUrlViaForm = res['redirection_url_via_form'];
-          this.error_message = res['error_message'];
-          this.isWaitingTime = true;
-          this.isCustomerDetails = false;
-          this.isUpload = false;
-        } else if (
-          res['customer_details'] == null &&
-          res['upload_document'] == true
-        ) {
-          this.isWaitingTime = true;
-          this.isCustomerDetails = true;
-          this.isUpload = true;
-          this.uploadDocumentsFormControler();
-          this.getDocumentType();
+      .subscribe(
+        (res) => {
+          if (
+            res['customer_details'] != null &&
+            res['upload_document'] == false
+          ) {
+            this.isWaitingTime = true;
+            this.isCustomerDetails = true;
+            this.isUpload = false;
+            this.ckycData = res.customer_details;
+            this.sharedDataService?.fetchCKycFormData.subscribe((res) => {
+              this.sharedDataService?.createProposalId('ckyc', res);
+            });
+            this.sharedDataService.getFetchedCkycData(res);
+            sessionStorage.setItem('kycData', JSON.stringify(res));
+          } else if (
+            res['customer_details'] == null &&
+            res['upload_document'] == false
+          ) {
+            this.redirectionUrlViaForm = res['redirection_url_via_form'];
+            this.error_message = res['error_message'];
+            this.isWaitingTime = true;
+            this.isCustomerDetails = false;
+            this.isUpload = false;
+          } else if (
+            res['customer_details'] == null &&
+            res['upload_document'] == true
+          ) {
+            this.isWaitingTime = true;
+            this.isCustomerDetails = true;
+            this.isUpload = true;
+            this.uploadDocumentsFormControler();
+            this.getDocumentType();
+          }
+        },
+        (error) => {
+          this.dialogRef.close();
         }
-      });
+      );
   }
 
   /**
