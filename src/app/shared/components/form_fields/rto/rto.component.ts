@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -59,18 +66,20 @@ export class RTOComponent implements OnInit {
     } else {
       this.form.addControl('rto_city', new FormControl());
     }
-    this.debounceSubject.pipe(
-      debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
-    ).subscribe((data: any) => {
-      if (data.length >= 2) {
-        this.getRTOData(data);
-      }
-    });
+    this.debounceSubject
+      .pipe(
+        debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
+      )
+      .subscribe((data: any) => {
+        if (data?.length >= 2) {
+          this.getRTOData(data);
+        }
+      });
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
   }
-  getRTOData(name:any) {
+  getRTOData(name: any) {
     this.apiservice
       .getRequestedResponse(ApiConstants.get_rto_list)
       .subscribe((res) => {
@@ -95,37 +104,36 @@ export class RTOComponent implements OnInit {
           this.filteredRtoList = of(['No data']);
         }
       });
-      this.sendResponse(this.rtoDataNotAvailable )
+    this.sendResponse(this.rtoDataNotAvailable);
   }
 
   filterRTO(name: string): Observable<any[]> {
-    if(typeof name!='object'){
+    if (typeof name != 'object') {
       return this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_rto_list}?search_element=${name}`
-      )
-      .pipe(
-        map((res) => {
-          if (res && !res?.message) {
-            if (Array.isArray(res)) {
-              this.rtoList = res;
-            } else if (typeof res === 'object') {
-              this.rtoList = [res];
+        .getRequestedResponse(
+          `${ApiConstants.get_rto_list}?search_element=${name}`
+        )
+        .pipe(
+          map((res) => {
+            if (res && !res?.message) {
+              if (Array.isArray(res)) {
+                this.rtoList = res;
+              } else if (typeof res === 'object') {
+                this.rtoList = [res];
+              }
+
+              this.rtoDataNotAvailable =
+                this.rtoList.length === 0 ? 'No data' : '';
+
+              return this.rtoList;
+            } else {
+              this.rtoDataNotAvailable = 'No data available';
+              this.filteredRtoList = of(['No data']);
             }
-
-            this.rtoDataNotAvailable =
-              this.rtoList.length === 0 ? 'No data' : '';
-
-            return this.rtoList;
-          } else {
-            this.rtoDataNotAvailable = 'No data available';
-            this.filteredRtoList = of(['No data']);
-          }
-        })
-      );
+          })
+        );
     }
     return of([]);
-    
   }
 
   ngOnDestroy(): void {
@@ -142,8 +150,8 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
-    if(typeof data=='object'){
-      this.sendResponse(data)
+    if (typeof data == 'object') {
+      this.sendResponse(data);
     }
     // Emit the data to the debounceSubject
     this.debounceSubject.next(data);

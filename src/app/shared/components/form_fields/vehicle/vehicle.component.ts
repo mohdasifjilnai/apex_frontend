@@ -76,7 +76,7 @@ export class VehicleComponent implements OnInit {
         debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
       )
       .subscribe((data: any) => {
-        if (data.length >= 3) {
+        if (data?.length >= 3) {
           this.getVehicleMMV(data, this.vehcileType);
         }
       });

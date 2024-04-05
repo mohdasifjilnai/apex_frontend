@@ -89,7 +89,6 @@ export class MotorInsuranceComponent implements OnInit {
     //   this.openNotCertifiedPopup(null);
     // }
   }
-
   ngOnInit(): void {
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -230,7 +229,6 @@ export class MotorInsuranceComponent implements OnInit {
       }
     );
   }
-
   monthDiff = (d1: any, d2: any) => {
     let months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
