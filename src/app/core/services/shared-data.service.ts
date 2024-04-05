@@ -647,7 +647,6 @@ export class SharedDataService {
         if (res) {
           this.createdProposalId = res;
           sessionStorage.setItem('proposal_Id', res?.proposal_id);
-          sessionStorage.setItem('insurer_code', res?.insurer_code);
           this.sendProposalData(res);
           if (flag === 'ckyc') {
             if (this.createdProposalId?.ckyc_details !== null) {

@@ -129,9 +129,8 @@ export class CkycComponent implements OnInit {
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    this.insurerCode = sessionStorage.getItem('insurer_code');
     if (
-      this.insurerCode === this.quoteData['insurer_code'] &&
+      kycData?.insurer_code === this.quoteData['insurer_code'] &&
       kycData?.verification_status === true
     ) {
       this.isDisableCKyc = true;
