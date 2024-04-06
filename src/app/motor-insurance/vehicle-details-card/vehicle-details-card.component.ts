@@ -114,9 +114,10 @@ export class VehicleDetailsCardComponent implements OnInit {
           this.vehicleInspectionMessage =
             'Vehicle inspection is required as your previous policy is not available';
           this.breakIn = true;
-        } else {
-          this.breakIn = false;
         }
+        // else {
+        //   this.breakIn = false;
+        // }
       }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
