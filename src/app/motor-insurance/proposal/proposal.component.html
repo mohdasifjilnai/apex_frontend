@@ -27,7 +27,6 @@
         <app-vehicle-owner-details
           [fetchCkycData]="proceedData"
           (afterVehicleOwnerData)="getVehicleOwnerData($event)"
-          *ngIf="isLoadVehicleOwnerDetails"
         ></app-vehicle-owner-details>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -44,7 +43,6 @@
         <app-nominee-details
           [fetchOwnerVehicleDetails]="proceedData"
           (afterNomineeGetData)="getNomineeData($event)"
-          *ngIf="isLoadNomineeDetails"
         ></app-nominee-details>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -60,7 +58,6 @@
         <app-proposal-vehicle-details
           [fetchNomineeDetails]="proceedData"
           (afterVehicleData)="getVehicleData($event)"
-          *ngIf="isLoadVehicleDetails"
         ></app-proposal-vehicle-details>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -76,7 +73,6 @@
         </mat-expansion-panel-header>
         <app-previous-policy-details
           [fetchVehicleDetails]="proceedData"
-          *ngIf="isLoadPreviousPolicyDetails"
         ></app-previous-policy-details>
       </mat-expansion-panel>
     </mat-accordion>
