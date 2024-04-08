@@ -92,6 +92,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       this.enableIdvCard = false;
       let quotationArray = idvData;
+      this.breakIn = false;
       for (let i = 0; i <= quotationArray.length - 1; i++) {
         if (
           quotationArray[i]['status'] &&
@@ -110,9 +111,6 @@ export class VehicleDetailsCardComponent implements OnInit {
             'Vehicle inspection is required as your previous policy is not available';
           this.breakIn = true;
         }
-        // else {
-        //   this.breakIn = false;
-        // }
       }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {

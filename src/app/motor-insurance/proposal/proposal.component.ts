@@ -56,6 +56,10 @@ export class ProposalComponent implements OnInit {
   stepHeader: any = 'CKYC Details';
   stepImage: any = '/assets/icon/step-1.svg';
   mmvData: any;
+  isLoadVehicleOwnerDetails: boolean = false;
+  isLoadNomineeDetails: boolean = false;
+  isLoadVehicleDetails: boolean = false;
+  isLoadPreviousPolicyDetails: boolean = false;
 
   constructor(
     public matDialog: WindowRef,
@@ -111,12 +115,16 @@ export class ProposalComponent implements OnInit {
       this.isCkycLoaded = true;
     } else if (expansionName === 'Vehicle Owner Details') {
       this.showVehicleOwnerDetails = true;
+      this.isLoadVehicleOwnerDetails = true;
     } else if (expansionName === 'Nominee Details') {
       this.showNomineeDetails = true;
+      this.isLoadNomineeDetails = true;
     } else if (expansionName === 'Vehicle Details') {
       this.showVehicleDetails = true;
+      this.isLoadVehicleDetails = true;
     } else if (expansionName === 'Previous Policy Details') {
       this.showPreviousPolicyDetails = true;
+      this.isLoadPreviousPolicyDetails = true;
     }
   }
 
@@ -153,82 +161,78 @@ export class ProposalComponent implements OnInit {
   //     this.step5 = true;
   //   }
   // }
+  /**
+   * Method to handle step change in the stepper component
+   * @param event
+   */
   onStepChange(event: any) {
+    /**
+     * Get the index of the selected step and add 1 to convert to step number
+     */
     const selectedStep = event.selectedIndex + 1;
+
+    /**
+     * Initialize variables for total steps and step number prefix
+     */
+    let totalSteps = 3;
+    let stepNumberPrefix = 'Step';
+
+    /**
+     * Determine the total number of steps based on conditions
+     */
     if (this.isNotShowInNewPolicyDetails && this.isNotShowNomineeDetails) {
-      if (selectedStep == 1) {
-        this.stepNumber = 'Step 1/5';
+      totalSteps = 5;
+    } else if (
+      this.isNotShowInNewPolicyDetails ||
+      this.isNotShowNomineeDetails
+    ) {
+      totalSteps = 4;
+    }
+
+    /**
+     * Set the step number string based on the selected step and total steps
+     */
+    this.stepNumber = `${stepNumberPrefix} ${selectedStep}/${totalSteps}`;
+
+    /**
+     * Switch statement to set step header and image based on selected step and conditions
+     */
+    switch (selectedStep) {
+      case 1:
         this.stepHeader = 'CKYC Details';
         this.stepImage = '/assets/icon/step-1.svg';
-      } else if (selectedStep == 2) {
-        this.stepNumber = 'Step 2/5';
+        break;
+      case 2:
         this.stepHeader = 'Vehicle Owner Details';
         this.stepImage = '/assets/icon/step-2.svg';
-      } else if (selectedStep == 3) {
-        this.stepNumber = 'Step 3/5';
-        this.stepHeader = 'Nominee Details';
-        this.stepImage = '/assets/icon/step-3.svg';
-      } else if (selectedStep == 4) {
-        this.stepNumber = 'Step 4/5';
-        this.stepHeader = 'Vehicle Details';
-        this.stepImage = '/assets/icon/step-4.svg';
-      } else if (selectedStep == 5) {
-        this.stepNumber = 'Step 5/5';
+        break;
+      case 3:
+        if (this.isNotShowInNewPolicyDetails) {
+          this.stepHeader = 'Nominee Details';
+          this.stepImage = '/assets/icon/step-3.svg';
+        } else {
+          this.stepHeader = 'Vehicle Details';
+          this.stepImage = '/assets/icon/step-4.svg';
+        }
+        break;
+      case 4:
+        if (this.isNotShowInNewPolicyDetails && this.isNotShowNomineeDetails) {
+          this.stepHeader = 'Vehicle Details';
+          this.stepImage = '/assets/icon/step-4.svg';
+        } else {
+          this.stepHeader = 'Previous Policy Details';
+          this.stepImage = '/assets/icon/step-5.svg';
+        }
+        break;
+      case 5:
         this.stepHeader = 'Previous Policy Details';
         this.stepImage = '/assets/icon/step-5.svg';
-      }
-    } else if (this.isNotShowInNewPolicyDetails) {
-      if (selectedStep == 1) {
-        this.stepNumber = 'Step 1/4';
-        this.stepHeader = 'CKYC Details';
-        this.stepImage = '/assets/icon/step-1.svg';
-      } else if (selectedStep == 2) {
-        this.stepNumber = 'Step 2/4';
-        this.stepHeader = 'Vehicle Owner Details';
-        this.stepImage = '/assets/icon/step-2.svg';
-      } else if (selectedStep == 3) {
-        this.stepNumber = 'Step 3/4';
-        this.stepHeader = 'Vehicle Details';
-        this.stepImage = '/assets/icon/step-4.svg';
-      } else if (selectedStep == 4) {
-        this.stepNumber = 'Step 4/4';
-        this.stepHeader = 'Previous Policy Details';
-        this.stepImage = '/assets/icon/step-5.svg';
-      }
-    } else if (this.isNotShowNomineeDetails) {
-      if (selectedStep == 1) {
-        this.stepNumber = 'Step 1/4';
-        this.stepHeader = 'CKYC Details';
-        this.stepImage = '/assets/icon/step-1.svg';
-      } else if (selectedStep == 2) {
-        this.stepNumber = 'Step 2/4';
-        this.stepHeader = 'Vehicle Owner Details';
-        this.stepImage = '/assets/icon/step-2.svg';
-      } else if (selectedStep == 3) {
-        this.stepNumber = 'Step 3/4';
-        this.stepHeader = 'Nominee Details';
-        this.stepImage = '/assets/icon/step-3.svg';
-      } else if (selectedStep == 4) {
-        this.stepNumber = 'Step 4/4';
-        this.stepHeader = 'Vehicle Details';
-        this.stepImage = '/assets/icon/step-4.svg';
-      }
-    } else {
-      if (selectedStep == 1) {
-        this.stepNumber = 'Step 1/3';
-        this.stepHeader = 'CKYC Details';
-        this.stepImage = '/assets/icon/step-1.svg';
-      } else if (selectedStep == 2) {
-        this.stepNumber = 'Step 2/3';
-        this.stepHeader = 'Vehicle Owner Details';
-        this.stepImage = '/assets/icon/step-2.svg';
-      } else if (selectedStep == 3) {
-        this.stepNumber = 'Step 3/3';
-        this.stepHeader = 'Vehicle Details';
-        this.stepImage = '/assets/icon/step-4.svg';
-      }
+        break;
+      default:
+        break;
     }
   }
+
   /**
    * get ckyc data
    */
