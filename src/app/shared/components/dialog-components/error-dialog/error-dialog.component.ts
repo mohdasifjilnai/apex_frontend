@@ -16,7 +16,7 @@ export class ErrorDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.errorMessage = data['data']['message'];
-    this.link = data['data']['link'];
+    this.link = data['data']['ckyc_link'];
   }
 
   ngOnInit(): void {}
