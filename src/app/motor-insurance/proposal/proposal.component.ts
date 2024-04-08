@@ -95,6 +95,15 @@ export class ProposalComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.isMobileView = true;
     }
+    if (this.isNotShowNomineeDetails && this.isNotShowInNewPolicyDetails) {
+      this.stepNumber = 'Step 1/5';
+    } else if (this.isNotShowNomineeDetails) {
+      this.stepNumber = 'Step 1/4';
+    } else if (this.isNotShowInNewPolicyDetails) {
+      this.stepNumber = 'Step 1/4';
+    } else {
+      this.stepNumber = 'Step 1/3';
+    }
   }
 
   loadCkyc(expansionName: string) {
@@ -241,7 +250,7 @@ export class ProposalComponent implements OnInit {
   }
   proposerVehicleDetailsData(data: any) {
     if (data) {
-      if(this.isNotShowInNewPolicyDetails){
+      if (this.isNotShowInNewPolicyDetails) {
         this.showPreviousPolicyDetails = true;
       }
       this.stepper.next();
@@ -249,7 +258,7 @@ export class ProposalComponent implements OnInit {
   }
   getVehicleOwnerData(data: any) {
     if (data) {
-      if(this.isNotShowNomineeDetails){
+      if (this.isNotShowNomineeDetails) {
         this.showNomineeDetails = true;
       }
       this.stepper.next();
