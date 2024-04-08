@@ -158,7 +158,7 @@ export class SharedDataService {
           this.router.navigate(['/motor/quotes']);
           let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
           let dateObj = moment(registrationDate, 'MM/YYYY');
-          this.getRegistrationData.next(dateObj);
+          // this.getRegistrationData.next(dateObj);
         } else {
           this.detailNotFound.next(res?.detail);
         }
@@ -408,7 +408,7 @@ export class SharedDataService {
         selectedAddons: sessionStorage.getItem('selectedAddons'),
       };
       let mmvValues = {
-        rb_mmv_id: mmvData?.vehicle_model,
+        rb_mmv_id: mmvData?.vehicle_variant,
         rto_code: mmvData?.registration_city?.rb_rto_code,
         registration_date: mmvData.registration_date,
         previous_insurer: mmvData.previous_insurer,

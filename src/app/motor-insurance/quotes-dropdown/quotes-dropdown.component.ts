@@ -118,7 +118,6 @@ export class QuotesDropdownComponent implements OnInit {
       if (data?.value) {
         sessionStorage.setItem('sortObjectkey', data.value);
         this.bottomSheetRef.dismiss();
-        data.preventDefault();
       }
       if (this.defaultGST) {
         if (data == 'low' || data?.value == 'low') {

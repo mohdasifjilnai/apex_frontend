@@ -11,8 +11,8 @@
         class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
         *ngIf="parsedVehicleData != ''"
       >
-        {{ parsedVehicleData?.vehicle_model?.rb_make_name }}
-        {{ parsedVehicleData?.vehicle_model?.rb_model_name }}
+        {{ parsedVehicleData?.vehicle_variant?.rb_make_name }}
+        {{ parsedVehicleData?.vehicle_variant?.rb_model_name }}
         {{ parsedVehicleData?.vehicle_variant?.rb_variant_name }} ,
         {{ parsedVehicleData?.vehicle_fuel }} ,
         {{ parsedVehicleData?.registration_city?.display_name }}
@@ -40,8 +40,8 @@
             policyDate ? policyDate : "-"
           }}</span>
         </div>
-        <div class="me-1 insurer-text ">
-          <span class="vehicle-card-heading-details ">Previous Insurer</span
+        <div class="me-1 insurer-text">
+          <span class="vehicle-card-heading-details">Previous Insurer</span
           ><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
@@ -62,7 +62,7 @@
             >{{ newNCB ? newNCB : "0" }}</span
           >
         </div>
-        <div >
+        <div>
           <button
             type="button"
             class="edit-button"

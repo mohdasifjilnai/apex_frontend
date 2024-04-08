@@ -31,7 +31,7 @@
       <div mat-dialog-content>
         <div class="row vehicle-details-form">
           <!-- Make/Model dropdown -->
-          <!-- <div class="col-lg-6 col-md-6 col-12">
+          <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -41,7 +41,7 @@
                 matInput
                 placeholder="Search Make/Model"
                 (ngModelChange)="vehcileMake($event)"
-                aria-label="vehicle_model"
+                aria-label="vehicle_make"
                 #autoCompleteInput
                 [matAutocomplete]="autoMake"
                 formControlName="vehicle_make"
@@ -106,16 +106,17 @@
                 [matAutocomplete]="autoVariant"
                 formControlName="vehicle_variant"
               />
-              <mat-autocomplete #autoVariant="matAutocomplete"
-              (optionSelected)="onOptionVariantSelected($event)">
-                <span>
-                  <mat-option
-                    *ngFor="let mmData of filteredPopupVariant | async"
-                    [value]="mmData.rb_variant_name"
-                  >
-                    <span>{{ mmData.rb_variant_name }}</span>
-                  </mat-option>
-                </span>
+              <mat-autocomplete
+                #autoVariant="matAutocomplete"
+                [displayWith]="displayVariant.bind(this)"
+                (optionSelected)="onOptionVariantSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let mmData of filteredPopupVariant | async"
+                  [value]="mmData"
+                >
+                  <span>{{ mmData.rb_variant_name }}</span>
+                </mat-option>
               </mat-autocomplete>
             </mat-form-field>
           </div>
@@ -131,9 +132,9 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div> -->
+          </div>
 
-          <div class="col-lg-6 col-md-6 col-12">
+          <!-- <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -171,9 +172,9 @@
                 </span>
               </mat-autocomplete>
             </mat-form-field>
-          </div>
+          </div> -->
           <!-- variant dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <!-- <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -212,9 +213,9 @@
                 </span>
               </mat-autocomplete>
             </mat-form-field>
-          </div>
+          </div> -->
           <!-- vehicle fuel dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <!-- <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -226,7 +227,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </div> -->
           <!-- Registration City dropdown -->
           <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
