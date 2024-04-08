@@ -337,7 +337,7 @@ export class QuotesListingComponent implements OnInit {
       this.progressValue = 0;
       this.startProgress(this.progressValue);
       // Handle the data received from the bottom sheet
-      this.owner_type = dataReceived;
+      this.owner_type = sessionStorage.getItem('proposerType');
     });
   }
   /**

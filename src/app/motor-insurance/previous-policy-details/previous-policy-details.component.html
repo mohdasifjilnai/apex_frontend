@@ -14,7 +14,7 @@
         [label]="'Search Previous Insurer'"
       ></app-previous-insurer>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label>Previous Policy</mat-label>
         <input
@@ -42,7 +42,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
       <app-policy-expired-date
         [policyExpiryDate]="'proposal-expiry-date'"
         [required]="true"
@@ -60,7 +60,7 @@
         [formControlNameData]="'tp_insurance_company'"
       ></app-previous-insurer>
     </div>
-    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
+    <div class="col-lg-4 col-md-4 col-12 mt-2" *ngIf="isTpPolicyDetails">
       <mat-form-field appearance="outline">
         <mat-label>TP Policy Number</mat-label>
         <input
@@ -71,7 +71,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
+    <div class="col-lg-4 col-md-4 col-12 mt-2" *ngIf="isTpPolicyDetails">
       <mat-form-field appearance="outline" class="cpa-date">
         <mat-label>TP Policy Start Date</mat-label>
         <input
@@ -95,7 +95,7 @@
         <mat-datepicker #tpPolicyStartDate></mat-datepicker>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12" *ngIf="isTpPolicyDetails">
+    <div class="col-lg-4 col-md-4 col-12 mt-2" *ngIf="isTpPolicyDetails">
       <mat-form-field appearance="outline" class="cpa-date">
         <mat-label>TP Policy End Date</mat-label>
         <input

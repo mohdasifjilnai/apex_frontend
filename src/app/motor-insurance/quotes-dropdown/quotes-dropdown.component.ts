@@ -25,6 +25,8 @@ export class QuotesDropdownComponent implements OnInit {
   lowHighSelected = 'low';
   gstValue: any;
   defaultGST = true;
+  defaultOwnerSelectedValue: any;
+  defaultSortSelectedValue:any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<QuotesDropdownComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -48,6 +50,8 @@ export class QuotesDropdownComponent implements OnInit {
       }
     });
     this.getProposalType();
+    this.defaultOwnerSelectedValue = sessionStorage.getItem('proposerType');
+    this.defaultSortSelectedValue=sessionStorage.getItem('sortObjectkey')
   }
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
@@ -67,15 +71,15 @@ export class QuotesDropdownComponent implements OnInit {
    */
   changeProposalType(event: any) {
     this.bottomSheetRef.dismiss(
-      this.proposalList.filter((res: any) => res.proposer_id == event.value)[0][
-        'proposer_name'
-      ]
+      this.proposalList.filter(
+        (res: any) => res.proposer_name == event.value
+      )[0]['proposer_name']
     );
     if (this.proposalTypeOninit) {
       sessionStorage.setItem(
         'proposerType',
         this.proposalList.filter(
-          (res: any) => res.proposer_id == event.value
+          (res: any) => res.proposer_name == event.value
         )[0]['proposer_name']
       );
       let productTypeValue = sessionStorage.getItem('productType');
@@ -102,7 +106,7 @@ export class QuotesDropdownComponent implements OnInit {
     } else {
       sessionStorage.setItem(
         'proposerType',
-        this.proposalList.filter((res: any) => res.proposer_id == event)[0][
+        this.proposalList.filter((res: any) => res.proposer_name == event)[0][
           'proposer_name'
         ]
       );
