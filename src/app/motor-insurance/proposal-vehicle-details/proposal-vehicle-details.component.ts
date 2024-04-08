@@ -61,8 +61,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   mmvData: any;
   productTypeValue: any;
   isBreakIn: any;
-  vehicleMMVData: any;
-  vehicleMMVValue: any;
   mmvItem: any;
 
   constructor(
@@ -116,8 +114,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
     this.productTypeValue = sessionStorage.getItem('productType');
     this.mmvData = sessionStorage.getItem('mmv_data');
-    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
     this.mmvItem = JSON.parse(this.mmvData);
     if (this.mmvItem) {
       if (this.mmvItem?.manufacture_date) {

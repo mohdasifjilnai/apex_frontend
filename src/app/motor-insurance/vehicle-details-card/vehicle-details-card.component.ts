@@ -50,7 +50,6 @@ export class VehicleDetailsCardComponent implements OnInit {
   enableIdvCard = true;
   breakIn = false;
   vehicleInspectionMessage: any;
-  vehicleMMVData: any;
   expiryListData: any;
   vehicleValueForm: any;
   constructor(
@@ -75,10 +74,6 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
     this.vehiclePopupList = sessionStorage.getItem('mmv_data');
-    this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    let policy_expiry_date = JSON.parse(
-      this.vehicleMMVData
-    )?.policy_expiry_date;
 
     let vehicleCard = JSON.parse(this.vehiclePopupList);
     if (vehicleCard) {
@@ -101,7 +96,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         if (
           quotationArray[i]['status'] &&
           quotationArray[i]['is_breakin'] &&
-          policy_expiry_date != 'Not Sure'
+          vehicleCard?.policy_expiry_date != 'Not Sure'
         ) {
           this.vehicleInspectionMessage =
             'Vehicle inspection is required as your previous policy is expired';
@@ -109,7 +104,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         } else if (
           quotationArray[i]['status'] &&
           quotationArray[i]['is_breakin'] &&
-          policy_expiry_date == 'Not Sure'
+          vehicleCard?.policy_expiry_date == 'Not Sure'
         ) {
           this.vehicleInspectionMessage =
             'Vehicle inspection is required as your previous policy is not available';

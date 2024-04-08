@@ -63,6 +63,7 @@ export class ManufactureDateComponent implements OnInit {
   registrationNumber: any;
   registrationDate: any;
   vehicleMMVData: any;
+  vehicleMMVItem: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -85,6 +86,9 @@ export class ManufactureDateComponent implements OnInit {
     // this.form.controls['manufacture_date'].setValue(null);
     this.vehicleMMVData = JSON.parse(
       sessionStorage.getItem('vehicleMMVData') || '{}'
+    );
+    this.vehicleMMVItem = JSON.parse(
+      sessionStorage.getItem('mmv_data') || '{}'
     );
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     this.manufactureDateValidation();
@@ -174,7 +178,10 @@ export class ManufactureDateComponent implements OnInit {
    */
 
   setMinMaxDates(yearsToAdd: any) {
-    if (this.vehicleMMVData?.registration_date) {
+    if (
+      this.vehicleMMVData?.registration_date ||
+      this.vehicleMMVItem?.registration_date
+    ) {
       const registrationDate = new Date(this.vehicleMMVData?.registration_date);
       this.minDate = new Date(
         registrationDate.getFullYear() - yearsToAdd,
