@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/components/dialog-components/snackbar/snackbar.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -82,7 +83,8 @@ export class SharedDataService {
     private loaderService: LoaderService,
     public longPollingService: LongPollingService,
     private datePipe: DatePipe,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private http: HttpClient
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -812,12 +814,46 @@ export class SharedDataService {
    *
    * @param url - The URL of the policy document.
    */
+  getDownloadTemplate(url: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/pdf',
+    });
+
+    return this.http.get(`${ApiConstants?.downloadPremiumBreakup}${url}`, {
+      headers,
+      responseType: 'arraybuffer',
+    });
+  }
   downloadPolicy(url: any) {
-    this.apiService
-      .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
-      .subscribe((res: any) => {
-        window.open(res);
-      });
+    this.getDownloadTemplate(url).subscribe((response: any) => {
+      /**
+       * Create a Blob from the response data
+       */
+      const blob = new Blob([response], { type: 'application/pdf' });
+
+      /**
+       * Create a download link
+       */
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+
+      /**
+       * Set the download attribute to the desired filename
+       */
+      link.download = 'Premium_breakup.pdf';
+
+      /**
+       * Append the link to the body
+       */
+      document.body.appendChild(link);
+
+      /**
+       * Trigger the download
+       */
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(link.href);
+    });
   }
   /**
  
