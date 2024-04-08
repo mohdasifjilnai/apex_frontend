@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import city from './city-name.json';
@@ -81,7 +87,8 @@ export class MotorInsuranceComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private breakpointObserver: BreakpointObserver,
     private matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private cdr: ChangeDetectorRef
   ) {
     // if (window.innerWidth <= 768) {
     //   this.bottomSheet.open(NotCertifiedComponent);
@@ -296,6 +303,7 @@ export class MotorInsuranceComponent implements OnInit {
         this.motorInsurance.get('registration_date')?.updateValueAndValidity();
         sessionStorage.removeItem('checkWheeler');
       }, 0);
+      this.cdr.detectChanges();
     } else {
       setTimeout(() => {
         this.motorInsurance
@@ -317,6 +325,7 @@ export class MotorInsuranceComponent implements OnInit {
         this.motorInsurance.get('registration_date')?.clearValidators();
         this.motorInsurance.get('registration_date')?.updateValueAndValidity();
       }, 0);
+      this.cdr.detectChanges();
     }
   }
   /**

@@ -133,7 +133,7 @@ export class SharedDataService {
    * @param data disable field insurere and expiry policy date
    */
   insurerData(data: any) {
-    this.disableInsurer.next(data);
+    this.disableInsurer?.next(data);
   }
 
   /**
