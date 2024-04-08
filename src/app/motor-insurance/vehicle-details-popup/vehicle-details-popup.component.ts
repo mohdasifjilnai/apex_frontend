@@ -1701,7 +1701,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   filterMakePopup(name: string) {
-    if (typeof name != 'object') {
+    if (typeof name != 'object' && name.length >= 3) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
@@ -1771,7 +1771,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   filterModelPopup(name: string) {
-    if (typeof name != 'object') {
+    if (typeof name != 'object' && name.length >= 3) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
@@ -1832,7 +1832,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   filterVariantPopup(name: string) {
-    if (typeof name != 'object') {
+    if (typeof name != 'object' && name.length >= 2) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
@@ -1894,7 +1894,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   filterVarientPopup(name: string) {
-    if (typeof name != 'object') {
+    if (typeof name != 'object' && name.length >= 2) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
