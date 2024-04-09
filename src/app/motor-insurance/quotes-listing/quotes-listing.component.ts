@@ -692,12 +692,11 @@ export class QuotesListingComponent implements OnInit {
   startProgress(progressValue: any) {
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      this.progressValue += 0.25;
+      this.progressValue += 0.1;
       if (this.progressValue >= 100) {
         clearInterval(this.intervalId);
       } else {
         const position = this.progressValue * 3.5;
-        // Use the position value as needed, for example, update the style of an element
         const translatedX = this.getImagePosition();
       }
     }, 50);
