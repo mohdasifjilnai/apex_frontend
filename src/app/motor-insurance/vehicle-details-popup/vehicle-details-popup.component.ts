@@ -1452,6 +1452,18 @@ Get the expiring policy list based on the given date or the registration details
               this.vehicleDetailsForm.patchValue({
                 registration_date: dateObj,
               });
+              this.getExpiringPolicy(dateObj);
+            }
+            if (
+              this.registrationNumber?.manufactured_month &&
+              this.registrationNumber?.manufactured_year
+            ) {
+              let manufactureDate = `${this.registrationNumber?.manufactured_month}/${this.registrationNumber?.manufactured_year}`;
+
+              let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
+              this.vehicleDetailsForm.patchValue({
+                manufacture_date: manufacturedateObj,
+              });
             }
             if (this.registrationNumber?.previous_policy_exp_date) {
               let inputDate = this.registrationNumber?.previous_policy_exp_date;

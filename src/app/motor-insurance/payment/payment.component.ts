@@ -139,6 +139,11 @@ export class PaymentComponent implements OnInit {
       if (kycData) {
         sessionStorage.removeItem('kycData');
       }
+
+      let withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
+      if (withoutVehicleNumber) {
+        localStorage.removeItem('withoutVehicleNumber');
+      }
     });
   }
 
