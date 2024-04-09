@@ -248,7 +248,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
   downloadPremiumBreakup() {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup`;
+    let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form`;
     this.sharedDataService.downloadPolicy(url);
   }
 }
