@@ -53,6 +53,7 @@ export class SharedDataService {
   disableInitiatesQuotes: Subject<any> = new Subject();
   throughEmailVehicle: Subject<any> = new Subject();
   vehicleCardEmailValue: Subject<any> = new Subject();
+  nomineeData: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -75,6 +76,7 @@ export class SharedDataService {
   addOnsList: any = [];
   selected_addons: any;
   quoteItem: any;
+  isNotShowVehicleDetails: boolean = false;
 
   constructor(
     private apiService: ApiService,
@@ -467,7 +469,7 @@ export class SharedDataService {
   createProposalId(flag?: any, formData?: any) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = localStorage.getItem('vehicleType');
-    this.quoteData = sessionStorage.getItem('quotes_data');
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const proposalId = sessionStorage.getItem('proposal_Id');
     const proposalParam = sessionStorage.getItem('proposal_param');
 
@@ -475,18 +477,18 @@ export class SharedDataService {
       this.redirectProposalId = sessionStorage.getItem('proposal_Id');
       this.proposalDataItem = {
         transaction_id: sessionStorage.getItem('transaction_id') || '',
-        insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
-        insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
+        insurer_quote_id: this.quoteData?.quote_id || '',
+        insurer_code: this.quoteData?.insurer_coe || '',
         proposal_id: this.redirectProposalId?.replace(/['"]+/g, ''),
-        is_breakin: JSON.parse(this.quoteData)['is_breakin'],
+        is_breakin: this.quoteData?.is_breakin,
       };
     } else {
       this.proposalDataItem = {
         transaction_id: sessionStorage.getItem('transaction_id') || '',
-        insurer_quote_id: JSON.parse(this.quoteData)['quote_id'] || '',
-        insurer_code: JSON.parse(this.quoteData)['insurer_code'] || '',
+        insurer_quote_id: this.quoteData?.quote_id || '',
+        insurer_code: this.quoteData?.insurer_code || '',
         proposal_id: proposalId !== undefined ? proposalId : '',
-        is_breakin: JSON.parse(this.quoteData)['is_breakin'],
+        is_breakin: this.quoteData?.is_breakin,
       };
     }
     const ckycIdValue = formData?.get('ckyc_id')?.value;
@@ -620,10 +622,9 @@ export class SharedDataService {
 
       let productTypeValue = sessionStorage.getItem('productType');
       if (
-        JSON.parse(this.quoteData)['is_breakin'] ||
+        this.quoteData?.is_breakin ||
         productTypeValue === 'saod' ||
-        (JSON.parse(this.quoteData)['is_breakin'] &&
-          productTypeValue === 'comprehensive')
+        (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value
@@ -679,6 +680,29 @@ export class SharedDataService {
               this.openSnackBar('Previous Policy Details Saved', true);
             }
           }
+          if (this.createdProposalId?.nominee_details === null) {
+            if (
+              this.quoteData?.premium_details?.addon_premium_details?.length > 0
+            ) {
+              for (let isCpa of this.quoteData?.premium_details
+                ?.addon_premium_details) {
+                if (
+                  (isCpa?.add_on_code === 'CPA' ||
+                    isCpa?.add_on_code === 'CPA3') &&
+                  this.proposerType !== 'corporate'
+                ) {
+                  this.isNotShowVehicleDetails = true;
+                }
+              }
+            } else if (this.proposerType === 'corporate') {
+              this.isNotShowVehicleDetails = false;
+            } else {
+              this.isNotShowVehicleDetails = false;
+            }
+          } else {
+            this.isNotShowVehicleDetails = false;
+          }
+          this.setIsNotShowNomineeDetails(this.isNotShowVehicleDetails);
         }
       });
   }
@@ -914,5 +938,8 @@ export class SharedDataService {
   }
   sendQuoteData(quoteData: any) {
     this.quoteItem = quoteData;
+  }
+  setIsNotShowNomineeDetails(data: any) {
+    this.nomineeData.next(data);
   }
 }

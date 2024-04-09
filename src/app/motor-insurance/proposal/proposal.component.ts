@@ -287,14 +287,16 @@ export class ProposalComponent implements OnInit {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (
         proposal?.ckyc_details !== null &&
-        this.quoteData['insurer_code'] === 'digit'
+        (this.quoteData['insurer_code'] === 'digit' ||
+          this.quoteData['insurer_code'] === 'liberty')
       ) {
         this.showVehicleOwnerDetails = true;
         this.stepper?.next();
         this.accordianExpanded = 'vehicleOwnerDetails';
       } else if (
         proposal?.ckyc_details !== null &&
-        this.quoteData['insurer_code'] !== 'digit'
+        (this.quoteData['insurer_code'] !== 'digit' ||
+          this.quoteData['insurer_code'] === 'liberty')
       ) {
         this.showVehicleOwnerDetails = true;
       }
@@ -370,5 +372,10 @@ export class ProposalComponent implements OnInit {
     if (this.mmvData?.policy_expiry === 'IDK') {
       this.isNotShowInNewPolicyDetails = false;
     }
+    this.sharedData?.nomineeData.subscribe((nominee) => {
+      if (nominee) {
+        this.accordianExpanded = 'nomineeDetails';
+      }
+    });
   }
 }

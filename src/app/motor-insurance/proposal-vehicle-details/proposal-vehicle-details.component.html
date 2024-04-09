@@ -317,7 +317,9 @@
       <button
         class="submit-btn owner-vehicle-submission"
         type="submit"
-        [disabled]="proposalVehilceDetailsForm.invalid"
+        [disabled]="
+          proposalVehilceDetailsForm.invalid || isNotShowVehicleDetails
+        "
       >
         {{
           vehicleType === "new" ||

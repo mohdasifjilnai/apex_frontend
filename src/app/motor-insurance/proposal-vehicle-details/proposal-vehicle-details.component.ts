@@ -62,6 +62,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   productTypeValue: any;
   isBreakIn: any;
   mmvItem: any;
+  isNotShowVehicleDetails: boolean = false;
 
   constructor(
     private apiservice: ApiService,
@@ -268,6 +269,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         .get('registration_number_last_digit')
         ?.disable();
     }
+    this.shareData?.nomineeData.subscribe((nominee) => {
+      this.isNotShowVehicleDetails = nominee;
+    });
     this.getPincodeList();
     this.getAgreementList();
     this.getFinancierList();
