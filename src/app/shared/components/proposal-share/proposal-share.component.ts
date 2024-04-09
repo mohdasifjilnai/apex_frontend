@@ -63,7 +63,7 @@ export class ProposalShareComponent implements OnInit {
   nextDateValue: any;
   proposalData: any;
   quotesData: any;
-
+  vehicleTypeValue: any;
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -83,9 +83,8 @@ export class ProposalShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.bottomSheetdata.length>0) {
+    if (this.bottomSheetdata.length > 0) {
       this.quotesData = this.bottomSheetdata;
-      
     } else {
       this.quotesData = this.data?.data;
     }
@@ -294,7 +293,7 @@ export class ProposalShareComponent implements OnInit {
               const bottomSheetConfig: MatBottomSheetConfig = {
                 data: sendCommunicationObject, // Pass your data here
               };
-              this.bottomSheet.open(OtpComponent,bottomSheetConfig);
+              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
             } else {
               this.openModal(sendCommunicationObject, this.otpDialog);
             }
@@ -326,5 +325,16 @@ export class ProposalShareComponent implements OnInit {
       },
     };
     this.matDialog.openDialog(obj);
+  }
+  /**
+   * Downloads the premium breakup for the given quote.
+   * @param data - The quote data.
+   */
+
+  downloadPremiumBreakup() {
+    let quote_data = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup`;
+    this.sharedDataService.downloadPolicy(url);
   }
 }

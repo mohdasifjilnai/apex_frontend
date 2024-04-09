@@ -50,7 +50,6 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadButtonShow = false;
   downloadUrl: any;
   addPremiumWithTp: any;
-
   constructor(
     public matDialog: WindowRef,
 
@@ -59,7 +58,8 @@ export class InsuranceDetailsComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private sharedData: SharedDataService,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    private sharedDataService: SharedDataService
   ) {
     this.route.url.subscribe((segments) => {
       const proposalSegment = segments.find(
@@ -239,5 +239,16 @@ export class InsuranceDetailsComponent implements OnInit {
   // }
   // onCpaChange(event: any) {
   //   this.onCpaCheckboxChange(event.checked);
-  // }
+  // }\
+
+  /**
+   * Downloads the premium breakup for the given quote.
+   * @param data - The quote data.
+   */
+
+  downloadPremiumBreakup() {
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup`;
+    this.sharedDataService.downloadPolicy(url);
+  }
 }

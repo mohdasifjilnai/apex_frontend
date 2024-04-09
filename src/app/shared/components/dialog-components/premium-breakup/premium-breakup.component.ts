@@ -79,7 +79,6 @@ export class PremiumBreakupComponent implements OnInit {
     const segments = currentUrl.split('/');
     const lastSegment = segments[segments.length - 1];
     this.endPath = lastSegment;
-    
   }
   ngOnInit(): void {
     let gstValue = sessionStorage.getItem('gstValue');

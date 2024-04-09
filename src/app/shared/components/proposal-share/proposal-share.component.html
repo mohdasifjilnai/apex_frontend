@@ -69,6 +69,7 @@
           <div
             class="download-group light-green justify-content-center d-flex"
             [ngClass]="{ 'download-group-after-share': !isCommunicationGroup }"
+            (click)="downloadPremiumBreakup()"
           >
             <img src="/assets/icon/download.svg" class="download-icon" />
             <p class="download-text text-light-green">Download</p>
