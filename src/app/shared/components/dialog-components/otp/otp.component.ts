@@ -164,8 +164,8 @@ export class OtpComponent implements OnInit {
                       `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
                     )
                     .subscribe((payment_getway_response) => {
-                      if (payment_getway_response['url']) {
-                        window.location.href = payment_getway_response['url'];
+                      if (payment_getway_response) {
+                        window.location.href = payment_getway_response;
                       }
                     });
                 }
