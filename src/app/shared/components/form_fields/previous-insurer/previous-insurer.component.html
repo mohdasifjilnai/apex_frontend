@@ -16,23 +16,29 @@
     #autoInsurer="matAutocomplete"
     [displayWith]="displayPreviousInsurer.bind(this)"
   >
-    <span *ngIf="previousInsurerNoData == ''">
-      <mat-option
-        *ngFor="let insurer of filteredInsurerList | async"
-        [value]="insurer"
-        [matTooltip]="
-          insurer.rb_insurer_name.length > 36 ? insurer.rb_insurer_name! : ''
-        "
-        matTooltipPosition="right"
-      >
-        <span>{{ insurer.rb_insurer_name }}</span>
-      </mat-option>
-    </span>
-    <span *ngIf="previousInsurerNoData">
-      <mat-option>
-        <span>No data</span>
-      </mat-option>
-    </span>
+    <ng-container *ngIf="insururDataLength > 2">
+      <span *ngIf="previousInsurerNoData == ''">
+        <!-- filteredInsurerList | async -->
+        <mat-option
+          *ngFor="let insurer of filteredInsurerList | async"
+          [value]="insurer"
+          [matTooltip]="
+            insurer.rb_insurer_name.length > 36 ? insurer.rb_insurer_name! : ''
+          "
+          matTooltipPosition="right"
+        >
+          <span>{{ insurer.rb_insurer_name }}</span>
+        </mat-option>
+      </span>
+      <span *ngIf="previousInsurerNoData">
+        <mat-option
+          *ngIf="previousInsurerNoData === 'No data'"
+          [value]="'No data'"
+        >
+          {{ previousInsurerNoData }}
+        </mat-option>
+      </span>
+    </ng-container>
   </mat-autocomplete>
   <mat-error
     *ngIf="form.controls['previous_insurer']?.hasError('required')"

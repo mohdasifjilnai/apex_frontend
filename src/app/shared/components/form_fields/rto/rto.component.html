@@ -15,20 +15,21 @@
     #autoRTO="matAutocomplete"
     [displayWith]="displayRto.bind(this)"
   >
-    <span *ngIf="rtoDataNotAvailable == ''">
-      <mat-option
-        *ngFor="let rto of filteredRtoList | async"
-        [value]="rto"
-        id-automation="searchRtoDropdown"
-      >
-        <span>{{ rto.display_name }}</span>
-      </mat-option>
-    </span>
-
-    <span *ngIf="rtoDataNotAvailable">
-      <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto">
-        <span>{{ rto }}</span>
-      </mat-option>
-    </span>
+    <ng-container *ngIf="rtoDataLength > 1">
+      <span *ngIf="rtoDataNotAvailable == ''">
+        <mat-option
+          *ngFor="let rto of filteredRtoList | async"
+          [value]="rto"
+          id-automation="searchRtoDropdown"
+        >
+          <span>{{ rto.display_name }}</span>
+        </mat-option>
+      </span>
+      <span *ngIf="rtoDataNotAvailable">
+        <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto">
+          <span>{{ rto }}</span>
+        </mat-option>
+      </span>
+    </ng-container>
   </mat-autocomplete>
 </mat-form-field>

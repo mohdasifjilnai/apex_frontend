@@ -48,6 +48,7 @@ export class RTOComponent implements OnInit {
   rtoId: any;
   private debounceSubject = new Subject<any>();
   @Output() responseEvent = new EventEmitter<string>();
+  rtoDataLength: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService
@@ -81,20 +82,20 @@ export class RTOComponent implements OnInit {
   }
   getRTOData(name: any) {
     this.apiservice
-      .getRequestedResponse(ApiConstants.get_rto_list)
+      .getRequestedResponse(
+        `${ApiConstants.get_rto_list}?search_element=${name}`
+      )
       .subscribe((res) => {
         if (res && res.length > 0 && !res.message) {
           this.rtoList = res;
           this.rtoDataNotAvailable = '';
-
           this.filteredRtoList = this.form.controls[
             'rto_city'
           ].valueChanges.pipe(
             debounceTime(500),
             startWith(name),
-            switchMap((name) => this.filterRTO(name)),
+            switchMap((name) => this.filterRTO(name, res)),
             catchError((error) => {
-              console.error('Error filtering RTO data:', error);
               this.rtoDataNotAvailable = 'Error fetching data';
               return of(['No data']);
             })
@@ -107,31 +108,30 @@ export class RTOComponent implements OnInit {
     this.sendResponse(this.rtoDataNotAvailable);
   }
 
-  filterRTO(name: string): Observable<any[]> {
+  filterRTO(name: string, rtoResponse: any): Observable<any[]> {
     if (typeof name != 'object') {
-      return this.apiservice
-        .getRequestedResponse(
-          `${ApiConstants.get_rto_list}?search_element=${name}`
-        )
-        .pipe(
-          map((res) => {
-            if (res && !res?.message) {
-              if (Array.isArray(res)) {
-                this.rtoList = res;
-              } else if (typeof res === 'object') {
-                this.rtoList = [res];
-              }
+      // return this.apiservice
+      //   .getRequestedResponse(
+      //     `${ApiConstants.get_rto_list}?search_element=${name}`
+      //   )
+      //   .pipe(
+      //     map((res) => {
+      if (rtoResponse && !rtoResponse?.message) {
+        if (Array.isArray(rtoResponse)) {
+          this.rtoList = rtoResponse;
+        } else if (typeof rtoResponse === 'object') {
+          this.rtoList = [rtoResponse];
+        }
+        this.rtoDataNotAvailable = this.rtoList.length === 0 ? 'No data' : '';
 
-              this.rtoDataNotAvailable =
-                this.rtoList.length === 0 ? 'No data' : '';
-
-              return this.rtoList;
-            } else {
-              this.rtoDataNotAvailable = 'No data available';
-              this.filteredRtoList = of(['No data']);
-            }
-          })
-        );
+        return of(this.rtoList);
+      } else {
+        this.rtoDataNotAvailable = 'No data available';
+        return of([this.rtoDataNotAvailable]);
+        // this.filteredRtoList = of(['No data']);
+      }
+      //   })
+      // );
     }
     return of([]);
   }
@@ -150,6 +150,7 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
+    this.rtoDataLength=data.length
     if (typeof data == 'object') {
       this.sendResponse(data);
     }

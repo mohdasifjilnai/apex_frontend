@@ -20,26 +20,28 @@
           </div>
           <div class="row mt-4">
             <ng-container *ngIf="isPolicyNumber">
-              <div class="d-flex justify-content-center mt-4">
-                <mat-form-field appearance="outline" class="policyNumber">
-                  <mat-label>Enter Previous Policy Number</mat-label>
-                  <input
-                    id-automation="policynumberId"
-                    matInput
-                    placeholder="Enter Previous Policy Number"
-                    formControlName="policy_number"
-                    class="tagPolicyNumber"
-                  />
-                  <mat-error
-                    *ngIf="
-                      motorInsurance.controls['policy_number']?.hasError(
-                        'required'
-                      )
-                    "
-                  >
-                    This is a required field.
-                  </mat-error>
-                </mat-form-field>
+              <div class="col-12">
+                <div class="d-flex justify-content-center mt-2">
+                  <mat-form-field appearance="outline" class="policyNumber">
+                    <mat-label>Enter Previous Policy Number</mat-label>
+                    <input
+                      id-automation="policynumberId"
+                      matInput
+                      placeholder="Enter Previous Policy Number"
+                      formControlName="policy_number"
+                      class="tagPolicyNumber"
+                    />
+                    <mat-error
+                      *ngIf="
+                        motorInsurance.controls['policy_number']?.hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      This is a required field.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
             </ng-container>
             <ng-container *ngIf="!isPolicyNumber">

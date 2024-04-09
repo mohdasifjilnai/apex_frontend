@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -8,7 +16,16 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable, debounceTime, map, of, startWith, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  catchError,
+  debounceTime,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -38,6 +55,10 @@ export class PreviousInsurerComponent implements OnInit {
   disableInsurerField = true;
   routerEvents: any;
   currentPageUrl: any;
+  @Output() responseEvent = new EventEmitter<string>();
+
+  private debounceSubject = new Subject<any>();
+  insururDataLength: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -60,7 +81,14 @@ export class PreviousInsurerComponent implements OnInit {
     } else {
       this.form.addControl(this.formControlNameData, new FormControl());
     }
-    this.getInsurerData('');
+    // this.getInsurerData('');
+    this.debounceSubject
+      .pipe(debounceTime(300)) // Adjust the debounce time as needed (in milliseconds)
+      .subscribe((data) => {
+        if (data?.length > 2) {
+          this.getInsurerData(data);
+        }
+      });
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
       this.disableInsurerField = res;
@@ -77,55 +105,61 @@ export class PreviousInsurerComponent implements OnInit {
       this.form.controls['previous_insurer'].disable();
     }
   }
-
+  sendResponse(response: string) {
+    this.responseEvent.emit(response);
+  }
   getInsurerData(name: any) {
     this.apiservice
-      .getRequestedResponse(ApiConstants.get_previous_insurer)
+      .getRequestedResponse(
+        `${ApiConstants.get_previous_insurer}?search_element=${name}`
+      )
       .subscribe((res) => {
-        if (res) {
+        if (res && !res?.message) {
           this.insurerList = res;
           this.previousInsurerNoData = '';
-
-          if (res.length > 0) {
-            if (this.form.controls['previous_insurer']) {
-              this.filteredInsurerList = this.form.controls[
-                'previous_insurer'
-              ].valueChanges.pipe(
-                debounceTime(500),
-                startWith(''),
-                switchMap((name) => this.filterInsurer(name))
-              );
-            }
-          } else {
-            this.previousInsurerNoData = res.message;
+          // if (this.form.controls['previous_insurer']) {
             this.filteredInsurerList = this.form.controls[
               'previous_insurer'
             ].valueChanges.pipe(
               debounceTime(500),
               startWith(''),
-              map((name) => ['No data'])
+              switchMap((name) => this.filterInsurer(name, res)),
+              catchError((error) => {
+                this.previousInsurerNoData = 'Error fetching data';
+                return of(['No data']);
+              })
             );
-          }
+          // }
+        } else {
+          this.previousInsurerNoData = res.message;
+          this.filteredInsurerList = of(['No data']);
         }
       });
+    this.sendResponse(this.previousInsurerNoData);
   }
 
-  filterInsurer(name: string): Observable<any[]> {
+  filterInsurer(name: string, insururResponse: any): Observable<any[]> {
     if (typeof name != 'object') {
-      return this.apiservice
-        .getRequestedResponse(
-          `${ApiConstants.get_previous_insurer}?search_element=${name}`
-        )
-        .pipe(
-          map((res) => {
-            if (res.length > 0) {
-              return res;
-            } else {
-              this.previousInsurerNoData = res.message;
-              return ['No data'];
-            }
-          })
-        );
+      // return this.apiservice
+      //   .getRequestedResponse(
+      //     `${ApiConstants.get_previous_insurer}?search_element=${name}`
+      //   )
+      //   .pipe(
+      //     map((res) => {
+      if (insururResponse.length > 0) {
+        if (Array.isArray(insururResponse)) {
+          this.insurerList = insururResponse;
+        } else if (typeof insururResponse === 'object') {
+          this.insurerList = [insururResponse];
+        }
+        this.previousInsurerNoData = this.insurerList.length === 0 ? 'No data' : '';
+        return of(this.insurerList);
+      } else {
+        this.previousInsurerNoData = 'No data';
+        return of([this.previousInsurerNoData]);
+      }
+      //   })
+      // );
     }
     return of([]);
   }
@@ -145,9 +179,11 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   previousInsurerBlankData(data: any) {
-    if (data == '') {
-      this.getInsurerData('');
+    this.insururDataLength=data.length
+    if (typeof data == 'object') {
+      this.sendResponse(data);
     }
+    this.debounceSubject.next(data);
   }
   /**
    * Removes the "dropdown-focus" class from the body element.
