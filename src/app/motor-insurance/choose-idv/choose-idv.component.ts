@@ -89,38 +89,43 @@ export class ChooseIDVComponent implements OnInit {
       });
     });
     this.sharedDataService.idvValue.subscribe((idvData) => {
-      this.minIdv = idvData.min_idv;
-      this.maxIdv = idvData.max_idv;
-      this.averageIdv = parseInt(idvData.averageIdv);
-      this.currentAmount = this.averageIdv;
-      this.chooseIdvValue = sessionStorage.getItem('idvData');
-      let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
-      if (chooseIdvAmount) {
-        this.clearIdvButton = true;
-      }
-      if (chooseIdvAmount?.chooseIdv) {
-        this.investedAmount = chooseIdvAmount.chooseIdv;
-        this.selectedIDVOption = 'choose';
-        this.amountShow = this.averageIdv;
-      } else if (chooseIdvAmount?.minIdv) {
-        this.selectedIDVOption = 'min';
+      if (idvData.min_idv != undefined) {
+        this.minIdv = idvData.min_idv;
+        this.maxIdv = idvData.max_idv;
+        this.averageIdv = parseInt(idvData.averageIdv);
+        this.currentAmount = this.averageIdv;
+        this.chooseIdvValue = sessionStorage.getItem('idvData');
+        let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
+        if (chooseIdvAmount) {
+          this.clearIdvButton = true;
+        }
+        if (chooseIdvAmount?.chooseIdv) {
+          this.investedAmount = chooseIdvAmount.chooseIdv;
+          this.selectedIDVOption = 'choose';
+          this.amountShow = this.averageIdv;
+        } else if (chooseIdvAmount?.minIdv) {
+          this.selectedIDVOption = 'min';
 
-        this.amountShow = this.averageIdv;
-        this.investedAmount = this.averageIdv;
-      } else if (chooseIdvAmount?.maxIdv) {
-        this.selectedIDVOption = 'max';
-        this.amountShow = this.averageIdv;
+          this.amountShow = this.averageIdv;
+          this.investedAmount = this.averageIdv;
+        } else if (chooseIdvAmount?.maxIdv) {
+          this.selectedIDVOption = 'max';
+          this.amountShow = this.averageIdv;
 
-        this.investedAmount = this.averageIdv;
-      } else {
-        this.investedAmount = this.averageIdv;
-        this.amountShow = this.averageIdv;
+          this.investedAmount = this.averageIdv;
+        } else {
+          this.investedAmount = this.averageIdv;
+          this.amountShow = this.averageIdv;
+        }
+        this.chooseIdvForm.patchValue({
+          chooseIdv: this.investedAmount,
+        });
       }
-      this.chooseIdvForm.patchValue({
-        chooseIdv: this.investedAmount,
-      });
     });
 
+    this.sharedDataService.quotesEnableForMobile.subscribe((data) => {
+      this.enableIdvCard = false;
+    });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
     });
@@ -129,7 +134,7 @@ export class ChooseIDVComponent implements OnInit {
       this.idvShowHide = idvHide;
     });
     if (window.innerWidth <= 999) {
-      this.isMobileView=true
+      this.isMobileView = true;
       this.minIdv = this.data?.minIdv;
       this.maxIdv = this.data?.maxIdv;
       this.amountShow = this.data?.averageIdv;
@@ -240,26 +245,26 @@ export class ChooseIDVComponent implements OnInit {
    */
   chooseIdvData() {
     if (!this.enableIdvCard) {
-    let formControlIdv = this.chooseIdvForm.value.chooseIdv;
-    this.updateIdvButton = true;
-    if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
-      this.idvError = true;
-    } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
-      this.idvError = true;
-    } else {
-      this.idvError = false;
-    }
-    let count = 0;
-
-    for (let i = 0; i <= this.quotationData.length - 1; i++) {
-      if (
-        parseInt(formControlIdv) >= this.minIdv &&
-        parseInt(formControlIdv) <= this.maxIdv
-      ) {
-        count += 1;
+      let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+      this.updateIdvButton = true;
+      if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+        this.idvError = true;
+      } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+        this.idvError = true;
+      } else {
+        this.idvError = false;
       }
-    }
-    this.quotesCount = count;
+      let count = 0;
+
+      for (let i = 0; i <= this.quotationData.length - 1; i++) {
+        if (
+          parseInt(formControlIdv) >= this.minIdv &&
+          parseInt(formControlIdv) <= this.maxIdv
+        ) {
+          count += 1;
+        }
+      }
+      this.quotesCount = count;
     }
   }
   cancelChangeIDv(event: MouseEvent): void {

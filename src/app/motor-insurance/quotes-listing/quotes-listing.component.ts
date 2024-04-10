@@ -291,9 +291,9 @@ export class QuotesListingComponent implements OnInit {
       totalIdv += item.idv;
     });
     const averageIdv = totalIdv / this.chooseIdvArray.length;
-    this.minIdv=minIdv
-    this.maxIdv=maxIdv
-    this.averageIdv=averageIdv
+    this.minIdv = minIdv;
+    this.maxIdv = maxIdv;
+    this.averageIdv = averageIdv;
     this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
   }
   getProposalDetails(quotes_data: any) {
@@ -324,15 +324,19 @@ export class QuotesListingComponent implements OnInit {
     this.chooseIdv();
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: {
-        minIdv:this.minIdv,
-        maxIdv:this.maxIdv,
-        averageIdv:this.averageIdv,
-        noOfInsurur:this.chooseIdvArray.length
-      } // Pass your data here
+        minIdv: this.minIdv,
+        maxIdv: this.maxIdv,
+        averageIdv: this.averageIdv,
+        noOfInsurur: this.chooseIdvArray.length,
+      }, // Pass your data here
     };
-    const bottomSheetRef=this.bottomSheet.open(ChooseIDVComponent,bottomSheetConfig);
-    bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
-    });
+    const bottomSheetRef = this.bottomSheet.open(
+      ChooseIDVComponent,
+      bottomSheetConfig
+    );
+    bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {});
+    ``;
+    this.sharedDataService.enableQuotesData('false');
   }
   openAddons(): void {
     const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);

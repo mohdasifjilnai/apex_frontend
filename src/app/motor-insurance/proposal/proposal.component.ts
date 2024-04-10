@@ -277,7 +277,7 @@ export class ProposalComponent implements OnInit {
   getVehicleData(data: any) {
     if (data) {
       // this.showPreviousPolicyDetails = true;
-      this.stepper.next();
+      this.stepper?.next();
     }
   }
   back() {

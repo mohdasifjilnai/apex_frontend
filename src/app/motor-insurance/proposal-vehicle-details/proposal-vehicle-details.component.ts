@@ -283,6 +283,18 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getProposalVehicleData(isValid: any) {
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
+      if (this.mmvItem) {
+        let registrationNumberFirst =
+          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
+          '-' +
+          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
+          '-' +
+          this.proposalVehilceDetailsForm.value.registration_number_last_digit;
+        this.proposalVehilceDetailsForm.patchValue({
+          registration_number: registrationNumberFirst,
+        });
+      }
+
       this.afterVehicleData.emit(formValues);
       this.shareData.createProposalId(
         'vehilce_details',

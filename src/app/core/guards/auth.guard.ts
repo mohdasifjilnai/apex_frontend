@@ -21,10 +21,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (sessionStorage.length === 1) {
-      this.router.navigate(['motor']);
-      return false;
-    }
     return true;
   }
 }

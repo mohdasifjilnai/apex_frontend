@@ -54,6 +54,7 @@ export class SharedDataService {
   throughEmailVehicle: Subject<any> = new Subject();
   vehicleCardEmailValue: Subject<any> = new Subject();
   nomineeData: Subject<any> = new Subject();
+  quotesEnableForMobile: Subject<any> = new Subject();
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -941,5 +942,12 @@ export class SharedDataService {
   }
   setIsNotShowNomineeDetails(data: any) {
     this.nomineeData.next(data);
+  }
+  /**
+   *
+   * @param data use for the mobile idv updation
+   */
+  enableQuotesData(data: any) {
+    this.quotesEnableForMobile.next(data);
   }
 }
