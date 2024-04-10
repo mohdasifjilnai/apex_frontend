@@ -223,6 +223,11 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.removeItem('kycData');
     }
 
+    let sortObjectkey = sessionStorage.getItem('sortObjectkey');
+    if (sortObjectkey) {
+      sessionStorage.removeItem('sortObjectkey');
+    }
+
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {
@@ -269,7 +274,7 @@ export class MotorInsuranceComponent implements OnInit {
       this.vehicleResponse = response;
     }
   }
-  previousInsurerComponentResponse(response: string){
+  previousInsurerComponentResponse(response: string) {
     if (typeof response != 'object') {
       this.previousInsurerResponse = '';
     } else {

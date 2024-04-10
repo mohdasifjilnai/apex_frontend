@@ -157,6 +157,13 @@ export class QuotesListingComponent implements OnInit {
   noQuotesInformation: any;
 
   ngOnInit(): void {
+    if (sessionStorage.getItem('sortObjectkey') == null) {
+      sessionStorage.setItem('sortObjectkey', 'low');
+    }
+    this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
+    if (this.sortObjectkey) {
+      this.lowHighSelected = this.sortObjectkey;
+    }
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
