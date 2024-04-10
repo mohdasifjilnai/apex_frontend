@@ -208,7 +208,10 @@ export class QuotesListingComponent implements OnInit {
           }
           if (this.quotationData.length > 0) {
             for (let i = 0; i <= this.quotationData.length - 1; i++) {
-              if (this.quotationData[i]?.premium_details?.min_idv) {
+              if (
+                this.quotationData[i]?.premium_details?.min_idv ||
+                this.quotationData[i]?.premium_details?.min_idv == 0
+              ) {
                 let idvData = {
                   insurer_code: this.quotationData[i]?.insurer_code,
                   min_idv: this.quotationData[i]?.premium_details?.min_idv,
@@ -275,26 +278,28 @@ export class QuotesListingComponent implements OnInit {
    * chooseIdv use for get the minimum and maximum idv from the quotes
    */
   chooseIdv() {
-    let minIdv = this.chooseIdvArray[0]?.min_idv;
-    let maxIdv = this.chooseIdvArray[0]?.max_idv;
+    if (this.chooseIdvArray.length > 0) {
+      let minIdv = this.chooseIdvArray[0]?.min_idv;
+      let maxIdv = this.chooseIdvArray[0]?.max_idv;
 
-    this.chooseIdvArray.forEach((obj: any) => {
-      if (obj.min_idv < minIdv) {
-        minIdv = obj.min_idv;
-      }
-      if (obj.max_idv > maxIdv) {
-        maxIdv = obj.max_idv;
-      }
-    });
-    let totalIdv = 0;
-    this.chooseIdvArray.forEach((item: any) => {
-      totalIdv += item.idv;
-    });
-    const averageIdv = totalIdv / this.chooseIdvArray.length;
-    this.minIdv = minIdv;
-    this.maxIdv = maxIdv;
-    this.averageIdv = averageIdv;
-    this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
+      this.chooseIdvArray.forEach((obj: any) => {
+        if (obj.min_idv < minIdv) {
+          minIdv = obj.min_idv;
+        }
+        if (obj.max_idv > maxIdv) {
+          maxIdv = obj.max_idv;
+        }
+      });
+      let totalIdv = 0;
+      this.chooseIdvArray.forEach((item: any) => {
+        totalIdv += item.idv;
+      });
+      const averageIdv = totalIdv / this.chooseIdvArray.length;
+      this.minIdv = minIdv;
+      this.maxIdv = maxIdv;
+      this.averageIdv = averageIdv;
+      this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
+    }
   }
   getProposalDetails(quotes_data: any) {
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));

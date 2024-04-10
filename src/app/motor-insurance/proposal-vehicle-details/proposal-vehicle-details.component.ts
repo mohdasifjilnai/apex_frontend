@@ -283,7 +283,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getProposalVehicleData(isValid: any) {
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
-      if (this.mmvItem) {
+      if (
+        this.mmvItem &&
+        this.proposalVehilceDetailsForm.value.registration_number_last_digit
+      ) {
         let registrationNumberFirst =
           this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
           '-' +
