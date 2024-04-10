@@ -27,6 +27,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   isExpiryDate: boolean = false;
   isTpPolicyDetails: boolean = false;
   mmvData: any;
+  isDisableCKyc: boolean = false;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
@@ -192,6 +193,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         .get('tp_policy_end_date')
         ?.updateValueAndValidity();
     }
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    if (Object.keys(kycData).length > 0) {
+      if (
+        kycData.insurer_code == this.quoteData?.insurer_code &&
+        kycData.verification_status == true
+      ) {
+        this.isDisableCKyc = false;
+      } else if (
+        this.quoteData?.insurer_code === 'digit' ||
+        this.quoteData?.insurer_code === 'liberty'
+      ) {
+        this.isDisableCKyc = false;
+      } else {
+        this.isDisableCKyc = true;
+      }
+    }
+
+    this.sharedData?.fetchedCkycData.subscribe((kyc) => {
+      if (kyc.length > 0) {
+        this.isDisableCKyc = false;
+      }
+    });
   }
 
   getPreviousVehicleData(isValid: any) {

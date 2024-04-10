@@ -78,6 +78,7 @@ export class SharedDataService {
   selected_addons: any;
   quoteItem: any;
   isNotShowVehicleDetails: boolean = false;
+  setIsNotShowNomineeItem: any;
 
   constructor(
     private apiService: ApiService,
@@ -681,7 +682,10 @@ export class SharedDataService {
               this.openSnackBar('Previous Policy Details Saved', true);
             }
           }
-          if (this.createdProposalId?.nominee_details === null) {
+          if (
+            this.createdProposalId?.nominee_details === null &&
+            this.createdProposalId?.vehicle_details !== null
+          ) {
             if (
               this.quoteData?.premium_details?.addon_premium_details?.length > 0
             ) {
@@ -949,5 +953,8 @@ export class SharedDataService {
    */
   enableQuotesData(data: any) {
     this.quotesEnableForMobile.next(data);
+  }
+  isDisabledVehicleButton(data: any) {
+    this.setIsNotShowNomineeItem = data;
   }
 }

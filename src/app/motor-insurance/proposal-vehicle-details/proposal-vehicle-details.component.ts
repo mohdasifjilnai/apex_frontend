@@ -63,6 +63,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isBreakIn: any;
   mmvItem: any;
   isNotShowVehicleDetails: boolean = false;
+  isDisableCKyc: boolean = false;
 
   constructor(
     private apiservice: ApiService,
@@ -272,6 +273,34 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.shareData?.nomineeData.subscribe((nominee) => {
       this.isNotShowVehicleDetails = nominee;
     });
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    if (Object.keys(kycData).length > 0) {
+      if (
+        kycData.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
+        kycData.verification_status == true
+      ) {
+        this.isDisableCKyc = false;
+      } else if (
+        JSON.parse(this.quoteData)['insurer_code'] === 'digit' ||
+        JSON.parse(this.quoteData)['insurer_code'] === 'liberty'
+      ) {
+        this.isDisableCKyc = false;
+      } else {
+        this.isDisableCKyc = true;
+      }
+    }
+    this.shareData?.fetchedCkycData.subscribe((kyc) => {
+      if (kyc.length > 0) {
+        this.isDisableCKyc = false;
+      }
+    });
+    /**
+     * disableVehicleDetails is use for handel the button enable and disable in case of previous vehicle details and vehicle details both showing
+     */
+    const disableVehicleDetails = this.shareData.setIsNotShowNomineeItem;
+    if (disableVehicleDetails) {
+      this.isDisableCKyc = false;
+    }
     this.getPincodeList();
     this.getAgreementList();
     this.getFinancierList();

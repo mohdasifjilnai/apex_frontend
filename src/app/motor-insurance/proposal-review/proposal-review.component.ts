@@ -94,9 +94,9 @@ export class ProposalReviewComponent implements OnInit {
           const urlSegments = segments.map((segment) => segment.path);
           this.proposalId = urlSegments[urlSegments.length - 2];
           this.generateProposal(this.proposalId);
-          this.route.navigate([
-            '/motor/quotes/proposal/5075db21-20f7-4962-abd5-29c9b3fd9609/review',
-          ]);
+          // this.route.navigate([
+          //   '/motor/quotes/proposal/5075db21-20f7-4962-abd5-29c9b3fd9609/review',
+          // ]);
         });
       } else {
         this.generateProposal();

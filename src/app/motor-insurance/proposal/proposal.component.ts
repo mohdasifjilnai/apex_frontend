@@ -372,6 +372,7 @@ export class ProposalComponent implements OnInit {
     if (this.mmvData?.policy_expiry === 'IDK') {
       this.isNotShowInNewPolicyDetails = false;
     }
+    this.sharedData.isDisabledVehicleButton(this.isNotShowInNewPolicyDetails);
     this.sharedData?.nomineeData.subscribe((nominee) => {
       if (nominee) {
         this.accordianExpanded = 'nomineeDetails';
