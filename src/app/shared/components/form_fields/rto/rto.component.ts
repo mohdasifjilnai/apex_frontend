@@ -150,10 +150,11 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
-    this.rtoDataLength=data.length
-    if (typeof data == 'object') {
-      this.sendResponse(data);
-    }
+    this.rtoDataLength = data.length;
+    this.sendResponse(data);
+    // if (typeof data == 'object') {
+    //   this.sendResponse(data);
+    // }
     // Emit the data to the debounceSubject
     this.debounceSubject.next(data);
   }

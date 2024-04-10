@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -48,6 +48,8 @@ export class VehicleComponent implements OnInit {
   vehicleSelectedData: any;
   showSelectedFuelandCapacity: boolean = false;
   vehicleSearchDataLength: any;
+  @Output() responseEvent = new EventEmitter<string>();
+
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -84,7 +86,9 @@ export class VehicleComponent implements OnInit {
 
     // this.getVehicleMMV('', this.vehcileType);
   }
-
+  sendResponse(response: string) {
+    this.responseEvent.emit(response);
+  }
   /**
    *
    * @param name filterMMV used for filter MMV data
@@ -109,6 +113,7 @@ export class VehicleComponent implements OnInit {
     return of([]);
   }
   vehcileMMV(data: any) {
+    this.sendResponse(data);
     this.vehicleSearchDataLength = data.length;
     this.showSelectedFuelandCapacity = false;
     if (data?.fuel) {
@@ -146,6 +151,7 @@ export class VehicleComponent implements OnInit {
           this.showSelectedFuelandCapacity = false;
         }
       );
+      this.sendResponse(this.mmvDataNotAvailable);
   }
 
   ngOnDestroy(): void {

@@ -81,6 +81,8 @@ export class MotorInsuranceComponent implements OnInit {
     classObtained: 'not-certifiedComponent-class',
   };
   rtoResponse: any;
+  vehicleResponse: any;
+  previousInsurerResponse: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -253,10 +255,25 @@ export class MotorInsuranceComponent implements OnInit {
   }
   rtoComponentResponse(response: string) {
     // Do something with the response value received from the rto component
-    if (response == 'Error fetching data') {
+    if (typeof response != 'object') {
       this.rtoResponse = '';
     } else {
       this.rtoResponse = response;
+    }
+  }
+  vehicleComponentResponse(response: string) {
+    // Do something with the response value received from the rto component
+    if (typeof response != 'object') {
+      this.vehicleResponse = '';
+    } else {
+      this.vehicleResponse = response;
+    }
+  }
+  previousInsurerComponentResponse(response: string){
+    if (typeof response != 'object') {
+      this.previousInsurerResponse = '';
+    } else {
+      this.previousInsurerResponse = response;
     }
   }
   /**

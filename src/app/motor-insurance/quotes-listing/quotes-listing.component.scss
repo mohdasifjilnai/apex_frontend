@@ -329,6 +329,66 @@
 .web-checkbox {
   display: block;
 }
+.comprehensive-no-quotes-information {
+  background-color: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  margin: 5px 0 0px 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.comprehensive-no-quotes-information-text {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 100%;
+  color: #282828;
+}
+.comprehensive-know-more-text {
+  color: #5384ea;
+  font-size: 12px;
+  font-weight: 600;
+}
+.no-quotes-information-card {
+  padding: 12px 12px 0px 12px;
+  background-color: #f5f8fe;
+  .warning-img {
+    width: 22px;
+    height: 18px;
+  }
+}
+.no-quotes-information-card-white {
+  padding: 12px 12px 0px 12px;
+  background-color: #fff;
+  .warning-img {
+    width: 22px;
+    height: 18px;
+  }
+}
+.comprehensive-know-more-option {
+  border: 1px solid #eaeaea;
+}
+.insurer-no-quotes-reasons {
+  font-size: 12px;
+  font-weight: 600;
+  color: #282828;
+}
+.insurer-no-quotes-reasons-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: #282828;
+}
+.insurer-no-quotes-reasons-warning {
+  font-size: 12px;
+  font-weight: 500;
+  color: #f64140;
+}
+.comprehensive-no-quotes-card {
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  margin: 5px 0 0px 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 @media screen and (max-width: 999px) {
   .toggle-btn {
     ::ng-deep .mat-tab-label {
