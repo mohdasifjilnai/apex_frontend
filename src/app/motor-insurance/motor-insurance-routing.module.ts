@@ -6,6 +6,7 @@ import { ProposalComponent } from './proposal/proposal.component';
 import { VehicleInspectionComponent } from './vehicle-inspection/vehicle-inspection.component';
 import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
 import { PaymentComponent } from './payment/payment.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +24,7 @@ const routes: Routes = [
         { name: 'Quotes Listing', path: [''] },
       ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId',
@@ -36,16 +38,15 @@ const routes: Routes = [
         },
       ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review/inspection',
     component: VehicleInspectionComponent,
     data: {
-      breadcrumb: [
-        { name: 'Motor Insurance', path: ['motor'] },
-       
-      ],
+      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review',
@@ -57,6 +58,7 @@ const routes: Routes = [
       //   { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
       // ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review/payment-success',
