@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   partnerStatusData: any;
   qrDisabled: boolean = false;
   isTracId: boolean = false;
-  isCopied: boolean = false;
+  // isCopied: boolean = false;
   transactionId: any;
   currentUrl: any;
   @ViewChild('widgetId') widgetId!: ElementRef;
@@ -32,23 +32,24 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private sharedService: SharedDataService,
-    public bottomSheet: MatBottomSheet,
+    public bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {
     this.id = sessionStorage.getItem('transaction_id');
     if (window.innerWidth <= 999) {
-      this.transactionId = this.id.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
-    }else{
-      this.transactionId = this.id
+      this.transactionId =
+        this.id.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
+    } else {
+      this.transactionId = this.id;
     }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {
-        this.transactionId = res.length > 10 ? res.substring(0, 10) + '...' : res;
-      }else{
-        this.transactionId = res
+        this.transactionId =
+          res.length > 10 ? res.substring(0, 10) + '...' : res;
+      } else {
+        this.transactionId = res;
       }
-
     });
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -71,14 +72,12 @@ export class HeaderComponent implements OnInit {
       if (res) {
         if (window.innerWidth <= 999) {
           this.transactionId =
-          res?.quote_response?.transaction_id.length > 10
-            ? res?.quote_response?.transaction_id.substring(0, 10) + '...'
-            : res?.quote_response?.transaction_id;
-        }else{
-          this.transactionId =
-          res?.quote_response?.transaction_id
+            res?.quote_response?.transaction_id.length > 10
+              ? res?.quote_response?.transaction_id.substring(0, 10) + '...'
+              : res?.quote_response?.transaction_id;
+        } else {
+          this.transactionId = res?.quote_response?.transaction_id;
         }
-        
       }
     });
   }
@@ -98,7 +97,6 @@ export class HeaderComponent implements OnInit {
     }
   }
   helplineNumber() {
-    
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(HelplineNumberComponent);
     }
@@ -119,10 +117,10 @@ export class HeaderComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.isCopied = true; // Set isCopied to true after copying
+    // this.isCopied = true; // Set isCopied to true after copying
     this.sharedService.openSnackBar('Trace ID copied', true);
-    setTimeout(() => {
-      this.isCopied = false; // Reset isCopied after 3 seconds
-    }, 3000);
+    // setTimeout(() => {
+    //   this.isCopied = false; // Reset isCopied after 3 seconds
+    // }, 3000);
   }
 }

@@ -286,7 +286,7 @@ export class MotorInsuranceComponent implements OnInit {
       'withoutVehicleNumber',
       `${this.withoutVehicleNumber}`
     );
-
+    sessionStorage.removeItem('isPayment');
     if (!this.withoutVehicleNumber) {
       this.getVehicleDetailsInfo();
       this.motorInsurance.reset();

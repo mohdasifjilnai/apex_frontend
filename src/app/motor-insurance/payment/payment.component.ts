@@ -61,9 +61,9 @@ export class PaymentComponent implements OnInit {
       if (this.paymentSuccess && proposalNo) {
         this.paymentPendingCase = true;
       }
-      let regnNumberValue = sessionStorage.getItem('registrationNumber');
+      let regnNumberValue = sessionStorage.getItem('isRegistrationNumber');
       if (regnNumberValue) {
-        sessionStorage.removeItem('registrationNumber');
+        sessionStorage.removeItem('isRegistrationNumber');
       }
       let selectedAddons = sessionStorage.getItem('selectedAddons');
       if (selectedAddons) {
@@ -144,6 +144,7 @@ export class PaymentComponent implements OnInit {
       if (withoutVehicleNumber) {
         localStorage.removeItem('withoutVehicleNumber');
       }
+      sessionStorage.setItem('isPayment', 'true');
     });
   }
 

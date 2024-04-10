@@ -25,7 +25,8 @@
                 src="assets/icon/helpline.svg"
                 alt="logo"
                 class="cursor-pointer"
-              (click)="helplineNumber()"/>
+                (click)="helplineNumber()"
+              />
               <span class="helpline-number ms-2">Helpline: 18004197852</span>
             </div>
           </div>
@@ -36,7 +37,7 @@
               alt="logo"
               (click)="copyMessage(transactionId)"
               class="cursor-pointer ms-2"
-              [matTooltip]="isCopied ? 'Copied!' : 'Copy To Clipboard'"
+              matTooltip="Copy To Clipboard"
               mat-raised-button
             />
           </div>

@@ -24,6 +24,7 @@ const routes: Routes = [
         { name: 'Quotes Listing', path: [''] },
       ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId',
@@ -37,6 +38,7 @@ const routes: Routes = [
         },
       ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review/inspection',
@@ -44,6 +46,7 @@ const routes: Routes = [
     data: {
       breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review',
@@ -55,6 +58,7 @@ const routes: Routes = [
       //   { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
       // ],
     },
+    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review/payment-success',
