@@ -296,9 +296,9 @@ export class ProposalComponent implements OnInit {
       } else if (
         proposal?.ckyc_details !== null &&
         (this.quoteData['insurer_code'] !== 'digit' ||
-          this.quoteData['insurer_code'] === 'liberty')
+          this.quoteData['insurer_code'] !== 'liberty')
       ) {
-        this.showVehicleOwnerDetails = true;
+        this.showVehicleOwnerDetails = false;
       }
       if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
         if (this.reviewData === 'vehilceOwnerPanel') {
