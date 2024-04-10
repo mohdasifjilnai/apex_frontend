@@ -185,34 +185,49 @@
               </div>
             </mat-radio-group>
           </div>
-          <mat-form-field
-            appearance="outline"
-            [formGroup]="chooseIdvForm"
-            *ngIf="selectedIDVOption === 'choose'"
-            class="col-lg-12 mt-2"
-          >
-            <mat-label>Enter Value</mat-label>
-            <input
-              matInput
-              type="text"
-              appNumbersOnly
-              formControlName="chooseIdv"
-              placeholder="Enter Value"
-              name="customIDV"
-            />
-          </mat-form-field>
-          <div class="col-lg-12 col-md-12 col-12 mt-3">
-            <button
-              class="submit-btn update-btn"
-              type="submit"
-              (click)="updateIdv()"
-              [disabled]="
-                selectedIDVOption != 'choose' || chooseIdvForm.invalid
-              "
+          <ng-container *ngIf="selectedIDVOption === 'choose'">
+            <mat-form-field
+              appearance="outline"
+              [formGroup]="chooseIdvForm"
+              class="col-lg-12 mt-2"
             >
-              Update
-            </button>
-          </div>
+              <mat-label>Enter Value</mat-label>
+              <input
+                matInput
+                type="text"
+                appNumbersOnly
+                formControlName="chooseIdv"
+                placeholder="Enter Value"
+                name="customIDV"
+                (ngModelChange)="chooseIdvData()"
+                appRemoveZeroFromStarting
+              />
+            </mat-form-field>
+            <div class="col-lg-6 col-md-12 col-6" *ngIf="clearIdvButton">
+              <button
+                class="submit-btn cancel-btn"
+                type="submit"
+                (click)="cancelIdv()"
+                [disabled]="idvError || !enableIdvCard"
+              >
+                Clear
+              </button>
+            </div>
+            <div class="col-lg-6 col-md-12 col-6" *ngIf="updateIdvButton">
+              <button
+                class="submit-btn update-btn"
+                type="submit"
+                (click)="updateIdv()"
+                [disabled]="
+                  selectedIDVOption != 'choose' ||
+                  chooseIdvForm.invalid ||
+                  idvError
+                "
+              >
+                Update
+              </button>
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>

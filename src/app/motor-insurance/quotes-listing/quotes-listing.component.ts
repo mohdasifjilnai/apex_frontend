@@ -136,6 +136,9 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'nonPOS-class',
   };
+  minIdv: any;
+  maxIdv: any;
+  averageIdv: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -288,6 +291,9 @@ export class QuotesListingComponent implements OnInit {
       totalIdv += item.idv;
     });
     const averageIdv = totalIdv / this.chooseIdvArray.length;
+    this.minIdv=minIdv
+    this.maxIdv=maxIdv
+    this.averageIdv=averageIdv
     this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
   }
   getProposalDetails(quotes_data: any) {
@@ -316,7 +322,17 @@ export class QuotesListingComponent implements OnInit {
   }
   openChangeIDV(): void {
     this.chooseIdv();
-    this.bottomSheet.open(ChooseIDVComponent);
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: {
+        minIdv:this.minIdv,
+        maxIdv:this.maxIdv,
+        averageIdv:this.averageIdv,
+        noOfInsurur:this.chooseIdvArray.length
+      } // Pass your data here
+    };
+    const bottomSheetRef=this.bottomSheet.open(ChooseIDVComponent,bottomSheetConfig);
+    bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
+    });
   }
   openAddons(): void {
     const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);

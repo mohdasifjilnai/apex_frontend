@@ -103,6 +103,9 @@ export class MotorInsuranceComponent implements OnInit {
     });
     this.sharedDataService.detailNotFound.subscribe((res) => {
       this.vehicleNotFound = res;
+      setTimeout(() => {
+        this.vehicleNotFound = false;
+      }, 3000);
     });
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
@@ -269,6 +272,7 @@ export class MotorInsuranceComponent implements OnInit {
 
     if (!this.withoutVehicleNumber) {
       this.getVehicleDetailsInfo();
+      this.motorInsurance.reset();
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
       sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);

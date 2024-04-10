@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -35,6 +38,7 @@ export class ChooseIDVComponent implements OnInit {
 
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private sharedDataService: SharedDataService
   ) {}
   enableIdvCard = true;
@@ -125,7 +129,14 @@ export class ChooseIDVComponent implements OnInit {
       this.idvShowHide = idvHide;
     });
     if (window.innerWidth <= 999) {
-      this.isMobileView = true;
+      this.isMobileView=true
+      this.minIdv = this.data?.minIdv;
+      this.maxIdv = this.data?.maxIdv;
+      this.amountShow = this.data?.averageIdv;
+      this.quotesCount = this.data?.noOfInsurur;
+      this.chooseIdvForm.patchValue({
+        chooseIdv: this.amountShow,
+      });
     }
   }
   selectedIDVOption: string = ''; // Default selected option
@@ -139,6 +150,9 @@ export class ChooseIDVComponent implements OnInit {
     }
     this.selectedIDVOption = option;
     if (option == 'min') {
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      }
       let idvObject = {
         minIdv: this.minIdv,
         maxIdv: '',
@@ -150,6 +164,9 @@ export class ChooseIDVComponent implements OnInit {
       );
       this.idvBaseQuotes();
     } else if (option == 'max') {
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      }
       let idvObject = {
         minIdv: '',
         maxIdv: this.maxIdv,
@@ -165,6 +182,9 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     if (this.selectedIDVOption) {
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      }
       this.currentAmount = this.chooseIdvForm.value.chooseIdv;
       this.investedAmount = this.currentAmount;
       let idvObject = {
@@ -181,6 +201,9 @@ export class ChooseIDVComponent implements OnInit {
     }
   }
   cancelIdv() {
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    }
     this.selectedIDVOption = '';
     let idvData = sessionStorage.getItem('idvData');
     if (idvData) {
@@ -217,26 +240,26 @@ export class ChooseIDVComponent implements OnInit {
    */
   chooseIdvData() {
     if (!this.enableIdvCard) {
-      let formControlIdv = this.chooseIdvForm.value.chooseIdv;
-      this.updateIdvButton = true;
-      if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
-        this.idvError = true;
-      } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
-        this.idvError = true;
-      } else {
-        this.idvError = false;
-      }
-      let count = 0;
+    let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+    this.updateIdvButton = true;
+    if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+      this.idvError = true;
+    } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+      this.idvError = true;
+    } else {
+      this.idvError = false;
+    }
+    let count = 0;
 
-      for (let i = 0; i <= this.quotationData.length - 1; i++) {
-        if (
-          parseInt(formControlIdv) >= this.minIdv &&
-          parseInt(formControlIdv) <= this.maxIdv
-        ) {
-          count += 1;
-        }
+    for (let i = 0; i <= this.quotationData.length - 1; i++) {
+      if (
+        parseInt(formControlIdv) >= this.minIdv &&
+        parseInt(formControlIdv) <= this.maxIdv
+      ) {
+        count += 1;
       }
-      this.quotesCount = count;
+    }
+    this.quotesCount = count;
     }
   }
   cancelChangeIDv(event: MouseEvent): void {
