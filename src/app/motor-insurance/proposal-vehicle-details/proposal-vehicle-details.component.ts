@@ -81,7 +81,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       vehicle_colour: [''],
       engine_number: [
         '',
-        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)],
+        [Validators.required, Validators.pattern('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')],
       ],
       chassis_number: [
         '',
