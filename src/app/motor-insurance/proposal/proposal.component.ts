@@ -298,7 +298,12 @@ export class ProposalComponent implements OnInit {
         (this.quoteData['insurer_code'] !== 'digit' ||
           this.quoteData['insurer_code'] !== 'liberty')
       ) {
-        this.showVehicleOwnerDetails = false;
+        this.sharedData.fetchKycData.subscribe((data) => {
+          if (data.length > 0) {
+            this.showVehicleOwnerDetails = true;
+            this.accordianExpanded = 'vehicleOwnerDetails';
+          }
+        });
       }
       if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
         if (this.reviewData === 'vehilceOwnerPanel') {
@@ -362,12 +367,11 @@ export class ProposalComponent implements OnInit {
         }
       }
     });
-    this.sharedData.fetchKycData.subscribe((data) => {
-      if (data) {
-        this.showVehicleOwnerDetails = true;
-        this.accordianExpanded = 'vehicleOwnerDetails';
-      }
-    });
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    if (Object.keys(kycData).length > 0) {
+      this.accordianExpanded = 'vehicleOwnerDetails';
+      this.showVehicleOwnerDetails = true;
+    }
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     if (this.mmvData?.policy_expiry === 'IDK') {
       this.isNotShowInNewPolicyDetails = false;
