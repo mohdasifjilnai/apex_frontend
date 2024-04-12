@@ -48,14 +48,23 @@
               />
               <mat-autocomplete
                 #autoMake="matAutocomplete"
+                [displayWith]="displayMake.bind(this)"
                 (optionSelected)="onOptionMakeSelected($event)"
               >
-                <span>
+                <span *ngIf="mmDataNotAvailable !== 'No data'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupMake | async"
-                    [value]="mmData.rb_make_name"
+                    [value]="mmData"
                   >
                     <span>{{ mmData.rb_make_name }}</span>
+                  </mat-option>
+                </span>
+                <span *ngIf="mmDataNotAvailable == 'No data'">
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupMake | async"
+                    [value]="mmDataNotAvailable"
+                  >
+                    {{ mmDataNotAvailable }}
                   </mat-option>
                 </span>
               </mat-autocomplete>
@@ -78,14 +87,23 @@
               />
               <mat-autocomplete
                 #autoModel="matAutocomplete"
+                [displayWith]="displayModal.bind(this)"
                 (optionSelected)="onOptionModelSelected($event)"
               >
-                <span>
+                <span *ngIf="modelDataNotAvailable !== 'No data'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupModel | async"
-                    [value]="mmData.rb_model_name"
+                    [value]="mmData"
                   >
                     <span>{{ mmData.rb_model_name }}</span>
+                  </mat-option>
+                </span>
+                <span *ngIf="modelDataNotAvailable == 'No data'">
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupModel | async"
+                    [value]="modelDataNotAvailable"
+                  >
+                    {{ modelDataNotAvailable }}
                   </mat-option>
                 </span>
               </mat-autocomplete>
@@ -111,12 +129,22 @@
                 [displayWith]="displayVariant.bind(this)"
                 (optionSelected)="onOptionVariantSelected($event)"
               >
-                <mat-option
-                  *ngFor="let mmData of filteredPopupVariant | async"
-                  [value]="mmData"
-                >
-                  <span>{{ mmData.rb_variant_name }}</span>
-                </mat-option>
+                <span *ngIf="variantDataNotAvailable !== 'No data'">
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupVariant | async"
+                    [value]="mmData"
+                  >
+                    <span>{{ mmData.rb_variant_name }}</span>
+                  </mat-option>
+                </span>
+                <span *ngIf="variantDataNotAvailable == 'No data'">
+                  <mat-option
+                    *ngFor="let mmData of filteredPopupVariant | async"
+                    [value]="variantDataNotAvailable"
+                  >
+                    {{ variantDataNotAvailable }}
+                  </mat-option>
+                </span>
               </mat-autocomplete>
             </mat-form-field>
           </div>
@@ -393,7 +421,7 @@
               mat-button
               class="submit-btn mb-4 vehicle-submission"
               type="submit"
-              [disabled]="vehicleDetailsForm.invalid"
+              [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
             >
               {{ editVehicleDetails ? "Above details are correct" : "Save" }}
             </button>

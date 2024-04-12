@@ -62,6 +62,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   fuelData: any;
   mmDataNotAvailable = '';
   mmId: any;
+  modelDataNotAvailable = '';
   variantDataNotAvailable = '';
   variantId: any;
   rtoDataNotAvailable = '';
@@ -98,6 +99,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   modelValueSelected: any;
   variantValueSelected: any;
   fuelArray: any;
+  mmvBaseButtonDisable = false;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -523,196 +525,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
 
   /**
-   * Fetches the list of vehicle makes, models, and variants based on the vehicle type and stores them in the component's state.
-   * @param name - The search term used to filter the list of makes, models, and variants.
-   * @param id - The ID of the make, model, or variant to be preselected.
-   */
-  getVehicleMMVPopup(name: any, id: any, type?: any) {
-    let apiData;
-    if (id) {
-      apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
-    } else {
-      this.renderer.removeClass(document.body, 'dropdown-focus');
-      apiData = `?product_name=${this.vehicleTypeValue}`;
-    }
-    this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
-      .subscribe((res) => {
-        if (res) {
-          this.modelList = res;
-          this.variantList = res;
-          this.fuelList = res;
-          if (id) {
-            this.vehicleDetailsForm.patchValue({
-              vehicle_MMV: res[0],
-            });
-          }
-          this.mmDataNotAvailable = '';
-          this.fuelData = Object.values(
-            this.fuelList.reduce(
-              (data: any, obj: { fuel: any; id: any }) => ({
-                ...data,
-                [obj.fuel]: obj,
-              }),
-              {}
-            )
-          );
-          for (let i = 0; i <= this.modelList.length - 1; i++) {
-            this.modelList[
-              i
-            ].displayMM = `${this.modelList[i].rb_make_name} | ${this.modelList[i].rb_model_name}`;
-          }
-          if (this.registrationNumber) {
-            const matchingModel = this.modelList.find(
-              (model: any) =>
-                model?.rb_mmv_id === this.registrationNumber?.rb_mmv_id
-            );
-            if (matchingModel) {
-              this.renderer.addClass(document.body, 'dropdown-focus');
-              this.vehicleDetailsForm.patchValue({
-                vehicle_model: matchingModel,
-                vehicle_variant: matchingModel,
-                vehicle_fuel: matchingModel.fuel,
-                user_car: this.registrationNumber.is_ownership_transfer,
-                previous_claimed: this.registrationNumber.is_claimed,
-                previous_insurer: this.registrationNumber.previous_insurer_code,
-              });
-            }
-
-            if (
-              this.registrationNumber?.registration_month &&
-              this.registrationNumber?.registration_year
-            ) {
-              let registrationDate = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
-              let dateObj = moment(registrationDate, 'MM/YYYY');
-              this.vehicleDetailsForm.patchValue({
-                registration_date: dateObj,
-              });
-            }
-
-            if (this.registrationNumber?.previous_policy_exp_date) {
-              let inputDate = this.registrationNumber?.previous_policy_exp_date;
-              let [day, month, year] = inputDate.split('-');
-              let reformattedDate = `${month}/${day}/${year}`;
-              if (!this.vehiclePopupList) {
-                this.vehicleDetailsForm.patchValue({
-                  policy_expiry_date: new Date(reformattedDate),
-                });
-              }
-            }
-          } else if (type == 'mmvData') {
-            this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-            const matchingModel = this.modelList.find(
-              (model: any) =>
-                model?.rb_mmv_id === this.vehicleMMVValue?.vehicle?.rb_mmv_id
-            );
-            if (matchingModel) {
-              this.renderer.addClass(document.body, 'dropdown-focus');
-            }
-
-            if (this.editClick == '') {
-              this.sharedDataService.getRegistrationDate(
-                this.vehicleMMVValue?.registration_date
-              );
-              let regDateValue = new Date(
-                this.vehicleMMVValue?.registration_date
-              );
-              this.vehicleDetailsForm.patchValue({
-                registration_date: moment(regDateValue, 'MM/YYYY'),
-                vehicle_model: matchingModel,
-                vehicle_variant: matchingModel,
-                vehicle_fuel: matchingModel.fuel,
-              });
-            } else {
-              let registrationDateObject;
-              if (this.vehicleAllData?.registration_date) {
-                let registrationDate = new Date(
-                  this.vehicleAllData?.registration_date
-                );
-                registrationDateObject = moment(registrationDate, 'MM/YYYY');
-              }
-              this.vehicleDetailsForm.patchValue({
-                registration_date: registrationDateObject,
-              });
-            }
-
-            if (this.vehicleMMVValue?.policy_expiry_date) {
-              let policyExpiryValue = new Date(
-                this.vehicleMMVValue?.policy_expiry_date
-              );
-              if (policyExpiryValue && !this.vehiclePopupList) {
-                this.convertExpiryDate = moment(
-                  policyExpiryValue,
-                  'MM/DD/YYYY'
-                );
-                this.vehicleDetailsForm.patchValue({
-                  policy_expiry_date: new Date(this.convertExpiryDate),
-                });
-              }
-            }
-
-            if (this.vehicleMMVValue?.previous_insurer) {
-              if (!this.vehiclePopupList) {
-                this.vehicleDetailsForm.patchValue({
-                  previous_insurer: this.vehicleMMVValue?.previous_insurer,
-                });
-              }
-            }
-          }
-
-          if (res.length > 0) {
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-              'vehicle_model'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMVPopup(name) : this.modelList;
-              })
-            );
-
-            this.mmDataNotAvailable = '';
-
-            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-              'vehicle_variant'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterVariantPopup(name) : this.variantList;
-              })
-            );
-
-            this.variantDataNotAvailable = '';
-          } else {
-            this.mmDataNotAvailable = res.message;
-            this.variantDataNotAvailable = res.message;
-
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-              'vehicle_model'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterMMVPopup(name) : ['No data'];
-              })
-            );
-
-            this.filteredPopupVariant = this.vehicleDetailsForm.controls[
-              'vehicle_variant'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              map((name) => {
-                return name ? this.filterVariantPopup(name) : ['No data'];
-              })
-            );
-          }
-        }
-      });
-  }
-
-  /**
    *
    * @param name filterMMV used for filter MMV data
    * @returns
@@ -953,18 +765,30 @@ export class VehicleDetailsPopupComponent implements OnInit {
       });
     }
   }
+
   /**
    *
-   * @param name onOptionMMSelected used for selected data
+   * @param name displayMake used for display data
    * @returns
    */
-  vehcileMM(data: any) {
-    if (data == '') {
-      this.getVehicleMMVPopup('', '');
-      // this.vehicleDetailsForm.patchValue({
-      //   vehicle_variant: '',
-      //   vehicle_fuel: '',
-      // });
+  displayMake(data?: any) {
+    if (data != null && data != 'No data' && !this.vehicleMakeOninit) {
+      return data ? data.rb_make_name : '';
+    } else if (data == 'No data') {
+      return data;
+    }
+  }
+
+  /**
+   *
+   * @param name displayModal used for display data
+   * @returns
+   */
+  displayModal(data?: any) {
+    if (data != null && data != 'No data' && !this.vehicleModelOninit) {
+      return data ? data.rb_model_name : '';
+    } else if (data == 'No data') {
+      return data;
     }
   }
   /**
@@ -974,12 +798,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   displayVariant(data?: any) {
     if (data != null && data != 'No data' && !this.vehicleVariantOnint) {
-      // this.variantId = data.rb_mmv_id;
-      // this.fuelList = data;
       this.fuelArray = [];
       this.fuelArray.push(data);
       this.fuelList = this.fuelArray;
       return data ? data.rb_variant_name : '';
+    } else if (data == 'No data') {
+      return data;
     }
   }
   /**
@@ -1267,7 +1091,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     checkWheeler['is_four_wheeler'] = true;
     checkWheeler['is_two_wheeler'] = true;
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    this.getVehicleMMVPopup('', rb_mmv_id);
+
     this.getRTOData('rto_code');
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;
@@ -1346,8 +1170,11 @@ Get the expiring policy list based on the given date or the registration details
       this.vehicleDetailsForm.get('vehicle_model')?.reset();
       this.vehicleDetailsForm.get('vehicle_variant')?.reset();
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-      // this.getVehicleDetailsPopup(data, '', '');
-      // this.editVehicleDetailsPopup(data, '', '');
+      if (typeof this.vehicleDetailsForm.value.vehicle_make == 'object') {
+        this.mmvBaseButtonDisable = false;
+      } else {
+        this.mmvBaseButtonDisable = true;
+      }
     } else {
       this.vehicleMakeOninit = false;
     }
@@ -1362,7 +1189,14 @@ Get the expiring policy list based on the given date or the registration details
       this.modelSelected = data;
       this.vehicleDetailsForm.get('vehicle_variant')?.reset();
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-      // this.getVehicleDetailsPopup(this.makeSelected, data, '');
+      if (
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_model == 'object'
+      ) {
+        this.mmvBaseButtonDisable = false;
+      } else {
+        this.mmvBaseButtonDisable = true;
+      }
     } else {
       this.vehicleModelOninit = false;
     }
@@ -1375,7 +1209,15 @@ Get the expiring policy list based on the given date or the registration details
   vehcileVarient(data: any) {
     if (!this.vehicleVariantOnint) {
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-      // this.getVehicleDetailsPopup(this.makeSelected, this.modelSelected, data);
+      if (
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_variant == 'object'
+      ) {
+        this.mmvBaseButtonDisable = false;
+      } else {
+        this.mmvBaseButtonDisable = true;
+      }
     } else {
       this.vehicleVariantOnint = false;
     }
@@ -1430,8 +1272,8 @@ Get the expiring policy list based on the given date or the registration details
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
-                vehicle_make: matchingModel.rb_make_name,
-                vehicle_model: matchingModel.rb_model_name,
+                vehicle_make: matchingModel,
+                vehicle_model: matchingModel,
                 vehicle_variant: matchingModel,
                 vehicle_fuel: matchingModel.fuel,
                 user_car: this.registrationNumber.is_ownership_transfer,
@@ -1519,9 +1361,9 @@ Get the expiring policy list based on the given date or the registration details
               policy_expiry_date: new Date(this.policyExpiredDateObject),
             });
 
-            this.makeValueSelected = this.vehicleAllData.rb_make_name;
-            this.modelValueSelected = this.vehicleAllData.rb_model_name;
-            this.variantValueSelected = this.vehicleAllData;
+            this.makeValueSelected = this.vehicleAllData.vehicle_make;
+            this.modelValueSelected = this.vehicleAllData.vehicle_model;
+            this.variantValueSelected = this.vehicleAllData.vehicle_variant;
           } else if (type == 'mmvData' && this.editClick == '') {
             this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
             const matchingModel = this.modelList.find(
@@ -1532,8 +1374,8 @@ Get the expiring policy list based on the given date or the registration details
               this.renderer.addClass(document.body, 'dropdown-focus');
             }
             this.vehicleDetailsForm.patchValue({
-              vehicle_make: matchingModel.rb_make_name,
-              vehicle_model: matchingModel.rb_model_name,
+              vehicle_make: matchingModel,
+              vehicle_model: matchingModel,
               vehicle_variant: matchingModel,
               // registration_city: this.vehicleMMVValue?.rto_city.display_name,
               vehicle_fuel: matchingModel.fuel,
@@ -1650,18 +1492,18 @@ Get the expiring policy list based on the given date or the registration details
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterModelPopup(name) : this.modelList;
+                return name ? this.filterModelPopup(name) : [];
               })
             );
             this.mmDataNotAvailable = '';
-
+            this.modelDataNotAvailable = '';
             this.filteredPopupVariant = this.vehicleDetailsForm.controls[
               'vehicle_variant'
             ].valueChanges.pipe(
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterVariantPopup(name) : this.variantList;
+                return name ? this.filterVariantPopup(name) : [];
               })
             );
             // let regDateValue = new Date(
@@ -1672,16 +1514,26 @@ Get the expiring policy list based on the given date or the registration details
             // });
             this.variantDataNotAvailable = '';
           } else {
-            this.mmDataNotAvailable = 'not available';
-            this.variantDataNotAvailable = 'not available';
-
-            this.filteredPopupMMV = this.vehicleDetailsForm.controls[
+            this.mmDataNotAvailable = 'No data';
+            this.modelDataNotAvailable = 'No data';
+            this.variantDataNotAvailable = 'No data';
+            this.filteredPopupMake = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterMMVPopup(name) : ['No data'];
+                return name ? this.filterMakePopup(name) : ['No data'];
+              })
+            );
+
+            this.filteredPopupModel = this.vehicleDetailsForm.controls[
+              'vehicle_variant'
+            ].valueChanges.pipe(
+              debounceTime(500),
+              startWith(''),
+              map((name) => {
+                return name ? this.filterModelPopup(name) : ['No data'];
               })
             );
 
@@ -1700,6 +1552,7 @@ Get the expiring policy list based on the given date or the registration details
            * Handle non-array data, such as error messages
            */
           this.mmDataNotAvailable = res.message;
+          this.modelDataNotAvailable = res.message;
           this.variantDataNotAvailable = res.message;
           /**
            * Other error handling logic
@@ -1722,12 +1575,6 @@ Get the expiring policy list based on the given date or the registration details
         .subscribe(
           (res) => {
             if (Array.isArray(res) && res.length > 0) {
-              // this.makeList = res.map((item) => ({
-              //   ...item,
-              //   displayMM: `${item.rb_make_name}`,
-              // }));
-              // this.variantList = res;
-              // this.fuelList = res;
               this.makeList = res;
               this.filteredPopupMake = this.vehicleDetailsForm.controls[
                 'vehicle_make'
@@ -1739,24 +1586,6 @@ Get the expiring policy list based on the given date or the registration details
                 })
               );
               this.mmDataNotAvailable = '';
-              // this.fuelData = Object.values(
-              //   this.fuelList.reduce(
-              //     (data: any, obj: { fuel: any; id: any }) => ({
-              //       ...data,
-              //       [obj.fuel]: obj,
-              //     }),
-              //     {}
-              //   )
-              // );
-              // this.filteredPopupMMV = this.vehicleDetailsForm.controls[
-              //   'vehicle_model'
-              // ].valueChanges.pipe(
-              //   debounceTime(500),
-              //   startWith(''),
-              //   map((name) => {
-              //     return name ? this.filterMakePopup(name) : this.modelList;
-              //   })
-              // );
 
               this.mmDataNotAvailable = '';
             } else {
@@ -1784,32 +1613,22 @@ Get the expiring policy list based on the given date or the registration details
    */
   filterModelPopup(name: string) {
     if (typeof name != 'object' && name.length >= 3) {
+      let selectedMakeValue =
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object'
+          ? this.vehicleDetailsForm.value.vehicle_make.rb_make_name
+          : this.vehicleDetailsForm.value.vehicle_make;
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${this.makeValueSelected}&model=${name}&variant=`
+          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${name}&variant=`
         )
         .subscribe(
           (res) => {
             if (Array.isArray(res) && res.length > 0) {
-              // this.modelList = res.map((item) => ({
-              //   ...item,
-              //   displayMM: `${item.rb_model_name}`,
-              // }));
-
               this.variantList = res;
-              // this.fuelList = res;
 
-              this.mmDataNotAvailable = '';
-              // this.fuelData = Object.values(
-              //   this.fuelList.reduce(
-              //     (data: any, obj: { fuel: any; id: any }) => ({
-              //       ...data,
-              //       [obj.fuel]: obj,
-              //     }),
-              //     {}
-              //   )
-              // );
+              this.modelDataNotAvailable = '';
+
               this.filteredPopupModel = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
@@ -1819,10 +1638,8 @@ Get the expiring policy list based on the given date or the registration details
                   return name ? this.filterModelPopup(name) : this.variantList;
                 })
               );
-
-              this.mmDataNotAvailable = '';
             } else {
-              this.mmDataNotAvailable = 'No data';
+              this.modelDataNotAvailable = 'No data';
               this.filteredPopupModel = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
@@ -1845,10 +1662,19 @@ Get the expiring policy list based on the given date or the registration details
    */
   filterVariantPopup(name: string) {
     if (typeof name != 'object' && name.length >= 2) {
+      let selectedMakeValue =
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object'
+          ? this.vehicleDetailsForm.value.vehicle_make.rb_make_name
+          : this.vehicleDetailsForm.value.vehicle_make;
+
+      let selectedModalValue =
+        typeof this.vehicleDetailsForm.value.vehicle_model == 'object'
+          ? this.vehicleDetailsForm.value.vehicle_model.rb_model_name
+          : this.vehicleDetailsForm.value.vehicle_model;
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${this.makeValueSelected}&model=${this.modelValueSelected}&variant=${name}`
+          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${selectedModalValue}&variant=${name}`
         )
         .subscribe(
           (res: any) => {
@@ -1857,7 +1683,7 @@ Get the expiring policy list based on the given date or the registration details
               this.variantList = res;
               this.fuelList = res;
 
-              this.mmDataNotAvailable = '';
+              this.variantDataNotAvailable = '';
               this.fuelData = Object.values(
                 this.fuelList.reduce(
                   (data: any, obj: { fuel: any; id: any }) => ({
@@ -1878,20 +1704,17 @@ Get the expiring policy list based on the given date or the registration details
                     : this.variantList;
                 })
               );
-
-              this.mmDataNotAvailable = '';
             } else {
-              // Handle non-array response if needed
-              // this.mmDataNotAvailable = 'No data';
-              // this.filteredPopupModel = this.vehicleDetailsForm.controls[
-              //   'vehicle_model'
-              // ].valueChanges.pipe(
-              //   debounceTime(500),
-              //   startWith(''),
-              //   map((name) => {
-              //     return name ? this.filterModelPopup(name) : ['No data'];
-              //   })
-              // );
+              this.variantDataNotAvailable = 'No data';
+              this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+                'vehicle_variant'
+              ].valueChanges.pipe(
+                debounceTime(500),
+                startWith(''),
+                map((name) => {
+                  return name ? this.filterVariantPopup(name) : ['No data'];
+                })
+              );
             }
           },
           (error) => {
