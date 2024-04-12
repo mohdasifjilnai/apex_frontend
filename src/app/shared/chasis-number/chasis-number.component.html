@@ -27,7 +27,10 @@
     Exceeded max limit
   </mat-error>
   <mat-error
-    *ngIf="chassisForm.controls['chassis_number']?.hasError('minlength')"
+    *ngIf="
+      chassisForm.controls['chassis_number']?.hasError('minlength') &&
+      !chassisForm.controls['chassis_number']?.hasError('pattern')
+    "
   >
     Cannot be less than 17 Characters
   </mat-error>

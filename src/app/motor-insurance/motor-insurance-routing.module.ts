@@ -46,7 +46,6 @@ const routes: Routes = [
     data: {
       breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
     },
-    canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review',

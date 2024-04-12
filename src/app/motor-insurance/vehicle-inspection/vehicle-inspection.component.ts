@@ -17,6 +17,7 @@ export class VehicleInspectionComponent implements OnInit {
     this.inspectionList = JSON.parse(this.inspection);
     this.quotesData = sessionStorage.getItem('quotes_data');
     this.insurerData = JSON.parse(this.quotesData);
+    sessionStorage.setItem('isPayment', 'true');
   }
   back() {
     this.router.navigate(['/motor/quotes/proposal']);
