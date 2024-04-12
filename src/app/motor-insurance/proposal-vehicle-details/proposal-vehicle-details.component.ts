@@ -64,7 +64,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   mmvItem: any;
   isNotShowVehicleDetails: boolean = false;
   isDisableCKyc: boolean = false;
-
+  RegNumber: any;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -82,7 +82,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       vehicle_colour: [''],
       engine_number: [
         '',
-        [Validators.required, Validators.pattern('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')],
+        [
+          Validators.required,
+          Validators.pattern('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$'),
+        ],
       ],
       chassis_number: [
         '',
@@ -237,10 +240,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType === 'new') {
+      this.RegNumber = 'Enter Reg. Number';
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators(this.registrationNumberCheckLength.bind(this));
     } else {
+      this.RegNumber = 'Enter Reg. Number *';
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators([
