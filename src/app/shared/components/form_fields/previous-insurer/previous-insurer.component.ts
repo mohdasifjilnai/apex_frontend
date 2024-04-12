@@ -118,20 +118,20 @@ export class PreviousInsurerComponent implements OnInit {
           this.insurerList = res;
           this.previousInsurerNoData = '';
           // if (this.form.controls['previous_insurer']) {
-            this.filteredInsurerList = this.form.controls[
-              'previous_insurer'
-            ].valueChanges.pipe(
-              debounceTime(500),
-              startWith(''),
-              switchMap((name) => this.filterInsurer(name, res)),
-              catchError((error) => {
-                this.previousInsurerNoData = 'Error fetching data';
-                return of(['No data']);
-              })
-            );
+          this.filteredInsurerList = this.form.controls[
+            'previous_insurer'
+          ].valueChanges.pipe(
+            debounceTime(500),
+            startWith(''),
+            switchMap((name) => this.filterInsurer(name, res)),
+            catchError((error) => {
+              this.previousInsurerNoData = 'Error fetching data';
+              return of(['No data']);
+            })
+          );
           // }
         } else {
-          this.previousInsurerNoData = res.message;
+          this.previousInsurerNoData = 'No data';
           this.filteredInsurerList = of(['No data']);
         }
       });
@@ -152,7 +152,8 @@ export class PreviousInsurerComponent implements OnInit {
         } else if (typeof insururResponse === 'object') {
           this.insurerList = [insururResponse];
         }
-        this.previousInsurerNoData = this.insurerList.length === 0 ? 'No data' : '';
+        this.previousInsurerNoData =
+          this.insurerList.length === 0 ? 'No data' : '';
         return of(this.insurerList);
       } else {
         this.previousInsurerNoData = 'No data';
@@ -179,10 +180,12 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   previousInsurerBlankData(data: any) {
-    this.insururDataLength=data.length
-    if (typeof data == 'object') {
-      this.sendResponse(data);
-    }
+    this.insururDataLength = data.length;
+    this.sendResponse(data);
+
+    // if (typeof data == 'object') {
+    //   this.sendResponse(data);
+    // }
     this.debounceSubject.next(data);
   }
   /**
