@@ -841,6 +841,34 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (data == '') {
       this.getRTOData('blank');
     }
+    if (
+      typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+      typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
+      typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
+      typeof this.vehicleDetailsForm.value.registration_city == 'object'
+    ) {
+      this.mmvBaseButtonDisable = false;
+    } else {
+      this.mmvBaseButtonDisable = true;
+    }
+  }
+  /**
+   *
+   * @param name previousInsurerComponentResponse used for rto data
+   * @returns
+   */
+  previousInsurerComponentResponse(response: string) {
+    if (
+      typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+      typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
+      typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
+      typeof this.vehicleDetailsForm.value.registration_city == 'object' &&
+      typeof response == 'object'
+    ) {
+      this.mmvBaseButtonDisable = false;
+    } else {
+      this.mmvBaseButtonDisable = true;
+    }
   }
   inputClicked() {
     this.renderer.removeClass(document.body, 'dropdown-focus');
@@ -1628,7 +1656,6 @@ Get the expiring policy list based on the given date or the registration details
               this.variantList = res;
 
               this.modelDataNotAvailable = '';
-
               this.filteredPopupModel = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
