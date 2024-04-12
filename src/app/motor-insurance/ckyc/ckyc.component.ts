@@ -134,7 +134,10 @@ export class CkycComponent implements OnInit {
       kycData?.verification_status === true
     ) {
       this.isDisableCKyc = true;
-    } else {
+    } else if (
+      kycData?.insurer_code !== this.quoteData['insurer_code'] &&
+      kycData?.verification_status === true
+    ) {
       this.sharedDataService.openSnackBar(
         'As you have change the insurer company you need to do your ckyc again.',
         true
