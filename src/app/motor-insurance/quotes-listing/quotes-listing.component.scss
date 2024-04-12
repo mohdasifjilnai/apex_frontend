@@ -434,9 +434,7 @@
   }
 
   .quotation-listing {
-    .no-quotes-information-card {
-      background-color: #fff;
-    }
+    
     .comprehensive-key-features {
       display: none;
     }
@@ -510,6 +508,9 @@
         }
       }
     }
+  }
+  .no-quotes-information-card {
+    background-color: #fff;
   }
   .insurer-logo {
     width: 146px;

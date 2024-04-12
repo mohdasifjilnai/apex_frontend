@@ -263,7 +263,11 @@
         <span class="plan-text">Total Premium</span><br />
         <span class="plan-value"
           >&#x20B9;
-          {{ quoteData?.premium_details?.gross_premium | numberFormat }}</span
+                  {{
+                    defaultGST
+                      ? (quoteData?.premium_details?.gross_premium | numberFormat)
+                      : (quoteData?.premium_details?.net_premium | numberFormat)
+                  }}</span
         >
       </div>
     </div>

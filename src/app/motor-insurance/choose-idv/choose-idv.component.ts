@@ -134,11 +134,34 @@ export class ChooseIDVComponent implements OnInit {
       this.idvShowHide = idvHide;
     });
     if (window.innerWidth <= 999) {
+      this.chooseIdvValue = sessionStorage.getItem('idvData');
+      let chooseIdvAmount = JSON.parse(this.chooseIdvValue);
       this.isMobileView = true;
-      this.minIdv = this.data?.minIdv;
-      this.maxIdv = this.data?.maxIdv;
-      this.amountShow = this.data?.averageIdv;
       this.quotesCount = this.data?.noOfInsurur;
+      if (chooseIdvAmount != null) {
+        if (chooseIdvAmount?.minIdv != '') {
+          this.selectedIDVOption = 'min';
+          this.minIdv = chooseIdvAmount?.minIdv;
+        } else {
+          this.minIdv = this.data?.minIdv;
+        }
+        if (chooseIdvAmount?.maxIdv != '') {
+          this.selectedIDVOption = 'max';
+          this.maxIdv = chooseIdvAmount?.maxIdv;
+        } else {
+          this.maxIdv = this.data?.maxIdv;
+        }
+        if (chooseIdvAmount?.chooseIdv != '') {
+          this.selectedIDVOption = 'choose';
+          this.amountShow = chooseIdvAmount?.chooseIdv;
+        } else {
+          this.amountShow = this.data?.averageIdv;
+        }
+      } else {
+        this.minIdv = this.data?.minIdv;
+        this.maxIdv = this.data?.maxIdv;
+        this.amountShow = this.data?.averageIdv;
+      }
       this.chooseIdvForm.patchValue({
         chooseIdv: this.amountShow,
       });

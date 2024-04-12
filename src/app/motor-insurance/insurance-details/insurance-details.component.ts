@@ -50,6 +50,8 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadButtonShow = false;
   downloadUrl: any;
   addPremiumWithTp: any;
+  gstValue: any;
+  defaultGST: any;
   constructor(
     public matDialog: WindowRef,
 
@@ -70,6 +72,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.reviewURL = true;
       }
     });
+        this.defaultGST = JSON.parse(sessionStorage.getItem('gstValue') || '{}');
   }
 
   ngOnInit(): void {
