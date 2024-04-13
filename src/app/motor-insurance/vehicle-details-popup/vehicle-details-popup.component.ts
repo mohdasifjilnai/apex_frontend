@@ -95,6 +95,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehicleMakeOninit = true;
   vehicleModelOninit = true;
   vehicleVariantOnint = true;
+  vehicleRegistrationCityOninit = true;
   makeValueSelected: any;
   modelValueSelected: any;
   variantValueSelected: any;
@@ -838,18 +839,22 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   vehcileRegistration(data: any) {
-    if (data == '') {
-      this.getRTOData('blank');
-    }
-    if (
-      typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
-      typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
-      typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
-      typeof this.vehicleDetailsForm.value.registration_city == 'object'
-    ) {
-      this.mmvBaseButtonDisable = false;
+    if (!this.vehicleRegistrationCityOninit) {
+      if (data == '') {
+        this.getRTOData('blank');
+      }
+      if (
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
+        typeof this.vehicleDetailsForm.value.registration_city == 'object'
+      ) {
+        this.mmvBaseButtonDisable = false;
+      } else {
+        this.mmvBaseButtonDisable = true;
+      }
     } else {
-      this.mmvBaseButtonDisable = true;
+      this.vehicleRegistrationCityOninit = false;
     }
   }
   /**
