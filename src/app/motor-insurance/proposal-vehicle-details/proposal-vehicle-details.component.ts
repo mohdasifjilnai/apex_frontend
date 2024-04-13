@@ -306,6 +306,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (disableVehicleDetails) {
       this.isDisableCKyc = false;
     }
+    this.proposalVehilceDetailsForm
+      .get('vehicle_pincode')
+      ?.valueChanges.subscribe((pincode) => {
+        if (pincode.length === 0) {
+          this.proposalVehilceDetailsForm.patchValue({
+            vehilce_city: '',
+            vehicle_state: '',
+          });
+        }
+      });
     this.getPincodeList();
     this.getAgreementList();
     this.getFinancierList();

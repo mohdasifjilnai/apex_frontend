@@ -162,6 +162,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         });
       }
     });
+    this.owenerVehicleDetailsForm
+      .get('owner_pincode')
+      ?.valueChanges.subscribe((pincode) => {
+        if (pincode.length === 0) {
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_city: '',
+            owner_state: '',
+          });
+        }
+      });
     this.getOccupationType();
     this.getPincodeList();
     this.getSalutationType();

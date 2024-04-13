@@ -207,7 +207,7 @@ export class ProposalComponent implements OnInit {
         this.stepImage = '/assets/icon/step-2.svg';
         break;
       case 3:
-        if (this.isNotShowInNewPolicyDetails) {
+        if (this.isNotShowNomineeDetails) {
           this.stepHeader = 'Nominee Details';
           this.stepImage = '/assets/icon/step-3.svg';
         } else {
@@ -216,12 +216,12 @@ export class ProposalComponent implements OnInit {
         }
         break;
       case 4:
-        if (this.isNotShowInNewPolicyDetails && this.isNotShowNomineeDetails) {
-          this.stepHeader = 'Vehicle Details';
-          this.stepImage = '/assets/icon/step-4.svg';
-        } else {
+        if (this.isNotShowInNewPolicyDetails) {
           this.stepHeader = 'Previous Policy Details';
           this.stepImage = '/assets/icon/step-5.svg';
+        } else {
+          this.stepHeader = 'Vehicle Details';
+          this.stepImage = '/assets/icon/step-4.svg';
         }
         break;
       case 5:
