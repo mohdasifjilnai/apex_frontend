@@ -460,20 +460,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     sessionStorage.setItem('vehiclePopup', 'true');
     if (this.vehicleMMVValue) {
-      // this.vehicleMMVValue.vehicle =
-      //   this.vehicleDetailsForm.value.vehicle_variant;
-      // this.vehicleMMVValue.rto_city =
-      //   this.vehicleDetailsForm.value.registration_city;
-      // this.vehicleMMVValue.registration_date =
-      //   this.vehicleDetailsForm.value.registration_date;
-      // this.vehicleMMVValue.policy_expiry_date =
-      //   this.vehicleDetailsForm.value.policy_expiry_date;
-      // this.vehicleMMVValue.previous_insurer =
-      //   this.vehicleDetailsForm.value.previous_insurer;
-      // sessionStorage.setItem(
-      //   'vehicleMMVData',
-      //   JSON.stringify(this.vehicleMMVValue)
-      // );
       sessionStorage.removeItem('vehicleMMVData');
     }
 

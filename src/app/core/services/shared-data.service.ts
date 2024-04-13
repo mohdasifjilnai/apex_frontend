@@ -79,6 +79,7 @@ export class SharedDataService {
   quoteItem: any;
   isNotShowVehicleDetails: boolean = false;
   setIsNotShowNomineeItem: any;
+  addonsValue: any;
 
   constructor(
     private apiService: ApiService,
@@ -178,11 +179,11 @@ export class SharedDataService {
       sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
     }
     let setectedAddons;
-    let addonsValue = sessionStorage.getItem('selectedAddons');
+    this.addonsValue = sessionStorage.getItem('selectedAddons');
     if (data?.selected_addons) {
       setectedAddons = data?.selected_addons;
-    } else if (addonsValue) {
-      let addOnsList = JSON.parse(addonsValue);
+    } else if (this.addonsValue != 'null') {
+      let addOnsList = JSON.parse(this.addonsValue);
       this.selected_addons = {};
       for (let key of addOnsList) {
         const keys = Object.keys(key);
