@@ -192,8 +192,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
           this.getRTOData('rto_code');
           this.vehicleDetailsForm.patchValue({
-            registration_city:
-              this.vehicleAllData?.registration_city.display_name,
+            registration_city: this.vehicleAllData?.registration_city,
           });
           this.getVehicleDetailsPopup(
             '',

@@ -412,6 +412,7 @@ export class SharedDataService {
         policy_expiry_type: mmvData?.policy_expiry,
         idvData: sessionStorage.getItem('idvData'),
         selectedAddons: sessionStorage.getItem('selectedAddons'),
+        mmv_form_data: mmvData,
       };
       let mmvValues = {
         rb_mmv_id: mmvData?.vehicle_variant,
