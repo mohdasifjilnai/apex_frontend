@@ -180,10 +180,11 @@ export class SharedDataService {
     }
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
+    let addOnsList = JSON.parse(this.addonsValue);
+
     if (data?.selected_addons) {
       setectedAddons = data?.selected_addons;
-    } else if (this.addonsValue != 'null') {
-      let addOnsList = JSON.parse(this.addonsValue);
+    } else if (addOnsList != null) {
       this.selected_addons = {};
       for (let key of addOnsList) {
         const keys = Object.keys(key);

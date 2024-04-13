@@ -299,7 +299,9 @@ export class VehicleDetailsCardComponent implements OnInit {
         );
         sessionStorage.setItem(
           'selectedAddons',
-          this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons
+          JSON.stringify(
+            this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons
+          )
         );
         let vehicleFrom = JSON.stringify(vehicleEmailData);
         sessionStorage.setItem(
