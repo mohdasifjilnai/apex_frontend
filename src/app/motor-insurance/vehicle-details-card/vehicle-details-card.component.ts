@@ -259,9 +259,9 @@ export class VehicleDetailsCardComponent implements OnInit {
       .subscribe((res) => {
         this.parsedVehicleData.registration_city = res[0];
         let vehicleEmailData = {
-          vehicle_variant: this.parsedVehicleData?.vehicle_model,
+          vehicle_variant: this.parsedVehicleData?.vehicle_variant,
           vehicle_model: this.parsedVehicleData?.vehicle_model,
-          vehicle_make: this.parsedVehicleData?.vehicle_model,
+          vehicle_make: this.parsedVehicleData?.vehicle_make,
           registration_city: this.parsedVehicleData.registration_city,
           registration_date:
             this.parsedVehicleData?.allQuotesRequest.registration_date,

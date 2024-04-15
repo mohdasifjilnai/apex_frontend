@@ -179,7 +179,10 @@ export class QuotesComponent implements OnInit {
           this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
           let mmvData = {
             vehicle_model: this.vehicleMMVData[0],
+            vehicle_make: this.vehicleMMVData[0],
+            vehicle_variant: this.vehicleMMVData[0],
             allQuotesRequest: allRequestData,
+            vehicle_fuel: this.vehicleMMVData[0].fuel,
           };
           this.shareDataService.vehicleCardDataEmail(mmvData);
         }
