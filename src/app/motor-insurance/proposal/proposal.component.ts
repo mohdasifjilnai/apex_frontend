@@ -247,11 +247,17 @@ export class ProposalComponent implements OnInit {
       this.stepper.next();
     }
   }
+  /**
+   * get nominee Details Data
+   */
   nomineeDetailsData(data: any) {
     if (data) {
       this.stepper.next();
     }
   }
+  /**
+   * get Vehicle Details Data
+   */
   proposerVehicleDetailsData(data: any) {
     if (data) {
       if (this.isNotShowInNewPolicyDetails) {
@@ -260,6 +266,9 @@ export class ProposalComponent implements OnInit {
       this.stepper.next();
     }
   }
+  /**
+   * get vehicle owner details data
+   */
   getVehicleOwnerData(data: any) {
     if (data) {
       if (this.isNotShowNomineeDetails) {

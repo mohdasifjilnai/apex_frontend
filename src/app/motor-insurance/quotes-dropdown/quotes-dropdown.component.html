@@ -31,6 +31,7 @@
       <mat-radio-button
         *ngFor="let proposalData of proposalList"
         [value]="proposalData.proposer_name"
+        class="mb-3"
         >{{ proposalData.proposer_name | titlecase }}</mat-radio-button
       >
     </mat-radio-group>

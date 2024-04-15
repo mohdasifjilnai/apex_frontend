@@ -12,6 +12,7 @@
         [required]="true"
         [formControlNameData]="'previous_insurer'"
         [label]="'Search Previous Insurer'"
+        (responseEvent)="previousInsurerComponentResponse($event)"
       ></app-previous-insurer>
     </div>
     <div class="col-lg-4 col-md-4 col-12 mt-2">
@@ -58,6 +59,7 @@
       <app-previous-insurer
         [label]="'TP Insurance Company'"
         [formControlNameData]="'tp_insurance_company'"
+        (responseEvent)="previousInsurerComponentResponse($event)"
       ></app-previous-insurer>
     </div>
     <div class="col-lg-4 col-md-4 col-12 mt-2" *ngIf="isTpPolicyDetails">

@@ -45,6 +45,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     tp_policy_start_date: new FormControl(''),
     tp_policy_end_date: new FormControl(''),
   });
+  previousInsurerResponse: any;
 
   constructor(
     private router: Router,
@@ -251,5 +252,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedData.handleEnterKey(event, manufacture);
+  }
+  previousInsurerComponentResponse(response: string) {
+    if (typeof response != 'object') {
+      this.previousPolicyDetailsForm.setErrors({ invalidResponse: true });
+    } else {
+      this.previousInsurerResponse = response;
+    }
   }
 }

@@ -210,7 +210,7 @@ export class ProposalShareComponent implements OnInit {
     }
     this.sharedDataService
       .shareQuotes(
-        this.data?.data,
+        this.quotesData,
         'proposal',
         this.partner_name,
         `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review?proposal=true`,

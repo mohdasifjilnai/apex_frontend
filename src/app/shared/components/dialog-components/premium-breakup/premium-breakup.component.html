@@ -43,10 +43,18 @@
     <div class="d-flex justify-content-between">
       <span class="own-damage-text"> NCB Discount </span>
       <span class="own-damage-amount"
-        >&#8377;
+        ><span
+          *ngIf="
+            initiateQuotes.premium_details.od_premium_details.ncb_discount != 0
+          "
+          >-</span
+        >
+        &#8377;
         {{
-          initiateQuotes.premium_details.od_premium_details.ncb_discount
-            | numberFormat
+          initiateQuotes.premium_details.od_premium_details.ncb_discount < 0
+            ? -initiateQuotes.premium_details.od_premium_details.ncb_discount
+            : (initiateQuotes.premium_details.od_premium_details.ncb_discount
+              | numberFormat)
         }}</span
       >
     </div>
