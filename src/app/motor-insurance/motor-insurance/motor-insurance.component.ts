@@ -164,10 +164,6 @@ export class MotorInsuranceComponent implements OnInit {
     if (vehicleMMV) {
       sessionStorage.removeItem('mmv_data');
     }
-    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
-    if (fetchQuotesData) {
-      sessionStorage.removeItem('forQuotesFetchData');
-    }
 
     let newVehicleType = sessionStorage.getItem('newVehicleType');
     if (newVehicleType) {
@@ -206,10 +202,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (proposalId) {
       sessionStorage.removeItem('proposal_Id');
     }
-    let breakIn = sessionStorage.getItem('breakIn');
-    if (breakIn) {
-      sessionStorage.removeItem('breakIn');
-    }
+
     let quote_data = sessionStorage.getItem('quotes_data');
     if (quote_data) {
       sessionStorage.removeItem('quotes_data');

@@ -151,10 +151,6 @@ export class OtpComponent implements OnInit {
 
               if (generatedProposal.status) {
                 if (generatedProposal.is_breakin) {
-                  sessionStorage.setItem(
-                    'breakIn',
-                    JSON.stringify(generatedProposal)
-                  );
                   this.router.navigate([
                     `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                   ]);

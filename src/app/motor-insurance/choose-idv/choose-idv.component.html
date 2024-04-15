@@ -50,7 +50,7 @@
             >
               <div class="d-flex justify-content-between mt-2">
                 <mat-radio-button value="min">Minimum IDV</mat-radio-button>
-                <div class="insurer" *ngIf="minIdv">
+                <div class="insurer" *ngIf="minIdv || minIdv == 0">
                   <span class="text-center">{{ minIdv | numberFormat }}</span>
                 </div>
               </div>

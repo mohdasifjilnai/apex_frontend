@@ -81,10 +81,6 @@ export class PaymentComponent implements OnInit {
       if (vehicleMMV) {
         sessionStorage.removeItem('mmv_data');
       }
-      let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
-      if (fetchQuotesData) {
-        sessionStorage.removeItem('forQuotesFetchData');
-      }
 
       let newVehicleType = sessionStorage.getItem('newVehicleType');
       if (newVehicleType) {

@@ -354,8 +354,7 @@ export class AddOnsComponent implements OnInit {
   }
   update() {
     this.sharedDataService.sendCarLoaderMessage(0);
-    this.forFetchQuotes = sessionStorage.getItem('forQuotesFetchData');
-    let sendQuotesVlaue = JSON.parse(this.forFetchQuotes);
+
     this.selected_addons = {};
 
     for (let key of this.selectedCheckedArray) {

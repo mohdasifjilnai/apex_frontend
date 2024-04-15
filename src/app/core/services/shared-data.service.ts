@@ -173,11 +173,8 @@ export class SharedDataService {
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
-    let fetchQuotesData = sessionStorage.getItem('forQuotesFetchData');
     this.proposerType = sessionStorage.getItem('proposerType');
-    if (!fetchQuotesData) {
-      sessionStorage.setItem('forQuotesFetchData', JSON.stringify(data));
-    }
+
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList = JSON.parse(this.addonsValue);
