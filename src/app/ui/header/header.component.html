@@ -1,7 +1,7 @@
 <nav class="navbar navbar-section navbar-expand-lg navbar-dark">
   <div class="container-fluid">
     <div class="d-flex justify-content-between w-100">
-      <a class="navbar-brand">
+      <a class="navbar-brand" (click)="redirectHome()">
         <img
           *ngIf="!env.artivatic_flag"
           src="/assets/icon/RB-logo.svg"

@@ -123,4 +123,10 @@ export class HeaderComponent implements OnInit {
     //   this.isCopied = false; // Reset isCopied after 3 seconds
     // }, 3000);
   }
+  /**
+   * Redirects the user to the home page.
+   */
+  redirectHome() {
+    this.router.navigate(['/motor']);
+  }
 }
