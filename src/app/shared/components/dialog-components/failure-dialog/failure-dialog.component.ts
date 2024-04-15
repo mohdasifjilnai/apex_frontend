@@ -25,9 +25,16 @@ export class FailureDialogComponent implements OnInit {
       this.errorMessage = data['statusdata']['message'];
     } else if (data?.statusdata?.status == 500) {
       this.errorMessage = data['errorData']['message'];
-    } else if (data?.data?.status == false || data?.data?.err_code == 1) {
-      // this.errorMessage = data?.data?.error_message;
+    } else if (
+      (data?.data?.status == false && data?.data?.insurer_code != 'digit') ||
+      data?.data?.err_code == 1
+    ) {
       this.sharedService.openSnackBar(data?.data?.error_message, true);
+    } else if (
+      (data?.data?.status == false && data?.data?.insurer_code == 'digit') ||
+      data?.data?.err_code == 1
+    ) {
+      this.errorMessage = data?.data?.error_message;
     }
   }
   // failureJSON: {

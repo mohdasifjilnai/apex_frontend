@@ -170,8 +170,14 @@ export class OtpComponent implements OnInit {
                     });
                 }
               } else {
-                if (JSON.parse(this.quoteData)['insurer_code'] == 'digit') {
+                if (
+                  JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
+                  generatedProposal.ckyc_link
+                ) {
                   this.failureJSON['modalName'] = ErrorDialogComponent;
+                  this.openFailurePopup(generatedProposal);
+                } else {
+                  this.failureJSON['modalName'] = FailureDialogComponent;
                   this.openFailurePopup(generatedProposal);
                 }
                 this.loader = false;
