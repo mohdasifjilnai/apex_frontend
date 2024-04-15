@@ -61,6 +61,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    if (this.mmvData?.policy_expiry_date) {
+      this.isExpiryDate = true;
+      this.previousPolicyDetailsForm.patchValue({
+        policy_expiry_date: this.mmvData?.policy_expiry_date,
+      });
+    }
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
@@ -69,11 +76,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
-
-          policy_expiry_date: this.sharedData.parseDate(
-            this.proposalData.previous_policy_details?.policy_expiry_date,
-            'DD/MM/YYYY'
-          ),
 
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
@@ -119,14 +121,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             });
         }
       } else {
-        this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
-
-        if (this.mmvData?.policy_expiry_date) {
-          this.isExpiryDate = true;
-          this.previousPolicyDetailsForm.patchValue({
-            policy_expiry_date: this.mmvData?.policy_expiry_date,
-          });
-        }
         if (this.mmvData?.previous_insurer) {
           this.previousPolicyDetailsForm.patchValue({
             previous_insurer: this.mmvData?.previous_insurer,
