@@ -101,6 +101,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   variantValueSelected: any;
   fuelArray: any;
   mmvBaseButtonDisable = false;
+  vehiclePreviousInsurerOninit = true;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -846,16 +847,20 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   previousInsurerComponentResponse(response: string) {
-    if (
-      typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
-      typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
-      typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
-      typeof this.vehicleDetailsForm.value.registration_city == 'object' &&
-      typeof response == 'object'
-    ) {
-      this.mmvBaseButtonDisable = false;
+    if (!this.vehiclePreviousInsurerOninit) {
+      if (
+        typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
+        typeof this.vehicleDetailsForm.value.vehicle_variant == 'object' &&
+        typeof this.vehicleDetailsForm.value.registration_city == 'object' &&
+        typeof response == 'object'
+      ) {
+        this.mmvBaseButtonDisable = false;
+      } else {
+        this.mmvBaseButtonDisable = true;
+      }
     } else {
-      this.mmvBaseButtonDisable = true;
+      this.vehiclePreviousInsurerOninit = false;
     }
   }
   inputClicked() {
