@@ -178,8 +178,7 @@
                 [disabled]="
                   rtoResponse == '' ||
                   motorInsurance.invalid ||
-                  vehicleResponse == '' ||
-                  previousInsurerResponse == ''
+                  vehicleResponse == ''
                 "
                 (click)="loader ? null : getVehicleDetails()"
               >

@@ -277,6 +277,7 @@ export class MotorInsuranceComponent implements OnInit {
   previousInsurerComponentResponse(response: string) {
     if (typeof response != 'object') {
       this.previousInsurerResponse = '';
+      this.motorInsurance.setErrors({ invalidResponse: true });
     } else {
       this.previousInsurerResponse = response;
     }
