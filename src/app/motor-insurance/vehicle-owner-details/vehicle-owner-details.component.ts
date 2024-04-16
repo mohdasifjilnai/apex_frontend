@@ -163,6 +163,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         });
       }
     });
+    this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
+      if (errData?.detail[0]) {
+        for (let error of errData?.detail[0]?.loc) {
+          if (error === 'address_line') {
+            this.owenerVehicleDetailsForm.controls[
+              'owner_communication_addres'
+            ].setErrors({ pattern: true });
+          }
+        }
+      }
+    });
     this.owenerVehicleDetailsForm
       .get('owner_pincode')
       ?.valueChanges.subscribe((pincode) => {

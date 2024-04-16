@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-vehicle-registration-address',
@@ -18,8 +19,13 @@ import {
 export class VehicleRegistrationAddressComponent implements OnInit {
   vehilceRegistrationForm!: FormGroup;
   @Input('required') isRequired = false;
+  proposalErrorMsg: any;
+  isNotShowErrorMsg: boolean = true;
 
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -41,5 +47,21 @@ export class VehicleRegistrationAddressComponent implements OnInit {
         new FormControl()
       );
     }
+    this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
+      if (errData?.detail[0]) {
+        for (let error of errData?.detail[0]?.loc) {
+          if (error === 'address_line') {
+            this.proposalErrorMsg = errData?.detail[0]?.msg;
+          }
+        }
+      }
+    });
+    this.vehilceRegistrationForm
+      .get('vehicle_registration_address')
+      ?.valueChanges.subscribe((res) => {
+        if (res.length === 0) {
+          this.isNotShowErrorMsg = false;
+        }
+      });
   }
 }

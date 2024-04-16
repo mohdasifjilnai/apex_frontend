@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     this.id = sessionStorage.getItem('transaction_id');
     if (window.innerWidth <= 999) {
       this.transactionId =
-        this.id.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
+        this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
     } else {
       this.transactionId = this.id;
     }
@@ -118,7 +118,7 @@ export class HeaderComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     // this.isCopied = true; // Set isCopied to true after copying
-    this.sharedService.openSnackBar('Trace ID copied', true);
+    this.sharedService.openSnackBar('Trace ID copied', true, 3000);
     // setTimeout(() => {
     //   this.isCopied = false; // Reset isCopied after 3 seconds
     // }, 3000);

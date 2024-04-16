@@ -6,6 +6,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-owner-communication-address',
@@ -18,8 +19,13 @@ import {
 export class OwnerCommunicationAddressComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  proposalErrorMsg: any;
+  isNotShowErrorMsg: boolean = true;
 
-  constructor(private ctrlContainer: FormGroupDirective) {}
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -30,11 +36,28 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'owner_communication_addres',
-        new FormControl(null, Validators.required)
+        new FormControl(null, [Validators.required, Validators.minLength(10)])
       );
     } else {
       this.form.addControl('owner_communication_addres', new FormControl());
     }
+
+    this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
+      if (errData?.detail[0]) {
+        for (let error of errData?.detail[0]?.loc) {
+          if (error === 'address_line') {
+            this.proposalErrorMsg = errData?.detail[0]?.msg;
+          }
+        }
+      }
+    });
+    this.form
+      .get('owner_communication_addres')
+      ?.valueChanges.subscribe((res) => {
+        if (res.length === 0) {
+          this.isNotShowErrorMsg = false;
+        }
+      });
   }
 
   ngOnDestroy(): void {

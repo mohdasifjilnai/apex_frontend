@@ -181,6 +181,13 @@ export class ProposalReviewComponent implements OnInit {
               this.generateProposalData?.transaction_id,
               this.generateProposalData?.insurer_quote_id
             );
+            const kycDataToStore = {
+              verification_status: res?.ckyc_details?.is_verification,
+              insurer_code: res?.insurer_code,
+            };
+            const kycDataToStoreString = JSON.stringify(kycDataToStore);
+
+            sessionStorage.setItem('kycData', kycDataToStoreString);
           }
         });
     }
@@ -240,11 +247,6 @@ export class ProposalReviewComponent implements OnInit {
       if (mmv_data) {
         // Store mmv_data object in session storage
         sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
-      }
-      const kycData = this.proposalData?.quote_request?.meta_data?.fetchCkyc;
-      if (kycData) {
-        // Store kycData object in session storage
-        sessionStorage.setItem('kycData', JSON.stringify(kycData));
       }
       this.apiService
         .getRequestedResponse(

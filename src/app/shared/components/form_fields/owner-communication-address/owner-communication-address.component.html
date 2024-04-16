@@ -13,8 +13,11 @@
     This is a required field.
   </mat-error>
   <mat-error
-    *ngIf="form.controls['owner_communication_addres']?.hasError('pattern')"
+    *ngIf="form.controls['owner_communication_addres']?.hasError('minlength')"
   >
-    Invalid Address
+    Cannot be less than 10 Characters
+  </mat-error>
+  <mat-error *ngIf="isNotShowErrorMsg">
+    {{ proposalErrorMsg }}
   </mat-error>
 </mat-form-field>

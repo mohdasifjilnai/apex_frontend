@@ -33,6 +33,7 @@ export class SharedDataService {
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
   getProposalDetails: Subject<any> = new Subject();
+  getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
   quotesData: Subject<any> = new Subject();
@@ -440,9 +441,9 @@ export class SharedDataService {
   vehicleCardData(fromData: any) {
     this.vehicleCardValue.next(fromData);
   }
-  openSnackBar(message: string, success: any) {
+  openSnackBar(message: string, success: any, duration: any) {
     const snackBarRef = this.snackbar.openFromComponent(SnackbarComponent, {
-      duration: 3000,
+      duration: duration,
       verticalPosition: 'top',
       horizontalPosition: 'end',
       panelClass: 'my-custom-snackbar',
@@ -497,15 +498,11 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         gender: formData?.get('ckyc_gender')?.value || '',
+        is_verification: fetchCkyc?.verification_status,
         document_type: formData?.get('document_type_based_field')?.value || '',
         document_number:
           formData?.get('document_number_based_field')?.value.toUpperCase() ||
           '',
-      };
-    }
-    if (flag === 'ckyc') {
-      this.proposalDataItem['meta_data'] = {
-        fetchCkyc,
       };
     }
     if (flag === 'vehicle_owner_detail') {
@@ -658,27 +655,27 @@ export class SharedDataService {
             this.sendProposalData(res);
             if (flag === 'ckyc') {
               if (this.createdProposalId?.ckyc_details !== null) {
-                this.openSnackBar('Ckyc Details Saved', true);
+                this.openSnackBar('Ckyc Details Saved', true, 3000);
               }
             }
             if (flag === 'vehicle_owner_detail') {
               if (this.createdProposalId?.customer_details !== null) {
-                this.openSnackBar('Customer Details Saved', true);
+                this.openSnackBar('Customer Details Saved', true, 3000);
               }
             }
             if (flag === 'nominne_details') {
               if (this.createdProposalId?.nominee_details !== null) {
-                this.openSnackBar('Nominee Details Saved', true);
+                this.openSnackBar('Nominee Details Saved', true, 3000);
               }
             }
             if (flag === 'vehilce_details') {
               if (this.createdProposalId?.vehicle_details !== null) {
-                this.openSnackBar('Vehicle Details Saved', true);
+                this.openSnackBar('Vehicle Details Saved', true, 3000);
               }
             }
             if (flag === 'previous_policy_details') {
               if (this.createdProposalId?.previous_policy_details !== null) {
-                this.openSnackBar('Previous Policy Details Saved', true);
+                this.openSnackBar('Previous Policy Details Saved', true, 3000);
               }
             }
             if (
@@ -711,7 +708,7 @@ export class SharedDataService {
           }
         },
         (error: any) => {
-          console.error('API Request Error:', error);
+          this.sendErrorProposalData(error?.error);
         }
       );
   }
@@ -742,6 +739,9 @@ export class SharedDataService {
   }
   sendProposalData(data: any) {
     this.getProposalDetails.next(data);
+  }
+  sendErrorProposalData(data: any) {
+    this.getErrorProposalDetails.next(data);
   }
   kycFetched(data: any) {
     this.fetchKycData.next(data);

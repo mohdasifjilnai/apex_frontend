@@ -160,7 +160,7 @@ export class PaymentComponent implements OnInit {
         if (res?.err_code != 1) {
           window.open(res?.document_url);
         } else {
-          this.sharedService.openSnackBar(res?.error_message, true);
+          this.sharedService.openSnackBar(res?.error_message, true, 3000);
           // this.openFailurePopup(res);
         }
       });

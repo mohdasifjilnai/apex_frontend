@@ -122,7 +122,7 @@ export class ShareQuotesComponent implements OnInit {
         .subscribe(
           (res) => {
             if (res?.message == 'Success') {
-              this.sharedDataService.openSnackBar(message, true);
+              this.sharedDataService.openSnackBar(message, true, 3000);
               this.shareQuotationForm.reset();
             }
           },
@@ -145,7 +145,7 @@ export class ShareQuotesComponent implements OnInit {
         .subscribe(
           (res) => {
             if (res?.message == 'Success') {
-              this.sharedDataService.openSnackBar(message, true);
+              this.sharedDataService.openSnackBar(message, true, 3000);
               this.shareQuotationForm.reset();
             }
           },

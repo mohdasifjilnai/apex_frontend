@@ -137,7 +137,8 @@ export class CkycComponent implements OnInit {
     ) {
       this.sharedDataService.openSnackBar(
         'As you have change the insurer company you need to do your ckyc again.',
-        true
+        true,
+        10000
       );
     }
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {

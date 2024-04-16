@@ -317,6 +317,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           });
         }
       });
+    this.shareData.getErrorProposalDetails.subscribe((errData) => {
+      if (errData?.detail[0]) {
+        for (let error of errData?.detail[0]?.loc) {
+          if (error === 'address_line') {
+            this.proposalVehilceDetailsForm.controls[
+              'vehicle_registration_address'
+            ].setErrors({ pattern: true });
+          }
+        }
+      }
+    });
     this.getPincodeList();
     this.getAgreementList();
     this.getFinancierList();

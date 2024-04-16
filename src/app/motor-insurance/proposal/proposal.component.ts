@@ -279,7 +279,7 @@ export class ProposalComponent implements OnInit {
   }
   getNomineeData(data: any) {
     if (data) {
-      this.stepper.next();
+      this.stepper?.next();
       this.showVehicleDetails = true;
     }
   }

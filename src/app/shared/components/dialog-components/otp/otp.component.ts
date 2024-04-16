@@ -130,7 +130,11 @@ export class OtpComponent implements OnInit {
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
-        this.sharedDataService.openSnackBar('Please enter valid otp', false);
+        this.sharedDataService.openSnackBar(
+          'Please enter valid otp',
+          false,
+          3000
+        );
         this.loader = false;
         this.ngOtpInput.setValue('');
       } else {
@@ -200,7 +204,8 @@ export class OtpComponent implements OnInit {
           this.startResendTimer();
           this.sharedDataService.openSnackBar(
             'The otp send successfully',
-            true
+            true,
+            3000
           );
         }
       });

@@ -22,9 +22,12 @@
     *ngIf="
       vehilceRegistrationForm.controls[
         'vehicle_registration_address'
-      ]?.hasError('pattern')
+      ]?.hasError('minlength')
     "
   >
-    Invalid Address
+    Cannot be less than 10 Characters
+  </mat-error>
+  <mat-error *ngIf="isNotShowErrorMsg">
+    {{ proposalErrorMsg }}
   </mat-error>
 </mat-form-field>
