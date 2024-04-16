@@ -5,6 +5,7 @@
     placeholder="Enter your address As per your AAdhar"
     formControlName="owner_communication_addres"
     id-automation="owner_communication_address"
+    minlength="10"
   />
   <mat-error
     *ngIf="form.controls['owner_communication_addres']?.hasError('required')"

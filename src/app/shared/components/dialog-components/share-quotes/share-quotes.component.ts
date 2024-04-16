@@ -114,7 +114,7 @@ export class ShareQuotesComponent implements OnInit {
           this.quotesData,
           'proposal',
           this.partner_name,
-          `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review?proposal=true`,
+          `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
           this.quotes_id

@@ -57,7 +57,7 @@ export class ProposalReviewComponent implements OnInit {
   isTpDetailsDisabled: boolean = false;
   isAcknowledged: boolean = false;
   proposalParam: any;
-  proposalId: any;
+  transaction_Id: any;
   proposalData: any;
   proposalDataSend: any;
 
@@ -89,18 +89,11 @@ export class ProposalReviewComponent implements OnInit {
         'proposal_param',
         JSON.stringify(this.proposalParam)
       );
-      if (this.proposalParam) {
-        this.router.url.subscribe((segments) => {
-          const urlSegments = segments.map((segment) => segment.path);
-          this.proposalId = urlSegments[urlSegments.length - 2];
-          this.generateProposal(this.proposalId);
-          // this.route.navigate([
-          //   '/motor/quotes/proposal/5075db21-20f7-4962-abd5-29c9b3fd9609/review',
-          // ]);
-        });
-      } else {
-        this.generateProposal();
-      }
+      this.router.url.subscribe((segments) => {
+        const urlSegments = segments.map((segment) => segment.path);
+        this.transaction_Id = urlSegments[urlSegments.length - 2];
+        this.generateProposal(this.transaction_Id);
+      });
     });
     this.getInsurerDetailsOnRedirection();
   }
@@ -190,22 +183,6 @@ export class ProposalReviewComponent implements OnInit {
             );
           }
         });
-    } else {
-      this.apiService
-        .getRequestedResponse(
-          `${ApiConstants.get_proposal}/?transaction_id=${this.quoteData?.transaction_id}`
-        )
-        .subscribe((res) => {
-          this.generateProposalData = res;
-          const dataToSend = [
-            res?.previous_policy_details, //Previous Policy Details
-            res?.proposal_number, //Proposal Number
-            res, //Proposal Details
-            this.quoteData, //Quotes Details Data
-          ];
-          this.proposalDataSend = dataToSend;
-          this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
-        });
     }
   }
   updateCheckBoxState(checked: boolean) {
@@ -258,6 +235,33 @@ export class ProposalReviewComponent implements OnInit {
       if (productType) {
         sessionStorage.setItem('productType', productType);
       }
+      const mmv_data =
+        this.proposalData?.quote_request?.meta_data?.mmv_form_data;
+      if (mmv_data) {
+        // Store mmv_data object in session storage
+        sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
+      }
+      const kycData = this.proposalData?.quote_request?.meta_data?.fetchCkyc;
+      if (kycData) {
+        // Store kycData object in session storage
+        sessionStorage.setItem('kycData', JSON.stringify(kycData));
+      }
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}`
+        )
+        .subscribe((res: any) => {
+          if (res) {
+            for (let coverage of res) {
+              if (
+                coverage?.code ===
+                this.proposalData?.quote_request?.product_type
+              ) {
+                sessionStorage.setItem('planType', JSON.stringify(coverage));
+              }
+            }
+          }
+        });
     });
   }
 }

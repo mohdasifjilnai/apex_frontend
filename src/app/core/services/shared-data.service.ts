@@ -80,6 +80,7 @@ export class SharedDataService {
   isNotShowVehicleDetails: boolean = false;
   setIsNotShowNomineeItem: any;
   addonsValue: any;
+  ckycFormInfo: any;
 
   constructor(
     private apiService: ApiService,
@@ -178,7 +179,6 @@ export class SharedDataService {
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList = JSON.parse(this.addonsValue);
-
     if (data?.selected_addons) {
       setectedAddons = data?.selected_addons;
     } else if (addOnsList != null) {
@@ -468,33 +468,23 @@ export class SharedDataService {
    * @param flag - The form field flag indicating which form data to use.
    * @param formData - The form data containing the customer, vehicle, and other details.
    */
-  createProposalId(flag?: any, formData?: any) {
+  createProposalId(flag?: any, formData?: any, fetchCkyc?: any) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = localStorage.getItem('vehicleType');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const proposalId = sessionStorage.getItem('proposal_Id');
-    const proposalParam = sessionStorage.getItem('proposal_param');
-
-    if (proposalParam && proposalParam === 'true') {
-      this.redirectProposalId = sessionStorage.getItem('proposal_Id');
-      this.proposalDataItem = {
-        transaction_id: sessionStorage.getItem('transaction_id') || '',
-        insurer_quote_id: this.quoteData?.quote_id || '',
-        insurer_code: this.quoteData?.insurer_coe || '',
-        proposal_id: this.redirectProposalId?.replace(/['"]+/g, ''),
-        is_breakin: this.quoteData?.is_breakin,
-      };
-    } else {
-      this.proposalDataItem = {
-        transaction_id: sessionStorage.getItem('transaction_id') || '',
-        insurer_quote_id: this.quoteData?.quote_id || '',
-        insurer_code: this.quoteData?.insurer_code || '',
-        proposal_id: proposalId !== undefined ? proposalId : '',
-        is_breakin: this.quoteData?.is_breakin,
-      };
-    }
-    const ckycIdValue = formData?.get('ckyc_id')?.value;
-    const isCkycVerified = ckycIdValue !== 2; // Set to true if ckyc_id is not 2, false if it is 2
+    this.proposalDataItem = {
+      transaction_id: sessionStorage.getItem('transaction_id') || '',
+      insurer_quote_id: this.quoteData?.quote_id || '',
+      insurer_code: this.quoteData?.insurer_code || '',
+      proposal_id:
+        proposalId !== undefined && proposalId !== null
+          ? typeof proposalId === 'string'
+            ? proposalId.replace(/['"]+/g, '')
+            : proposalId
+          : '',
+      is_breakin: this.quoteData?.is_breakin,
+    };
     if (flag === 'ckyc') {
       this.proposalDataItem['ckyc_details'] = {
         full_name: formData?.get('ckyc_full_name')?.value || '',
@@ -508,6 +498,11 @@ export class SharedDataService {
         document_number:
           formData?.get('document_number_based_field')?.value.toUpperCase() ||
           '',
+      };
+    }
+    if (flag === 'ckyc') {
+      this.proposalDataItem['meta_data'] = {
+        fetchCkyc,
       };
     }
     if (flag === 'vehicle_owner_detail') {
@@ -761,6 +756,9 @@ export class SharedDataService {
   }
   getFetchedCkycData(data: any) {
     this.fetchedCkycData.next(data);
+    if (data) {
+      this.createProposalId('ckyc', this.ckycFormInfo, data);
+    }
   }
 
   /**
@@ -962,5 +960,8 @@ export class SharedDataService {
   }
   isDisabledVehicleButton(data: any) {
     this.setIsNotShowNomineeItem = data;
+  }
+  sendCkycFormData(data: any) {
+    this.ckycFormInfo = data;
   }
 }

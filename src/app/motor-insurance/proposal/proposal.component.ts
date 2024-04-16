@@ -239,7 +239,7 @@ export class ProposalComponent implements OnInit {
   getProceedData(data: any) {
     this.proceedData = data;
     if (data) {
-      this.stepper.next();
+      this.stepper?.next();
     }
   }
   vehicleOwnerDetailsData(data: any) {
