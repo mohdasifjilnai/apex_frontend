@@ -55,6 +55,7 @@ import { RemoveZeroFromStartingDirective } from './directives/remove-zero-from-s
 import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
 import { HelplineNumberComponent } from './components/dialog-components/helpline-number/helpline-number.component';
 import { ProposalExpiredComponent } from './components/dialog-components/proposal-expired/proposal-expired.component';
+import { CkycDocumentsComponent } from './components/dialog-components/ckyc-documents/ckyc-documents.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { ProposalExpiredComponent } from './components/dialog-components/proposa
     NotAllowDotDirective,
     HelplineNumberComponent,
     ProposalExpiredComponent,
+    CkycDocumentsComponent,
   ],
   imports: [
     CommonModule,

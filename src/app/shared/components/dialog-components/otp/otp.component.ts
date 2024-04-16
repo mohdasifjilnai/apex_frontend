@@ -157,7 +157,7 @@ export class OtpComponent implements OnInit {
                 } else {
                   this.apiService
                     .getRequestedResponse(
-                      `${ApiConstants['redirection_payment_getway']}${this.proposalId}`
+                      `${ApiConstants['redirection_payment_getway']}${JSON.parse(this.proposalId)}`
                     )
                     .subscribe((payment_getway_response) => {
                       if (payment_getway_response) {

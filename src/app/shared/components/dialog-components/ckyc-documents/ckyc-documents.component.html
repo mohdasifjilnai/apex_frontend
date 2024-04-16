@@ -1,0 +1,361 @@
+<div class="ckyc-document" *ngIf="showDocumentSelect">
+  <div class="row">
+    <div class="col-lg-12 col-12 text-center">
+      <span class="header"
+        >We are unable to fetch your details completely.<br />
+        Please follow up with the offline CKYC.</span
+      >
+    </div>
+  </div>
+  <div class="row ps-5 pe-5 mt-2">
+    <div class="col-lg-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Document Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <button
+        class="submit-btn continue"
+        type="submit"
+        (click)="submitDocuments()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+<div class="ckyc-poi" *ngIf="showPOI">
+  <div class="row">
+    <div class="col-lg-12 col-12 text-center">
+      <span class="header">Please complete the document details for POA</span>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-lg-12 col-12">
+      <!-- <div class=""> -->
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Document Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+      <div class="col-lg-12 col-12">
+        <mat-form-field
+          appearance="outline"
+          class="document_number mat-input-custom"
+        >
+          <mat-label>Enter Document Number</mat-label>
+          <input
+            id-automation="documentNumber"
+            matInput
+            aria-label="document_number"
+            placeholder="Enter Document Number"
+            class="text-uppercase"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-12 col-12">
+        <div class="form-group">
+          <label class="lable-file-input" for="fileInput">
+            <p class="file-input-text">{{ fileName }}</p>
+            <img
+              src="/assets/icon/upload.svg"
+              alt=""
+              class="upload-doc-image"
+            />
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            class="form-control-file"
+            (change)="onFileSelected($event)"
+          />
+        </div>
+      </div>
+      <div class="col-lg-12 col-12">
+        <button
+        class="submit-btn continue mt-3"
+        type="submit"
+        (click)="submitPOI()"
+      >
+        Continue
+      </button>
+      </div>
+      
+      <!-- </div> -->
+    
+    <!-- <div class="col-lg-6">
+      <ng-container *ngIf="fileURL">
+        <div>
+          <img
+            *ngIf="fileURL"
+            [src]="fileURL"
+            alt="Selected Image"
+            class="image-main"
+          />
+        </div>
+        <div class="text-center">
+          <label for="fileInput" class="custom-file-upload">
+            <img
+              src="/assets/icon/reupload.svg"
+              class="reuploaded-image"
+              alt="close"
+            />
+            Reupload
+          </label>
+          <input type="file" id="fileInput" (change)="onFileSelected($event)" />
+        </div>
+      </ng-container>
+    </div> -->
+  </div>
+</div>
+<div class="ckyc-poa" *ngIf="showPOA">
+  <div class="row">
+    <div class="col-lg-12 col-12 text-center">
+      <span class="header">Please complete the document details for POI</span>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Document Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field
+        appearance="outline"
+        class="document_number mat-input-custom"
+      >
+        <mat-label>Enter Document Number</mat-label>
+        <input
+          id-automation="documentNumber"
+          matInput
+          aria-label="document_number"
+          placeholder="Enter Document Number"
+          class="text-uppercase"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <div class="form-group">
+        <label class="lable-file-input" for="fileInput">
+          <p class="file-input-text">{{ fileName }}</p>
+          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          class="form-control-file"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Select Date of Birth</mat-label>
+        <input
+          matInput
+          [matDatepicker]="expiryDate"
+          placeholder="Select Date of Birth"
+          id-automation="policy_expiry_date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="expiryDate">
+          <mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            />
+          </mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker
+          #expiryDate
+          id-automation="date_picker_expiry_date_id"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Relative Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field
+        appearance="outline"
+        class="document_number mat-input-custom"
+      >
+        <mat-label>Enter Relative Name</mat-label>
+        <input
+          id-automation="documentNumber"
+          matInput
+          aria-label="document_number"
+          placeholder="Enter Document Number"
+          class="text-uppercase"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4">
+      <button class="submit-btn continue" type="submit" (click)="submitPOA()">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+<div class="ckyc-poa" *ngIf="showCkyc">
+  <div class="row">
+    <div class="col-lg-12 col-12 text-center">
+      <span class="header">Please complete the document details for CYKC</span>
+    </div>
+  </div>
+  <div class="row ps-4">
+    <div class="col-lg-12 col-12">
+      <span class="sub-header">Proof of Identity (POI)</span>
+    </div>
+    <hr class="col-lg-12 col-12" />
+  </div>
+  <div class="row mt-2">
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Document Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field
+        appearance="outline"
+        class="document_number mat-input-custom"
+      >
+        <mat-label>Enter Document Number</mat-label>
+        <input
+          id-automation="documentNumber"
+          matInput
+          aria-label="document_number"
+          placeholder="Enter Document Number"
+          class="text-uppercase"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <div class="form-group">
+        <label class="lable-file-input" for="fileInput">
+          <p class="file-input-text">{{ fileName }}</p>
+          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          class="form-control-file"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row ps-4">
+    <div class="col-lg-12 col-12">
+      <span class="sub-header">Proof of Address (POA)</span>
+    </div>
+    <hr class="col-lg-12 col-12" />
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Document Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field
+        appearance="outline"
+        class="document_number mat-input-custom"
+      >
+        <mat-label>Enter Document Number</mat-label>
+        <input
+          id-automation="documentNumber"
+          matInput
+          aria-label="document_number"
+          placeholder="Enter Document Number"
+          class="text-uppercase"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <div class="form-group">
+        <label class="lable-file-input" for="fileInput">
+          <p class="file-input-text">{{ fileName }}</p>
+          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          class="form-control-file"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Select Date of Birth</mat-label>
+        <input
+          matInput
+          [matDatepicker]="expiryDate"
+          placeholder="Select Date of Birth"
+          id-automation="policy_expiry_date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="expiryDate">
+          <mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            />
+          </mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker
+          #expiryDate
+          id-automation="date_picker_expiry_date_id"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
+        <mat-label>Select Relative Type</mat-label>
+        <mat-select>
+          <mat-option value="sfsd"> sdfsdf </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-12">
+      <mat-form-field
+        appearance="outline"
+        class="document_number mat-input-custom"
+      >
+        <mat-label>Enter Relative Name</mat-label>
+        <input
+          id-automation="documentNumber"
+          matInput
+          aria-label="document_number"
+          placeholder="Enter Document Number"
+          class="text-uppercase"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4">
+      <button class="submit-btn continue" type="submit">Continue</button>
+    </div>
+  </div>
+</div>

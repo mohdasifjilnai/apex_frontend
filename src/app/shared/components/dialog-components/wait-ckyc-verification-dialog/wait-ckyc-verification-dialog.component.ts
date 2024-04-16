@@ -10,6 +10,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from '../../../../api.constant';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CkycDocumentsComponent } from '../ckyc-documents/ckyc-documents.component';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 
 @Component({
   selector: 'app-wait-ckyc-verification-dialog',
@@ -40,6 +42,21 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   fileName: any = 'Upload Document';
   proposerType: any;
   isProposerTrue: boolean = true;
+  ckycDocumentsJson: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: CkycDocumentsComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'ckyc-documents',
+  };
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,7 +64,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private matDialog: WindowRef,
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -104,7 +122,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             this.isCustomerDetails = true;
             this.isUpload = true;
             this.uploadDocumentsFormControler();
-            this.getDocumentType();
+            // this.getDocumentType();
+            this.openCkycDocumentsPopup('data')
           }
         },
         (error) => {
@@ -227,5 +246,36 @@ Event handler for when a file is selected.
           file: res['document_url'],
         });
       });
+  }
+  /**
+   * this fucntion use wait ckyc verification modal
+   */
+  openCkycDocumentsPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.ckycDocumentsJson['modalName'],
+      width: this.ckycDocumentsJson['widthObtained'],
+      height: this.ckycDocumentsJson['heightObtained'],
+      classNameObtained: this.ckycDocumentsJson['classObtained'],
+      isOutSideClose: this.ckycDocumentsJson['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj).subscribe((data) => {
+      console.log(data)
+    });
   }
 }
