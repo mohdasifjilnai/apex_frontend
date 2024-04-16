@@ -5,7 +5,7 @@
     .mat-form-field-infix {
       width: 300px !important;
     }
-    .mat-form-field-label-wrapper{
+    .mat-form-field-label-wrapper {
       left: 10px;
     }
   }
@@ -15,14 +15,12 @@
     right: 16px; // Adjust the right distance according to your design
     transform: translateY(-50%);
   }
- 
 }
-.fuel-capacitor{
+.fuel-capacitor {
   font-size: 12px;
   font-weight: 500;
-  color: #282828;
-  opacity: 50%;
+  color: rgba(40, 40, 40, 1);
+  opacity: 70%;
   margin-left: 10px;
-  margin-top: -20px 
+  margin-top: -20px;
 }
-

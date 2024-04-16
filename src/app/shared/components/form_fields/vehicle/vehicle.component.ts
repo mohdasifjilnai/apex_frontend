@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -87,7 +94,11 @@ export class VehicleComponent implements OnInit {
     // this.getVehicleMMV('', this.vehcileType);
   }
   sendResponse(response: string) {
-    this.responseEvent.emit(response);
+    if (response != null) {
+      this.responseEvent.emit(response);
+    } else {
+      this.showSelectedFuelandCapacity = false;
+    }
   }
   /**
    *
@@ -151,7 +162,7 @@ export class VehicleComponent implements OnInit {
           this.showSelectedFuelandCapacity = false;
         }
       );
-      this.sendResponse(this.mmvDataNotAvailable);
+    this.sendResponse(this.mmvDataNotAvailable);
   }
 
   ngOnDestroy(): void {

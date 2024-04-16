@@ -52,6 +52,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   vehicleInspectionMessage: any;
   expiryListData: any;
   vehicleValueForm: any;
+  vehicleType: any;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -74,7 +75,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
     this.vehiclePopupList = sessionStorage.getItem('mmv_data');
-
+    this.vehicleType = localStorage.getItem('vehicleType');
     let vehicleCard = JSON.parse(this.vehiclePopupList);
     if (vehicleCard) {
       this.vehicleCardData(vehicleCard);
@@ -100,7 +101,9 @@ export class VehicleDetailsCardComponent implements OnInit {
           vehicleCard?.policy_expiry_date != 'Not Sure'
         ) {
           this.vehicleInspectionMessage =
-            'Vehicle inspection is required as your previous policy is expired';
+            this.vehicleType == 'private_car'
+              ? 'Vehicle inspection is required as your previous policy is expired'
+              : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
           this.breakIn = true;
         } else if (
           quotationArray[i]['status'] &&
@@ -108,7 +111,9 @@ export class VehicleDetailsCardComponent implements OnInit {
           vehicleCard?.policy_expiry_date == 'Not Sure'
         ) {
           this.vehicleInspectionMessage =
-            'Vehicle inspection is required as your previous policy is not available';
+            this.vehicleType == 'private_car'
+              ? 'Vehicle inspection is required as your previous policy is not available'
+              : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
           this.breakIn = true;
         }
       }

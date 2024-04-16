@@ -14,12 +14,11 @@
   <mat-autocomplete
     #autoVehicle="matAutocomplete"
     [displayWith]="displayVehicle.bind(this)"
-  ><ng-container *ngIf="vehicleSearchDataLength>2">
-    <mat-option *ngIf="mmvDataNotAvailable === 'No data'" [value]="'No data'">
-      {{ mmvDataNotAvailable }}
-    </mat-option>
-  </ng-container>
-    
+    ><ng-container *ngIf="vehicleSearchDataLength > 2">
+      <mat-option *ngIf="mmvDataNotAvailable === 'No data'" [value]="'No data'">
+        {{ mmvDataNotAvailable }}
+      </mat-option>
+    </ng-container>
 
     <span *ngIf="mmvDataNotAvailable !== 'No data'">
       <mat-option
@@ -52,7 +51,7 @@
 </mat-form-field>
 <div class="d-flex justify-content-start" *ngIf="showSelectedFuelandCapacity">
   <span class="fuel-capacitor"
-    >{{ vehicleSelectedData?.fuel }} |
+    >{{ vehicleSelectedData?.fuel }} &#8226;
     {{ vehicleSelectedData?.cubic_capacity }}cc</span
   >
 </div>
