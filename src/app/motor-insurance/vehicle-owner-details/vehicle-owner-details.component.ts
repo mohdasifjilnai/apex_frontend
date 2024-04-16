@@ -289,4 +289,28 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }
     return null;
   }
+  /**
+   * Checks the validity of the GSTIN entered by the user.
+   *
+   * @param event - The value of the GSTIN entered by the user.
+   */
+  checkValidGSTIN(event: any) {
+    if (
+      this.proposalData?.ckyc_details?.document_type == 'pan_number' &&
+      event.length >= 15
+    ) {
+      let stringWithoutFirstTwo = event.substring(2);
+      let stringWithoutLastThree = stringWithoutFirstTwo.slice(0, -3);
+      if (
+        stringWithoutLastThree.toUpperCase() ==
+        this.proposalData?.ckyc_details?.document_number
+      ) {
+        this.owenerVehicleDetailsForm.get('owner_gstin')?.setErrors(null);
+      } else {
+        this.owenerVehicleDetailsForm
+          .get('owner_gstin')
+          ?.setErrors({ validGSTNumber: true });
+      }
+    }
+  }
 }
