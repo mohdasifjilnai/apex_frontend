@@ -286,10 +286,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-      } else if (
-        JSON.parse(this.quoteData)['insurer_code'] === 'digit' ||
-        JSON.parse(this.quoteData)['insurer_code'] === 'liberty'
-      ) {
+      } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
         this.isDisableCKyc = false;
       } else {
         this.isDisableCKyc = true;

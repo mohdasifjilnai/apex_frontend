@@ -105,10 +105,7 @@ export class CkycComponent implements OnInit {
       : (this.dobPlaceholder = 'Select Date of Incorporation');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    if (
-      this.quoteData['insurer_code'] === 'digit' ||
-      this.quoteData['insurer_code'] === 'liberty'
-    ) {
+    if (this.quoteData['insurer_code'] === 'digit') {
       this.changeSubmitCkycName = true;
     }
     this.proposerType == 'individual'

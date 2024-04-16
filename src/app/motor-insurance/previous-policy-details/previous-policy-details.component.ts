@@ -195,10 +195,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-      } else if (
-        this.quoteData?.insurer_code === 'digit' ||
-        this.quoteData?.insurer_code === 'liberty'
-      ) {
+      } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
       } else {
         this.isDisableCKyc = true;

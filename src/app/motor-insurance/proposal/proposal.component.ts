@@ -296,16 +296,14 @@ export class ProposalComponent implements OnInit {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (
         proposal?.ckyc_details !== null &&
-        (this.quoteData['insurer_code'] === 'digit' ||
-          this.quoteData['insurer_code'] === 'liberty')
+        this.quoteData['insurer_code'] === 'digit'
       ) {
         this.showVehicleOwnerDetails = true;
         this.stepper?.next();
         this.accordianExpanded = 'vehicleOwnerDetails';
       } else if (
         proposal?.ckyc_details !== null &&
-        (this.quoteData['insurer_code'] !== 'digit' ||
-          this.quoteData['insurer_code'] !== 'liberty')
+        this.quoteData['insurer_code'] !== 'digit'
       ) {
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (Object.keys(kycData).length > 0) {
