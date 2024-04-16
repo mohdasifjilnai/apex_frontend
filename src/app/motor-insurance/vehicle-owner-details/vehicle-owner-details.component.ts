@@ -67,6 +67,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.required,
       Validators.minLength(6),
       Validators.maxLength(6),
+      this.pincodeNumberValidator.bind(this),
     ]),
     owner_city: new FormControl('', Validators.required),
     owner_state: new FormControl('', Validators.required),
@@ -275,5 +276,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
       return data ? data.rb_pincode : undefined;
     }
+  }
+  /**
+   * Checks the length of a pincode and ensures it meets the minimum length requirement.
+   *
+   * @param control - The FormControl to be validated.
+   * @returns An object containing any validation errors or null if the control is valid.
+   */
+  pincodeNumberValidator(control: FormControl) {
+    if (typeof control.value != 'object' && control.value.length >= 6) {
+      return { validPincode: true };
+    }
+    return null;
   }
 }

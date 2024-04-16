@@ -18,7 +18,6 @@
   >
     <ng-container *ngIf="insururDataLength > 2">
       <span *ngIf="previousInsurerNoData == ''">
-        <!-- filteredInsurerList | async -->
         <mat-option
           *ngFor="let insurer of filteredInsurerList | async"
           [value]="insurer"
@@ -41,9 +40,15 @@
     </ng-container>
   </mat-autocomplete>
   <mat-error
-    *ngIf="form.controls['previous_insurer']?.hasError('required')"
+    *ngIf="form.controls[formControlNameData]?.hasError('required')"
     class="ms-4"
   >
     This is a required field.
+  </mat-error>
+  <mat-error
+    *ngIf="form.controls[formControlNameData]?.hasError('validPreviousInsurer')"
+    class="ms-4"
+  >
+    Please enter the correct {{ label }} name.
   </mat-error>
 </mat-form-field>

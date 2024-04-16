@@ -180,6 +180,16 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   previousInsurerBlankData(data: any) {
+    if (
+      typeof this.form.value[this.formControlNameData] == 'object' ||
+      this.form.value[this.formControlNameData] == ''
+    ) {
+      this.form.get(this.formControlNameData)?.setErrors(null);
+    } else {
+      this.form
+        .get(this.formControlNameData)
+        ?.setErrors({ validPreviousInsurer: true });
+    }
     this.insururDataLength = data.length;
     this.sendResponse(data);
 

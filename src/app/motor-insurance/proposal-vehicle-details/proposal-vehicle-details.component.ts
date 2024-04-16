@@ -101,7 +101,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       ],
       registration_date: ['', Validators.required],
       manufacture_date: ['', Validators.required],
-      vehicle_pincode: ['', Validators.required],
+      vehicle_pincode: [
+        '',
+        [Validators.required, this.pincodeNumberValidator.bind(this)],
+      ],
       vehilce_city: ['', Validators.required],
       vehicle_state: ['', Validators.required],
       financer: [''],
@@ -324,7 +327,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   proposalFinancierBlankData(data: any) {
     if (typeof this.proposalVehilceDetailsForm.value.financer == 'object') {
       this.isProposalFinancier = false;
+      this.proposalVehilceDetailsForm.get('financer')?.setErrors(null);
     } else {
+      this.proposalVehilceDetailsForm
+        .get('financer')
+        ?.setErrors({ validFinancer: true });
       this.isProposalFinancier = true;
     }
   }
@@ -523,7 +530,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
   getFinancierList() {
     const financierData = this.proposalVehilceDetailsForm.get('financer');
-
     if (financierData) {
       /**
        * Check if financierData is not null
@@ -677,5 +683,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     const secondPart = input.slice(firstPartLength);
 
     return [firstPart, secondPart];
+  }
+  /**
+   * Checks the length of a pincode and ensures it meets the minimum length requirement.
+   *
+   * @param control - The FormControl to be validated.
+   * @returns An object containing any validation errors or null if the control is valid.
+   */
+  pincodeNumberValidator(control: FormControl) {
+    if (typeof control.value != 'object' && control.value.length >= 6) {
+      return { validPincode: true };
+    }
+    return null;
   }
 }
