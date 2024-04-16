@@ -1312,11 +1312,11 @@ Get the expiring policy list based on the given date or the registration details
               this.registrationNumber?.registration_month &&
               this.registrationNumber?.registration_year
             ) {
-              let registrationDate = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+              let registrationDate = `${this.registrationNumber?.registration_month}/01/${this.registrationNumber?.registration_year}`;
 
               let dateObj = moment(registrationDate, 'MM/YYYY');
               this.vehicleDetailsForm.patchValue({
-                registration_date: dateObj,
+                registration_date: new Date(registrationDate),
               });
               this.getExpiringPolicy(dateObj);
             }
