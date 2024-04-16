@@ -48,7 +48,7 @@ export class ApiService {
             errorData: error,
             statusdata: status,
           },
-          panelClass: 'failure-dialog-class'
+          panelClass: 'failure-dialog-class',
         });
         dialogRef.afterClosed().subscribe((result: any) => {});
       }
@@ -76,6 +76,19 @@ export class ApiService {
     return this.httpService.postRequest(url, body).pipe(
       map((response: any) => response),
       catchError((err: any) => JSON.stringify(this.errorHandler(err)))
+    );
+  }
+
+  /**
+   * method for post request api
+   **/
+  postRequestedResponseCreateProposal(url: any, body: any) {
+    return this.httpService.postRequest(url, body).pipe(
+      map((response: any) => response),
+      catchError((err: HttpErrorResponse) => {
+        JSON.stringify(err);
+        return throwError(err);
+      })
     );
   }
   /**

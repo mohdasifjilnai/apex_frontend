@@ -648,68 +648,74 @@ export class SharedDataService {
       }
     }
     this.apiService
-      .postRequestedResponse(
+      .postRequestedResponseCreateProposal(
         ApiConstants.create_proposal,
         this.proposalDataItem
       )
-      .subscribe((res) => {
-        if (res) {
-          this.createdProposalId = res;
-          sessionStorage.setItem('proposal_Id', res?.proposal_id);
-          this.sendProposalData(res);
-          if (flag === 'ckyc') {
-            if (this.createdProposalId?.ckyc_details !== null) {
-              this.openSnackBar('Ckyc Details Saved', true);
-            }
-          }
-          if (flag === 'vehicle_owner_detail') {
-            if (this.createdProposalId?.customer_details !== null) {
-              this.openSnackBar('Customer Details Saved', true);
-            }
-          }
-          if (flag === 'nominne_details') {
-            if (this.createdProposalId?.nominee_details !== null) {
-              this.openSnackBar('Nominee Details Saved', true);
-            }
-          }
-          if (flag === 'vehilce_details') {
-            if (this.createdProposalId?.vehicle_details !== null) {
-              this.openSnackBar('Vehicle Details Saved', true);
-            }
-          }
-          if (flag === 'previous_policy_details') {
-            if (this.createdProposalId?.previous_policy_details !== null) {
-              this.openSnackBar('Previous Policy Details Saved', true);
-            }
-          }
-          if (
-            this.createdProposalId?.nominee_details === null &&
-            this.createdProposalId?.vehicle_details !== null
-          ) {
-            if (
-              this.quoteData?.premium_details?.addon_premium_details?.length > 0
-            ) {
-              for (let isCpa of this.quoteData?.premium_details
-                ?.addon_premium_details) {
-                if (
-                  (isCpa?.add_on_code === 'CPA' ||
-                    isCpa?.add_on_code === 'CPA3') &&
-                  this.proposerType !== 'corporate'
-                ) {
-                  this.isNotShowVehicleDetails = true;
-                }
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.createdProposalId = res;
+            sessionStorage.setItem('proposal_Id', res?.proposal_id);
+            this.sendProposalData(res);
+            if (flag === 'ckyc') {
+              if (this.createdProposalId?.ckyc_details !== null) {
+                this.openSnackBar('Ckyc Details Saved', true);
               }
-            } else if (this.proposerType === 'corporate') {
-              this.isNotShowVehicleDetails = false;
+            }
+            if (flag === 'vehicle_owner_detail') {
+              if (this.createdProposalId?.customer_details !== null) {
+                this.openSnackBar('Customer Details Saved', true);
+              }
+            }
+            if (flag === 'nominne_details') {
+              if (this.createdProposalId?.nominee_details !== null) {
+                this.openSnackBar('Nominee Details Saved', true);
+              }
+            }
+            if (flag === 'vehilce_details') {
+              if (this.createdProposalId?.vehicle_details !== null) {
+                this.openSnackBar('Vehicle Details Saved', true);
+              }
+            }
+            if (flag === 'previous_policy_details') {
+              if (this.createdProposalId?.previous_policy_details !== null) {
+                this.openSnackBar('Previous Policy Details Saved', true);
+              }
+            }
+            if (
+              this.createdProposalId?.nominee_details === null &&
+              this.createdProposalId?.vehicle_details !== null
+            ) {
+              if (
+                this.quoteData?.premium_details?.addon_premium_details?.length >
+                0
+              ) {
+                for (let isCpa of this.quoteData?.premium_details
+                  ?.addon_premium_details) {
+                  if (
+                    (isCpa?.add_on_code === 'CPA' ||
+                      isCpa?.add_on_code === 'CPA3') &&
+                    this.proposerType !== 'corporate'
+                  ) {
+                    this.isNotShowVehicleDetails = true;
+                  }
+                }
+              } else if (this.proposerType === 'corporate') {
+                this.isNotShowVehicleDetails = false;
+              } else {
+                this.isNotShowVehicleDetails = false;
+              }
             } else {
               this.isNotShowVehicleDetails = false;
             }
-          } else {
-            this.isNotShowVehicleDetails = false;
+            this.setIsNotShowNomineeDetails(this.isNotShowVehicleDetails);
           }
-          this.setIsNotShowNomineeDetails(this.isNotShowVehicleDetails);
+        },
+        (error: any) => {
+          console.error('API Request Error:', error);
         }
-      });
+      );
   }
   shareQuotes(
     quotes_data: any,

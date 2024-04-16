@@ -221,6 +221,8 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.removeItem('sortObjectkey');
     }
 
+    sessionStorage?.removeItem('gstValue');
+
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
         if (val && this.vehicleNotFound) {
