@@ -65,6 +65,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   isNotShowVehicleDetails: boolean = false;
   isDisableCKyc: boolean = false;
   RegNumber: any;
+  isProposalFinancier = false;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -323,7 +324,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   filterInsurer(name: string) {}
 
-  proposalFinancierBlankData(data: any) {}
+  proposalFinancierBlankData(data: any) {
+    if (typeof this.proposalVehilceDetailsForm.value.financer == 'object') {
+      this.isProposalFinancier = false;
+    } else {
+      this.isProposalFinancier = true;
+    }
+  }
   getProposalVehicleData(isValid: any) {
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
