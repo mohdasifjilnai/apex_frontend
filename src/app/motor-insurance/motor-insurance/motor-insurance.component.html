@@ -97,13 +97,13 @@
                 *ngIf="withoutVehicleNumber && isResponsive()"
                 [@slideUp]
               >
-                <app-registration-year></app-registration-year>
+                <app-registration-year [urlDate]="url"></app-registration-year>
               </div>
               <div
                 class="col-lg-4 col-md-6 col-12 mt-2"
                 *ngIf="withoutVehicleNumber && !isResponsive()"
               >
-                <app-registration-year></app-registration-year>
+                <app-registration-year [urlDate]="url"></app-registration-year>
               </div>
               <div
                 class="col-lg-4 col-md-6 col-12 mt-2"

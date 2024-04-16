@@ -52,6 +52,7 @@ export class MotorInsuranceComponent implements OnInit {
   notSureHide = true;
   isPolicyNumber: boolean = false;
   loader: boolean = false;
+  url = 'motor';
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
@@ -60,7 +61,7 @@ export class MotorInsuranceComponent implements OnInit {
     ]),
     vehicle: new FormControl(''),
     rto_city: new FormControl(''),
-    registration_date: new FormControl(moment()),
+    registration_date: new FormControl(''),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
     policy_number: new FormControl(''),

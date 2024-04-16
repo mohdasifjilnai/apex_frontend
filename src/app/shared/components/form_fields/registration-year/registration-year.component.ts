@@ -13,24 +13,25 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
-import * as _moment from 'moment';
+// import * as _moment from 'moment';
+import moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+// const moment = _rollupMoment || _moment;
 
-const moment = _rollupMoment || _moment;
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+// export const MY_FORMATS = {
+//   parse: {
+//     dateInput: 'MM/YYYY',
+//   },
+//   display: {
+//     dateInput: 'MM/YYYY',
+//     monthYearLabel: 'MMM YYYY',
+//     dateA11yLabel: 'LL',
+//     monthYearA11yLabel: 'MMMM YYYY',
+//   },
+// };
 
 @Component({
   selector: 'app-registration-year',
@@ -39,15 +40,15 @@ export const MY_FORMATS = {
   viewProviders: [
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-    },
+  // providers: [
+  //   {
+  //     provide: DateAdapter,
+  //     useClass: MomentDateAdapter,
+  //     deps: [MAT_DATE_LOCALE],
+  //   },
 
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
+  //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  // ],
 })
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
@@ -56,13 +57,17 @@ export class RegistrationYearComponent implements OnInit {
   maxDate: any;
   currentDate: any;
   dateAppointment: any;
+  routerEvents: any;
+  currentPageUrl: any;
   private registrationDateSubscription!: Subscription;
   @ViewChild('registrationYear') registrationYear!: MatDatepicker<Date>;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
+  @Input() urlDate: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private router: ActivatedRoute
   ) {}
   ctrlValue: any;
   chosenYearHandler(normalizedYear: Moment) {
@@ -71,20 +76,20 @@ export class RegistrationYearComponent implements OnInit {
     // this.form.controls['registration_date'].setValue(this.ctrlValue);
   }
 
-  chosenMonthHandler(
-    normalizedMonth: Moment,
-    datepicker: MatDatepicker<Moment>
-  ) {
-    this.ctrlValue = this.form.controls['registration_date'].value || moment();
-    this.ctrlValue?.month(normalizedMonth.month());
-    this.ctrlValue?.year(normalizedMonth.year());
-    this.form.controls['registration_date'].setValue(this.ctrlValue);
-    this.sharedDataService.registrationYearData(
-      this.form.controls['registration_date']
-    );
-    datepicker.close();
-    this.onRegistrationDateChange(this.ctrlValue);
-  }
+  // chosenMonthHandler(
+  //   normalizedMonth: Moment,
+  //   datepicker: MatDatepicker<Moment>
+  // ) {
+  //   this.ctrlValue = this.form.controls['registration_date'].value || moment();
+  //   this.ctrlValue?.month(normalizedMonth.month());
+  //   this.ctrlValue?.year(normalizedMonth.year());
+  //   this.form.controls['registration_date'].setValue(this.ctrlValue);
+  //   this.sharedDataService.registrationYearData(
+  //     this.form.controls['registration_date']
+  //   );
+  //   datepicker.close();
+  //   this.onRegistrationDateChange(this.ctrlValue);
+  // }
   ngOnInit(): void {
     /**
      * add form control for the Registration Year
@@ -94,22 +99,33 @@ export class RegistrationYearComponent implements OnInit {
     if (this.isRequired) {
       this.form.addControl(
         'registration_date',
-        new FormControl(moment(), Validators.required)
+        new FormControl('', Validators.required)
       );
     } else {
-      this.form.addControl('registration_date', new FormControl(moment()));
+      this.form.addControl('registration_date', new FormControl());
     }
 
+    // const currentYear = moment().year();
+    // const currentMonth = moment().month();
+
+    // // /**
+    // //  * Set maxDate to the last day of the current month
+    // //  */
+    // this.maxDate = moment({ year: currentYear, month: currentMonth }).endOf(
+    //   'month'
+    // );
+
+    // // /**
+    // //  * Set minDate to the first day of January 1990
+    // //  */
+
+    // this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf(
+    //   'month'
+    // );
+    // this.form.controls['registration_date'].setValue('');
+
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
     const currentYear = moment().year();
-    const currentMonth = moment().month();
-
-    /**
-     * Set maxDate to the last day of the current month
-     */
-    this.maxDate = moment({ year: currentYear, month: currentMonth }).endOf(
-      'month'
-    );
-
     /**
      * Set minDate to the first day of January 1990
      */
@@ -117,8 +133,6 @@ export class RegistrationYearComponent implements OnInit {
     this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf(
       'month'
     );
-    this.form.controls['registration_date'].setValue('');
-
     /**
      * Set up valueChanges subscription
      */
@@ -131,7 +145,21 @@ export class RegistrationYearComponent implements OnInit {
       /**
        * You can perform any specific action here based on the value change
        */
-      // this.onRegistrationDateChange(value);
+
+      if (value != null) {
+        console.log(value, this.urlDate);
+        // this.onRegistrationDateChange(value);
+        // this.sharedDataService.registrationYearData(
+        //   this.form.controls['registration_date']
+        // );
+        if (this.urlDate == 'motor') {
+          this.sharedDataService.registrationYearData(
+            this.form.controls['registration_date']
+          );
+        } else {
+          this.onRegistrationDateChange(value);
+        }
+      }
     });
   }
 
@@ -141,12 +169,12 @@ export class RegistrationYearComponent implements OnInit {
      */
     this.form.removeControl('registration_date');
 
-    /**
-     * Unsubscribe from the valueChanges observable to prevent memory leaks
-     */
-    if (this.registrationDateSubscription) {
-      this.registrationDateSubscription.unsubscribe();
-    }
+    // /**
+    //  * Unsubscribe from the valueChanges observable to prevent memory leaks
+    //  */
+    // if (this.registrationDateSubscription) {
+    //   this.registrationDateSubscription.unsubscribe();
+    // }
   }
 
   /**

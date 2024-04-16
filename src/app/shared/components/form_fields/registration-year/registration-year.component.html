@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline" class="registration-year">
+<!-- <mat-form-field appearance="outline" class="registration-year">
   <mat-label>Select Registration Date</mat-label>
   <input
     tabindex="1"
@@ -32,4 +32,39 @@
     (monthSelected)="chosenMonthHandler($event, registrationYear)"
   >
   </mat-datepicker>
+</mat-form-field> -->
+
+<mat-form-field appearance="outline" class="registration-year">
+  <mat-label>Select Registration Date</mat-label>
+  <input
+    matInput
+    tabindex="1"
+    #registrationInput
+    id-automation="registration_year_id"
+    [matDatepicker]="registrationYear"
+    placeholder="Registration Date"
+    formControlName="registration_date"
+    appDateFormat
+    [min]="minDate"
+    [max]="maxDate"
+    [readonly]="true"
+    (click)="registrationYear.open()"
+    (keyup.enter)="EnterKey($event)"
+  />
+  <mat-datepicker-toggle matSuffix [for]="registrationYear"
+    ><mat-icon matDatepickerToggleIcon>
+      <img
+        src="/assets/icon/calendar.svg"
+        class="cursor-pointer mb-2"
+        alt="calendar"
+      />
+    </mat-icon>
+  </mat-datepicker-toggle>
+  <mat-datepicker
+    #registrationYear
+    id-automation="datepicker_registration_year_id"
+  ></mat-datepicker>
+  <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
+    This is a required field.
+  </mat-error>
 </mat-form-field>

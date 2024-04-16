@@ -102,6 +102,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   fuelArray: any;
   mmvBaseButtonDisable = false;
   vehiclePreviousInsurerOninit = true;
+  url = 'quotes';
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -351,7 +352,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       previous_claimed: [''],
       ncb_discount: [''],
       manufacture_date: [moment(), Validators.required],
-      registration_date: [moment(), Validators.required],
+      registration_date: ['', Validators.required],
       previous_insurer: [''],
       vehicle_MMV: [''],
     });
@@ -390,6 +391,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
   patchVehicleData(data: any) {
     let registrationDateObject;
+    let registrationDate;
     let manufactureDateObject;
     let previousInsurerObject;
     this.patchData = true;
@@ -397,7 +399,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.hidePreviousClaimed = data?.hidePreviousClaimed;
     this.NoExpiryPolicy = data?.NoExpiryPolicy;
     if (data?.registration_date) {
-      let registrationDate = new Date(data?.registration_date);
+      registrationDate = new Date(data?.registration_date);
       registrationDateObject = moment(registrationDate, 'MM/YYYY');
     }
     if (data?.manufacture_date) {
@@ -416,7 +418,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_variant: data.vehicle_variant,
       registration_city: data.registration_city,
       vehicle_fuel: data.vehicle_fuel,
-      registration_date: registrationDateObject,
+      registration_date: registrationDate,
       manufacture_date: manufactureDateObject,
       user_car: data.user_car,
       previous_claimed: data.previous_claimed,
@@ -1343,12 +1345,13 @@ Get the expiring policy list based on the given date or the registration details
             let registrationDateObject;
             let manufactureDateObject;
             let previousInsurerObject;
+            let registrationDate;
             this.patchData = true;
             this.vehiclePopupList = sessionStorage.getItem('mmv_data');
             let vehicleCard = JSON.parse(this.vehiclePopupList);
             this.vehicleAllData = vehicleCard;
             if (this.vehicleAllData?.registration_date) {
-              let registrationDate = new Date(
+              registrationDate = new Date(
                 this.vehicleAllData?.registration_date
               );
               registrationDateObject = moment(registrationDate, 'MM/YYYY');
@@ -1373,7 +1376,7 @@ Get the expiring policy list based on the given date or the registration details
               vehicle_variant: this.vehicleAllData.vehicle_variant,
               registration_city: this.vehicleAllData.registration_city,
               vehicle_fuel: this.vehicleAllData.vehicle_fuel,
-              registration_date: registrationDateObject,
+              registration_date: registrationDate,
               manufacture_date: manufactureDateObject,
               user_car: this.vehicleAllData.user_car,
               previous_claimed: this.vehicleAllData.previous_claimed,
@@ -1409,22 +1412,26 @@ Get the expiring policy list based on the given date or the registration details
               let regDateValue = new Date(
                 this.vehicleMMVValue?.registration_date
               );
+
               this.vehicleDetailsForm.patchValue({
-                registration_date: moment(regDateValue, 'MM/YYYY'),
+                registration_date: new Date(
+                  this.vehicleMMVValue?.registration_date
+                ),
                 // vehicle_model: matchingModel,
                 // vehicle_variant: matchingModel,
                 // vehicle_fuel: matchingModel.fuel,
               });
             } else {
               let registrationDateObject;
+              let registrationDate;
               if (this.vehicleAllData?.registration_date) {
-                let registrationDate = new Date(
+                registrationDate = new Date(
                   this.vehicleAllData?.registration_date
                 );
                 registrationDateObject = moment(registrationDate, 'MM/YYYY');
               }
               this.vehicleDetailsForm.patchValue({
-                registration_date: registrationDateObject,
+                registration_date: registrationDate,
               });
             }
 
@@ -1457,12 +1464,13 @@ Get the expiring policy list based on the given date or the registration details
           } else if (type == 'mmvData' && this.editClick == 'edit') {
             let registrationDateObject;
             let manufactureDateObject;
+            let registrationDate;
             this.patchData = true;
             this.editVehiclePatch = false;
             this.hidePreviousClaimed = this.vehicleAllData?.hidePreviousClaimed;
             this.NoExpiryPolicy = this.vehicleAllData?.NoExpiryPolicy;
             if (this.vehicleAllData?.registration_date) {
-              let registrationDate = new Date(
+              registrationDate = new Date(
                 this.vehicleAllData?.registration_date
               );
               registrationDateObject = moment(registrationDate, 'MM/YYYY');
@@ -1487,7 +1495,7 @@ Get the expiring policy list based on the given date or the registration details
               vehicle_variant: this.vehicleAllData.vehicle_variant,
               registration_city: this.vehicleAllData.registration_city,
               vehicle_fuel: this.vehicleAllData.vehicle_fuel,
-              registration_date: registrationDateObject,
+              registration_date: registrationDate,
               manufacture_date: manufactureDateObject,
               user_car: this.vehicleAllData.user_car,
               previous_claimed: this.vehicleAllData.previous_claimed,

@@ -196,6 +196,7 @@ export class SharedDataService {
     let registrationValue;
     let registrationMonth;
     let registrationYear;
+    let registrationDay;
     this.vehicleType = localStorage.getItem('vehicleType');
     if (data?.registration_month) {
       registrationMonth = data?.registration_month;
@@ -204,6 +205,7 @@ export class SharedDataService {
       registrationValue = new Date(data?.registration_date);
       registrationMonth = registrationValue?.getMonth() + 1;
       registrationYear = registrationValue?.getFullYear();
+      registrationDay = registrationValue.getDate();
     }
     let mmvId;
     let rtoCode;
@@ -256,6 +258,7 @@ export class SharedDataService {
       vehicle_type: this.vehicleType,
       rb_mmv_id: mmvId,
       rb_rto_code: rtoCode,
+      registration_day: registrationDay,
       registration_month: registrationMonth,
       registration_year: registrationYear,
       previous_insurer_code: previousInsurerCode,
