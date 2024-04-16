@@ -425,6 +425,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       policy_expiry: data?.policy_expiry,
       policy_expiry_date: new Date(this.policyExpiredDateObject),
     });
+    this.renderer.addClass(document.body, 'dropdown-focus');
     this.makeValueSelected = data.vehicle_make;
     this.modelValueSelected = data.vehicle_model;
     this.variantValueSelected = data.vehicle_variant;
