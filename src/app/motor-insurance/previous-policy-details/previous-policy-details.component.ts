@@ -203,7 +203,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
 
     this.sharedData?.fetchedCkycData.subscribe((kyc) => {
-      if (kyc.length > 0) {
+      if (kyc) {
         this.isDisableCKyc = false;
       }
     });
