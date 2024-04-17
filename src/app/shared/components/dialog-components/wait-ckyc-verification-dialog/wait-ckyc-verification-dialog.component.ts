@@ -65,7 +65,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private matDialog: WindowRef,
+    private matDialog: WindowRef
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -123,7 +123,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             this.isUpload = true;
             this.uploadDocumentsFormControler();
             // this.getDocumentType();
-            this.openCkycDocumentsPopup('data')
+            this.openCkycDocumentsPopup('data');
           }
         },
         (error) => {
@@ -273,9 +273,5 @@ Event handler for when a file is selected.
         top: resTop,
       },
     };
-
-    this.matDialog.openDialog(obj).subscribe((data) => {
-      console.log(data)
-    });
   }
 }

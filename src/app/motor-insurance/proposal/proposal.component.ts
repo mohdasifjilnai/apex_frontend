@@ -60,6 +60,10 @@ export class ProposalComponent implements OnInit {
   isLoadNomineeDetails: boolean = false;
   isLoadVehicleDetails: boolean = false;
   isLoadPreviousPolicyDetails: boolean = false;
+  vehicleInspectionMessage: any;
+  vehicleCardData: any;
+  breakIn: boolean = false;
+  insuranceVehicleType: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -72,7 +76,11 @@ export class ProposalComponent implements OnInit {
     this.sharedData.createProposalId();
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
+    this.insuranceVehicleType=localStorage.getItem('vehicleType')
     this.productTypeValue = sessionStorage.getItem('productType');
+    this.vehicleCardData = JSON.parse(
+      sessionStorage.getItem('mmv_data') || '{}'
+    );
     this.reviewData = this.sharedData.getProposalReviewDetails;
     if (this.vehicleType === 'new') {
       this.isNotShowInNewPolicyDetails = false;
@@ -107,6 +115,27 @@ export class ProposalComponent implements OnInit {
       this.stepNumber = 'Step 1/4';
     } else {
       this.stepNumber = 'Step 1/3';
+    }
+
+    if (
+      this.quoteData['status'] &&
+      this.quoteData['is_breakin'] &&
+      this.vehicleCardData?.policy_expiry_date != 'Not Sure'
+    ) {
+      this.vehicleInspectionMessage =
+        this.insuranceVehicleType == 'private_car' ? 'Vehicle inspection is required as your previous policy is expired'
+          : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+      this.breakIn = true;
+    } else if (
+      this.quoteData['status'] &&
+      this.quoteData['is_breakin'] &&
+      this.vehicleCardData?.policy_expiry_date == 'Not Sure'
+    ) {
+      this.vehicleInspectionMessage =
+        this.insuranceVehicleType == 'private_car'
+          ? 'Vehicle inspection is required as your previous policy is not available'
+          : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+      this.breakIn = true;
     }
   }
 

@@ -6,9 +6,29 @@
 .res-proposal-page {
   display: none;
 }
+.inspectionCase {
+  color: #F64140;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+}
+.inspectionData {
+  background-color: #fff2f2;
+  border: 1px solid #fff2f2;
+  border-radius: 12px;
+  display: block;
+  padding: 8px 0px 8px 0px;
+}
 @media screen and (max-width: 999px) {
   .proposal-page {
     display: none;
+  }
+  .inspectionData {
+    background-color: #fff2f2;
+    border: 1px solid #fff2f2;
+    border-radius: 12px;
+    display: block;
+    padding: 8px 4px 8px 4px;
   }
   .res-proposal-page {
     display: block;
