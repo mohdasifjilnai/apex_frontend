@@ -40,6 +40,22 @@
 .vehicle-submitted {
   margin-top: 60px;
 }
+.horizontal-line{
+  width: 100px;
+
+}
+.or-text{
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #282828;
+}
+.already-text{
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 15px;
+  color: #282828;
+}
 @media screen and (max-width: 1020px) {
   .vehicle-submission {
     position: relative;

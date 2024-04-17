@@ -6,46 +6,31 @@
   <div class="body-content">
     <div class="container p-5 content">
       <div class="col-12 text-center mt-4">
-        <h1 class="motor-insurance">Motor Insurance</h1>
+        <h1 class="motor-insurance">
+          {{
+            !isPolicyNumber
+              ? "Motor Insurance"
+              : "Renew the policy, for miles of security!"
+          }}
+        </h1>
       </div>
       <div class="col-12 text-center mt-4">
         <span class="vehicle-quote">
-          Gear Up for Protection! Choose Your Customer's Vehicle Type
+          {{
+            !isPolicyNumber
+              ? "Gear Up for Protection! Choose Your Customer's Vehicle Type"
+              : "Revive your customer’s policy in minutes."
+          }}
         </span>
       </div>
       <div class="col-12 text-center pt-4">
         <form [formGroup]="motorInsurance">
-          <div>
+          <div *ngIf="!isPolicyNumber">
             <app-vehicle-type></app-vehicle-type>
           </div>
-          <div class="row mt-4">
-            <ng-container *ngIf="isPolicyNumber">
-              <div class="col-12">
-                <div class="d-flex justify-content-center mt-2">
-                  <mat-form-field appearance="outline" class="policyNumber">
-                    <mat-label>Enter Previous Policy Number</mat-label>
-                    <input
-                      id-automation="policynumberId"
-                      matInput
-                      placeholder="Enter Previous Policy Number"
-                      formControlName="policy_number"
-                      class="tagPolicyNumber"
-                    />
-                    <mat-error
-                      *ngIf="
-                        motorInsurance.controls['policy_number']?.hasError(
-                          'required'
-                        )
-                      "
-                    >
-                      This is a required field.
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="!isPolicyNumber">
-              <div class="col-12 mt-2" *ngIf="!withoutVehicleNumber">
+          <div class="row">
+            <ng-container>
+              <div class="col-12 mt-2" *ngIf="!withoutVehicleNumber || isPolicyNumber">
                 <div class="d-flex justify-content-center">
                   <app-registration-number
                     [required]="true"
@@ -56,6 +41,9 @@
               </div>
 
               <!-- Fields Without Vehicle Number  -->
+              <ng-container *ngIf="!isPolicyNumber">
+
+              
               <div
                 class="col-lg-4 col-md-6 col-12 mt-2"
                 *ngIf="withoutVehicleNumber && isResponsive()"
@@ -140,7 +128,7 @@
                   [formControlNameData]="'policy_expiry_date'"
                 ></app-policy-expired-date>
               </div>
-
+              
               <ng-container *ngIf="!disableInsurer">
                 <div
                   class="col-lg-4 col-md-6 col-12 mt-2"
@@ -155,6 +143,47 @@
                   ></app-previous-insurer>
                 </div>
               </ng-container>
+            </ng-container>
+            </ng-container>
+            <ng-container *ngIf="isPolicyNumber">
+              <div class="d-flex justify-content-center">
+                <img
+                  src="/assets/icon/horizontal-line.svg"
+                  alt="close"
+                  class="horizontal-line me-2"
+                />
+                <span class="text-center me-2 or-text">Or</span>
+                <img
+                  src="/assets/icon/horizontal-line.svg"
+                  alt="close"
+                  class="horizontal-line me-2"
+                />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="isPolicyNumber">
+              <div class="col-12">
+                <div class="d-flex justify-content-center mt-2">
+                  <mat-form-field appearance="outline" class="policyNumber">
+                    <mat-label>Enter Previous Policy Number</mat-label>
+                    <input
+                      id-automation="policynumberId"
+                      matInput
+                      placeholder="Enter Previous Policy Number"
+                      formControlName="policy_number"
+                      class="tagPolicyNumber"
+                    />
+                    <mat-error
+                      *ngIf="
+                        motorInsurance.controls['policy_number']?.hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      This is a required field.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
             </ng-container>
             <div
               [ngClass]="{
@@ -201,11 +230,13 @@
                 id-automation="withoutVehicleNumberText"
                 (click)="getPolicyNumber()"
               >
+              <span *ngIf="!isPolicyNumber" class="already-text">Already insured?</span>
                 {{
                   !isPolicyNumber
-                    ? "Already bought from RenewBuy"
+                    ? "Click Here"
                     : "Continue with Registration Number"
                 }}
+                <span *ngIf="!isPolicyNumber" class="already-text">to renew</span>
               </span>
             </span>
           </div>

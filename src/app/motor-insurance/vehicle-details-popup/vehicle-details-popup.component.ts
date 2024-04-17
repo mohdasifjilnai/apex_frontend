@@ -135,6 +135,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   makeSelected: any;
   modelSelected: any;
   editVehiclePatch = true;
+  showSelectedFuelandCapacity: any = false;
+  cubicCapacitor: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -214,7 +216,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   dataWithoutRegistration: any;
   ngOnInit(): void {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-
+    this.showSelectedFuelandCapacity = false;
     const expiryPolicy = this.vehicleDetailsForm.get('policy_expiry')?.value;
     if (expiryPolicy === 'bundled_tp') {
       this.hideFieldOnExpiryPolicy('bundled_tp');
@@ -411,6 +413,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.policyExpiredDateObject =
         moment(policyExpiredDate).format('MM/DD/YYYY');
     }
+    this.showSelectedFuelandCapacity = true;
+    this.cubicCapacitor = data?.vehicle_variant?.cubic_capacity;
 
     this.vehicleDetailsForm.patchValue({
       vehicle_make: data.vehicle_make,
@@ -1194,6 +1198,7 @@ Get the expiring policy list based on the given date or the registration details
       this.vehicleDetailsForm.get('vehicle_model')?.reset();
       this.vehicleDetailsForm.get('vehicle_variant')?.reset();
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+      this.showSelectedFuelandCapacity = false;
       if (typeof this.vehicleDetailsForm.value.vehicle_make == 'object') {
         this.mmvBaseButtonDisable = false;
       } else {
@@ -1231,6 +1236,11 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   vehcileVarient(data: any) {
+    this.showSelectedFuelandCapacity = false;
+    if (data?.cubic_capacity) {
+      this.showSelectedFuelandCapacity = true;
+      this.cubicCapacitor = data?.cubic_capacity;
+    }
     if (!this.vehicleVariantOnint) {
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
       if (
@@ -1293,6 +1303,8 @@ Get the expiring policy list based on the given date or the registration details
               (model: any) =>
                 model?.rb_mmv_id === this.registrationNumber?.rb_mmv_id
             );
+            this.showSelectedFuelandCapacity = true;
+            this.cubicCapacitor = matchingModel?.cubic_capacity;
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
               this.vehicleDetailsForm.patchValue({
@@ -1342,6 +1354,7 @@ Get the expiring policy list based on the given date or the registration details
               }
             }
           } else if (this.registrationNumber && this.editClick == 'edit') {
+            this.showSelectedFuelandCapacity = false;
             let registrationDateObject;
             let manufactureDateObject;
             let previousInsurerObject;
@@ -1350,6 +1363,9 @@ Get the expiring policy list based on the given date or the registration details
             this.vehiclePopupList = sessionStorage.getItem('mmv_data');
             let vehicleCard = JSON.parse(this.vehiclePopupList);
             this.vehicleAllData = vehicleCard;
+            this.showSelectedFuelandCapacity = true;
+            this.cubicCapacitor =
+              this.vehicleAllData?.vehicle_variant?.cubic_capacity;
             if (this.vehicleAllData?.registration_date) {
               registrationDate = new Date(
                 this.vehicleAllData?.registration_date
@@ -1369,7 +1385,7 @@ Get the expiring policy list based on the given date or the registration details
               this.policyExpiredDateObject =
                 moment(policyExpiredDate).format('MM/DD/YYYY');
             }
-
+            this.renderer.addClass(document.body, 'dropdown-focus');
             this.vehicleDetailsForm.patchValue({
               vehicle_make: this.vehicleAllData.vehicle_make,
               vehicle_model: this.vehicleAllData.vehicle_model,
@@ -1397,6 +1413,8 @@ Get the expiring policy list based on the given date or the registration details
             );
             if (matchingModel) {
               this.renderer.addClass(document.body, 'dropdown-focus');
+              this.showSelectedFuelandCapacity = true;
+              this.cubicCapacitor = matchingModel?.cubic_capacity;
             }
             this.vehicleDetailsForm.patchValue({
               vehicle_make: matchingModel,
@@ -1837,6 +1855,7 @@ Get the expiring policy list based on the given date or the registration details
    */
   onOptionVariantSelected(event: any) {
     this.variantValueSelected = event.option.value.rb_variant_name;
+    this.showSelectedFuelandCapacity = true;
     // this.fuelList = event.option.value;
   }
   /**
