@@ -146,26 +146,30 @@ export class OtpComponent implements OnInit {
           )
           .subscribe(
             (generatedProposal: any) => {
-              this.loader = false;
               if (window.innerWidth <= 999) {
                 this.bottomSheetRef.dismiss();
-              } else {
-                this.dialogRef.close();
               }
 
               if (generatedProposal.status) {
                 if (generatedProposal.is_breakin) {
+                  this.loader = false;
+                  this.dialogRef.close();
                   this.router.navigate([
                     `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                   ]);
                 } else {
                   this.apiService
                     .getRequestedResponse(
-                      `${ApiConstants['redirection_payment_getway']}${JSON.parse(this.proposalId)}`
+                      `${
+                        ApiConstants['redirection_payment_getway']
+                      }${JSON.parse(this.proposalId)}`
                     )
                     .subscribe((payment_getway_response) => {
                       if (payment_getway_response) {
                         window.location.href = payment_getway_response;
+                        this.loader = false;
+
+                        this.dialogRef.close();
                       }
                     });
                 }
@@ -181,6 +185,7 @@ export class OtpComponent implements OnInit {
                   this.openFailurePopup(generatedProposal);
                 }
                 this.loader = false;
+                this.dialogRef.close();
               }
             },
             (error) => {

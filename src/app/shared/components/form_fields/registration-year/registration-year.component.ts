@@ -130,9 +130,10 @@ export class RegistrationYearComponent implements OnInit {
      * Set minDate to the first day of January 1990
      */
 
-    this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf(
-      'month'
-    );
+    // this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf('month');
+    const currentDate = new Date();
+    const minDateOffset = -20;
+    this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
     /**
      * Set up valueChanges subscription
      */
@@ -147,11 +148,6 @@ export class RegistrationYearComponent implements OnInit {
        */
 
       if (value != null) {
-        console.log(value, this.urlDate);
-        // this.onRegistrationDateChange(value);
-        // this.sharedDataService.registrationYearData(
-        //   this.form.controls['registration_date']
-        // );
         if (this.urlDate == 'motor') {
           this.sharedDataService.registrationYearData(
             this.form.controls['registration_date']
@@ -188,5 +184,16 @@ export class RegistrationYearComponent implements OnInit {
   }
   EnterKey(event: Event) {
     this.sharedDataService.handleEnterKey(event, this.registrationYear);
+  }
+  /**
+   *
+   * @param date current date
+   * @param offset minimum date
+   * this function used for the year validation in registartion date
+   */
+  getYearDateOffset(date: Date, offset: number): Date {
+    const result = new Date(date);
+    result.setFullYear(result.getFullYear() + offset);
+    return result;
   }
 }

@@ -274,7 +274,7 @@ export class ProposalComponent implements OnInit {
       if (this.isNotShowNomineeDetails) {
         this.showNomineeDetails = true;
       }
-      this.stepper.next();
+      this.stepper?.next();
     }
   }
   getNomineeData(data: any) {

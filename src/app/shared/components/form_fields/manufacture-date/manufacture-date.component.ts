@@ -114,6 +114,7 @@ export class ManufactureDateComponent implements OnInit {
       this.form.controls['manufacture_date'].value || moment();
     this.manufactureDate.month(normalizedMonth.month());
     this.manufactureDate?.year(normalizedMonth.year());
+    this.manufactureDate?.date(normalizedMonth.date());
     this.form.controls['manufacture_date'].setValue(this.manufactureDate);
     datepicker.close();
   }
