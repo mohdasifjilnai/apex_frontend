@@ -16,6 +16,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ckyc-documents',
@@ -50,7 +51,8 @@ export class CkycDocumentsComponent implements OnInit {
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) {
     this.fetchCkycParam = data['data'];
     this.getDocumentType(this.fetchCkycParam);
@@ -70,13 +72,12 @@ Event handler for when a file is selected.
 Event handler for when a file is selected.
 @param event - The file selection event.
  */
-  onFileSelected(event: any, fileFormControlName: FormControl): void {
+  onFileSelected(event: any, fileFormControlName: any): void {
     const selectedFile: File = event.target.files[0];
     this.fileName =
       selectedFile.name.length > 30
         ? selectedFile.name.substring(0, 30) + '...'
         : selectedFile.name;
-    this.showEyeIcon = true;
     let formData: FormData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);
     this.apiService
@@ -86,10 +87,13 @@ Event handler for when a file is selected.
       )
       ?.subscribe((res) => {
         this.checkUploadDocment(res['document_url']);
-        this.uploadDocumentsForm.patchValue({
-          fileFormControlName: res['document_url'],
-        });
+        this.uploadDocumentsForm
+          .get(fileFormControlName)
+          ?.setValue(res['document_url']);
       });
+  }
+  onSelectionChange(event: any, controlName: string): void {
+    this.uploadDocumentsForm.get(controlName)?.setValue(event.value);
   }
 
   submitDocuments() {
@@ -132,7 +136,59 @@ handles the form submit for uploading the required documents
 @param valid - boolean value indicating if the form is valid or not
  */
   submitUploadDocumentsForm(valid: boolean) {
-    console.log(this.uploadDocumentsForm, 'uploadDocumentsForm');
+    if (valid) {
+      let body = {
+        proposal_id: this.proposalId,
+        transaction_id: this.transactionId,
+        proposer_type: this.proposerType,
+        insurer_code: this.fetchCkycParam.insurer_code,
+        dob: this.uploadDocumentsForm.get('dob')?.value
+          ? this.datePipe.transform(
+              this.uploadDocumentsForm.get('dob')?.value,
+              'dd/MM/yyyy'
+            )
+          : null,
+        family_member_name: this.uploadDocumentsForm.get('family_member_name')
+          ?.value
+          ? this.uploadDocumentsForm.get('family_member_name')?.value
+          : null,
+        family_member_relation: this.uploadDocumentsForm.get(
+          'family_member_relation'
+        )?.value
+          ? this.uploadDocumentsForm.get('family_member_relation')?.value
+          : null,
+        poi_document: {
+          poi_type: this.uploadDocumentsForm.get('poi_type')?.value
+            ? this.uploadDocumentsForm.get('poi_type')?.value
+            : null,
+          poi_no: this.uploadDocumentsForm.get('poi_no')?.value
+            ? this.uploadDocumentsForm.get('poi_no')?.value
+            : null,
+          poi_doc_url: this.uploadDocumentsForm.get('poi_doc_url')?.value
+            ? this.uploadDocumentsForm.get('poi_doc_url')?.value
+            : null,
+        },
+        poa_document: {
+          poa_type: this.uploadDocumentsForm.get('document_type_based_field')
+            ?.value
+            ? this.uploadDocumentsForm.get('document_type_based_field')?.value
+            : null,
+          poa_no: this.uploadDocumentsForm.get('poa_no')?.value
+            ? this.uploadDocumentsForm.get('poa_no')?.value
+            : null,
+          poa_doc_url: this.uploadDocumentsForm.get('poa_doc_url')?.value
+            ? this.uploadDocumentsForm.get('poa_doc_url')?.value
+            : null,
+        },
+      };
+      this.apiService
+        .postRequestedResponse(`${ApiConstants.upload_document_save}`, body)
+        .subscribe((response) => {
+          if (response) {
+            this.dialogRef.close(response);
+          }
+        });
+    }
   }
   /**
    * This function is used to check if the uploaded document is valid or not.
@@ -177,7 +233,7 @@ handles the form submit for uploading the required documents
           this.documentHeaderText = `Please complete the document details for POA`;
           for (let field in this.formFieldPOA) {
             this.uploadDocumentsForm.addControl(
-              this.formFieldPOA[field].label,
+              this.formFieldPOA[field]?.label,
               new FormControl('', Validators.required)
             );
           }
@@ -188,7 +244,7 @@ handles the form submit for uploading the required documents
           this.documentPOIText = `Please complete the document details for POI`;
           for (let field in this.formFieldPOI) {
             this.uploadDocumentsForm.addControl(
-              this.formFieldPOI[field].label,
+              this.formFieldPOI[field]?.label,
               new FormControl('', Validators.required)
             );
           }
