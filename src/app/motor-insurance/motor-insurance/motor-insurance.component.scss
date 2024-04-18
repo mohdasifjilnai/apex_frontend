@@ -4,8 +4,6 @@
     height: 100%;
     background-color: #fff;
     border-radius: 16px;
-    padding-top: 77px;
-    padding-bottom: 77px;
     .motor-insurance {
       color: #5989de;
       font-weight: 600;
@@ -69,7 +67,7 @@
 }
 @media screen and (max-width: 999px) {
   .content {
-    padding: 2rem !important;
+    padding: 1rem !important;
   }
   .motor-insurance {
     display: none;

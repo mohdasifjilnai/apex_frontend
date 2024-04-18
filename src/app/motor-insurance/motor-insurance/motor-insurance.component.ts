@@ -422,14 +422,40 @@ export class MotorInsuranceComponent implements OnInit {
     if (this.isPolicyNumber) {
       setTimeout(() => {
         this.motorInsurance
-          .get('policy_number')
+          .get('registration_number')
           ?.setValidators([Validators.required]);
-        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
-        this.motorInsurance.get('registration_number')?.setValidators([]);
-        this.motorInsurance.get('registration_number')?.clearValidators();
         this.motorInsurance
           .get('registration_number')
           ?.updateValueAndValidity();
+        this.motorInsurance
+          .get('policy_number')
+          ?.setValidators([Validators.required]);
+        this.motorInsurance.get('policy_number')?.updateValueAndValidity();
+        this.motorInsurance
+          .get('policy_number')
+          ?.valueChanges.subscribe((value) => {
+            if (value) {
+              this.motorInsurance.get('registration_number')?.reset();
+              this.motorInsurance.get('registration_number')?.setValidators([]);
+              this.motorInsurance.get('registration_number')?.clearValidators();
+              this.motorInsurance
+                .get('registration_number')
+                ?.updateValueAndValidity();
+            }
+          });
+
+        this.motorInsurance
+          .get('registration_number')
+          ?.valueChanges.subscribe((value) => {
+            if (value) {
+              this.motorInsurance.get('policy_number')?.reset();
+              this.motorInsurance.get('policy_number')?.setValidators([]);
+              this.motorInsurance.get('policy_number')?.clearValidators();
+              this.motorInsurance
+                .get('policy_number')
+                ?.updateValueAndValidity();
+            }
+          });
         this.motorInsurance.get('vehicle')?.setValidators([]);
         this.motorInsurance.get('vehicle')?.updateValueAndValidity();
         this.motorInsurance.get('rto_city')?.setValidators([]);
@@ -461,6 +487,13 @@ export class MotorInsuranceComponent implements OnInit {
           ?.setValidators([Validators.required]);
         this.motorInsurance.get('registration_date')?.updateValueAndValidity();
       }, 0);
+    }
+  }
+  addRequiredValidator(controlName: string) {
+    const control = this.motorInsurance.get(controlName);
+    if (control && !control.validator) {
+      control.setValidators([Validators.required]);
+      control.updateValueAndValidity();
     }
   }
 }
