@@ -310,6 +310,7 @@ export class MotorInsuranceComponent implements OnInit {
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
     this.isPolicyNumber = false;
+    this.disableInsurer=true
     this.motorInsurance.reset();
     if (this.withoutVehicleNumber) {
       setTimeout(() => {

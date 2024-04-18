@@ -11,6 +11,6 @@ export class SpecialCharacterNotAllowedDirective {
    */
   @HostListener('input', ['$event']) onInput(event: InputEvent): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^a-zA-Z0-9.]/g, '');
+    input.value = input.value.replace(/[^a-zA-Z0-9]/g, '');
   }
 }
