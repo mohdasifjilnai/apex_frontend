@@ -56,6 +56,7 @@ import { NotAllowDotDirective } from './directives/not-allow-dot.directive';
 import { HelplineNumberComponent } from './components/dialog-components/helpline-number/helpline-number.component';
 import { ProposalExpiredComponent } from './components/dialog-components/proposal-expired/proposal-expired.component';
 import { CkycDocumentsComponent } from './components/dialog-components/ckyc-documents/ckyc-documents.component';
+import { CheckQuotesDialogComponent } from './components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { CkycDocumentsComponent } from './components/dialog-components/ckyc-docu
     HelplineNumberComponent,
     ProposalExpiredComponent,
     CkycDocumentsComponent,
+    CheckQuotesDialogComponent,
   ],
   imports: [
     CommonModule,

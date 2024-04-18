@@ -1,0 +1,27 @@
+<div class="check-quotes">
+  <div class="d-flex justify-content-between">
+    <div>
+      <img
+        src="/assets/icon/check-quotes-img.svg"
+        class="icon"
+        alt="close"
+      />
+    </div>
+    <div class="message pt-3">
+      Are you sure you want to<br />
+      check quotes from other insurers?
+      <br />
+      <button class="submit-btn yes-btn mt-3" type="submit" (click)="onClose()">
+        Yes, take me there
+      </button>
+    </div>
+    <div>
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose()"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
+  </div>
+</div>

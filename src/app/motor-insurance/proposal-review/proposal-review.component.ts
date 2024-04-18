@@ -10,6 +10,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
 import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
@@ -31,7 +32,7 @@ export class ProposalReviewComponent implements OnInit {
     modalName: ProposalShareComponent,
     widthObtained: 'auto',
     heightObtained: 'auto',
-    topObtained: 'auto',
+    topObtained: '1%',
     isOutSideClose: true,
     classObtained: 'insurance-details-class',
   };
@@ -49,6 +50,21 @@ export class ProposalReviewComponent implements OnInit {
     topObtained: '5%',
     isOutSideClose: true,
     classObtained: 'terms-class',
+  };
+  checkQuotesJson: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: CheckQuotesDialogComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: '10%',
+    isOutSideClose: true,
+    classObtained: 'check-quotes-class',
   };
   quoteData: any;
   generateProposalData: any;
@@ -124,18 +140,21 @@ export class ProposalReviewComponent implements OnInit {
       this.openModal([this.quoteData], this.insuranceDetailsJSON);
     }
   }
+  checkQuotes() {
+    this.openModal('data', this.checkQuotesJson);
+  }
   /**
    * this fucntion use open pop up modal
    */
   openModal(ObjData: any, jsonData: any) {
     let resWidth;
     let resTop;
-    if (window.screen.width <= 767) {
+    if (window.screen.width <= 999) {
       resWidth = '95%';
-      resTop = '5%';
+      resTop = jsonData['topObtained'];
     } else {
       resWidth = 'auto';
-      resTop = '1%';
+      resTop = jsonData['topObtained'];
     }
     const obj: any = {
       modalName: jsonData['modalName'],
