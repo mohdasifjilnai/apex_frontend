@@ -60,6 +60,7 @@ export class CkycComponent implements OnInit {
   ckycData: any;
   isProposerTrue: boolean = true;
   isCkycDone: boolean = false;
+  documentNumber: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -212,12 +213,30 @@ export class CkycComponent implements OnInit {
         transaction_id: sessionStorage.getItem('transaction_id'),
       };
       if (isValid) {
+        if (this.documentName == 'aadhaar_number') {
+          if (
+            this.qoutes_data['insurer_code'] === 'liberty' ||
+            this.qoutes_data['insurer_code'] === 'future'
+          ) {
+            let inputString = this.ckycFormGroup.get(
+              'document_number_based_field'
+            )?.value;
+            this.documentNumber = inputString.substr(inputString.length - 4);
+          } else {
+            this.documentNumber = this.ckycFormGroup.get(
+              'document_number_based_field'
+            )?.value;
+          }
+        }
+
         ckycData['dob'] = this.datePipe.transform(
           this.ckycFormGroup.get('dob')?.value,
           'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
         );
         ckycData['document_number'] = String(
-          this.ckycFormGroup.get('document_number_based_field')?.value
+          this.documentNumber
+            ? this.documentNumber
+            : this.ckycFormGroup.get('document_number_based_field')?.value
         ).toLocaleUpperCase();
         // ckycData['ckyc_number'] = '';
         ckycData['document_type'] = this.filterDocumentType(
