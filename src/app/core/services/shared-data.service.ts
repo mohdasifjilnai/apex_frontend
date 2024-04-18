@@ -56,7 +56,9 @@ export class SharedDataService {
   vehicleCardEmailValue: Subject<any> = new Subject();
   nomineeData: Subject<any> = new Subject();
   quotesEnableForMobile: Subject<any> = new Subject();
+  regNumberDataRenewal = new BehaviorSubject<any>(null);
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
+  renewalInsurer = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   connectionData: any = [];
@@ -172,6 +174,11 @@ export class SharedDataService {
           this.detailNotFound.next(res?.detail);
         }
       });
+  }
+
+  vehicleDetailsRenewal(data: any) {
+    this.regNumberDataRenewal.next(data);
+    this.router.navigate(['/motor/quotes']);
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
@@ -966,5 +973,8 @@ export class SharedDataService {
   }
   sendCkycFormData(data: any) {
     this.ckycFormInfo = data;
+  }
+  patchInsurer(data: any) {
+    this.renewalInsurer.next(data);
   }
 }

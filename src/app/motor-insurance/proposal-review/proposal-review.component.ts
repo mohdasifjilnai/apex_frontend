@@ -60,6 +60,7 @@ export class ProposalReviewComponent implements OnInit {
   transaction_Id: any;
   proposalData: any;
   proposalDataSend: any;
+  renewalType: any;
 
   constructor(
     private route: Router,
@@ -75,6 +76,7 @@ export class ProposalReviewComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
+    this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
     if (
       this.quoteData?.is_breakin ||

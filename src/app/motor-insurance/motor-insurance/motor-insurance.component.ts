@@ -25,6 +25,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../../shared/components/dialog-components/not-certified/not-certified.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -81,9 +82,14 @@ export class MotorInsuranceComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'not-certifiedComponent-class',
   };
+
   rtoResponse: any;
   vehicleResponse: any;
   previousInsurerResponse: any;
+  policyNumber: any;
+  transactionDetails: any;
+  vehicleDetailsRollover: any;
+
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -288,10 +294,13 @@ export class MotorInsuranceComponent implements OnInit {
       'withoutVehicleNumber',
       `${this.withoutVehicleNumber}`
     );
+    // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
     sessionStorage.removeItem('isPayment');
-    if (!this.withoutVehicleNumber) {
+    if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
       this.getVehicleDetailsInfo();
       this.motorInsurance.reset();
+    } else if (!this.withoutVehicleNumber && this.isPolicyNumber) {
+      this.getRenewalPolicyData();
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
       sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
@@ -350,6 +359,38 @@ export class MotorInsuranceComponent implements OnInit {
       }, 0);
       this.cdr.detectChanges();
     }
+  }
+
+  getRenewalPolicyData() {
+    let apiUrl;
+    if (this.motorInsurance.value.policy_number) {
+      apiUrl = `?previous_policy_number=${this.motorInsurance.value.policy_number}`;
+    } else {
+      apiUrl = `?registration_number=${this.motorInsurance.value.registration_number}`;
+    }
+
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.status) {
+          this.loader = false;
+          if (res.is_rb_renewal) {
+            this.transactionDetails = res.transactional_details;
+            sessionStorage.setItem('renewalType', 'renewal');
+            let url = `/motor/quotes/proposal/${this.transactionDetails.transaction_id}/review`;
+            this.router.navigate([url]);
+          } else {
+            this.vehicleDetailsRollover = res.vehicle_details;
+            sessionStorage.setItem('renewalType', 'rollover');
+            this.sharedDataService.vehicleDetailsRenewal(
+              this.vehicleDetailsRollover
+            );
+          }
+        } else {
+          this.sharedDataService.openSnackBar(res?.error_message, false, 3000);
+          this.loader = false;
+        }
+      });
   }
   /**
    * Retrieves vehicle details information by making a request to the API with a specific registration number.

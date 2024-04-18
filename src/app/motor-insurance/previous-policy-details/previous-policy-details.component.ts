@@ -68,6 +68,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         policy_expiry_date: this.mmvData?.policy_expiry_date,
       });
     }
+
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
@@ -127,6 +128,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             tp_insurance_company: this.mmvData?.previous_insurer,
           });
         }
+      }
+      let renewalDataType = sessionStorage.getItem('renewalType');
+      if (renewalDataType) {
+        const [day, month, year] =
+          proposal?.previous_policy_details?.policy_expiry_date
+            .split('/')
+            .map(Number);
+        const reformattedPolicyExpDate = new Date(year, month - 1, day);
+        this.previousPolicyDetailsForm.patchValue({
+          policy_expiry_date: reformattedPolicyExpDate,
+        });
       }
     });
     this.vehicleType = sessionStorage.getItem('newVehicleType');

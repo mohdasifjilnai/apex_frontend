@@ -311,6 +311,28 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     });
 
+    this.sharedDataService.regNumberDataRenewal.subscribe(
+      (renewalregistartionnumber: any) => {
+        this.registrationNumber = renewalregistartionnumber;
+        if (this.registrationNumber?.rb_mmv_id) {
+          this.getVehicleDetailsPopup(
+            '',
+            '',
+            '',
+            this.registrationNumber.rb_mmv_id,
+            ''
+          );
+          this.getRTOData('');
+        }
+      }
+    );
+
+    this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
+      this.vehicleDetailsForm.patchValue({
+        previous_insurer: renewalInsurer,
+      });
+    });
+
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
     this.rto_id = this.vehicleMMVValue?.rto_city?.rb_rto_id;

@@ -56,9 +56,10 @@ export class PreviousInsurerComponent implements OnInit {
   routerEvents: any;
   currentPageUrl: any;
   @Output() responseEvent = new EventEmitter<string>();
-
+  patchInsurer: any;
   private debounceSubject = new Subject<any>();
   insururDataLength: any;
+  registrationNumber: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -104,6 +105,15 @@ export class PreviousInsurerComponent implements OnInit {
     if (this.disablePreviousInsurer) {
       this.form.controls['previous_insurer'].disable();
     }
+
+    this.sharedDataService.regNumberDataRenewal.subscribe(
+      (renewalregistartionnumber: any) => {
+        this.registrationNumber = renewalregistartionnumber;
+        if (this.registrationNumber?.previous_insurer_code) {
+          this.getInsurerData('');
+        }
+      }
+    );
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
@@ -129,6 +139,17 @@ export class PreviousInsurerComponent implements OnInit {
               return of(['No data']);
             })
           );
+          if (this.registrationNumber?.previous_insurer_code) {
+            for (let i = 0; i <= this.insurerList.length - 1; i++) {
+              if (
+                this.insurerList[i].rb_insurer_code ==
+                this.registrationNumber?.previous_insurer_code
+              ) {
+                this.patchInsurer = this.insurerList[i];
+                this.sharedDataService.patchInsurer(this.patchInsurer);
+              }
+            }
+          }
           // }
         } else {
           this.previousInsurerNoData = 'No data';

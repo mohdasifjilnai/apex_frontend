@@ -30,7 +30,10 @@
           </div>
           <div class="row">
             <ng-container>
-              <div class="col-12 mt-2" *ngIf="!withoutVehicleNumber || isPolicyNumber">
+              <div
+                class="col-12 mt-2"
+                *ngIf="!withoutVehicleNumber || isPolicyNumber"
+              >
                 <div class="d-flex justify-content-center">
                   <app-registration-number
                     [required]="true"
@@ -42,108 +45,110 @@
 
               <!-- Fields Without Vehicle Number  -->
               <ng-container *ngIf="!isPolicyNumber">
-
-              
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && isResponsive()"
-                [@slideUp]
-              >
-                <app-vehicle
-                  [required]="true"
-                  (responseEvent)="vehicleComponentResponse($event)"
-                ></app-vehicle>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && !isResponsive()"
-              >
-                <app-vehicle
-                  [required]="true"
-                  (responseEvent)="vehicleComponentResponse($event)"
-                ></app-vehicle>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && isResponsive()"
-                [@slideUp]
-              >
-                <app-rto
-                  (responseEvent)="rtoComponentResponse($event)"
-                ></app-rto>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && !isResponsive()"
-              >
-                <app-rto
-                  (responseEvent)="rtoComponentResponse($event)"
-                ></app-rto>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && isResponsive()"
-                [@slideUp]
-              >
-                <app-registration-year [urlDate]="url"></app-registration-year>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && !isResponsive()"
-              >
-                <app-registration-year [urlDate]="url"></app-registration-year>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && isResponsive()"
-                [@slideUp]
-              >
-                <app-policy-expired-date
-                  [policyExpiryDate]="'expiry-date'"
-                  *ngIf="!disableInsurer"
-                  [formControlNameData]="'policy_expiry_date'"
-                ></app-policy-expired-date>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && isResponsive()"
-                [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
-                [@slideUp]
-              >
-                <app-previous-insurer
-                  [previousInsurer]="'previous-insurer'"
-                  *ngIf="!disableInsurer"
-                  [label]="'Search Previous Insurer'"
-                  [formControlNameData]="'previous_insurer'"
-                  (responseEvent)="previousInsurerComponentResponse($event)"
-                ></app-previous-insurer>
-              </div>
-              <div
-                class="col-lg-4 col-md-6 col-12 mt-2"
-                *ngIf="withoutVehicleNumber && !isResponsive()"
-              >
-                <app-policy-expired-date
-                  [policyExpiryDate]="'expiry-date'"
-                  *ngIf="!disableInsurer"
-                  [formControlNameData]="'policy_expiry_date'"
-                ></app-policy-expired-date>
-              </div>
-              
-              <ng-container *ngIf="!disableInsurer">
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && isResponsive()"
+                  [@slideUp]
+                >
+                  <app-vehicle
+                    [required]="true"
+                    (responseEvent)="vehicleComponentResponse($event)"
+                  ></app-vehicle>
+                </div>
                 <div
                   class="col-lg-4 col-md-6 col-12 mt-2"
                   *ngIf="withoutVehicleNumber && !isResponsive()"
+                >
+                  <app-vehicle
+                    [required]="true"
+                    (responseEvent)="vehicleComponentResponse($event)"
+                  ></app-vehicle>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && isResponsive()"
+                  [@slideUp]
+                >
+                  <app-rto
+                    (responseEvent)="rtoComponentResponse($event)"
+                  ></app-rto>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && !isResponsive()"
+                >
+                  <app-rto
+                    (responseEvent)="rtoComponentResponse($event)"
+                  ></app-rto>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && isResponsive()"
+                  [@slideUp]
+                >
+                  <app-registration-year
+                    [urlDate]="url"
+                  ></app-registration-year>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && !isResponsive()"
+                >
+                  <app-registration-year
+                    [urlDate]="url"
+                  ></app-registration-year>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && isResponsive()"
+                  [@slideUp]
+                >
+                  <app-policy-expired-date
+                    [policyExpiryDate]="'expiry-date'"
+                    *ngIf="!disableInsurer"
+                    [formControlNameData]="'policy_expiry_date'"
+                  ></app-policy-expired-date>
+                </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && isResponsive()"
                   [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
+                  [@slideUp]
                 >
                   <app-previous-insurer
                     [previousInsurer]="'previous-insurer'"
-                    [formControlNameData]="'previous_insurer'"
+                    *ngIf="!disableInsurer"
                     [label]="'Search Previous Insurer'"
+                    [formControlNameData]="'previous_insurer'"
                     (responseEvent)="previousInsurerComponentResponse($event)"
                   ></app-previous-insurer>
                 </div>
+                <div
+                  class="col-lg-4 col-md-6 col-12 mt-2"
+                  *ngIf="withoutVehicleNumber && !isResponsive()"
+                >
+                  <app-policy-expired-date
+                    [policyExpiryDate]="'expiry-date'"
+                    *ngIf="!disableInsurer"
+                    [formControlNameData]="'policy_expiry_date'"
+                  ></app-policy-expired-date>
+                </div>
+
+                <ng-container *ngIf="!disableInsurer">
+                  <div
+                    class="col-lg-4 col-md-6 col-12 mt-2"
+                    *ngIf="withoutVehicleNumber && !isResponsive()"
+                    [ngClass]="notSureHide ? 'displayValue' : 'displayData'"
+                  >
+                    <app-previous-insurer
+                      [previousInsurer]="'previous-insurer'"
+                      [formControlNameData]="'previous_insurer'"
+                      [label]="'Search Previous Insurer'"
+                      (responseEvent)="previousInsurerComponentResponse($event)"
+                    ></app-previous-insurer>
+                  </div>
+                </ng-container>
               </ng-container>
-            </ng-container>
             </ng-container>
             <ng-container *ngIf="isPolicyNumber">
               <div class="d-flex justify-content-center">
@@ -198,17 +203,17 @@
               </div>
               <button
                 id-automation="getVehicleDetailsId"
+                class="submit-btn vehicle-submission"
                 [ngClass]="{
                   '': withoutVehicleNumber,
                   'disabled-btn mb-2': motorInsurance.invalid
                 }"
-                class="submit-btn vehicle-submission"
-                type="submit"
                 [disabled]="
                   rtoResponse == '' ||
                   motorInsurance.invalid ||
                   vehicleResponse == ''
                 "
+                type="submit"
                 (click)="loader ? null : getVehicleDetails()"
               >
                 <img
@@ -230,13 +235,17 @@
                 id-automation="withoutVehicleNumberText"
                 (click)="getPolicyNumber()"
               >
-              <span *ngIf="!isPolicyNumber" class="already-text">Already insured?</span>
+                <span *ngIf="!isPolicyNumber" class="already-text"
+                  >Already insured?</span
+                >
                 {{
                   !isPolicyNumber
                     ? "Click Here"
                     : "Continue with Registration Number"
                 }}
-                <span *ngIf="!isPolicyNumber" class="already-text">to renew</span>
+                <span *ngIf="!isPolicyNumber" class="already-text"
+                  >to renew</span
+                >
               </span>
             </span>
           </div>

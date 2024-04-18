@@ -86,4 +86,6 @@ export class ApiConstants {
   public static downloadPremiumBreakup: string = `/api/v1/docfetch/download_pdf/`;
 
   public static get_inspection_data: string = `/api/v1/inspection/inspection_details/`;
+
+  public static get_renewal_policy: string = `/api/v1/renewals/previous_policy_details/`;
 }

@@ -195,12 +195,45 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               });
             });
         }
+        let renewalDataType = sessionStorage.getItem('renewalType');
+        if (renewalDataType == 'renewal') {
+          let regFirstDigit = proposal?.vehicle_details?.registration_no.slice(
+            0,
+            2
+          );
+          let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
+            2,
+            4
+          );
+          let combineRegData = regFirstDigit + regSecondDigit;
+          let regLastDigit =
+            proposal?.vehicle_details?.registration_no.split(combineRegData);
+          const [dayReg, monthReg, yearReg] =
+            proposal?.vehicle_details?.registration_date.split('/').map(Number);
+          const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
+
+          const [day, month, year] = proposal?.vehicle_details?.manufacture_date
+            .split('/')
+            .map(Number);
+          const reformattedManufactureDate = new Date(year, month - 1, day);
+          this.proposalVehilceDetailsForm.patchValue({
+            registration_number: proposal?.vehicle_details?.registration_no,
+            registration_number_last_digit: regLastDigit[1],
+            registration_number_first: regFirstDigit,
+            registration_number_second: regSecondDigit,
+            registration_date: reformattedRegDate,
+            manufacture_date: reformattedManufactureDate,
+          });
+        } else {
+          this.proposalVehilceDetailsForm.patchValue({
+            registration_number_last_digit:
+              proposal?.vehicle_details?.registration_no
+                ?.split('-')
+                .slice(2)
+                .join('-'),
+          });
+        }
         this.proposalVehilceDetailsForm.patchValue({
-          registration_number_last_digit:
-            proposal?.vehicle_details?.registration_no
-              ?.split('-')
-              .slice(2)
-              .join('-'),
           vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
