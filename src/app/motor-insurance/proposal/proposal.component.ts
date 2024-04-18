@@ -64,6 +64,7 @@ export class ProposalComponent implements OnInit {
   vehicleCardData: any;
   breakIn: boolean = false;
   insuranceVehicleType: any;
+  currentStepIndex: number = 0;
 
   constructor(
     public matDialog: WindowRef,
@@ -76,7 +77,7 @@ export class ProposalComponent implements OnInit {
     this.sharedData.createProposalId();
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
-    this.insuranceVehicleType=localStorage.getItem('vehicleType')
+    this.insuranceVehicleType = localStorage.getItem('vehicleType');
     this.productTypeValue = sessionStorage.getItem('productType');
     this.vehicleCardData = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
@@ -123,7 +124,8 @@ export class ProposalComponent implements OnInit {
       this.vehicleCardData?.policy_expiry_date != 'Not Sure'
     ) {
       this.vehicleInspectionMessage =
-        this.insuranceVehicleType == 'private_car' ? 'Vehicle inspection is required as your previous policy is expired'
+        this.insuranceVehicleType == 'private_car'
+          ? ''
           : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
       this.breakIn = true;
     } else if (
@@ -133,7 +135,7 @@ export class ProposalComponent implements OnInit {
     ) {
       this.vehicleInspectionMessage =
         this.insuranceVehicleType == 'private_car'
-          ? 'Vehicle inspection is required as your previous policy is not available'
+          ? ''
           : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
@@ -330,6 +332,7 @@ export class ProposalComponent implements OnInit {
         this.showVehicleOwnerDetails = true;
         this.stepper?.next();
         this.accordianExpanded = 'vehicleOwnerDetails';
+        this.openDesiredStep(this.accordianExpanded);
       } else if (
         proposal?.ckyc_details !== null &&
         this.quoteData['insurer_code'] !== 'digit'
@@ -337,6 +340,7 @@ export class ProposalComponent implements OnInit {
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (Object.keys(kycData).length > 0) {
           this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
           this.showVehicleOwnerDetails = true;
         }
       }
@@ -344,9 +348,11 @@ export class ProposalComponent implements OnInit {
         if (this.reviewData === 'vehilceOwnerPanel') {
           this.showVehicleDetails = true;
           this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else {
           this.showVehicleDetails = true;
           this.accordianExpanded = 'vehicleDetails';
+          this.openDesiredStep(this.accordianExpanded);
         }
       } else if (
         proposal.customer_details !== null &&
@@ -355,34 +361,40 @@ export class ProposalComponent implements OnInit {
         if (this.reviewData === 'vehilceOwnerPanel') {
           this.showNomineeDetails = true;
           this.showVehicleOwnerDetails = true;
-
           this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else {
           this.showNomineeDetails = true;
           this.showVehicleOwnerDetails = true;
 
           this.accordianExpanded = 'nomineeDetails';
+          this.openDesiredStep(this.accordianExpanded);
         }
       }
       if (proposal.nominee_details !== null) {
         if (this.reviewData === 'nomineDetailsPanel') {
           this.showVehicleDetails = true;
           this.accordianExpanded = 'nomineeDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else {
           this.showVehicleDetails = true;
           this.accordianExpanded = 'vehicleDetails';
+          this.openDesiredStep(this.accordianExpanded);
         }
       }
       if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
         if (this.reviewData === 'vehilceOwnerPanel') {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else if (this.reviewData === 'nomineDetailsPanel') {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'nomineeDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'vehicleDetails';
+          this.openDesiredStep(this.accordianExpanded);
         }
       } else if (
         (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
@@ -391,14 +403,18 @@ export class ProposalComponent implements OnInit {
         if (this.reviewData === 'vehicleDetailPanel') {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'vehicleDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else if (this.reviewData === 'vehilceOwnerPanel') {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else if (this.reviewData === 'nomineDetailsPanel') {
           this.showPreviousPolicyDetails = true;
           this.accordianExpanded = 'nomineeDetails';
+          this.openDesiredStep(this.accordianExpanded);
         } else {
           this.accordianExpanded = 'previousPolicyDetails';
+          this.openDesiredStep(this.accordianExpanded);
         }
       }
     });
@@ -406,6 +422,7 @@ export class ProposalComponent implements OnInit {
       if (data) {
         this.showVehicleOwnerDetails = true;
         this.accordianExpanded = 'vehicleOwnerDetails';
+        this.openDesiredStep(this.accordianExpanded);
       }
     });
 
@@ -417,7 +434,90 @@ export class ProposalComponent implements OnInit {
     this.sharedData?.nomineeData.subscribe((nominee) => {
       if (nominee) {
         this.accordianExpanded = 'nomineeDetails';
+        this.openDesiredStep(this.accordianExpanded);
       }
     });
+  }
+  /**
+   * OpenDesiredStep is a Function which Handel the stepper auto opening,
+   * @param data (whatever the form field , indicate there value like - ckyc,vehicleOwnerDetails etc)
+   */
+  openDesiredStep(data: any): void {
+    if (this.isMobileView) {
+      if (this.isNotShowNomineeDetails && this.isNotShowInNewPolicyDetails) {
+        if (data === 'nomineeDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 2;
+          }, 1000);
+        } else if (data === 'vehicleDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 3;
+          }, 1000);
+        } else if (data === 'ckyc') {
+          setTimeout(() => {
+            this.currentStepIndex = 0;
+          }, 1000);
+        } else if (data === 'vehicleOwnerDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 1;
+          }, 1000);
+        } else if (data === 'previousPolicyDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 4;
+            this.showPreviousPolicyDetails = true;
+          }, 1000);
+        }
+      } else if (this.isNotShowNomineeDetails) {
+        if (data === 'ckyc') {
+          setTimeout(() => {
+            this.currentStepIndex = 0;
+          }, 1000);
+        } else if (data === 'vehicleOwnerDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 1;
+          }, 1000);
+        } else if (data === 'nomineeDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 2;
+          }, 1000);
+        } else if (data === 'vehicleDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 3;
+          }, 1000);
+        }
+      } else if (this.isNotShowInNewPolicyDetails) {
+        if (data === 'ckyc') {
+          setTimeout(() => {
+            this.currentStepIndex = 0;
+          }, 1000);
+        } else if (data === 'vehicleOwnerDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 1;
+          }, 1000);
+        } else if (data === 'nomineeDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 2;
+          }, 1000);
+        } else if (data === 'vehicleDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 3;
+          }, 1000);
+        }
+      } else {
+        if (data === 'vehicleDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 2;
+          }, 1000);
+        } else if (data === 'ckyc') {
+          setTimeout(() => {
+            this.currentStepIndex = 0;
+          }, 1000);
+        } else if (data === 'vehicleOwnerDetails') {
+          setTimeout(() => {
+            this.currentStepIndex = 1;
+          }, 1000);
+        }
+      }
+    }
   }
 }

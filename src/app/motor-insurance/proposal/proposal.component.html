@@ -114,6 +114,7 @@
         <mat-horizontal-stepper
           [linear]="true"
           (selectionChange)="onStepChange($event)"
+          [selectedIndex]="currentStepIndex"
         >
           <mat-step [completed]="showVehicleOwnerDetails">
             <hr />
