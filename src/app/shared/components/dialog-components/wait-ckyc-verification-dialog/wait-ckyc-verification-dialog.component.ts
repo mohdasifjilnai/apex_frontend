@@ -92,13 +92,13 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
       .subscribe(
         (res) => {
+          console.log(res, 'response CKYC');
           if (
             res['customer_details'] != null &&
             res['upload_document'] == false
           ) {
             this.isWaitingTime = true;
             this.isCustomerDetails = true;
-            this.isUpload = false;
             this.ckycData = res.customer_details;
             this.sharedDataService?.fetchCKycFormData.subscribe((res) => {
               this.sharedDataService?.createProposalId('ckyc', res);
@@ -113,17 +113,19 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             this.error_message = res['error_message'];
             this.isWaitingTime = true;
             this.isCustomerDetails = false;
-            this.isUpload = false;
           } else if (
             res['customer_details'] == null &&
             res['upload_document'] == true
           ) {
             this.isWaitingTime = true;
             this.isCustomerDetails = true;
-            this.isUpload = true;
             this.uploadDocumentsFormControler();
-            // this.getDocumentType();
-            this.openCkycDocumentsPopup('data');
+            let paramData = {
+              insurer_code: this.ckycBody?.insurer_code,
+              isProposerTrue: this.isProposerTrue,
+            };
+            this.openCkycDocumentsPopup(paramData);
+            this.dialogRef.close();
           }
         },
         (error) => {
@@ -155,7 +157,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
         `${ApiConstants.document_type}?insurer_code=${
           this.ckycBody?.insurer_code
         }&is_individual=${this.isProposerTrue}&is_corporate=${!this
-          .isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`
+          .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
       )
       .subscribe((res) => {
         this.documentList = res;
@@ -273,5 +275,9 @@ Event handler for when a file is selected.
         top: resTop,
       },
     };
+
+    this.matDialog.openDialog(obj).subscribe((data) => {
+      console.log(data);
+    });
   }
 }

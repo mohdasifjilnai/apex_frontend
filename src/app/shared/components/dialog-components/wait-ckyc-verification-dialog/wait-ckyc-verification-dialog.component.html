@@ -1,5 +1,5 @@
 <div class="wait-ckyc-main">
-  <div class="row" *ngIf="!isWaitingTime && isCustomerDetails && !isUpload">
+  <div class="row" *ngIf="!isWaitingTime && isCustomerDetails">
     <div class="col-12 text-center">
       <img
         src="/assets/gif/verification.gif"
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="isWaitingTime && isCustomerDetails && !isUpload">
+  <div class="row" *ngIf="isWaitingTime && isCustomerDetails">
     <div class="col-12">
       <p class="review-fetch-text">
         Please review the data we have fetched after CKYC Verification
@@ -75,7 +75,7 @@
     </div>
   </div>
   <!-- Dialog content -->
-  <div *ngIf="isWaitingTime && !isCustomerDetails && !isUpload">
+  <div *ngIf="isWaitingTime && !isCustomerDetails">
     <!-- Dialog title -->
     <div mat-dialog-title>
       <div class="success-popup-header d-flex justify-content-end">
@@ -128,150 +128,6 @@
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Upload documents -->
-  <div *ngIf="isWaitingTime && isCustomerDetails && isUpload">
-    <div mat-dialog-title>
-      <div class="document-popup-header d-flex justify-content-end">
-        <img
-          src="/assets/icon/cross.svg"
-          (click)="popupCLose()"
-          class="cursor-pointer"
-          alt="close"
-        />
-      </div>
-    </div>
-    <div mat-dialog-content>
-      <form
-        [formGroup]="uploadDocumentsForm"
-        (ngSubmit)="submitUploadDocumentsForm(uploadDocumentsForm.valid)"
-        novalidate
-      >
-        <div class="row">
-          <div
-            [ngClass]="{ 'col-8': isUploadDocment, 'col-12': !isUploadDocment }"
-          >
-            <div class="row">
-              <div class="col-12">
-                <p class="text-center">Please complete document details</p>
-              </div>
-              <div class="col-12">
-                <mat-form-field
-                  appearance="outline"
-                  class="document-list mat-input-custom"
-                >
-                  <mat-label>Select Document Type</mat-label>
-                  <mat-select
-                    placeholder="Select Document Type"
-                    formControlName="document_type_based_field"
-                  >
-                    <mat-option
-                      *ngFor="let document of documentList"
-                      [value]="document?.document_code"
-                    >
-                      {{ document?.document_name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      uploadDocumentsForm
-                        .get('document_type_based_field')
-                        ?.hasError('required')
-                    "
-                  >
-                    This is a required field.
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-12">
-                <mat-form-field
-                  appearance="outline"
-                  class="document_number mat-input-custom"
-                >
-                  <mat-label>Enter Document Number</mat-label>
-                  <input
-                    id-automation="documentNumber"
-                    formControlName="document_number_based_field"
-                    matInput
-                    aria-label="document_number"
-                    placeholder="Enter Document Number"
-                    class="text-uppercase"
-                  />
-                  <mat-error
-                    *ngIf="
-                      uploadDocumentsForm
-                        .get('document_number_based_field')
-                        ?.hasError('required')
-                    "
-                  >
-                    This is a required field.
-                  </mat-error>
-                  <!-- <mat-error
-              *ngIf="
-                ckycFormGroup
-                  .get('document_number_based_field')
-                  ?.hasError('validDOC')
-              "
-            >
-              Please enter the valid {{ documentName }} number
-            </mat-error> -->
-                </mat-form-field>
-              </div>
-              <div class="col-12">
-                <!-- <app-upload-document
-                [required]="true"
-                (isUploadDocument)="checkUploadDocment($event)"
-              ></app-upload-document> -->
-                <div class="form-group">
-                  <label class="lable-file-input" for="fileInput">
-                    <p class="file-input-text">{{ fileName }}</p>
-                    <img
-                      src="/assets/icon/upload.svg"
-                      alt=""
-                      class="upload-doc-image"
-                    />
-                  </label>
-                  <input
-                    type="file"
-                    id="fileInput"
-                    class="form-control-file"
-                    (change)="onFileSelected($event)"
-                    formControlName="file"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <ng-container *ngIf="isUploadDocment">
-            <div class="col-4 mt-4">
-              <div class="image-main">
-                <img [src]="document_url" class="uploaded-image" alt="close" />
-              </div>
-              <label for="fileInput" class="custom-file-upload">
-                <img
-                  src="/assets/icon/reupload.svg"
-                  class="reuploaded-image"
-                  alt="close"
-                />
-                Reupload
-              </label>
-              <input type="file" id="fileInput" />
-            </div>
-          </ng-container>
-
-          <div class="col-12 mt-4">
-            <button
-              class="submit-btn success-submission"
-              [disabled]="!uploadDocumentsForm.valid"
-              type="submit"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
   </div>
 </div>

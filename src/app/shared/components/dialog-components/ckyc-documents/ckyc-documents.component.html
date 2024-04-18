@@ -1,346 +1,295 @@
-<div class="ckyc-document" *ngIf="showDocumentSelect">
-  <div class="row">
-    <div class="col-lg-12 col-12 text-center">
-      <span class="header"
-        >We are unable to fetch your details completely.<br />
-        Please follow up with the offline CKYC.</span
-      >
-    </div>
-  </div>
-  <div class="row ps-5 pe-5 mt-2">
-    <div class="col-lg-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Document Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-12">
-      <button
-        class="submit-btn continue"
-        type="submit"
-        (click)="submitDocuments()"
-      >
-        Continue
-      </button>
-    </div>
+<div mat-dialog-title>
+  <div class="document-popup-header d-flex justify-content-end">
+    <img
+      src="/assets/icon/cross.svg"
+      (click)="popupCLose()"
+      class="cursor-pointer"
+      alt="close"
+    />
   </div>
 </div>
-<div class="ckyc-poi" *ngIf="showPOI">
-  <div class="row">
-    <div class="col-lg-12 col-12 text-center">
-      <span class="header">Please complete the document details for POA</span>
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-lg-12 col-12">
-      <!-- <div class=""> -->
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Document Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-12 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
+<div mat-dialog-content>
+  <form
+    [formGroup]="uploadDocumentsForm"
+    (ngSubmit)="submitUploadDocumentsForm(uploadDocumentsForm.valid)"
+    novalidate
+  >
+    <div class="row">
+      <div
+        [ngClass]="{
+          'col-8': isUploadDocment && !isTwoObject,
+          'col-12': !isUploadDocment && isTwoObject
+        }"
       >
-        <mat-label>Enter Document Number</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-12 col-12">
-      <div class="form-group">
-        <label class="label-file-input" for="fileInput">
-          <p class="file-input-text">{{ fileName }}</p>
-          <img
-            src="/assets/icon/upload.svg"
-            alt=""
-            class="upload-doc-image"
-            *ngIf="!showEyeIcon"
-          />
-          <img
-            src="/assets/icon/see.svg"
-            alt=""
-            class="upload-doc-image"
-            *ngIf="showEyeIcon"
-          />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          class="form-control-file"
-          (change)="pOIFileSelected($event)"
-        />
-      </div>
-    </div>
-    <div class="col-lg-12 col-12">
-      <button
-        class="submit-btn continue mt-3"
-        type="submit"
-        (click)="submitPOI()"
-      >
-        Continue
-      </button>
-    </div>
+        <div class="row">
+          <div class="col-12">
+            <p [ngClass]="{ 'text-center': !isTwoObject }">
+              {{ documentHeaderText }}
+            </p>
+          </div>
+          <div [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }">
+            <mat-form-field
+              appearance="outline"
+              class="document-list mat-input-custom"
+            >
+              <mat-label>Select Document Type</mat-label>
+              <mat-select
+                placeholder="Select Document Type"
+                formControlName="document_type_based_field"
+                (ngModelChange)="getDocumentKey($event)"
+              >
+                <mat-option
+                  *ngFor="let document of documentList"
+                  [value]="document?.document_code"
+                >
+                  {{ document?.document_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  uploadDocumentsForm
+                    .get('document_type_based_field')
+                    ?.hasError('required')
+                "
+              >
+                This is a required field.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <ng-container *ngIf="showPOA">
+            <ng-container
+              *ngFor="let fields of formFieldPOA | keyvalue; let i = index"
+            >
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'dropdown'"
+              >
+                <mat-form-field
+                  appearance="outline"
+                  class="document-list mat-input-custom"
+                >
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <mat-select
+                    placeholder="Select {{ fields.value?.name }}"
+                    [formControlName]="fields.value?.lable"
+                  >
+                    <mat-option
+                      *ngFor="let list of fields.value?.dropdown_list"
+                      [value]="list.key"
+                    >
+                      {{ list.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'string'"
+              >
+                <mat-form-field
+                  appearance="outline"
+                  class="document_number mat-input-custom"
+                >
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <input
+                    [formControlName]="fields.value.label"
+                    matInput
+                    aria-label="document_number"
+                    placeholder="{{ fields.value?.name }}"
+                    class="text-uppercase"
+                  />
+                </mat-form-field>
+              </div>
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'date'"
+              >
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="dobDate"
+                    placeholder="fields.value?.name "
+                    [formControlName]="fields.value.label"
+                    id-automation="`${fields.value?.name}`"
+                    #dobDateInput
+                    appDateFormat
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="dobDate">
+                    <mat-icon matDatepickerToggleIcon>
+                      <img
+                        src="/assets/icon/calendar.svg"
+                        class="cursor-pointer mb-2"
+                        alt="calendar"
+                      />
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #dobDate></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-    <!-- </div> -->
-  </div>
-</div>
-<div class="ckyc-poa" *ngIf="showPOA">
-  <div class="row">
-    <div class="col-lg-12 col-12 text-center">
-      <span class="header">Please complete the document details for POI</span>
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Document Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
-      >
-        <mat-label>Enter Document Number</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <div class="form-group">
-        <label class="label-file-input" for="fileInput">
-          <p class="file-input-text">{{ fileName }}</p>
-          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          class="form-control-file"
-          (change)="pOIFileSelected($event)"
-        />
-      </div>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline">
-        <mat-label>Select Date of Birth</mat-label>
-        <input
-          matInput
-          [matDatepicker]="expiryDate"
-          placeholder="Select Date of Birth"
-          id-automation="policy_expiry_date"
-        />
-        <mat-datepicker-toggle matSuffix [for]="expiryDate">
-          <mat-icon matDatepickerToggleIcon>
-            <img
-              src="/assets/icon/calendar.svg"
-              class="cursor-pointer mb-2"
-              alt="calendar"
-            />
-          </mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker
-          #expiryDate
-          id-automation="date_picker_expiry_date_id"
-        ></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Relative Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
-      >
-        <mat-label>Enter Relative Name</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4">
-      <button class="submit-btn continue" type="submit" (click)="submitPOA()">
-        Continue
-      </button>
-    </div>
-  </div>
-</div>
-<div class="ckyc-poa" *ngIf="showCkyc">
-  <div class="row">
-    <div class="col-lg-12 col-12 text-center">
-      <span class="header">Please complete the document details for CYKC</span>
-    </div>
-  </div>
-  <div class="row ps-4">
-    <div class="col-lg-12 col-12">
-      <span class="sub-header">Proof of Identity (POI)</span>
-    </div>
-    <hr class="col-lg-12 col-12" />
-  </div>
-  <div class="row mt-2">
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Document Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
-      >
-        <mat-label>Enter Document Number</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <div class="form-group">
-        <label class="label-file-input" for="fileInput">
-          <p class="file-input-text">{{ fileName }}</p>
-          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          class="form-control-file"
-          (change)="pOIFileSelected($event)"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="row ps-4">
-    <div class="col-lg-12 col-12">
-      <span class="sub-header">Proof of Address (POA)</span>
-    </div>
-    <hr class="col-lg-12 col-12" />
-  </div>
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'upload'"
+              >
+                <div class="form-group">
+                  <label class="lable-file-input" for="fileInput">
+                    <p class="file-input-text">
+                      {{ fields.value?.name }}
+                    </p>
+                    <img
+                      src="/assets/icon/upload.svg"
+                      alt=""
+                      class="upload-doc-image"
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    class="form-control-file"
+                    (change)="onFileSelected($event, fields.value.label)"
+                    [formControlName]="fields.value.label"
+                  />
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="showPOI">
+            <div class="col-12 mt-4">
+              <p [ngClass]="{ 'text-center': !isTwoObject }">
+                {{ documentPOIText }}
+              </p>
+            </div>
+            <ng-container
+              *ngFor="let fields of formFieldPOI | keyvalue; let i = index"
+            >
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'dropdown'"
+              >
+                <mat-form-field
+                  appearance="outline"
+                  class="document-list mat-input-custom"
+                >
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <mat-select
+                    placeholder="Select {{ fields.value?.name }}"
+                    [formControlName]="fields.value?.lable"
+                  >
+                    <mat-option
+                      *ngFor="let list of fields.value?.dropdown_list"
+                      [value]="list.key"
+                    >
+                      {{ list.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'string'"
+              >
+                <mat-form-field
+                  appearance="outline"
+                  class="document_number mat-input-custom"
+                >
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <input
+                    [formControlName]="fields.value.label"
+                    matInput
+                    aria-label="document_number"
+                    placeholder="{{ fields.value?.name }}"
+                    class="text-uppercase"
+                  />
+                </mat-form-field>
+              </div>
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'date'"
+              >
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ fields.value?.name }}</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="dobDate"
+                    placeholder="fields.value?.name "
+                    [formControlName]="fields.value.label"
+                    id-automation="`${fields.value?.name}`"
+                    #dobDateInput
+                    appDateFormat
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="dobDate">
+                    <mat-icon matDatepickerToggleIcon>
+                      <img
+                        src="/assets/icon/calendar.svg"
+                        class="cursor-pointer mb-2"
+                        alt="calendar"
+                      />
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker
+                    #dobDate
+                    id-automation="`${fields.value?.name}`_id"
+                  ></mat-datepicker>
+                </mat-form-field>
+              </div>
 
-  <div class="row mt-2">
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Document Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
-      >
-        <mat-label>Enter Document Number</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <div class="form-group">
-        <label class="label-file-input" for="fileInput">
-          <p class="file-input-text">{{ fileName }}</p>
-          <img src="/assets/icon/upload.svg" alt="" class="upload-doc-image" />
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          class="form-control-file"
-          (change)="pOIFileSelected($event)"
-        />
+              <div
+                [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+                *ngIf="fields.value?.data_type === 'upload'"
+              >
+                <div class="form-group">
+                  <label class="lable-file-input" for="fileInput">
+                    <p class="file-input-text">
+                      {{ fields.value?.name }}
+                    </p>
+                    <img
+                      src="/assets/icon/upload.svg"
+                      alt=""
+                      class="upload-doc-image"
+                    />
+                  </label>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    class="form-control-file"
+                    (change)="onFileSelected($event, fields.value.label)"
+                    [formControlName]="fields.value.label"
+                  />
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <ng-container *ngIf="isUploadDocment && !isTwoObject">
+        <div class="col-4 mt-4">
+          <div class="image-main">
+            <img [src]="document_url" class="uploaded-image" alt="close" />
+          </div>
+          <label for="fileInput" class="custom-file-upload">
+            <img
+              src="/assets/icon/reupload.svg"
+              class="reuploaded-image"
+              alt="close"
+            />
+            Reupload
+          </label>
+          <input type="file" id="fileInput" />
+        </div>
+      </ng-container>
+
+      <div class="col-12 mt-4">
+        <button
+          class="submit-btn continue"
+          [disabled]="!uploadDocumentsForm.valid"
+          type="submit"
+        >
+          Continue
+        </button>
       </div>
     </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline">
-        <mat-label>Select Date of Birth</mat-label>
-        <input
-          matInput
-          [matDatepicker]="expiryDate"
-          placeholder="Select Date of Birth"
-          id-automation="policy_expiry_date"
-        />
-        <mat-datepicker-toggle matSuffix [for]="expiryDate">
-          <mat-icon matDatepickerToggleIcon>
-            <img
-              src="/assets/icon/calendar.svg"
-              class="cursor-pointer mb-2"
-              alt="calendar"
-            />
-          </mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker
-          #expiryDate
-          id-automation="date_picker_expiry_date_id"
-        ></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field appearance="outline" class="vehicle-details-dropdown">
-        <mat-label>Select Relative Type</mat-label>
-        <mat-select>
-          <mat-option value="sfsd"> sdfsdf </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4 col-12">
-      <mat-form-field
-        appearance="outline"
-        class="document_number mat-input-custom"
-      >
-        <mat-label>Enter Relative Name</mat-label>
-        <input
-          id-automation="documentNumber"
-          matInput
-          aria-label="document_number"
-          placeholder="Enter Document Number"
-          class="text-uppercase"
-        />
-      </mat-form-field>
-    </div>
-    <div class="col-lg-4">
-      <button class="submit-btn continue" type="submit">Continue</button>
-    </div>
-  </div>
+  </form>
 </div>
 <div class="documents" *ngIf="showDocument">
   <div class="row">
@@ -363,7 +312,7 @@
             />
             Reupload
           </label>
-          <input type="file" id="fileInput" (change)="pOIFileSelected($event)" />
+          <!-- <input type="file" id="fileInput" (change)="pOIFileSelected($event)" /> -->
         </div>
       </ng-container>
     </div>

@@ -88,4 +88,5 @@ export class ApiConstants {
   public static get_inspection_data: string = `/api/v1/inspection/inspection_details/`;
 
   public static get_renewal_policy: string = `/api/v1/renewals/previous_policy_details/`;
+  public static ckyc_upload_document_fields: string = `/api/v1/ckyc/ckyc_upload_document_fields/`;
 }
