@@ -3,8 +3,10 @@
     <div class="row">
       <div class="quotes col-lg-8 col-md-8 text-center">
         <span class="title">{{ quotes.length }} Quotes selected</span><br />
-        <ng-container *ngFor="let data of quotes">
-          <span class="sub-title">{{ data?.insurer_name }}, </span>
+        <ng-container *ngFor="let data of quotes; let i = index">
+          <span class="sub-title"
+            >{{ data?.insurer_name }}<span *ngIf="i < quotes.length - 1">, </span></span
+          >
         </ng-container>
       </div>
       <div class="quotes-btn pt-1 col-lg-4 col-md-4">
@@ -25,8 +27,8 @@
     <div class="d-flex justify-content-between">
       <div>
         <span class="change-text">{{ quotes.length }} Quote Sharing</span><br />
-        <ng-container *ngFor="let data of quotes">
-          <span class="quotes-name">{{ data?.insurer_name }}, </span>
+        <ng-container *ngFor="let data of quotes ; let i = index">
+          <span class="quotes-name">{{ data?.insurer_name }}<span *ngIf="i < quotes.length - 1">, </span> </span>
         </ng-container>
       </div>
       <img

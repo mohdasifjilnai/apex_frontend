@@ -37,20 +37,20 @@
   </div>
 
   <div class="col-lg-12 col-md-12 plan-details mt-3">
-    <div class="mt-3">
+    <div>
       <div class="d-flex justify-content-between">
-        <p class="plan-type">Plan & Policy Type</p>
-        <p class="plan-type">Total IDV</p>
+        <span class="plan-type">Plan & Policy Type</span>
+        <span class="plan-type">Total IDV</span>
       </div>
       <div class="d-flex justify-content-between mt-2">
-        <p class="anunual-commericial">{{ planType?.name }}</p>
-        <p class="plan-type">
+        <span class="anunual-commericial">{{ planType?.name }}</span>
+        <span class="plan-type">
           &#x20B9;{{ quoteData?.premium_details?.idv | numberFormat }}
-        </p>
+        </span>
       </div>
     </div>
   </div>
-  <div class="col-lg-12 col-md-12 mt-3 policy policy">
+  <div class="col-lg-12 col-md-12 policy policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type od-name">Total Own Damage(A)</p>
       <p class="plan-type">
@@ -97,7 +97,7 @@
     </div> -->
   </div>
 
-  <div class="col-lg-12 col-md-12 mt-3 policy">
+  <div class="col-lg-12 col-md-12 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type od-name">Third Party(B)</p>
       <p class="plan-type">
@@ -120,7 +120,7 @@
     </div> -->
   </div>
 
-  <div class="col-lg-12 col-md-12 mt-3 policy">
+  <div class="col-lg-12 col-md-12 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">Addons(C)</p>
       <p class="plan-type" *ngIf="addonsList.length == 0">&#x20B9; 0</p>
@@ -203,7 +203,7 @@
     </div>
   </div>
 
-  <div class="col-12 premium-details mt-3 text-center">
+  <div class="col-12 premium-details text-center">
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;

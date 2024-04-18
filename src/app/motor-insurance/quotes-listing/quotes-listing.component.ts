@@ -106,7 +106,7 @@ export class QuotesListingComponent implements OnInit {
   vehicleTypeValue: any;
   selectedProductType: any;
   vehicleMMVData: any;
-  defaultGST = true;
+  defaultGST : any;
   isChecked: boolean = false;
   selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
   selectedShareData: any;
@@ -157,8 +157,15 @@ export class QuotesListingComponent implements OnInit {
   noQuotesInformation: any;
 
   ngOnInit(): void {
+    // sessionStorage.removeItem('gstValue');
     if (sessionStorage.getItem('sortObjectkey') == null) {
       sessionStorage.setItem('sortObjectkey', 'low');
+    }
+    this.gstValue = sessionStorage.getItem('gstValue');
+        if(this.gstValue){
+          this.defaultGST = JSON.parse(this.gstValue);
+        }else{
+          this.defaultGST=true
     }
     this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
     if (this.sortObjectkey) {
@@ -171,8 +178,9 @@ export class QuotesListingComponent implements OnInit {
         if (this.sortObjectkey) {
           this.lowHighSelected = this.sortObjectkey;
         }
-        this.gstValue = sessionStorage.getItem('gstValue');
-        this.defaultGST = JSON.parse(this.gstValue);
+        
+        
+        
         this.sorting(this.sortObjectkey);
       }
     });

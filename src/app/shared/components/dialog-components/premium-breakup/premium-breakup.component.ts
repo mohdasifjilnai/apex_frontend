@@ -20,7 +20,7 @@ import { NonPosPopupComponent } from 'src/app/motor-insurance/non-pos-popup/non-
 })
 export class PremiumBreakupComponent implements OnInit {
   initiateQuotes: any;
-  gstToggleData = true;
+  gstToggleData: any;
   showCard: boolean = false;
   transactionId: any;
   shareQuotesJSON: {
@@ -84,6 +84,8 @@ export class PremiumBreakupComponent implements OnInit {
     let gstValue = sessionStorage.getItem('gstValue');
     if (gstValue) {
       this.gstToggleData = JSON.parse(gstValue);
+    } else {
+      this.gstToggleData = true;
     }
     this.thirdParty = sessionStorage.getItem('productType');
   }
