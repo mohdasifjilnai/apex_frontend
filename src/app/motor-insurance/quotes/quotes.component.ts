@@ -84,6 +84,12 @@ export class QuotesComponent implements OnInit {
         this.getInsurerCode(shareTransaction, insurer_quote_id);
       }
     });
+    this.shareDataService.renewalQuotes.subscribe((quotesValue: any) => {
+      this.getInsurerCode(
+        quotesValue.transaction_id,
+        quotesValue.insurer_quote_id
+      );
+    });
 
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {

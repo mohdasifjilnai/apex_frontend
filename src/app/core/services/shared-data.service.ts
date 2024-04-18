@@ -59,6 +59,7 @@ export class SharedDataService {
   regNumberDataRenewal = new BehaviorSubject<any>(null);
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   renewalInsurer = new BehaviorSubject<any>(null);
+  renewalQuotes = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   connectionData: any = [];
@@ -405,7 +406,10 @@ export class SharedDataService {
       manufactureYear = manufactureValue?.getFullYear();
       this.idvData = sessionStorage.getItem('idvData');
       let selectedIdv;
-      let idvObject = JSON.parse(this.idvData);
+      let idvObject;
+      idvObject = this.idvData != undefined ? JSON.parse(this.idvData) : '';
+      // idvObject = JSON.parse(this.idvData);
+
       if (idvObject?.chooseIdv) {
         selectedIdv = idvObject.chooseIdv;
       } else if (idvObject?.minIdv) {
@@ -976,5 +980,9 @@ export class SharedDataService {
   }
   patchInsurer(data: any) {
     this.renewalInsurer.next(data);
+  }
+
+  quotesDataOnRenewal(data: any) {
+    this.renewalQuotes.next(data);
   }
 }

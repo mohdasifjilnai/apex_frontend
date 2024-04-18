@@ -61,6 +61,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalData: any;
   proposalDataSend: any;
   renewalType: any;
+  renewalInsurerQuotesId: any;
 
   constructor(
     private route: Router,
@@ -179,6 +180,8 @@ export class ProposalReviewComponent implements OnInit {
           this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
           this.shareData?.setRedirectDataForInsurer(res);
           if (res) {
+            this.renewalInsurerQuotesId =
+              this.generateProposalData?.insurer_quote_id;
             this.getInsurerCode(
               this.generateProposalData?.transaction_id,
               this.generateProposalData?.insurer_quote_id
@@ -267,5 +270,15 @@ export class ProposalReviewComponent implements OnInit {
           }
         });
     });
+  }
+
+  quotesRedirection() {
+    sessionStorage.setItem('vehiclePopup', 'true');
+    let insurerApiData = {
+      transaction_id: sessionStorage.getItem('transaction_id'),
+      insurer_quote_id: this.renewalInsurerQuotesId,
+    };
+    this.shareData.quotesDataOnRenewal(insurerApiData);
+    this.route.navigate(['/motor/quotes']);
   }
 }
