@@ -52,6 +52,7 @@ export class InsuranceDetailsComponent implements OnInit {
   addPremiumWithTp: any;
   gstValue: any;
   defaultGST: any;
+  renewalType: any;
   constructor(
     public matDialog: WindowRef,
 
@@ -123,6 +124,7 @@ export class InsuranceDetailsComponent implements OnInit {
       //   this.onCpaCheckboxChange(false);
       // }
     }
+    this.renewalType = sessionStorage.getItem('renewalType');
   }
 
   ngAfterViewInit() {
