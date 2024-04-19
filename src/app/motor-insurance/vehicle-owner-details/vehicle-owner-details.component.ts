@@ -187,6 +187,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     this.getOccupationType();
     this.getPincodeList();
     this.getSalutationType();
+
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.owenerVehicleDetailsForm?.disable();
+    }
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {

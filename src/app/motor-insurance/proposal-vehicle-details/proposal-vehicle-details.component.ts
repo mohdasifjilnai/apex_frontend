@@ -364,6 +364,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.getPincodeList();
     this.getAgreementList();
     this.getFinancierList();
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.proposalVehilceDetailsForm?.disable();
+    }
   }
 
   filterInsurer(name: string) {}

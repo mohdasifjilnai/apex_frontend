@@ -222,6 +222,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     });
 
     this.renewalType = sessionStorage.getItem('renewalType');
+    if (this.renewalType) {
+      this.previousPolicyDetailsForm?.disable();
+    }
   }
 
   getPreviousVehicleData(isValid: any) {

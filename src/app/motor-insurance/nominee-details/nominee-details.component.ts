@@ -56,6 +56,11 @@ export class NomineeDetailsComponent implements OnInit {
       }
     });
     this.getRelationshipsList();
+
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.nominneForm?.disable();
+    }
   }
 
   /**
