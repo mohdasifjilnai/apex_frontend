@@ -60,6 +60,7 @@ export class SharedDataService {
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   renewalInsurer = new BehaviorSubject<any>(null);
   renewalQuotes = new BehaviorSubject<any>(null);
+  checkRenewalQuotes = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   connectionData: any = [];
@@ -187,7 +188,13 @@ export class SharedDataService {
 
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
-    let addOnsList = JSON.parse(this.addonsValue);
+    let addOnsList;
+    if (this.addonsValue == 'undefined') {
+      addOnsList = '';
+    } else {
+      addOnsList = JSON.parse(this.addonsValue);
+    }
+
     if (data?.selected_addons) {
       setectedAddons = data?.selected_addons;
     } else if (addOnsList != null) {
@@ -407,8 +414,11 @@ export class SharedDataService {
       this.idvData = sessionStorage.getItem('idvData');
       let selectedIdv;
       let idvObject;
-      idvObject = this.idvData != undefined ? JSON.parse(this.idvData) : '';
-      // idvObject = JSON.parse(this.idvData);
+      if (this.idvData == 'undefined') {
+        idvObject = '';
+      } else {
+        idvObject = JSON?.parse(this.idvData);
+      }
 
       if (idvObject?.chooseIdv) {
         selectedIdv = idvObject.chooseIdv;
@@ -984,5 +994,9 @@ export class SharedDataService {
 
   quotesDataOnRenewal(data: any) {
     this.renewalQuotes.next(data);
+  }
+
+  checkNewQuotes(data: any) {
+    this.checkRenewalQuotes.next(data);
   }
 }

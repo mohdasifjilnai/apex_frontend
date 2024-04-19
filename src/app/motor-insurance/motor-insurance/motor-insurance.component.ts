@@ -229,6 +229,7 @@ export class MotorInsuranceComponent implements OnInit {
     }
 
     sessionStorage?.removeItem('gstValue');
+    sessionStorage?.removeItem('renewalType');
 
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {

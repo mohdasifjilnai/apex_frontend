@@ -298,6 +298,19 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.parsedVehicleData?.allQuotesRequest.meta_data
               .hidePreviousClaimed,
         };
+        if (
+          this.parsedVehicleData?.allQuotesRequest.meta_data?.policy_expiry_type
+        ) {
+          vehicleEmailData.policy_expiry =
+            this.parsedVehicleData?.allQuotesRequest.meta_data.policy_expiry_type;
+
+          vehicleEmailData.hidePreviousClaimed =
+            this.parsedVehicleData?.allQuotesRequest.meta_data.hidePreviousClaimed;
+        } else {
+          vehicleEmailData.policy_expiry =
+            this.parsedVehicleData?.allQuotesRequest.product_type;
+          vehicleEmailData.hidePreviousClaimed = true;
+        }
         sessionStorage.setItem(
           'idvData',
           this.parsedVehicleData?.allQuotesRequest.meta_data.idvData

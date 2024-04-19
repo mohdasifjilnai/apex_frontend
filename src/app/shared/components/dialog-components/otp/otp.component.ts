@@ -138,60 +138,118 @@ export class OtpComponent implements OnInit {
         this.loader = false;
         this.ngOtpInput.setValue('');
       } else {
-        this.apiService
-          .getRequestedResponse(
-            `${ApiConstants.generate_proposal}?insurer_code=${
-              JSON.parse(this.quoteData)['insurer_code']
-            }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
-          )
-          .subscribe(
-            (generatedProposal: any) => {
-              if (window.innerWidth <= 999) {
-                this.bottomSheetRef.dismiss();
-              }
+        let renewalType = sessionStorage.getItem('renewalType');
+        if (renewalType == 'renewal') {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.generate_renewal_proposal}?insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
+            )
+            .subscribe(
+              (generatedProposal: any) => {
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss();
+                }
 
-              if (generatedProposal.status) {
-                if (generatedProposal.is_breakin) {
+                if (generatedProposal.status) {
+                  if (generatedProposal.is_breakin) {
+                    this.loader = false;
+                    this.dialogRef.close();
+                    this.router.navigate([
+                      `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                    ]);
+                  } else {
+                    this.apiService
+                      .getRequestedResponse(
+                        `${
+                          ApiConstants['redirection_payment_getway']
+                        }${JSON.parse(this.proposalId)}`
+                      )
+                      .subscribe((payment_getway_response) => {
+                        if (payment_getway_response) {
+                          window.location.href = payment_getway_response;
+                          this.loader = false;
+
+                          this.dialogRef.close();
+                        }
+                      });
+                  }
+                } else {
+                  if (
+                    JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
+                    generatedProposal.ckyc_link
+                  ) {
+                    this.failureJSON['modalName'] = ErrorDialogComponent;
+                    this.openFailurePopup(generatedProposal);
+                  } else {
+                    this.failureJSON['modalName'] = FailureDialogComponent;
+                    this.openFailurePopup(generatedProposal);
+                  }
                   this.loader = false;
                   this.dialogRef.close();
-                  this.router.navigate([
-                    `motor/quotes/proposal/${this.transactionId}/review/inspection`,
-                  ]);
-                } else {
-                  this.apiService
-                    .getRequestedResponse(
-                      `${
-                        ApiConstants['redirection_payment_getway']
-                      }${JSON.parse(this.proposalId)}`
-                    )
-                    .subscribe((payment_getway_response) => {
-                      if (payment_getway_response) {
-                        window.location.href = payment_getway_response;
-                        this.loader = false;
-
-                        this.dialogRef.close();
-                      }
-                    });
                 }
-              } else {
-                if (
-                  JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
-                  generatedProposal.ckyc_link
-                ) {
-                  this.failureJSON['modalName'] = ErrorDialogComponent;
-                  this.openFailurePopup(generatedProposal);
-                } else {
-                  this.failureJSON['modalName'] = FailureDialogComponent;
-                  this.openFailurePopup(generatedProposal);
-                }
+              },
+              (error) => {
                 this.loader = false;
-                this.dialogRef.close();
               }
-            },
-            (error) => {
-              this.loader = false;
-            }
-          );
+            );
+        } else {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.generate_proposal}?insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
+            )
+            .subscribe(
+              (generatedProposal: any) => {
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss();
+                }
+
+                if (generatedProposal.status) {
+                  if (generatedProposal.is_breakin) {
+                    this.loader = false;
+                    this.dialogRef.close();
+                    this.router.navigate([
+                      `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                    ]);
+                  } else {
+                    this.apiService
+                      .getRequestedResponse(
+                        `${
+                          ApiConstants['redirection_payment_getway']
+                        }${JSON.parse(this.proposalId)}`
+                      )
+                      .subscribe((payment_getway_response) => {
+                        if (payment_getway_response) {
+                          window.location.href = payment_getway_response;
+                          this.loader = false;
+
+                          this.dialogRef.close();
+                        }
+                      });
+                  }
+                } else {
+                  if (
+                    JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
+                    generatedProposal.ckyc_link
+                  ) {
+                    this.failureJSON['modalName'] = ErrorDialogComponent;
+                    this.openFailurePopup(generatedProposal);
+                  } else {
+                    this.failureJSON['modalName'] = FailureDialogComponent;
+                    this.openFailurePopup(generatedProposal);
+                  }
+                  this.loader = false;
+                  this.dialogRef.close();
+                }
+              },
+              (error) => {
+                this.loader = false;
+              }
+            );
+        }
       }
     });
   }

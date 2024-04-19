@@ -89,4 +89,6 @@ export class ApiConstants {
 
   public static get_renewal_policy: string = `/api/v1/renewals/previous_policy_details/`;
   public static ckyc_upload_document_fields: string = `/api/v1/ckyc/ckyc_upload_document_fields/`;
+
+  public static generate_renewal_proposal: string = `/api/v1/renewals/generate_renewal_proposal/`;
 }

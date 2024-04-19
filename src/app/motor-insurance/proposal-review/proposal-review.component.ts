@@ -115,6 +115,12 @@ export class ProposalReviewComponent implements OnInit {
       });
     });
     this.getInsurerDetailsOnRedirection();
+
+    this.shareData.checkRenewalQuotes.subscribe((res) => {
+      if (res) {
+        this.quotesRedirection();
+      }
+    });
   }
   navigateToUrl(titleName: string) {
     if (this.proposalData) {

@@ -358,6 +358,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.getNcbList();
     this.getPolicyExpiryList();
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+    }
   }
 
   /**
