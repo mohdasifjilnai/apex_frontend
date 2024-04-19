@@ -254,12 +254,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.previousPolicyDetailsSubscription.unsubscribe();
           }
         });
+    } else if (this.renewalType == 'renewal') {
+      let url = `/motor/quotes/proposal/${this.transactionId}/review`;
+      this.router.navigate([url]);
     }
-    //  else if (this.renewalType == 'renewal') {
-    //   this.router.navigate([
-    //     `/motor/quotes/proposal/${this.transactionId}/review`,
-    //   ]);
-    // }
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedData.handleEnterKey(event, manufacture);
