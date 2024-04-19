@@ -72,7 +72,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.reviewURL = true;
       }
     });
-        this.defaultGST = JSON.parse(sessionStorage.getItem('gstValue') || '{}');
+    this.defaultGST = JSON.parse(sessionStorage.getItem('gstValue') || '{}');
   }
 
   ngOnInit(): void {
@@ -111,7 +111,7 @@ export class InsuranceDetailsComponent implements OnInit {
 
     if (this.quoteData) {
       this.addonsValue = this.quoteData?.premium_details?.addon_premium_details;
-      if (this.addonsValue.length > 0) {
+      if (this.addonsValue?.length > 0) {
         this.addonsList = this.addonsValue;
       }
       // if (
@@ -208,16 +208,18 @@ export class InsuranceDetailsComponent implements OnInit {
     this.quotesDetails = sessionStorage.getItem('quotes_data');
 
     let quotesValue = JSON.parse(this.quotesDetails);
-    let url = `?quote_id=${quotesValue.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details`;
-
-    this.apiservice
-      .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
-      .subscribe((res: any) => {
-        if (res != null) {
-          this.downloadButtonShow = true;
-          this.downloadUrl = res;
-        }
-      });
+    let url;
+    if (quotesValue?.quote_id) {
+      url = `?quote_id=${quotesValue?.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details`;
+      this.apiservice
+        .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
+        .subscribe((res: any) => {
+          if (res != null) {
+            this.downloadButtonShow = true;
+            this.downloadUrl = res;
+          }
+        });
+    }
   }
 
   downloadUnderwritingUrl() {

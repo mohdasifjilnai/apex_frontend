@@ -300,7 +300,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
       this.getVehicleDetailsInfo();
       this.motorInsurance.reset();
-    } else if (!this.withoutVehicleNumber && this.isPolicyNumber) {
+    } else if (this.isPolicyNumber) {
       this.getRenewalPolicyData();
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
@@ -311,7 +311,7 @@ export class MotorInsuranceComponent implements OnInit {
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
     this.isPolicyNumber = false;
-    this.disableInsurer=true
+    this.disableInsurer = true;
     this.motorInsurance.reset();
     if (this.withoutVehicleNumber) {
       setTimeout(() => {

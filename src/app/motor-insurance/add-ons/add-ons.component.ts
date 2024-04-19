@@ -152,7 +152,12 @@ export class AddOnsComponent implements OnInit {
       this.clearAllButton = false;
       this.selected_addons = {};
       this.addonsValue = sessionStorage.getItem('selectedAddons');
-      this.selectedAddOns = JSON.parse(this.addonsValue);
+      if (this.addonsValue == 'undefined') {
+        this.selectedAddOns = '';
+      } else {
+        this.selectedAddOns = JSON.parse(this.addonsValue);
+      }
+
       if (this.selectedAddOns) {
         sessionStorage.removeItem('selectedAddons');
       }
