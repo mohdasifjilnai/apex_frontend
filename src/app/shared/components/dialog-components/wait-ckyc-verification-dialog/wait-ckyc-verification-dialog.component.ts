@@ -92,7 +92,6 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
       .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
       .subscribe(
         (res) => {
-          console.log(res, 'response CKYC');
           if (
             res['customer_details'] != null &&
             res['upload_document'] == false
@@ -225,30 +224,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
         });
     }
   }
-  /**
-Event handler for when a file is selected.
-@param event - The file selection event.
- */
-  onFileSelected(event: any): void {
-    const selectedFile: File = event.target.files[0];
-    this.fileName =
-      selectedFile.name.length > 30
-        ? selectedFile.name.substring(0, 30) + '...'
-        : selectedFile.name;
-    let formData: FormData = new FormData();
-    formData.append('file', selectedFile, selectedFile.name);
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
-        formData
-      )
-      ?.subscribe((res) => {
-        this.checkUploadDocment(res['document_url']);
-        this.uploadDocumentsForm.patchValue({
-          file: res['document_url'],
-        });
-      });
-  }
+
   /**
    * this fucntion use wait ckyc verification modal
    */
@@ -277,7 +253,11 @@ Event handler for when a file is selected.
     };
 
     this.matDialog.openDialog(obj).subscribe((data) => {
-      console.log(data);
+      if (data['status']) {
+        this.sharedDataService.getFetchedCkycData(data);
+        this.sharedDataService.kycFetched(data);
+        sessionStorage.setItem('kycData', JSON.stringify(data));
+      }
     });
   }
 }

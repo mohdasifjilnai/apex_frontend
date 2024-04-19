@@ -47,12 +47,15 @@ export class CkycDocumentsComponent implements OnInit {
   formFieldPOI: Record<string, any> = {};
   documentPOIText: any;
   isTwoObject: boolean = false;
+  POAFileName: string = '';
+  POIFileName: string = '';
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private sharedData: SharedDataService
   ) {
     this.fetchCkycParam = data['data'];
     this.getDocumentType(this.fetchCkycParam);
@@ -74,15 +77,24 @@ Event handler for when a file is selected.
  */
   onFileSelected(event: any, fileFormControlName: any): void {
     const selectedFile: File = event.target.files[0];
+    let doc_type;
     this.fileName =
       selectedFile.name.length > 30
         ? selectedFile.name.substring(0, 30) + '...'
         : selectedFile.name;
+    if (fileFormControlName == 'poa_doc_url') {
+      this.POAFileName = this.fileName;
+      doc_type = 'poa';
+    }
+    if (fileFormControlName == 'poi_doc_url') {
+      this.POIFileName = this.fileName;
+      doc_type = 'poi';
+    }
     let formData: FormData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);
     this.apiService
       .postRequestedResponse(
-        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}`,
+        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
         formData
       )
       ?.subscribe((res) => {
@@ -94,19 +106,6 @@ Event handler for when a file is selected.
   }
   onSelectionChange(event: any, controlName: string): void {
     this.uploadDocumentsForm.get(controlName)?.setValue(event.value);
-  }
-
-  submitDocuments() {
-    this.showPOI = true;
-    this.showDocumentSelect = false;
-  }
-  submitPOI() {
-    this.showPOI = false;
-    this.showPOA = true;
-  }
-  submitPOA() {
-    this.showPOA = false;
-    this.showCkyc = true;
   }
   /**
    * Fetches the list of document types supported by the insurer.
@@ -122,7 +121,6 @@ Event handler for when a file is selected.
       )
       .subscribe((res) => {
         this.documentList = res;
-        console.log(this.documentList);
       });
   }
   /**
@@ -185,7 +183,9 @@ handles the form submit for uploading the required documents
         .postRequestedResponse(`${ApiConstants.upload_document_save}`, body)
         .subscribe((response) => {
           if (response) {
-            this.dialogRef.close(response);
+            setTimeout(() => {
+              this.dialogRef.close(response);
+            }, 300);
           }
         });
     }
