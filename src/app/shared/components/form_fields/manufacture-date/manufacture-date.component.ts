@@ -94,7 +94,7 @@ export class ManufactureDateComponent implements OnInit {
     this.manufactureDateValidation();
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.form.get('manufacture_date')?.disable();
     }
   }

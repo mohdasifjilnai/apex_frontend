@@ -58,7 +58,7 @@ export class NomineeDetailsComponent implements OnInit {
     this.getRelationshipsList();
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.nominneForm?.disable();
     }
   }

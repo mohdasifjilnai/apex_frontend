@@ -131,7 +131,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }
       }
       let renewalDataType = sessionStorage.getItem('renewalType');
-      if (renewalDataType) {
+      if (renewalDataType == 'renewal') {
         const [day, month, year] =
           proposal?.previous_policy_details?.policy_expiry_date
             .split('/')
@@ -222,7 +222,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     });
 
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType) {
+    if (this.renewalType == 'renewal') {
       this.previousPolicyDetailsForm?.disable();
     }
   }

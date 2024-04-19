@@ -365,7 +365,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.getAgreementList();
     this.getFinancierList();
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.proposalVehilceDetailsForm?.disable();
     }
   }

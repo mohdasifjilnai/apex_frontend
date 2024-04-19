@@ -75,7 +75,7 @@ export class PolicyExpiredDateComponent implements OnInit {
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.form.get(this.formControlNameData)?.disable();
     }
   }

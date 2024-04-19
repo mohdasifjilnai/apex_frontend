@@ -189,7 +189,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     this.getSalutationType();
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.owenerVehicleDetailsForm?.disable();
     }
   }

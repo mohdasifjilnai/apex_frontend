@@ -116,7 +116,7 @@ export class PreviousInsurerComponent implements OnInit {
     );
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.form.get('previous_insurer')?.disable();
     }
   }

@@ -158,7 +158,7 @@ export class CkycComponent implements OnInit {
     });
 
     let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType) {
+    if (renewalType == 'renewal') {
       this.ckycFormGroup?.disable();
     }
   }
