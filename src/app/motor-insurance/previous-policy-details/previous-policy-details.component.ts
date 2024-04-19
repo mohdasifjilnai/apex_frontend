@@ -46,6 +46,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     tp_policy_end_date: new FormControl(''),
   });
   previousInsurerResponse: any;
+  renewalType: any;
 
   constructor(
     private router: Router,
@@ -219,10 +220,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.isDisableCKyc = false;
       }
     });
+
+    this.renewalType = sessionStorage.getItem('renewalType');
   }
 
   getPreviousVehicleData(isValid: any) {
-    if (isValid) {
+    if (isValid && this.renewalType != 'renewal') {
       const formValues = this.previousPolicyDetailsForm.value;
       this.afterPreviousVehicleDetilsData.emit(formValues);
       this.sharedData.createProposalId(
@@ -252,6 +255,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           }
         });
     }
+    //  else if (this.renewalType == 'renewal') {
+    //   this.router.navigate([
+    //     `/motor/quotes/proposal/${this.transactionId}/review`,
+    //   ]);
+    // }
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedData.handleEnterKey(event, manufacture);

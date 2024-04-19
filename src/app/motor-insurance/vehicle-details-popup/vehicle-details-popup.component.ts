@@ -360,6 +360,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.getPolicyExpiryList();
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType) {
+      this.vehicleDetailsForm.get('vehicle_make')?.disable();
+      this.vehicleDetailsForm.get('vehicle_model')?.disable();
+      this.vehicleDetailsForm.get('vehicle_variant')?.disable();
+      this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
+      this.vehicleDetailsForm.get('registration_city')?.disable();
+
+      this.vehicleDetailsForm.get('policy_expiry')?.disable();
     }
   }
 

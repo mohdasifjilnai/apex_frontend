@@ -73,6 +73,11 @@ export class PolicyExpiredDateComponent implements OnInit {
     const maxDateOffset = 45; //add days to current date
     this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
+
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.form.get(this.formControlNameData)?.disable();
+    }
   }
 
   ngOnDestroy(): void {

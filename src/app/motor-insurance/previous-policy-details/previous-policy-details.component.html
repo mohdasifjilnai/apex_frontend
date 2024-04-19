@@ -121,12 +121,17 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="renewalType != 'renewal'">
       <button
         class="submit-btn previous-vehicle-submission"
         type="submit"
         [disabled]="previousPolicyDetailsForm.invalid || isDisableCKyc"
       >
+        Confirm & Review
+      </button>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="renewalType == 'renewal'">
+      <button class="submit-btn previous-vehicle-submission" type="submit">
         Confirm & Review
       </button>
     </div>

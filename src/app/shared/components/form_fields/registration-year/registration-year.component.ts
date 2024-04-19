@@ -157,6 +157,11 @@ export class RegistrationYearComponent implements OnInit {
         }
       }
     });
+
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.form.get('registration_date')?.disable();
+    }
   }
 
   ngOnDestroy(): void {

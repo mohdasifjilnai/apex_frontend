@@ -92,6 +92,11 @@ export class ManufactureDateComponent implements OnInit {
     );
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     this.manufactureDateValidation();
+
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType) {
+      this.form.get('manufacture_date')?.disable();
+    }
   }
 
   /**
