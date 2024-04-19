@@ -81,12 +81,12 @@ export class PremiumBreakupComponent implements OnInit {
     this.endPath = lastSegment;
   }
   ngOnInit(): void {
-    let gstValue = sessionStorage.getItem('gstValue');
-    if (gstValue) {
-      this.gstToggleData = JSON.parse(gstValue);
-    } else {
-      this.gstToggleData = true;
-    }
+    // let gstValue = sessionStorage.getItem('gstValue');
+    // if (gstValue) {
+    //   this.gstToggleData = JSON.parse(gstValue);
+    // } else {
+    //   this.gstToggleData = true;
+    // }
     this.thirdParty = sessionStorage.getItem('productType');
   }
   /**

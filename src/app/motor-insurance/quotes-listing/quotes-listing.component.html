@@ -27,6 +27,7 @@
               formControlName="proposalType"
               class="text-transform-data"
               (ngModelChange)="changeProposalType($event)"
+              [disabled]="enableIdvCard"
             >
               <mat-option
                 *ngFor="let proposalData of proposalList"

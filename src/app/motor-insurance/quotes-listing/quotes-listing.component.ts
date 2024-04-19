@@ -106,7 +106,7 @@ export class QuotesListingComponent implements OnInit {
   vehicleTypeValue: any;
   selectedProductType: any;
   vehicleMMVData: any;
-  defaultGST : any;
+  defaultGST: any;
   isChecked: boolean = false;
   selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
   selectedShareData: any;
@@ -162,10 +162,10 @@ export class QuotesListingComponent implements OnInit {
       sessionStorage.setItem('sortObjectkey', 'low');
     }
     this.gstValue = sessionStorage.getItem('gstValue');
-        if(this.gstValue){
-          this.defaultGST = JSON.parse(this.gstValue);
-        }else{
-          this.defaultGST=true
+    if (this.gstValue) {
+      this.defaultGST = JSON.parse(this.gstValue);
+    } else {
+      this.defaultGST = false;
     }
     this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
     if (this.sortObjectkey) {
@@ -178,9 +178,7 @@ export class QuotesListingComponent implements OnInit {
         if (this.sortObjectkey) {
           this.lowHighSelected = this.sortObjectkey;
         }
-        
-        
-        
+
         this.sorting(this.sortObjectkey);
       }
     });
