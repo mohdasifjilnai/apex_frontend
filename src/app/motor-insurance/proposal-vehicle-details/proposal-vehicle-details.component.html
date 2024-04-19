@@ -192,7 +192,7 @@
         >
           This is a required field.
         </mat-error>
-        <mat-error
+        <!-- <mat-error
           *ngIf="
             proposalVehilceDetailsForm.controls['financer']?.hasError(
               'validFinancer'
@@ -200,7 +200,7 @@
           "
         >
           Please enter the correct financer name.
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
     </div>
     <div class="col-lg-4 col-md-6 col-12" *ngIf="financedToggle.checked">
@@ -284,7 +284,7 @@
         >
           This is a required field.
         </mat-error>
-        <mat-error
+        <!-- <mat-error
           *ngIf="
             proposalVehilceDetailsForm
               .get('vehicle_pincode')
@@ -292,7 +292,7 @@
           "
         >
           Please enter the correct pincode
-        </mat-error>
+        </mat-error> -->
         <mat-autocomplete
           #pincodeAuto="matAutocomplete"
           [displayWith]="displayPincode.bind(this)"
