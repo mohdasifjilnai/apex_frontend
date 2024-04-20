@@ -232,6 +232,10 @@ export class CkycComponent implements OnInit {
               'document_number_based_field'
             )?.value;
           }
+        } else {
+          this.documentNumber = this.ckycFormGroup.get(
+            'document_number_based_field'
+          )?.value;
         }
 
         ckycData['dob'] = this.datePipe.transform(
