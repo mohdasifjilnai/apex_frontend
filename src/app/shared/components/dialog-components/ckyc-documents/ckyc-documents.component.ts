@@ -17,6 +17,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { DatePipe } from '@angular/common';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-ckyc-documents',
@@ -49,15 +50,23 @@ export class CkycDocumentsComponent implements OnInit {
   isTwoObject: boolean = false;
   POAFileName: string = '';
   POIFileName: string = '';
+  documentUploaded: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private sharedData: SharedDataService
+    private sharedData: SharedDataService,
+    public bottomSheetRef: MatBottomSheetRef<CkycDocumentsComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
   ) {
-    this.fetchCkycParam = data['data'];
+    if(window.innerWidth <= 999){
+      this.fetchCkycParam = bottomSheetdata;
+    }else{
+      this.fetchCkycParam = data['data'];
+    }
+    
     this.getDocumentType(this.fetchCkycParam);
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -131,7 +140,11 @@ Event handler for when a file is selected.
    * Closes the dialog and returns any data passed to the dialog.
    */
   popupCLose() {
-    this.dialogRef.close();
+    if(window.innerWidth <=999){
+      this.bottomSheetRef.dismiss();
+    }else{
+      this.dialogRef.close();
+    } 
   }
   /**
 handles the form submit for uploading the required documents
@@ -188,7 +201,11 @@ handles the form submit for uploading the required documents
         .subscribe((response) => {
           if (response) {
             setTimeout(() => {
-              this.dialogRef.close(response);
+              if(window.innerWidth <=999){
+                this.bottomSheetRef.dismiss(response);
+              }else{
+                this.dialogRef.close(response);
+              }
             }, 300);
           }
         });

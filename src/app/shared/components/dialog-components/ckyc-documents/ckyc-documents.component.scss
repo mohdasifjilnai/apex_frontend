@@ -1,5 +1,5 @@
 .ckyc-document {
-  width: 392px;
+  width: 392px !important;
   .header {
     font-weight: 500;
     font-size: 14px;
@@ -12,7 +12,7 @@
   }
 }
 .ckyc-poi {
-  width: 680px;
+  width: 680px !important;
   .header {
     font-weight: 500;
     font-size: 14px;
@@ -64,7 +64,7 @@
   }
 }
 .ckyc-poa {
-  width: 972px;
+  width: 972px !important;
   .header {
     font-weight: 500;
     font-size: 14px;
@@ -220,3 +220,17 @@ input[type="file"] {
   word-break: break-all;
   margin-right: 10px;
 }
+@media screen and (max-width: 999px) {
+  .ckyc-document{
+    width: 100% !important;
+    padding-top: 8px;
+    overflow-x: hidden;
+  }
+  .ckyc-poa{
+    width: 100% !important;
+    padding-top: 8px;
+    overflow-x: hidden;
+  }
+}
+
+

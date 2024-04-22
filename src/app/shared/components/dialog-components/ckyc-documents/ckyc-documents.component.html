@@ -1,3 +1,6 @@
+<div [ngClass]="{ 'ckyc-poa': isTwoObject, 'ckyc-document': !isTwoObject }">
+
+
 <div mat-dialog-title>
   <div class="document-popup-header d-flex justify-content-end">
     <img
@@ -155,12 +158,14 @@
             <div class="form-group">
               <label class="lable-file-input" for="fileInput">
                 <p class="file-input-text">
-                  {{ fields.value?.name }}
+
+                  {{ POAFileName==''?fields.value?.name:POAFileName }}
                 </p>
                 <img
-                  src="/assets/icon/upload.svg"
+                  src="{{POAFileName === '' ? '/assets/icon/upload.svg' : '/assets/icon/see.svg'}}"
                   alt=""
                   class="upload-doc-image"
+                  (click)="POAFileName === ''?null:checkUploadDocment(documentUploaded)"
                 />
               </label>
               <input
@@ -171,7 +176,6 @@
                 [formControlName]="fields.value?.label"
               />
             </div>
-            {{ POAFileName }}
           </div>
         </ng-container>
       </ng-container>
@@ -291,10 +295,10 @@
             <div class="form-group">
               <label class="lable-file-input" for="fileInputPOI">
                 <p class="file-input-text">
-                  {{ fields.value?.name }}
+                  {{ POIFileName==''?fields.value?.name:POAFileName }}
                 </p>
                 <img
-                  src="/assets/icon/upload.svg"
+                  src="{{POIFileName === '' ? '/assets/icon/upload.svg' : '/assets/icon/see.svg'}}"
                   alt=""
                   class="upload-doc-image"
                 />
@@ -307,7 +311,6 @@
                 [formControlName]="fields.value?.label"
               />
             </div>
-            <p>{{ POIFileName }}</p>
           </div>
         </ng-container>
       </ng-container>
@@ -366,4 +369,5 @@
       </ng-container>
     </div>
   </div>
+</div>
 </div>

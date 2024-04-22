@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, Renderer2 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from '../../../../api.constant';
@@ -6,6 +6,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CkycDocumentsComponent } from '../ckyc-documents/ckyc-documents.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-wait-ckyc-verification-dialog',
@@ -57,7 +58,10 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
     private formBuilder: FormBuilder,
-    private matDialog: WindowRef
+    private renderer: Renderer2,
+    private elementRef: ElementRef,
+    private matDialog: WindowRef,
+    public bottomSheet: MatBottomSheet,
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -115,7 +119,24 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
               insurer_code: this.ckycBody?.insurer_code,
               isProposerTrue: this.isProposerTrue,
             };
-            this.openCkycDocumentsPopup(paramData);
+            if(window.innerWidth  <= 999){
+              const bottomSheetConfig: MatBottomSheetConfig = {
+                data: paramData
+              };
+              const bottomSheetRef = this.bottomSheet.open(
+                CkycDocumentsComponent,
+                bottomSheetConfig
+              );
+              bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
+                if (dataReceived['verification_status']) {
+                  this.sharedDataService.getFetchedCkycData(dataReceived);
+                  this.sharedDataService.kycFetched(dataReceived);
+                  sessionStorage.setItem('kycData', JSON.stringify(dataReceived));
+                }
+              });
+            }else{
+              this.openCkycDocumentsPopup(paramData);
+            }
             this.dialogRef.close();
           }
         },
