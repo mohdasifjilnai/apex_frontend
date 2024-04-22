@@ -264,7 +264,10 @@ export class ProposalShareComponent implements OnInit {
         .subscribe((res) => {
           if (res['message'] == 'Success') {
             if (window.innerWidth <= 999) {
-              this.bottomSheet.open(OtpComponent);
+              const bottomSheetConfig: MatBottomSheetConfig = {
+                data: sendCommunicationObject, // Pass your data here
+              };
+              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
             } else {
               this.openModal(sendCommunicationObject, this.otpDialog);
             }
