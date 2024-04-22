@@ -80,7 +80,12 @@ export class AddOnsComponent implements OnInit {
     // });
 
     this.addonsValue = sessionStorage.getItem('selectedAddons');
-    this.selectedAddOns = JSON.parse(this.addonsValue);
+    if (this.addonsValue == 'undefined') {
+      this.selectedAddOns = '';
+    } else {
+      this.selectedAddOns = JSON.parse(this.addonsValue);
+    }
+
     if (this.selectedAddOns) {
       this.showUpdateButton = true;
       this.clearAllButton = true;
@@ -92,7 +97,12 @@ export class AddOnsComponent implements OnInit {
       this.selectedAddOnsValue = idvData;
 
       this.addonsValue = sessionStorage.getItem('selectedAddons');
-      this.selectedAddOns = JSON.parse(this.addonsValue);
+      if (this.addonsValue == 'undefined') {
+        this.selectedAddOns = '';
+      } else {
+        this.selectedAddOns = JSON.parse(this.addonsValue);
+      }
+
       if (this.selectedAddOns) {
         this.selectedCheckedArray = this.selectedAddOns;
 
