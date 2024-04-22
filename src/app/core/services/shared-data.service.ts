@@ -711,7 +711,8 @@ export class SharedDataService {
                   ?.addon_premium_details) {
                   if (
                     (isCpa?.add_on_code === 'CPA' ||
-                      isCpa?.add_on_code === 'CPA3') &&
+                      isCpa?.add_on_code === 'CPA3' ||
+                      isCpa?.add_on_code === 'CPA5') &&
                     this.proposerType !== 'corporate'
                   ) {
                     this.isNotShowVehicleDetails = true;

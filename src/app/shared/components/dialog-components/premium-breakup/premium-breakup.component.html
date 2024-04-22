@@ -179,11 +179,8 @@
     <span class="own-damage-text text-bold"> Total Premium (A+B+D)</span>
     <span class="own-damage-amount text-bold">
       &#8377;
-      {{
-        gstToggleData
-          ? (initiateQuotes.premium_details.gross_premium | numberFormat)
-          : (initiateQuotes.premium_details.net_premium | numberFormat)
-      }}
+
+      {{ initiateQuotes.premium_details.net_premium | numberFormat }}
     </span>
   </div>
 

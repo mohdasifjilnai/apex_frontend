@@ -37,7 +37,6 @@ export class InsuranceDetailsComponent implements OnInit {
   quoteData: any;
   mmvData: any;
   reviewURL: boolean = false;
-  gstToggleData: any;
   redirectInsurerData: any;
   mmvItem: any;
   planType: any;
@@ -80,10 +79,6 @@ export class InsuranceDetailsComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
-    let gstValue = sessionStorage.getItem('gstValue');
-    if (gstValue) {
-      this.gstToggleData = JSON.parse(gstValue);
-    }
 
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
