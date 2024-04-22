@@ -241,7 +241,11 @@ export class ProposalShareComponent implements OnInit {
   }
   proceedToPayment() {
     if (this.proposalData) {
-      this.dialogRef.close();
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      } else {
+        this.dialogRef.close();
+      }
       let sendCommunicationObject = {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
         share_type: 'otp',
