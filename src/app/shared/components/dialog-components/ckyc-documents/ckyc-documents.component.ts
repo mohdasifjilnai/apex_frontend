@@ -51,6 +51,7 @@ export class CkycDocumentsComponent implements OnInit {
   POAFileName: string = '';
   POIFileName: string = '';
   documentUploaded: any;
+  documentURl: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -108,7 +109,8 @@ Event handler for when a file is selected.
       )
       ?.subscribe((res) => {
         if (res['status']) {
-          this.checkUploadDocment(res['document_url']);
+          // this.checkUploadDocment(res['document_url']);
+          this.documentURl=res['document_url']
           this.uploadDocumentsForm
             .get(fileFormControlName)
             ?.setValue(res['document_url']);
@@ -217,6 +219,9 @@ handles the form submit for uploading the required documents
    */
   checkUploadDocment(url: string) {
     this.isUploadDocment = true;
+    this.showPOA=false;
+    this.isTwoObject=false
+    this.documentHeaderText='Please review the uploaded document'
     if (this.isUploadDocment) {
       this.apiService
         .getRequestedResponse(

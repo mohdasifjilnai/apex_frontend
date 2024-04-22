@@ -35,6 +35,8 @@
   }
   .upload-doc-image {
     float: right;
+    margin-top: -35px;
+    margin-right: 13px;
   }
   .file-input-text {
     position: relative;
@@ -87,6 +89,8 @@
   }
   .upload-doc-image {
     float: right;
+    margin-top: -35px;
+    margin-right: 13px;
   }
   .file-input-text {
     position: relative;
@@ -180,8 +184,10 @@
 }
 
 .uploaded-image {
-  width: 195px;
   height: 134px;
+  width: 100%;
+  padding: 0px 34px;
+  border-radius: 10px;
 }
 .custom-file-upload {
   display: inline-block;
@@ -212,6 +218,8 @@ input[type="file"] {
 
 .upload-doc-image {
   float: right;
+  margin-top: -35px;
+  margin-right: 13px;
 }
 .file-input-text {
   position: relative;

@@ -27,6 +27,7 @@
         <mat-form-field
           appearance="outline"
           class="document-list mat-input-custom"
+          *ngIf="!isUploadDocment"
         >
           <mat-label>Select Document Type</mat-label>
           <mat-select
@@ -160,14 +161,14 @@
                 <p class="file-input-text">
 
                   {{ POAFileName==''?fields.value?.name:POAFileName }}
-                </p>
-                <img
-                  src="{{POAFileName === '' ? '/assets/icon/upload.svg' : '/assets/icon/see.svg'}}"
-                  alt=""
-                  class="upload-doc-image"
-                  (click)="POAFileName === ''?null:checkUploadDocment(documentUploaded)"
-                />
+                </p> 
               </label>
+              <img
+              src="{{POAFileName === '' ? '/assets/icon/upload.svg' : '/assets/icon/see.svg'}}"
+              alt=""
+              class="upload-doc-image"
+              (click)="POAFileName === ''?null:checkUploadDocment(documentURl)"
+            />
               <input
                 type="file"
                 id="fileInput"
@@ -297,12 +298,13 @@
                 <p class="file-input-text">
                   {{ POIFileName==''?fields.value?.name:POAFileName }}
                 </p>
-                <img
+              </label>
+              <img
                   src="{{POIFileName === '' ? '/assets/icon/upload.svg' : '/assets/icon/see.svg'}}"
                   alt=""
                   class="upload-doc-image"
+                  (click)="POIFileName === ''?null:checkUploadDocment(documentURl)"
                 />
-              </label>
               <input
                 type="file"
                 id="fileInputPOI"
@@ -315,22 +317,28 @@
         </ng-container>
       </ng-container>
     </div>
-    <!-- <ng-container *ngIf="isUploadDocment && !isTwoObject">
-        <div class="col-4 mt-4">
+    <ng-container *ngIf="isUploadDocment && !isTwoObject">
+        <div class="col-12">
           <div class="image-main">
             <img [src]="document_url" class="uploaded-image" alt="close" />
           </div>
-          <label for="fileInput" class="custom-file-upload">
-            <img
-              src="/assets/icon/reupload.svg"
-              class="reuploaded-image"
-              alt="close"
-            />
-            Reupload
-          </label>
-          <input type="file" id="fileInput" />
+          <div class="d-flex justify-content-center">
+            <label for="fileInput" class="custom-file-upload">
+              <img
+                src="/assets/icon/reupload.svg"
+                class="reuploaded-image"
+                alt="close"
+              />
+              Reupload
+            </label>
+          </div>
+          
+          <input  type="file"
+          id="fileInput"
+          class="form-control-file"
+          />
         </div>
-      </ng-container> -->
+      </ng-container>
 
     <div class="col-12 mt-4">
       <button
