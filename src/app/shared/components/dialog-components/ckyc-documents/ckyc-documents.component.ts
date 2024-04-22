@@ -98,10 +98,14 @@ Event handler for when a file is selected.
         formData
       )
       ?.subscribe((res) => {
-        this.checkUploadDocment(res['document_url']);
-        this.uploadDocumentsForm
-          .get(fileFormControlName)
-          ?.setValue(res['document_url']);
+        if (res['status']) {
+          this.checkUploadDocment(res['document_url']);
+          this.uploadDocumentsForm
+            .get(fileFormControlName)
+            ?.setValue(res['document_url']);
+        } else {
+          this.apiService.errorHandler(res);
+        }
       });
   }
   onSelectionChange(event: any, controlName: string): void {

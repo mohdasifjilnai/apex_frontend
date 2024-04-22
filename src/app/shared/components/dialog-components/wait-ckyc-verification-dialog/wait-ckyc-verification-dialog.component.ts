@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from '../../../../api.constant';
@@ -63,8 +57,6 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
     private formBuilder: FormBuilder,
-    private renderer: Renderer2,
-    private elementRef: ElementRef,
     private matDialog: WindowRef
   ) {
     this.ckycBody = data['data'];
@@ -253,10 +245,12 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj).subscribe((data) => {
-      if (data['status']) {
+      if (data['verification_status']) {
         this.sharedDataService.getFetchedCkycData(data);
         this.sharedDataService.kycFetched(data);
         sessionStorage.setItem('kycData', JSON.stringify(data));
+      } else {
+        this.apiService.errorHandler(data);
       }
     });
   }
