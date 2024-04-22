@@ -115,12 +115,6 @@ export class ProposalReviewComponent implements OnInit {
       });
     });
     this.getInsurerDetailsOnRedirection();
-
-    this.shareData.checkRenewalQuotes.subscribe((res) => {
-      if (res) {
-        this.quotesRedirection();
-      }
-    });
   }
   navigateToUrl(titleName: string) {
     if (this.proposalData) {
@@ -207,6 +201,10 @@ export class ProposalReviewComponent implements OnInit {
           if (res) {
             this.renewalInsurerQuotesId =
               this.generateProposalData?.insurer_quote_id;
+            sessionStorage.setItem(
+              'renewalInsurerQuotesId',
+              this.renewalInsurerQuotesId
+            );
             this.getInsurerCode(
               this.generateProposalData?.transaction_id,
               this.generateProposalData?.insurer_quote_id
@@ -295,15 +293,5 @@ export class ProposalReviewComponent implements OnInit {
           }
         });
     });
-  }
-
-  quotesRedirection() {
-    sessionStorage.setItem('vehiclePopup', 'true');
-    let insurerApiData = {
-      transaction_id: sessionStorage.getItem('transaction_id'),
-      insurer_quote_id: this.renewalInsurerQuotesId,
-    };
-    this.shareData.quotesDataOnRenewal(insurerApiData);
-    this.route.navigate(['/motor/quotes']);
   }
 }

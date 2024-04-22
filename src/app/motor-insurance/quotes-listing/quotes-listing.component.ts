@@ -271,6 +271,8 @@ export class QuotesListingComponent implements OnInit {
       this.parsedVehicleData = JSON.parse(mmvFromData);
       this.quotesTabData();
     }
+
+    sessionStorage.removeItem('renewalInsurerQuotesId');
   }
 
   getProposalType() {
@@ -410,19 +412,22 @@ export class QuotesListingComponent implements OnInit {
       this.registrationNumber = sessionStorage.getItem('registrationNumber');
       this.quotationData = [];
       this.errorQuotationArray = [];
-      if (this.registrationNumber) {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          this.mmvFormData,
-          'registrationNumber'
-        );
-      } else {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          this.mmvFormData,
-          'mmvQuotes'
-        );
+      if (!this.parsedVehicleData?.policy_expiry_date_email) {
+        if (this.registrationNumber) {
+          this.sharedDataService.vehicleMMVDetails(
+            productTypeValue,
+            this.mmvFormData,
+            'registrationNumber'
+          );
+        } else {
+          this.sharedDataService.vehicleMMVDetails(
+            productTypeValue,
+            this.mmvFormData,
+            'mmvQuotes'
+          );
+        }
       }
+
       this.sharedDataService.addOnsChange(this.mmvFormData);
       if (event.index === 1) {
         this.showComprehensiveDiv = false;

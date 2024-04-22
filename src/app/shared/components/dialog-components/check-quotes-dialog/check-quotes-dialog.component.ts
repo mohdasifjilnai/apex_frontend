@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 export class CheckQuotesDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CheckQuotesDialogComponent>,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {}
@@ -23,6 +25,12 @@ export class CheckQuotesDialogComponent implements OnInit {
   }
 
   quotesChange() {
-    this.sharedDataService.checkNewQuotes('Renewal');
+    sessionStorage.setItem('vehiclePopup', 'true');
+    let insurerApiData = {
+      transaction_id: sessionStorage.getItem('transaction_id'),
+      insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
+    };
+    this.sharedDataService.quotesDataOnRenewal(insurerApiData);
+    this.route.navigate(['/motor/quotes']);
   }
 }

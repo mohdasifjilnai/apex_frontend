@@ -950,6 +950,7 @@ export class SharedDataService {
         );
         this.quotesCount = '';
         this.quotesCount = parsedQuotesArray;
+        console.log(parsedQuotesArray);
         this.quotationListing.next(parsedQuotesArray);
       },
       complete: () => {
@@ -994,9 +995,5 @@ export class SharedDataService {
 
   quotesDataOnRenewal(data: any) {
     this.renewalQuotes.next(data);
-  }
-
-  checkNewQuotes(data: any) {
-    this.checkRenewalQuotes.next(data);
   }
 }
