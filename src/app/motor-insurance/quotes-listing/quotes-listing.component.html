@@ -41,8 +41,8 @@
           </mat-form-field>
         </div>
         <!-- owner type for mobile view -->
-        <div class="col-lg-3 col-md-3 col-4 owner-type-res me-2">
-          <button mat-button (click)="openSort('Owner Type')">
+        <div class="col-lg-3 col-md-3 col-4 owner-type-res me-2" [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'">
+          <button mat-button (click)="openSort('Owner Type')" [disabled]="enableIdvCard">
             {{ owner_type | titlecase
             }}<img
               src="/assets/icon/dropdown.svg"
