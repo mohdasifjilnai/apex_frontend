@@ -300,7 +300,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
-      if (this.registrationNumber?.rb_mmv_id) {
+      if (this.registrationNumber?.rb_mmv_id && this.isCheckWheeler) {
         this.getVehicleDetailsPopup(
           '',
           '',
@@ -308,7 +308,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.registrationNumber.rb_mmv_id,
           ''
         );
-        this.getRTOData('');
+        this.getRTOData('rto_code');
       }
     });
 
@@ -568,12 +568,26 @@ export class VehicleDetailsPopupComponent implements OnInit {
         hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
         user_car: this.vehicleDetailsForm.value.user_car,
         previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-        ncb_discount: !this.vehicleDetailsForm.value.previous_claimed
-          ? vehicleMMVFrom.ncb_discount
-          : 0,
+        ncb_discount: 0,
+
+        renewalNCBDiscount: '',
         addNcbBoth: '',
-        renewalNCBDiscount: vehicleMMVFrom.ncb_discount,
       };
+      if (
+        !this.vehicleDetailsForm.value.previous_claimed &&
+        vehicleMMVFrom.renewalNCBDiscount
+      ) {
+        mmvFromValue.ncb_discount = vehicleMMVFrom.renewalNCBDiscount;
+        mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount;
+      } else {
+        mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
+          .previous_claimed
+          ? vehicleMMVFrom.ncb_discount
+          : 0;
+        mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
+          ? vehicleMMVFrom.renewalNCBDiscount
+          : vehicleMMVFrom.ncb_discount;
+      }
       if (mmvFromValue.ncb_discount || mmvFromValue.ncb_discount == 0) {
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {
           if (
@@ -1035,7 +1049,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
               }
             } else {
               this.vehicleDetailsForm.patchValue({
-                manufacture_date: this.manufactureDate,
                 policy_expiry: this.expiring_policy_type
                   ? this.expiring_policy_type
                   : '',
@@ -1200,7 +1213,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     checkWheeler['is_four_wheeler'] = true;
     checkWheeler['is_two_wheeler'] = true;
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-
+    this.getVehicleDetailsPopup('', '', '', rb_mmv_id, '');
     this.getRTOData('rto_code');
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;
@@ -1417,11 +1430,11 @@ Get the expiring policy list based on the given date or the registration details
               this.registrationNumber?.manufactured_month &&
               this.registrationNumber?.manufactured_year
             ) {
-              let manufactureDate = `${this.registrationNumber?.manufactured_month}/${this.registrationNumber?.manufactured_year}`;
+              let manufactureDate = `${this.registrationNumber?.manufactured_month}/01/${this.registrationNumber?.manufactured_year}`;
 
               let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
               this.vehicleDetailsForm.patchValue({
-                manufacture_date: manufacturedateObj,
+                manufacture_date: new Date(manufactureDate),
               });
             }
             if (this.registrationNumber?.previous_policy_exp_date) {
