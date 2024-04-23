@@ -82,16 +82,22 @@
 .renewalsCard {
   display: flex;
   background-color: #5384ea36;
+  justify-content: space-between;
   border-radius: 12px;
   padding: 20px;
 }
 .explore-insurance-content {
-  padding-left: 10%;
+  text-align: center;
+}
+.explore-insurance-image{
+  height: 94px;
+  width: 135px;
 }
 .explore-insurance-text {
   color: #5384ea;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
+  line-height: 15px;
 }
 .explore-insurance-btn {
   background-color: #5384ea;
@@ -99,6 +105,9 @@
   border: 0px solid #5384ea;
   border-radius: 8px;
   padding: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 15px;
 }
 @media screen and (max-width: 999px) {
   .proposal-review {
@@ -125,5 +134,11 @@
   }
   .proposal-review-submission {
     width: 100%;
+  }
+  .renewalsCard{
+    background-color: #fff;
+  }
+  .explore-insurance-image{
+    height: 80px;
   }
 }
