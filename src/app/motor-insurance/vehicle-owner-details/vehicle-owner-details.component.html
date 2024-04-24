@@ -21,7 +21,7 @@
       <app-owner-full-name
         [required]="true"
         [formControlNameData]="'owner_full_Name'"
-        [label]="'Owner Full Name'"
+        [label]="proposalBaseOwner"
         [readonly]="vehicleOwnerName"
       ></app-owner-full-name>
     </div>
@@ -31,7 +31,7 @@
     <div class="col-lg-4 col-md-4 col-12">
       <app-owner-email [required]="true"></app-owner-email>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="proposalType == 'individual'">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label class="proposal-header">Occupation Type</mat-label>
         <mat-select formControlName="ownner_occupation_type">
@@ -117,14 +117,14 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="proposalType == 'individual'">
       <app-owner-gender
         [required]="true"
         [formControlNameData]="'owner_gender'"
         [label]="'Gender'"
       ></app-owner-gender>
     </div>
-    <div class="col-lg-4 col-md-4 col-12">
+    <div class="col-lg-4 col-md-4 col-12" *ngIf="proposalType == 'individual'">
       <label class="maritalStatus-header">Marital Status</label>
       <div>
         <mat-radio-group

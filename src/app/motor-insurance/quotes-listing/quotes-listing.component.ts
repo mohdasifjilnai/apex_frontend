@@ -299,13 +299,19 @@ export class QuotesListingComponent implements OnInit {
                 });
               }
             }
-            sessionStorage.setItem('proposerType', this.owner_type);
+            let proposalTypeValue = sessionStorage.getItem('proposerType');
+            if (!proposalTypeValue) {
+              sessionStorage.setItem('proposerType', this.owner_type);
+            }
           } else {
             this.quotesListing.patchValue({
               proposalType: 1,
             });
             this.owner_type = this.proposalList[0]?.proposer_name;
-            sessionStorage.setItem('proposerType', this.owner_type);
+            let proposalTypeValue = sessionStorage.getItem('proposerType');
+            if (!proposalTypeValue) {
+              sessionStorage.setItem('proposerType', this.owner_type);
+            }
           }
         }
       });

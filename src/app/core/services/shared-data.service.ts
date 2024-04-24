@@ -533,7 +533,7 @@ export class SharedDataService {
         email_id: formData?.get('owner_email')?.value || '',
         dob: '18/07/1999',
         occupation_type_id:
-          formData?.get('ownner_occupation_type')?.value || '',
+          formData?.get('ownner_occupation_type')?.value || null,
         gst_no: formData?.get('owner_gstin')?.value || '',
         additional_mobile_number:
           formData?.get('additional_contact')?.value || '',

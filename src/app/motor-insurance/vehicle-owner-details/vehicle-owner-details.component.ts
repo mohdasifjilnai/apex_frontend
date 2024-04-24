@@ -40,6 +40,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   proposalData: any;
   quoteData: any;
   pincodeId: any;
+  proposalType: any;
+  proposalBaseOwner: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -71,10 +73,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ]),
     owner_city: new FormControl('', Validators.required),
     owner_state: new FormControl('', Validators.required),
-    ownner_occupation_type: new FormControl('', Validators.required),
+    ownner_occupation_type: new FormControl(''),
     owner_communication_addres: new FormControl('', [Validators.required]),
     marital_status: new FormControl('1', Validators.required),
-    owner_gender: new FormControl('', Validators.required),
+    owner_gender: new FormControl(''),
     ownner_salutation_type: new FormControl('', Validators.required),
   });
 
@@ -191,6 +193,35 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
       this.owenerVehicleDetailsForm?.disable();
+    }
+    this.proposalType = sessionStorage.getItem('proposerType');
+    if (this.proposalType == 'individual') {
+      this.proposalBaseOwner = 'Owner Full Name';
+
+      this.owenerVehicleDetailsForm
+        .get('owner_gender')
+        ?.setValidators([Validators.required]);
+      this.owenerVehicleDetailsForm
+        .get('owner_gender')
+        ?.updateValueAndValidity();
+      this.owenerVehicleDetailsForm
+        .get('ownner_occupation_type')
+        ?.setValidators([Validators.required]);
+      this.owenerVehicleDetailsForm
+        .get('ownner_occupation_type')
+        ?.updateValueAndValidity();
+    } else {
+      this.proposalBaseOwner = 'Company Name';
+      this.owenerVehicleDetailsForm.get('owner_gender')?.setValidators([]);
+      this.owenerVehicleDetailsForm
+        .get('owner_gender')
+        ?.updateValueAndValidity();
+      this.owenerVehicleDetailsForm
+        .get('ownner_occupation_type')
+        ?.setValidators([]);
+      this.owenerVehicleDetailsForm
+        .get('ownner_occupation_type')
+        ?.updateValueAndValidity();
     }
   }
   getVehicleDetails(isValid: any) {

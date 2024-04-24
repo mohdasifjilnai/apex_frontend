@@ -78,6 +78,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalDataSend: any;
   renewalType: any;
   renewalInsurerQuotesId: any;
+  proposalType: any;
 
   constructor(
     private route: Router,
@@ -115,6 +116,8 @@ export class ProposalReviewComponent implements OnInit {
       });
     });
     this.getInsurerDetailsOnRedirection();
+
+    this.proposalType = sessionStorage.getItem('proposerType');
   }
   navigateToUrl(titleName: string) {
     if (this.proposalData) {
