@@ -17,7 +17,10 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { DatePipe } from '@angular/common';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-ckyc-documents',
@@ -52,6 +55,8 @@ export class CkycDocumentsComponent implements OnInit {
   POIFileName: string = '';
   documentUploaded: any;
   documentURl: any;
+  fileControlName: string = '';
+  isReUploadDocument: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,14 +65,14 @@ export class CkycDocumentsComponent implements OnInit {
     private datePipe: DatePipe,
     private sharedData: SharedDataService,
     public bottomSheetRef: MatBottomSheetRef<CkycDocumentsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any
   ) {
-    if(window.innerWidth <= 999){
+    if (window.innerWidth <= 999) {
       this.fetchCkycParam = bottomSheetdata;
-    }else{
+    } else {
       this.fetchCkycParam = data['data'];
     }
-    
+
     this.getDocumentType(this.fetchCkycParam);
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -85,12 +90,17 @@ Event handler for when a file is selected.
 Event handler for when a file is selected.
 @param event - The file selection event.
  */
-  onFileSelected(event: any, fileFormControlName: any): void {
+  onFileSelected(
+    event: any,
+    fileFormControlName: any,
+    isReupload: boolean = false
+  ): void {
     const selectedFile: File = event.target.files[0];
+    this.fileControlName = fileFormControlName;
     let doc_type;
     this.fileName =
-      selectedFile.name.length > 30
-        ? selectedFile.name.substring(0, 30) + '...'
+      selectedFile.name.length > 20
+        ? selectedFile.name.substring(0, 20) + '...'
         : selectedFile.name;
     if (fileFormControlName == 'poa_doc_url') {
       this.POAFileName = this.fileName;
@@ -109,8 +119,11 @@ Event handler for when a file is selected.
       )
       ?.subscribe((res) => {
         if (res['status']) {
-          // this.checkUploadDocment(res['document_url']);
-          this.documentURl=res['document_url']
+          if (isReupload) {
+            this.isReUploadDocument = true;
+            this.checkUploadDocment(res['document_url']);
+          }
+          this.documentURl = res['document_url'];
           this.uploadDocumentsForm
             .get(fileFormControlName)
             ?.setValue(res['document_url']);
@@ -119,6 +132,10 @@ Event handler for when a file is selected.
         }
       });
   }
+  /**
+   * Event handler for when a file is selected.
+   * @param event - The file selection event.
+   */
   onSelectionChange(event: any, controlName: string): void {
     this.uploadDocumentsForm.get(controlName)?.setValue(event.value);
   }
@@ -142,11 +159,11 @@ Event handler for when a file is selected.
    * Closes the dialog and returns any data passed to the dialog.
    */
   popupCLose() {
-    if(window.innerWidth <=999){
+    if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
-    }else{
+    } else {
       this.dialogRef.close();
-    } 
+    }
   }
   /**
 handles the form submit for uploading the required documents
@@ -203,9 +220,9 @@ handles the form submit for uploading the required documents
         .subscribe((response) => {
           if (response) {
             setTimeout(() => {
-              if(window.innerWidth <=999){
+              if (window.innerWidth <= 999) {
                 this.bottomSheetRef.dismiss(response);
-              }else{
+              } else {
                 this.dialogRef.close(response);
               }
             }, 300);
@@ -219,16 +236,18 @@ handles the form submit for uploading the required documents
    */
   checkUploadDocment(url: string) {
     this.isUploadDocment = true;
-    this.showPOA=false;
-    this.isTwoObject=false
-    this.documentHeaderText='Please review the uploaded document'
+    this.showPOA = false;
+    this.showPOI = false;
+    this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService
         .getRequestedResponse(
           `${ApiConstants.get_document_image_url}?document_path=${url}`
         )
         .subscribe((res) => {
-          this.document_url = res['document_url'];
+          if (res) {
+            this.document_url = res['document_url'];
+          }
         });
     }
   }
@@ -279,5 +298,12 @@ handles the form submit for uploading the required documents
           this.isTwoObject = true;
         }
       });
+  }
+  reUploadDone() {
+    this.showPOA = true;
+    this.showPOI = true;
+    // this.isTwoObject = true;
+    this.isUploadDocment = false;
+    this.isReUploadDocument = false;
   }
 }

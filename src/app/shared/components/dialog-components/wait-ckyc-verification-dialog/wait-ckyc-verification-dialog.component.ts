@@ -69,8 +69,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private elementRef: ElementRef,
-    private matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private matDialog: WindowRef
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
