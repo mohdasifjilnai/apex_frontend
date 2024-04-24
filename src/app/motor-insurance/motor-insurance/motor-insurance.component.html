@@ -173,7 +173,6 @@
                     <input
                       id-automation="policynumberId"
                       matInput
-                      placeholder="Enter Previous Policy Number"
                       formControlName="policy_number"
                       class="tagPolicyNumber"
                     />
@@ -229,24 +228,42 @@
 
           <div class="col-12 text-center">
             <span>
+              <span *ngIf="!isPolicyNumber" class="already-text"
+                  >Already insured?</span
+                >
               <span
                 tabindex="0"
                 class="text-primary without-vehicle-no cursor-pointer"
                 id-automation="withoutVehicleNumberText"
                 (click)="getPolicyNumber()"
+                *ngIf="!withoutVehicleNumber"
               >
-                <span *ngIf="!isPolicyNumber" class="already-text"
-                  >Already insured?</span
-                >
+                
                 {{
                   !isPolicyNumber
                     ? "Click Here"
-                    : "Continue with Registration Number"
+                    : "Proceed with Vehicle Number"
                 }}
-                <span *ngIf="!isPolicyNumber" class="already-text"
+                
+              </span>
+              <span
+                tabindex="0"
+                class="text-primary without-vehicle-no cursor-pointer"
+                id-automation="withoutVehicleNumberText"
+                (click)="getPolicyNumber()"
+                *ngIf="withoutVehicleNumber"
+              >
+                
+                {{
+                  !isPolicyNumber
+                    ? "Click Here"
+                    : "Proceed without Vehicle Number"
+                }}
+                
+              </span>
+              <span *ngIf="!isPolicyNumber" class="already-text"
                   >to renew</span
                 >
-              </span>
             </span>
           </div>
           <!-- </div> -->

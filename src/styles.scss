@@ -10,6 +10,7 @@ html,
 body {
   height: 100%;
   overflow-x: hidden;
+  background-color: #edf2fc !important;
 }
 
 * {
@@ -737,6 +738,18 @@ input.mat-input-element {
 .mat-bottom-sheet-container {
   border-radius: 20px 20px 0px 0px;
   // padding-top: 10px 0px 10px 0px;
+}
+.mat-form-field.mat-focused .mat-form-field-label{
+  color: #282828 !important;
+}
+.mat-form-field-required-marker{
+  color: #282828 !important;
+}
+.mat-form-field-invalid .mat-form-field-required-marker {
+  color: #f44336 !important;
+}
+.mat-form-field.mat-form-field-invalid .mat-form-field-label{
+  color: #f44336 !important;
 }
 .mat-select-value-text {
   padding-left: 10px;
