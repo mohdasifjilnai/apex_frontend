@@ -430,7 +430,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 
 .mat-expansion-panel-header {
   background-color: rgba(#5384ea, 0.1) !important;
-  border-radius: 14px;
+  border-radius: 14px !important;
   transition: background-color 0.3s ease; // Smooth transition on hover
 }
 

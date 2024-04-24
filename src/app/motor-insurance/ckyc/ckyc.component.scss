@@ -12,11 +12,28 @@
     .mat-form-field-label-wrapper {
       left: 10px;
     }
+    .mat-checkbox-label {
+      color: #282828 !important;
+    }
+  }
+  .acknowledgment-confirm{
+    margin-top: -10px;
+  }
+  .terms {
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .accept-text{
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #282828 !important;
+    padding-top: 2px;
   }
 }
-.terms {
-  cursor: pointer;
-}
+
 @media screen and (max-width: 999px) {
   .cky-form {
     .owner-vehicle-submission {

@@ -162,7 +162,7 @@
           </mat-form-field>
         </div>
       </ng-container>
-      <div class="acknowledgment-confirm mt-2">
+      <div class="acknowledgment-confirm">
         <div class="d-flex">
           <mat-checkbox
             class="custom-checkbox"
@@ -170,7 +170,7 @@
             formControlName="ckyc_download_data"
             (change)="checkedTerms($event)"
           ></mat-checkbox>
-          <div class="ms-2 accept-text pt-1">
+          <div class="ms-2 accept-text" (click)="checkedTerms($event)">
             I hereby give consent to access my CKYC data
             <a class="terms" (click)="downloadTerms()"> Terms & Conditions</a>
           </div>
