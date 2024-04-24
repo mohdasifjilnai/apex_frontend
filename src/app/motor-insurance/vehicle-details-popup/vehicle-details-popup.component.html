@@ -13,7 +13,7 @@
           <span>
             {{
               editVehicleDetails
-                ? "Please verify the fetched vehicle details."
+                ? "Please verify your vehicle details."
                 : "Edit Vehicle Details"
             }}
           </span>
@@ -39,7 +39,6 @@
               <mat-label>Make</mat-label>
               <input
                 matInput
-                placeholder="Search Make/Model"
                 (ngModelChange)="vehcileMake($event)"
                 aria-label="vehicle_make"
                 #autoCompleteInput
@@ -78,7 +77,6 @@
               <mat-label>Model</mat-label>
               <input
                 matInput
-                placeholder="Search Make/Model"
                 (ngModelChange)="vehcileModel($event)"
                 aria-label="vehicle_model"
                 #autoCompleteInput
@@ -117,7 +115,6 @@
               <mat-label>Variant</mat-label>
               <input
                 matInput
-                placeholder="Search Make/Model"
                 (ngModelChange)="vehcileVarient($event)"
                 aria-label="vehicle_variant"
                 #autoCompleteInput
@@ -148,7 +145,7 @@
               </mat-autocomplete>
             </mat-form-field>
             <div
-              class="d-flex justify-content-start"
+              class="d-flex justify-content-end"
               *ngIf="showSelectedFuelandCapacity"
             >
               <span class="fuel-capacitor">{{ cubicCapacitor }} cc</span>
@@ -433,11 +430,15 @@
               {{ editVehicleDetails ? "Above details are correct" : "Save" }}
             </button>
           </div>
+          <span class="mandatory">* Mandatory Fields</span>
         </div>
       </div>
+     
       <div></div>
     </div>
+   
   </form>
+  
 </ng-container>
 <ng-container *ngIf="!isCheckWheeler">
   <!-- Dialog title -->

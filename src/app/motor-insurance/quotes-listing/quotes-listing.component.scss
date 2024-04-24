@@ -23,6 +23,7 @@
     }
     .premium-btn {
       text-align: center;
+      margin-top: 7px;
     }
     .premium-breakup-amount {
       background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
@@ -39,7 +40,7 @@
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 10px !important;
+      // margin-top: 10px !important;
       background: white;
       border: none;
     }
@@ -173,8 +174,20 @@
   position: relative;
 }
 .selected-share {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  z-index: 100;
+  width: 97%;
+  left: 25px;
+}
+.quotes-header{
+  margin-bottom: -25px;
+}
+.insurer-img{
+  margin-top: 9px;
+}
+.idv-range{
+  margin-top: 2px;
 }
 .toggle-btn {
   ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
