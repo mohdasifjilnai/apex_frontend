@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from './breadcrumb';
@@ -13,6 +13,8 @@ import { Breadcrumb } from './breadcrumb';
 export class BreadcrumbComponent implements OnInit {
   @Input('progress') progress: any;
   breadcrumbs$: Observable<Breadcrumb[]>;
+  routerEvents: any;
+  reviewPageUrl = false;
 
   constructor(
     private readonly breadcrumbService: BreadcrumbService,
@@ -22,7 +24,17 @@ export class BreadcrumbComponent implements OnInit {
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.routerEvents = this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url.includes('review')) {
+          this.reviewPageUrl = true;
+        } else {
+          this.reviewPageUrl = false;
+        }
+      }
+    });
+  }
 
   /**
    * Redirects the user to the home page.
