@@ -291,26 +291,44 @@ export class QuotesListingComponent implements OnInit {
         if (res) {
           this.proposalList = res;
           if (this.registrationNumberData) {
-            this.owner_type = this.registrationNumberData.customer_type;
-            for (let i = 0; i <= this.proposalList.length - 1; i++) {
-              if (this.proposalList[i].proposer_name == this.owner_type) {
-                this.quotesListing.patchValue({
-                  proposalType: this.proposalList[i].proposer_id,
-                });
+            let proposalTypeValue = sessionStorage.getItem('proposerType');
+            if (!proposalTypeValue) {
+              this.owner_type = this.registrationNumberData.customer_type;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
+                }
+              }
+              sessionStorage.setItem('proposerType', this.owner_type);
+            } else {
+              this.owner_type = proposalTypeValue;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
+                }
               }
             }
-            let proposalTypeValue = sessionStorage.getItem('proposerType');
-            if (!proposalTypeValue) {
-              sessionStorage.setItem('proposerType', this.owner_type);
-            }
           } else {
-            this.owner_type = this.proposalList[0]?.proposer_name;
-            this.quotesListing.patchValue({
-              proposalType: this.proposalList[0].proposer_id,
-            });
             let proposalTypeValue = sessionStorage.getItem('proposerType');
             if (!proposalTypeValue) {
+              this.owner_type = this.proposalList[0]?.proposer_name;
+              this.quotesListing.patchValue({
+                proposalType: this.proposalList[0].proposer_id,
+              });
               sessionStorage.setItem('proposerType', this.owner_type);
+            } else {
+              this.owner_type = proposalTypeValue;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
+                }
+              }
             }
           }
         }

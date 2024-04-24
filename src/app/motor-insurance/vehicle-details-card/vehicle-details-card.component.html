@@ -13,7 +13,8 @@
       >
         {{ parsedVehicleData?.vehicle_variant?.rb_make_name }}
         {{ parsedVehicleData?.vehicle_variant?.rb_model_name }}
-        {{ parsedVehicleData?.vehicle_variant?.rb_variant_name }} ,
+        {{ parsedVehicleData?.vehicle_variant?.rb_variant_name }}
+        {{ parsedVehicleData?.vehicle_variant?.cubic_capacity }} cc ,
         {{ parsedVehicleData?.vehicle_fuel }} ,
         {{ parsedVehicleData?.registration_city?.display_name }}
       </span>
@@ -30,7 +31,8 @@
           <span class="vehicle-card-heading-details">Registration Date</span
           ><br />
           <span class="vehicle-card-heading-details-data">
-            {{ registrationMonth }} {{ registrationYear }}
+            {{ registartionDate }}-{{ registrationMonth }}-
+            {{ registrationYear }}
           </span>
         </div>
         <div class="me-1">
@@ -70,7 +72,13 @@
             [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
             [disabled]="enableIdvCard"
           >
-            <img src="/assets/icon/edit.svg" alt="" class="me-2" height="14" width="14"/>
+            <img
+              src="/assets/icon/edit.svg"
+              alt=""
+              class="me-2"
+              height="14"
+              width="14"
+            />
             Edit
           </button>
         </div>

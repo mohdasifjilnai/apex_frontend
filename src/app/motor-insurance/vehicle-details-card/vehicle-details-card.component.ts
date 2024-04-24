@@ -53,6 +53,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   expiryListData: any;
   vehicleValueForm: any;
   vehicleType: any;
+  registartionDate: any;
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -136,10 +137,15 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.previousNCB = '';
     this.newNCB = '';
     let regDateValue = new Date(this.parsedVehicleData?.registration_date);
-    this.registrationDate = moment(regDateValue, 'MM/YYYY');
+    this.registrationDate = regDateValue;
     let regMonth = moment(this.registrationDate).month();
     this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
     this.registrationYear = moment(this.registrationDate).year();
+    this.registartionDate = moment(this.registrationDate).date();
+    this.registartionDate =
+      this.registartionDate < 10
+        ? '0' + this.registartionDate
+        : this.registartionDate;
     if (this.parsedVehicleData?.manufacture_date) {
       let manufactureDateValue = new Date(
         this.parsedVehicleData?.manufacture_date
@@ -222,10 +228,15 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.previousNCB = '';
     this.newNCB = '';
     let regDateValue = new Date(data.allQuotesRequest?.registration_date);
-    this.registrationDate = moment(regDateValue, 'MM/YYYY');
+    this.registrationDate = regDateValue;
     let regMonth = moment(this.registrationDate).month();
     this.registrationMonth = moment(regMonth + 1, 'MM').format('MMM');
     this.registrationYear = moment(this.registrationDate).year();
+    this.registartionDate = moment(this.registrationDate).date();
+    this.registartionDate =
+      this.registartionDate < 10
+        ? '0' + this.registartionDate
+        : this.registartionDate;
     if (data.allQuotesRequest?.manufacture_date) {
       let manufactureDateValue = new Date(
         data.allQuotesRequest?.manufacture_date
