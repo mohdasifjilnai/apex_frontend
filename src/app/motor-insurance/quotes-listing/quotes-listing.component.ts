@@ -139,6 +139,7 @@ export class QuotesListingComponent implements OnInit {
   minIdv: any;
   maxIdv: any;
   averageIdv: any;
+  registrationNumberData: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -186,7 +187,7 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
     });
-    this.getProposalType();
+
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -273,6 +274,14 @@ export class QuotesListingComponent implements OnInit {
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
+    this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    if (!this.registrationNumber) {
+      this.getProposalType();
+    }
+    this.sharedDataService.regNumberData.subscribe((numberData) => {
+      this.registrationNumberData = numberData;
+      this.getProposalType();
+    });
   }
 
   getProposalType() {
@@ -281,10 +290,23 @@ export class QuotesListingComponent implements OnInit {
       .subscribe((res: any) => {
         if (res) {
           this.proposalList = res;
-          this.quotesListing.patchValue({
-            proposalType: 1,
-          });
-          this.owner_type = this.proposalList[0]?.proposer_name;
+          if (this.registrationNumberData) {
+            this.owner_type = this.registrationNumberData.customer_type;
+            for (let i = 0; i <= this.proposalList.length - 1; i++) {
+              if (this.proposalList[i].proposer_name == this.owner_type) {
+                this.quotesListing.patchValue({
+                  proposalType: this.proposalList[i].proposer_id,
+                });
+              }
+            }
+            sessionStorage.setItem('proposerType', this.owner_type);
+          } else {
+            this.quotesListing.patchValue({
+              proposalType: 1,
+            });
+            this.owner_type = this.proposalList[0]?.proposer_name;
+            sessionStorage.setItem('proposerType', this.owner_type);
+          }
         }
       });
   }
@@ -615,12 +637,6 @@ export class QuotesListingComponent implements OnInit {
       this.sharedDataService.addOnsChange(mmvFormData);
       this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
     } else {
-      sessionStorage.setItem(
-        'proposerType',
-        this.proposalList.filter((res: any) => res.proposer_id == event)[0][
-          'proposer_name'
-        ]
-      );
       this.proposalTypeOninit = false;
     }
   }

@@ -222,55 +222,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (expiryPolicy === 'bundled_tp') {
       this.hideFieldOnExpiryPolicy('bundled_tp');
     }
-    // this.vehicleTypeValue = localStorage.getItem('vehicleType');
 
-    // this.sharedDataService.regNumberData.subscribe((numberData) => {
-    //   this.registrationNumber = numberData;
-    //   if (this.registrationNumber?.rb_mmv_id) {
-    //     this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
-    //   }
-    // });
     this.sharedDataService.getValueWithoutRegistration.subscribe((res) => {
       this.dataWithoutRegistration = res;
     });
-    // this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-    // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    // this.rto_id = this.vehicleMMVValue?.rto_city?.rb_rto_id;
-
-    // // if (this.vehicleMMVData) {
-    // //   this.sharedDataService.vehicleMMVDetails(
-    // //     this.vehicleMMVData,
-    // //     '',
-    // //     'mmvQuotes'
-    // //   );
-    // // }
-
-    // // let popup
-    // setTimeout(() => {
-    //   if (this.registrationNumber?.rb_mmv_id) {
-    //     // this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
-    //   } else {
-    //     // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-    //     // this.getVehicleMMVPopup(
-    //     //   '',
-    //     //   this.vehicleMMVValue?.vehicle.rb_mmv_id,
-    //     //   'mmvData'
-    //     // );
-    //     // this.getVehicleDetailsPopup(
-    //     //   '',
-    //     //   '',
-    //     //   '',
-    //     //   this.vehicleMMVValue?.vehicle.rb_mmv_id
-    //     // );
-    //   }
-    //   if (this.editClick == '') {
-    //     this.getExpiringPolicy();
-    //   }
-
-    //   this.getRTOData('rto_code');
-    //   this.getNcbList();
-    //   this.getPolicyExpiryList();
-    // }, 2000);
 
     this.regNumber = sessionStorage.getItem('registrationNumber');
     if (this.regNumber) {
@@ -338,15 +293,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
     this.rto_id = this.vehicleMMVValue?.rto_city?.rb_rto_id;
     if (this.vehicleMMVValue) {
-      // this.getVehicleMMVPopup('', this.registrationNumber.rb_mmv_id);
-      // } else {
-      // if (this.editClick == '') {
       this.getExpiringPolicy();
-      // }
 
       this.getRTOData('rto_code');
-
-      // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
 
       this.getVehicleDetailsPopup(
         '',
