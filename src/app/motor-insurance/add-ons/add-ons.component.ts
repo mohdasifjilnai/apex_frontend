@@ -675,6 +675,8 @@ export class AddOnsComponent implements OnInit {
               }
             }
           }
+
+          console.log(addons?.fe_template);
         }
       }
     }

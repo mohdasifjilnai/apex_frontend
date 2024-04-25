@@ -244,7 +244,6 @@
             <span *ngIf="listValue.type == 'radio'">
               <mat-checkbox
                 [(ngModel)]="listValue.checked"
-                [id]="listValue.name"
                 (change)="
                   onCheckboxSelect(
                     $event,
@@ -257,8 +256,8 @@
                     addOns
                   )
                 "
-                >{{ listValue?.name }}</mat-checkbox
-              >
+                >{{ listValue?.name }}
+              </mat-checkbox>
             </span>
             <span *ngIf="listValue.type == 'check_box'">
               <mat-checkbox

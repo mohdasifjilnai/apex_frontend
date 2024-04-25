@@ -104,7 +104,8 @@
           *ngIf="parsedVehicleData != ''"
           >{{ parsedVehicleData?.vehicle_variant?.rb_make_name }}
           {{ parsedVehicleData?.vehicle_variant?.rb_model_name }}
-          {{ parsedVehicleData?.vehicle_variant?.rb_variant_name }} ,
+          {{ parsedVehicleData?.vehicle_variant?.rb_variant_name }}
+          {{ parsedVehicleData?.vehicle_variant?.cubic_capacity }} cc ,
           {{ parsedVehicleData?.vehicle_fuel }} ,
           {{ parsedVehicleData?.registration_city?.display_name }}</span
         >
