@@ -186,6 +186,18 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           });
         }
       });
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    if (kycData?.customer_details) {
+      this.vehicleOwnerName = true;
+      this.owenerVehicleDetailsForm.patchValue({
+        owner_full_Name: kycData?.customer_details?.full_name,
+        owner_email: kycData?.customer_details?.email,
+        contact_number: kycData?.customer_details?.mobile_number,
+        owner_communication_addres: kycData?.customer_details?.address,
+        owner_city: kycData?.customer_details?.rb_city_name,
+        owner_state: kycData?.customer_details?.rb_state_name,
+      });
+    }
     this.getOccupationType();
     this.getPincodeList();
     this.getSalutationType();
