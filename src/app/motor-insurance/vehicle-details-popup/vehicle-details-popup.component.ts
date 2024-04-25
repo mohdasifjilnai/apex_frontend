@@ -893,7 +893,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   previousInsurerComponentResponse(response: string) {
-    if (!this.vehiclePreviousInsurerOninit) {
+    if (
+      !this.vehiclePreviousInsurerOninit &&
+      !this.vehicleRegistrationCityOninit
+    ) {
       if (
         typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
         typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&

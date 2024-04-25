@@ -300,7 +300,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('isPayment');
     if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
       this.getVehicleDetailsInfo();
-      this.motorInsurance.reset();
+      // this.motorInsurance.reset();
     } else if (this.isPolicyNumber) {
       this.getRenewalPolicyData();
     } else {

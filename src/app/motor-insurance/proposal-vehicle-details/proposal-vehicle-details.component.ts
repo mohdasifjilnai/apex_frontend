@@ -278,12 +278,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType === 'new') {
-      this.RegNumber = 'Enter Reg. Number';
+      this.RegNumber = 'Reg. Number';
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators(this.registrationNumberCheckLength.bind(this));
     } else {
-      this.RegNumber = 'Enter Reg. Number *';
+      this.RegNumber = 'Reg. Number *';
       this.proposalVehilceDetailsForm
         .get('registration_number_last_digit')
         ?.setValidators([

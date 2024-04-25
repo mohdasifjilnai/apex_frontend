@@ -166,10 +166,10 @@
               </div>
             </ng-container>
             <ng-container *ngIf="isPolicyNumber">
-              <div class="col-12 ">
+              <div class="col-12">
                 <div class="d-flex justify-content-center mt-2">
                   <mat-form-field appearance="outline" class="policyNumber">
-                    <mat-label>Enter Previous Policy Number</mat-label>
+                    <mat-label>Previous Policy Number</mat-label>
                     <input
                       id-automation="policynumberId"
                       matInput
@@ -229,8 +229,8 @@
           <div class="col-12 text-center">
             <span>
               <span *ngIf="!isPolicyNumber" class="already-text"
-                  >Already insured?</span
-                >
+                >Already insured?</span
+              >
               <span
                 tabindex="0"
                 class="text-primary without-vehicle-no cursor-pointer"
@@ -238,13 +238,9 @@
                 (click)="getPolicyNumber()"
                 *ngIf="!withoutVehicleNumber"
               >
-                
                 {{
-                  !isPolicyNumber
-                    ? "Click Here"
-                    : "Proceed with Vehicle Number"
+                  !isPolicyNumber ? "Click Here" : "Proceed with Vehicle Number"
                 }}
-                
               </span>
               <span
                 tabindex="0"
@@ -253,17 +249,13 @@
                 (click)="getPolicyNumber()"
                 *ngIf="withoutVehicleNumber"
               >
-                
                 {{
                   !isPolicyNumber
                     ? "Click Here"
                     : "Proceed without Vehicle Number"
                 }}
-                
               </span>
-              <span *ngIf="!isPolicyNumber" class="already-text"
-                  >to renew</span
-                >
+              <span *ngIf="!isPolicyNumber" class="already-text">to renew</span>
             </span>
           </div>
           <!-- </div> -->

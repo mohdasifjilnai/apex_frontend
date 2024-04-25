@@ -17,12 +17,8 @@
     </div>
     <div class="col-lg-4 col-md-4 col-12 mt-2">
       <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>Previous Policy</mat-label>
-        <input
-          matInput
-          placeholder="Enter Previous Policy Number"
-          formControlName="prev_policy_number"
-        />
+        <mat-label>Previous Policy Number</mat-label>
+        <input matInput formControlName="prev_policy_number" />
         <mat-error
           *ngIf="
             previousPolicyDetailsForm.controls['prev_policy_number']?.hasError(
@@ -67,7 +63,6 @@
         <mat-label>TP Policy Number</mat-label>
         <input
           matInput
-          placeholder="Enter TP Policy Number"
           formControlName="tp_policy_number"
           id-automation="tp_policy_number"
         />
@@ -79,7 +74,6 @@
         <input
           matInput
           [matDatepicker]="tpPolicyStartDate"
-          placeholder="Enter TP Policy Start Date"
           formControlName="tp_policy_start_date"
           id-automation="tp_policy_start_date"
           (click)="tpPolicyStartDate.open()"
@@ -103,7 +97,6 @@
         <input
           matInput
           [matDatepicker]="tpPolicyEndDate"
-          placeholder="Enter TP Policy End Date"
           formControlName="tp_policy_end_date"
           id-automation="tp_policy_end_date"
           (click)="tpPolicyEndDate.open()"
