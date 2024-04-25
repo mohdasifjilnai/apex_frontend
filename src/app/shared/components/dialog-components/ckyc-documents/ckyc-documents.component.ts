@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -57,6 +58,7 @@ export class CkycDocumentsComponent implements OnInit {
   documentURl: any;
   fileControlName: string = '';
   isReUploadDocument: boolean = false;
+  formGetData: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -65,7 +67,8 @@ export class CkycDocumentsComponent implements OnInit {
     private datePipe: DatePipe,
     private sharedData: SharedDataService,
     public bottomSheetRef: MatBottomSheetRef<CkycDocumentsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
+    private cdr: ChangeDetectorRef
   ) {
     if (window.innerWidth <= 999) {
       this.fetchCkycParam = bottomSheetdata;
@@ -257,6 +260,7 @@ handles the form submit for uploading the required documents
   uploadDocumentsFormControler() {
     this.uploadDocumentsForm = this.formBuilder.group({
       document_type_based_field: ['', [Validators.required]],
+      reupload_document: [''],
     });
   }
   /**
@@ -272,6 +276,7 @@ handles the form submit for uploading the required documents
         }`
       )
       .subscribe((res) => {
+        this.formGetData = res;
         if (res['poa']) {
           this.formFieldPOA = res['poa'];
           this.showPOA = true;
@@ -299,11 +304,33 @@ handles the form submit for uploading the required documents
         }
       });
   }
+  /**
+   * This function is used to re-upload the document after the first upload is unsuccessful.
+   */
   reUploadDone() {
-    this.showPOA = true;
-    this.showPOI = true;
-    // this.isTwoObject = true;
+    this.cdr.detectChanges();
     this.isUploadDocment = false;
     this.isReUploadDocument = false;
+    if (this.formGetData['poa']) {
+      this.formFieldPOA = this.formGetData['poa'];
+      this.showPOA = true;
+      this.documentHeaderText = `Please complete the document details for POA`;
+    }
+    if (this.formGetData['poi']) {
+      this.formFieldPOI = this.formGetData['poi'];
+      this.showPOI = true;
+      this.documentPOIText = `Please complete the document details for POI`;
+    }
+    if (this.formGetData['poa'] && this.formGetData['poi']) {
+      this.isTwoObject = true;
+    }
+    setTimeout(() => {
+      const element = document.getElementById('show-poi');
+      element?.click();
+    }, 0);
+    setTimeout(() => {
+      const element = document.getElementById('show-poi');
+      element?.click();
+    }, 0);
   }
 }
