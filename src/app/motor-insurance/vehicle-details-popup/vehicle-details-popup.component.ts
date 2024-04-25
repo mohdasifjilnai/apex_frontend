@@ -1147,7 +1147,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   newNumber() {
     this.router.navigate(['/motor']);
-    this.dialogRef.close();
+    if(window.innerWidth<=999){
+      this.bottomSheetRef.dismiss()
+    }else{
+      this.dialogRef.close();
+    }
+    
   }
   /**
    * continue with current Journey

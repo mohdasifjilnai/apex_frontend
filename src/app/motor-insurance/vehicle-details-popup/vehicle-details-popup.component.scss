@@ -44,10 +44,6 @@
   font-size: 16px;
   font-weight: 600;
 }
-.error-gif {
-  position: relative;
-  left: 55px;
-}
 .error-gif-image {
   width: 100px;
   height: 100px;
@@ -111,6 +107,9 @@
       background-color: linear-gradient(270deg, #ffb171 100%, #ff943d 10%);
     }
   }
+  .res-view{
+    padding: 8px 16px;
+  }
 }
 .custom-modalbox {
   mat-dialog-container {
@@ -119,4 +118,6 @@
 }
 .btn-text {
   font-size: 12px !important;
+  height: 36px;
+  width: 100%;
 }

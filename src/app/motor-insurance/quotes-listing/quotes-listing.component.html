@@ -291,7 +291,7 @@
 
     <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
       <div *ngFor="let quotes of quotationData">
-        <div class="row comprehensive-card">
+        <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
             <div class="row">
               <div class="col-lg-3 col-md-3 col-12">
@@ -335,11 +335,15 @@
                       : (quotes?.premium_details?.net_premium | numberFormat)
                   }}
                 </span>
-                <p
-                  class="premium-breakup"
-                  (click)="openPremiumBreakupModal(quotes, $event)"
-                >
-                  <span>Premium Breakup</span>
+                <p>
+                  <span>
+                    <button
+                      (click)="openPremiumBreakupModal(quotes, $event)"
+                      class="premium-breakup mt-2"
+                    >
+                      Premium Breakup
+                    </button>
+                  </span>
                 </p>
               </div>
             </div>
