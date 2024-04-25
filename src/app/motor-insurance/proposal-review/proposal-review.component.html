@@ -82,7 +82,7 @@
           }}</span>
         </div>
         <div class="col-lg-3 col-md-3 col-6 mt-3">
-          <span class="field-title">Age</span><br />
+          <span class="field-title">DOB</span><br />
           <span class="field-value">{{
             generateProposalData?.ckyc_details?.dob || "-"
           }}</span>
@@ -179,9 +179,12 @@
           </div>
           <div class="col-lg-3 col-md-3 col-6 mt-3">
             <span class="field-title">Age</span><br />
-            <span class="field-value">{{
-              generateProposalData?.nominee_details?.age || "-"
-            }}</span>
+            <span class="field-value"
+              >{{
+                generateProposalData?.nominee_details?.age || "-"
+              }}
+              years</span
+            >
           </div>
           <div class="col-lg-3 col-md-3 col-6 mt-3">
             <span class="field-title">Relationship</span><br />

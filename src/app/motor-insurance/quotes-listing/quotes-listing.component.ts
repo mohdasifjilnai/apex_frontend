@@ -188,6 +188,10 @@ export class QuotesListingComponent implements OnInit {
       this.enableIdvCard = true;
     });
 
+    this.sharedDataService.updateVehicleType.subscribe((updateVehicleType) => {
+      this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    });
+
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

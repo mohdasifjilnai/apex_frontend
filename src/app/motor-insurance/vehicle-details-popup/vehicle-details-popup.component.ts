@@ -1147,12 +1147,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   newNumber() {
     this.router.navigate(['/motor']);
-    if(window.innerWidth<=999){
-      this.bottomSheetRef.dismiss()
-    }else{
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    } else {
       this.dialogRef.close();
     }
-    
   }
   /**
    * continue with current Journey
@@ -1173,6 +1172,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.isCheckWheeler = true;
     this.dialogRef.removePanelClass('warn-details-class');
     this.dialogRef.addPanelClass('vehicle-details-class');
+    this.sharedDataService.changeVehicleType(this.vehicleTypeValue);
   }
 
   /**
