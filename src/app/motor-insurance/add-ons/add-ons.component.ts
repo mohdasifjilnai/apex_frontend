@@ -62,6 +62,7 @@ export class AddOnsComponent implements OnInit {
   ischeckInput: boolean = false;
   isMultiCheckbox: boolean = false;
   isTab: boolean = false;
+  isMobileView = false;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -186,6 +187,7 @@ export class AddOnsComponent implements OnInit {
         this.vehicleTypeValue,
         this.parsedVehicleData?.policy_expiry
       );
+      this.isMobileView = true;
     }
   }
 
@@ -497,6 +499,62 @@ export class AddOnsComponent implements OnInit {
               }
               this.addOnsArray[i].fe_template[j].modifiedMultiCheckList =
                 this.modifiedMultiCheckArray;
+            }
+          }
+        }
+
+        if (window.innerWidth <= 999) {
+          this.addonsValue = sessionStorage.getItem('selectedAddons');
+          if (this.addonsValue == 'undefined') {
+            this.selectedAddOns = '';
+          } else {
+            this.selectedAddOns = JSON.parse(this.addonsValue);
+          }
+
+          if (this.selectedAddOns) {
+            this.selectedCheckedArray = this.selectedAddOns;
+
+            for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+              for (
+                let k = 0;
+                k <= this.addOnsArray[i].fe_template.length - 1;
+                k++
+              ) {
+                for (let key of this.selectedAddOns) {
+                  const keys = Object.keys(key);
+                  const value = Object.values(key);
+                  if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
+                    this.addOnsArray[i].fe_template[k].checked = true;
+                    this.checkBoxValueArray.push(
+                      this.addOnsArray[i].fe_template[k].name
+                    );
+                    if (
+                      this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
+                      value[0]
+                    ) {
+                      this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
+                    }
+                    if (
+                      this.addOnsArray[i].fe_template[k]?.next_type ==
+                      'int_input'
+                    ) {
+                      this.inputFieldIndex[k] = k;
+                    }
+                    if (
+                      this.addOnsArray[i].fe_template[k]?.next_type == 'tab'
+                    ) {
+                      this.tabIndex[k] = k;
+                      this.selectedVoluntryValue = value[0];
+                    }
+                    if (
+                      this.addOnsArray[i].fe_template[k]?.next_type ==
+                      'dropdown'
+                    ) {
+                      this.dropDownFieldIndex[k] = k;
+                    }
+                  }
+                }
+              }
             }
           }
         }

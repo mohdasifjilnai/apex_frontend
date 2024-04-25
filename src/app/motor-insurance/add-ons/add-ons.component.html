@@ -1,4 +1,8 @@
-<div class="add-ons" [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'">
+<div
+  class="add-ons"
+  [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'"
+  *ngIf="!isMobileView"
+>
   <mat-accordion *ngFor="let addOns of addOnsArray">
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
@@ -11,7 +15,6 @@
           <span *ngIf="listValue.type == 'radio'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"
-              [id]="listValue.name"
               (change)="
                 onCheckboxSelect(
                   $event,
@@ -31,7 +34,6 @@
           <span *ngIf="listValue.type == 'check_box'">
             <mat-checkbox
               [(ngModel)]="listValue.checked"
-              [id]="listValue.name"
               (change)="
                 onCheckboxSelect(
                   $event,
@@ -69,7 +71,6 @@
                 "
                 [disabled]="enableAddOns"
                 [(ngModel)]="data.multiChecked"
-                id="{{ data.name }}"
                 >{{ data.name }}</mat-checkbox
               >
               <mat-error *ngIf="i == multiCheckbox[i]">
@@ -85,7 +86,6 @@
             <mat-form-field
               appearance="outline"
               *ngIf="i == dropDownFieldIndex[i]"
-              id="{{ listValue.name }}"
             >
               <mat-label>Select Value</mat-label>
               <mat-select
@@ -113,7 +113,6 @@
                 <mat-option
                   *ngFor="let items of listValue.value"
                   [value]="items"
-                  id="{{ items }}"
                   >&#8377; {{ items | numberFormat }}</mat-option
                 >
               </mat-select>
@@ -132,15 +131,12 @@
             appearance="outline"
             class="mat-input-custom"
             *ngIf="i == inputFieldIndex[i]"
-            id="{{ listValue?.name }}"
           >
             <mat-label>Enter Value</mat-label>
             <input
               matInput
               [(ngModel)]="listValue.addOnsValue"
               appNumbersOnly
-              placeholder="Enter Value"
-              id="{{ listValue?.name }}"
               (ngModelChange)="
                 onInputChange(
                   $event,
@@ -220,7 +216,7 @@
     </div>
   </div>
 </div>
-<div class="add-ons-res">
+<div class="add-ons-res" *ngIf="isMobileView">
   <div class="header">
     <div class="d-flex justify-content-between ps-3 pe-3 pt-3">
       <span class="change-text">Customise policy as per the needs</span>
@@ -274,8 +270,8 @@
                     addOns
                   )
                 "
-                >{{ listValue?.name }}</mat-checkbox
-              >
+                >{{ listValue?.name }}
+              </mat-checkbox>
 
               <span
                 *ngIf="
@@ -348,6 +344,7 @@
               <input
                 matInput
                 [(ngModel)]="inputValues[i]"
+                appNumbersOnly
                 (blur)="
                   onInputChange(
                     $event,

@@ -409,10 +409,20 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableQuotesData('false');
   }
   openAddons(): void {
-    const bottomSheetRef = this.bottomSheet.open(AddOnsComponent);
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: {
+        addonList: sessionStorage.getItem('selectedAddons'),
+      }, // Pass your data here
+    };
+    const bottomSheetRef = this.bottomSheet.open(
+      AddOnsComponent,
+      bottomSheetConfig
+    );
     bottomSheetRef.afterDismissed().subscribe((data) => {
       // this.receivedCheckBoxValue = data;
     });
+    // this.sharedDataService.sendSelectedData(this.quotationData);
+    this.sharedDataService.enableQuotesData(this.quotationData);
   }
   openSort(dropdownType: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
