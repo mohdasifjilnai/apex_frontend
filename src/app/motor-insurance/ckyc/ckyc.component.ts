@@ -129,11 +129,13 @@ export class CkycComponent implements OnInit {
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (
       kycData?.insurer_code === this.quoteData['insurer_code'] &&
+      sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
       kycData?.verification_status === true
     ) {
       this.isDisableCKyc = true;
     } else if (
       kycData?.insurer_code !== this.quoteData['insurer_code'] &&
+      sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
       kycData?.verification_status === true
     ) {
       this.sharedDataService.openSnackBar(
