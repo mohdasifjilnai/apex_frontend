@@ -25,7 +25,7 @@ export class SharedDataService {
   getProgressValue: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
-  regNumberData: Subject<any> = new Subject();
+  regNumberData = new BehaviorSubject<any>(null);
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();

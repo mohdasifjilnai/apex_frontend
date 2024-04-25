@@ -115,6 +115,11 @@ export class PreviousInsurerComponent implements OnInit {
       }
     );
 
+    this.sharedDataService.regNumberData.subscribe((numberData) => {
+      this.registrationNumber = numberData;
+      this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+    });
+
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
       this.form.get('previous_insurer')?.disable();
