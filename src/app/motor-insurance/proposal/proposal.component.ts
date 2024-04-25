@@ -469,7 +469,10 @@ export class ProposalComponent implements OnInit {
             this.showPreviousPolicyDetails = true;
           }, 1000);
         }
-      } else if (this.isNotShowNomineeDetails) {
+      } else if (
+        this.isNotShowNomineeDetails &&
+        !this.isNotShowInNewPolicyDetails
+      ) {
         if (data === 'ckyc') {
           setTimeout(() => {
             this.currentStepIndex = 0;
@@ -487,7 +490,10 @@ export class ProposalComponent implements OnInit {
             this.currentStepIndex = 3;
           }, 1000);
         }
-      } else if (this.isNotShowInNewPolicyDetails) {
+      } else if (
+        this.isNotShowInNewPolicyDetails &&
+        !this.isNotShowNomineeDetails
+      ) {
         if (data === 'ckyc') {
           setTimeout(() => {
             this.currentStepIndex = 0;
@@ -496,13 +502,14 @@ export class ProposalComponent implements OnInit {
           setTimeout(() => {
             this.currentStepIndex = 1;
           }, 1000);
-        } else if (data === 'nomineeDetails') {
+        } else if (data === 'vehicleDetails') {
           setTimeout(() => {
             this.currentStepIndex = 2;
           }, 1000);
-        } else if (data === 'vehicleDetails') {
+        } else if (data === 'previousPolicyDetails') {
           setTimeout(() => {
             this.currentStepIndex = 3;
+            this.showPreviousPolicyDetails = true;
           }, 1000);
         }
       } else {
