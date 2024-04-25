@@ -136,7 +136,7 @@
     </div>
     <div class="col-lg-12 col-md-12 col-12">
       <div class="d-flex">
-        <p class="is-financed mx-1">Is your Vehicle Financed?</p>
+        <span class="is-financed mx-1">Is your Vehicle Financed?</span>
         <div class="form-check form-switch">
           <input
             class="form-check-input"
@@ -152,12 +152,12 @@
           />
         </div>
       </div>
-      <hr *ngIf="financedToggle.checked" />
+      <!-- <hr *ngIf="financedToggle.checked" /> -->
       <div class="col-lg-12 col-md-12 col-12" *ngIf="financedToggle.checked">
         <label>Financer Details</label>
       </div>
     </div>
-    <div class="col-lg-4 col-md-6 col-12" *ngIf="financedToggle.checked">
+    <div class="col-lg-4 col-md-6 col-12 mt-2" *ngIf="financedToggle.checked">
       <mat-form-field class="mat-input-custom" appearance="outline">
         <mat-label>Select Financer</mat-label>
         <input
@@ -203,7 +203,7 @@
         </mat-error> -->
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-6 col-12" *ngIf="financedToggle.checked">
+    <div class="col-lg-4 col-md-6 col-12 mt-2" *ngIf="financedToggle.checked">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label class="proposal-header">Agreement Type</mat-label>
         <mat-select formControlName="agreement_type">
@@ -216,7 +216,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="col-lg-4 col-md-6 col-12" *ngIf="financedToggle.checked">
+    <div class="col-lg-4 col-md-6 col-12 mt-2" *ngIf="financedToggle.checked">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label class="proposal-header">Financer City/Branch</mat-label>
         <input
@@ -230,9 +230,9 @@
     </div>
     <div class="col-lg-12 col-md-12 col-12">
       <div class="d-flex">
-        <p class="is-financed mx-1">
+        <span class="is-financed mx-1">
           Is your Vehicle Registration address same as Communication Address?
-        </p>
+        </span>
         <div class="form-check form-switch">
           <input
             class="form-check-input"
@@ -247,7 +247,7 @@
           />
         </div>
       </div>
-      <hr *ngIf="!registrationAddressToggle.checked" />
+      <!-- <hr *ngIf="!registrationAddressToggle.checked" /> -->
     </div>
     <div
       class="col-lg-12 col-md-12 col-12"

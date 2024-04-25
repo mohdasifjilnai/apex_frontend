@@ -62,16 +62,16 @@ const routes: Routes = [
   {
     path: 'quotes/proposal/:transactionId/review/payment-success',
     component: PaymentComponent,
-    data: {
-      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }, ,],
-    },
+    // data: {
+    //   breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }, ,],
+    // },
   },
   {
     path: 'quotes/proposal/:transactionId/review/payment-failure',
     component: PaymentComponent,
-    data: {
-      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
-    },
+    // data: {
+    //   breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
+    // },
   },
 ];
 

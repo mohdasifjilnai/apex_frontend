@@ -1,11 +1,15 @@
-<div class="payment-success p-5" *ngIf="paymentSuccess">
-  <div class="text-center">
-    <img
+<div class="payment-success p-2" *ngIf="paymentSuccess">
+  <div class="row">
+    <div class="col-lg-6 col-12 text-center mt-2">
+      <img
       src="/assets/icon/payment-success.svg"
       alt=""
       class="inspection-image"
-    /><br />
-    <span class="congratulations-text mt-4">Congratulations!</span><br />
+    />
+    </div>
+    <!-- <br /> -->
+    <div class="col-lg-6 col-12 text-center mt-3">
+      <span class="congratulations-text mt-4">Congratulations!</span><br />
     <div class="sub-text mt-2" *ngIf="!paymentPendingCase">
       Your generated <span class="blue-text">Policy Number</span> is
       <span class="blue-text">{{ policyNumber }}</span
@@ -30,7 +34,7 @@
         >Click Here</span
       >
     </div>
-    <div class="mt-3">
+    <div class="mt-3 mb-3">
       <button
         class="submit-btn homepage-btn"
         type="submit"
@@ -39,6 +43,8 @@
         Go to Homepage
       </button>
     </div>
+    </div>
+    
   </div>
 </div>
 <div class="payment-failure p-5" *ngIf="!paymentSuccess">

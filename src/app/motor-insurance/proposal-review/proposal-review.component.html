@@ -129,7 +129,7 @@
           >Communication Address</span
         > -->
         <div class="col-lg-12 col-md-12 col-12 mt-3">
-          <span class="field-title">Address</span><br />
+          <span class="field-title">Communication Address</span><br />
           <span class="field-value">{{
             generateProposalData?.customer_details?.communication_address
               .address_line || "-"
@@ -249,7 +249,7 @@
             Address?</span
           >
           <div
-            class="col-lg-3 col-md-3 col-6 mt-3"
+            class="col-lg-3 col-md-3 col-6 mt-1"
             *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
           >
             <span class="field-title">Address</span><br />
@@ -259,7 +259,7 @@
             }}</span>
           </div>
           <div
-            class="col-lg-3 col-md-3 col-6 mt-3"
+            class="col-lg-3 col-md-3 col-6 mt-1"
             *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
           >
             <span class="field-title">Pincode</span><br />
@@ -269,7 +269,7 @@
             }}</span>
           </div>
           <div
-            class="col-lg-3 col-md-3 col-6 mt-3"
+            class="col-lg-3 col-md-3 col-6 mt-1"
             *ngIf="!generateProposalData?.vehicle_details?.is_same_location"
           >
             <span class="field-title">City</span><br />
@@ -279,7 +279,7 @@
             }}</span>
           </div>
           <div
-            class="col-lg-3 col-md-3 col-6 mt-3"
+            class="col-lg-3 col-md-3 col-6 mt-1"
             *ngIf="generateProposalData?.vehicle_details?.is_same_location"
           >
             <span class="field-title">State</span><br />
@@ -298,21 +298,21 @@
           *ngIf="generateProposalData?.vehicle_details?.is_vehicle_financed"
         >
           <span class="field-value">Financer Details</span>
-          <div class="col-lg-3 col-md-3 col-6 mt-3">
+          <div class="col-lg-3 col-md-3 col-6 mt-1">
             <span class="field-title">Financer Name</span><br />
             <span class="field-value">{{
               generateProposalData?.vehicle_details?.financer_details
                 ?.financer_name || "-"
             }}</span>
           </div>
-          <div class="col-lg-3 col-md-3 col-6 mt-3">
+          <div class="col-lg-3 col-md-3 col-6 mt-1">
             <span class="field-title">Agreement Type</span><br />
             <span class="field-value">{{
               generateProposalData?.vehicle_details?.financer_details
                 ?.agreement_type || "-"
             }}</span>
           </div>
-          <div class="col-lg-3 col-md-3 col-12 mt-3">
+          <div class="col-lg-3 col-md-3 col-12 mt-1">
             <span class="field-title">Financer City/ Branch</span><br />
             <span class="field-value">{{
               generateProposalData?.vehicle_details?.financer_details
@@ -437,14 +437,14 @@
             <mat-checkbox
               class="custom-checkbox"
               (change)="updateCheckBoxState($event.checked)"
-            ></mat-checkbox>
+            >I hereby accept all</mat-checkbox>
             <div class="ms-2 accept-text pt-1">
-              I hereby accept all
+              
               <a (click)="openDialog()" class="terms">Terms & Conditions</a>
             </div>
           </div>
         </div>
-        <div class="col-12 mb-2 mt-3">
+        <div class="col-12  mt-2">
           <button
             class="submit-btn proposal-review-submission"
             type="submit"
