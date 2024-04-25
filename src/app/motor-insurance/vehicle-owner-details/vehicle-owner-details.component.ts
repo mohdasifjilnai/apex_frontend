@@ -188,7 +188,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (kycData?.customer_details) {
-      this.vehicleOwnerName = true;
+      if (kycData?.customer_details?.full_name) {
+        this.vehicleOwnerName = true;
+      }
       this.owenerVehicleDetailsForm.patchValue({
         owner_full_Name: kycData?.customer_details?.full_name,
         owner_email: kycData?.customer_details?.email,
