@@ -627,7 +627,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.getRegistrationAddressValue(this.isVehicle); // Call your method to handle the change
   }
   displayFinancier(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.financierId = data.rb_financier_id;
 
       return data ? data.financier_name : undefined;
@@ -635,7 +635,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
 
   displayPincode(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.pinocodeId = data.rb_pincode;
 
       return data ? data.rb_pincode : undefined;

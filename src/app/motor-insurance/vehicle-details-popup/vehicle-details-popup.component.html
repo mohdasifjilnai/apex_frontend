@@ -50,7 +50,7 @@
                 [displayWith]="displayMake.bind(this)"
                 (optionSelected)="onOptionMakeSelected($event)"
               >
-                <span *ngIf="mmDataNotAvailable !== 'No data'">
+                <span *ngIf="mmDataNotAvailable !== 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupMake | async"
                     [value]="mmData"
@@ -58,7 +58,7 @@
                     <span>{{ mmData.rb_make_name }}</span>
                   </mat-option>
                 </span>
-                <span *ngIf="mmDataNotAvailable == 'No data'">
+                <span *ngIf="mmDataNotAvailable == 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupMake | async"
                     [value]="mmDataNotAvailable"
@@ -88,7 +88,7 @@
                 [displayWith]="displayModal.bind(this)"
                 (optionSelected)="onOptionModelSelected($event)"
               >
-                <span *ngIf="modelDataNotAvailable !== 'No data'">
+                <span *ngIf="modelDataNotAvailable !== 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupModel | async"
                     [value]="mmData"
@@ -96,7 +96,7 @@
                     <span>{{ mmData.rb_model_name }}</span>
                   </mat-option>
                 </span>
-                <span *ngIf="modelDataNotAvailable == 'No data'">
+                <span *ngIf="modelDataNotAvailable == 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupModel | async"
                     [value]="modelDataNotAvailable"
@@ -126,7 +126,7 @@
                 [displayWith]="displayVariant.bind(this)"
                 (optionSelected)="onOptionVariantSelected($event)"
               >
-                <span *ngIf="variantDataNotAvailable !== 'No data'">
+                <span *ngIf="variantDataNotAvailable !== 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupVariant | async"
                     [value]="mmData"
@@ -134,7 +134,7 @@
                     <span>{{ mmData.rb_variant_name }}</span>
                   </mat-option>
                 </span>
-                <span *ngIf="variantDataNotAvailable == 'No data'">
+                <span *ngIf="variantDataNotAvailable == 'No result found'">
                   <mat-option
                     *ngFor="let mmData of filteredPopupVariant | async"
                     [value]="variantDataNotAvailable"

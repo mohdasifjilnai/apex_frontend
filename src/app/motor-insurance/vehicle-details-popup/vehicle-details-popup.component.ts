@@ -599,14 +599,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
               this.mmDataNotAvailable = '';
             } else {
-              this.mmDataNotAvailable = 'No data';
+              this.mmDataNotAvailable = 'No result found';
               this.filteredPopupMMV = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
                 debounceTime(500),
                 startWith(''),
                 map((name) => {
-                  return name ? this.filterMMVPopup(name) : ['No data'];
+                  return name ? this.filterMMVPopup(name) : ['No result found'];
                 })
               );
             }
@@ -646,14 +646,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
   //     this.variantDataNotAvailable = '';
   //   } else {
-  //     this.variantDataNotAvailable = 'No data';
+  //     this.variantDataNotAvailable = 'No result found';
   //     this.filteredPopupVariant = this.vehicleDetailsForm.controls[
   //       'vehicle_variant'
   //     ].valueChanges.pipe(
   //       debounceTime(500),
   //       startWith(''),
   //       map((value) => {
-  //         return value ? this.filterVariantPopup(value) : ['No data'];
+  //         return value ? this.filterVariantPopup(value) : ['No result found'];
   //       })
   //     );
   //   }
@@ -694,7 +694,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             switchMap((name) => this.filterRTO(name)),
             catchError((error) => {
               this.rtoDataNotAvailable = 'Error fetching data';
-              return of(['No data']);
+              return of(['No result found']);
             })
           );
           if (type != 'blank') {
@@ -724,7 +724,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           }
         } else {
           this.rtoDataNotAvailable = 'No data available';
-          this.filteredRtoList = of(['No data']);
+          this.filteredRtoList = of(['No result found']);
         }
       });
   }
@@ -749,12 +749,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
             }
 
             this.rtoDataNotAvailable =
-              this.rtoList.length === 0 ? 'No data' : '';
+              this.rtoList.length === 0 ? 'No result found' : '';
 
             return this.rtoList;
           } else {
             this.rtoDataNotAvailable = 'No data available';
-            this.filteredRtoList = of(['No data']);
+            this.filteredRtoList = of(['No result found']);
           }
         })
       );
@@ -765,7 +765,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   displayMakeModel(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.mmId = data.rb_mmv_id;
 
       return data ? data.displayMM : undefined;
@@ -803,9 +803,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   displayMake(data?: any) {
-    if (data != null && data != 'No data' && !this.vehicleMakeOninit) {
+    if (data != null && data != 'No result found' && !this.vehicleMakeOninit) {
       return data ? data.rb_make_name : '';
-    } else if (data == 'No data') {
+    } else if (data == 'No result found') {
       return data;
     }
   }
@@ -816,9 +816,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   displayModal(data?: any) {
-    if (data != null && data != 'No data' && !this.vehicleModelOninit) {
+    if (data != null && data != 'No result found' && !this.vehicleModelOninit) {
       return data ? data.rb_model_name : '';
-    } else if (data == 'No data') {
+    } else if (data == 'No result found') {
       return data;
     }
   }
@@ -828,12 +828,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   displayVariant(data?: any) {
-    if (data != null && data != 'No data' && !this.vehicleVariantOnint) {
+    if (
+      data != null &&
+      data != 'No result found' &&
+      !this.vehicleVariantOnint
+    ) {
       this.fuelArray = [];
       this.fuelArray.push(data);
       this.fuelList = this.fuelArray;
       return data ? data.rb_variant_name : '';
-    } else if (data == 'No data') {
+    } else if (data == 'No result found') {
       return data;
     }
   }
@@ -858,7 +862,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   displayRegistration(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.rtoId = data.rb_rto_id;
       return data ? data.display_name : undefined;
     }
@@ -1613,16 +1617,16 @@ Get the expiring policy list based on the given date or the registration details
             // });
             this.variantDataNotAvailable = '';
           } else {
-            this.mmDataNotAvailable = 'No data';
-            this.modelDataNotAvailable = 'No data';
-            this.variantDataNotAvailable = 'No data';
+            this.mmDataNotAvailable = 'No result found';
+            this.modelDataNotAvailable = 'No result found';
+            this.variantDataNotAvailable = 'No result found';
             this.filteredPopupMake = this.vehicleDetailsForm.controls[
               'vehicle_model'
             ].valueChanges.pipe(
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterMakePopup(name) : ['No data'];
+                return name ? this.filterMakePopup(name) : ['No result found'];
               })
             );
 
@@ -1632,7 +1636,7 @@ Get the expiring policy list based on the given date or the registration details
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterModelPopup(name) : ['No data'];
+                return name ? this.filterModelPopup(name) : ['No result found'];
               })
             );
 
@@ -1642,7 +1646,9 @@ Get the expiring policy list based on the given date or the registration details
               debounceTime(500),
               startWith(''),
               map((name) => {
-                return name ? this.filterVariantPopup(name) : ['No data'];
+                return name
+                  ? this.filterVariantPopup(name)
+                  : ['No result found'];
               })
             );
           }
@@ -1688,14 +1694,16 @@ Get the expiring policy list based on the given date or the registration details
 
               this.mmDataNotAvailable = '';
             } else {
-              this.mmDataNotAvailable = 'No data';
+              this.mmDataNotAvailable = 'No result found';
               this.filteredPopupMMV = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
                 debounceTime(500),
                 startWith(''),
                 map((name) => {
-                  return name ? this.filterMakePopup(name) : ['No data'];
+                  return name
+                    ? this.filterMakePopup(name)
+                    : ['No result found'];
                 })
               );
             }
@@ -1737,14 +1745,16 @@ Get the expiring policy list based on the given date or the registration details
                 })
               );
             } else {
-              this.modelDataNotAvailable = 'No data';
+              this.modelDataNotAvailable = 'No result found';
               this.filteredPopupModel = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
                 debounceTime(500),
                 startWith(''),
                 map((name) => {
-                  return name ? this.filterModelPopup(name) : ['No data'];
+                  return name
+                    ? this.filterModelPopup(name)
+                    : ['No result found'];
                 })
               );
             }
@@ -1803,14 +1813,16 @@ Get the expiring policy list based on the given date or the registration details
                 })
               );
             } else {
-              this.variantDataNotAvailable = 'No data';
+              this.variantDataNotAvailable = 'No result found';
               this.filteredPopupVariant = this.vehicleDetailsForm.controls[
                 'vehicle_variant'
               ].valueChanges.pipe(
                 debounceTime(500),
                 startWith(''),
                 map((name) => {
-                  return name ? this.filterVariantPopup(name) : ['No data'];
+                  return name
+                    ? this.filterVariantPopup(name)
+                    : ['No result found'];
                 })
               );
             }
@@ -1867,14 +1879,16 @@ Get the expiring policy list based on the given date or the registration details
 
               this.mmDataNotAvailable = '';
             } else {
-              this.mmDataNotAvailable = 'No data';
+              this.mmDataNotAvailable = 'No result found';
               this.filteredPopupVariant = this.vehicleDetailsForm.controls[
                 'vehicle_model'
               ].valueChanges.pipe(
                 debounceTime(500),
                 startWith(''),
                 map((name) => {
-                  return name ? this.filteredPopupVariant(name) : ['No data'];
+                  return name
+                    ? this.filteredPopupVariant(name)
+                    : ['No result found'];
                 })
               );
             }

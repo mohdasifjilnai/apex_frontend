@@ -334,7 +334,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }
   }
   displayPincode(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.pincodeId = data.rb_pincode;
 
       return data ? data.rb_pincode : undefined;

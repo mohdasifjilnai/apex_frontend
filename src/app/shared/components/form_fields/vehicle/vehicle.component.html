@@ -14,12 +14,15 @@
     #autoVehicle="matAutocomplete"
     [displayWith]="displayVehicle.bind(this)"
     ><ng-container *ngIf="vehicleSearchDataLength > 2">
-      <mat-option *ngIf="mmvDataNotAvailable === 'No data'" [value]="'No data'">
+      <mat-option
+        *ngIf="mmvDataNotAvailable === 'No result found'"
+        [value]="'No result found'"
+      >
         {{ mmvDataNotAvailable }}
       </mat-option>
     </ng-container>
 
-    <span *ngIf="mmvDataNotAvailable !== 'No data'">
+    <span *ngIf="mmvDataNotAvailable !== 'No result found'">
       <mat-option
         *ngFor="let mmvData of filteredMMV | async"
         [value]="mmvData"

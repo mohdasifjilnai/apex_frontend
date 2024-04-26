@@ -146,7 +146,7 @@ export class PreviousInsurerComponent implements OnInit {
             switchMap((name) => this.filterInsurer(name, res)),
             catchError((error) => {
               this.previousInsurerNoData = 'Error fetching data';
-              return of(['No data']);
+              return of(['No result found']);
             })
           );
           if (this.registrationNumber?.previous_insurer_code) {
@@ -162,8 +162,8 @@ export class PreviousInsurerComponent implements OnInit {
           }
           // }
         } else {
-          this.previousInsurerNoData = 'No data';
-          this.filteredInsurerList = of(['No data']);
+          this.previousInsurerNoData = 'No result found';
+          this.filteredInsurerList = of(['No result found']);
         }
       });
     this.sendResponse(this.previousInsurerNoData);
@@ -184,10 +184,10 @@ export class PreviousInsurerComponent implements OnInit {
           this.insurerList = [insururResponse];
         }
         this.previousInsurerNoData =
-          this.insurerList.length === 0 ? 'No data' : '';
+          this.insurerList.length === 0 ? 'No result found' : '';
         return of(this.insurerList);
       } else {
-        this.previousInsurerNoData = 'No data';
+        this.previousInsurerNoData = 'No result found';
         return of([this.previousInsurerNoData]);
       }
       //   })
@@ -204,7 +204,7 @@ export class PreviousInsurerComponent implements OnInit {
   }
 
   displayPreviousInsurer(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.prevoiusInsurerId = data.rb_insurer_id;
       return data ? data.rb_insurer_name : undefined;
     }

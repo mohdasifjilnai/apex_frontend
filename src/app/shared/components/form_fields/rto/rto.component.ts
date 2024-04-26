@@ -97,12 +97,12 @@ export class RTOComponent implements OnInit {
             switchMap((name) => this.filterRTO(name, res)),
             catchError((error) => {
               this.rtoDataNotAvailable = 'Error fetching data';
-              return of(['No data']);
+              return of(['No result found']);
             })
           );
         } else {
           this.rtoDataNotAvailable = 'No data available';
-          this.filteredRtoList = of(['No data']);
+          this.filteredRtoList = of(['No result found']);
         }
       });
     this.sendResponse(this.rtoDataNotAvailable);
@@ -122,7 +122,8 @@ export class RTOComponent implements OnInit {
         } else if (typeof rtoResponse === 'object') {
           this.rtoList = [rtoResponse];
         }
-        this.rtoDataNotAvailable = this.rtoList.length === 0 ? 'No data' : '';
+        this.rtoDataNotAvailable =
+          this.rtoList.length === 0 ? 'No result found' : '';
 
         return of(this.rtoList);
       } else {
@@ -143,7 +144,7 @@ export class RTOComponent implements OnInit {
     this.form.removeControl('rto_city');
   }
   displayRto(data?: any) {
-    if (data != null && data !== 'No data') {
+    if (data != null && data !== 'No result found') {
       this.rtoId = data.rb_rto_id;
       return data ? data.display_name : undefined;
     }

@@ -115,7 +115,7 @@ export class VehicleComponent implements OnInit {
           }));
           this.mmvDataNotAvailable = '';
         } else {
-          this.mmvDataNotAvailable = 'No data';
+          this.mmvDataNotAvailable = 'No result found';
           return of([this.mmvDataNotAvailable]);
         }
         return of(this.mmvList);
@@ -173,7 +173,7 @@ export class VehicleComponent implements OnInit {
   }
 
   displayVehicle(data?: any) {
-    if (data != null && data != 'No data') {
+    if (data != null && data != 'No result found') {
       this.mmvId = data.rb_mmv_id;
       return data ? data.displayMMV : undefined;
     }
