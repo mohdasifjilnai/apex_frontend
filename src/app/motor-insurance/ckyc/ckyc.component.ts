@@ -223,7 +223,8 @@ export class CkycComponent implements OnInit {
         if (this.documentName == 'aadhaar_number') {
           if (
             this.qoutes_data['insurer_code'] === 'liberty' ||
-            this.qoutes_data['insurer_code'] === 'future'
+            this.qoutes_data['insurer_code'] === 'future' ||
+            this.qoutes_data['insurer_code'] === 'sbi_general'
           ) {
             let inputString = this.ckycFormGroup.get(
               'document_number_based_field'

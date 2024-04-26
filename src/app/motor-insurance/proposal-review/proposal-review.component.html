@@ -235,7 +235,8 @@
           <div class="col-lg-3 col-md-3 col-6 mt-3">
             <span class="field-title">Mfg. Date</span><br />
             <span class="field-value">{{
-              generateProposalData?.vehicle_details?.manufacture_date || "-"
+              (generateProposalData?.vehicle_details?.manufacture_date
+                | date : "MMM-yyyy") || "-"
             }}</span>
           </div>
           <hr
@@ -437,14 +438,14 @@
             <mat-checkbox
               class="custom-checkbox"
               (change)="updateCheckBoxState($event.checked)"
-            >I hereby accept all</mat-checkbox>
+              >I hereby accept all</mat-checkbox
+            >
             <div class="ms-2 accept-text pt-1">
-              
               <a (click)="openDialog()" class="terms">Terms & Conditions</a>
             </div>
           </div>
         </div>
-        <div class="col-12  mt-2">
+        <div class="col-12 mt-2">
           <button
             class="submit-btn proposal-review-submission"
             type="submit"

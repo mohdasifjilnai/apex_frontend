@@ -25,6 +25,7 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const currentUrl = this.router.url;
     this.routerEvents = this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('review')) {
@@ -34,6 +35,12 @@ export class BreadcrumbComponent implements OnInit {
         }
       }
     });
+
+    if (currentUrl.includes('review')) {
+      this.reviewPageUrl = true;
+    } else {
+      this.reviewPageUrl = false;
+    }
   }
 
   /**

@@ -6,6 +6,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import moment from 'moment';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -79,6 +80,7 @@ export class ProposalReviewComponent implements OnInit {
   renewalType: any;
   renewalInsurerQuotesId: any;
   proposalType: any;
+  manufactureDate: any;
 
   constructor(
     private route: Router,
@@ -192,6 +194,7 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
+
           const dataToSend = [
             res?.previous_policy_details, //Previous Policy Details
             res?.proposal_number, //Proposal Number
