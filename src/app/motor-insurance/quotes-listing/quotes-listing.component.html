@@ -164,12 +164,12 @@
                   <div>
                     <span class="idv-amount">
                       IDV (&#8377;
-                      {{ quotes?.premium_details?.min_idv | numberFormat }}-
+                      {{ quotes?.premium_details?.min_idv | number : "2." }}-
                       &#8377;
-                      {{ quotes?.premium_details?.max_idv | numberFormat }})
+                      {{ quotes?.premium_details?.max_idv | number : "2." }})
                     </span>
                     <p class="idv-choose-amount mt-1">
-                      &#8377; {{ quotes?.premium_details?.idv | numberFormat }}
+                      &#8377; {{ quotes?.premium_details?.idv | number : "2." }}
                     </p>
                   </div>
                   <div *ngIf="addShare" class="web-checkbox">
@@ -190,10 +190,11 @@
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
+
                   {{
                     defaultGST
-                      ? quotes.premium_details.gross_premium
-                      : quotes.premium_details.net_premium
+                      ? (quotes.premium_details.gross_premium | number : "2.")
+                      : (quotes.premium_details.net_premium | number : "2.")
                   }}
                 </button>
                 <p>
@@ -338,8 +339,8 @@
                   &#8377;
                   {{
                     defaultGST
-                      ? (quotes?.premium_details?.gross_premium | numberFormat)
-                      : (quotes?.premium_details?.net_premium | numberFormat)
+                      ? (quotes?.premium_details?.gross_premium | number : "2.")
+                      : (quotes?.premium_details?.net_premium | number : "2.")
                   }}
                 </span>
                 <p>

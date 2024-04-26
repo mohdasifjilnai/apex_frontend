@@ -45,7 +45,7 @@
       <div class="d-flex justify-content-between mt-2">
         <span class="anunual-commericial">{{ planType?.name }}</span>
         <span class="plan-type">
-          &#x20B9;{{ quoteData?.premium_details?.idv | numberFormat }}
+          &#x20B9;{{ quoteData?.premium_details?.idv | number : "2." }}
         </span>
       </div>
     </div>
@@ -57,7 +57,7 @@
         &#x20B9;
         {{
           quoteData?.premium_details?.od_premium_details?.total_od
-            | numberFormat
+            | number : "2."
         }}
       </span>
     </div>
@@ -67,7 +67,7 @@
         &#x20B9;
         {{
           quoteData?.premium_details?.od_premium_details?.basic_od_premium
-            | numberFormat
+            | number : "2."
         }}
       </p>
     </div> -->
@@ -81,7 +81,7 @@
           quoteData?.premium_details?.od_premium_details?.ncb_discount !==
             undefined
             ? quoteData?.premium_details?.od_premium_details?.ncb_discount
-            : ("-" | numberFormat)
+            : ("-" | number : "2.")
         }}
       </span>
     </div>
@@ -91,7 +91,7 @@
         &#x20B9;
         {{
           quoteData?.premium_details?.od_premium_details?.od_discount
-            | numberFormat
+            | number : "2."
         }}
       </p>
     </div> -->
@@ -104,7 +104,7 @@
         &#x20B9;
         {{
           quoteData?.premium_details?.tp_premium_details?.basic_tp_premium
-            | numberFormat
+            | number : "2."
         }}
       </span>
     </div>
@@ -114,7 +114,7 @@
         &#x20B9;
         {{
           quoteData?.premium_details?.tp_premium_details?.basic_tp_premium
-            | numberFormat
+           | number : "2."
         }}
       </p>
     </div> -->
@@ -122,9 +122,17 @@
 
   <div class="col-lg-12 col-md-12 policy">
     <div class="d-flex justify-content-between mt-2">
-      <span class="plan-type d-grid">Total Addons<span class="included-text">(included with OD & TP)</span></span>
-      <span class="plan-type" >&#x20B9;
-        {{ quoteData?.premium_details?.total_addon_premium | numberFormat }}</span>
+      <span class="plan-type d-grid"
+        >Total Addons<span class="included-text"
+          >(included with OD & TP)</span
+        ></span
+      >
+      <span class="plan-type"
+        >&#x20B9;
+        {{
+          quoteData?.premium_details?.total_addon_premium | number : "2."
+        }}</span
+      >
     </div>
     <div class="mt-2" *ngFor="let addons of addonsList">
       <div
@@ -206,7 +214,7 @@
     <div class="d-flex justify-content-between">
       <p class="plan-type">GST (18%)(D)</p>
       <p class="plan-type">
-        &#x20B9; {{ quoteData?.premium_details?.total_gst | numberFormat }}
+        &#x20B9; {{ quoteData?.premium_details?.total_gst | number : "2." }}
       </p>
     </div>
   </div>
@@ -215,7 +223,7 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;
-      {{ quoteData?.premium_details?.gross_premium | numberFormat }}</span
+      {{ quoteData?.premium_details?.gross_premium | number : "2." }}</span
     >
   </div>
   <button
@@ -264,7 +272,7 @@
       <div class="mt-2">
         <span class="plan-text">Total IDV</span><br />
         <span class="plan-value"
-          >&#x20B9;{{ quoteData?.premium_details?.idv | numberFormat }}</span
+          >&#x20B9;{{ quoteData?.premium_details?.idv | number : "2." }}</span
         >
       </div>
       <div class="mt-2">
@@ -273,8 +281,8 @@
           >&#x20B9;
           {{
             defaultGST
-              ? (quoteData?.premium_details?.gross_premium | numberFormat)
-              : (quoteData?.premium_details?.net_premium | numberFormat)
+              ? (quoteData?.premium_details?.gross_premium | number : "2.")
+              : (quoteData?.premium_details?.net_premium | number : "2.")
           }}</span
         >
       </div>

@@ -6,11 +6,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NumberFormatPipe implements PipeTransform {
   transform(value: number | string, locale?: string): string {
     // Use Indian locale ("en-IN") for formatting
-    const formattedValue = new Intl.NumberFormat('en-IN', {
-      minimumFractionDigits: 0, // Set minimumFractionDigits to 0 to remove trailing zeros
-      maximumFractionDigits: 2,
-    }).format(Number(value));
+    // const formattedValue = new Intl.NumberFormat('en-IN', {
+    //   minimumFractionDigits: 0, // Set minimumFractionDigits to 0 to remove trailing zeros
+    //   maximumFractionDigits: 2,
+    // }).format(Number(value));
 
-    return formattedValue.replace(/(\.\d*?[1-9])0+$/, '$1'); // Remove trailing zeros after the decimal point
+    let formattedValue = new Intl.NumberFormat('en-IN').format(Number(value)); //inplace of en-IN you can mention your country's code
+    console.log('temp is   ', formattedValue);
+    formattedValue = formattedValue ? formattedValue.toString() : '';
+    console.log('temp is updated ', formattedValue);
+    // this.currency.setValue(temp);
+    return formattedValue; // Remove trailing zeros after the decimal point
   }
 }

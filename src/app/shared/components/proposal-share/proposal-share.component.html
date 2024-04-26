@@ -27,11 +27,11 @@
           </p>
           <p class="total-premium-payable-amount text-light-blue">
             &#8377;
-            {{ quotesData[0]?.premium_details?.gross_premium | numberFormat }}
+            {{ quotesData[0]?.premium_details?.gross_premium | number : "2." }}
           </p>
         </div>
       </div>
-      <div class="col-12 ">
+      <div class="col-12">
         <div class="proposal-number-group d-flex justify-content-between">
           <span class="proposal-number-text">Proposal Number</span>
           <span class="proposal-number-id">{{ proposalNumber }}</span>
@@ -79,16 +79,16 @@
 
       <div class="col-12" *ngIf="!isCommunicationGroup">
         <div class="communication-group my-2">
-          <span class="communication-mode-text ">
+          <span class="communication-mode-text">
             Select type of communication mode
           </span>
         </div>
         <div class="communication-group d-flex justify-content-between">
           <div
             class="whatsapp-group light-green me-2"
-            [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp'}"
+            [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp' }"
           >
-          <!-- (click)="communication('whatsapp')" -->
+            <!-- (click)="communication('whatsapp')" -->
             <img src="/assets/icon/whatsapp.svg" class="whatsapp-icon" />
           </div>
           <div

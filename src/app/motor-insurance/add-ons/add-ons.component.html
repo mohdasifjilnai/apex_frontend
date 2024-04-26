@@ -113,7 +113,7 @@
                 <mat-option
                   *ngFor="let items of listValue.value"
                   [value]="items"
-                  >&#8377; {{ items | numberFormat }}</mat-option
+                  >&#8377; {{ items | number : "2." }}</mat-option
                 >
               </mat-select>
             </mat-form-field>
