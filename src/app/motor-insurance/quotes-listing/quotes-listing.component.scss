@@ -343,19 +343,7 @@
   }
   
 }
-::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple){
-  background:#F5F8FE;
-  border-radius: 5px;
-  margin: 4px;
-  color: #5384EA !important;
-}
-::ng-deep .mat-option-text:hover{
-  background:#F5F8FE;
-  // padding: 4px;
-  border-radius: 5px;
-  margin: 4px;
-  color: #5384EA !important;
-}
+
 .insurer-logo {
   width: 100%;
   height: 40px;
@@ -445,6 +433,13 @@
   }
   .sort-dropdown {
     display: none;
+  }
+  .selected-share {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    width: 95%;
+    left: 8px;
   }
   .quotesDropdown {
     ::ng-deep .mat-select-value {

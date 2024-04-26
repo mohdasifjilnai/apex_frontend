@@ -200,7 +200,7 @@ export class QuotesListingComponent implements OnInit {
     });
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (popupData) {
-      this.progressValue = 0;
+      // this.progressValue = 0;
       // this.startProgress(0);
     }
 

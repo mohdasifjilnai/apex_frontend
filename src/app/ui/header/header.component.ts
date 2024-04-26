@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   currentUrl: any;
   @ViewChild('widgetId') widgetId!: ElementRef;
   id: any;
+  copiedId: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
@@ -40,6 +41,7 @@ export class HeaderComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
+      this.copiedId=this.id  
     } else {
       this.transactionId = this.id;
     }
@@ -47,6 +49,7 @@ export class HeaderComponent implements OnInit {
       if (window.innerWidth <= 999) {
         this.transactionId =
           res.length > 10 ? res.substring(0, 10) + '...' : res;
+          this.copiedId=res
       } else {
         this.transactionId = res;
       }
@@ -75,6 +78,8 @@ export class HeaderComponent implements OnInit {
             res?.quote_response?.transaction_id.length > 10
               ? res?.quote_response?.transaction_id.substring(0, 10) + '...'
               : res?.quote_response?.transaction_id;
+
+              this.copiedId=res?.quote_response?.transaction_id    
         } else {
           this.transactionId = res?.quote_response?.transaction_id;
         }
