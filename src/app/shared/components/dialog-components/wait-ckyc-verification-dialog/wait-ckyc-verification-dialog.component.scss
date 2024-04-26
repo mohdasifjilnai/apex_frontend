@@ -163,12 +163,10 @@
     border: 1px solid #ccccccc4;
     border-radius: 12px;
     width: 100%;
-    
   }
 
   .upload-doc-image {
     float: right;
-    
   }
   .file-input-text {
     position: relative;
@@ -177,4 +175,13 @@
     word-break: break-all;
     margin-right: 10px;
   }
+}
+
+.loader {
+  width: 28px;
+  height: 16px;
+  margin-bottom: 6px;
+}
+.isProceedDisabled {
+  pointer-events: none;
 }

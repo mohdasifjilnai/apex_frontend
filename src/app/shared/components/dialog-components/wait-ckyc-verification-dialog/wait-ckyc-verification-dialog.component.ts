@@ -46,6 +46,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   fileName: any = 'Upload Document';
   proposerType: any;
   isProposerTrue: boolean = true;
+  loader: boolean = false;
   ckycDocumentsJson: {
     modalName: any;
     widthObtained: string;
@@ -170,6 +171,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    *  this function use redirect to insurer
    */
   redirectInsurer(redirectionUrlViaForm: any) {
+    this.loader = true;
     window.location.href = redirectionUrlViaForm;
   }
 
@@ -226,6 +228,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    */
   onClose(resData: any) {
     this.dialogRef.close(resData);
+    this.loader = false;
   }
   /**
    * Closes the dialog and returns the result to the dialog opener.

@@ -122,8 +122,16 @@
           <button
             class="submit-btn success-submission"
             type="submit"
-            (click)="redirectInsurer(redirectionUrlViaForm)"
+            (click)="!loader && redirectInsurer(redirectionUrlViaForm)"
           >
+            <img
+              src="/assets/gif/button-loader.gif"
+              alt="close"
+              class="loader me-2"
+              *ngIf="loader"
+              [ngClass]="'isProceedDisabled'"
+              :loader
+            />
             Proceed
           </button>
         </div>
