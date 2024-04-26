@@ -58,6 +58,7 @@ export class PremiumBreakupComponent implements OnInit {
   vehicleTypeValue: any;
   isIdvGreaterThan50Lac: any;
   endPath: string;
+  showAddons: boolean=false;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -203,5 +204,8 @@ export class PremiumBreakupComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  showAddonsData(){
+    this.showAddons=!this.showAddons
   }
 }

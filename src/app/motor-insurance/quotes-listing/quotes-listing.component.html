@@ -41,8 +41,15 @@
           </mat-form-field>
         </div>
         <!-- owner type for mobile view -->
-        <div class="col-lg-3 col-md-3 col-4 owner-type-res me-2" [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'">
-          <button mat-button (click)="openSort('Owner Type')" [disabled]="enableIdvCard">
+        <div
+          class="col-lg-3 col-md-3 col-4 owner-type-res me-2"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
+          <button
+            mat-button
+            (click)="openSort('Owner Type')"
+            [disabled]="enableIdvCard"
+          >
             {{ owner_type | titlecase
             }}<img
               src="/assets/icon/dropdown.svg"
@@ -76,7 +83,7 @@
             [disabled]="enableIdvCard"
           >
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
-            Share Quotes
+            <span class="share-quotes-text">Share Quotes</span>
           </button>
           <div
             *ngIf="shareQuotesDropdownValue"
@@ -135,7 +142,7 @@
         <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-12 insurer-img" >
+              <div class="col-lg-3 col-md-3 col-12 insurer-img">
                 <div class="d-flex justify-content-between">
                   <img
                     [src]="quotes?.insurer_logo"
@@ -185,8 +192,8 @@
                   &#8377;
                   {{
                     defaultGST
-                      ? (quotes.premium_details.gross_premium | numberFormat)
-                      : (quotes.premium_details.net_premium | numberFormat)
+                      ? quotes.premium_details.gross_premium
+                      : quotes.premium_details.net_premium
                   }}
                 </button>
                 <p>
@@ -546,7 +553,7 @@
     </div>
   </div>
 </div>
-<div class="selected-share" *ngIf="selectedQuotes.length>0">
+<div class="selected-share" *ngIf="selectedQuotes.length > 0">
   <app-selected-share
     *ngIf="isChecked"
     [quotes]="selectedQuotes"
