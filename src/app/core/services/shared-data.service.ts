@@ -56,6 +56,7 @@ export class SharedDataService {
   vehicleCardEmailValue: Subject<any> = new Subject();
   nomineeData: Subject<any> = new Subject();
   quotesEnableForMobile: Subject<any> = new Subject();
+  vehicleOwnerForm: Subject<any> = new Subject();
   regNumberDataRenewal = new BehaviorSubject<any>(null);
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   renewalInsurer = new BehaviorSubject<any>(null);
@@ -1001,5 +1002,8 @@ export class SharedDataService {
 
   changeVehicleType(data: any) {
     this.updateVehicleType.next(data);
+  }
+  formCheck(data: any) {
+    this.vehicleOwnerForm.next(data);
   }
 }

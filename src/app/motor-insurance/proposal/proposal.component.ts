@@ -32,6 +32,7 @@ export class ProposalComponent implements OnInit {
   step3: boolean = false;
   step4: boolean = false;
   step5: boolean = false;
+  kycPending: any;
   isMobileView: boolean = false;
   proposalDetails: any;
   proposerType: any;
@@ -352,9 +353,19 @@ export class ProposalComponent implements OnInit {
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
         } else {
-          this.showVehicleDetails = true;
-          this.accordianExpanded = 'vehicleDetails';
-          this.openDesiredStep(this.accordianExpanded);
+          if (this.kycPending?.redirection_url_via_form) {
+            this.sharedData.vehicleOwnerForm.subscribe((res) => {
+              if (res) {
+                this.showVehicleDetails = true;
+                this.accordianExpanded = 'vehicleDetails';
+                this.openDesiredStep(this.accordianExpanded);
+              }
+            });
+          } else {
+            this.showVehicleDetails = true;
+            this.accordianExpanded = 'vehicleDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          }
         }
       } else if (
         proposal.customer_details !== null &&
@@ -368,7 +379,6 @@ export class ProposalComponent implements OnInit {
         } else {
           this.showNomineeDetails = true;
           this.showVehicleOwnerDetails = true;
-
           this.accordianExpanded = 'nomineeDetails';
           this.openDesiredStep(this.accordianExpanded);
         }
@@ -422,6 +432,7 @@ export class ProposalComponent implements OnInit {
     });
     this.sharedData.fetchKycData.subscribe((data) => {
       if (data) {
+        this.kycPending = data;
         this.showVehicleOwnerDetails = true;
         this.accordianExpanded = 'vehicleOwnerDetails';
         this.openDesiredStep(this.accordianExpanded);

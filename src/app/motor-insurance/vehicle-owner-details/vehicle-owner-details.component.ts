@@ -239,11 +239,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         .get('ownner_occupation_type')
         ?.updateValueAndValidity();
     }
+    setTimeout(() => {
+      this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
+    }, 2000);
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
       this.afterVehicleOwnerData.emit(formValues);
+      setTimeout(() => {
+        this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
+      }, 2000);
       this.sharedDataService?.createProposalId(
         'vehicle_owner_detail',
         this.owenerVehicleDetailsForm
