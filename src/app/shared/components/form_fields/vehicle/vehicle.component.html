@@ -50,6 +50,9 @@
       </mat-option>
     </span>
   </mat-autocomplete>
+  <mat-error *ngIf="form.controls['vehicle']?.hasError('required')">
+    This is a required field.
+  </mat-error>
 </mat-form-field>
 <div class="d-flex justify-content-start" *ngIf="showSelectedFuelandCapacity">
   <span class="fuel-capacitor"

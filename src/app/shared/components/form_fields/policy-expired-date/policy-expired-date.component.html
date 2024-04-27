@@ -34,6 +34,9 @@
     (opened)="onOpen()"
     id-automation="date_picker_expiry_date_id"
   ></mat-datepicker>
+  <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+    This is a required field.
+  </mat-error>
 </mat-form-field>
 <div class="text-center" #datepickerFooter>
   <p

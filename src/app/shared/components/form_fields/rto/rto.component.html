@@ -31,4 +31,7 @@
       </span>
     </ng-container>
   </mat-autocomplete>
+  <mat-error *ngIf="form.controls['rto_city']?.hasError('required')">
+    This is a required field.
+  </mat-error>
 </mat-form-field>
