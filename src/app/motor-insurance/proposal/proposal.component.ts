@@ -77,6 +77,8 @@ export class ProposalComponent implements OnInit {
   ngOnInit(): void {
     this.sharedData.createProposalId();
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.insuranceVehicleType = localStorage.getItem('vehicleType');
     this.productTypeValue = sessionStorage.getItem('productType');
@@ -432,7 +434,6 @@ export class ProposalComponent implements OnInit {
     });
     this.sharedData.fetchKycData.subscribe((data) => {
       if (data) {
-        this.kycPending = data;
         this.showVehicleOwnerDetails = true;
         this.accordianExpanded = 'vehicleOwnerDetails';
         this.openDesiredStep(this.accordianExpanded);
