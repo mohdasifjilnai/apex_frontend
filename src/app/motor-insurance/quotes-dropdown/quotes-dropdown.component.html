@@ -11,7 +11,7 @@
     </div>
   </div>
   <hr />
-  <div class="dropdown-list p-3" *ngIf="data == 'Addons'">
+  <div class="dropdown-list ps-3 pe-3 pb-3" *ngIf="data == 'Sort'">
     <mat-radio-group
       aria-label="Select an option"
       (change)="sortingChange($event)"
@@ -22,7 +22,7 @@
       <mat-radio-button value="high">High to Low</mat-radio-button>
     </mat-radio-group>
   </div>
-  <div class="dropdown-list p-3" *ngIf="data == 'Owner Type'">
+  <div class="dropdown-list ps-3 pe-3" *ngIf="data == 'Owner Type'">
     <mat-radio-group
       aria-label="Select an option"
       (change)="changeProposalType($event)"
