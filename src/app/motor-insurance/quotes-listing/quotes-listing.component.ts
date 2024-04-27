@@ -362,8 +362,13 @@ export class QuotesListingComponent implements OnInit {
       const averageIdv = totalIdv / this.chooseIdvArray.length;
       this.minIdv = minIdv;
       this.maxIdv = maxIdv;
-      this.averageIdv = averageIdv;
-      this.sharedDataService.chooseIdvData(minIdv, maxIdv, averageIdv);
+      this.averageIdv = averageIdv.toFixed(0);
+
+      this.sharedDataService.chooseIdvData(
+        minIdv,
+        maxIdv,
+        averageIdv.toFixed(0)
+      );
     }
   }
   getProposalDetails(quotes_data: any) {

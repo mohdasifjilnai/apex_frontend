@@ -291,6 +291,7 @@
                       listValue?.rb_code
                     )
                   "
+                  [(ngModel)]="data.multiChecked"
                   >{{ data }}</mat-checkbox
                 >
                 <mat-error *ngIf="i == multiCheckbox[i]">
@@ -300,7 +301,9 @@
             </span>
           </section>
           <section class="d-grid ms-3">
-            <ng-container *ngIf="listValue?.next_type == 'dropdown'">
+            <ng-container
+              *ngIf="listValue?.next_type == 'dropdown' && listValue.checked"
+            >
               <mat-form-field
                 appearance="outline"
                 *ngIf="i == dropDownFieldIndex[i]"
@@ -317,11 +320,21 @@
                       listValue?.rb_code
                     )
                   "
+                  (blur)="
+                    onInputChange(
+                      listValue.addOnsValue,
+                      listValue?.next_type,
+                      i,
+                      listValue?.name,
+                      listValue?.rb_code
+                    )
+                  "
+                  [(ngModel)]="listValue.addOnsValue"
                 >
                   <mat-option
                     *ngFor="let items of listValue.value"
                     [value]="items"
-                    >{{ items }}</mat-option
+                    >{{ items | number : "2." }}</mat-option
                   >
                 </mat-select>
               </mat-form-field>
@@ -333,21 +346,30 @@
 
           <section
             class="d-grid ms-3"
-            *ngIf="listValue?.next_type == 'int_input'"
+            *ngIf="listValue?.next_type == 'int_input' && listValue.checked"
           >
             <mat-form-field
               appearance="outline"
               class="mat-input-custom"
               *ngIf="i == inputFieldIndex[i]"
             >
-              <mat-label>{{ listValue?.name }}</mat-label>
+              <mat-label>Enter Value</mat-label>
               <input
                 matInput
-                [(ngModel)]="inputValues[i]"
+                [(ngModel)]="listValue.addOnsValue"
                 appNumbersOnly
-                (blur)="
+                (ngModelChange)="
                   onInputChange(
                     $event,
+                    listValue?.next_type,
+                    i,
+                    listValue?.name,
+                    listValue?.rb_code
+                  )
+                "
+                (click)="
+                  onInputChange(
+                    listValue.addOnsValue,
                     listValue?.next_type,
                     i,
                     listValue?.name,
@@ -363,7 +385,9 @@
           </section>
 
           <section class="d-grid ms-3">
-            <ng-container *ngIf="listValue?.next_type == 'tab'">
+            <ng-container
+              *ngIf="listValue?.next_type == 'tab' && listValue.checked"
+            >
               <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
                 <div
                   class="col-lg-6 col-md-6 col-6 mt-1"
