@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/components/dialog-components/snackbar/snackbar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root',
@@ -885,40 +884,37 @@ export class SharedDataService {
       responseType: 'arraybuffer',
     });
   }
-  // downloadPolicy(url: any) {
-  //   this.getDownloadTemplate(url).subscribe(
-  //     (response: any) => {
-  //       const blob = new Blob([response], { type: 'application/pdf' });
-  //       saveAs(blob, 'Premium_breakup.pdf');
-  //     },
-  //     (error: any) => {
-  //       console.error('Error downloading policy:', error);
-  //       // Handle error, e.g., show a message to the user
-  //     }
-  //   );
-  // }
-  downloadPolicy(url: any): void {
-    let apiUrl = `${ApiConstants?.downloadPremiumBreakup}${url}`;
+  downloadPolicy(url: any) {
+    this.getDownloadTemplate(url).subscribe((response: any) => {
+      /**
+       * Create a Blob from the response data
+       */
+      const blob = new Blob([response], { type: 'application/pdf' });
 
-    const headers = new HttpHeaders({
-      Accept: 'application/pdf',
+      /**
+       * Create a download link
+       */
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+
+      /**
+       * Set the download attribute to the desired filename
+       */
+      link.download = 'Premium_breakup.pdf';
+
+      /**
+       * Append the link to the body
+       */
+      document.body.appendChild(link);
+
+      /**
+       * Trigger the download
+       */
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(link.href);
     });
-
-    this.http
-      .get(apiUrl, { headers, responseType: 'blob' })
-      .subscribe((data: Blob) => {
-        const url = window.URL.createObjectURL(data);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'downloaded_file.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      });
   }
-
   /**
  
    * @param url - use when user come through the email
