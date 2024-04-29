@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/components/dialog-components/snackbar/snackbar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root',
@@ -884,36 +885,11 @@ export class SharedDataService {
       responseType: 'arraybuffer',
     });
   }
-
   downloadPolicy(url: any) {
     this.getDownloadTemplate(url).subscribe(
       (response: any) => {
-        // Log the response to check if it contains the PDF data
-        console.log('Response:', response);
-
-        // Create a Blob from the response data
         const blob = new Blob([response], { type: 'application/pdf' });
-        // Log the Blob to check if it's created successfully
-        console.log('Blob:', blob);
-
-        // Create a download link
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-
-        // Set the download attribute to the desired filename
-        link.download = 'Premium_breakup.pdf';
-
-        // Append the link to the body
-        document.body.appendChild(link);
-
-        // Trigger the download
-        link.click();
-
-        // Remove the link from the DOM
-        document.body.removeChild(link);
-
-        // Clean up the URL object
-        window.URL.revokeObjectURL(link.href);
+        saveAs(blob, 'Premium_breakup.pdf');
       },
       (error: any) => {
         console.error('Error downloading policy:', error);
