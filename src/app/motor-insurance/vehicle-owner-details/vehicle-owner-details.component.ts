@@ -42,6 +42,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   pincodeId: any;
   proposalType: any;
   proposalBaseOwner: any;
+  proposerType: any;
+  isProposerTrue: boolean = true;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -98,6 +100,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
+    this.proposerType = sessionStorage.getItem('proposerType');
+    this.proposerType == 'individual'
+      ? (this.isProposerTrue = true)
+      : (this.isProposerTrue = false);
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (proposal?.customer_details !== null) {
@@ -325,7 +331,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.salutation}?insurer_code=${
           JSON.parse(this.quoteData)['insurer_code']
-        }`
+        }&is_individual=${this.isProposerTrue}&is_corporate=${!this
+          .isProposerTrue}`
       )
       .subscribe((salutation) => {
         this.salutationList = salutation;
