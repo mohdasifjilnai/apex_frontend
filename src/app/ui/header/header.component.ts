@@ -41,17 +41,19 @@ export class HeaderComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
-      this.copiedId=this.id  
+      this.copiedId = this.id;
     } else {
       this.transactionId = this.id;
+      this.copiedId = this.id;
     }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {
         this.transactionId =
           res.length > 10 ? res.substring(0, 10) + '...' : res;
-          this.copiedId=res
+        this.copiedId = res;
       } else {
         this.transactionId = res;
+        this.copiedId = res;
       }
     });
     this.router.events.subscribe((event) => {
@@ -79,9 +81,10 @@ export class HeaderComponent implements OnInit {
               ? res?.quote_response?.transaction_id.substring(0, 10) + '...'
               : res?.quote_response?.transaction_id;
 
-              this.copiedId=res?.quote_response?.transaction_id    
+          this.copiedId = res?.quote_response?.transaction_id;
         } else {
           this.transactionId = res?.quote_response?.transaction_id;
+          this.copiedId = res?.quote_response?.transaction_id;
         }
       }
     });
