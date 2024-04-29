@@ -21,6 +21,7 @@ export class ShareQuotesComponent implements OnInit {
   quotesData: any;
   partner_name: any;
   endPath: string;
+  quoteData: any;
   constructor(
     public dialogRef: MatDialogRef<ShareQuotesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -109,6 +110,12 @@ export class ShareQuotesComponent implements OnInit {
         ' successfully';
     }
     if (this.endPath == 'review') {
+      this.quoteData = JSON.parse(
+        sessionStorage.getItem('quotes_data') || '{}'
+      );
+      if (this.quoteData) {
+        this.quotes_id.push(this.quoteData?.quote_id);
+      }
       this.sharedDataService
         .shareQuotes(
           this.quotesData,

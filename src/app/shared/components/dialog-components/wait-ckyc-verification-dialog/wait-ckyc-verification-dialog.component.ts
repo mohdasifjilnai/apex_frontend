@@ -165,7 +165,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
    */
 
   onProceedData(resData: any) {
-    this.dialogRef.close(resData);
+    this.dialogRef.close();
   }
   /**
    *  this function use redirect to insurer
