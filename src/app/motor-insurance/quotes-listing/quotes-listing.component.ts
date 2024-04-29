@@ -200,8 +200,8 @@ export class QuotesListingComponent implements OnInit {
     });
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (popupData) {
-      // this.progressValue = 0;
-      // this.startProgress(0);
+      this.progressValue = 0;
+      this.startProgress(0);
     }
 
     this.sharedDataService.getProgressValue.subscribe((res) => {
@@ -650,8 +650,8 @@ export class QuotesListingComponent implements OnInit {
    */
   changeProposalType(event: any) {
     if (!this.proposalTypeOninit) {
-      this.progressValue = 0;
-      this.startProgress(0);
+        // this.progressValue = 0;
+        // this.startProgress(0);
       sessionStorage.setItem(
         'proposerType',
         this.proposalList.filter((res: any) => res.proposer_id == event)[0][

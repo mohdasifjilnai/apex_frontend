@@ -168,9 +168,8 @@
             [disabled]="!ckycFormGroup.valid"
             formControlName="ckyc_download_data"
             (change)="checkedTerms($event)"
-          ></mat-checkbox>
-          <div class="ms-2 accept-text" (click)="checkedTerms($event)">
-            I hereby give consent to access my CKYC data
+          >I hereby give consent to access my CKYC data</mat-checkbox>
+          <div class="ms-2 accept-text" >
             <a class="terms" (click)="downloadTerms()"> Terms & Conditions</a>
           </div>
         </div>
