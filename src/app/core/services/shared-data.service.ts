@@ -884,36 +884,42 @@ export class SharedDataService {
       responseType: 'arraybuffer',
     });
   }
+
   downloadPolicy(url: any) {
-    this.getDownloadTemplate(url).subscribe((response: any) => {
-      /**
-       * Create a Blob from the response data
-       */
-      const blob = new Blob([response], { type: 'application/pdf' });
+    this.getDownloadTemplate(url).subscribe(
+      (response: any) => {
+        // Log the response to check if it contains the PDF data
+        console.log('Response:', response);
 
-      /**
-       * Create a download link
-       */
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
+        // Create a Blob from the response data
+        const blob = new Blob([response], { type: 'application/pdf' });
+        // Log the Blob to check if it's created successfully
+        console.log('Blob:', blob);
 
-      /**
-       * Set the download attribute to the desired filename
-       */
-      link.download = 'Premium_breakup.pdf';
+        // Create a download link
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
 
-      /**
-       * Append the link to the body
-       */
-      document.body.appendChild(link);
+        // Set the download attribute to the desired filename
+        link.download = 'Premium_breakup.pdf';
 
-      /**
-       * Trigger the download
-       */
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(link.href);
-    });
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Trigger the download
+        link.click();
+
+        // Remove the link from the DOM
+        document.body.removeChild(link);
+
+        // Clean up the URL object
+        window.URL.revokeObjectURL(link.href);
+      },
+      (error: any) => {
+        console.error('Error downloading policy:', error);
+        // Handle error, e.g., show a message to the user
+      }
+    );
   }
   /**
  
