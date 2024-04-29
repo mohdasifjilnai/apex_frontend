@@ -32,7 +32,7 @@ export class FailureDialogComponent implements OnInit {
       (data?.data?.status == false && data?.data?.insurer_code != 'digit') ||
       data?.data?.err_code == 1
     ) {
-      this.sharedService.openSnackBar(data?.data?.error_message, true, 3000);
+      // this.sharedService.openSnackBar(data?.data?.error_message, true, 3000);
     } else if (
       (data?.data?.status == false && data?.data?.insurer_code == 'digit') ||
       data?.data?.err_code == 1

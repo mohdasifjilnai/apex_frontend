@@ -63,6 +63,8 @@ export class AddOnsComponent implements OnInit {
   isMultiCheckbox: boolean = false;
   isTab: boolean = false;
   isMobileView = false;
+  multipCheckboxName: any = [];
+  addMultiCheckboxValue: any = [];
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -141,10 +143,48 @@ export class AddOnsComponent implements OnInit {
                 ) {
                   this.dropDownFieldIndex[k] = k;
                 }
+                if (
+                  this.addOnsArray[i].fe_template[k]?.next_type ==
+                  'multi_checkbox'
+                ) {
+                  this.multiCheckboxField[k] = k;
+                  this.addMultiCheckboxValue = [];
+
+                  this.addMultiCheckboxValue.push(...value);
+                  let modifiedMultipleCheckbox =
+                    this.addMultiCheckboxValue[0].split(',');
+                  if (modifiedMultipleCheckbox?.length > 0) {
+                    for (
+                      let l = 0;
+                      l <= modifiedMultipleCheckbox.length - 1;
+                      l++
+                    ) {
+                      for (
+                        let m = 0;
+                        m <=
+                        this.addOnsArray[i].fe_template[k]
+                          ?.modifiedMultiCheckList.length -
+                          1;
+                        m++
+                      ) {
+                        if (
+                          this.addOnsArray[i].fe_template[k]
+                            ?.modifiedMultiCheckList[m].name ==
+                          modifiedMultipleCheckbox[l]
+                        ) {
+                          this.addOnsArray[i].fe_template[
+                            k
+                          ].modifiedMultiCheckList[m].multiChecked = true;
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }
+        console.log(this.addOnsArray);
       }
     });
 
@@ -605,7 +645,8 @@ export class AddOnsComponent implements OnInit {
     type: any,
     index: number,
     name?: any,
-    rb_code?: any
+    rb_code?: any,
+    multiCheckbox_name?: any
   ) {
     this.showButtons = true;
     if (event != '' && type == 'int_input') {
@@ -620,6 +661,7 @@ export class AddOnsComponent implements OnInit {
       this.multiCheckboxFlagIndex[index] = false;
       this.checkMultiCheckBox(this.multiCheckboxFlagIndex);
       this.subCheckBox.push(event?.source?.id);
+      this.multipCheckboxName.push(multiCheckbox_name);
       delete this.multiCheckbox[index];
     } else if (!event?.checked && type == 'multi_checkbox') {
       /**
@@ -657,7 +699,7 @@ export class AddOnsComponent implements OnInit {
           key[keys[0]] = JSON.parse(event);
         }
         if (type == 'multi_checkbox') {
-          key[keys[0]] = this.subCheckBox.join(',');
+          key[keys[0]] = this.multipCheckboxName.join(',');
         }
       }
     }

@@ -53,8 +53,7 @@
             <span
               *ngIf="
                 listValue?.next_type == 'multi_checkbox' &&
-                i == multiCheckboxField[i] &&
-                listValue.checked
+                i == multiCheckboxField[i]
               "
               class="d-grid m-1 ms-4"
             >
@@ -66,13 +65,14 @@
                     listValue?.next_type,
                     i,
                     listValue?.name,
-                    listValue?.rb_code
+                    listValue?.rb_code,
+                    data?.name
                   )
                 "
                 [disabled]="enableAddOns"
                 [(ngModel)]="data.multiChecked"
-                >{{ data.name }}</mat-checkbox
-              >
+                >{{ data.name }}
+              </mat-checkbox>
               <mat-error *ngIf="i == multiCheckbox[i]">
                 Please select a country.
               </mat-error>
