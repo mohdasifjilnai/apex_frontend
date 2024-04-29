@@ -24,7 +24,7 @@
             {{ documentHeaderText }}
           </p>
         </div>
-        <div [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }">
+        <div [ngClass]="{ 'col-12': isTwoObject, 'col-12 ': !isTwoObject }">
           <mat-form-field
             appearance="outline"
             class="document-list mat-input-custom"
@@ -59,7 +59,7 @@
             *ngFor="let fields of formFieldPOA | keyvalue; let i = index"
           >
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'dropdown'"
             >
               <mat-form-field
@@ -93,7 +93,7 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'string'"
             >
               <mat-form-field
@@ -120,7 +120,7 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'date'"
             >
               <mat-form-field appearance="outline">
@@ -157,7 +157,7 @@
             </div>
 
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
               <div class="form-group">
@@ -200,7 +200,7 @@
             *ngFor="let fields of formFieldPOI | keyvalue; let i = index"
           >
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'dropdown'"
             >
               <mat-form-field
@@ -234,7 +234,7 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'string'"
             >
               <mat-form-field
@@ -261,7 +261,7 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'date'"
             >
               <mat-form-field appearance="outline">
@@ -300,7 +300,7 @@
             </div>
 
             <div
-              [ngClass]="{ 'col-4': isTwoObject, 'col-12': !isTwoObject }"
+              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
               <div class="form-group">
