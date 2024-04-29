@@ -2,13 +2,13 @@
   <mat-label class="registration-address"
     >Vehicle Registration Address</mat-label
   >
-  <input
+  <textarea
     matInput
     placeholder="Enter Address"
     formControlName="vehicle_registration_address"
     appNoSpace
     minlength="10"
-  />
+  ></textarea>
   <mat-error
     *ngIf="
       vehilceRegistrationForm.controls[

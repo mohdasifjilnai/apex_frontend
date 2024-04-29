@@ -722,6 +722,9 @@ input.mat-input-element {
     display: flex !important;
   }
 }
+textarea.mat-input-element {
+  height: 100% !important;
+}
 .disabled-btn:hover {
   background: #d6d6d6;
   border: 1px solid #d6d6d6;

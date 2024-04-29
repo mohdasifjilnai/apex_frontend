@@ -24,7 +24,7 @@
             {{ documentHeaderText }}
           </p>
         </div>
-        <div [ngClass]="{ 'col-12': isTwoObject, 'col-12 ': !isTwoObject }">
+        <div [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 ': !isTwoObject }">
           <mat-form-field
             appearance="outline"
             class="document-list mat-input-custom"
@@ -273,6 +273,7 @@
                   [formControlName]="fields?.value?.label"
                   #dobDateInput
                   appDateFormat
+                  [max]="maxDate"
                 />
                 <mat-datepicker-toggle matSuffix [for]="dobDate">
                   <mat-icon matDatepickerToggleIcon>

@@ -59,6 +59,7 @@ export class CkycDocumentsComponent implements OnInit {
   fileControlName: string = '';
   isReUploadDocument: boolean = false;
   formGetData: any;
+  maxDate = new Date();
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

@@ -958,6 +958,9 @@ export class SharedDataService {
   sendQuoteData(quoteData: any) {
     this.quoteItem = quoteData;
   }
+  getQuoteItem() {
+    return this.quoteItem;
+  }
   setIsNotShowNomineeDetails(data: any) {
     this.nomineeData.next(data);
   }
