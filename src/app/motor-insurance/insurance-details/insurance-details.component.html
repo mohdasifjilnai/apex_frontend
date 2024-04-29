@@ -129,10 +129,15 @@
       >
       <span class="plan-type"
         >&#x20B9;
-        {{
+        <!-- {{
           quoteData?.premium_details?.total_addon_premium | number : "2."
-        }}</span
-      >
+        }} -->
+        {{
+          quoteData?.premium_details?.total_addon_premium !== 0
+            ? (quoteData?.premium_details?.total_addon_premium | number : "2.")
+            : 0
+        }}
+      </span>
     </div>
     <div class="mt-2" *ngFor="let addons of addonsList">
       <div

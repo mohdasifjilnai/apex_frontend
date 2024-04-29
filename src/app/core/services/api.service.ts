@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ApiService {
   constructor(private httpService: HttpService, public dialog: MatDialog) {}
   getStatusEvent: Subject<any> = new Subject();
+  addressLine: any = false;
 
   /**
    * method for get request api
@@ -41,16 +42,42 @@ export class ApiService {
 
     if (err.status !== 401) {
       if (err.status !== 200) {
-        const dialogRef = this.dialog.open(FailureDialogComponent, {
-          width: 'auto',
-          height: 'auto',
-          data: {
-            errorData: error,
-            statusdata: status,
-          },
-          panelClass: 'failure-dialog-class',
-        });
-        dialogRef.afterClosed().subscribe((result: any) => {});
+        if (
+          err.status == 422 &&
+          err.url.includes('api/v1/proposal/create_update_proposal/')
+        ) {
+          this.addressLine = false;
+          if (err?.error?.detail[0]) {
+            for (let error of err?.error?.detail[0]?.loc) {
+              if (error === 'address_line') {
+                this.addressLine = true;
+              }
+            }
+            if (!this.addressLine) {
+              const dialogRef = this.dialog.open(FailureDialogComponent, {
+                width: 'auto',
+                height: 'auto',
+                data: {
+                  errorData: error,
+                  statusdata: status,
+                },
+                panelClass: 'failure-dialog-class',
+              });
+              dialogRef.afterClosed().subscribe((result: any) => {});
+            }
+          }
+        } else {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: error,
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
+        }
       }
     } else if (err.status == 401) {
       localStorage.clear();
@@ -81,12 +108,23 @@ export class ApiService {
 
   /**
    * method for post request api
-   **/
+  //  **/
+  // postRequestedResponseCreateProposal(url: any, body: any) {
+  //   return this.httpService.postRequest(url, body).pipe(
+  //     map((response: any) => response),
+  //     catchError((err: HttpErrorResponse) => {
+  //       JSON.stringify(err);
+  //       return throwError(err);
+  //     })
+  //   );
+  // }
+
   postRequestedResponseCreateProposal(url: any, body: any) {
     return this.httpService.postRequest(url, body).pipe(
       map((response: any) => response),
       catchError((err: HttpErrorResponse) => {
         JSON.stringify(err);
+        JSON.stringify(this.errorHandler(err));
         return throwError(err);
       })
     );
