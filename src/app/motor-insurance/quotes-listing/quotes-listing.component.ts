@@ -211,6 +211,8 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.quotationListing.subscribe((quotes) => {
       if (quotes) {
         // if (this.progressValue == 100) {
+        this.selectedQuotes = [];
+        this.isCheckboxChecked = false;
         this.quotationArray = quotes;
         this.quotationData = [];
         this.errorQuotationArray = [];
