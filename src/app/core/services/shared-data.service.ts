@@ -885,18 +885,40 @@ export class SharedDataService {
       responseType: 'arraybuffer',
     });
   }
-  downloadPolicy(url: any) {
-    this.getDownloadTemplate(url).subscribe(
-      (response: any) => {
-        const blob = new Blob([response], { type: 'application/pdf' });
-        saveAs(blob, 'Premium_breakup.pdf');
-      },
-      (error: any) => {
-        console.error('Error downloading policy:', error);
-        // Handle error, e.g., show a message to the user
-      }
-    );
+  // downloadPolicy(url: any) {
+  //   this.getDownloadTemplate(url).subscribe(
+  //     (response: any) => {
+  //       const blob = new Blob([response], { type: 'application/pdf' });
+  //       saveAs(blob, 'Premium_breakup.pdf');
+  //     },
+  //     (error: any) => {
+  //       console.error('Error downloading policy:', error);
+  //       // Handle error, e.g., show a message to the user
+  //     }
+  //   );
+  // }
+  downloadPolicy(url: any): void {
+    let apiUrl = `${ApiConstants?.downloadPremiumBreakup}${url}`;
+
+    const headers = new HttpHeaders({
+      Accept: 'application/pdf',
+    });
+
+    this.http
+      .get(apiUrl, { headers, responseType: 'blob' })
+      .subscribe((data: Blob) => {
+        const url = window.URL.createObjectURL(data);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'downloaded_file.pdf';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      });
   }
+
   /**
  
    * @param url - use when user come through the email
