@@ -95,7 +95,7 @@ export class OtpComponent implements OnInit {
     this.otp = otp;
     if (otp.length == 6) {
       this.btnDisable = false;
-      this.verify();
+      // this.verify();
     } else {
       this.btnDisable = true;
     }

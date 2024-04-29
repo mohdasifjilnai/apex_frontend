@@ -21,6 +21,9 @@ export class FailureDialogComponent implements OnInit {
     private sharedService: SharedDataService
   ) {
     this.faliureData = data['data'];
+    if (this.faliureData?.error_message) {
+      this.errorMessage = this.faliureData?.error_message;
+    }
     if (data?.statusdata?.status == 422) {
       this.errorMessage = data['statusdata']['message'];
     } else if (data?.statusdata?.status == 500) {

@@ -62,16 +62,15 @@
               <button
                 class="submit-btn otp-submission"
                 type="submit"
-                
+                (click)="loader ? null : verify()"
                 [disabled]="btnDisable"
               >
-              <!-- (click)="loader ? null : verify()" -->
-              <img
-                src="/assets/gif/button-loader.gif"
-                alt="close"
-                class="loader me-2"
-                *ngIf="loader"
-              />
+                <img
+                  src="/assets/gif/button-loader.gif"
+                  alt="close"
+                  class="loader me-2"
+                  *ngIf="loader"
+                />
                 Verify & Proceed
               </button>
             </div>
