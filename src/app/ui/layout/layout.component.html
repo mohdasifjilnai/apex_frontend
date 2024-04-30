@@ -3,9 +3,10 @@
     <app-header></app-header>
   </div>
 </div>
-<div class="main-content">
+<div class="main-content" >
   <app-breadcrumb class="breadcrumb"></app-breadcrumb>
-  <div class="main-body p-3">
+  <div class="main-body p-3" (mousedown)="refreshPage()">
+    
     <router-outlet></router-outlet>
   </div>
 </div>

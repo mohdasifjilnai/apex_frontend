@@ -9,4 +9,7 @@ export class LayoutComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+  refreshPage(){
+    window.location.reload();
+  }
 }

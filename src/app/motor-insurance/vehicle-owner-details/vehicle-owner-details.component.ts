@@ -77,7 +77,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     owner_state: new FormControl('', Validators.required),
     ownner_occupation_type: new FormControl(''),
     owner_communication_addres: new FormControl('', [Validators.required]),
-    marital_status: new FormControl('1', Validators.required),
+    marital_status: new FormControl('1'),
     owner_gender: new FormControl(''),
     ownner_salutation_type: new FormControl('', Validators.required),
   });
@@ -226,11 +226,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.owenerVehicleDetailsForm
         .get('owner_gender')
         ?.updateValueAndValidity();
+
       this.owenerVehicleDetailsForm
         .get('ownner_occupation_type')
         ?.setValidators([Validators.required]);
       this.owenerVehicleDetailsForm
         .get('ownner_occupation_type')
+        ?.updateValueAndValidity();
+
+      this.owenerVehicleDetailsForm
+        .get('marital_status')
+        ?.setValidators([Validators.required]);
+      this.owenerVehicleDetailsForm
+        .get('marital_status')
         ?.updateValueAndValidity();
     } else {
       this.proposalBaseOwner = 'Company Name';
@@ -243,6 +251,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         ?.setValidators([]);
       this.owenerVehicleDetailsForm
         .get('ownner_occupation_type')
+        ?.updateValueAndValidity();
+
+      this.owenerVehicleDetailsForm.get('marital_status')?.setValidators([]);
+      this.owenerVehicleDetailsForm
+        .get('marital_status')
         ?.updateValueAndValidity();
     }
     setTimeout(() => {
