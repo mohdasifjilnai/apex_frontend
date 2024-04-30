@@ -32,6 +32,9 @@ export class PolicyExpiredDateComponent implements OnInit {
   minDate!: Date;
   maxDate!: Date;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
+  policyExpiryDateSubscription: any;
+
+  @Input() urlDate: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -150,5 +153,9 @@ export class PolicyExpiredDateComponent implements OnInit {
   }
   EnterKey(event: Event) {
     this.sharedDataService.handleEnterKey(event, this.expiryDate);
+  }
+
+  onExpiryDate(date: any) {
+    this.sharedDataService.policyExpiryDate(date);
   }
 }

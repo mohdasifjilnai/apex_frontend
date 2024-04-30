@@ -39,7 +39,9 @@ export class FailureDialogComponent implements OnInit {
     ) {
       this.errorMessage = data?.data?.error_message;
     } else if (!data?.errorData?.verification_status) {
-      this.errorMessage = data?.errorData?.error_message;
+      this.errorMessage = data?.errorData?.error_message
+        ? data?.errorData?.error_message
+        : data?.errorData;
     }
   }
   // failureJSON: {

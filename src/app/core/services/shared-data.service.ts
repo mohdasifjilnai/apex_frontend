@@ -63,6 +63,7 @@ export class SharedDataService {
   renewalQuotes = new BehaviorSubject<any>(null);
   checkRenewalQuotes = new BehaviorSubject<any>(null);
   updateVehicleType = new BehaviorSubject<any>(null);
+  changePolicyExpDate: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   connectionData: any = [];
@@ -1008,5 +1009,9 @@ export class SharedDataService {
   }
   formCheck(data: any) {
     this.vehicleOwnerForm.next(data);
+  }
+
+  policyExpiryDate(date: any) {
+    this.changePolicyExpDate.next(date);
   }
 }

@@ -66,6 +66,17 @@ export class ApiService {
               dialogRef.afterClosed().subscribe((result: any) => {});
             }
           }
+        } else if (err.status == 502) {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: 'Bad gateway request',
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
         } else {
           const dialogRef = this.dialog.open(FailureDialogComponent, {
             width: 'auto',

@@ -28,6 +28,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   isTpPolicyDetails: boolean = false;
   mmvData: any;
   isDisableCKyc: boolean = false;
+  url = '';
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
