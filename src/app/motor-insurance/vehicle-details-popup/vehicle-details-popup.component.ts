@@ -253,7 +253,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.sharedDataService.changePolicyExpDate.subscribe((res) => {
       let policyExpDateValue = new Date(res.value);
-      // console.log(this.vehicleDetailsForm.value);
+
       this.getExpiringPolicy('', policyExpDateValue);
     });
     this.checkWheelerType(this.editVehicleDetails);
@@ -960,8 +960,28 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.registrationNumber?.registration_year
       ) {
         this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+        let policyExpiryDateValue;
+        let policyDate = '';
+        if (!policyExpiryDate) {
+          if (this.registrationNumber?.previous_policy_exp_date) {
+            policyExpiryDateValue = new Date(
+              this.registrationNumber?.previous_policy_exp_date
+            );
 
-        expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}`;
+            policyDate = moment(policyExpiryDateValue).format('DD/MM/YYYY');
+          }
+        } else {
+          policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+        }
+
+        let userRCtransfer = this.vehicleDetailsForm.value.user_car
+          ? this.vehicleDetailsForm.value.user_car
+          : false;
+        let previousClaimed = this.vehicleDetailsForm.value.previous_claimed
+          ? this.vehicleDetailsForm.value.previous_claimed
+          : false;
+
+        expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
       }
     } else if (date) {
       let dateObj = moment(date, 'MM/YYYY');
@@ -1289,8 +1309,23 @@ Get the expiring policy list based on the given date or the registration details
         this.registrationNumber?.registration_year
       ) {
         this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+        let policyExpiryDate;
+        let policyDate = '';
+        if (this.registrationNumber?.previous_policy_exp_date) {
+          policyExpiryDate = new Date(
+            this.registrationNumber?.previous_policy_exp_date
+          );
 
-        expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${vehicleType}`;
+          policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+        }
+        let userRCtransfer = this.vehicleDetailsForm.value.user_car
+          ? this.vehicleDetailsForm.value.user_car
+          : false;
+        let previousClaimed = this.vehicleDetailsForm.value.previous_claimed
+          ? this.vehicleDetailsForm.value.previous_claimed
+          : false;
+
+        expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${vehicleType}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
       }
     } else if (date && modifiedDate == 'dateChange') {
       let dateObj = moment(date, 'MM/YYYY');
