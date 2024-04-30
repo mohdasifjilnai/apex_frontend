@@ -971,7 +971,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
 
       let policyExpiryDate;
-      let policyDate;
+      let policyDate = '';
       if (this.vehicleMMVValue?.policy_expiry_date) {
         policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
@@ -995,7 +995,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.registrationYear = moment(dateObj).year();
       let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
       // let policyExpiryDate;
-      let policyDate;
+      let policyDate = '';
 
       // policyExpiryDate = policyExpiryDate;
 
@@ -1019,7 +1019,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.registrationYear = moment(dateObj).year();
         let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
         let policyExpiryDate;
-        let policyDate;
+        let policyDate = '';
         if (this.vehicleMMVValue?.policy_expiry_date) {
           policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
@@ -1167,7 +1167,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   onExpiryPolicyChange(event: MatSelectChange): void {
     this.hideFieldOnExpiryPolicy(event.value);
-
     for (let i = 0; i <= this.expiryList.length - 1; i++) {
       if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
         this.policyTypeBaseNCB = this.expiryList[i].offered_ncb_value;
@@ -1301,7 +1300,7 @@ Get the expiring policy list based on the given date or the registration details
       let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
 
       let policyExpiryDate;
-      let policyDate;
+      let policyDate = '';
       if (this.vehicleMMVValue) {
         if (this.vehicleMMVValue?.policy_expiry_date) {
           policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
@@ -1336,7 +1335,8 @@ Get the expiring policy list based on the given date or the registration details
       this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
       this.registrationYear = moment(dateObj).year();
       let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
-      let policyExpDateValue = moment(policyExpDate).format('DD/MM/YYYY');
+      let policyExpDateValue = '';
+      policyExpDateValue = moment(policyExpDate).format('DD/MM/YYYY');
       let userRCtransfer = this.vehicleDetailsForm.value.user_car
         ? this.vehicleDetailsForm.value.user_car
         : false;
@@ -1354,7 +1354,7 @@ Get the expiring policy list based on the given date or the registration details
       this.registrationYear = moment(dateObj).year();
       let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
       let policyExpiryDate;
-      let policyDate;
+      let policyDate = '';
       if (this.vehicleMMVValue?.policy_expiry_date) {
         policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
