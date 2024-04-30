@@ -14,7 +14,7 @@ export class LayoutComponent implements OnInit {
   // }
   isRefreshing: boolean = false;
   startY: number =0;
-  threshold: number = 100; // Adjust as needed
+  threshold: number = 300; // Adjust as needed
   
   onTouchStart(event: TouchEvent) {
     this.startY = event.touches[0].clientY;
