@@ -541,7 +541,7 @@ export class SharedDataService {
         additional_mobile_number:
           formData?.get('additional_contact')?.value || '',
         gender: formData?.get('owner_gender')?.value || '',
-        marital_status: formData?.get('marital_status')?.value || '',
+        marital_status: formData?.get('marital_status')?.value || null,
         salutation: formData?.get('ownner_salutation_type')?.value || '',
         nationality: 'INDIAN',
         communication_address: {
