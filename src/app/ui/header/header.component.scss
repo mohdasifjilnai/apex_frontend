@@ -1,5 +1,9 @@
 .navbar-section {
   // background-color: #F1F7FA;
+  position: fixed;
+  background-color: #edf2fc;
+  z-index: 1000;
+  width: 100%;
   border-bottom: 1px solid #e2e2e2;
   .navbar-nav {
     width: 100%;

@@ -32,12 +32,24 @@
     color: #282828 !important;
     padding-top: 2px;
   }
+  .display-checkbox{
+    display: flex;
+  }
 }
 
 @media screen and (max-width: 999px) {
   .cky-form {
     .owner-vehicle-submission {
       margin-top: 20px;
+    }
+    ::ng-deep .mat-checkbox-label {
+      white-space: pre !important;
+    }
+    .display-checkbox{
+      display: grid;
+    }
+    .accept-text{
+      margin-left: 2em !important;
     }
   }
 }
