@@ -1354,7 +1354,8 @@ Get the expiring policy list based on the given date or the registration details
         expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${vehicleType}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
       } else if (
         this.vehicleDetailsForm?.value?.policy_expiry_date != 'Invalid Date' &&
-        this.vehicleDetailsForm?.value?.policy_expiry_date != undefined
+        this.vehicleDetailsForm?.value?.policy_expiry_date != undefined &&
+        this.vehicleDetailsForm?.value?.policy_expiry_date != null
       ) {
         policyExpiryDate = new Date(
           this.vehicleDetailsForm.value.policy_expiry_date
