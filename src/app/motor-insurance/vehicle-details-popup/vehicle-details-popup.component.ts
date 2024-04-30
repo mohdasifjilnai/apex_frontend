@@ -1339,7 +1339,7 @@ Get the expiring policy list based on the given date or the registration details
       let policyDate = '';
 
       if (this.vehicleMMVValue) {
-        if (this.vehicleMMVValue?.policy_expiry_date) {
+        if (this.vehicleMMVValue?.policy_expiry_date != '') {
           policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
           policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
