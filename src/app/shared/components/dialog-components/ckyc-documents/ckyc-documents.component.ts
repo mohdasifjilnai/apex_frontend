@@ -60,6 +60,10 @@ export class CkycDocumentsComponent implements OnInit {
   isReUploadDocument: boolean = false;
   formGetData: any;
   maxDate = new Date();
+  fileInputError: boolean = true;
+  PoiFileInputError: boolean = true;
+  isPoiFileInputError: boolean = false;
+  isfileInputError: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -101,18 +105,47 @@ Event handler for when a file is selected.
   ): void {
     const selectedFile: File = event.target.files[0];
     this.fileControlName = fileFormControlName;
+    const fileType = selectedFile.type;
     let doc_type;
     this.fileName =
       selectedFile.name.length > 20
         ? selectedFile.name.substring(0, 20) + '...'
         : selectedFile.name;
     if (fileFormControlName == 'poa_doc_url') {
-      this.POAFileName = this.fileName;
       doc_type = 'poa';
+      if (
+        !(
+          fileType === 'image/jpeg' ||
+          fileType === 'image/png' ||
+          fileType === 'application/pdf'
+        )
+      ) {
+        this.POAFileName = '';
+        this.fileInputError = false;
+        this.isfileInputError = true;
+      } else {
+        this.POAFileName = this.fileName;
+        this.fileInputError = false;
+        this.isfileInputError = false;
+      }
     }
     if (fileFormControlName == 'poi_doc_url') {
-      this.POIFileName = this.fileName;
       doc_type = 'poi';
+      if (
+        !(
+          fileType === 'image/jpeg' ||
+          fileType === 'image/png' ||
+          fileType === 'application/pdf'
+        )
+      ) {
+        this.POIFileName = '';
+        this.PoiFileInputError = false;
+        this.isPoiFileInputError = true;
+      } else {
+        this.POIFileName = this.fileName;
+        this.PoiFileInputError = false;
+        this.isPoiFileInputError = false;
+      }
     }
     let formData: FormData = new FormData();
     formData.append('file', selectedFile, selectedFile.name);

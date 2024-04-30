@@ -239,7 +239,13 @@ input[type="file"] {
     padding-top: 8px;
     overflow-x: hidden;
   }
-  .res-view{
+  .res-view {
     padding: 16px;
   }
+}
+.error-msg {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+  opacity: 70%;
 }

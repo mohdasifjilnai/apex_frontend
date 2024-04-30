@@ -24,7 +24,12 @@
             {{ documentHeaderText }}
           </p>
         </div>
-        <div [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 ': !isTwoObject }">
+        <div
+          [ngClass]="{
+            'col-12 col-lg-4': isTwoObject,
+            'col-12 ': !isTwoObject
+          }"
+        >
           <mat-form-field
             appearance="outline"
             class="document-list mat-input-custom"
@@ -59,7 +64,10 @@
             *ngFor="let fields of formFieldPOA | keyvalue; let i = index"
           >
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'dropdown'"
             >
               <mat-form-field
@@ -93,7 +101,10 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'string'"
             >
               <mat-form-field
@@ -120,7 +131,10 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'date'"
             >
               <mat-form-field appearance="outline">
@@ -157,7 +171,10 @@
             </div>
 
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
               <div class="form-group">
@@ -185,6 +202,12 @@
                   (change)="onFileSelected($event, fields?.value?.label)"
                   [formControlName]="fields?.value?.label"
                 />
+                <div *ngIf="isfileInputError" class="text-danger">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+                <div *ngIf="fileInputError" class="error-msg">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
               </div>
             </div>
           </ng-container>
@@ -200,7 +223,10 @@
             *ngFor="let fields of formFieldPOI | keyvalue; let i = index"
           >
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'dropdown'"
             >
               <mat-form-field
@@ -234,7 +260,10 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'string'"
             >
               <mat-form-field
@@ -261,7 +290,10 @@
               </mat-form-field>
             </div>
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'date'"
             >
               <mat-form-field appearance="outline">
@@ -301,7 +333,10 @@
             </div>
 
             <div
-              [ngClass]="{ 'col-12 col-lg-4': isTwoObject, 'col-12 col-lg-12': !isTwoObject }"
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
               <div class="form-group">
@@ -329,6 +364,12 @@
                   (change)="onFileSelected($event, fields?.value?.label)"
                   [formControlName]="fields?.value?.label"
                 />
+                <div *ngIf="PoiFileInputError" class="error-msg">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+                <div *ngIf="isPoiFileInputError" class="text-danger">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
               </div>
             </div>
           </ng-container>

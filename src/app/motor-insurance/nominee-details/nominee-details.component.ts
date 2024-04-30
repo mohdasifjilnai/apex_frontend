@@ -16,6 +16,7 @@ export class NomineeDetailsComponent implements OnInit {
   ageList: { id: number; age: number }[] = [];
   @Input() fetchOwnerVehicleDetails: any;
   @Output() afterNomineeGetData = new EventEmitter<any>();
+  quoteData: any;
 
   nominneForm: FormGroup = new FormGroup({
     nominne_full_Name: new FormControl('', Validators.required),
@@ -37,6 +38,7 @@ export class NomineeDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     /**
      * initializes the age list with ages between 18 and 70
      */
@@ -80,7 +82,9 @@ export class NomineeDetailsComponent implements OnInit {
    */
   getRelationshipsList() {
     this.apiService
-      .getRequestedResponse(ApiConstants.relation_type)
+      .getRequestedResponse(
+        `${ApiConstants.relation_type}?insurer_code=${this.quoteData?.insurer_code}`
+      )
       .subscribe((response) => {
         this.relationshipList = response;
       });
