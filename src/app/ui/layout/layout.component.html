@@ -5,7 +5,8 @@
 </div>
 <div class="main-content" >
   <app-breadcrumb class="breadcrumb"></app-breadcrumb>
-  <div class="main-body p-3" >
+  <div class="main-body p-3" (touchstart)="onTouchStart($event)" 
+  (touchend)="onTouchEnd($event)">
     
     <router-outlet></router-outlet>
   </div>
