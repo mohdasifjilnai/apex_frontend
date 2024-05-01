@@ -328,18 +328,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.isDisableCKyc = false;
       } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
         this.isDisableCKyc = false;
-      } else if (
-        this.shareData.getProposalDetails.subscribe((res) => {
-          if (res?.ckyc_details?.is_verification) {
-            this.isDisableCKyc = false;
-          } else {
-            this.isDisableCKyc = true;
-          }
-        })
-      ) {
       } else {
         this.isDisableCKyc = true;
       }
+    }
+    if (
+      this.shareData.getProposalDetails.subscribe((res) => {
+        if (
+          kycData.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
+          res?.ckyc_details?.is_verification
+        ) {
+          this.isDisableCKyc = false;
+        }
+      })
+    ) {
     }
     this.shareData?.fetchedCkycData.subscribe((kyc) => {
       if (kyc) {

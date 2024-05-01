@@ -25,7 +25,7 @@
       <span class="d-flex justify-content-end own-damage-amount text-bold">
         &#8377;
         {{
-          initiateQuotes.premium_details.od_premium_details.total_od
+          initiateQuotes.premium_details.od_premium_details.total_od_premium
             | number : "2."
         }}
       </span>
@@ -76,7 +76,7 @@
     <span class="own-damage-amount text-bold">
       &#8377;
       {{
-        initiateQuotes.premium_details.tp_premium_details.total_tp
+        initiateQuotes.premium_details.tp_premium_details.total_tp_premium
           | number : "2."
       }}
     </span>
@@ -113,7 +113,13 @@
     </span>
     <span class="own-damage-amount text-bold">
       &#8377;
-      {{ initiateQuotes?.premium_details?.total_addon_premium | number : "2." }}
+      {{
+        initiateQuotes?.premium_details?.total_addon_premium !== 0
+          ? (initiateQuotes?.premium_details?.total_addon_premium
+            | number : "2.")
+          : 0
+      }}
+      <!-- {{ initiateQuotes?.premium_details?.total_addon_premium | number : "2." }} -->
     </span>
   </div>
   <ng-container
