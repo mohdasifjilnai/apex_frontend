@@ -4,7 +4,12 @@
     <div *ngIf="thirdParty != 'bundled_tp'">
       <p class="cover-text">Total Cover (IDV)</p>
       <p class="cover-amount">
-        &#8377; {{ initiateQuotes.premium_details.idv | number : "2." }}
+        &#8377;
+        {{
+          initiateQuotes.premium_details.idv != 0
+            ? (initiateQuotes.premium_details.idv | number : "2.")
+            : 0
+        }}
       </p>
     </div>
 
@@ -25,8 +30,11 @@
       <span class="d-flex justify-content-end own-damage-amount text-bold">
         &#8377;
         {{
-          initiateQuotes.premium_details.od_premium_details.total_od_premium
-            | number : "2."
+          initiateQuotes.premium_details.od_premium_details.total_od_premium !=
+          0
+            ? (initiateQuotes.premium_details.od_premium_details
+                .total_od_premium | number : "2.")
+            : 0
         }}
       </span>
     </div>
@@ -52,7 +60,8 @@
         &#8377;
         {{
           initiateQuotes.premium_details.od_premium_details.ncb_discount < 0
-            ? -initiateQuotes.premium_details.od_premium_details.ncb_discount
+            ? (-initiateQuotes.premium_details.od_premium_details.ncb_discount
+              | number : "2.")
             : (initiateQuotes.premium_details.od_premium_details.ncb_discount
               | number : "2.")
         }}</span
@@ -76,8 +85,10 @@
     <span class="own-damage-amount text-bold">
       &#8377;
       {{
-        initiateQuotes.premium_details.tp_premium_details.total_tp_premium
-          | number : "2."
+        initiateQuotes.premium_details.tp_premium_details.total_tp_premium != 0
+          ? (initiateQuotes.premium_details.tp_premium_details.total_tp_premium
+            | number : "2.")
+          : 0
       }}
     </span>
   </div>
@@ -173,8 +184,10 @@
               <span class="own-damage-amount text-bold">
                 &#8377;
                 {{
-                  initiateQuotes?.premium_details?.total_addon_premium
-                    | number : "2."
+                  initiateQuotes?.premium_details?.total_addon_premium != 0
+                    ? (initiateQuotes?.premium_details?.total_addon_premium
+                      | number : "2.")
+                    : 0
                 }}
               </span>
             </div>
@@ -214,7 +227,11 @@
     <span class="own-damage-text text-bold"> GST (18%) (C) </span>
     <span class="own-damage-amount text-bold">
       &#8377;
-      {{ initiateQuotes.premium_details.total_gst | number : "2." }}
+      {{
+        initiateQuotes.premium_details.total_gst != 0
+          ? (initiateQuotes.premium_details.total_gst | number : "2.")
+          : 0
+      }}
     </span>
   </div>
 
@@ -222,7 +239,11 @@
     <span class="own-damage-text text-bold"> Total Premium (A+B+C)</span>
     <span class="own-damage-amount text-bold">
       &#8377;
-      {{ initiateQuotes.premium_details.gross_premium | number : "2." }}
+      {{
+        initiateQuotes.premium_details.gross_premium != 0
+          ? (initiateQuotes.premium_details.gross_premium | number : "2.")
+          : 0
+      }}
     </span>
   </div>
 

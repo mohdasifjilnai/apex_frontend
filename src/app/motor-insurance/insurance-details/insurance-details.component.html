@@ -45,7 +45,11 @@
       <div class="d-flex justify-content-between mt-2">
         <span class="anunual-commericial">{{ planType?.name }}</span>
         <span class="plan-type">
-          &#x20B9;{{ quoteData?.premium_details?.idv | number : "2." }}
+          &#x20B9;{{
+            quoteData?.premium_details?.idv != 0
+              ? (quoteData?.premium_details?.idv | number : "2.")
+              : 0
+          }}
         </span>
       </div>
     </div>
@@ -56,8 +60,10 @@
       <span class="plan-type">
         &#x20B9;
         {{
-          quoteData?.premium_details?.od_premium_details?.total_od_premium
-            | number : "2."
+          quoteData?.premium_details?.od_premium_details?.total_od_premium != 0
+            ? (quoteData?.premium_details?.od_premium_details?.total_od_premium
+              | number : "2.")
+            : 0
         }}
       </span>
     </div>
@@ -103,8 +109,10 @@
       <span class="plan-type">
         &#x20B9;
         {{
-          quoteData?.premium_details?.tp_premium_details?.total_tp_premium
-            | number : "2."
+          quoteData?.premium_details?.tp_premium_details?.total_tp_premium != 0
+            ? (quoteData?.premium_details?.tp_premium_details?.total_tp_premium
+              | number : "2.")
+            : 0
         }}
       </span>
     </div>
@@ -219,7 +227,12 @@
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)(C)</p>
       <p class="plan-type">
-        &#x20B9; {{ quoteData?.premium_details?.total_gst | number : "2." }}
+        &#x20B9;
+        {{
+          quoteData?.premium_details?.total_gst != 0
+            ? (quoteData?.premium_details?.total_gst | number : "2.")
+            : 0
+        }}
       </p>
     </div>
   </div>
@@ -228,7 +241,11 @@
     <p class="total-premium">Total Premium Payable</p>
     <span class="total-amount"
       >&#x20B9;
-      {{ quoteData?.premium_details?.gross_premium | number : "2." }}</span
+      {{
+        quoteData?.premium_details?.gross_premium != 0
+          ? (quoteData?.premium_details?.gross_premium | number : "2.")
+          : 0
+      }}</span
     >
   </div>
   <button

@@ -311,6 +311,7 @@ export class MotorInsuranceComponent implements OnInit {
   }
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
+    sessionStorage.removeItem('registrationNumber');
     this.isPolicyNumber = false;
     this.disableInsurer = true;
     this.motorInsurance.reset();
@@ -463,6 +464,7 @@ export class MotorInsuranceComponent implements OnInit {
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
     this.motorInsurance.reset();
+
     if (this.isPolicyNumber) {
       setTimeout(() => {
         this.motorInsurance
