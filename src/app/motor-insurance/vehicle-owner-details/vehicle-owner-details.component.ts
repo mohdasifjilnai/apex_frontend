@@ -143,7 +143,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       }
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
-      if (ckycData?.ckycData?.customer_details?.full_name) {
+      if (ckycData?.customer_details?.full_name) {
         this.vehicleOwnerName = true;
       }
       if (ckycData) {

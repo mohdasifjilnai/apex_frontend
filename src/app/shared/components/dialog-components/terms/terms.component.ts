@@ -8,13 +8,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./terms.component.scss'],
 })
 export class TermsComponent implements OnInit {
+  insurerCode: any;
   constructor(
     public dialogRef: MatDialogRef<TermsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public bottomSheetRef: MatBottomSheetRef<TermsComponent>,
+    public bottomSheetRef: MatBottomSheetRef<TermsComponent>
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    this.insurerCode = kycData;
+  }
 
   onClose(): void {
     if (window.innerWidth <= 999) {
@@ -22,6 +26,5 @@ export class TermsComponent implements OnInit {
     } else {
       this.dialogRef.close();
     }
-    
   }
 }
