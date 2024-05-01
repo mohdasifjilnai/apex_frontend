@@ -57,6 +57,7 @@ import { HelplineNumberComponent } from './components/dialog-components/helpline
 import { ProposalExpiredComponent } from './components/dialog-components/proposal-expired/proposal-expired.component';
 import { CkycDocumentsComponent } from './components/dialog-components/ckyc-documents/ckyc-documents.component';
 import { CheckQuotesDialogComponent } from './components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
+import { ReviewAddonsComponent } from './components/dialog-components/review-addons/review-addons.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { CheckQuotesDialogComponent } from './components/dialog-components/check
     ProposalExpiredComponent,
     CkycDocumentsComponent,
     CheckQuotesDialogComponent,
+    ReviewAddonsComponent,
   ],
   imports: [
     CommonModule,

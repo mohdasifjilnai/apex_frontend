@@ -445,6 +445,15 @@
             </div>
           </div>
         </div>
+        <div class="acknowledgment-confirm mt-2">
+          <div class="d-flex">
+            <mat-checkbox
+              class="custom-checkbox"
+              (change)="updateCheckBoxState($event.checked)"
+              >I hearby accept that selected <span (click)="showAddons()" class="addons-text">Addons</span> are available in my expiring policy.</mat-checkbox
+            >
+          </div>
+        </div>
         <div class="col-12 mt-2">
           <button
             class="submit-btn proposal-review-submission"

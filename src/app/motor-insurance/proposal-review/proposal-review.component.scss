@@ -26,8 +26,15 @@
     .mat-checkbox-inner-container{
       width: 12px;
       height: 12px;
+      margin-top: 6px;
     }
   }
+}
+.addons-text{
+  font-size: 12px;
+  font-weight: 600;
+  color: #5384ea;
+  text-decoration: underline;
 }
 .proposal-review-submission {
   width: 350px;

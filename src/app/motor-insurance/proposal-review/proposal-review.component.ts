@@ -13,6 +13,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
+import { ReviewAddonsComponent } from 'src/app/shared/components/dialog-components/review-addons/review-addons.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
 import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 import { environment } from 'src/environments/environment';
@@ -36,6 +37,21 @@ export class ProposalReviewComponent implements OnInit {
     topObtained: '1%',
     isOutSideClose: true,
     classObtained: 'insurance-details-class',
+  };
+  renewalAddonsJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: ReviewAddonsComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: '5%',
+    isOutSideClose: true,
+    classObtained: 'addons-renewal-class',
   };
   termsAndConditionJson: {
     modalName: any;
@@ -299,5 +315,13 @@ export class ProposalReviewComponent implements OnInit {
           }
         });
     });
+  }
+  showAddons(){
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(ReviewAddonsComponent);
+    } else {
+      this.openModal('data', this.renewalAddonsJSON);
+    }
+      
   }
 }

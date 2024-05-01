@@ -619,6 +619,13 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     width: 100%;
   }
 }
+.addons-renewal-class{
+  .mat-dialog-container {
+    border-radius: 20px !important;
+    width: 580px !important;
+  }
+ 
+}
 .failure-dialog-class {
   .mat-dialog-container {
     border-radius: 20px !important;
