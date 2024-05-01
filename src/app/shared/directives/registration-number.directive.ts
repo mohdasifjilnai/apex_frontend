@@ -29,4 +29,16 @@ export class RegistrationNumberDirective {
     // Update the input value
     input.value = value;
   }
+
+  @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent): void {
+    const clipboardData = event.clipboardData;
+    if (clipboardData) {
+      const pastedText = clipboardData.getData('text');
+      const formattedText = pastedText
+        .replace(/-/g, '')
+        .replace(/(.{2})/g, '$1-');
+      document.execCommand('insertText', false, formattedText);
+      event.preventDefault();
+    }
+  }
 }

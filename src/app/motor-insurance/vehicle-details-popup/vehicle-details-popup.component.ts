@@ -139,6 +139,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   showSelectedFuelandCapacity: any = false;
   cubicCapacitor: any;
   policyTypeBaseNCB: any;
+  isEditable: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -1063,6 +1064,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         )
         ?.subscribe((res) => {
           if (res) {
+            this.isEditable = res;
             this.isNewVehicle = res?.is_new_vehicle;
             this.newVehicleData =
               res?.is_new_vehicle == false ? 'renewal' : 'new';
@@ -1073,10 +1075,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.policyTypeBaseNCB =
                 res.expiring_policy_type[0].offered_ncb_value;
             }
-            if (this.policyTypeBaseNCB != 0) {
-              this.vehicleDetailsForm.get('ncb_discount')?.disable();
-            } else {
+            if (res?.is_editable) {
               this.vehicleDetailsForm.get('ncb_discount')?.enable();
+            } else {
+              this.vehicleDetailsForm.get('ncb_discount')?.disable();
             }
             this.expiring_policy_type =
               this.expiryList[0]?.rb_expiring_policy_type_code;
@@ -1188,15 +1190,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   onExpiryPolicyChange(event: MatSelectChange): void {
     this.hideFieldOnExpiryPolicy(event.value);
-    for (let i = 0; i <= this.expiryList.length - 1; i++) {
-      if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
-        this.policyTypeBaseNCB = this.expiryList[i].offered_ncb_value;
-      }
-    }
-    if (this.policyTypeBaseNCB != 0) {
-      this.vehicleDetailsForm.get('ncb_discount')?.disable();
-    } else {
+    // for (let i = 0; i <= this.expiryList.length - 1; i++) {
+    //   if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
+    //     this.policyTypeBaseNCB = this.expiryList[i].offered_ncb_value;
+    //   }
+    // }
+    if (this.isEditable?.is_editable) {
       this.vehicleDetailsForm.get('ncb_discount')?.enable();
+    } else {
+      this.vehicleDetailsForm.get('ncb_discount')?.disable();
     }
   }
   /**
@@ -1447,10 +1449,10 @@ Get the expiring policy list based on the given date or the registration details
                 ? this.vehicleAllData?.ncb_discount
                 : 0,
             });
-            if (this.policyTypeBaseNCB != 0) {
-              this.vehicleDetailsForm.get('ncb_discount')?.disable();
-            } else {
+            if (this.isEditable?.is_editable) {
               this.vehicleDetailsForm.get('ncb_discount')?.enable();
+            } else {
+              this.vehicleDetailsForm.get('ncb_discount')?.disable();
             }
           }
         });
