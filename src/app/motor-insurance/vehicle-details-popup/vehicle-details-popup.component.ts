@@ -104,6 +104,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   vehiclePreviousInsurerOninit = true;
   url = 'quotes';
   renewalType: any;
+  regDateValue: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -242,13 +243,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
-      let regDateValue = new Date(res);
+      this.regDateValue = new Date(res);
       if (this.editClick == '') {
         setTimeout(() => {
-          this.getExpiringPolicy(regDateValue);
+          this.getExpiringPolicy(this.regDateValue);
         }, 2000);
       } else {
-        this.expiryPolicyGetList(regDateValue, 'dateChange');
+        this.expiryPolicyGetList(this.regDateValue, 'dateChange');
       }
     });
 
@@ -256,7 +257,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       if (this.url == 'quotes') {
         let policyExpDateValue = new Date(res.value);
 
-        this.getExpiringPolicy('', policyExpDateValue);
+        this.getExpiringPolicy(this.regDateValue, policyExpDateValue);
       }
     });
     this.checkWheelerType(this.editVehicleDetails);
@@ -985,7 +986,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
         expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
       }
-    } else if (date) {
+    } else if (date && !policyExpiryDate) {
       let dateObj = moment(date, 'MM/YYYY');
       let regMonth = moment(dateObj).month();
       this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
@@ -1007,9 +1008,20 @@ export class VehicleDetailsPopupComponent implements OnInit {
         : false;
 
       expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
-    } else if (policyExpiryDate) {
-      this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-      let vehicleRegDate = new Date(this.vehicleMMVValue?.registration_date);
+    } else if (policyExpiryDate && date) {
+      let vehicleRegDate;
+      if (this.vehicleMMVData) {
+        this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+      } else {
+        // this.vehiclePopupList = JSON.parse(
+        //   sessionStorage.getItem('mmv_data') || '{}'
+        // );
+        // this.vehicleMMVValue = this.vehiclePopupList;
+      }
+      // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
+      vehicleRegDate = this.vehicleMMVValue?.registration_date
+        ? new Date(this.vehicleMMVValue?.registration_date)
+        : date;
 
       let dateObj = moment(vehicleRegDate, 'MM/YYYY');
       let regMonth = moment(dateObj).month();
@@ -1341,7 +1353,10 @@ Get the expiring policy list based on the given date or the registration details
       let policyDate = '';
 
       if (this.vehicleMMVValue) {
-        if (this.vehicleMMVValue?.policy_expiry_date != '') {
+        if (
+          this.vehicleMMVValue?.policy_expiry_date != '' &&
+          this.vehicleMMVValue?.policy_expiry_date != null
+        ) {
           policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
           policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
@@ -1357,13 +1372,22 @@ Get the expiring policy list based on the given date or the registration details
       } else if (
         this.vehicleDetailsForm?.value?.policy_expiry_date != 'Invalid Date' &&
         this.vehicleDetailsForm?.value?.policy_expiry_date != undefined &&
-        this.vehicleDetailsForm?.value?.policy_expiry_date != null
+        this.vehicleDetailsForm?.value?.policy_expiry_date != null &&
+        this.vehicleDetailsForm?.value?.policy_expiry_date != ''
       ) {
         policyExpiryDate = new Date(
           this.vehicleDetailsForm.value.policy_expiry_date
         );
 
         policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+        let userRCtransfer = this.vehicleDetailsForm.value.user_car
+          ? this.vehicleDetailsForm.value.user_car
+          : false;
+        let previousClaimed = this.vehicleDetailsForm.value.previous_claimed
+          ? this.vehicleDetailsForm.value.previous_claimed
+          : false;
+        expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${vehicleType}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
+      } else {
         let userRCtransfer = this.vehicleDetailsForm.value.user_car
           ? this.vehicleDetailsForm.value.user_car
           : false;
