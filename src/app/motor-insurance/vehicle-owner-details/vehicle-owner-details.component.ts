@@ -106,6 +106,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       : (this.isProposerTrue = false);
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
+      if (proposal?.customer_details?.full_name) {
+        this.vehicleOwnerName = true;
+      }
       if (proposal?.customer_details !== null) {
         this.owenerVehicleDetailsForm.patchValue({
           owner_full_Name: proposal?.customer_details?.full_name,

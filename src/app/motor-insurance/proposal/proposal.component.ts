@@ -379,10 +379,21 @@ export class ProposalComponent implements OnInit {
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
         } else {
-          this.showNomineeDetails = true;
-          this.showVehicleOwnerDetails = true;
-          this.accordianExpanded = 'nomineeDetails';
-          this.openDesiredStep(this.accordianExpanded);
+          if (this.kycPending?.redirection_url_via_form) {
+            this.sharedData.vehicleOwnerForm.subscribe((res) => {
+              if (res) {
+                this.showNomineeDetails = true;
+                this.showVehicleOwnerDetails = true;
+                this.accordianExpanded = 'nomineeDetails';
+                this.openDesiredStep(this.accordianExpanded);
+              }
+            });
+          } else {
+            this.showNomineeDetails = true;
+            this.showVehicleOwnerDetails = true;
+            this.accordianExpanded = 'nomineeDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          }
         }
       }
       if (proposal.nominee_details !== null) {
