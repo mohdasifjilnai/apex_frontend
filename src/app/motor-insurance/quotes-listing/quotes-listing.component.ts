@@ -472,7 +472,7 @@ export class QuotesListingComponent implements OnInit {
     const lastIndex = sessionStorage.getItem('lastSelectedTabIndex');
     if (lastIndex !== null) {
       // Set the last selected tab
-      this.selectedTabIndex = 1;
+      this.selectedTabIndex = JSON.parse(lastIndex);
     } else {
       this.selectedTabIndex = 0;
     }
@@ -481,7 +481,7 @@ export class QuotesListingComponent implements OnInit {
         'lastSelectedTabIndex',
         JSON.stringify(event.index)
       );
-
+      sessionStorage.removeItem('selectedAddons');
       this.progressValue = 0;
       this.startProgress(0);
       this.selectedProductType = event.tab.textLabel;
