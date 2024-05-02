@@ -124,6 +124,14 @@ export class CkycComponent implements OnInit {
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
+        const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+        if (
+          kycData?.insurer_code == this.quoteData?.insurer_code &&
+          sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+          proposal?.ckyc_details?.is_verification
+        ) {
+          this.isDisableCKyc = true;
+        }
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
