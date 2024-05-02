@@ -131,6 +131,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           });
         }
       }
+      if (
+        kycData?.insurer_code == this.quoteData?.insurer_code &&
+        sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+        proposal?.ckyc_details?.is_verification
+      ) {
+        this.isDisableCKyc = false;
+      }
       let renewalDataType = sessionStorage.getItem('renewalType');
       if (renewalDataType == 'renewal') {
         const [day, month, year] =
