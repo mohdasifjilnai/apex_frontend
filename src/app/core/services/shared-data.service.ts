@@ -506,6 +506,7 @@ export class SharedDataService {
       transaction_id: sessionStorage.getItem('transaction_id') || '',
       insurer_quote_id: this.quoteData?.quote_id || '',
       insurer_code: this.quoteData?.insurer_code || '',
+      insurer_name: '',
       proposal_id:
         proposalId !== undefined && proposalId !== null
           ? typeof proposalId === 'string'
