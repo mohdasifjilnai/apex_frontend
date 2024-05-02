@@ -30,12 +30,19 @@
   padding-right: 20px;
 }
 .vehicle-details {
-  background-color: rgba(40, 184, 226, 0.0901960784);
+  
   color: #282828;
   font-size: 14px;
   border-radius: 14px;
   font-weight: 500;
 }
+.private-car-bg{
+  background-color: rgba(40, 184, 226, 0.0901960784);
+}
+.two-wheeler-bg{
+  background-color: rgba(255, 92, 129, 0.1);
+}
+// rgba(255, 92, 129, 0.3)
 .plan-details {
   background: rgba(83, 132, 234, 0.0901960784);
   color: #282828;

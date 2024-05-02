@@ -79,7 +79,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
-
+    this.vehicleTypeValue = localStorage.getItem('vehicleType');
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
      */
