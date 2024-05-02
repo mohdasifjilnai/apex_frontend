@@ -4,7 +4,9 @@
       class="col-lg-4 col-md-4 col-12 toggle-btn"
       [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
     >
-      <mat-tab-group (selectedTabChange)="onComprehensiveTabChange($event)"
+      <mat-tab-group
+        (selectedTabChange)="onComprehensiveTabChange($event)"
+        [selectedIndex]="selectedTabIndex"
         ><ng-container *ngFor="let quotesTab of tabDataList">
           <mat-tab label="{{ quotesTab?.code }}" [disabled]="enableIdvCard">
             <ng-template mat-tab-label id="{{ quotesTab?.code }}">
@@ -108,10 +110,7 @@
       </div>
     </div>
   </div>
-  <div
-    class="progress-container"
-    *ngIf="enableIdvCard"
-  >
+  <div class="progress-container" *ngIf="enableIdvCard">
     <img
       src="/assets/gif/Car.gif"
       alt="Overlay Image"

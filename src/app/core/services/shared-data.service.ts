@@ -440,6 +440,7 @@ export class SharedDataService {
         idvData: sessionStorage.getItem('idvData'),
         selectedAddons: sessionStorage.getItem('selectedAddons'),
         mmv_form_data: mmvData,
+        selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
       };
       let mmvValues = {
         rb_mmv_id: mmvData?.vehicle_variant,

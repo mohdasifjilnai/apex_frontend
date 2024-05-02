@@ -53,6 +53,7 @@ export class QuotesListingComponent implements OnInit {
   owner_type: any = '';
   gstValue: any;
   emailInsurer: any;
+  selectedTabIndex: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -468,7 +469,19 @@ export class QuotesListingComponent implements OnInit {
      */
     const selectedTabData = { name: selectedName, code: selectedCode };
     sessionStorage.setItem('planType', JSON.stringify(selectedTabData));
+    const lastIndex = sessionStorage.getItem('lastSelectedTabIndex');
+    if (lastIndex !== null) {
+      // Set the last selected tab
+      this.selectedTabIndex = 1;
+    } else {
+      this.selectedTabIndex = 0;
+    }
     if (!this.tabChangeOninit) {
+      sessionStorage.setItem(
+        'lastSelectedTabIndex',
+        JSON.stringify(event.index)
+      );
+
       this.progressValue = 0;
       this.startProgress(0);
       this.selectedProductType = event.tab.textLabel;
@@ -652,8 +665,8 @@ export class QuotesListingComponent implements OnInit {
    */
   changeProposalType(event: any) {
     if (!this.proposalTypeOninit) {
-        // this.progressValue = 0;
-        // this.startProgress(0);
+      // this.progressValue = 0;
+      // this.startProgress(0);
       sessionStorage.setItem(
         'proposerType',
         this.proposalList.filter((res: any) => res.proposer_id == event)[0][
@@ -716,8 +729,10 @@ export class QuotesListingComponent implements OnInit {
         .subscribe((res: any) => {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
-          sessionStorage.setItem('productType', this.selectedProductType);
           let productTypeValue = sessionStorage.getItem('productType');
+          if (!productTypeValue) {
+            sessionStorage.setItem('productType', this.selectedProductType);
+          }
           this.mmvFormData = sessionStorage.getItem('mmv_data');
           let mmvFormValue = JSON.parse(this.mmvFormData);
 

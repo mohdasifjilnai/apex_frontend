@@ -172,7 +172,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (vehicleMMV) {
       sessionStorage.removeItem('mmv_data');
     }
-
+    sessionStorage.removeItem('lastSelectedTabIndex');
     let newVehicleType = sessionStorage.getItem('newVehicleType');
     if (newVehicleType) {
       sessionStorage.removeItem('newVehicleType');

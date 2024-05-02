@@ -159,6 +159,10 @@ export class QuotesComponent implements OnInit {
         if (response) {
           this.quotesRequest = response.quote_request;
           localStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
+          sessionStorage.setItem(
+            'lastSelectedTabIndex',
+            this.quotesRequest?.meta_data?.selectedTabIndex
+          );
           this.getVehicleMMVPopup(
             '',
             this.quotesRequest.rb_mmv_id,
