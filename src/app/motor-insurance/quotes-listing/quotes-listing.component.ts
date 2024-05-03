@@ -733,6 +733,7 @@ export class QuotesListingComponent implements OnInit {
           if (!productTypeValue) {
             sessionStorage.setItem('productType', this.selectedProductType);
           }
+          let getProductTypeName = sessionStorage.getItem('productType');
           this.mmvFormData = sessionStorage.getItem('mmv_data');
           let mmvFormValue = JSON.parse(this.mmvFormData);
 
@@ -765,7 +766,7 @@ export class QuotesListingComponent implements OnInit {
           this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
           if (this.registrationNumber) {
             this.sharedDataService.vehicleMMVDetails(
-              this.selectedProductType,
+              getProductTypeName,
               this.mmvFormData,
               'registrationNumber'
             );
@@ -797,7 +798,7 @@ export class QuotesListingComponent implements OnInit {
             sessionStorage.setItem('mmv_data', vehicleForm);
           } else {
             this.sharedDataService.vehicleMMVDetails(
-              this.selectedProductType,
+              getProductTypeName,
               this.mmvFormData,
               'mmvQuotes'
             );
