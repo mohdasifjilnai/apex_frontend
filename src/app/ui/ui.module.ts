@@ -9,6 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { FooterComponent } from './footer/footer.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     BreadcrumbComponent,
     FooterComponent,
   ],
-  imports: [CommonModule, UiRoutingModule, MatRadioModule, MatTooltipModule],
+  imports: [CommonModule, UiRoutingModule, MatRadioModule, MatTooltipModule,MatProgressSpinnerModule],
 })
 export class UiModule {}
