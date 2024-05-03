@@ -133,6 +133,18 @@ export class ProposalReviewComponent implements OnInit {
         this.generateProposal(this.transaction_Id);
       });
     });
+    let isFirstCall = true;
+
+    this.shareData.getProposalDetails.subscribe((proposal) => {
+      if (proposal?.previous_policy_details !== null && isFirstCall) {
+        proposal.previous_policy_details.is_consent = this.isAcknowledged;
+        this.shareData.createProposalId(
+          'proposal_review',
+          proposal?.previous_policy_details
+        );
+        isFirstCall = false;
+      }
+    });
     this.getInsurerDetailsOnRedirection();
 
     this.proposalType = sessionStorage.getItem('proposerType');
@@ -151,6 +163,9 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
+    if (this.generateProposalData?.previous_policy_details?.is_consent) {
+      this.shareData.createProposalId();
+    }
     if (window.innerWidth <= 999) {
       const bottomSheetConfig: MatBottomSheetConfig = {
         data: [this.quoteData], // Pass your data here
@@ -234,6 +249,7 @@ export class ProposalReviewComponent implements OnInit {
             const kycDataToStore = {
               verification_status: res?.ckyc_details?.is_verification,
               insurer_code: res?.insurer_code,
+              proposer_type: res?.customer_details?.customer_type,
             };
             const kycDataToStoreString = JSON.stringify(kycDataToStore);
 
@@ -252,6 +268,9 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((response) => {
         if (response) {
+          if (this.generateProposalData?.previous_policy_details?.is_consent) {
+            this.getPrevPolicyDetails(response);
+          }
           this.shareData.getInsurerDetail(response);
         }
       });
@@ -316,12 +335,30 @@ export class ProposalReviewComponent implements OnInit {
         });
     });
   }
-  showAddons(){
+  showAddons() {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(ReviewAddonsComponent);
     } else {
       this.openModal('data', this.renewalAddonsJSON);
     }
-      
+  }
+  getPrevPolicyDetails(getInsurerData: any) {
+    const quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    let diesel;
+    if (
+      getInsurerData?.quote_request?.meta_data?.mmv_form_data?.vehicle_fuel ==
+      'DIESEL'
+    ) {
+      diesel = true;
+    } else {
+      diesel = false;
+    }
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.pre_policy_addons}?insurer_code=${quoteData?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}`
+      )
+      .subscribe((res: any) => {
+        this.shareData.sendPrevAddon(res);
+      });
   }
 }

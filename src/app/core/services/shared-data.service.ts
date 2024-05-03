@@ -71,6 +71,7 @@ export class SharedDataService {
   transactionId: any;
   quotesId: any;
   proposerType: any;
+  previousAddons: any;
   allQuotes: any;
   quotesValue: any;
   quoteData: any;
@@ -668,6 +669,11 @@ export class SharedDataService {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
       }
     }
+    if (flag === 'proposal_review') {
+      this.proposalDataItem['previous_policy_details'] = {
+        ...formData,
+      };
+    }
     this.apiService
       .postRequestedResponseCreateProposal(
         ApiConstants.create_proposal,
@@ -1015,5 +1021,8 @@ export class SharedDataService {
 
   policyExpiryDate(date: any) {
     this.changePolicyExpDate.next(date);
+  }
+  sendPrevAddon(data: any) {
+    this.previousAddons = data;
   }
 }

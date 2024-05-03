@@ -1,25 +1,22 @@
 <div class="addons-renewal">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-11 col-11">
-                <span class="header">Addons mentioned below are available in expiring policy</span>
-            </div>
-            <div class="error-popup-header col-lg-1 col-1 text-end">
-              <img
-                src="/assets/icon/cross.svg"
-                (click)="onClose()"
-                class="cursor-pointer"
-                alt="close"
-              />
-            </div>
-        </div>
-        <div class="d-grid">
-            <span class="addons-value">1. Zero Depreciation</span>
-            <span class="addons-value">2. Road Side Assistance</span>
-            <span class="addons-value">3. Consumable</span>
-            <span class="addons-value">4. Key Replacement</span>
-            <span class="addons-value">5. Engine Protector</span>
-            <span class="addons-value">6. NCB Protection</span>
-        </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-11 col-11">
+        <span class="header"
+          >Addons mentioned below are available in expiring policy</span
+        >
+      </div>
+      <div class="error-popup-header col-lg-1 col-1 text-end">
+        <img
+          src="/assets/icon/cross.svg"
+          (click)="onClose()"
+          class="cursor-pointer"
+          alt="close"
+        />
+      </div>
     </div>
+    <div class="d-grid" *ngFor="let addons of previousAddons; let i = index">
+      <span class="addons-value">{{ i + 1 }} {{ addons?.rb_name }}</span>
+    </div>
+  </div>
 </div>
