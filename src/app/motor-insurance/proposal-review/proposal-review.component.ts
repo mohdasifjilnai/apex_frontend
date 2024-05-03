@@ -89,6 +89,8 @@ export class ProposalReviewComponent implements OnInit {
   vehicleType: any;
   isTpDetailsDisabled: boolean = false;
   isAcknowledged: boolean = false;
+  isAcknowledgedConsent: boolean = false;
+  isButtonEnabled: boolean = false;
   proposalParam: any;
   transaction_Id: any;
   proposalData: any;
@@ -137,7 +139,8 @@ export class ProposalReviewComponent implements OnInit {
 
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.previous_policy_details !== null && isFirstCall) {
-        proposal.previous_policy_details.is_consent = this.isAcknowledged;
+        proposal.previous_policy_details.is_consent =
+          this.isAcknowledgedConsent;
         this.shareData.createProposalId(
           'proposal_review',
           proposal?.previous_policy_details
@@ -258,9 +261,35 @@ export class ProposalReviewComponent implements OnInit {
         });
     }
   }
-  updateCheckBoxState(checked: boolean) {
+  updateCheckBoxState(checked: boolean): void {
     this.isAcknowledged = checked;
+    this.updateButtonState();
   }
+
+  updateCheckBoxIsConsent(checked: boolean): void {
+    this.isAcknowledgedConsent = checked;
+    this.updateButtonState();
+  }
+
+  updateButtonState(): void {
+    if (
+      (this.isAcknowledged && this.isAcknowledgedConsent) ||
+      (!this.isAcknowledged &&
+        !this.isAcknowledgedConsent &&
+        this.isAcknowledged !== this.isAcknowledgedConsent) ||
+      (this.isAcknowledged &&
+        !this.isAcknowledgedConsent &&
+        !this.generateProposalData?.previous_policy_details?.is_consent) ||
+      (!this.isAcknowledged &&
+        this.isAcknowledgedConsent &&
+        !this.generateProposalData?.previous_policy_details?.is_consent)
+    ) {
+      this.isButtonEnabled = true;
+    } else {
+      this.isButtonEnabled = false;
+    }
+  }
+
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(

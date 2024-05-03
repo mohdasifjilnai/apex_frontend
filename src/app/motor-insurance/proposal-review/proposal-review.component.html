@@ -452,7 +452,7 @@
           <div class="d-flex">
             <mat-checkbox
               class="custom-checkbox"
-              (change)="updateCheckBoxState($event.checked)"
+              (change)="updateCheckBoxIsConsent($event.checked)"
               >I hearby accept that selected
               <span (click)="showAddons()" class="addons-text">Addons</span>
               are available in my expiring policy.</mat-checkbox
@@ -464,7 +464,7 @@
             class="submit-btn proposal-review-submission"
             type="submit"
             (click)="submitReview()"
-            [disabled]="!isAcknowledged"
+            [disabled]="!isButtonEnabled"
           >
             Submit
           </button>
