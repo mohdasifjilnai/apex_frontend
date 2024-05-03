@@ -176,6 +176,7 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
         this.enableIdvCard = false;
+        this.tabChangeOninit = false;
         this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
         if (this.sortObjectkey) {
           this.lowHighSelected = this.sortObjectkey;
@@ -543,8 +544,9 @@ export class QuotesListingComponent implements OnInit {
       this.sharedDataService.chooseIdvHide(this.selectedProductType);
       this.sharedDataService.tabChangeModified(true);
       this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
+      this.tabChangeOninit = true;
     }
-    this.tabChangeOninit = false;
+    // this.tabChangeOninit = false;
   }
 
   /**
