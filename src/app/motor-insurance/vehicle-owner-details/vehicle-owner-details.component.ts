@@ -320,7 +320,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
    */
   getOccupationType() {
     this.apiService
-      .getRequestedResponse(ApiConstants.occupation_type)
+      .getRequestedResponse(`${ApiConstants.occupation_type}?insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`)
       .subscribe((occupation) => {
         this.occupationList = occupation;
       });
