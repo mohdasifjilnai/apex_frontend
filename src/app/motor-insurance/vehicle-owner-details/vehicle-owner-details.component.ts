@@ -44,6 +44,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   proposalBaseOwner: any;
   proposerType: any;
   isProposerTrue: boolean = true;
+  isPancard: boolean = false;
+  isPancardDisabled: boolean = false;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -58,6 +60,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       Validators.required,
       Validators.pattern(/^[6-9]\d{9}$/),
     ]),
+    document_number_based_field: new FormControl(''),
     owner_gstin: new FormControl('', [
       Validators.pattern(
         new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')
@@ -66,7 +69,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     additional_contact: new FormControl('', [
       Validators.pattern(/^[6-9]\d{9}$/),
     ]),
-
     owner_pincode: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
@@ -100,6 +102,23 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
+    if (JSON.parse(this.quoteData)['premium_details']['idv'] >= 100000) {
+      this.isPancard = true;
+      this.owenerVehicleDetailsForm
+        .get('document_number_based_field')
+        ?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[A-Za-z]{5}\d{4}[A-Za-z]$/),
+        ]);
+    } else {
+      this.isPancard = false;
+      this.owenerVehicleDetailsForm
+        .get('document_number_based_field')
+        ?.clearValidators();
+    }
+    this.owenerVehicleDetailsForm
+      .get('document_number_based_field')
+      ?.updateValueAndValidity();
     this.proposerType = sessionStorage.getItem('proposerType');
     this.proposerType == 'individual'
       ? (this.isProposerTrue = true)
@@ -142,6 +161,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 owner_state: res[0].rb_state_name,
               });
             });
+        }
+      }
+      if (proposal?.ckyc_details !== null) {
+        if (proposal?.ckyc_details?.document_number) {
+          this.isPancardDisabled = true;
+          this.owenerVehicleDetailsForm.patchValue({
+            document_number_based_field:
+              proposal?.ckyc_details?.document_number,
+          });
+        } else {
+          this.isPancardDisabled = false;
         }
       }
     });
