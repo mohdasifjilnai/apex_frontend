@@ -756,14 +756,14 @@ export class SharedDataService {
   ) {
     const baseURL = `${window.location.protocol}//${window.location.hostname}/`;
     let data = {
-      transaction_id: quotes_data[0]?.transaction_id,
+      transaction_id: quotes_data['transaction_id'],
       share_type: share_type,
       partner_name: 'Ravi Kumar',
       URL: `${baseURL}${url}`,
       mail_id: mail_id ? mail_id : '',
       mobile_no: mobile_name ? mobile_name : null,
-      quote_id: quote_id,
-      quote_request_id: quotes_data[0]?.quote_request_id,
+      quote_id: [quotes_data['quote_id']],
+      quote_request_id: quotes_data['quote_request_id'],
     };
     return this.apiService.postRequestedResponse(
       `${ApiConstants.send_communication}`,

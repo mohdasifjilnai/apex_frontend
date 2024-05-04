@@ -97,6 +97,7 @@ export class ShareQuotesComponent implements OnInit {
    * Share Quotes Api Integration
    */
   shareQuotes() {
+    this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
       message =
@@ -110,21 +111,17 @@ export class ShareQuotesComponent implements OnInit {
         ' successfully';
     }
     if (this.endPath == 'review') {
-      this.quoteData = JSON.parse(
-        sessionStorage.getItem('quotes_data') || '{}'
-      );
-      if (this.quoteData) {
-        this.quotes_id.push(this.quoteData?.quote_id);
-      }
       this.sharedDataService
         .shareQuotes(
-          this.quotesData,
+          JSON.parse(this.quoteData),
           'proposal',
           this.partner_name,
-          `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review`,
+          `motor/quotes/proposal/${
+            JSON.parse(this.quoteData)['transaction_id']
+          }/review`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
-          this.quotes_id
+          JSON.parse(this.quoteData)['quotes_id']
         )
         .subscribe(
           (res) => {
@@ -138,16 +135,17 @@ export class ShareQuotesComponent implements OnInit {
           }
         );
     } else {
-      let transactionId = sessionStorage.getItem('transaction_id');
       this.sharedDataService
         .shareQuotes(
-          this.quotesData,
+          JSON.parse(this.quoteData),
           'quote',
           this.partner_name,
-          `motor/quotes/?transaction_id_share=${transactionId}&insurer_quote_id=${this.quotes_id}`,
+          `motor/quotes/?transaction_id_share=${
+            JSON.parse(this.quoteData)['transaction_id']
+          }&insurer_quote_id=${this.quotes_id}`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
-          this.quotes_id
+          JSON.parse(this.quoteData)['quotes_id']
         )
         .subscribe(
           (res) => {

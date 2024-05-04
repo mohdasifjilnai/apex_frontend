@@ -196,6 +196,7 @@ export class ProposalShareComponent implements OnInit {
    * Share Quotes Api Integration
    */
   shareQuotes() {
+    this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != null) {
       message =
@@ -210,15 +211,15 @@ export class ProposalShareComponent implements OnInit {
     }
     this.sharedDataService
       .shareQuotes(
-        this.quotesData,
+        JSON.parse(this.quoteData),
         'proposal',
         this.partner_name,
-        `motor/quotes/proposal/${this.quotesData[0]?.transaction_id}/review?proposal=true`,
+        `motor/quotes/proposal/${
+          JSON.parse(this.quoteData)['transaction_id']
+        }/review`,
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
-        this.quotes_id
-          ? this.quotes_id
-          : this.proposalData?.quote_response?.quote_id
+        JSON.parse(this.quoteData)['quotes_id']
       )
       .subscribe(
         (res) => {
@@ -250,7 +251,7 @@ export class ProposalShareComponent implements OnInit {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
         share_type: 'otp',
         partner_name: this.generateProposalData?.customer_details?.full_name,
-        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
+        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
         mail_id: this.generateProposalData?.customer_details?.email_id,
         mobile_no: this.generateProposalData?.customer_details?.mobile_number,
         quote_id: [this.proposalData?.quote_response?.quote_id],
@@ -283,7 +284,7 @@ export class ProposalShareComponent implements OnInit {
         transaction_id: this.quoteData?.transaction_id,
         share_type: 'otp',
         partner_name: this.generateProposalData?.customer_details?.full_name,
-        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review?proposal=true`,
+        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
         mail_id: this.generateProposalData?.customer_details?.email_id,
         mobile_no: this.generateProposalData?.customer_details?.mobile_number,
         quote_id: [this.quoteData?.quote_id],
