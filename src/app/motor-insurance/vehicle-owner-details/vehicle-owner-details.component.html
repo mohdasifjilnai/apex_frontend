@@ -148,14 +148,13 @@
         appearance="outline"
         class="document_number mat-input-custom"
       >
-        <mat-label>Document Number</mat-label>
+        <mat-label>Pan Number</mat-label>
         <input
           id-automation="documentNumber"
           matInput
           aria-label="document_number"
           formControlName="document_number_based_field"
           class="text-uppercase"
-          [readOnly]="isPancardDisabled"
         />
         <mat-error
           *ngIf="
