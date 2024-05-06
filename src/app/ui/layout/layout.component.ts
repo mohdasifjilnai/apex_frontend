@@ -32,6 +32,6 @@ export class LayoutComponent implements OnInit {
     setTimeout(() => {
       window.location.reload();
       this.isRefreshing = false;
-    }, 1000); 
+    }, 2000); 
   }
 }
