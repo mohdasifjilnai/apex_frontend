@@ -518,6 +518,7 @@ export class SharedDataService {
             : proposalId
           : '',
       is_breakin: this.quoteData?.is_breakin,
+      insured_idv: this.quoteData?.premium_details?.idv,
     };
     if (flag === 'ckyc') {
       this.proposalDataItem['ckyc_details'] = {
