@@ -295,6 +295,9 @@ export class SharedDataService {
       vehicle_idv: data?.vehicle_idv,
       previous_policy_type: previousPolicyType,
       meta_data: data?.meta_data,
+      partner_code: localStorage.getItem('partner_code')
+        ? localStorage.getItem('partner_code')
+        : '',
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
