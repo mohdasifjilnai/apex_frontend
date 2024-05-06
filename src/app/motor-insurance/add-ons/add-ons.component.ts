@@ -398,9 +398,21 @@ export class AddOnsComponent implements OnInit {
           this.showUpdateButton = true;
           this.clearAllButton = false;
         } else {
-          this.showButtons = false;
-          this.showUpdateButton = false;
-          this.clearAllButton = false;
+          this.addonsValue = sessionStorage.getItem('selectedAddons');
+          if (this.addonsValue == 'undefined') {
+            this.selectedAddOns = '';
+          } else {
+            this.selectedAddOns = JSON.parse(this.addonsValue);
+          }
+          if(this.selectedAddOns.length>0){
+            this.showUpdateButton=true
+            this.clearAllButton = true;
+            this.showButtons = true;
+          }else {
+            this.showUpdateButton = false;
+            this.clearAllButton = false;
+            this.showButtons = false;
+          }
         }
       } else {
         this.showButtons = true;
