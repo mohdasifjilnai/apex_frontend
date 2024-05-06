@@ -736,9 +736,9 @@ export class QuotesListingComponent implements OnInit {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
           let productTypeValue = sessionStorage.getItem('productType');
-          if (!productTypeValue) {
-            sessionStorage.setItem('productType', this.selectedProductType);
-          }
+          // if (!productTypeValue) {
+          sessionStorage.setItem('productType', this.selectedProductType);
+          // }
           let getProductTypeName = sessionStorage.getItem('productType');
           this.mmvFormData = sessionStorage.getItem('mmv_data');
           let mmvFormValue = JSON.parse(this.mmvFormData);

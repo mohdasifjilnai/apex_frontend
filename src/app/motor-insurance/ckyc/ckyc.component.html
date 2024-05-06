@@ -4,7 +4,7 @@
     (ngSubmit)="submitCkycFormGroup(ckycFormGroup.valid)"
     novalidate
   >
-    <div class="row">
+    <div class="row" [ngClass]="{ 'ckyc-field': isDisableCKyc }">
       <!-- <div class="col-lg-4 col-md-6 col-12">
         <label class="kyc-header">Do you have CKYC Number?</label>
         <div>
@@ -168,8 +168,9 @@
             [disabled]="!ckycFormGroup.valid"
             formControlName="ckyc_download_data"
             (change)="checkedTerms($event)"
-          >I hereby give consent to access my CKYC data</mat-checkbox>
-          <div class="ms-2 accept-text" >
+            >I hereby give consent to access my CKYC data</mat-checkbox
+          >
+          <div class="ms-2 accept-text">
             <a class="terms" (click)="downloadTerms()"> Terms & Conditions</a>
           </div>
         </div>

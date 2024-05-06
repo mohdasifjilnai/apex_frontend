@@ -16,7 +16,7 @@
       color: #282828 !important;
     }
   }
-  .acknowledgment-confirm{
+  .acknowledgment-confirm {
     margin-top: -10px;
   }
   .terms {
@@ -24,15 +24,15 @@
     font-size: 12px;
     font-weight: 600;
   }
-  
-  .accept-text{
+
+  .accept-text {
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     color: #282828 !important;
     padding-top: 2px;
   }
-  .display-checkbox{
+  .display-checkbox {
     display: flex;
   }
 }
@@ -45,11 +45,15 @@
     ::ng-deep .mat-checkbox-label {
       white-space: pre !important;
     }
-    .display-checkbox{
+    .display-checkbox {
       display: grid;
     }
-    .accept-text{
+    .accept-text {
       margin-left: 2em !important;
     }
   }
+}
+.ckyc-field {
+  opacity: 0.6;
+  pointer-events: none;
 }

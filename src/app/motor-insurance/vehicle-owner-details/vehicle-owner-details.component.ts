@@ -106,10 +106,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.isPancard = true;
       this.owenerVehicleDetailsForm
         .get('document_number_based_field')
-        ?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[A-Za-z]{5}\d{4}[A-Za-z]$/),
-        ]);
+        ?.setValidators([Validators.required]);
     } else {
       this.isPancard = false;
       this.owenerVehicleDetailsForm
@@ -164,14 +161,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         }
       }
       if (proposal?.ckyc_details !== null) {
-        if (proposal?.ckyc_details?.document_number) {
-          this.isPancardDisabled = true;
-          this.owenerVehicleDetailsForm.patchValue({
-            document_number_based_field:
-              proposal?.ckyc_details?.document_number,
-          });
-        } else {
-          this.isPancardDisabled = false;
+        if (proposal?.ckyc_details?.document_type == 'pan_number') {
+          if (proposal?.ckyc_details?.document_number) {
+            this.isPancardDisabled = true;
+            this.owenerVehicleDetailsForm.patchValue({
+              document_number_based_field:
+                proposal?.ckyc_details?.document_number,
+            });
+          } else {
+            this.isPancardDisabled = false;
+          }
         }
       }
     });
@@ -320,7 +319,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
    */
   getOccupationType() {
     this.apiService
-      .getRequestedResponse(`${ApiConstants.occupation_type}?insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`)
+      .getRequestedResponse(
+        `${ApiConstants.occupation_type}?insurer_code=${
+          JSON.parse(this.quoteData)['insurer_code']
+        }`
+      )
       .subscribe((occupation) => {
         this.occupationList = occupation;
       });
