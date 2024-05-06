@@ -458,7 +458,11 @@ export class QuotesListingComponent implements OnInit {
     // this.startProgress(0);
     this.selectAddOnsList = [];
     const selectedIndex = event.index;
-
+    if (event.index === 1) {
+      this.showComprehensiveDiv = false;
+    } else {
+      this.showComprehensiveDiv = true;
+    }
     /**
      * Access the tab data using the index
      */
@@ -510,11 +514,11 @@ export class QuotesListingComponent implements OnInit {
       }
 
       this.sharedDataService.addOnsChange(this.mmvFormData);
-      if (event.index === 1) {
-        this.showComprehensiveDiv = false;
-      } else {
-        this.showComprehensiveDiv = true;
-      }
+      // if (event.index === 1) {
+      //   this.showComprehensiveDiv = false;
+      // } else {
+      //   this.showComprehensiveDiv = true;
+      // }
 
       if (
         productTypeValue == 'comprehensive' &&
