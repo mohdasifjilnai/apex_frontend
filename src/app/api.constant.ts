@@ -93,4 +93,6 @@ export class ApiConstants {
   public static generate_renewal_proposal: string = `/api/v1/renewals/generate_renewal_proposal/`;
 
   public static pre_policy_addons: string = `/api/v1/prev_policy_addon_details/`;
+
+  public static vehicle_color = `/api/v1/vehicle_colours/`;
 }

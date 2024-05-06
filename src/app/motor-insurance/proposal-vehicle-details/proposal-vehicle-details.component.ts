@@ -67,6 +67,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   RegNumber: any;
   isProposalFinancier = false;
   financierOninit = true;
+  insurerCode: any;
+  vehicleColor: any;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -121,6 +123,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
+    this.insurerCode = JSON.parse(this.quoteData)['insurer_code'];
+    if (this.insurerCode === 'sbi_general') {
+      this.getVehicleColourList();
+    }
     this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
     this.productTypeValue = sessionStorage.getItem('productType');
     this.mmvData = sessionStorage.getItem('mmv_data');
@@ -759,5 +765,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       return { validPincode: true };
     }
     return null;
+  }
+  getVehicleColourList() {
+    this.apiservice
+      .getRequestedResponse(
+        `${ApiConstants.vehicle_color}?insurer_code=${
+          JSON.parse(this.quoteData)['insurer_code']
+        }`
+      )
+      .subscribe((vehicleColor) => {
+        this.vehicleColor = vehicleColor;
+      });
   }
 }

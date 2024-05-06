@@ -558,6 +558,7 @@ export class SharedDataService {
             formData?.get('owner_communication_addres')?.value || '',
         },
         customer_type: this.proposerType || '',
+        pan_number: formData?.get('document_number_based_field')?.value || null,
       };
     }
     if (flag === 'nominne_details') {

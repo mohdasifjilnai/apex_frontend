@@ -52,6 +52,7 @@ export class InsuranceDetailsComponent implements OnInit {
   gstValue: any;
   defaultGST: any;
   renewalType: any;
+  productType: any;
   constructor(
     public matDialog: WindowRef,
 
@@ -80,6 +81,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.productType = sessionStorage.getItem('productType');
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
      */
