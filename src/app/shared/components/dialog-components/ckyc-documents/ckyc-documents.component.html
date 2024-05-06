@@ -147,6 +147,8 @@
                   id-automation="`${fields?.value?.name}`"
                   #dobDateInput
                   appDateFormat
+                  [max]="maxDate"
+                  [min]="minDate"
                 />
                 <mat-datepicker-toggle matSuffix [for]="dobDate">
                   <mat-icon matDatepickerToggleIcon>
@@ -306,6 +308,7 @@
                   #dobDateInput
                   appDateFormat
                   [max]="maxDate"
+                  [min]="minDate"
                 />
                 <mat-datepicker-toggle matSuffix [for]="dobDate">
                   <mat-icon matDatepickerToggleIcon>

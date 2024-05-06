@@ -59,7 +59,8 @@ export class CkycDocumentsComponent implements OnInit {
   fileControlName: string = '';
   isReUploadDocument: boolean = false;
   formGetData: any;
-  maxDate = new Date();
+  maxDate :any;
+  minDate:any;
   fileInputError: boolean = true;
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
@@ -89,6 +90,10 @@ export class CkycDocumentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadDocumentsFormControler();
+    const currentDate = new Date();
+    this.minDate = new Date(1900, 1, 1);
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(currentDate.getFullYear() - 18);
   }
   /**
 Event handler for when a file is selected.
