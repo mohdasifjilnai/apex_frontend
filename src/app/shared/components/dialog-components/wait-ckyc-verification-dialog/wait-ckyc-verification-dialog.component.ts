@@ -16,6 +16,7 @@ import {
   MatBottomSheet,
   MatBottomSheetConfig,
 } from '@angular/material/bottom-sheet';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-wait-ckyc-verification-dialog',
@@ -47,6 +48,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   proposerType: any;
   isProposerTrue: boolean = true;
   loader: boolean = false;
+  universalShampoo:boolean=false
+  safeUrl: SafeResourceUrl | undefined;
   ckycDocumentsJson: {
     modalName: any;
     widthObtained: string;
@@ -71,7 +74,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     private renderer: Renderer2,
     private elementRef: ElementRef,
     public bottomSheet: MatBottomSheet,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    private sanitizer: DomSanitizer
   ) {
     this.ckycBody = data['data'];
     this.documentName = this.ckycBody['document_type'].split('_')[0];
@@ -115,6 +119,10 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             res['upload_document'] == false
           ) {
             this.redirectionUrlViaForm = res['redirection_url_via_form'];
+            if(this.ckycBody?.insurer_code=='universal_sompo'){
+              this.universalShampoo=true
+              this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.redirectionUrlViaForm);
+            }
             this.error_message = res['error_message'];
             this.isWaitingTime = true;
             this.isCustomerDetails = false;
