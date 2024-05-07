@@ -54,7 +54,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     this.form
       .get('owner_communication_addres')
       ?.valueChanges.subscribe((res) => {
-        if (res.length === 0) {
+        if (res.length <= 10) {
           this.isNotShowErrorMsg = false;
         }
       });
