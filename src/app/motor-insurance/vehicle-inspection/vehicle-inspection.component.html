@@ -1,6 +1,6 @@
-<div class="back-button" (click)="back()">
+<!-- <div class="back-button" (click)="back()">
   <img src="/assets/icon/back.png" alt="" class="back-image" />
-</div>
+</div> -->
 
 <div class="row main-inspection">
   <div class="col-12 d-flex justify-content-center">
@@ -30,7 +30,7 @@
     <div class="d-flex justify-content-center">
       <span>
         Inspection request raised with
-        {{ inspectionList.insurer_code }} ID/Reference:
+        {{ inspectionList?.insurer_code }} ID/Reference:
         {{ inspectionList?.inspection_no }}.
       </span>
     </div>
