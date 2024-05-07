@@ -298,6 +298,7 @@ export class SharedDataService {
       partner_code: localStorage.getItem('partner_code')
         ? localStorage.getItem('partner_code')
         : '',
+      offered_ncb_value: data?.offered_ncb_value,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -446,6 +447,12 @@ export class SharedDataService {
         mmv_form_data: mmvData,
         selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
       };
+      let offeredValue;
+      if (mmvData.offeredNCBValue != '') {
+        offeredValue = JSON.parse(mmvData.offeredNCBValue);
+      } else {
+        offeredValue = null;
+      }
       let mmvValues = {
         rb_mmv_id: mmvData?.vehicle_variant,
         rto_code: mmvData?.registration_city?.rb_rto_code,
@@ -461,6 +468,7 @@ export class SharedDataService {
         vehicle_idv: selectedIdv,
         policy_expiry_id_data: mmvData?.policy_expiry_id_data,
         meta_data: popupHideShowData,
+        offered_ncb_value: offeredValue,
       };
       this.getValueWithoutRegistration.next(mmvValues);
       this.getQuotationListing(mmvValues, producttype, data);

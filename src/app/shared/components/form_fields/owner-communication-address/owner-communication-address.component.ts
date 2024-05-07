@@ -45,7 +45,8 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData?.detail[0]) {
         for (let error of errData?.detail[0]?.loc) {
-          if (error === 'address_line') {
+          if (error == 'address_line') {
+            this.isNotShowErrorMsg = true;
             this.proposalErrorMsg = errData?.detail[0]?.msg;
           }
         }
