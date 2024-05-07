@@ -165,9 +165,9 @@
   <div class="col-lg-12 col-md-12 policy">
     <div class="d-flex justify-content-between mt-2">
       <span class="plan-type d-grid"
-        >Total Addons<span class="included-text"
-          >(included with OD & TP)</span
-        ></span
+        >Total Addons
+        {{ quoteData.premium_details?.is_addon_addition ? "(D)" : ""
+        }}<span class="included-text">(included with OD & TP)</span></span
       >
       <span class="plan-type"
         >&#x20B9;
