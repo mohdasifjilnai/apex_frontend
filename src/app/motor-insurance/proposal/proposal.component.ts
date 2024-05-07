@@ -144,6 +144,7 @@ export class ProposalComponent implements OnInit {
           : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
+    // this.unitedCkycVerification();
   }
 
   loadCkyc(expansionName: string) {
@@ -552,4 +553,31 @@ export class ProposalComponent implements OnInit {
       }
     }
   }
+
+
+  unitedCkycVerification() {
+    const accessToken = "<Access Token>";
+    const hyperKycConfig = new (window as any).HyperKycConfig(
+      accessToken,
+      "<Workflow ID>",
+      "transactionId"
+    );
+    this.launchHyperKYC(hyperKycConfig);
+  }
+
+  launchHyperKYC(config: any) {
+    
+    (window as any).HyperKYCModule.launch(config, this.handler);
+  }
+
+  handler(HyperKycResult: any) {
+    if (HyperKycResult.Cancelled) {
+      alert(HyperKycResult.Cancelled);
+    } else if (HyperKycResult.Failure) {
+      alert(HyperKycResult.Failure);
+    } else if (HyperKycResult.Success) {
+      alert(HyperKycResult.Success);
+    }
+  }
 }
+
