@@ -69,6 +69,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   financierOninit = true;
   insurerCode: any;
   vehicleColor: any;
+  previousInsurerCode: any;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -124,6 +125,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.insurerCode = JSON.parse(this.quoteData)['insurer_code'];
+    this.previousInsurerCode = sessionStorage.getItem('previous_insurerCode');
     if (this.insurerCode === 'sbi_general') {
       this.getVehicleColourList();
     }
@@ -170,7 +172,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               'DD/MM/YYYY'
             ).toDate(),
             manufacture_date: moment(
-              proposal?.vehicle_details?.manufacture_date,
+              proposal?.vehicle_details?.insurerCodeemanufacture_date,
               'DD/MM/YYYY'
             ).toDate(),
           });
@@ -240,8 +242,22 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 .join('-'),
           });
         }
+        if ('sbi_general' === this.previousInsurerCode) {
+          if (typeof proposal?.vehicle_details?.vehicle_color === 'number') {
+            this.proposalVehilceDetailsForm.patchValue({
+              vehicle_colour: proposal?.vehicle_details?.vehicle_color,
+            });
+          } else {
+            this.proposalVehilceDetailsForm.patchValue({
+              vehicle_colour: '',
+            });
+          }
+        } else {
+          this.proposalVehilceDetailsForm.patchValue({
+            vehicle_colour: proposal?.vehicle_details?.vehicle_color,
+          });
+        }
         this.proposalVehilceDetailsForm.patchValue({
-          vehicle_colour: proposal?.vehicle_details?.vehicle_color,
           engine_number: proposal?.vehicle_details?.engine_no,
           chassis_number: proposal?.vehicle_details?.chassis_no,
 

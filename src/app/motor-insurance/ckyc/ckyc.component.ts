@@ -215,6 +215,10 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
+    sessionStorage.setItem(
+      'previous_insurerCode',
+      JSON.stringify(this.quoteData['insurer_code'])
+    );
     if (this.changeSubmitCkycName) {
       this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
     } else {

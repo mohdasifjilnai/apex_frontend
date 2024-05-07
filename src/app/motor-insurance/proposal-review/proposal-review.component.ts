@@ -99,6 +99,7 @@ export class ProposalReviewComponent implements OnInit {
   renewalInsurerQuotesId: any;
   proposalType: any;
   manufactureDate: any;
+  preAddons: any;
 
   constructor(
     private route: Router,
@@ -365,10 +366,12 @@ export class ProposalReviewComponent implements OnInit {
     });
   }
   showAddons() {
-    if (window.innerWidth <= 999) {
-      this.bottomSheet.open(ReviewAddonsComponent);
-    } else {
-      this.openModal('data', this.renewalAddonsJSON);
+    if (this.preAddons) {
+      if (window.innerWidth <= 999) {
+        this.bottomSheet.open(ReviewAddonsComponent);
+      } else {
+        this.openModal('data', this.renewalAddonsJSON);
+      }
     }
   }
   getPrevPolicyDetails(getInsurerData: any) {
@@ -387,6 +390,7 @@ export class ProposalReviewComponent implements OnInit {
         `${ApiConstants.pre_policy_addons}?insurer_code=${quoteData?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}`
       )
       .subscribe((res: any) => {
+        this.preAddons = res;
         this.shareData.sendPrevAddon(res);
       });
   }
