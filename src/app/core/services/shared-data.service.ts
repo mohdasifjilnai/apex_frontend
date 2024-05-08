@@ -90,6 +90,7 @@ export class SharedDataService {
   setIsNotShowNomineeItem: any;
   addonsValue: any;
   ckycFormInfo: any;
+  mmvData: any;
 
   constructor(
     private apiService: ApiService,
@@ -513,6 +514,7 @@ export class SharedDataService {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = localStorage.getItem('vehicleType');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     const proposalId = sessionStorage.getItem('proposal_Id');
     this.proposalDataItem = {
       transaction_id: sessionStorage.getItem('transaction_id') || '',
@@ -607,6 +609,7 @@ export class SharedDataService {
           formData?.get('is_vehicle_address')?.value || ''
             ? formData?.get('is_vehicle_address')?.value || ''
             : 'false',
+        mmv_id: this.mmvData?.vehicle_variant?.rb_mmv_id,
       };
       if (this.registrationAddressItem) {
         this.proposalDataItem['vehicle_details'].registration_address = {
