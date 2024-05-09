@@ -481,6 +481,8 @@ export class QuotesListingComponent implements OnInit {
     } else {
       this.selectedTabIndex = 0;
     }
+    this.selectedProductType = event.tab.textLabel;
+    sessionStorage.setItem('productType', this.selectedProductType);
     if (!this.tabChangeOninit) {
       sessionStorage.setItem(
         'lastSelectedTabIndex',

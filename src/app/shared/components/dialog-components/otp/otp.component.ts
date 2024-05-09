@@ -163,17 +163,11 @@ export class OtpComponent implements OnInit {
                       `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
-                    let proposalId
-                    if(typeof this.proposalId =='string'){
-                      proposalId=JSON.parse(this.proposalId)
-                    }else{
-                      proposalId=this.proposalId
-                    }
                     this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${proposalId}`
+                        }${this.proposalId}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {
@@ -223,18 +217,11 @@ export class OtpComponent implements OnInit {
                       `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
-                    let proposalId
-                    if(typeof this.proposalId =='string'){
-                      proposalId=JSON.parse(this.proposalId)
-                    }else{
-                      proposalId=this.proposalId
-                    }
-                    
                     this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${proposalId}`
+                        }${this.proposalId}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {

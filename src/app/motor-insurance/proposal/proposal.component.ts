@@ -92,7 +92,7 @@ export class ProposalComponent implements OnInit {
     this.reviewData = this.sharedData.getProposalReviewDetails;
     if (this.vehicleType === 'new') {
       this.isNotShowInNewPolicyDetails = false;
-    } else if (this.quoteData?.is_breakin && this.productTypeValue === 'satp') {
+    } else if ((this.quoteData?.is_breakin && this.productTypeValue === 'satp')  || (this.quoteData?.is_breakin && this.productTypeValue === 'bundled_tp')) {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
