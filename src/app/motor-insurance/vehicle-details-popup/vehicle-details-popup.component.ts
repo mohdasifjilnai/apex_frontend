@@ -257,7 +257,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       if (this.url == 'quotes') {
         let policyExpDateValue = new Date(res.value);
 
-        this.getExpiringPolicy(this.regDateValue, policyExpDateValue);
+        this.getExpiringPolicy(
+          this.regDateValue,
+          policyExpDateValue,
+          'regDateChange'
+        );
       }
     });
     this.checkWheelerType(this.editVehicleDetails);
@@ -966,7 +970,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.getExpiringPolicy();
   }
 
-  getExpiringPolicy(date?: any, policyExpiryDate?: any) {
+  getExpiringPolicy(date?: any, policyExpiryDate?: any, dateChange?: any) {
     let expiringPolicyType;
     if (this.registrationNumber) {
       if (
@@ -1020,19 +1024,17 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
       expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
     } else if (policyExpiryDate && date) {
+      console.log(date);
       let vehicleRegDate;
-      if (this.vehicleMMVData) {
+      if (dateChange == 'regDateChange') {
+        vehicleRegDate = new Date(date);
+      } else if (this.vehicleMMVData) {
         this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-      } else {
-        // this.vehiclePopupList = JSON.parse(
-        //   sessionStorage.getItem('mmv_data') || '{}'
-        // );
-        // this.vehicleMMVValue = this.vehiclePopupList;
+        vehicleRegDate = this.vehicleMMVValue?.registration_date
+          ? new Date(this.vehicleMMVValue?.registration_date)
+          : date;
       }
       // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-      vehicleRegDate = this.vehicleMMVValue?.registration_date
-        ? new Date(this.vehicleMMVValue?.registration_date)
-        : date;
 
       let dateObj = moment(vehicleRegDate, 'MM/YYYY');
       let regMonth = moment(dateObj).month();
