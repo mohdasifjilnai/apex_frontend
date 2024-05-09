@@ -95,4 +95,6 @@ export class ApiConstants {
   public static pre_policy_addons: string = `/api/v1/prev_policy_addon_details/`;
 
   public static vehicle_color = `/api/v1/vehicle_colours/`;
+
+  public static united_ckyc_token = `/api/v1/ckyc/united_ckyc_token`;
 }

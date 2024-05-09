@@ -13,6 +13,8 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatStepper } from '@angular/material/stepper';
 
+
+declare var HyperKYCModule: any;
 @Component({
   selector: 'app-proposal',
   templateUrl: './proposal.component.html',
@@ -66,6 +68,8 @@ export class ProposalComponent implements OnInit {
   breakIn: boolean = false;
   insuranceVehicleType: any;
   currentStepIndex: number = 0;
+  unitedTokenValue: any;
+  decodedString: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -144,7 +148,7 @@ export class ProposalComponent implements OnInit {
           : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
-    // this.unitedCkycVerification();
+    // this.getUnitedCkycToken();
   }
 
   loadCkyc(expansionName: string) {
@@ -553,21 +557,41 @@ export class ProposalComponent implements OnInit {
       }
     }
   }
+  /**
+   * get united Ckyc Token api
+   */
 
+  getUnitedCkycToken() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${
+          this.quoteData?.quote_id
+        }&transaction_id=${this.quoteData?.transaction_id}`
+      )
+      .subscribe((res) => {
+        this.unitedTokenValue = res;
+        const base64String = `${res?.workflow_id}`;
+        this.decodedString = atob(base64String);
+        setTimeout(() => {
+          this.unitedCkycVerification(res?.token,this.decodedString)
+            }, 2000);
+      });
+  }
 
-  unitedCkycVerification() {
-    const accessToken = "<Access Token>";
+  unitedCkycVerification(token:any,workflod_id:any) {
+    const accessToken = `${token}`;
     const hyperKycConfig = new (window as any).HyperKycConfig(
       accessToken,
-      "<Workflow ID>",
-      "transactionId"
+      `${workflod_id}`,
+      `${this.quoteData?.quote_id}`
     );
+    // (window as any).HyperKYCModule.launch(hyperKycConfig, this.handler);
     this.launchHyperKYC(hyperKycConfig);
   }
 
   launchHyperKYC(config: any) {
     
-    (window as any).HyperKYCModule.launch(config, this.handler);
+    HyperKYCModule.launch(config, this.handler);
   }
 
   handler(HyperKycResult: any) {

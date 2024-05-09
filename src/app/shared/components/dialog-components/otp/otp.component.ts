@@ -151,28 +151,34 @@ export class OtpComponent implements OnInit {
               (generatedProposal: any) => {
                 if (window.innerWidth <= 999) {
                   this.bottomSheetRef.dismiss();
+                }else{
+                  this.dialogRef.close();
                 }
 
                 if (generatedProposal.status) {
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
-                    this.dialogRef.close();
+                    
                     this.router.navigate([
                       `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
+                    let proposalId
+                    if(typeof this.proposalId =='string'){
+                      proposalId=JSON.parse(this.proposalId)
+                    }else{
+                      proposalId=this.proposalId
+                    }
                     this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${JSON.parse(this.proposalId)}`
+                        }${proposalId}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {
                           window.location.href = payment_getway_response;
                           this.loader = false;
-
-                          this.dialogRef.close();
                         }
                       });
                   }
@@ -217,11 +223,18 @@ export class OtpComponent implements OnInit {
                       `motor/quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
+                    let proposalId
+                    if(typeof this.proposalId =='string'){
+                      proposalId=JSON.parse(this.proposalId)
+                    }else{
+                      proposalId=this.proposalId
+                    }
+                    
                     this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${JSON.parse(this.proposalId)}`
+                        }${proposalId}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {
