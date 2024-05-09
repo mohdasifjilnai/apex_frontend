@@ -167,7 +167,7 @@ export class OtpComponent implements OnInit {
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${this.proposalId}`
+                        }${this.proposalId.replace(/['"]+/g, '')}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {
@@ -221,14 +221,12 @@ export class OtpComponent implements OnInit {
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
-                        }${this.proposalId}`
+                        }${this.proposalId.replace(/['"]+/g, '')}`
                       )
                       .subscribe((payment_getway_response) => {
                         if (payment_getway_response) {
                           window.location.href = payment_getway_response;
                           this.loader = false;
-
-                          // this.dialogRef.close();
                         }
                       });
                   }
