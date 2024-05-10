@@ -102,7 +102,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
-    if (JSON.parse(this.quoteData)['premium_details']['idv'] >= 100000) {
+    if (JSON.parse(this.quoteData)['premium_details']['idv'] >= 5000000  || JSON.parse(this.quoteData)['premium_details']['gross_premium'] >= 100000) {
       this.isPancard = true;
       this.owenerVehicleDetailsForm
         .get('document_number_based_field')

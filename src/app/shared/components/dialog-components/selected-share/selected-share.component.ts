@@ -51,6 +51,7 @@ export class SelectedShareComponent implements OnInit {
       this.cancel(false)
     } else {
       this.openModal(quotes,this.shareQuotesJSON)
+      this.cancel(false)
     }
     
     

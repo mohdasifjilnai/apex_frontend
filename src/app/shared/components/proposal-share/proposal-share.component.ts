@@ -219,7 +219,7 @@ export class ProposalShareComponent implements OnInit {
         }/review`,
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
-        JSON.parse(this.quoteData)['quotes_id']
+        [JSON.parse(this.quoteData)['quote_id']]
       )
       .subscribe(
         (res) => {

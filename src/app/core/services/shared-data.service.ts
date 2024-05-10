@@ -781,7 +781,7 @@ export class SharedDataService {
       URL: `${baseURL}${url}`,
       mail_id: mail_id ? mail_id : '',
       mobile_no: mobile_name ? mobile_name : null,
-      quote_id: [quotes_data['quote_id']],
+      quote_id: quote_id,
       quote_request_id: quotes_data['quote_request_id'],
     };
     return this.apiService.postRequestedResponse(

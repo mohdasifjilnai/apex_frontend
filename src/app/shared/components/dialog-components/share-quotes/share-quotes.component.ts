@@ -121,7 +121,7 @@ export class ShareQuotesComponent implements OnInit {
           }/review`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
-          JSON.parse(this.quoteData)['quotes_id']
+          [JSON.parse(this.quoteData)['quote_id']]
         )
         .subscribe(
           (res) => {
@@ -137,15 +137,15 @@ export class ShareQuotesComponent implements OnInit {
     } else {
       this.sharedDataService
         .shareQuotes(
-          JSON.parse(this.quoteData),
+        this.quotesData[0],
           'quote',
           this.partner_name,
           `motor/quotes/?transaction_id_share=${
-            JSON.parse(this.quoteData)['transaction_id']
+            this.quotesData[0]['transaction_id']
           }&insurer_quote_id=${this.quotes_id}`,
           this.shareQuotationForm.get('email')?.value,
           this.shareQuotationForm.get('contact_number')?.value,
-          JSON.parse(this.quoteData)['quotes_id']
+          this.quotes_id
         )
         .subscribe(
           (res) => {
