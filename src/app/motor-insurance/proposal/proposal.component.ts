@@ -145,7 +145,7 @@ export class ProposalComponent implements OnInit {
           : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
-    this.getUnitedCkycToken();
+    // this.getUnitedCkycToken();
   }
 
   loadCkyc(expansionName: string) {

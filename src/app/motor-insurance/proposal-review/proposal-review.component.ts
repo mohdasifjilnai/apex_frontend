@@ -123,7 +123,8 @@ export class ProposalReviewComponent implements OnInit {
     );
     if (
       previousPolicyType?.policy_expiry === 'saod' ||
-      previousPolicyType?.policy_expiry === 'comprehensive'
+      previousPolicyType?.policy_expiry === 'comprehensive' ||
+      previousPolicyType?.policy_expiry === 'bundle'
     ) {
       this.isTpDetailsDisabled = true;
       this.isOdDetailsShow = true;

@@ -667,7 +667,9 @@ export class SharedDataService {
       if (
         previousPolicyType?.policy_expiry === 'saod' ||
         previousPolicyType?.policy_expiry === 'comprehensive' ||
-        previousPolicyType?.policy_expiry === 'satp'
+        previousPolicyType?.policy_expiry === 'satp' ||
+        previousPolicyType?.policy_expiry === 'bundled_tp' ||
+        previousPolicyType?.policy_expiry === 'bundle'
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value

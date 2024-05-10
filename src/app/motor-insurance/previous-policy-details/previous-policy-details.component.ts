@@ -162,7 +162,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     console.log(previousPolicyType.policy_expiry);
     if (
       previousPolicyType?.policy_expiry === 'saod' ||
-      previousPolicyType?.policy_expiry === 'comprehensive'
+      previousPolicyType?.policy_expiry === 'comprehensive' ||
+      previousPolicyType?.policy_expiry === 'bundle'
     ) {
       this.isTpPolicyDetails = true;
       this.isOdPolicyDetails = true;
