@@ -59,8 +59,8 @@ export class CkycDocumentsComponent implements OnInit {
   fileControlName: string = '';
   isReUploadDocument: boolean = false;
   formGetData: any;
-  maxDate :any;
-  minDate:any;
+  maxDate: any;
+  minDate: any;
   fileInputError: boolean = true;
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
@@ -234,8 +234,8 @@ handles the form submit for uploading the required documents
           ? this.uploadDocumentsForm.get('family_member_relation')?.value
           : null,
         poi_document: {
-          poi_type: this.uploadDocumentsForm.get('poi_type')?.value
-            ? this.uploadDocumentsForm.get('poi_type')?.value
+          poi_type: this.showPOI
+            ? this.uploadDocumentsForm.get('document_type_based_field')?.value
             : null,
           poi_no: this.uploadDocumentsForm.get('poi_no')?.value
             ? this.uploadDocumentsForm.get('poi_no')?.value
@@ -245,8 +245,7 @@ handles the form submit for uploading the required documents
             : null,
         },
         poa_document: {
-          poa_type: this.uploadDocumentsForm.get('document_type_based_field')
-            ?.value
+          poa_type: this.showPOA
             ? this.uploadDocumentsForm.get('document_type_based_field')?.value
             : null,
           poa_no: this.uploadDocumentsForm.get('poa_no')?.value
