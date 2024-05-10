@@ -28,23 +28,29 @@ export class HeaderComponent implements OnInit {
   @ViewChild('widgetId') widgetId!: ElementRef;
   id: any;
   copiedId: any;
+  transactionIDByUrl: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
     private router: Router,
     private sharedService: SharedDataService,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.id = sessionStorage.getItem('transaction_id');
+    this.transactionIDByUrl = this.router.url.split('/')[4];
+    console.log(this.transactionIDByUrl);
     if (window.innerWidth <= 999) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
       this.copiedId = this.id;
-    } else {
+    } else if (this.id) {
       this.transactionId = this.id;
       this.copiedId = this.id;
+    } else {
+      this.transactionId = this.transactionIDByUrl;
     }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {
