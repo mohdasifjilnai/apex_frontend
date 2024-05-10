@@ -100,7 +100,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalType: any;
   manufactureDate: any;
   preAddons: any;
-  isOdDetailsShow: boolean=false;
+  isOdDetailsShow: boolean = false;
 
   constructor(
     private route: Router,
@@ -118,14 +118,19 @@ export class ProposalReviewComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
+    let previousPolicyType = JSON.parse(
+      sessionStorage.getItem('mmv_data') || '{}'
+    );
     if (
-      productTypeValue === 'saod' ||
-      productTypeValue === 'comprehensive'
+      previousPolicyType?.policy_expiry === 'saod' ||
+      previousPolicyType?.policy_expiry === 'comprehensive'
     ) {
       this.isTpDetailsDisabled = true;
-      this.isOdDetailsShow=true
-    }
-    else if(productTypeValue === 'satp' || productTypeValue === 'bundled_tp'){
+      this.isOdDetailsShow = true;
+    } else if (
+      previousPolicyType?.policy_expiry === 'satp' ||
+      previousPolicyType?.policy_expiry === 'bundled_tp'
+    ) {
       this.isTpDetailsDisabled = true;
     }
     this.router.queryParams.subscribe((params) => {

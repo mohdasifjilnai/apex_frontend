@@ -48,7 +48,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   });
   previousInsurerResponse: any;
   renewalType: any;
-  isOdPolicyDetails: boolean=false;
+  isOdPolicyDetails: boolean = false;
 
   constructor(
     private router: Router,
@@ -156,12 +156,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.isDisabledPreviousPolicyDetails = true;
     }
     let productTypeValue = sessionStorage.getItem('productType');
+    let previousPolicyType = JSON.parse(
+      sessionStorage.getItem('mmv_data') || '{}'
+    );
+    console.log(previousPolicyType.policy_expiry);
     if (
-      productTypeValue === 'saod' ||
-      productTypeValue === 'comprehensive'
+      previousPolicyType?.policy_expiry === 'saod' ||
+      previousPolicyType?.policy_expiry === 'comprehensive'
     ) {
       this.isTpPolicyDetails = true;
-      this.isOdPolicyDetails=true
+      this.isOdPolicyDetails = true;
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
         ?.setValidators([Validators.required]);
@@ -186,26 +190,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('tp_policy_end_date')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
+      this.previousPolicyDetailsForm
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
       this.previousPolicyDetailsForm
         .get('previous_insurer')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
+      this.previousPolicyDetailsForm
         .get('prev_policy_number')
         ?.setValidators([Validators.required]);
       this.previousPolicyDetailsForm
         .get('prev_policy_number')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
+      this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
       this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
-    }else if(productTypeValue === 'satp' || productTypeValue === 'bundled_tp'){
-
+    } else if (
+      previousPolicyType?.policy_expiry === 'satp' ||
+      previousPolicyType?.policy_expiry === 'bundled_tp'
+    ) {
       this.isTpPolicyDetails = true;
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
@@ -231,27 +237,24 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('tp_policy_end_date')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
-        .get('previous_insurer')
-        ?.setValidators([]);
+      this.previousPolicyDetailsForm.get('previous_insurer')?.setValidators([]);
       this.previousPolicyDetailsForm
         .get('previous_insurer')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
+      this.previousPolicyDetailsForm
         .get('prev_policy_number')
         ?.setValidators([]);
       this.previousPolicyDetailsForm
         .get('prev_policy_number')
         ?.updateValueAndValidity();
-        this.previousPolicyDetailsForm
+      this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([]);
       this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
     }
-    
-    
+
     // else {
     //   this.previousPolicyDetailsForm
     //     .get('tp_insurance_company')

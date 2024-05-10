@@ -661,10 +661,13 @@ export class SharedDataService {
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
+      let previousPolicyType = JSON.parse(
+        sessionStorage.getItem('mmv_data') || '{}'
+      );
       if (
-        productTypeValue === 'saod' ||
-        productTypeValue === 'comprehensive' ||
-        productTypeValue === 'satp'
+        previousPolicyType?.policy_expiry === 'saod' ||
+        previousPolicyType?.policy_expiry === 'comprehensive' ||
+        previousPolicyType?.policy_expiry === 'satp'
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value
