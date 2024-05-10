@@ -100,6 +100,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalType: any;
   manufactureDate: any;
   preAddons: any;
+  isOdDetailsShow: boolean=false;
 
   constructor(
     private route: Router,
@@ -118,10 +119,13 @@ export class ProposalReviewComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
     if (
-      this.quoteData?.is_breakin ||
       productTypeValue === 'saod' ||
-      (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
+      productTypeValue === 'comprehensive'
     ) {
+      this.isTpDetailsDisabled = true;
+      this.isOdDetailsShow=true
+    }
+    else if(productTypeValue === 'satp' || productTypeValue === 'bundled_tp'){
       this.isTpDetailsDisabled = true;
     }
     this.router.queryParams.subscribe((params) => {

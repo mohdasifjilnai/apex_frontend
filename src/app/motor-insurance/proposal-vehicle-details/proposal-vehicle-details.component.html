@@ -354,9 +354,7 @@
         "
       >
         {{
-          vehicleType === "new" ||
-          (isBreakIn && productTypeValue === "satp") ||
-          mmvItem?.policy_expiry === "IDK"
+          vehicleType === "new" || mmvItem?.policy_expiry === "IDK"
             ? "Confirm & Review"
             : "Save & Continue"
         }}

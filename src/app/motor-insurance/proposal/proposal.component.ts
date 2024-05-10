@@ -13,7 +13,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatStepper } from '@angular/material/stepper';
 
-
 declare var HyperKYCModule: any;
 @Component({
   selector: 'app-proposal',
@@ -91,8 +90,6 @@ export class ProposalComponent implements OnInit {
     );
     this.reviewData = this.sharedData.getProposalReviewDetails;
     if (this.vehicleType === 'new') {
-      this.isNotShowInNewPolicyDetails = false;
-    } else if ((this.quoteData?.is_breakin && this.productTypeValue === 'satp')  || (this.quoteData?.is_breakin && this.productTypeValue === 'bundled_tp')) {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
@@ -564,21 +561,19 @@ export class ProposalComponent implements OnInit {
   getUnitedCkycToken() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${
-          this.quoteData?.quote_id
-        }&transaction_id=${this.quoteData?.transaction_id}`
+        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${this.quoteData?.quote_id}&transaction_id=${this.quoteData?.transaction_id}`
       )
       .subscribe((res) => {
         this.unitedTokenValue = res;
         const base64String = `${res?.workflow_id}`;
         this.decodedString = atob(base64String);
         setTimeout(() => {
-          this.unitedCkycVerification(res?.token,this.decodedString)
-            }, 2000);
+          this.unitedCkycVerification(res?.token, this.decodedString);
+        }, 2000);
       });
   }
 
-  unitedCkycVerification(token:any,workflod_id:any) {
+  unitedCkycVerification(token: any, workflod_id: any) {
     const accessToken = `${token}`;
     const hyperKycConfig = new (window as any).HyperKycConfig(
       accessToken,
@@ -590,7 +585,6 @@ export class ProposalComponent implements OnInit {
   }
 
   launchHyperKYC(config: any) {
-    
     HyperKYCModule.launch(config, this.handler);
   }
 
@@ -604,4 +598,3 @@ export class ProposalComponent implements OnInit {
     }
   }
 }
-

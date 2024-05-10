@@ -662,9 +662,9 @@ export class SharedDataService {
 
       let productTypeValue = sessionStorage.getItem('productType');
       if (
-        this.quoteData?.is_breakin ||
         productTypeValue === 'saod' ||
-        (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
+        productTypeValue === 'comprehensive' ||
+        productTypeValue === 'satp'
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value

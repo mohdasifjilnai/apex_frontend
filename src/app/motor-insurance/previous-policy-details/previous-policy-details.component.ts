@@ -48,6 +48,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   });
   previousInsurerResponse: any;
   renewalType: any;
+  isOdPolicyDetails: boolean=false;
 
   constructor(
     private router: Router,
@@ -156,10 +157,55 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
     let productTypeValue = sessionStorage.getItem('productType');
     if (
-      this.quoteData?.is_breakin ||
       productTypeValue === 'saod' ||
-      (this.quoteData?.is_breakin && productTypeValue === 'comprehensive')
+      productTypeValue === 'comprehensive'
     ) {
+      this.isTpPolicyDetails = true;
+      this.isOdPolicyDetails=true
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_number')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_number')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_start_date')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.updateValueAndValidity();
+        this.previousPolicyDetailsForm
+        .get('previous_insurer')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('previous_insurer')
+        ?.updateValueAndValidity();
+        this.previousPolicyDetailsForm
+        .get('prev_policy_number')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('prev_policy_number')
+        ?.updateValueAndValidity();
+        this.previousPolicyDetailsForm
+        .get('policy_expiry_date')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('policy_expiry_date')
+        ?.updateValueAndValidity();
+    }else if(productTypeValue === 'satp' || productTypeValue === 'bundled_tp'){
+
       this.isTpPolicyDetails = true;
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
@@ -185,30 +231,51 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('tp_policy_end_date')
         ?.updateValueAndValidity();
-    } else {
-      this.previousPolicyDetailsForm
-        .get('tp_insurance_company')
+        this.previousPolicyDetailsForm
+        .get('previous_insurer')
         ?.setValidators([]);
       this.previousPolicyDetailsForm
-        .get('tp_insurance_company')
+        .get('previous_insurer')
         ?.updateValueAndValidity();
-      this.previousPolicyDetailsForm.get('tp_policy_number')?.setValidators([]);
-      this.previousPolicyDetailsForm
-        .get('tp_policy_number')
-        ?.updateValueAndValidity();
-      this.previousPolicyDetailsForm
-        .get('tp_policy_start_date')
+        this.previousPolicyDetailsForm
+        .get('prev_policy_number')
         ?.setValidators([]);
       this.previousPolicyDetailsForm
-        .get('tp_policy_start_date')
+        .get('prev_policy_number')
         ?.updateValueAndValidity();
-      this.previousPolicyDetailsForm
-        .get('tp_policy_end_date')
+        this.previousPolicyDetailsForm
+        .get('policy_expiry_date')
         ?.setValidators([]);
       this.previousPolicyDetailsForm
-        .get('tp_policy_end_date')
+        .get('policy_expiry_date')
         ?.updateValueAndValidity();
     }
+    
+    
+    // else {
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_insurance_company')
+    //     ?.setValidators([]);
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_insurance_company')
+    //     ?.updateValueAndValidity();
+    //   this.previousPolicyDetailsForm.get('tp_policy_number')?.setValidators([]);
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_policy_number')
+    //     ?.updateValueAndValidity();
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_policy_start_date')
+    //     ?.setValidators([]);
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_policy_start_date')
+    //     ?.updateValueAndValidity();
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_policy_end_date')
+    //     ?.setValidators([]);
+    //   this.previousPolicyDetailsForm
+    //     .get('tp_policy_end_date')
+    //     ?.updateValueAndValidity();
+    // }
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (Object.keys(kycData).length > 0) {
       if (
