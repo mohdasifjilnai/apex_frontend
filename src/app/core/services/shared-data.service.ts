@@ -64,6 +64,9 @@ export class SharedDataService {
   checkRenewalQuotes = new BehaviorSubject<any>(null);
   updateVehicleType = new BehaviorSubject<any>(null);
   renewalVehicleData = new BehaviorSubject<any>(null);
+
+  renewalPreviousPolicyData = new BehaviorSubject<any>(null);
+
   changePolicyExpDate: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -910,6 +913,7 @@ export class SharedDataService {
    */
   getInsurerDetail(data: any) {
     this.insurerDetails.next(data);
+    this.renewalPreviousPolicyData.next(data);
     this.proposalData = data;
   }
   /**

@@ -56,6 +56,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   isPancard: boolean = false;
   isPancardDisabled: boolean = false;
   renewalType: any;
+  renewalQuotesData: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -127,6 +128,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         .get('document_number_based_field')
         ?.clearValidators();
     }
+
     this.owenerVehicleDetailsForm
       .get('document_number_based_field')
       ?.updateValueAndValidity();

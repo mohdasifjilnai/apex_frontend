@@ -29,6 +29,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   mmvData: any;
   isDisableCKyc: boolean = false;
   url = '';
+  renewalQuotesRequest: any;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
@@ -159,7 +160,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     let previousPolicyType = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
     );
-    console.log(previousPolicyType.policy_expiry);
+
     if (
       previousPolicyType?.policy_expiry === 'saod' ||
       previousPolicyType?.policy_expiry === 'comprehensive' ||
@@ -256,6 +257,108 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ?.updateValueAndValidity();
     }
 
+    this.sharedData.renewalPreviousPolicyData.subscribe((data: any) => {
+      if (data) {
+        this.renewalQuotesRequest = data.quote_request;
+        if (
+          this.renewalQuotesRequest?.product_type === 'saod' ||
+          this.renewalQuotesRequest?.product_type === 'comprehensive' ||
+          this.renewalQuotesRequest?.product_type === 'bundle'
+        ) {
+          this.isTpPolicyDetails = true;
+          this.isOdPolicyDetails = true;
+          this.previousPolicyDetailsForm
+            .get('tp_insurance_company')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_insurance_company')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_number')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_number')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_start_date')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_start_date')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_end_date')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_end_date')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('previous_insurer')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('previous_insurer')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('prev_policy_number')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('prev_policy_number')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('policy_expiry_date')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('policy_expiry_date')
+            ?.updateValueAndValidity();
+        } else if (
+          this.renewalQuotesRequest?.product_type === 'satp' ||
+          this.renewalQuotesRequest?.product_type === 'bundled_tp'
+        ) {
+          this.isTpPolicyDetails = true;
+          this.previousPolicyDetailsForm
+            .get('tp_insurance_company')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_insurance_company')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_number')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_number')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_start_date')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_start_date')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('tp_policy_end_date')
+            ?.setValidators([Validators.required]);
+          this.previousPolicyDetailsForm
+            .get('tp_policy_end_date')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('previous_insurer')
+            ?.setValidators([]);
+          this.previousPolicyDetailsForm
+            .get('previous_insurer')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('prev_policy_number')
+            ?.setValidators([]);
+          this.previousPolicyDetailsForm
+            .get('prev_policy_number')
+            ?.updateValueAndValidity();
+          this.previousPolicyDetailsForm
+            .get('policy_expiry_date')
+            ?.setValidators([]);
+          this.previousPolicyDetailsForm
+            .get('policy_expiry_date')
+            ?.updateValueAndValidity();
+        }
+      }
+    });
     // else {
     //   this.previousPolicyDetailsForm
     //     .get('tp_insurance_company')
