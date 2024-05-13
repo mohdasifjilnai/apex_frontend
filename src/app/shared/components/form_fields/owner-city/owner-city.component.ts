@@ -26,6 +26,7 @@ export class OwnerCityComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
   @Input() idAutomation: any;
+  @Input() readonly: any;
 
   constructor(private ctrlContainer: FormGroupDirective) {}
 

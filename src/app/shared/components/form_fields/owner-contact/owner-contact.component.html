@@ -7,15 +7,12 @@
     appNumbersOnly
     additional_contact="contact_number"
     maxlength="10"
+    [readonly]="readonly"
   />
-  <mat-error
-    *ngIf="form.controls['contact_number']?.hasError('required')"
-  >
+  <mat-error *ngIf="form.controls['contact_number']?.hasError('required')">
     This is a required field.
   </mat-error>
-  <mat-error
-    *ngIf="form.controls['contact_number']?.hasError('pattern')"
-  >
+  <mat-error *ngIf="form.controls['contact_number']?.hasError('pattern')">
     Invalid Contact Number
   </mat-error>
 </mat-form-field>

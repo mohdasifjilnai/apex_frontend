@@ -61,6 +61,7 @@ export class CkycComponent implements OnInit {
   isProposerTrue: boolean = true;
   isCkycDone: boolean = false;
   documentNumber: any;
+  renewalDetails: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -99,7 +100,6 @@ export class CkycComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCalenderRange();
-
     this.proposerType = sessionStorage.getItem('proposerType');
     this.proposerType == 'individual'
       ? this.dobPlaceholder
@@ -166,10 +166,10 @@ export class CkycComponent implements OnInit {
         this.isDisableCKyc = true;
       }
     });
-
-    let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType == 'renewal') {
-      this.ckycFormGroup?.disable();
+    this.renewalDetails = sessionStorage.getItem('renewalDetails');
+    const parsedRenewalDetails = JSON.parse(this.renewalDetails);
+    if (parsedRenewalDetails?.ckyc_status) {
+      this.isDisableCKyc = true;
     }
   }
 

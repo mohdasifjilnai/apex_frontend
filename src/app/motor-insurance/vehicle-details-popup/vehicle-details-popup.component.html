@@ -311,7 +311,10 @@
           </div>
           <ng-container *ngIf="!isNewVehicle">
             <!-- Used Car/ RC Transfer dropdown -->
-            <div class="col-lg-6 col-md-6 col-12">
+            <div
+              class="col-lg-6 col-md-6 col-12"
+              [ngClass]="{ isRcClaimDisable: renewalType == 'renewal' }"
+            >
               <mat-form-field
                 appearance="outline"
                 class="vehicle-details-dropdown"
@@ -378,7 +381,10 @@
               <!-- Is Previous Policy Claimed dropdown -->
             </ng-container>
             <ng-container *ngIf="hidePreviousClaimed">
-              <div class="col-lg-6 col-md-6 col-12">
+              <div
+                class="col-lg-6 col-md-6 col-12"
+                [ngClass]="{ isRcClaimDisable: renewalType == 'renewal' }"
+              >
                 <mat-form-field
                   appearance="outline"
                   class="vehicle-details-dropdown"

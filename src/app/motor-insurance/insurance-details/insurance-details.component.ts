@@ -53,6 +53,8 @@ export class InsuranceDetailsComponent implements OnInit {
   defaultGST: any;
   renewalType: any;
   productType: any;
+  url: any;
+  showInsurerButton = true;
   constructor(
     public matDialog: WindowRef,
 
@@ -122,6 +124,17 @@ export class InsuranceDetailsComponent implements OnInit {
       // }
     }
     this.renewalType = sessionStorage.getItem('renewalType');
+    this.route.url.subscribe((segments) => {
+      const urlSegments = segments.map((segment) => segment.path);
+      this.url = urlSegments[urlSegments.length - 2];
+    });
+    if (this.renewalType == 'renewal' && this.url == 'proposal') {
+      this.showInsurerButton = true;
+    } else if (this.renewalType == 'renewal' && this.url != 'proposal') {
+      this.showInsurerButton = false;
+    } else {
+      this.showInsurerButton = true;
+    }
   }
 
   ngAfterViewInit() {
@@ -179,6 +192,19 @@ export class InsuranceDetailsComponent implements OnInit {
     this.matDialog.openDialog(obj);
   }
   changeInsurer() {
+    if (this.renewalType == 'renewal') {
+      this.quotesChange();
+    } else {
+      this.router.navigate(['/motor/quotes']);
+    }
+  }
+  quotesChange() {
+    sessionStorage.setItem('vehiclePopup', 'true');
+    let insurerApiData = {
+      transaction_id: sessionStorage.getItem('transaction_id'),
+      insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
+    };
+    this.sharedDataService.quotesDataOnRenewal(insurerApiData);
     this.router.navigate(['/motor/quotes']);
   }
   premiumBreakup(quoteData: any) {

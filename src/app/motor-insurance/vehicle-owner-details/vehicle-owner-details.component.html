@@ -26,10 +26,16 @@
       ></app-owner-full-name>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
-      <app-owner-contact [required]="true"></app-owner-contact>
+      <app-owner-contact
+        [required]="true"
+        [readonly]="vehicleOwnerNumber"
+      ></app-owner-contact>
     </div>
     <div class="col-lg-4 col-md-4 col-12">
-      <app-owner-email [required]="true"></app-owner-email>
+      <app-owner-email
+        [required]="true"
+        [readonly]="vehicleOwneremail"
+      ></app-owner-email>
     </div>
     <div class="col-lg-4 col-md-4 col-12" *ngIf="proposalType == 'individual'">
       <mat-form-field appearance="outline" class="mat-input-custom">
@@ -156,6 +162,7 @@
           formControlName="document_number_based_field"
           class="text-uppercase"
           appNoSpace
+          [readonly]="isPancardDisabled"
         />
         <mat-error
           *ngIf="
@@ -190,6 +197,7 @@
           maxlength="6"
           appNumbersOnly
           (keyup.enter)="onEnterKeyPressedForPincode()"
+          [readonly]="vehicleOwnerPincode"
         />
         <mat-autocomplete
           #pincodeAuto="matAutocomplete"
@@ -250,6 +258,7 @@
         [formControlNameData]="'owner_city'"
         [label]="'City'"
         [idAutomation]="'ownerCity'"
+        readonly="true"
       ></app-owner-city>
     </div>
     <div class="col-lg-4 col-md-4 col-12">

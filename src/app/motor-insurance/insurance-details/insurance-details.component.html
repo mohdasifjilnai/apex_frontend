@@ -3,7 +3,7 @@
     <img [src]="quoteData?.insurer_logo" alt="" class="logo" />
     <div class="insurer-title">
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
-      <div *ngIf="renewalType != 'renewal'">
+      <div *ngIf="showInsurerButton">
         <button type="button" class="edit-button" (click)="changeInsurer()">
           <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
           Change Insurer

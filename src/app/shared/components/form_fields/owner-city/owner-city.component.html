@@ -1,6 +1,6 @@
 <mat-form-field class="mat-input-custom" appearance="outline">
   <mat-label>{{ label }}</mat-label>
- 
+
   <input
     matInput
     placeholder="{{ label }}"
@@ -10,6 +10,7 @@
     [formControlName]="formControlNameData"
     [id]="idAutomation"
     appAlphabetOnly
+    [readonly]="readonly"
   />
   <mat-autocomplete #cityAuto="matAutocomplete">
     <mat-option

@@ -37,6 +37,15 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   salutationList: any;
   ckycItem: any;
   vehicleOwnerName: boolean = false;
+  vehicleOwneremail: boolean = false;
+  vehicleOwneraddress: boolean = false;
+  vehicleOwnerdob: boolean = false;
+  vehicleOwnerNumber: boolean = false;
+  vehicleOwnerOrganisation: boolean = false;
+  vehicleOwnerPanNumber: boolean = false;
+  vehicleOwnerPincode: boolean = false;
+  vehicleOwnerCity: boolean = false;
+  vehicleOwnerState: boolean = false;
   proposalData: any;
   quoteData: any;
   pincodeId: any;
@@ -46,6 +55,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   isProposerTrue: boolean = true;
   isPancard: boolean = false;
   isPancardDisabled: boolean = false;
+  renewalType: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -102,7 +112,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
-    if (JSON.parse(this.quoteData)['premium_details']['idv'] >= 5000000  || JSON.parse(this.quoteData)['premium_details']['gross_premium'] >= 100000) {
+    this.renewalType = sessionStorage.getItem('renewalType');
+    if (
+      JSON.parse(this.quoteData)['premium_details']['idv'] >= 5000000 ||
+      JSON.parse(this.quoteData)['premium_details']['gross_premium'] >= 100000
+    ) {
       this.isPancard = true;
       this.owenerVehicleDetailsForm
         .get('document_number_based_field')
@@ -175,8 +189,29 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       }
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
-      if (ckycData?.customer_details?.full_name) {
-        this.vehicleOwnerName = true;
+      if (this.renewalType === 'renewal') {
+        if (ckycData?.customer_details?.full_name) {
+          this.vehicleOwnerName = true;
+        }
+        if (ckycData?.customer_details?.email) {
+          this.vehicleOwneremail = true;
+        }
+        if (ckycData?.customer_details?.address) {
+          this.vehicleOwneraddress = true;
+        }
+        if (ckycData?.customer_details?.mobile_number) {
+          this.vehicleOwnerNumber = true;
+        }
+        if (ckycData?.customer_details?.pan_number) {
+          this.isPancardDisabled = true;
+        }
+        if (ckycData?.customer_details?.pincode) {
+          this.vehicleOwnerPincode = true;
+        }
+      } else {
+        if (ckycData?.customer_details?.full_name) {
+          this.vehicleOwnerName = true;
+        }
       }
       if (ckycData) {
         if (ckycData?.customer_details?.pincode) {
@@ -228,9 +263,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (kycData?.customer_details) {
-      if (kycData?.customer_details?.full_name) {
-        this.vehicleOwnerName = true;
-      }
       this.owenerVehicleDetailsForm.patchValue({
         owner_full_Name: kycData?.customer_details?.full_name,
         owner_email: kycData?.customer_details?.email,
@@ -239,15 +271,35 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_city: kycData?.customer_details?.rb_city_name,
         owner_state: kycData?.customer_details?.rb_state_name,
       });
+      if (this.renewalType === 'renewal') {
+        if (kycData?.customer_details?.full_name) {
+          this.vehicleOwnerName = true;
+        }
+        if (kycData?.customer_details?.email) {
+          this.vehicleOwneremail = true;
+        }
+        if (kycData?.customer_details?.address) {
+          this.vehicleOwneraddress = true;
+        }
+        if (kycData?.customer_details?.mobile_number) {
+          this.vehicleOwnerNumber = true;
+        }
+        if (kycData?.customer_details?.pan_number) {
+          this.isPancardDisabled = true;
+        }
+        if (kycData?.customer_details?.pincode) {
+          this.vehicleOwnerPincode = true;
+        }
+      } else {
+        if (kycData?.customer_details?.full_name) {
+          this.vehicleOwnerName = true;
+        }
+      }
     }
     this.getOccupationType();
     this.getPincodeList();
     this.getSalutationType();
 
-    let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType == 'renewal') {
-      this.owenerVehicleDetailsForm?.disable();
-    }
     this.proposalType = sessionStorage.getItem('proposerType');
     if (this.proposalType == 'individual') {
       this.proposalBaseOwner = 'Owner Full Name';

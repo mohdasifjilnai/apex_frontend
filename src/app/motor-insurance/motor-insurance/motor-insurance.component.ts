@@ -378,10 +378,16 @@ export class MotorInsuranceComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           this.loader = false;
-          if (res.is_rb_renewal) {
+          if (res.transactional_details && res?.ckyc_status) {
             this.transactionDetails = res.transactional_details;
             sessionStorage.setItem('renewalType', 'renewal');
             let url = `/motor/quotes/proposal/${this.transactionDetails.transaction_id}/review`;
+            this.router.navigate([url]);
+          } else if (res.transactional_details && !res?.ckyc_status) {
+            this.transactionDetails = res.transactional_details;
+            sessionStorage.setItem('renewalDetails', JSON.stringify(res));
+            sessionStorage.setItem('renewalType', 'renewal');
+            let url = `/motor/quotes/proposal/${this.transactionDetails.transaction_id}`;
             this.router.navigate([url]);
           } else {
             this.vehicleDetailsRollover = res.vehicle_details;

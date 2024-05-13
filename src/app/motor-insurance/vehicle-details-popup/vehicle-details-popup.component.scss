@@ -77,7 +77,7 @@
   margin-left: 10px;
   margin-top: -20px;
 }
-.mandatory{
+.mandatory {
   font-size: 12px;
   font-weight: 600;
   color: #282828;
@@ -107,7 +107,7 @@
       background-color: linear-gradient(270deg, #ffb171 100%, #ff943d 10%);
     }
   }
-  .res-view{
+  .res-view {
     padding: 8px 16px;
   }
 }
@@ -120,4 +120,7 @@
   font-size: 12px !important;
   height: 36px;
   width: 100%;
+}
+.isRcClaimDisable {
+  display: none;
 }

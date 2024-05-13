@@ -517,7 +517,7 @@ export class SharedDataService {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     const proposalId = sessionStorage.getItem('proposal_Id');
     this.proposalDataItem = {
-      transaction_id: sessionStorage.getItem('transaction_id') || '',
+      transaction_id: this.quoteData?.transaction_id || '',
       insurer_quote_id: this.quoteData?.quote_id || '',
       insurer_code: this.quoteData?.insurer_code || '',
       insurer_name: '',

@@ -38,6 +38,7 @@ export class ProposalComponent implements OnInit {
   proposalDetails: any;
   proposerType: any;
   isNotShowNomineeDetails: boolean = false;
+  isNotShowCkycDetails: boolean = true;
   @ViewChild(MatStepper) stepper!: MatStepper;
   @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
   previousPolicyDetailsPanel!: ElementRef;
@@ -69,6 +70,7 @@ export class ProposalComponent implements OnInit {
   currentStepIndex: number = 0;
   unitedTokenValue: any;
   decodedString: any;
+  renewalDetails: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -78,7 +80,21 @@ export class ProposalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sharedData.createProposalId();
+    this.renewalDetails = sessionStorage.getItem('renewalDetails');
+    const parsedRenewalDetails = JSON.parse(this.renewalDetails);
+    if (parsedRenewalDetails) {
+      sessionStorage.setItem(
+        'proposal_Id',
+        parsedRenewalDetails?.transactional_details?.proposal_id
+      );
+      this.getInsurerCode(
+        parsedRenewalDetails?.transactional_details?.transaction_id,
+        parsedRenewalDetails?.transactional_details?.quote_id
+      );
+    } else {
+      this.sharedData.createProposalId();
+    }
+
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     this.kycPending = kycData;
@@ -145,8 +161,12 @@ export class ProposalComponent implements OnInit {
           : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
-    if(this.quoteData?.insurer_code=='united_india'){
+    if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
+      this.isNotShowCkycDetails = false;
+      this.showVehicleOwnerDetails = true;
+      this.accordianExpanded = 'vehicleOwnerDetails';
+      this.openDesiredStep(this.accordianExpanded);
     }
   }
 
@@ -598,5 +618,66 @@ export class ProposalComponent implements OnInit {
     } else if (HyperKycResult.Success) {
       alert(HyperKycResult.Success);
     }
+  }
+  getInsurerCode(transaction_id: any, insurer_quote_id: any) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.sharedData.getInsurerDetail(response);
+          const transactionId = response?.quote_response?.transaction_id;
+          if (transactionId) {
+            sessionStorage.setItem('transaction_id', transactionId);
+          }
+
+          const quoteResponseToStore = response?.quote_response;
+          if (quoteResponseToStore) {
+            sessionStorage.setItem(
+              'quotes_data',
+              JSON.stringify(quoteResponseToStore)
+            );
+          }
+          const newVehicleType = response?.quote_request?.business_type;
+          if (newVehicleType) {
+            sessionStorage.setItem('newVehicleType', newVehicleType);
+          }
+
+          const proposerType = response?.quote_request?.customer_type;
+          if (proposerType) {
+            sessionStorage.setItem('proposerType', proposerType);
+          }
+
+          const productType = response?.quote_request?.product_type;
+          if (productType) {
+            sessionStorage.setItem('productType', productType);
+          }
+          const mmv_data = response?.quote_request?.meta_data?.mmv_form_data;
+          if (mmv_data) {
+            // Store mmv_data object in session storage
+            sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
+          }
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.getCoverageType}?reg_year=${response?.quote_request?.registration_year}&vehicle_type=${response?.quote_request?.vehicle_type}`
+            )
+            .subscribe((res: any) => {
+              if (res) {
+                for (let coverage of res) {
+                  if (
+                    coverage?.code === response?.quote_request?.product_type
+                  ) {
+                    sessionStorage.setItem(
+                      'planType',
+                      JSON.stringify(coverage)
+                    );
+                  }
+                }
+              }
+            });
+          this.sharedData.createProposalId();
+        }
+      });
   }
 }

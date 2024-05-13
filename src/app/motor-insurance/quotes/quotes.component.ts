@@ -36,6 +36,7 @@ export class QuotesComponent implements OnInit {
   isLoading: boolean = true;
   quotesRequest: any;
   vehicleMMVData: any;
+  renewalDetails: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -78,21 +79,32 @@ export class QuotesComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
       const insurer_quote_id = params?.get('insurer_quote_id');
-      if (shareTransaction) {
+      if (shareTransaction != null && insurer_quote_id != null) {
         sessionStorage.setItem('vehiclePopup', 'true');
         sessionStorage.setItem('transaction_id', shareTransaction);
         this.getInsurerCode(shareTransaction, insurer_quote_id);
+      } else {
+        this.renewalDetails = sessionStorage.getItem('renewalDetails');
+        const parsedRenewalDetails = JSON.parse(this.renewalDetails);
+        if (parsedRenewalDetails) {
+          this.getInsurerCode(
+            parsedRenewalDetails?.transactional_details?.transaction_id,
+            parsedRenewalDetails?.transactional_details?.quote_id
+          );
+        }
       }
     });
     this.shareDataService.renewalQuotes.subscribe((quotesValue: any) => {
-      if (quotesValue) {
+      if (
+        quotesValue?.transaction_id != null &&
+        quotesValue?.insurer_quote_id != null
+      ) {
         this.getInsurerCode(
           quotesValue?.transaction_id,
           quotesValue?.insurer_quote_id
         );
       }
     });
-
     let popupData = sessionStorage.getItem('vehiclePopup');
     if (window.innerWidth <= 999) {
       if (!popupData) {

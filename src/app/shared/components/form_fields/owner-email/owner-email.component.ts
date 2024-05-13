@@ -19,6 +19,7 @@ import {
 export class OwnerEmailComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() readonly: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
