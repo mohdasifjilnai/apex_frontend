@@ -64,7 +64,7 @@ export class ProposalReviewComponent implements OnInit {
     modalName: TermsComponent,
     widthObtained: 'auto',
     heightObtained: 'auto',
-    topObtained: '5%',
+    topObtained: '1%',
     isOutSideClose: true,
     classObtained: 'terms-class',
   };
