@@ -71,6 +71,7 @@ export class ProposalComponent implements OnInit {
   unitedTokenValue: any;
   decodedString: any;
   renewalDetails: any;
+  proposalId: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -96,6 +97,7 @@ export class ProposalComponent implements OnInit {
     }
 
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+      this.proposalId = sessionStorage.getItem('proposal_Id');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
@@ -600,7 +602,7 @@ export class ProposalComponent implements OnInit {
     const hyperKycConfig = new (window as any).HyperKycConfig(
       accessToken,
       `${workflod_id}`,
-      `${this.quoteData?.quote_id}`
+      `${this.proposalId}`
     );
     // (window as any).HyperKYCModule.launch(hyperKycConfig, this.handler);
     this.launchHyperKYC(hyperKycConfig);
@@ -610,15 +612,45 @@ export class ProposalComponent implements OnInit {
     HyperKYCModule.launch(config, this.handler);
   }
 
-  handler(HyperKycResult: any) {
-    if (HyperKycResult.Cancelled) {
-      alert(HyperKycResult.Cancelled);
-    } else if (HyperKycResult.Failure) {
-      alert(HyperKycResult.Failure);
-    } else if (HyperKycResult.Success) {
-      alert(HyperKycResult.Success);
-    }
+ 
+handler = (HyperKycResult:any) => {
+  switch (HyperKycResult.status) {
+      case "user_cancelled":
+          this.sharedData.openSnackBar(HyperKycResult['errorMessage'], false, 3000);
+          break;
+      case "error":
+          this.sharedData.openSnackBar(HyperKycResult['errorMessage'], false, 3000);
+          break;  
+      case "auto_approved":
+          this.unitedCkycResponse(HyperKycResult['details'])
+          break;
+      case "auto_declined":
+          this.unitedCkycResponse(HyperKycResult['details'])
+          break;
+      case "needs_review":
+          this.unitedCkycResponse(HyperKycResult['details'])
+          break;
+      }
   }
+
+   /**
+   * United CKYC Response Update
+   */
+
+   unitedCkycResponse(ckycResponse:any) {
+    const data={
+      "transaction_id": this.quoteData?.transaction_id,
+      "proposal_id":this.proposalId,
+      "ckyc_response": {ckycResponse}
+
+    }
+    this.apiService
+    .postRequestedResponse(ApiConstants.united_ckyc_response, data)
+      .subscribe((res) => {
+        this.sharedData.openSnackBar(res?.message, true, 3000);
+      });
+  }
+  
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(

@@ -840,16 +840,32 @@ export class QuotesListingComponent implements OnInit {
       const position = this.progressValue * 13; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
-      const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 15.5; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } else if (window.innerWidth > 1400 && window.innerWidth <= 1600) {
-      const position = this.progressValue * 17; // Adjust the multiplier based on your desired movement
+    } else if (window.innerWidth > 1400 && window.innerWidth <= 1500) {
+      const position = this.progressValue * 18; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } else if (window.innerWidth > 1600 && window.innerWidth <= 1900) {
+    } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
+      const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    } 
+     else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
       const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } else {
+    }else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
+      const position = this.progressValue * 22; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    }
+    else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
       const position = this.progressValue * 24; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    }
+    else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
+      const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
+    }
+     else {
+      const position = this.progressValue * 31; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     }
   }

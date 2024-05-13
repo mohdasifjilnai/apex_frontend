@@ -97,4 +97,6 @@ export class ApiConstants {
   public static vehicle_color = `/api/v1/vehicle_colours/`;
 
   public static united_ckyc_token = `/api/v1/ckyc/united_ckyc_token`;
+
+  public static united_ckyc_response = `/api/v1/ckyc/united_ckyc_response/`;
 }
