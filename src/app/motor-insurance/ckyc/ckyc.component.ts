@@ -113,6 +113,7 @@ export class CkycComponent implements OnInit {
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
     this.getDocumentType();
+    let isSubmitCkycFormGroupCalled = false;
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       if (proposal?.ckyc_details !== null) {
         this.isCkycDone = true;
@@ -124,6 +125,13 @@ export class CkycComponent implements OnInit {
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
+        let renewalDataType = sessionStorage.getItem('renewalType');
+        if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
+          if (this.ckycFormGroup.valid) {
+            this.submitCkycFormGroup(true);
+            isSubmitCkycFormGroupCalled = true;
+          }
+        }
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
@@ -169,7 +177,7 @@ export class CkycComponent implements OnInit {
     this.renewalDetails = sessionStorage.getItem('renewalDetails');
     const parsedRenewalDetails = JSON.parse(this.renewalDetails);
     if (parsedRenewalDetails?.ckyc_status) {
-      this.isDisableCKyc = true;
+      this.ckycFormGroup?.disable();
     }
   }
 

@@ -72,6 +72,8 @@ export class ProposalComponent implements OnInit {
   decodedString: any;
   renewalDetails: any;
   proposalId: any;
+  previous_insurer: any;
+  getInsurerData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -664,6 +666,8 @@ export class ProposalComponent implements OnInit {
       )
       .subscribe((response) => {
         if (response) {
+          this.getInsurerData = response;
+          this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.sharedData.getInsurerDetail(response);
           const transactionId = response?.quote_response?.transaction_id;
           if (transactionId) {
@@ -692,11 +696,19 @@ export class ProposalComponent implements OnInit {
           if (productType) {
             sessionStorage.setItem('productType', productType);
           }
-          const mmv_data = response?.quote_request?.meta_data?.mmv_form_data;
-          if (mmv_data) {
-            // Store mmv_data object in session storage
-            sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
-          }
+          this.apiService
+            .getRequestedResponse(ApiConstants.get_previous_insurer)
+            .subscribe((response: any) => {
+              for (let insurer of response) {
+                if (
+                  insurer?.rb_insurer_code ===
+                  quoteResponseToStore?.insurer_code
+                ) {
+                  this.previous_insurer = insurer;
+                }
+              }
+            });
+
           this.apiService
             .getRequestedResponse(
               `${ApiConstants.getCoverageType}?reg_year=${response?.quote_request?.registration_year}&vehicle_type=${response?.quote_request?.vehicle_type}`
@@ -716,6 +728,34 @@ export class ProposalComponent implements OnInit {
               }
             });
           this.sharedData.createProposalId();
+        }
+      });
+  }
+
+  getRTOData(type?: any, rb_rto_code?: any) {
+    let apiData;
+
+    apiData = type == 'rto_code' ? `?search_element=${rb_rto_code}` : '';
+
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+      .subscribe((res) => {
+        if (res) {
+          let mmvData = {
+            rb_mmv_id: this.getInsurerData?.quote_request?.rb_mmv_id,
+            policy_expiry: this.getInsurerData?.quote_request?.product_type,
+            policy_expiry_date:
+              this.getInsurerData?.quote_request?.previous_policy_exp_date,
+            previous_insurer: this.previous_insurer,
+            manufacture_date:
+              this.getInsurerData?.quote_request?.manufacture_date,
+            registration_date:
+              this.getInsurerData?.quote_request?.registration_date,
+            registration_city: res,
+          };
+          if (mmvData) {
+            sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
+          }
         }
       });
   }
