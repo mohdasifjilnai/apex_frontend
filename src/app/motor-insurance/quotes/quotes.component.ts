@@ -175,12 +175,23 @@ export class QuotesComponent implements OnInit {
             'lastSelectedTabIndex',
             this.quotesRequest?.meta_data?.selectedTabIndex
           );
-          this.getVehicleMMVPopup(
-            '',
-            this.quotesRequest.rb_mmv_id,
-            this.quotesRequest.vehicle_type,
-            this.quotesRequest
-          );
+
+          this.renewalDetails = sessionStorage.getItem('renewalDetails');
+          if (this.renewalDetails) {
+            let allData = {
+              rb_mmv_id: this.quotesRequest.rb_mmv_id,
+              vehicle_type: this.quotesRequest.vehicle_type,
+              quotesRequest: this.quotesRequest,
+            };
+            this.shareDataService.renewalData(JSON.stringify(allData));
+          } else {
+            this.getVehicleMMVPopup(
+              '',
+              this.quotesRequest.rb_mmv_id,
+              this.quotesRequest.vehicle_type,
+              this.quotesRequest
+            );
+          }
         }
       });
   }

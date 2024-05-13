@@ -141,6 +141,7 @@ export class QuotesListingComponent implements OnInit {
   maxIdv: any;
   averageIdv: any;
   registrationNumberData: any;
+  renewalDetails: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -278,7 +279,10 @@ export class QuotesListingComponent implements OnInit {
     let mmvFromData = sessionStorage.getItem('mmv_data');
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
+      // this.renewalDetails = sessionStorage.getItem('renewalDetails');
+      // if (!this.renewalDetails) {
       this.quotesTabData();
+      // }
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
@@ -782,9 +786,13 @@ export class QuotesListingComponent implements OnInit {
             this.parsedVehicleData?.policy_expiry_date_email &&
             this.parsedVehicleData?.allQuotesRequest
           ) {
-            this.sharedDataService.getQuotesOnTransactionId(
-              this.parsedVehicleData?.allQuotesRequest
-            );
+            this.renewalDetails = sessionStorage.getItem('renewalDetails');
+            if (!this.renewalDetails) {
+              this.sharedDataService.getQuotesOnTransactionId(
+                this.parsedVehicleData?.allQuotesRequest
+              );
+            }
+
             let inputDate =
               this.parsedVehicleData.allQuotesRequest?.previous_policy_exp_date;
             let [day, month, year] = inputDate.split('/');

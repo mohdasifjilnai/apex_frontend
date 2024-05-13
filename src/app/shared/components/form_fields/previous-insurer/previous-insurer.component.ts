@@ -60,6 +60,7 @@ export class PreviousInsurerComponent implements OnInit {
   private debounceSubject = new Subject<any>();
   insururDataLength: any;
   registrationNumber: any;
+  allValue: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -116,8 +117,18 @@ export class PreviousInsurerComponent implements OnInit {
     );
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
-      this.registrationNumber = numberData;
-      this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+      if (numberData) {
+        this.registrationNumber = numberData;
+        this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+      }
+    });
+
+    this.sharedDataService.renewalVehicleData.subscribe((value: any) => {
+      if (value) {
+        this.allValue = JSON.parse(value);
+
+        this.getInsurerData(this.allValue.quotesRequest.previous_insurer_code);
+      }
     });
 
     let renewalType = sessionStorage.getItem('renewalType');
@@ -154,6 +165,16 @@ export class PreviousInsurerComponent implements OnInit {
               if (
                 this.insurerList[i].rb_insurer_code ==
                 this.registrationNumber?.previous_insurer_code
+              ) {
+                this.patchInsurer = this.insurerList[i];
+                this.sharedDataService.patchInsurer(this.patchInsurer);
+              }
+            }
+          } else if (this.allValue.quotesRequest) {
+            for (let i = 0; i <= this.insurerList.length - 1; i++) {
+              if (
+                this.insurerList[i].rb_insurer_code ==
+                this.allValue.quotesRequest.previous_insurer_code
               ) {
                 this.patchInsurer = this.insurerList[i];
                 this.sharedDataService.patchInsurer(this.patchInsurer);

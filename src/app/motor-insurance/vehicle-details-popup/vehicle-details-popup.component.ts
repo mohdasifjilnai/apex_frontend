@@ -105,6 +105,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   url = 'quotes';
   renewalType: any;
   regDateValue: any;
+  allValue: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -243,13 +244,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
-      this.regDateValue = new Date(res);
-      if (this.editClick == '') {
-        setTimeout(() => {
-          this.getExpiringPolicy(this.regDateValue);
-        }, 2000);
-      } else {
-        this.expiryPolicyGetList(this.regDateValue, 'dateChange');
+      if (res) {
+        this.regDateValue = new Date(res);
+        if (this.editClick == '') {
+          setTimeout(() => {
+            this.getExpiringPolicy(this.regDateValue);
+          }, 2000);
+        } else {
+          this.expiryPolicyGetList(this.regDateValue, 'dateChange');
+        }
       }
     });
 
@@ -281,6 +284,22 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ''
         );
         this.getRTOData('rto_code');
+      }
+    });
+
+    this.sharedDataService.renewalVehicleData.subscribe((value: any) => {
+      if (value) {
+        this.allValue = JSON.parse(value);
+        // this.mmvBaseButtonDisable = false;
+        this.getVehicleDetailsPopup(
+          '',
+          '',
+          '',
+          this.allValue.rb_mmv_id,
+          'renewal'
+        );
+
+        this.getRTOData('rto_code', this.allValue.quotesRequest.rb_rto_code);
       }
     });
 
@@ -699,10 +718,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @param name getRTOData used for filter RTO data
    * @returns
    */
-  getRTOData(type?: any) {
+  getRTOData(type?: any, rto_code?: any) {
     let apiData;
     if (this.rto_id) {
       apiData = `?rb_rto_id=${this.rto_id}`;
+    } else if (type == 'rto_code' && rto_code) {
+      this.renderer.removeClass(document.body, 'dropdown-focus');
+      apiData = type == 'rto_code' ? `?search_element=${rto_code}` : '';
     } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       apiData =
@@ -741,14 +763,27 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 }
               }
             } else {
-              for (let i = 0; i <= this.rtoList.length - 1; i++) {
-                if (
-                  this.rtoList[i].rb_rto_code ==
-                  this.vehicleMMVValue?.rto_city?.rb_rto_code
-                ) {
-                  this.vehicleDetailsForm.patchValue({
-                    registration_city: this.rtoList[i],
-                  });
+              if (this.vehicleMMVValue) {
+                for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                  if (
+                    this.rtoList[i].rb_rto_code ==
+                    this.vehicleMMVValue?.rto_city?.rb_rto_code
+                  ) {
+                    this.vehicleDetailsForm.patchValue({
+                      registration_city: this.rtoList[i],
+                    });
+                  }
+                }
+              } else {
+                for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                  if (
+                    this.rtoList[i].rb_rto_code ==
+                    this.allValue.quotesRequest.rb_rto_code
+                  ) {
+                    this.vehicleDetailsForm.patchValue({
+                      registration_city: this.rtoList[i],
+                    });
+                  }
                 }
               }
             }
@@ -930,7 +965,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   previousInsurerComponentResponse(response: string) {
     if (
       !this.vehiclePreviousInsurerOninit &&
-      !this.vehicleRegistrationCityOninit
+      !this.vehicleRegistrationCityOninit &&
+      !this.allValue
     ) {
       if (
         typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
@@ -1010,7 +1046,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
       let policyExpiryDate;
       let policyDate = '';
-      if (this.vehicleMMVValue?.policy_expiry_date != 'Not Sure') {
+      if (
+        this.vehicleMMVValue &&
+        this.vehicleMMVValue?.policy_expiry_date != 'Not Sure'
+      ) {
         policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
         policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
@@ -1833,6 +1872,66 @@ Get the expiring policy list based on the given date or the registration details
               policy_expiry: this.vehicleAllData?.policy_expiry,
               policy_expiry_date: new Date(this.policyExpiredDateObject),
             });
+          } else if (type == 'renewal') {
+            const matchingModel = this.modelList.find(
+              (model: any) => model?.rb_mmv_id === id
+            );
+
+            this.showSelectedFuelandCapacity = true;
+            this.cubicCapacitor = matchingModel?.cubic_capacity;
+            if (matchingModel) {
+              this.renderer.addClass(document.body, 'dropdown-focus');
+              this.vehicleDetailsForm.patchValue({
+                vehicle_make: matchingModel,
+                vehicle_model: matchingModel,
+                vehicle_variant: matchingModel,
+                vehicle_fuel: matchingModel.fuel,
+                user_car: this.allValue.quotesRequest.is_ownership_transfer,
+                previous_claimed: this.allValue.quotesRequest.is_claimed,
+                previous_insurer:
+                  this.allValue.quotesRequest.previous_insurer_code,
+              });
+              this.makeValueSelected = matchingModel.rb_make_name;
+              this.modelValueSelected = matchingModel.rb_model_name;
+              this.variantValueSelected = matchingModel;
+            }
+
+            if (
+              this.allValue.quotesRequest.registration_month &&
+              this.allValue.quotesRequest.registration_year
+            ) {
+              let registrationDate = `${this.allValue.quotesRequest.registration_month}/01/${this.allValue.quotesRequest.registration_year}`;
+
+              let dateObj = moment(registrationDate, 'MM/YYYY');
+              this.vehicleDetailsForm.patchValue({
+                registration_date: new Date(registrationDate),
+              });
+              this.getExpiringPolicy(dateObj);
+            }
+
+            if (
+              this.allValue.quotesRequest.manufacture_month &&
+              this.allValue.quotesRequest.manufacture_year
+            ) {
+              let manufactureDate = `${this.allValue.quotesRequest.manufacture_month}/01/${this.allValue.quotesRequest.manufacture_year}`;
+
+              let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
+              this.vehicleDetailsForm.patchValue({
+                manufacture_date: new Date(manufactureDate),
+              });
+            }
+
+            if (this.allValue.quotesRequest.previous_policy_exp_date) {
+              let inputDate =
+                this.allValue.quotesRequest.previous_policy_exp_date;
+              let [day, month, year] = inputDate.split('/');
+              let reformattedDate = `${month}/${day}/${year}`;
+              if (!this.vehiclePopupList) {
+                this.vehicleDetailsForm.patchValue({
+                  policy_expiry_date: new Date(reformattedDate),
+                });
+              }
+            }
           }
 
           if (res.length > 0) {
