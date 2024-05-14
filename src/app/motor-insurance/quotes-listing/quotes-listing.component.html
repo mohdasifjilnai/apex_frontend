@@ -218,6 +218,7 @@
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
                   (click)="getProposalDetails(quotes)"
+                  *ngIf="renewalType!='renewal'"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
@@ -362,9 +363,42 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-6 premium-btn">
+                <div class="renewal-card" (click)="getProposalDetails(quotes)" *ngIf="renewalType=='renewal' && quotes?.insurer_code==insurerCode">
+                  <span class="text">Renewal Quote</span>
+                <button
+                  tabindex="0"
+                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  
+                >
+                  <span class="d-none">{{ quotes?.insurer_name }}</span>
+                  &#8377;
+
+                  {{
+                    defaultGST
+                      ? (quotes.premium_details.gross_premium | number : "2.")
+                      : (quotes.premium_details.net_premium | number : "2.")
+                  }}
+                </button>
+               </div>
+                <button
+                *ngIf="renewalType=='renewal' && quotes?.insurer_code!=insurerCode"
+                   tabindex="0"
+                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                   (click)="getProposalDetails(quotes)"
+                 >
+                   <span class="d-none">{{ quotes?.insurer_name }}</span>
+                   &#8377;
+ 
+                   {{
+                     defaultGST
+                       ? (quotes.premium_details.gross_premium | number : "2.")
+                       : (quotes.premium_details.net_premium | number : "2.")
+                   }}
+                 </button>
                 <span
                   class="premium-breakup-amount cursor-pointer text-center"
                   (click)="getProposalDetails(quotes)"
+                  *ngIf="renewalType!='renewal'"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
