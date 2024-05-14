@@ -142,6 +142,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   cubicCapacitor: any;
   policyTypeBaseNCB: any;
   isEditable: any;
+  mmvFromValue: any;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -549,55 +550,71 @@ export class VehicleDetailsPopupComponent implements OnInit {
       let vehicleMMVFrom = JSON.parse(
         sessionStorage.getItem('mmv_data') || '{}'
       );
-      let mmvFromValue = {
-        previous_insurer: vehicleMMVFrom.previous_insurer,
-        registration_city: vehicleMMVFrom.registration_city,
-        registration_date: vehicleMMVFrom.registration_date,
-        vehicle_fuel: vehicleMMVFrom.vehicle_fuel,
-        vehicle_make: vehicleMMVFrom.vehicle_make,
-        vehicle_model: vehicleMMVFrom.vehicle_model,
-        vehicle_variant: vehicleMMVFrom.vehicle_variant,
-        policy_expiry_date: vehicleMMVFrom.policy_expiry_date,
-        policy_expiry: vehicleMMVFrom.policy_expiry,
-        manufacture_date: vehicleMMVFrom.manufacture_date,
-        isNewVehicleUpdate: vehicleMMVFrom.isNewVehicleUpdate,
-        hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
-        user_car: this.vehicleDetailsForm.value.user_car,
-        previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-        ncb_discount: 0,
+      this.mmvFromValue;
+      if (vehicleMMVFrom?.vehicle_make) {
+        this.mmvFromValue = {
+          previous_insurer: vehicleMMVFrom.previous_insurer,
+          registration_city: vehicleMMVFrom.registration_city,
+          registration_date: vehicleMMVFrom.registration_date,
+          vehicle_fuel: vehicleMMVFrom.vehicle_fuel,
+          vehicle_make: vehicleMMVFrom.vehicle_make,
+          vehicle_model: vehicleMMVFrom.vehicle_model,
+          vehicle_variant: vehicleMMVFrom.vehicle_variant,
+          policy_expiry_date: vehicleMMVFrom.policy_expiry_date,
+          policy_expiry: vehicleMMVFrom.policy_expiry,
+          manufacture_date: vehicleMMVFrom.manufacture_date,
+          isNewVehicleUpdate: vehicleMMVFrom.isNewVehicleUpdate,
+          hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
+          user_car: this.vehicleDetailsForm.value.user_car,
+          previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
+          ncb_discount: 0,
 
-        renewalNCBDiscount: '',
-        addNcbBoth: '',
-      };
+          renewalNCBDiscount: '',
+          addNcbBoth: '',
+        };
+      } else {
+        this.mmvFromValue = this.allValue.quotesRequest;
+        if (this.allValue.quotesRequest) {
+          this.sharedDataService.getQuotesOnTransactionId(
+            this.allValue.quotesRequest
+          );
+        }
+      }
+
       if (
         !this.vehicleDetailsForm.value.previous_claimed &&
         vehicleMMVFrom.renewalNCBDiscount
       ) {
-        mmvFromValue.ncb_discount = vehicleMMVFrom.renewalNCBDiscount;
-        mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount;
+        this.mmvFromValue.ncb_discount = vehicleMMVFrom.renewalNCBDiscount;
+        this.mmvFromValue.renewalNCBDiscount =
+          vehicleMMVFrom.renewalNCBDiscount;
       } else {
-        mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
+        this.mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
           .previous_claimed
           ? vehicleMMVFrom.ncb_discount
           : 0;
-        mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
+        this.mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
           ? vehicleMMVFrom.renewalNCBDiscount
           : vehicleMMVFrom.ncb_discount;
       }
-      if (mmvFromValue.ncb_discount || mmvFromValue.ncb_discount == 0) {
+      if (
+        this.mmvFromValue.ncb_discount ||
+        this.mmvFromValue.ncb_discount == 0
+      ) {
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {
           if (
-            this.expiryListData[i].old_ncb_value == mmvFromValue.ncb_discount
+            this.expiryListData[i].old_ncb_value ==
+            this.mmvFromValue.ncb_discount
           ) {
             this.ncbAllData = this.expiryListData[i];
           }
         }
-        mmvFromValue.addNcbBoth = this.ncbAllData;
+        this.mmvFromValue.addNcbBoth = this.ncbAllData;
       }
 
       this.vehicleDetailsForm.value.offeredNCBValue = this.policyTypeBaseNCB;
 
-      vehicleFrom = JSON.stringify(mmvFromValue);
+      vehicleFrom = JSON.stringify(this.mmvFromValue);
 
       sessionStorage.setItem('mmv_data', vehicleFrom);
     }

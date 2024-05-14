@@ -279,10 +279,8 @@ export class QuotesListingComponent implements OnInit {
     let mmvFromData = sessionStorage.getItem('mmv_data');
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
-      // this.renewalDetails = sessionStorage.getItem('renewalDetails');
-      // if (!this.renewalDetails) {
+
       this.quotesTabData();
-      // }
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
@@ -743,7 +741,7 @@ export class QuotesListingComponent implements OnInit {
           this.selectedProductType = this.tabDataList[0].code;
           let productTypeValue = sessionStorage.getItem('productType');
           if (!productTypeValue) {
-          sessionStorage.setItem('productType', this.selectedProductType);
+            sessionStorage.setItem('productType', this.selectedProductType);
           }
           let getProductTypeName = sessionStorage.getItem('productType');
           this.mmvFormData = sessionStorage.getItem('mmv_data');
@@ -856,23 +854,19 @@ export class QuotesListingComponent implements OnInit {
     } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
       const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } 
-     else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
+    } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
       const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
+    } else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
       const position = this.progressValue * 22; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }
-    else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
+    } else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
       const position = this.progressValue * 24; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }
-    else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
+    } else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
       const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    }
-     else {
+    } else {
       const position = this.progressValue * 31; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     }
