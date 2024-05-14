@@ -144,6 +144,7 @@ export class QuotesListingComponent implements OnInit {
   renewalDetails: any;
   renewalType: any;
   insurerCode: any;
+  renewalDataList = false;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -294,10 +295,12 @@ export class QuotesListingComponent implements OnInit {
       this.registrationNumberData = numberData;
       this.getProposalType();
     });
-    this.renewalType=sessionStorage.getItem('renewalType')
-    if(this.renewalType=='renewal'){
-      const quotesData :any =JSON.parse(sessionStorage.getItem('quotes_data') || '{}')
-      this.insurerCode=quotesData?.insurer_code
+    this.renewalType = sessionStorage.getItem('renewalType');
+    if (this.renewalType == 'renewal') {
+      const quotesData: any = JSON.parse(
+        sessionStorage.getItem('quotes_data') || '{}'
+      );
+      this.insurerCode = quotesData?.insurer_code;
     }
   }
 
@@ -484,7 +487,7 @@ export class QuotesListingComponent implements OnInit {
     const selectedTabData = { name: selectedName, code: selectedCode };
     sessionStorage.setItem('planType', JSON.stringify(selectedTabData));
     const lastIndex = sessionStorage.getItem('lastSelectedTabIndex');
-    if (lastIndex !== null) {
+    if (lastIndex !== null && lastIndex !== 'undefined') {
       // Set the last selected tab
       this.selectedTabIndex = JSON.parse(lastIndex);
     } else {
@@ -703,11 +706,22 @@ export class QuotesListingComponent implements OnInit {
           'registrationNumber'
         );
       } else {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'mmvQuotes'
-        );
+        let mmvIdData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+        let objectValue = Object.keys(mmvIdData);
+        this.renewalDataList = false;
+
+        for (let i = 0; i <= objectValue.length - 1; i++) {
+          if (objectValue[i] == 'vehicle_make') {
+            this.renewalDataList = true;
+          }
+        }
+        if (this.renewalDataList) {
+          this.sharedDataService.vehicleMMVDetails(
+            productTypeValue,
+            mmvFormData,
+            'mmvQuotes'
+          );
+        }
       }
       this.sharedDataService.addOnsChange(mmvFormData);
       this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
@@ -818,11 +832,25 @@ export class QuotesListingComponent implements OnInit {
 
             sessionStorage.setItem('mmv_data', vehicleForm);
           } else {
-            this.sharedDataService.vehicleMMVDetails(
-              getProductTypeName,
-              this.mmvFormData,
-              'mmvQuotes'
+            let mmvIdData = JSON.parse(
+              sessionStorage.getItem('mmv_data') || '{}'
             );
+            let objectValue = Object.keys(mmvIdData);
+
+            this.renewalDataList = false;
+
+            for (let i = 0; i <= objectValue.length - 1; i++) {
+              if (objectValue[i] == 'vehicle_make') {
+                this.renewalDataList = true;
+              }
+            }
+            if (this.renewalDataList) {
+              this.sharedDataService.vehicleMMVDetails(
+                getProductTypeName,
+                this.mmvFormData,
+                'mmvQuotes'
+              );
+            }
           }
           this.sharedDataService.addOnsChange(this.mmvFormData);
           this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);

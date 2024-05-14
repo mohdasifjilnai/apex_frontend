@@ -106,6 +106,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   renewalType: any;
   regDateValue: any;
   allValue: any;
+  renewalMMvList: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -321,9 +322,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
     );
 
     this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-      this.vehicleDetailsForm.patchValue({
-        previous_insurer: renewalInsurer,
-      });
+      if (renewalInsurer) {
+        this.vehicleDetailsForm.patchValue({
+          previous_insurer: renewalInsurer,
+        });
+        sessionStorage.setItem(
+          'renewalPreviousInsurer',
+          JSON.stringify(renewalInsurer)
+        );
+      }
     });
 
     this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
@@ -574,21 +581,57 @@ export class VehicleDetailsPopupComponent implements OnInit {
           addNcbBoth: '',
         };
       } else {
-        this.mmvFromValue = this.allValue.quotesRequest;
-        if (this.allValue.quotesRequest) {
-          this.sharedDataService.getQuotesOnTransactionId(
-            this.allValue.quotesRequest
-          );
-        }
+        let renewalMMVValue = JSON.parse(
+          sessionStorage.getItem('renewalmmvData') || '{}'
+        );
+        let renewalRtoCity = JSON.parse(
+          sessionStorage.getItem('renewalRTOData') || '{}'
+        );
+        let renewalPolicyExpiry = JSON.parse(
+          sessionStorage.getItem('renewalPolicyExpiry') || '{}'
+        );
+        let renewalPreviousInsurer = JSON.parse(
+          sessionStorage.getItem('renewalPreviousInsurer') || '{}'
+        );
+
+        this.mmvFromValue = {
+          previous_insurer: renewalPreviousInsurer,
+          registration_city: renewalRtoCity,
+          registration_date: renewalMMVValue.registration_date,
+          vehicle_fuel: renewalMMVValue.vehicle_fuel,
+          vehicle_make: renewalMMVValue.vehicle_make,
+          vehicle_model: renewalMMVValue.vehicle_model,
+          vehicle_variant: renewalMMVValue.vehicle_variant,
+          policy_expiry_date: renewalMMVValue.policy_expiry_date,
+          policy_expiry: renewalPolicyExpiry.policy_expiry,
+          manufacture_date: renewalMMVValue.manufacture_date,
+          isNewVehicleUpdate: this.isNewVehicle,
+          hidePreviousClaimed:
+            this.vehicleDetailsForm.value.hidePreviousClaimed,
+          user_car: this.vehicleDetailsForm.value.user_car,
+          previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
+          ncb_discount: this.vehicleDetailsForm.value.ncb_discount,
+          renewalNCBDiscount: '',
+          addNcbBoth: '',
+        };
+        sessionStorage.removeItem('renewalRTOData');
+        sessionStorage.removeItem('renewalmmvData');
+        sessionStorage.removeItem('renewalPolicyExpiry');
+        sessionStorage.removeItem('renewalPreviousInsurer');
+        // if (this.allValue.quotesRequest) {
+        //   this.sharedDataService.getQuotesOnTransactionId(
+        //     this.allValue.quotesRequest
+        //   );
+        // }
       }
 
       if (
         !this.vehicleDetailsForm.value.previous_claimed &&
-        vehicleMMVFrom.renewalNCBDiscount
+        vehicleMMVFrom?.renewalNCBDiscount
       ) {
-        this.mmvFromValue.ncb_discount = vehicleMMVFrom.renewalNCBDiscount;
+        this.mmvFromValue.ncb_discount = vehicleMMVFrom?.renewalNCBDiscount;
         this.mmvFromValue.renewalNCBDiscount =
-          vehicleMMVFrom.renewalNCBDiscount;
+          vehicleMMVFrom?.renewalNCBDiscount;
       } else {
         this.mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
           .previous_claimed
@@ -801,6 +844,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
                     this.vehicleDetailsForm.patchValue({
                       registration_city: this.rtoList[i],
                     });
+                    sessionStorage.setItem(
+                      'renewalRTOData',
+                      JSON.stringify(this.rtoList[i])
+                    );
                   }
                 }
               }
@@ -1197,6 +1244,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
                     : '',
                   ncb_discount: this.ncbDiscount ? this.ncbDiscount : 0,
                 });
+                let policyExpiryValue = {
+                  policy_expiry: this.expiring_policy_type
+                    ? this.expiring_policy_type
+                    : '',
+                  ncb_discount: this.ncbDiscount ? this.ncbDiscount : 0,
+                };
+                sessionStorage.setItem(
+                  'renewalPolicyExpiry',
+                  JSON.stringify(policyExpiryValue)
+                );
               }
             }
           }
@@ -1914,6 +1971,16 @@ Get the expiring policy list based on the given date or the registration details
                 previous_insurer:
                   this.allValue.quotesRequest.previous_insurer_code,
               });
+              this.renewalMMvList = {
+                vehicle_make: matchingModel,
+                vehicle_model: matchingModel,
+                vehicle_variant: matchingModel,
+                vehicle_fuel: matchingModel.fuel,
+                user_car: this.allValue.quotesRequest.is_ownership_transfer,
+                previous_claimed: this.allValue.quotesRequest.is_claimed,
+                previous_insurer:
+                  this.allValue.quotesRequest.previous_insurer_code,
+              };
               this.makeValueSelected = matchingModel.rb_make_name;
               this.modelValueSelected = matchingModel.rb_model_name;
               this.variantValueSelected = matchingModel;
@@ -1929,6 +1996,9 @@ Get the expiring policy list based on the given date or the registration details
               this.vehicleDetailsForm.patchValue({
                 registration_date: new Date(registrationDate),
               });
+              this.renewalMMvList.registration_date = new Date(
+                registrationDate
+              );
               this.getExpiringPolicy(dateObj);
             }
 
@@ -1942,6 +2012,7 @@ Get the expiring policy list based on the given date or the registration details
               this.vehicleDetailsForm.patchValue({
                 manufacture_date: new Date(manufactureDate),
               });
+              this.renewalMMvList.manufacture_date = new Date(manufactureDate);
             }
 
             if (this.allValue.quotesRequest.previous_policy_exp_date) {
@@ -1953,8 +2024,16 @@ Get the expiring policy list based on the given date or the registration details
                 this.vehicleDetailsForm.patchValue({
                   policy_expiry_date: new Date(reformattedDate),
                 });
+                this.renewalMMvList.policy_expiry_date = new Date(
+                  reformattedDate
+                );
               }
             }
+
+            sessionStorage.setItem(
+              'renewalmmvData',
+              JSON.stringify(this.renewalMMvList)
+            );
           }
 
           if (res.length > 0) {

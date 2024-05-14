@@ -151,7 +151,7 @@ export class PreviousInsurerComponent implements OnInit {
           // if (this.form.controls['previous_insurer']) {
           this.filteredInsurerList = this.form.controls[
             'previous_insurer'
-          ].valueChanges.pipe(
+          ]?.valueChanges.pipe(
             debounceTime(500),
             startWith(''),
             switchMap((name) => this.filterInsurer(name, res)),

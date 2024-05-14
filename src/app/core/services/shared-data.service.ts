@@ -453,7 +453,7 @@ export class SharedDataService {
         selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
       };
       let offeredValue;
-      if (mmvData.offeredNCBValue != '') {
+      if (mmvData?.offeredNCBValue != '' && mmvData?.offeredNCBValue) {
         offeredValue = JSON.parse(mmvData.offeredNCBValue);
       } else {
         offeredValue = null;
