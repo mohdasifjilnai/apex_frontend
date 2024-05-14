@@ -55,7 +55,12 @@
           type="submit"
           (click)="proceedToPayment()"
         >
-          <span *ngIf="!quoteData?.is_breakin">Proceed for Payment</span>
+          <span *ngIf="!quoteData?.is_breakin"><img
+            src="/assets/gif/button-loader.gif"
+            alt="close"
+            class="loader me-2"
+            *ngIf="loader"
+          />Proceed for Payment</span>
           <span *ngIf="quoteData?.is_breakin">Proceed for Inspection</span>
         </button>
       </div>

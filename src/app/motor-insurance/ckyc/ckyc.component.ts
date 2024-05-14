@@ -456,10 +456,8 @@ export class CkycComponent implements OnInit {
    *   document validator function
    */
   documentNumberValidator(control: FormControl) {
-    console.log("krishna")
     if (this.documentName == 'pan_number') {
       this.numberRegex = /^[A-Za-z]{5}\d{4}[A-Za-z]$/;
-      console.log("9876578")
     }
     if (this.documentName == 'aadhaar_number') {
       this.numberRegex = /^\d{12}$/;

@@ -66,6 +66,7 @@ export class ProposalShareComponent implements OnInit {
   vehicleTypeValue: any;
   quoteInfo: any;
   isStartDate: boolean = true;
+  loader: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -247,12 +248,9 @@ export class ProposalShareComponent implements OnInit {
       );
   }
   proceedToPayment() {
+    this.loader=true
     if (this.proposalData) {
-      if (window.innerWidth <= 999) {
-        this.bottomSheetRef.dismiss();
-      } else {
-        this.dialogRef.close();
-      }
+      
       let sendCommunicationObject = {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
         share_type: 'otp',
@@ -269,6 +267,12 @@ export class ProposalShareComponent implements OnInit {
           sendCommunicationObject
         )
         .subscribe((res) => {
+          this.loader=false
+          if (window.innerWidth <= 999) {
+            this.bottomSheetRef.dismiss();
+          } else {
+            this.dialogRef.close();
+          }
           if (res['message'] == 'Success') {
             if (window.innerWidth <= 999) {
               const bottomSheetConfig: MatBottomSheetConfig = {
@@ -281,11 +285,7 @@ export class ProposalShareComponent implements OnInit {
           }
         });
     } else {
-      if (window.innerWidth <= 999) {
-        this.bottomSheetRef.dismiss();
-      } else {
-        this.dialogRef.close();
-      }
+      
       let sendCommunicationObject = {
         transaction_id: this.quoteData?.transaction_id,
         share_type: 'otp',
@@ -302,6 +302,12 @@ export class ProposalShareComponent implements OnInit {
           sendCommunicationObject
         )
         .subscribe((res) => {
+          this.loader=false
+          if (window.innerWidth <= 999) {
+            this.bottomSheetRef.dismiss();
+          } else {
+            this.dialogRef.close();
+          }
           if (res['message'] == 'Success') {
             if (window.innerWidth <= 999) {
               const bottomSheetConfig: MatBottomSheetConfig = {

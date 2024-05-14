@@ -166,13 +166,18 @@ export class ProposalComponent implements OnInit {
     }
     if (this.quoteData?.insurer_code == 'united_india') {
       this.sharedData.getProposalDetails.subscribe((proposal) => {
-        this.proposalId=proposal?.proposal_id
+        if(proposal){
+          this.proposalId=proposal?.proposal_id
+          if(proposal?.ckyc_details==null){
+            this.getUnitedCkycToken();
+          }
+          this.isNotShowCkycDetails = false;
+          this.showVehicleOwnerDetails = true;
+          this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
+        }
       })
-      this.getUnitedCkycToken();
-      this.isNotShowCkycDetails = false;
-      this.showVehicleOwnerDetails = true;
-      this.accordianExpanded = 'vehicleOwnerDetails';
-      this.openDesiredStep(this.accordianExpanded);
+      
     }
   }
 
@@ -624,6 +629,7 @@ export class ProposalComponent implements OnInit {
           false,
           3000
         );
+        this.unitedCkycResponse(HyperKycResult['errorMessage']);
         break;
       case 'error':
         this.sharedData.openSnackBar(
@@ -631,6 +637,7 @@ export class ProposalComponent implements OnInit {
           false,
           3000
         );
+        this.unitedCkycResponse(HyperKycResult['errorMessage']);
         break;
       case 'auto_approved':
         this.unitedCkycResponse(HyperKycResult['details']);
@@ -661,7 +668,7 @@ export class ProposalComponent implements OnInit {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.sharedData.createProposalId();
         }else{
-          this.sharedData.openSnackBar(res?.error_message, true, 3000);
+          this.sharedData.openSnackBar(res?.message, true, 3000);
           this.getUnitedCkycToken();
         }
       });

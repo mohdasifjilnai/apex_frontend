@@ -177,6 +177,14 @@ export class OtpComponent implements OnInit {
                             this.dialogRef.close();
                           }
                         }
+                      },
+                      (error) => {
+                        this.loader = false;
+                        if (window.innerWidth <= 999) {
+                          this.bottomSheetRef.dismiss();
+                        }else{
+                          this.dialogRef.close();
+                        }
                       });
                   }
                 } else {
@@ -200,6 +208,11 @@ export class OtpComponent implements OnInit {
               },
               (error) => {
                 this.loader = false;
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss();
+                }else{
+                  this.dialogRef.close();
+                }
               }
             );
         } else {
@@ -241,6 +254,14 @@ export class OtpComponent implements OnInit {
                             this.dialogRef.close();
                           }
                         }
+                      },
+                      (error) => {
+                        this.loader = false;
+                        if (window.innerWidth <= 999) {
+                          this.bottomSheetRef.dismiss();
+                        }else{
+                          this.dialogRef.close();
+                        }
                       });
                   }
                   
@@ -265,6 +286,11 @@ export class OtpComponent implements OnInit {
               },
               (error) => {
                 this.loader = false;
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss();
+                }else{
+                  this.dialogRef.close();
+                }
               }
             );
         }
