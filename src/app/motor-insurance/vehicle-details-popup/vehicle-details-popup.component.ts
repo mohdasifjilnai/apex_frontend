@@ -1796,11 +1796,16 @@ Get the expiring policy list based on the given date or the registration details
               let regDateValue = new Date(
                 this.vehicleMMVValue?.registration_date
               );
-
+              const registrationDate = new Date(
+                this.vehicleMMVValue?.registration_date
+              );
+              const manufactureDate = new Date(
+                registrationDate.getFullYear(),
+                registrationDate.getMonth() - 1
+              );
               this.vehicleDetailsForm.patchValue({
-                registration_date: new Date(
-                  this.vehicleMMVValue?.registration_date
-                ),
+                registration_date: new Date(registrationDate),
+                manufacture_date: new Date(manufactureDate),
                 // vehicle_model: matchingModel,
                 // vehicle_variant: matchingModel,
                 // vehicle_fuel: matchingModel.fuel,

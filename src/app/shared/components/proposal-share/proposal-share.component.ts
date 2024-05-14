@@ -64,6 +64,8 @@ export class ProposalShareComponent implements OnInit {
   proposalData: any;
   quotesData: any;
   vehicleTypeValue: any;
+  quoteInfo: any;
+  isStartDate: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -83,6 +85,10 @@ export class ProposalShareComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.quoteInfo = sessionStorage.getItem('quotes_data');
+    if (JSON.parse(this.quoteInfo)?.is_breakin) {
+      this.isStartDate = false;
+    }
     if (this.bottomSheetdata.length > 0) {
       this.quotesData = this.bottomSheetdata;
     } else {
