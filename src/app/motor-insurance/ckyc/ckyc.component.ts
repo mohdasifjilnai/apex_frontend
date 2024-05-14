@@ -398,11 +398,38 @@ export class CkycComponent implements OnInit {
    */
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
-    // if(event=='pan_number' || event=='mobile_number'){
-    //   this.documentMaxLength=10
-    // }else if(event=='aadhaar_number') {
-    //   this.documentMaxLength=12
-    // }
+    const documentNumberBasedField = this.ckycFormGroup.get('document_number_based_field');
+    if(event=='pan_number'){
+      this.documentMaxLength=10
+      documentNumberBasedField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)]);
+    }
+    else if(event=='mobile_number') {
+      this.documentMaxLength=10
+      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{10}')]);
+    }else if(event=='aadhaar_number') {
+      this.documentMaxLength=12
+      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{12}')]);
+    }else if(event=='ckyc_number'){
+      this.documentMaxLength=14
+      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{14}')]);
+    }else if(event=='driving_license'){
+      this.documentMaxLength=15
+      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z]{2}\d{13}$/)]);
+    }else if(event=='voter_id'){
+      this.documentMaxLength=10
+      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/)]);
+    }else if(event=='passport_number'){
+      this.documentMaxLength=8
+      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/)]);
+    }
+    else if(event=='cin'){
+      this.documentMaxLength=21
+      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{21}$/)]);
+    }
+    else{
+      this.documentMaxLength=30
+      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{30}$/)]);
+    }
     this.ckycFormGroup.patchValue({
       document_number_based_field: '',
       dob: '',
@@ -429,8 +456,10 @@ export class CkycComponent implements OnInit {
    *   document validator function
    */
   documentNumberValidator(control: FormControl) {
+    console.log("krishna")
     if (this.documentName == 'pan_number') {
       this.numberRegex = /^[A-Za-z]{5}\d{4}[A-Za-z]$/;
+      console.log("9876578")
     }
     if (this.documentName == 'aadhaar_number') {
       this.numberRegex = /^\d{12}$/;

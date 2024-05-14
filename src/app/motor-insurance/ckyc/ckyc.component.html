@@ -66,9 +66,8 @@
               aria-label="document_number"
               formControlName="document_number_based_field"
               class="text-uppercase"
+              [maxlength]="documentMaxLength"
             />
-            <!--               [maxlength]="documentMaxLength"
- -->
             <mat-error
               *ngIf="
                 ckycFormGroup
@@ -77,6 +76,15 @@
               "
             >
               This is a required field.
+            </mat-error>
+            <mat-error
+              *ngIf="
+                ckycFormGroup
+                  .get('document_number_based_field')
+                  ?.hasError('pattern')
+              "
+            >
+              Invalid Document Number
             </mat-error>
             <!-- <mat-error
               *ngIf="
