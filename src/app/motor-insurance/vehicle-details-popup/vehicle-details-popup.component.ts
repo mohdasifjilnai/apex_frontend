@@ -618,11 +618,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
         sessionStorage.removeItem('renewalmmvData');
         sessionStorage.removeItem('renewalPolicyExpiry');
         sessionStorage.removeItem('renewalPreviousInsurer');
-        // if (this.allValue.quotesRequest) {
-        //   this.sharedDataService.getQuotesOnTransactionId(
-        //     this.allValue.quotesRequest
-        //   );
-        // }
       }
 
       if (
@@ -1016,7 +1011,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       ) {
         this.mmvBaseButtonDisable = false;
       } else {
-        this.mmvBaseButtonDisable = true;
+        let renewalType = sessionStorage.getItem('renewalType');
+
+        if (!renewalType) {
+          this.mmvBaseButtonDisable = true;
+        }
       }
     } else {
       this.vehicleRegistrationCityOninit = false;
@@ -1042,7 +1041,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       ) {
         this.mmvBaseButtonDisable = false;
       } else {
-        this.mmvBaseButtonDisable = true;
+        let renewalType = sessionStorage.getItem('renewalType');
+
+        if (!renewalType) {
+          this.mmvBaseButtonDisable = true;
+        }
       }
     } else {
       this.vehiclePreviousInsurerOninit = false;
@@ -1625,7 +1628,10 @@ Get the expiring policy list based on the given date or the registration details
       if (typeof this.vehicleDetailsForm.value.vehicle_make == 'object') {
         this.mmvBaseButtonDisable = false;
       } else {
-        this.mmvBaseButtonDisable = true;
+        let renewalType = sessionStorage.getItem('renewalType');
+        if (!renewalType) {
+          this.mmvBaseButtonDisable = true;
+        }
       }
     } else {
       this.vehicleMakeOninit = false;
@@ -1647,7 +1653,10 @@ Get the expiring policy list based on the given date or the registration details
       ) {
         this.mmvBaseButtonDisable = false;
       } else {
-        this.mmvBaseButtonDisable = true;
+        let renewalType = sessionStorage.getItem('renewalType');
+        if (!renewalType) {
+          this.mmvBaseButtonDisable = true;
+        }
       }
     } else {
       this.vehicleModelOninit = false;
@@ -1673,7 +1682,10 @@ Get the expiring policy list based on the given date or the registration details
       ) {
         this.mmvBaseButtonDisable = false;
       } else {
-        this.mmvBaseButtonDisable = true;
+        let renewalType = sessionStorage.getItem('renewalType');
+        if (!renewalType) {
+          this.mmvBaseButtonDisable = true;
+        }
       }
     } else {
       this.vehicleVariantOnint = false;

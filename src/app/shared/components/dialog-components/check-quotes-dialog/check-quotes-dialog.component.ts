@@ -25,7 +25,8 @@ export class CheckQuotesDialogComponent implements OnInit {
   }
 
   quotesChange() {
-    sessionStorage.setItem('vehiclePopup', 'true');
+    // sessionStorage.setItem('vehiclePopup', 'true');
+    sessionStorage.removeItem('vehiclePopup');
     let insurerApiData = {
       transaction_id: sessionStorage.getItem('transaction_id'),
       insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
