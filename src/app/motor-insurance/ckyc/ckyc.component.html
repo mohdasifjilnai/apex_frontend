@@ -67,6 +67,8 @@
               formControlName="document_number_based_field"
               class="text-uppercase"
             />
+            <!--               [maxlength]="documentMaxLength"
+ -->
             <mat-error
               *ngIf="
                 ckycFormGroup
@@ -171,7 +173,7 @@
             >I hereby give consent to access my CKYC data</mat-checkbox
           >
           <div class="ms-2 accept-text">
-            <a class="terms" (click)="downloadTerms()"> Terms & Conditions</a>
+            <a class="terms" (click)="downloadTerms()"> Terms & Conditions.</a>
           </div>
         </div>
       </div>

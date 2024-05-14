@@ -142,6 +142,8 @@ export class QuotesListingComponent implements OnInit {
   averageIdv: any;
   registrationNumberData: any;
   renewalDetails: any;
+  renewalType: any;
+  insurerCode: any;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -292,6 +294,11 @@ export class QuotesListingComponent implements OnInit {
       this.registrationNumberData = numberData;
       this.getProposalType();
     });
+    this.renewalType=sessionStorage.getItem('renewalType')
+    if(this.renewalType=='renewal'){
+      const quotesData :any =JSON.parse(sessionStorage.getItem('quotes_data') || '{}')
+      this.insurerCode=quotesData?.insurer_code
+    }
   }
 
   getProposalType() {

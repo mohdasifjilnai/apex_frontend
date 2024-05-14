@@ -99,7 +99,6 @@ export class ProposalComponent implements OnInit {
     }
 
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    this.proposalId = sessionStorage.getItem('proposal_Id');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
@@ -166,6 +165,9 @@ export class ProposalComponent implements OnInit {
       this.breakIn = true;
     }
     if (this.quoteData?.insurer_code == 'united_india') {
+      this.sharedData.getProposalDetails.subscribe((proposal) => {
+        this.proposalId=proposal?.proposal_id
+      })
       this.getUnitedCkycToken();
       this.isNotShowCkycDetails = false;
       this.showVehicleOwnerDetails = true;
@@ -655,7 +657,13 @@ export class ProposalComponent implements OnInit {
     this.apiService
       .postRequestedResponse(ApiConstants.united_ckyc_response, data)
       .subscribe((res) => {
-        this.sharedData.openSnackBar(res?.message, true, 3000);
+        if(res?.status){
+          this.sharedData.openSnackBar(res?.message, true, 3000);
+          this.sharedData.createProposalId();
+        }else{
+          this.sharedData.openSnackBar(res?.error_message, true, 3000);
+          this.getUnitedCkycToken();
+        }
       });
   }
 

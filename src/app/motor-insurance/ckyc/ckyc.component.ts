@@ -62,6 +62,7 @@ export class CkycComponent implements OnInit {
   isCkycDone: boolean = false;
   documentNumber: any;
   renewalDetails: any;
+  documentMaxLength: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -397,6 +398,11 @@ export class CkycComponent implements OnInit {
    */
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
+    // if(event=='pan_number' || event=='mobile_number'){
+    //   this.documentMaxLength=10
+    // }else if(event=='aadhaar_number') {
+    //   this.documentMaxLength=12
+    // }
     this.ckycFormGroup.patchValue({
       document_number_based_field: '',
       dob: '',
