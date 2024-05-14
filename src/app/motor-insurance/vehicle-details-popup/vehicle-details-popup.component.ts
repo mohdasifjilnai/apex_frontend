@@ -124,7 +124,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   filteredRtoList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocompleteRTO!: MatAutocompleteTrigger;
-
+  isRenewNotShownField: boolean = false;
   registrationNumberValue: any;
   expiryListData: any;
   expiryPolicyList: any;
@@ -347,6 +347,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal') {
+      this.isRenewNotShownField = true;
       this.vehicleDetailsForm.get('vehicle_make')?.disable();
       this.vehicleDetailsForm.get('vehicle_model')?.disable();
       this.vehicleDetailsForm.get('vehicle_variant')?.disable();

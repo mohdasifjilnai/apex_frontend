@@ -260,14 +260,19 @@ export class ProposalReviewComponent implements OnInit {
               this.generateProposalData?.transaction_id,
               this.generateProposalData?.insurer_quote_id
             );
-            const kycDataToStore = {
-              verification_status: res?.ckyc_details?.is_verification,
-              insurer_code: res?.insurer_code,
-              proposer_type: res?.customer_details?.customer_type,
-            };
-            const kycDataToStoreString = JSON.stringify(kycDataToStore);
+            const kycData = JSON.parse(
+              sessionStorage.getItem('kycData') || '{}'
+            );
+            if (!kycData) {
+              const kycDataToStore = {
+                verification_status: res?.ckyc_details?.is_verification,
+                insurer_code: res?.insurer_code,
+                proposer_type: res?.customer_details?.customer_type,
+              };
+              const kycDataToStoreString = JSON.stringify(kycDataToStore);
 
-            sessionStorage.setItem('kycData', kycDataToStoreString);
+              sessionStorage.setItem('kycData', kycDataToStoreString);
+            }
           }
         });
     }

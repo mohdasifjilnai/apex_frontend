@@ -359,6 +359,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         'vehicle_owner_detail',
         this.owenerVehicleDetailsForm
       );
+      sessionStorage.setItem('isCKycDOne', 'true');
     }
   }
   /**

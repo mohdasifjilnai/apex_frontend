@@ -228,6 +228,28 @@ export class MotorInsuranceComponent implements OnInit {
     if (sortObjectkey) {
       sessionStorage.removeItem('sortObjectkey');
     }
+    let renewalDetails = sessionStorage.getItem('renewalDetails');
+    if (renewalDetails) {
+      sessionStorage.removeItem('renewalDetails');
+    }
+    let previous_insurerCode = sessionStorage.getItem('previous_insurerCode');
+    if (previous_insurerCode) {
+      sessionStorage.removeItem('previous_insurerCode');
+    }
+    let mmvData = sessionStorage.getItem('mmvData');
+    if (mmvData) {
+      sessionStorage.removeItem('mmvData');
+    }
+    let registration_form_isValid = sessionStorage.getItem(
+      'registration_form_isValid'
+    );
+    if (registration_form_isValid) {
+      sessionStorage.removeItem('registration_form_isValid');
+    }
+    let isCKycDOne = sessionStorage.getItem('isCKycDOne');
+    if (isCKycDOne) {
+      sessionStorage.removeItem('isCKycDOne');
+    }
 
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');

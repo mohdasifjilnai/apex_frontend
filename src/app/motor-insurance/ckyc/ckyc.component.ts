@@ -128,8 +128,11 @@ export class CkycComponent implements OnInit {
         let renewalDataType = sessionStorage.getItem('renewalType');
         if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
           if (this.ckycFormGroup.valid) {
-            this.submitCkycFormGroup(true);
-            isSubmitCkycFormGroupCalled = true;
+            let isCkycDone = sessionStorage.getItem('isCKycDOne');
+            if (!isCkycDone) {
+              this.submitCkycFormGroup(true);
+              isSubmitCkycFormGroupCalled = true;
+            }
           }
         }
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');

@@ -70,6 +70,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   insurerCode: any;
   vehicleColor: any;
   previousInsurerCode: any;
+  isVehicleButton: boolean = false;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -407,6 +408,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
       this.proposalVehilceDetailsForm?.disable();
+      this.isVehicleButton = true;
     }
   }
 

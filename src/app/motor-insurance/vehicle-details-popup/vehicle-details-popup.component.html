@@ -31,7 +31,10 @@
       <div mat-dialog-content>
         <div class="row vehicle-details-form">
           <!-- Make/Model dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -69,7 +72,10 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -107,7 +113,10 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -151,7 +160,10 @@
               <span class="fuel-capacitor">{{ cubicCapacitor }} cc</span>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -260,7 +272,10 @@
             </mat-form-field>
           </div> -->
           <!-- Registration City dropdown -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
@@ -300,11 +315,17 @@
             </mat-form-field>
           </div>
           <!-- Registration Date -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <app-registration-year [urlDate]="url"></app-registration-year>
           </div>
           <!-- Manufacture Date  -->
-          <div class="col-lg-6 col-md-6 col-12">
+          <div
+            class="col-lg-6 col-md-6 col-12"
+            [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+          >
             <app-manufacture-date
               [customManufactureDate]="'manufacture-date'"
             ></app-manufacture-date>
@@ -328,7 +349,10 @@
               </mat-form-field>
             </div>
             <!-- Type of Expiring Policy dropdown -->
-            <div class="col-lg-6 col-md-6 col-12">
+            <div
+              class="col-lg-6 col-md-6 col-12"
+              [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+            >
               <mat-form-field
                 appearance="outline"
                 class="vehicle-details-dropdown"
@@ -356,7 +380,10 @@
             </div>
             <!-- Expiry -->
             <ng-container *ngIf="!NoExpiryPolicy">
-              <div class="col-lg-6 col-md-6 col-12">
+              <div
+                class="col-lg-6 col-md-6 col-12"
+                [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+              >
                 <app-policy-expired-date
                   [required]="true"
                   [policyExpiryDate]="'expiry-date'"
@@ -365,7 +392,10 @@
                 ></app-policy-expired-date>
               </div>
               <!-- Previous Insurer dropdown -->
-              <div class="col-lg-6 col-md-6 col-12">
+              <div
+                class="col-lg-6 col-md-6 col-12"
+                [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+              >
                 <app-previous-insurer
                   [required]="true"
                   [previousInsurer]="'previous-insurer'"
@@ -399,7 +429,10 @@
               </div>
               <!-- Previous Year NCB Discount dropdown -->
               <ng-container *ngIf="ncbDiscountData">
-                <div class="col-lg-6 col-md-6 col-12">
+                <div
+                  class="col-lg-6 col-md-6 col-12"
+                  [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+                >
                   <mat-form-field
                     appearance="outline"
                     class="vehicle-details-dropdown"
