@@ -74,6 +74,8 @@ export class ProposalComponent implements OnInit {
   proposalId: any;
   previous_insurer: any;
   getInsurerData: any;
+  vehicleMMVData: any;
+  rtoCity: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -166,9 +168,9 @@ export class ProposalComponent implements OnInit {
     }
     if (this.quoteData?.insurer_code == 'united_india') {
       this.sharedData.getProposalDetails.subscribe((proposal) => {
-        if(proposal){
-          this.proposalId=proposal?.proposal_id
-          if(proposal?.ckyc_details==null){
+        if (proposal) {
+          this.proposalId = proposal?.proposal_id;
+          if (proposal?.ckyc_details == null) {
             this.getUnitedCkycToken();
           }
           this.isNotShowCkycDetails = false;
@@ -176,8 +178,7 @@ export class ProposalComponent implements OnInit {
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
         }
-      })
-      
+      });
     }
   }
 
@@ -664,10 +665,10 @@ export class ProposalComponent implements OnInit {
     this.apiService
       .postRequestedResponse(ApiConstants.united_ckyc_response, data)
       .subscribe((res) => {
-        if(res?.status){
+        if (res?.status) {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.sharedData.createProposalId();
-        }else{
+        } else {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.getUnitedCkycToken();
         }
@@ -683,6 +684,12 @@ export class ProposalComponent implements OnInit {
         if (response) {
           this.getInsurerData = response;
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
+          this.getVehicleMMVPopup(
+            '',
+            response?.quote_request?.rb_mmv_id,
+            response?.quote_request?.vehicle_type,
+            response?.quote_request
+          );
           this.sharedData.getInsurerDetail(response);
           const transactionId = response?.quote_response?.transaction_id;
           if (transactionId) {
@@ -752,7 +759,6 @@ export class ProposalComponent implements OnInit {
         }
       });
   }
-
   getRTOData(type?: any, rb_rto_code?: any) {
     let apiData;
 
@@ -762,6 +768,22 @@ export class ProposalComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
       .subscribe((res) => {
         if (res) {
+          this.rtoCity = res;
+        }
+      });
+  }
+  getVehicleMMVPopup(name: any, id: any, type?: any, allRequestData?: any) {
+    let apiData;
+    if (id) {
+      apiData = `?product_name=${type}&rb_mmv_id=${id}`;
+    }
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .subscribe((res: any) => {
+        if (res && this.rtoCity) {
+          this.vehicleMMVData = res;
+          this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
+
           let mmvData = {
             rb_mmv_id: this.getInsurerData?.quote_request?.rb_mmv_id,
             policy_expiry: this.getInsurerData?.quote_request?.product_type,
@@ -772,7 +794,12 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.manufacture_date,
             registration_date:
               this.getInsurerData?.quote_request?.registration_date,
-            registration_city: res,
+            registration_city: this.rtoCity[0],
+            vehicle_model: this.vehicleMMVData[0],
+            vehicle_make: this.vehicleMMVData[0],
+            vehicle_variant: this.vehicleMMVData[0],
+            allQuotesRequest: allRequestData,
+            vehicle_fuel: this.vehicleMMVData[0].fuel,
           };
           if (mmvData) {
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
