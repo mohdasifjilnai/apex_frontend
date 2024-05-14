@@ -155,6 +155,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (regnNumberValue) {
       sessionStorage.removeItem('registrationNumber');
     }
+    sessionStorage.removeItem('pageLoad');
     sessionStorage.removeItem('checkWheeler');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {

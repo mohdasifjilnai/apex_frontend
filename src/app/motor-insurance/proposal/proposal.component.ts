@@ -675,6 +675,12 @@ export class ProposalComponent implements OnInit {
           }
           // this.sharedData.renewalPreviousPolicyData(response);
 
+          let pageLoadData = sessionStorage.getItem('pageLoad');
+          if (!pageLoadData) {
+            sessionStorage.setItem('pageLoad', 'true');
+            window.location.reload();
+          }
+
           const quoteResponseToStore = response?.quote_response;
           if (quoteResponseToStore) {
             sessionStorage.setItem(
