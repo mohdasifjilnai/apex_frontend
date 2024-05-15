@@ -791,7 +791,6 @@ export class ProposalComponent implements OnInit {
           if (transactionId) {
             sessionStorage.setItem('transaction_id', transactionId);
           }
-          // this.sharedData.renewalPreviousPolicyData(response);
 
           let pageLoadData = sessionStorage.getItem('pageLoad');
           if (!pageLoadData) {
