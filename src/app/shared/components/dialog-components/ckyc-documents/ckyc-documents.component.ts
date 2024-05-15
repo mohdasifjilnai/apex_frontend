@@ -61,6 +61,8 @@ export class CkycDocumentsComponent implements OnInit {
   formGetData: any;
   maxDate: any;
   minDate: any;
+  maxDoiDate = new Date();
+  minDoiDate = new Date();
   fileInputError: boolean = true;
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
@@ -94,6 +96,14 @@ export class CkycDocumentsComponent implements OnInit {
     this.minDate = new Date(1900, 1, 1);
     this.maxDate = new Date();
     this.maxDate.setFullYear(currentDate.getFullYear() - 18);
+
+    this.maxDoiDate = new Date(
+      this.maxDoiDate.setFullYear(currentDate.getFullYear() - 0)
+    );
+
+    this.minDoiDate = new Date(
+      this.minDoiDate.setFullYear(currentDate.getFullYear() - 124)
+    );
   }
   /**
 Event handler for when a file is selected.

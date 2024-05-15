@@ -135,7 +135,10 @@
                 'col-12 col-lg-4': isTwoObject,
                 'col-12 col-lg-12': !isTwoObject
               }"
-              *ngIf="fields?.value?.data_type === 'date'"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'dob'
+              "
             >
               <mat-form-field appearance="outline">
                 <mat-label>{{ fields?.value?.name }}</mat-label>
@@ -171,7 +174,50 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'doi'
+              "
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fields?.value?.name }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="doiDate"
+                  placeholder="fields?.value?.name "
+                  [formControlName]="fields?.value?.label"
+                  id-automation="`${fields?.value?.name}`"
+                  #doiDateInput
+                  appDateFormat
+                  [max]="maxDoiDate"
+                  [min]="minDoiDate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="doiDate">
+                  <mat-icon matDatepickerToggleIcon>
+                    <img
+                      src="/assets/icon/calendar.svg"
+                      class="cursor-pointer mb-2"
+                      alt="calendar"
+                    />
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #doiDate></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
             <div
               [ngClass]="{
                 'col-12 col-lg-4': isTwoObject,
@@ -296,7 +342,10 @@
                 'col-12 col-lg-4': isTwoObject,
                 'col-12 col-lg-12': !isTwoObject
               }"
-              *ngIf="fields?.value?.data_type === 'date'"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'dob'
+              "
             >
               <mat-form-field appearance="outline">
                 <mat-label>{{ fields?.value?.name }}</mat-label>
@@ -334,7 +383,52 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'doi'
+              "
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fields?.value?.name }} </mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="doiDate"
+                  [placeholder]="fields?.value?.name"
+                  [formControlName]="fields?.value?.label"
+                  #doiDateInput
+                  appDateFormat
+                  [max]="maxDoiDate"
+                  [min]="minDoiDate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="doiDate">
+                  <mat-icon matDatepickerToggleIcon>
+                    <img
+                      src="/assets/icon/calendar.svg"
+                      class="cursor-pointer mb-2"
+                      alt="calendar"
+                    />
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker
+                  #doiDate
+                  id-automation="`${fields?.value?.name}`_id"
+                ></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
             <div
               [ngClass]="{
                 'col-12 col-lg-4': isTwoObject,
