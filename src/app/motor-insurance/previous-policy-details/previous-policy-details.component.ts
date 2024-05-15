@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormControl,
@@ -51,11 +52,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   previousInsurerResponse: any;
   renewalType: any;
   isOdPolicyDetails: boolean = false;
+  tpStartminDate: any;
+  tpEndminDate: any;
 
   constructor(
     private router: Router,
     private sharedData: SharedDataService,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    private datePipe: DatePipe
   ) {
     this.insuranceCompanyList = [
       {
@@ -78,11 +82,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
+      const [dayReg, monthReg, yearReg] =
+            proposal?.vehicle_details?.registration_date.split('/').map(Number);
+      const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
+      this.tpStartminDate=reformattedRegDate
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
-
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_no,
@@ -414,7 +421,18 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm?.disable();
     }
   }
-
+  onTpStartDateSelected(event: any){
+    this.previousPolicyDetailsForm
+            .get('tp_policy_end_date')
+            ?.updateValueAndValidity();
+    this.previousPolicyDetailsForm
+    .get('tp_policy_end_date')
+    ?.reset();        
+    const selectedDate = new Date(event.value);
+    selectedDate.setFullYear(selectedDate.getFullYear() + 1);
+    selectedDate.setDate(1);
+    this.tpEndminDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd')!;
+  }
   getPreviousVehicleData(isValid: any) {
     if (isValid && this.renewalType != 'renewal') {
       const formValues = this.previousPolicyDetailsForm.value;

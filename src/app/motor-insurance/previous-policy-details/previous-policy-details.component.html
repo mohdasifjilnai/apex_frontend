@@ -4,51 +4,123 @@
 >
   <div [attr.disabled]="isDisabledPreviousPolicyDetails">
     <div class="row mt-3" *ngIf="isOdPolicyDetails">
-      <div class="col-12">
-        <label>Own Damage (OD) Policy Details</label>
-      </div>
-      <div class="col-lg-4 col-md-4 col-12 mt-2">
-        <app-previous-insurer
-          [previousInsurer]="'proposal-previous-insurer'"
-          [required]="true"
-          [formControlNameData]="'previous_insurer'"
-          [label]="'Search Previous Insurer'"
-          (responseEvent)="previousInsurerComponentResponse($event)"
-        ></app-previous-insurer>
-      </div>
-      <div class="col-lg-4 col-md-4 col-12 mt-2">
-        <mat-form-field appearance="outline" class="mat-input-custom">
-          <mat-label>Previous Policy Number</mat-label>
-          <input matInput formControlName="prev_policy_number" />
-          <mat-error
-            *ngIf="
-              previousPolicyDetailsForm.controls[
-                'prev_policy_number'
-              ]?.hasError('required')
-            "
-          >
-            This is a required field.
-          </mat-error>
-          <mat-error
-            *ngIf="
-              previousPolicyDetailsForm
-                .get('prev_policy_number')
-                ?.hasError('pattern')
-            "
-          >
-            Invalid Policy Number
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-lg-4 col-md-4 col-12 mt-2">
-        <app-policy-expired-date
-          [policyExpiryDate]="'proposal-expiry-date'"
-          [required]="true"
-          [formControlNameData]="'policy_expiry_date'"
-          [isExpiryDateDisbaled]="'isExpiryDate'"
-          [urlDate]="url"
-        ></app-policy-expired-date>
-      </div>
+
+    <div class="col-12">
+      <label>Own Damage (OD) Policy Details</label>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
+      <app-previous-insurer
+        [previousInsurer]="'proposal-previous-insurer'"
+        [required]="true"
+        [formControlNameData]="'previous_insurer'"
+        [label]="'Search Previous Insurer'"
+        (responseEvent)="previousInsurerComponentResponse($event)"
+      ></app-previous-insurer>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
+      <mat-form-field appearance="outline" class="mat-input-custom">
+        <mat-label>Previous Policy Number</mat-label>
+        <input matInput formControlName="prev_policy_number" />
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm.controls['prev_policy_number']?.hasError(
+              'required'
+            )
+          "
+        >
+          This is a required field.
+        </mat-error>
+        <mat-error
+          *ngIf="
+            previousPolicyDetailsForm
+              .get('prev_policy_number')
+              ?.hasError('pattern')
+          "
+        >
+          Invalid Policy Number
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
+      <app-policy-expired-date
+        [policyExpiryDate]="'proposal-expiry-date'"
+        [required]="true"
+        [formControlNameData]="'policy_expiry_date'"
+        [isExpiryDateDisbaled]="'isExpiryDate'"
+        [urlDate]="url"
+      ></app-policy-expired-date>
+    </div>
+  </div>
+  <div class="row mt-3" *ngIf="isTpPolicyDetails" >
+
+
+    <hr *ngIf="isTpPolicyDetails && isOdPolicyDetails"/>
+    <div class="col-12" >
+      <label>Third Party (TP) Policy Details</label>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2" >
+      <app-previous-insurer
+        [label]="'TP Insurance Company'"
+        [formControlNameData]="'tp_insurance_company'"
+        (responseEvent)="previousInsurerComponentResponse($event)"
+      ></app-previous-insurer>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2" >
+      <mat-form-field appearance="outline">
+        <mat-label>TP Policy Number</mat-label>
+        <input
+          matInput
+          formControlName="tp_policy_number"
+          id-automation="tp_policy_number"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2" >
+      <mat-form-field appearance="outline" class="cpa-date">
+        <mat-label>TP Policy Start Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="tpPolicyStartDate"
+          formControlName="tp_policy_start_date"
+          id-automation="tp_policy_start_date"
+          [min]="tpStartminDate"
+          (click)="tpPolicyStartDate.open();"
+          (dateChange)="onTpStartDateSelected($event)"
+          (keyup.enter)="EnterKey($event, tpPolicyStartDate)"
+        />
+        <mat-datepicker-toggle matSuffix [for]="tpPolicyStartDate"
+          ><mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            />
+          </mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #tpPolicyStartDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 col-md-4 col-12 mt-2">
+      <mat-form-field appearance="outline" class="cpa-date">
+        <mat-label>TP Policy End Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="tpPolicyEndDate"
+          formControlName="tp_policy_end_date"
+          id-automation="tp_policy_end_date"
+          [min]="tpEndminDate"
+          (click)="tpPolicyEndDate.open()"
+        />
+        <mat-datepicker-toggle matSuffix [for]="tpPolicyEndDate"
+          ><mat-icon matDatepickerToggleIcon>
+            <img
+              src="/assets/icon/calendar.svg"
+              class="cursor-pointer mb-2"
+              alt="calendar"
+            /> </mat-icon
+        ></mat-datepicker-toggle>
+        <mat-datepicker #tpPolicyEndDate></mat-datepicker>
+      </mat-form-field>
     </div>
     <div class="row mt-3" *ngIf="isTpPolicyDetails">
       <hr *ngIf="isTpPolicyDetails && isOdPolicyDetails" />
