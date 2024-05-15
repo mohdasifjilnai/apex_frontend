@@ -34,9 +34,11 @@ export class RegistrationNumberDirective {
     const clipboardData = event.clipboardData;
     if (clipboardData) {
       const pastedText = clipboardData.getData('text');
-      const formattedText = pastedText
+      let formattedText = pastedText
         .replace(/-/g, '')
         .replace(/(.{2})/g, '$1-');
+        
+      formattedText = formattedText.slice(0, -4) + formattedText.slice(-3,-1);
       document.execCommand('insertText', false, formattedText);
       event.preventDefault();
     }

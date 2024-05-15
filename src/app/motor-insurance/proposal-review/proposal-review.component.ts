@@ -182,9 +182,10 @@ export class ProposalReviewComponent implements OnInit {
     if (this.generateProposalData?.previous_policy_details?.is_consent) {
       this.shareData.createProposalId();
     }
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     if (window.innerWidth <= 999) {
       const bottomSheetConfig: MatBottomSheetConfig = {
-        data: [this.quoteData], // Pass your data here
+        data: [this.quoteData], 
       };
       this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
       this.shareData.setPreviousPolicyDetails(this.proposalDataSend);

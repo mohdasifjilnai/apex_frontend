@@ -138,7 +138,16 @@ export class OtpComponent implements OnInit {
         );
         this.loader = false;
         this.ngOtpInput.setValue('');
-      } else {
+      }else if(res['message'] == 'OTP Expired'){
+        this.sharedDataService.openSnackBar(
+          'OTP Expired',
+          false,
+          3000
+        );
+        this.loader = false;
+        this.ngOtpInput.setValue('');
+      }
+       else {
         let renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal') {
           this.apiService
