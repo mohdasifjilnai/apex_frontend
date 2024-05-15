@@ -177,6 +177,102 @@ export class ProposalComponent implements OnInit {
           this.showVehicleOwnerDetails = true;
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
+          if (
+            proposal.customer_details !== null &&
+            !this.isNotShowNomineeDetails
+          ) {
+            if (this.reviewData === 'vehilceOwnerPanel') {
+              this.showVehicleDetails = true;
+              this.accordianExpanded = 'vehicleOwnerDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else {
+              if (this.kycPending?.redirection_url_via_form) {
+                this.sharedData.vehicleOwnerForm.subscribe((res) => {
+                  if (res) {
+                    this.showVehicleDetails = true;
+                    this.accordianExpanded = 'vehicleDetails';
+                    this.openDesiredStep(this.accordianExpanded);
+                  }
+                });
+              } else {
+                this.showVehicleDetails = true;
+                this.accordianExpanded = 'vehicleDetails';
+                this.openDesiredStep(this.accordianExpanded);
+              }
+            }
+          } else if (
+            proposal.customer_details !== null &&
+            this.isNotShowNomineeDetails
+          ) {
+            if (this.reviewData === 'vehilceOwnerPanel') {
+              this.showNomineeDetails = true;
+              this.showVehicleOwnerDetails = true;
+              this.accordianExpanded = 'vehicleOwnerDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else {
+              if (this.kycPending?.redirection_url_via_form) {
+                this.sharedData.vehicleOwnerForm.subscribe((res) => {
+                  if (res) {
+                    this.showNomineeDetails = true;
+                    this.showVehicleOwnerDetails = true;
+                    this.accordianExpanded = 'nomineeDetails';
+                    this.openDesiredStep(this.accordianExpanded);
+                  }
+                });
+              } else {
+                this.showNomineeDetails = true;
+                this.showVehicleOwnerDetails = true;
+                this.accordianExpanded = 'nomineeDetails';
+                this.openDesiredStep(this.accordianExpanded);
+              }
+            }
+          }
+          if (proposal.nominee_details !== null) {
+            if (this.reviewData === 'nomineDetailsPanel') {
+              this.showVehicleDetails = true;
+              this.accordianExpanded = 'nomineeDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else {
+              this.showVehicleDetails = true;
+              this.accordianExpanded = 'vehicleDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            }
+          }
+          if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
+            if (this.reviewData === 'vehilceOwnerPanel') {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'vehicleOwnerDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else if (this.reviewData === 'nomineDetailsPanel') {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'nomineeDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'vehicleDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            }
+          } else if (
+            (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
+            (this.quoteData?.is_breakin && this.productTypeValue === 'satp')
+          ) {
+            if (this.reviewData === 'vehicleDetailPanel') {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'vehicleDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else if (this.reviewData === 'vehilceOwnerPanel') {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'vehicleOwnerDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else if (this.reviewData === 'nomineDetailsPanel') {
+              this.showPreviousPolicyDetails = true;
+              this.accordianExpanded = 'nomineeDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            } else {
+              this.accordianExpanded = 'previousPolicyDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            }
+          }
         }
       });
     }
