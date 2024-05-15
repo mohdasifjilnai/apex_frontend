@@ -54,6 +54,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   vehicleValueForm: any;
   vehicleType: any;
   registartionDate: any;
+
   constructor(
     private matDialog: WindowRef,
     private sharedData: SharedDataService,

@@ -101,7 +101,9 @@ export class ProposalReviewComponent implements OnInit {
   manufactureDate: any;
   preAddons: any;
   isOdDetailsShow: boolean = false;
-
+  manufacturemonth: any;
+  manufactureYear: any;
+  modifiedManufactureValue: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -239,6 +241,15 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
+          let manufactureDateValue =
+            this.generateProposalData?.vehicle_details?.manufacture_date;
+          let [day, month, year] = manufactureDateValue.split('/');
+          let reformattedDate = `${month}/${day}/${year}`;
+          let modifiedManufactureDate = new Date(reformattedDate);
+          this.manufacturemonth = moment(month, 'MM').format('MMM');
+          this.manufactureYear = moment(modifiedManufactureDate).year();
+          this.modifiedManufactureValue =
+            this.manufacturemonth + '-' + this.manufactureYear;
 
           const dataToSend = [
             res?.previous_policy_details, //Previous Policy Details
