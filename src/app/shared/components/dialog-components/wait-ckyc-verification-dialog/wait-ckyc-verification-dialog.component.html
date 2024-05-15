@@ -140,6 +140,19 @@
   </div>
 </div>
 <div *ngIf="universalShampoo">
+  <div mat-dialog-title class="d-flex justify-content-between">
+    <div>
+      <span class="sompo-title">Click on the close button when CKYC is completed (during CKYC process)</span>
+    </div>
+    <div class="success-popup-header">
+      <img
+        src="/assets/icon/cross.svg"
+        (click)="onClose(ckycData)"
+        class="cursor-pointer"
+        alt="close"
+      />
+    </div>
+  </div>
   <iframe width="100%" height="490" [src]="safeUrl" frameborder="1" allowfullscreen></iframe>
 </div>
 
