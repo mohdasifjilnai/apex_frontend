@@ -115,16 +115,22 @@
     <div class="d-flex justify-content-between mt-2">
       <span class="od-value od-name">NCB Discount</span>
       <span class="od-value">
-        &#x20B9;
+        <span
+          *ngIf="
+            quoteData.premium_details.od_premium_details.ncb_discount != 0
+          "
+          >-</span
+        >
+        &#8377;
         {{
-          quoteData?.premium_details?.od_premium_details?.ncb_discount !==
-            null &&
-          quoteData?.premium_details?.od_premium_details?.ncb_discount !==
-            undefined
-            ? quoteData?.premium_details?.od_premium_details?.ncb_discount
-            : ("-" | number : "2.")
-        }}
-      </span>
+          quoteData.premium_details.od_premium_details.ncb_discount < 0
+            ? (-quoteData.premium_details.od_premium_details.ncb_discount
+              | number : "2.")
+            : (quoteData.premium_details.od_premium_details.ncb_discount
+              | number : "2.")
+        }}</span
+      >
+      
     </div>
     <!-- <div class="d-flex justify-content-between mt-2">
       <p class="od-value od-name">Own Damage Discount</p>

@@ -170,9 +170,11 @@ export class VehicleDetailsCardComponent implements OnInit {
     // if (this.parsedVehicleData?.ncb_discount) {
     //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
     // }
-    if (this.parsedVehicleData?.addNcbBoth?.new_ncb_name) {
-      this.newNCB = this.parsedVehicleData?.addNcbBoth.new_ncb_name;
-      this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
+    if(!this.parsedVehicleData?.user_car){
+      if (this.parsedVehicleData?.addNcbBoth?.new_ncb_name) {
+        this.newNCB = this.parsedVehicleData?.addNcbBoth.new_ncb_name;
+        this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
+      }
     }
   }
   openDialog(edit: string): void {

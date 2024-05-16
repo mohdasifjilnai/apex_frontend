@@ -414,7 +414,7 @@ export class ProposalReviewComponent implements OnInit {
     }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.pre_policy_addons}?insurer_code=${quoteData?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}`
+        `${ApiConstants.pre_policy_addons}?insurer_code=${quoteData?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${quoteData?.quote_id}`
       )
       .subscribe((res: any) => {
         this.preAddons = res;
