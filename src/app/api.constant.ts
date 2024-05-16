@@ -99,4 +99,6 @@ export class ApiConstants {
   public static united_ckyc_token = `/api/v1/ckyc/united_ckyc_token`;
 
   public static united_ckyc_response = `/api/v1/ckyc/united_ckyc_response/`;
+
+  public static get_usgi_ckyc_details = `/api/v1/ckyc/get_usgi_ckyc_details`;
 }

@@ -834,7 +834,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 for (let i = 0; i <= this.rtoList.length - 1; i++) {
                   if (
                     this.rtoList[i].rb_rto_code ==
-                    this.allValue.quotesRequest.rb_rto_code
+                    this.allValue?.quotesRequest.rb_rto_code
                   ) {
                     this.vehicleDetailsForm.patchValue({
                       registration_city: this.rtoList[i],
@@ -1067,7 +1067,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         });
       } else {
         this.vehicleDetailsForm.patchValue({
-          ncb_discount: allData?.ncb_discount ? allData?.ncb_discount : 0,
+          ncb_discount: allData?.ncb_discount == allData?.ncb_discount ,
         });
       }
     }
@@ -1335,6 +1335,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     for (let i = 0; i <= this.expiryList.length - 1; i++) {
       if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
         this.policyTypeBaseNCB = this.expiryList[i].offered_ncb_value;
+        this.vehicleDetailsForm.get('ncb_discount')?.setValue(this.policyTypeBaseNCB);
       }
     }
     if (this.isEditable?.is_editable) {
@@ -1396,17 +1397,17 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   onRCTransferChange(event: any) {
-    if (!this.patchData) {
+    // if (!this.patchData) {
       if (event) {
         this.hidePreviousClaimed = false;
         this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
-        this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+        // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
       } else {
         this.hidePreviousClaimed = true;
       }
-    }
-    this.patchData = false;
-    this.getExpiringPolicy();
+    // }
+    // this.patchData = false;
+    // this.getExpiringPolicy();
   }
   /**
    * navigates to the motor insurance  page

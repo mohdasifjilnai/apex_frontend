@@ -65,6 +65,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'ckyc-documents',
   };
+  sompoCkycData: any;
   constructor(
     public dialogRef: MatDialogRef<WaitCkycVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -121,7 +122,8 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
             this.redirectionUrlViaForm = res['redirection_url_via_form'];
             if(this.ckycBody?.insurer_code=='universal_sompo'){
               this.universalShampoo=true
-              this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.redirectionUrlViaForm);
+              window.open(res['redirection_url_via_form'],'_blank')
+              // this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.redirectionUrlViaForm);
             }
             this.error_message = res['error_message'];
             this.isWaitingTime = true;
@@ -182,7 +184,21 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
     this.loader = true;
     window.location.href = redirectionUrlViaForm;
   }
-
+  sompoCkycDetails(){
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_usgi_ckyc_details}?transaction_id=${
+          this.transactionId
+        }&proposal_id=${this.proposalId}`
+      )
+      .subscribe((res) => {
+        this.sompoCkycData = res;
+        if(res?.status){
+          this.sharedDataService.createProposalId();
+          this.dialogRef.close();
+        }
+      });
+  }
   /**
    * Fetches the list of document types supported by the insurer.
    */
