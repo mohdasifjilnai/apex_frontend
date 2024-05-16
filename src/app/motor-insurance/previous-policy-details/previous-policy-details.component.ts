@@ -430,7 +430,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     ?.reset();        
     const selectedDate = new Date(event.value);
     selectedDate.setFullYear(selectedDate.getFullYear() + 1);
-    selectedDate.setDate(1);
+    selectedDate.setDate(selectedDate.getDate() - 1);
     this.tpEndminDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd')!;
   }
   getPreviousVehicleData(isValid: any) {

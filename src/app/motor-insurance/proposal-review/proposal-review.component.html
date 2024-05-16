@@ -52,6 +52,13 @@
       </div>
       <div class="row m-2">
         <div class="col-lg-3 col-md-3 col-6 mt-3">
+          <span class="field-title">Salutation</span
+          ><br />
+          <span class="field-value">{{
+            generateProposalData?.customer_details?.salutation || "-"
+          }}</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 mt-3">
           <span class="field-title">{{
             proposalType == "individual" ? "Full Name" : "Company Name"
           }}</span
