@@ -248,7 +248,8 @@ export class CkycComponent implements OnInit {
           if (
             this.qoutes_data['insurer_code'] === 'liberty' ||
             this.qoutes_data['insurer_code'] === 'future' ||
-            this.qoutes_data['insurer_code'] === 'sbi_general'
+            this.qoutes_data['insurer_code'] === 'sbi_general' ||
+            this.qoutes_data['insurer_code'] === 'universal_sompo'
           ) {
             let inputString = this.ckycFormGroup.get(
               'document_number_based_field'

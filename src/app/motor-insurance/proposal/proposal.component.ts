@@ -737,13 +737,13 @@ export class ProposalComponent implements OnInit {
         this.unitedCkycResponse(HyperKycResult['errorMessage']);
         break;
       case 'auto_approved':
-        this.unitedCkycResponse(HyperKycResult['details']);
+        this.unitedCkycResponse(HyperKycResult);
         break;
       case 'auto_declined':
-        this.unitedCkycResponse(HyperKycResult['details']);
+        this.unitedCkycResponse(HyperKycResult);
         break;
       case 'needs_review':
-        this.unitedCkycResponse(HyperKycResult['details']);
+        this.unitedCkycResponse(HyperKycResult);
         break;
     }
   };
@@ -765,7 +765,7 @@ export class ProposalComponent implements OnInit {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.sharedData.createProposalId();
         } else {
-          this.sharedData.openSnackBar(res?.message, true, 3000);
+          this.sharedData.openSnackBar(res?.message, false, 3000);
           this.getUnitedCkycToken();
         }
       });
