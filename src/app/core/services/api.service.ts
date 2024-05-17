@@ -77,6 +77,18 @@ export class ApiService {
             panelClass: 'failure-dialog-class',
           });
           dialogRef.afterClosed().subscribe((result: any) => {});
+        }
+        else if (err.status == 413) {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: 'File size should not be more than 5MB',
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
         } else {
           const dialogRef = this.dialog.open(FailureDialogComponent, {
             width: 'auto',
