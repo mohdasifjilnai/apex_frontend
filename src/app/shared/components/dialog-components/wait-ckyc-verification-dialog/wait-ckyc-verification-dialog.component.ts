@@ -196,6 +196,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
         if(res?.status){
           this.sharedDataService.createProposalId();
           this.dialogRef.close();
+          this.sharedDataService.openSnackBar('Ckyc Details Saved', true, 3000);
         }
       });
   }

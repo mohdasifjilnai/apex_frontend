@@ -233,7 +233,10 @@ handles the form submit for uploading the required documents
               this.uploadDocumentsForm.get('dob')?.value,
               'dd/MM/yyyy'
             )
-          : null,
+          : this.datePipe.transform(
+            this.uploadDocumentsForm.get('doi')?.value,
+            'dd/MM/yyyy'
+          ),
         family_member_name: this.uploadDocumentsForm.get('family_member_name')
           ?.value
           ? this.uploadDocumentsForm.get('family_member_name')?.value

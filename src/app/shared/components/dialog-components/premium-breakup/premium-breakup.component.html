@@ -112,7 +112,8 @@
           (mouseenter)="showCard = true"
           (mouseleave)="showCard = false"
           alt=""
-          class="addons-hover-image"
+          class="addons-hover-image ms-2"
+          *ngIf="initiateQuotes?.premium_details?.addon_premium_details.length != 0"
         />
         <img
           src="/assets/icon/cpa-hover.svg"

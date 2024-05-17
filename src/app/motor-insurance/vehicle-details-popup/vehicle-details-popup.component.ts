@@ -1090,10 +1090,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.registrationNumber?.previous_policy_exp_date
             );
 
-            policyDate = moment(policyExpiryDateValue).format('DD/MM/YYYY');
+            policyDate = moment(this.registrationNumber?.previous_policy_exp_date, 'DD-MM-YYYY').format('DD/MM/YYYY');
           }
         } else {
-          policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+          policyDate = moment(policyExpiryDate, 'DD-MM-YYYY').format('DD/MM/YYYY');
         }
 
         let userRCtransfer = this.vehicleDetailsForm.value.user_car
