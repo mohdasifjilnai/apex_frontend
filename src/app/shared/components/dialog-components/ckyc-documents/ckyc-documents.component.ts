@@ -182,6 +182,17 @@ Event handler for when a file is selected.
         } else {
           this.apiService.errorHandler(res);
         }
+      },(error)=>{
+        if (fileFormControlName == 'poa_doc_url'){
+          this.POAFileName = '';
+          this.fileInputError = false;
+          this.isfileInputError = true;
+        }
+        else if(fileFormControlName == 'poi_doc_url'){
+          this.POIFileName = '';
+          this.PoiFileInputError = false;
+          this.isPoiFileInputError = true; 
+        }
       });
   }
   /**
