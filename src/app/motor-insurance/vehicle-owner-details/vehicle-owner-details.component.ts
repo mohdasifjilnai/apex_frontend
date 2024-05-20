@@ -195,21 +195,21 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         if (ckycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;
         }
-        if (ckycData?.customer_details?.email) {
-          this.vehicleOwneremail = true;
-        }
-        if (ckycData?.customer_details?.address) {
-          this.vehicleOwneraddress = true;
-        }
-        if (ckycData?.customer_details?.mobile_number) {
-          this.vehicleOwnerNumber = true;
-        }
+        // if (ckycData?.customer_details?.email) {
+        //   this.vehicleOwneremail = true;
+        // }
+        // if (ckycData?.customer_details?.address) {
+        //   this.vehicleOwneraddress = true;
+        // }
+        // if (ckycData?.customer_details?.mobile_number) {
+        //   this.vehicleOwnerNumber = true;
+        // }
         if (ckycData?.customer_details?.pan_number) {
           this.isPancardDisabled = true;
         }
-        if (ckycData?.customer_details?.pincode) {
-          this.vehicleOwnerPincode = true;
-        }
+        // if (ckycData?.customer_details?.pincode) {
+        //   this.vehicleOwnerPincode = true;
+        // }
       } else {
         if (ckycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;
@@ -277,21 +277,21 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         if (kycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;
         }
-        if (kycData?.customer_details?.email) {
-          this.vehicleOwneremail = true;
-        }
-        if (kycData?.customer_details?.address) {
-          this.vehicleOwneraddress = true;
-        }
-        if (kycData?.customer_details?.mobile_number) {
-          this.vehicleOwnerNumber = true;
-        }
+        // if (kycData?.customer_details?.email) {
+        //   this.vehicleOwneremail = true;
+        // }
+        // if (kycData?.customer_details?.address) {
+        //   this.vehicleOwneraddress = true;
+        // }
+        // if (kycData?.customer_details?.mobile_number) {
+        //   this.vehicleOwnerNumber = true;
+        // }
         if (kycData?.customer_details?.pan_number) {
           this.isPancardDisabled = true;
         }
-        if (kycData?.customer_details?.pincode) {
-          this.vehicleOwnerPincode = true;
-        }
+        // if (kycData?.customer_details?.pincode) {
+        //   this.vehicleOwnerPincode = true;
+        // }
       } else {
         if (kycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;

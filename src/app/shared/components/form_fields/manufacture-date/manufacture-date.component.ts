@@ -115,12 +115,17 @@ export class ManufactureDateComponent implements OnInit {
     normalizedMonth: Moment,
     datepicker: MatDatepicker<Moment>
   ) {
-    this.manufactureDate =
-      this.form.controls['manufacture_date'].value || moment();
-    this.manufactureDate.month(normalizedMonth.month());
-    this.manufactureDate?.year(normalizedMonth.year());
-    this.manufactureDate?.date(normalizedMonth.date());
-    this.form.controls['manufacture_date'].setValue(this.manufactureDate);
+    let manufactureDate =
+      this.form.controls['manufacture_date'].value;
+      if (!manufactureDate) {
+        manufactureDate = moment();
+      } else {
+        manufactureDate = moment(manufactureDate);
+      }
+    manufactureDate.month(normalizedMonth.month());
+    manufactureDate?.year(normalizedMonth.year());
+    // manufactureDate?.date(normalizedMonth.date());
+    this.form.controls['manufacture_date'].setValue(manufactureDate);
     datepicker.close();
   }
 

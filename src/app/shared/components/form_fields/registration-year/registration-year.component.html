@@ -62,6 +62,8 @@
   <mat-datepicker
     #registrationYear
     id-automation="datepicker_registration_year_id"
+    startView="multi-year"
+    (monthSelected)="chosenMonthRegistration($event, registrationDate)"
   ></mat-datepicker>
   <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
     This is a required field.

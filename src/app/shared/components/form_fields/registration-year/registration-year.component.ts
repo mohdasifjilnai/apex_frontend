@@ -14,24 +14,24 @@ import {
 } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 // import * as _moment from 'moment';
-import moment from 'moment';
+import * as _moment from 'moment';
 import { default as _rollupMoment, Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-// const moment = _rollupMoment || _moment;
+const moment = _rollupMoment || _moment;
 
-// export const MY_FORMATS = {
-//   parse: {
-//     dateInput: 'MM/YYYY',
-//   },
-//   display: {
-//     dateInput: 'MM/YYYY',
-//     monthYearLabel: 'MMM YYYY',
-//     dateA11yLabel: 'LL',
-//     monthYearA11yLabel: 'MMMM YYYY',
-//   },
-// };
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-registration-year',
@@ -40,15 +40,16 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   viewProviders: [
     { provide: ControlContainer, useExisting: FormGroupDirective },
   ],
-  // providers: [
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE],
-  //   },
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
 
-  //   { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  // ],
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
+
 })
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
@@ -63,6 +64,7 @@ export class RegistrationYearComponent implements OnInit {
   @ViewChild('registrationYear') registrationYear!: MatDatepicker<Date>;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   @Input() urlDate: any;
+  registrationDate: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -163,7 +165,26 @@ export class RegistrationYearComponent implements OnInit {
       this.form.get('registration_date')?.disable();
     }
   }
-
+/**
+   * for use month selection
+   */
+chosenMonthRegistration(
+  normalizedMonth: Moment,
+  datepicker: MatDatepicker<Moment>
+) {
+  let registrationDate =
+    this.form.controls['registration_date'].value;
+    if (!registrationDate) {
+      registrationDate = moment();
+    } else {
+      registrationDate = moment(registrationDate);
+    }
+  registrationDate.month(normalizedMonth.month());
+  registrationDate?.year(normalizedMonth.year());
+  registrationDate?.date(normalizedMonth.date());
+  this.form.controls['registration_date'].setValue(registrationDate);
+  datepicker.close();
+}
   ngOnDestroy(): void {
     /**
      * remove form control for the Registration Year

@@ -61,8 +61,14 @@
         <div class="me-1">
           <span class="vehicle-card-heading-details">New NCB</span><br />
           <span
+          *ngIf="!showZeroNCB"
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
             >{{ newNCB ? newNCB : "0" }}</span
+          >
+          <span
+            *ngIf="showZeroNCB"
+            class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
+            >0</span
           >
         </div>
         <div>

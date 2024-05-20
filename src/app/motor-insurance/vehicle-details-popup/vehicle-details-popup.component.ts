@@ -1058,7 +1058,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   claimedPolicy(data: any, allData?: any) {
     if (data) {
       this.ncbDiscountData = false;
-      this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+      // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
     } else {
       this.ncbDiscountData = true;
       if (this.renewalType == 'renewal') {
@@ -1397,7 +1397,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   onRCTransferChange(event: any) {
-    // if (!this.patchData) {
+    if (!this.patchData) {
       if (event) {
         this.hidePreviousClaimed = false;
         this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
@@ -1405,9 +1405,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
       } else {
         this.hidePreviousClaimed = true;
       }
-    // }
-    // this.patchData = false;
-    // this.getExpiringPolicy();
+    }
+
+    this.patchData = false;
+    this.getExpiringPolicy();
   }
   /**
    * navigates to the motor insurance  page

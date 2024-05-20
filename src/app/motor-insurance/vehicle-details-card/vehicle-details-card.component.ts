@@ -54,6 +54,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   vehicleValueForm: any;
   vehicleType: any;
   registartionDate: any;
+  satpNCB: any;
+  showZeroNCB: boolean=false;
 
   constructor(
     private matDialog: WindowRef,
@@ -122,6 +124,14 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
+    });
+    this.sharedDataService.idvSliderHide.subscribe((idvHide) => {
+      this.satpNCB = idvHide;
+      if(this.satpNCB=='satp' || this.satpNCB=='bundled_tp'){
+        this.showZeroNCB=true
+      }else{
+        this.showZeroNCB=false
+      }
     });
 
     this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
