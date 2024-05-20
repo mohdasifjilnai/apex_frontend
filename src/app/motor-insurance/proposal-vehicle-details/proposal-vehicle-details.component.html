@@ -129,7 +129,6 @@
         <ng-template #inputField>
           <input
             matInput
-            placeholder="Enter Vehicle Colour"
             formControlName="vehicle_colour"
             appAlphabetOnly
           />
@@ -173,7 +172,6 @@
         <mat-label>Select Financer</mat-label>
         <input
           matInput
-          placeholder="Search Financer"
           (ngModelChange)="proposalFinancierBlankData($event)"
           aria-label="financer"
           #autoCompleteInput
@@ -232,7 +230,6 @@
         <mat-label class="proposal-header">Financer City/Branch</mat-label>
         <input
           matInput
-          placeholder="Financer City/Branch"
           aria-label="Financer City/Branch"
           formControlName="financer_city"
           id-automation="financier_name"
@@ -276,7 +273,6 @@
         <mat-label class="proposal-header">Pincode</mat-label>
         <input
           matInput
-          placeholder="Enter Pincode"
           aria-label="pincode"
           #autoCompleteInput
           [matAutocomplete]="pincodeAuto"

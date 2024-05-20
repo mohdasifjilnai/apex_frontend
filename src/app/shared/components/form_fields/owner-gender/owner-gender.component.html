@@ -15,7 +15,7 @@
     <mat-label>Select Gender</mat-label>
     <mat-select
       [formControlName]="formControlNameData"
-      placeholder="Select {{ label }}"
+      
     >
       <mat-option *ngFor="let gender of genderList" [value]="gender?.name">
         {{ gender?.name }}

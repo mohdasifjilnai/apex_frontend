@@ -152,6 +152,13 @@ export class PaymentComponent implements OnInit {
     this.router.navigate(['/motor']);
   }
 
+   /**
+   * redirection form payment failure page  to review page
+   */
+   retryPayment() {
+    this.router.navigate([`/motor/quotes/proposal/${this.transactionId}/review`]);
+  }
+
   downloadPolicy() {
     this.apiService
       .getRequestedResponse(
