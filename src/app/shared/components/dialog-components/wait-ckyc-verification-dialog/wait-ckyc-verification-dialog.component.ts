@@ -193,7 +193,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
       )
       .subscribe((res) => {
         this.sompoCkycData = res;
-        if(res?.status){
+        if(res?.status==true){
           this.sharedDataService.createProposalId();
           this.dialogRef.close();
           this.sharedDataService.openSnackBar('Ckyc Details Saved', true, 3000);
