@@ -127,16 +127,19 @@ export class CkycComponent implements OnInit {
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
         let renewalDataType = sessionStorage.getItem('renewalType');
+        const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
           if (this.ckycFormGroup.valid) {
             let isCkycDone = sessionStorage.getItem('isCKycDOne');
             if (!isCkycDone) {
-              this.submitCkycFormGroup(true);
+              if(!kycData?.verification_status){
+                this.submitCkycFormGroup(true);
+              }
               isSubmitCkycFormGroupCalled = true;
             }
           }
         }
-        const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+        
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
           sessionStorage.getItem('proposerType') === kycData?.proposer_type &&

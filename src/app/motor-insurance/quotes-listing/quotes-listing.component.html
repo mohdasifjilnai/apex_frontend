@@ -104,7 +104,7 @@
           [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
         >
           <div class="gst me-2 pb-1">Inc. GST</div>
-          <mat-slide-toggle [checked]="defaultGST" (change)="gstToggle($event)">
+          <mat-slide-toggle [checked]="defaultGST" [disabled]="enableIdvCard" (change)="gstToggle($event)">
           </mat-slide-toggle>
         </div>
       </div>
