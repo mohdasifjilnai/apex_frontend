@@ -83,7 +83,7 @@ export class ApiService {
             width: 'auto',
             height: 'auto',
             data: {
-              errorData: 'File size should not be more than 2MB',
+              errorData: 'File size should not be more than 1MB',
               statusdata: status,
             },
             panelClass: 'failure-dialog-class',
