@@ -497,15 +497,25 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       financerControl?.setValidators([Validators.required]);
       agreementTypeControl?.setValidators([Validators.required]);
       financerCityControl?.setValidators([Validators.required]);
+      financerControl?.updateValueAndValidity();
+    agreementTypeControl?.updateValueAndValidity();
+    financerCityControl?.updateValueAndValidity();
     } else {
+      financerControl?.reset()
+      agreementTypeControl?.reset()
+      financerCityControl?.reset()
       financerControl?.clearValidators();
       agreementTypeControl?.clearValidators();
       financerCityControl?.clearValidators();
+      financerControl?.setValidators([]);
+      agreementTypeControl?.setValidators([]);
+      financerCityControl?.setValidators([]);
+      financerControl?.updateValueAndValidity();
+      agreementTypeControl?.updateValueAndValidity();
+      financerCityControl?.updateValueAndValidity();
     }
 
-    financerControl?.updateValueAndValidity();
-    agreementTypeControl?.updateValueAndValidity();
-    financerCityControl?.updateValueAndValidity();
+    
   }
   getRegistrationAddressValue(isChecked?: any) {
     this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
