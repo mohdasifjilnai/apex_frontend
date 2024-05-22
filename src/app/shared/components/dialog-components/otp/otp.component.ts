@@ -159,6 +159,7 @@ export class OtpComponent implements OnInit {
             .subscribe(
               (generatedProposal: any) => {
                 if (generatedProposal.status) {
+                  sessionStorage.setItem('proposal_punched',generatedProposal.status)
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
@@ -236,6 +237,7 @@ export class OtpComponent implements OnInit {
                 
 
                 if (generatedProposal.status) {
+                  sessionStorage.setItem('proposal_punched','true')
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {

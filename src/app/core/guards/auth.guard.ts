@@ -24,6 +24,10 @@ export class AuthGuard implements CanActivate {
     if (sessionStorage.getItem('isPayment')) {
       this.router.navigate(['motor']);
       return false;
+    }else if(sessionStorage.getItem('proposal_punched')=='true'){
+      let transactionId=sessionStorage.getItem('transaction_id')
+      this.router.navigate([`motor/quotes/proposal/${transactionId}/review/payment-failure`]);
+      return false
     }
     return true;
   }

@@ -334,8 +334,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (regNumber) {
       this.isRegistrationNumber = true;
       let regFirstDigit = regNumber?.slice(0, 2);
-      let regSecondDigit = regNumber?.slice(2, 4);
-      let combineRegData = regFirstDigit + regSecondDigit;
+      let regSecondDigit = regNumber?.slice(3, 5);
+      let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
       let regLastDigit = regNumber.split(combineRegData);
       this.proposalVehilceDetailsForm.patchValue({
         registration_number_first: regFirstDigit,
@@ -446,9 +446,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           registration_number: registrationNumberFirst,
         });
       }else{
-        this.proposalVehilceDetailsForm.patchValue({
-          registration_number: 'new',
-        });
+        let regNumber = sessionStorage.getItem('registrationNumber');
+        if(!regNumber){
+          this.proposalVehilceDetailsForm.patchValue({
+            registration_number: 'new',
+          });
+        }
       }
 
       this.afterVehicleData.emit(formValues);
