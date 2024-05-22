@@ -166,14 +166,23 @@ export class ProposalReviewComponent implements OnInit {
     this.proposalType = sessionStorage.getItem('proposerType');
   }
   navigateToUrl(titleName: string) {
-    if (this.proposalData) {
-      this.route.navigate([
-        `/motor/quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
-      ]);
-    } else {
-      this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
-      this.shareData.sendProposalReviewEditId(titleName);
+    let proposal_punched=sessionStorage.getItem('proposal_punched')
+    if(!proposal_punched){
+      if (this.proposalData) {
+        this.route.navigate([
+          `/motor/quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
+        ]);
+      } else {
+        this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
+        this.shareData.sendProposalReviewEditId(titleName);
+      }
+    }else{
+      this.shareData.openSnackBar('Proposal Already Created ',
+        true,
+        3000
+      );
     }
+    
   }
   back() {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);

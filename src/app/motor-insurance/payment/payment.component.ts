@@ -141,7 +141,9 @@ export class PaymentComponent implements OnInit {
         localStorage.removeItem('withoutVehicleNumber');
       }
       sessionStorage.clear();
-      sessionStorage.setItem('isPayment', 'true');
+      if(this.paymentSuccess){
+        sessionStorage.setItem('isPayment', 'true');
+      }
     });
   }
 

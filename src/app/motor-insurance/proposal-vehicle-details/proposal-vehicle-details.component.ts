@@ -445,13 +445,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: registrationNumberFirst,
         });
-      }else{
-        let regNumber = sessionStorage.getItem('registrationNumber');
-        if(!regNumber){
-          this.proposalVehilceDetailsForm.patchValue({
-            registration_number: 'new',
-          });
-        }
       }
 
       this.afterVehicleData.emit(formValues);

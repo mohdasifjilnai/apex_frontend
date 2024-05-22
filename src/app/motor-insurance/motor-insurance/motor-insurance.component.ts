@@ -161,7 +161,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('renewalPolicyExpiry');
     sessionStorage.removeItem('renewalPreviousInsurer');
     sessionStorage.removeItem('checkWheeler');
-
+    sessionStorage.removeItem('proposal_punched');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
