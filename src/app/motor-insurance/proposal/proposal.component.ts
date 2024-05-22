@@ -726,7 +726,7 @@ export class ProposalComponent implements OnInit {
           false,
           3000
         );
-        this.unitedCkycResponse(HyperKycResult['errorMessage']);
+        this.unitedCkycResponse(HyperKycResult);
         break;
       case 'error':
         this.sharedData.openSnackBar(
@@ -734,7 +734,7 @@ export class ProposalComponent implements OnInit {
           false,
           3000
         );
-        this.unitedCkycResponse(HyperKycResult['errorMessage']);
+        this.unitedCkycResponse(HyperKycResult);
         break;
       case 'auto_approved':
         this.unitedCkycResponse(HyperKycResult);
@@ -761,7 +761,7 @@ export class ProposalComponent implements OnInit {
     this.apiService
       .postRequestedResponse(ApiConstants.united_ckyc_response, data)
       .subscribe((res) => {
-        if (res?.status) {
+        if (res?.status==true) {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.sharedData.createProposalId();
         } else {
