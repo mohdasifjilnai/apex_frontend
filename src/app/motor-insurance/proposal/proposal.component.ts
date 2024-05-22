@@ -170,7 +170,7 @@ export class ProposalComponent implements OnInit {
       this.sharedData.getProposalDetails.subscribe((proposal) => {
         if (proposal) {
           this.proposalId = proposal?.proposal_id;
-          if (proposal?.ckyc_details == null) {
+          if (!proposal?.ckyc_details?.is_verification) {
             this.getUnitedCkycToken();
           }
           this.isNotShowCkycDetails = false;
@@ -699,7 +699,7 @@ export class ProposalComponent implements OnInit {
         this.decodedString = atob(base64String);
         setTimeout(() => {
           this.unitedCkycVerification(res?.token, this.decodedString);
-        }, 2000);
+        }, 1000);
       });
   }
 
@@ -727,6 +727,7 @@ export class ProposalComponent implements OnInit {
           3000
         );
         this.unitedCkycResponse(HyperKycResult);
+        this.getUnitedCkycToken();
         break;
       case 'error':
         this.sharedData.openSnackBar(
@@ -735,15 +736,18 @@ export class ProposalComponent implements OnInit {
           3000
         );
         this.unitedCkycResponse(HyperKycResult);
+        this.getUnitedCkycToken();
         break;
       case 'auto_approved':
         this.unitedCkycResponse(HyperKycResult);
         break;
       case 'auto_declined':
         this.unitedCkycResponse(HyperKycResult);
+        this.getUnitedCkycToken();
         break;
       case 'needs_review':
         this.unitedCkycResponse(HyperKycResult);
+        this.getUnitedCkycToken();
         break;
     }
   };
