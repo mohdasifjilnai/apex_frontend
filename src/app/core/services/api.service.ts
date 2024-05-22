@@ -94,7 +94,7 @@ export class ApiService {
             width: 'auto',
             height: 'auto',
             data: {
-              errorData: error,
+              errorData: error.message,
               statusdata: status,
             },
             panelClass: 'failure-dialog-class',
