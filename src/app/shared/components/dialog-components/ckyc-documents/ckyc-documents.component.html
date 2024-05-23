@@ -172,7 +172,7 @@
                     />
                   </mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #dobDate></mat-datepicker>
+                <mat-datepicker #dobDate startView="multi-year"></mat-datepicker>
                 <mat-error
                   *ngIf="
                     uploadDocumentsForm
@@ -216,7 +216,7 @@
                     />
                   </mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #doiDate></mat-datepicker>
+                <mat-datepicker #doiDate startView="multi-year"></mat-datepicker>
                 <mat-error
                   *ngIf="
                     uploadDocumentsForm
@@ -380,6 +380,7 @@
                 </mat-datepicker-toggle>
                 <mat-datepicker
                   #dobDate
+                  startView="multi-year"
                   id-automation="`${fields?.value?.name}`_id"
                 ></mat-datepicker>
                 <mat-error
@@ -426,6 +427,7 @@
                 </mat-datepicker-toggle>
                 <mat-datepicker
                   #doiDate
+                  startView="multi-year"
                   id-automation="`${fields?.value?.name}`_id"
                 ></mat-datepicker>
                 <mat-error

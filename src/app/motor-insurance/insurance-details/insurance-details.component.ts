@@ -9,6 +9,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
 
@@ -32,6 +33,21 @@ export class InsuranceDetailsComponent implements OnInit {
     topObtained: 'auto',
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
+  };
+  changeQuotesJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: CheckQuotesDialogComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'check-quotes-class',
   };
   showCard: boolean = false;
   quoteData: any;
@@ -193,9 +209,9 @@ export class InsuranceDetailsComponent implements OnInit {
   }
   changeInsurer() {
     if (this.renewalType == 'renewal') {
-      this.quotesChange();
+      this.openModal('renewal', this.changeQuotesJSON);
     } else {
-      this.router.navigate(['/motor/quotes']);
+      this.openModal('new', this.changeQuotesJSON);
     }
   }
   quotesChange() {

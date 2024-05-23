@@ -337,7 +337,7 @@
                 appearance="outline"
                 class="vehicle-details-dropdown"
               >
-                <mat-label>Used Car/ RC Transfer</mat-label>
+                <mat-label>Used <span>{{vehicleTypeValue=='private_car'?'Car' : 'Bike'}}</span>/ RC Transfer</mat-label>
                 <mat-select
                   formControlName="user_car"
                   (selectionChange)="onRCTransferChange($event.value)"

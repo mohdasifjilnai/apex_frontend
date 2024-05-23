@@ -142,6 +142,7 @@
             <mat-datepicker
               #ckyc_dob
               id-automation="datepickerCkycDOB"
+              startView="multi-year"
             ></mat-datepicker>
             <mat-error *ngIf="ckycFormGroup.get('dob')?.hasError('required')">
               This is a required field.

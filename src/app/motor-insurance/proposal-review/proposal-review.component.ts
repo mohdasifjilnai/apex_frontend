@@ -203,7 +203,7 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   checkQuotes() {
-    this.openModal('data', this.checkQuotesJson);
+    this.openModal('renewal', this.checkQuotesJson);
   }
   /**
    * this fucntion use open pop up modal

@@ -33,6 +33,7 @@
   <mat-datepicker
     #expiryDate
     (opened)="onOpen()"
+    startView="multi-year"
     id-automation="date_picker_expiry_date_id"
   ></mat-datepicker>
   <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
