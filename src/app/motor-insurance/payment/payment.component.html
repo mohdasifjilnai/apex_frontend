@@ -48,12 +48,17 @@
   </div>
 </div>
 <div class="payment-failure p-5" *ngIf="!paymentSuccess">
-  <div class="text-center">
+  <div class="row">
+    <div class="col-lg-6 col-12 text-center pt-5">
+
     <img
       src="/assets/icon/payment-failure.svg"
       alt=""
       class="inspection-image"
     /><br />
+  </div>
+  <div class="col-lg-6 col-12 text-center">
+
     <div class="opps-text mt-3">Oops!</div>
     <div class="non-successfull-text mt-2">
       Your transaction was unsuccessful
@@ -86,6 +91,7 @@
     </div>
     <div class="homepage-text mt-3" (click)="goTohome()">
       <a>Go to Homepage</a>
-    </div>
+    </div> 
+  </div>
   </div>
 </div>
