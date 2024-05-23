@@ -1436,7 +1436,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.patchData = false;
-    this.getExpiringPolicy();
+    if (this.regDateValue) {
+      this.getExpiringPolicy(this.regDateValue);
+    } else {
+      this.getExpiringPolicy();
+    }
   }
   /**
    * navigates to the motor insurance  page

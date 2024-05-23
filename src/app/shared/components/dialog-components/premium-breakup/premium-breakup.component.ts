@@ -58,7 +58,7 @@ export class PremiumBreakupComponent implements OnInit {
   vehicleTypeValue: any;
   isIdvGreaterThan50Lac: any;
   endPath: string;
-  showAddons: boolean=false;
+  showAddons: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -154,7 +154,7 @@ export class PremiumBreakupComponent implements OnInit {
 
   downloadPremiumBreakup(data: any) {
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup`;
+    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
   }
   /**
@@ -205,7 +205,7 @@ export class PremiumBreakupComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-  showAddonsData(){
-    this.showAddons=!this.showAddons
+  showAddonsData() {
+    this.showAddons = !this.showAddons;
   }
 }
