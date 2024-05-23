@@ -118,6 +118,7 @@
                   aria-label="document_number"
                   placeholder="{{ fields?.value?.name }}"
                   class="text-uppercase"
+                  [maxlength]="documentMaxLength"
                 />
                 <mat-error
                   *ngIf="
@@ -476,7 +477,7 @@
       <div class="col-12 mt-4" [hidden]="isUploadDocment">
         <button
           class="submit-btn continue"
-          [disabled]="!uploadDocumentsForm.valid"
+          [disabled]="!uploadDocumentsForm.valid || POAFileName == '' || POIFileName == ''"
           type="submit"
         >
           Continue

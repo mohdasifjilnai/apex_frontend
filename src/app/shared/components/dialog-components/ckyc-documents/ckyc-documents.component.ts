@@ -67,6 +67,7 @@ export class CkycDocumentsComponent implements OnInit {
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
   isfileInputError: boolean = false;
+documentMaxLength: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -280,6 +281,17 @@ handles the form submit for uploading the required documents
             : null,
         },
       };
+      if(this.uploadDocumentsForm.get('document_type_based_field')?.value=='aadhaar_number'){
+        if (
+          this.fetchCkycParam['insurer_code'] === 'liberty' ||
+          this.fetchCkycParam['insurer_code'] === 'future' ||
+          this.fetchCkycParam['insurer_code'] === 'sbi_general' ||
+          this.fetchCkycParam['insurer_code'] === 'universal_sompo'
+        ){
+          body.poa_document.poa_no=this.uploadDocumentsForm.get('poa_no')?.value.slice(-4)
+        }
+        
+      }
       this.apiService
         .postRequestedResponse(`${ApiConstants.upload_document_save}`, body)
         .subscribe((response) => {
@@ -339,6 +351,30 @@ handles the form submit for uploading the required documents
       )
       .subscribe((res) => {
         this.formGetData = res;
+        const documentNumberBasedField = this.uploadDocumentsForm.get('document_type_based_field');
+        const documentTypeValue=this.uploadDocumentsForm.get('document_type_based_field')?.value
+        if(documentTypeValue=='pan_number'){
+          this.documentMaxLength=10
+        }
+        else if(documentTypeValue=='mobile_number') {
+          this.documentMaxLength=10
+        }else if(documentTypeValue=='aadhaar_number') {
+          this.documentMaxLength=12
+        }else if(documentTypeValue=='ckyc_number'){
+          this.documentMaxLength=14
+        }else if(documentTypeValue=='driving_license'){
+          this.documentMaxLength=15
+        }else if(documentTypeValue=='voter_id'){
+          this.documentMaxLength=10
+        }else if(documentTypeValue=='passport_number'){
+          this.documentMaxLength=8
+        }
+        else if(documentTypeValue=='cin'){
+          this.documentMaxLength=21
+        }
+        else{
+          this.documentMaxLength=30
+        }
         if (res['poa']) {
           this.formFieldPOA = res['poa'];
           this.showPOA = true;

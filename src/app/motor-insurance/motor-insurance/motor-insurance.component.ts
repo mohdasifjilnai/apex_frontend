@@ -343,6 +343,8 @@ export class MotorInsuranceComponent implements OnInit {
     this.isPolicyNumber = false;
     this.disableInsurer = true;
     this.motorInsurance.reset();
+    this.vehicleResponse=null
+    this.rtoResponse=null
     if (this.withoutVehicleNumber) {
       setTimeout(() => {
         this.motorInsurance.get('registration_number')?.setValidators([]);
@@ -369,7 +371,9 @@ export class MotorInsuranceComponent implements OnInit {
       }, 0);
       this.cdr.detectChanges();
     } else {
+      
       setTimeout(() => {
+        
         this.motorInsurance
           .get('registration_number')
           ?.setValidators([Validators.required]);
