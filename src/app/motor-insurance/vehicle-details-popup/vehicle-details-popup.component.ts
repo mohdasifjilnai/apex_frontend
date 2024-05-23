@@ -780,13 +780,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
       apiData = `?rb_rto_id=${this.rto_id}`;
     } else if (type == 'rto_code' && rto_code) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
-      apiData = type == 'rto_code' ? `?search_element=${rto_code}` : '';
+      if (type == 'rto_code') {
+        apiData = `?search_element=${rto_code}`;
+      }
     } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
-      apiData =
-        type == 'rto_code'
-          ? `?search_element=${this.registrationNumber?.rb_rto_code}`
-          : '';
+      if (type == 'rto_code') {
+        apiData = `?search_element=${this.registrationNumber?.rb_rto_code}`;
+      }
     }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
@@ -800,7 +801,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ].valueChanges.pipe(
             debounceTime(500),
             startWith(''),
-            switchMap((name) => this.filterRTO(name)),
+            switchMap((name) => (name ? this.filterRTO(name) : '')),
             catchError((error) => {
               this.rtoDataNotAvailable = 'Error fetching data';
               return of(['No result found']);
@@ -1067,7 +1068,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         });
       } else {
         this.vehicleDetailsForm.patchValue({
-          ncb_discount: allData?.ncb_discount == allData?.ncb_discount ,
+          ncb_discount: allData?.ncb_discount == allData?.ncb_discount,
         });
       }
     }
@@ -1081,7 +1082,22 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.registrationNumber?.registration_month &&
         this.registrationNumber?.registration_year
       ) {
-        this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+        let dateObj;
+        let regMonth;
+        let yeardata;
+        let year;
+        if (date != undefined) {
+          dateObj = moment(date, 'MM/YYYY');
+          regMonth = moment(dateObj).month();
+
+          yeardata = moment(dateObj).format('YYYY');
+          year = moment(dateObj).year();
+          this.registrationMonth = moment(regMonth + 1, 'MM').format('MM');
+          this.regDateObj = `${this.registrationMonth}/${year}`;
+        } else {
+          this.regDateObj = `${this.registrationNumber?.registration_month}/${this.registrationNumber?.registration_year}`;
+        }
+
         let policyExpiryDateValue;
         let policyDate = '';
         if (!policyExpiryDate) {
@@ -1090,10 +1106,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.registrationNumber?.previous_policy_exp_date
             );
 
-            policyDate = moment(this.registrationNumber?.previous_policy_exp_date, 'DD-MM-YYYY').format('DD/MM/YYYY');
+            policyDate = moment(
+              this.registrationNumber?.previous_policy_exp_date,
+              'DD-MM-YYYY'
+            ).format('DD/MM/YYYY');
           }
         } else {
-          policyDate = moment(policyExpiryDate, 'DD-MM-YYYY').format('DD/MM/YYYY');
+          policyDate = moment(policyExpiryDate, 'DD-MM-YYYY').format(
+            'DD/MM/YYYY'
+          );
         }
 
         let userRCtransfer = this.vehicleDetailsForm.value.user_car
@@ -1335,7 +1356,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     for (let i = 0; i <= this.expiryList.length - 1; i++) {
       if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
         this.policyTypeBaseNCB = this.expiryList[i].offered_ncb_value;
-        this.vehicleDetailsForm.get('ncb_discount')?.setValue(this.policyTypeBaseNCB);
+        this.vehicleDetailsForm
+          .get('ncb_discount')
+          ?.setValue(this.policyTypeBaseNCB);
       }
     }
     if (this.isEditable?.is_editable) {
