@@ -351,30 +351,7 @@ handles the form submit for uploading the required documents
       )
       .subscribe((res) => {
         this.formGetData = res;
-        const documentNumberBasedField = this.uploadDocumentsForm.get('document_type_based_field');
-        const documentTypeValue=this.uploadDocumentsForm.get('document_type_based_field')?.value
-        if(documentTypeValue=='pan_number'){
-          this.documentMaxLength=10
-        }
-        else if(documentTypeValue=='mobile_number') {
-          this.documentMaxLength=10
-        }else if(documentTypeValue=='aadhaar_number') {
-          this.documentMaxLength=12
-        }else if(documentTypeValue=='ckyc_number'){
-          this.documentMaxLength=14
-        }else if(documentTypeValue=='driving_license'){
-          this.documentMaxLength=15
-        }else if(documentTypeValue=='voter_id'){
-          this.documentMaxLength=10
-        }else if(documentTypeValue=='passport_number'){
-          this.documentMaxLength=8
-        }
-        else if(documentTypeValue=='cin'){
-          this.documentMaxLength=21
-        }
-        else{
-          this.documentMaxLength=30
-        }
+        
         if (res['poa']) {
           this.formFieldPOA = res['poa'];
           this.showPOA = true;
@@ -399,6 +376,38 @@ handles the form submit for uploading the required documents
         }
         if (res['poa'] && res['poi']) {
           this.isTwoObject = true;
+        }
+        const documentNumberBasedField = this.uploadDocumentsForm.get('poa_no');
+        const documentTypeValue=this.uploadDocumentsForm.get('document_type_based_field')?.value
+        if(documentTypeValue=='pan_number'){
+          this.documentMaxLength=10
+          documentNumberBasedField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)])
+        }
+        else if(documentTypeValue=='mobile_number') {
+          this.documentMaxLength=10
+          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{10}')]);
+        }else if(documentTypeValue=='aadhaar_number') {
+          this.documentMaxLength=12
+          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{12}')]);
+        }else if(documentTypeValue=='ckyc_number'){
+          this.documentMaxLength=14
+          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{14}')]);
+        }else if(documentTypeValue=='driving_license'){
+          this.documentMaxLength=15
+          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z]{2}\d{13}$/)]);
+        }else if(documentTypeValue=='voter_id'){
+          this.documentMaxLength=10
+          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/)]);
+        }else if(documentTypeValue=='passport_number'){
+          this.documentMaxLength=8
+          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/)]);
+        }
+        else if(documentTypeValue=='cin'){
+          this.documentMaxLength=21
+          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{21}$/)])
+        }
+        else{
+          this.documentMaxLength=30
         }
       });
   }

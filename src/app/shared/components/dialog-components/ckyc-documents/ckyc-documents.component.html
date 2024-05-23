@@ -129,6 +129,15 @@
                 >
                   This is a required field.
                 </mat-error>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('pattern')
+                  "
+                >
+                  Invalid Document Number
+                </mat-error>
               </mat-form-field>
             </div>
             <div
