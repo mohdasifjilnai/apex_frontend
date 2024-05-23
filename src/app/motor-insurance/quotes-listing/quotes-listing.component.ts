@@ -54,6 +54,7 @@ export class QuotesListingComponent implements OnInit {
   gstValue: any;
   emailInsurer: any;
   selectedTabIndex: any;
+  refreshPageApiHandling = false;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -715,13 +716,14 @@ export class QuotesListingComponent implements OnInit {
             this.renewalDataList = true;
           }
         }
-        if (this.renewalDataList) {
+        if (this.renewalDataList && !this.refreshPageApiHandling) {
           this.sharedDataService.vehicleMMVDetails(
             productTypeValue,
             mmvFormData,
             'mmvQuotes'
           );
         }
+        this.refreshPageApiHandling = false;
       }
       this.sharedDataService.addOnsChange(mmvFormData);
       this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
@@ -850,6 +852,7 @@ export class QuotesListingComponent implements OnInit {
                 this.mmvFormData,
                 'mmvQuotes'
               );
+              this.refreshPageApiHandling = true;
             }
           }
           this.sharedDataService.addOnsChange(this.mmvFormData);
