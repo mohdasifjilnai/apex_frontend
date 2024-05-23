@@ -1072,11 +1072,16 @@ export class VehicleDetailsPopupComponent implements OnInit {
         });
       }
     }
-    this.getExpiringPolicy();
+    if (this.regDateValue) {
+      this.getExpiringPolicy(this.regDateValue);
+    } else {
+      this.getExpiringPolicy();
+    }
   }
 
   getExpiringPolicy(date?: any, policyExpiryDate?: any, dateChange?: any) {
     let expiringPolicyType;
+
     if (this.registrationNumber) {
       if (
         this.registrationNumber?.registration_month &&
