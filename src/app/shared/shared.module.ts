@@ -59,6 +59,7 @@ import { CkycDocumentsComponent } from './components/dialog-components/ckyc-docu
 import { CheckQuotesDialogComponent } from './components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 import { ReviewAddonsComponent } from './components/dialog-components/review-addons/review-addons.component';
 import { CheckVehicleTypeComponent } from './components/dialog-components/check-vehicle-type/check-vehicle-type.component';
+import { AlphanumericWithSlashDirective } from './directives/alphanumeric-with-slash.directive';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { CheckVehicleTypeComponent } from './components/dialog-components/check-
     CheckQuotesDialogComponent,
     ReviewAddonsComponent,
     CheckVehicleTypeComponent,
+    AlphanumericWithSlashDirective,
   ],
   imports: [
     CommonModule,
@@ -168,6 +170,7 @@ import { CheckVehicleTypeComponent } from './components/dialog-components/check-
     MmYyyyformatDirective,
     RemoveZeroFromStartingDirective,
     NotAllowDotDirective,
+    AlphanumericWithSlashDirective,
   ],
 })
 export class SharedModule {}

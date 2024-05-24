@@ -1,6 +1,8 @@
 <mat-form-field appearance="outline" class="multi-drop-down-fields">
-    <mat-label>Multi select drop down</mat-label>
-    <mat-select placeholder="Toppings" [formControl]="toppings"  multiple>
-      <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <mat-label>Multi select drop down</mat-label>
+  <mat-select [formControl]="toppings" multiple>
+    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
+      topping
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>

@@ -83,9 +83,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =
-            proposal?.vehicle_details?.registration_date.split('/').map(Number);
+        proposal?.vehicle_details?.registration_date.split('/').map(Number);
       const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
-      this.tpStartminDate=reformattedRegDate
+      this.tpStartminDate = reformattedRegDate;
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
@@ -421,13 +421,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm?.disable();
     }
   }
-  onTpStartDateSelected(event: any){
+  onTpStartDateSelected(event: any) {
     this.previousPolicyDetailsForm
-            .get('tp_policy_end_date')
-            ?.updateValueAndValidity();
-    this.previousPolicyDetailsForm
-    .get('tp_policy_end_date')
-    ?.reset();        
+      .get('tp_policy_end_date')
+      ?.updateValueAndValidity();
+    this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
     const selectedDate = new Date(event.value);
     selectedDate.setFullYear(selectedDate.getFullYear() + 1);
     selectedDate.setDate(selectedDate.getDate() - 1);

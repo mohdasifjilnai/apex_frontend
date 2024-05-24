@@ -332,7 +332,7 @@ export class ProposalReviewComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           const insurers = ['future', 'liberty', 'universal_sompo'];
-          if (insurers.includes(this.quoteData?.insurer_code)) {
+          if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.getPrevPolicyDetails(response);
           }
 
@@ -382,6 +382,7 @@ export class ProposalReviewComponent implements OnInit {
         // Store mmv_data object in session storage
         sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
       }
+      this.shareData.sendRenewalMmv(mmv_data);
       this.apiService
         .getRequestedResponse(
           `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}`
@@ -410,7 +411,6 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   getPrevPolicyDetails(getInsurerData: any) {
-    const quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     let diesel;
     if (
       getInsurerData?.quote_request?.meta_data?.mmv_form_data?.vehicle_fuel ==
@@ -422,7 +422,7 @@ export class ProposalReviewComponent implements OnInit {
     }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.pre_policy_addons}?insurer_code=${quoteData?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${quoteData?.quote_id}`
+        `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`
       )
       .subscribe((res: any) => {
         this.preAddons = res;

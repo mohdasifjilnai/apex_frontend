@@ -37,7 +37,6 @@
           >
             <mat-label>Select Document Type</mat-label>
             <mat-select
-              placeholder="Select Document Type"
               formControlName="document_type_based_field"
               (ngModelChange)="getDocumentKey($event)"
             >
@@ -76,7 +75,6 @@
               >
                 <mat-label>{{ fields?.value?.name }}</mat-label>
                 <mat-select
-                  placeholder="`Select"
                   {{
                   fields?.value?.name
                   }}`
@@ -116,7 +114,6 @@
                   [formControlName]="fields?.value?.label"
                   matInput
                   aria-label="document_number"
-                  placeholder="{{ fields?.value?.name }}"
                   class="text-uppercase"
                   [maxlength]="documentMaxLength"
                 />
@@ -155,7 +152,6 @@
                 <input
                   matInput
                   [matDatepicker]="dobDate"
-                  placeholder="fields?.value?.name "
                   [formControlName]="fields?.value?.label"
                   id-automation="`${fields?.value?.name}`"
                   #dobDateInput
@@ -172,7 +168,10 @@
                     />
                   </mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #dobDate startView="multi-year"></mat-datepicker>
+                <mat-datepicker
+                  #dobDate
+                  startView="multi-year"
+                ></mat-datepicker>
                 <mat-error
                   *ngIf="
                     uploadDocumentsForm
@@ -199,7 +198,6 @@
                 <input
                   matInput
                   [matDatepicker]="doiDate"
-                  placeholder="fields?.value?.name "
                   [formControlName]="fields?.value?.label"
                   id-automation="`${fields?.value?.name}`"
                   #doiDateInput
@@ -216,7 +214,10 @@
                     />
                   </mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #doiDate startView="multi-year"></mat-datepicker>
+                <mat-datepicker
+                  #doiDate
+                  startView="multi-year"
+                ></mat-datepicker>
                 <mat-error
                   *ngIf="
                     uploadDocumentsForm
@@ -293,7 +294,6 @@
               >
                 <mat-label>{{ fields?.value?.name }}</mat-label>
                 <mat-select
-                  placeholder="Select {{ fields?.value?.name }}"
                   [formControlName]="fields?.value?.lable"
                   (selectionChange)="
                     onSelectionChange($event, fields?.value?.label)
@@ -333,7 +333,6 @@
                   [formControlName]="fields?.value?.label"
                   matInput
                   aria-label="document_number"
-                  placeholder="{{ fields?.value?.name }}"
                   class="text-uppercase"
                 />
                 <mat-error
@@ -362,7 +361,6 @@
                 <input
                   matInput
                   [matDatepicker]="dobDate"
-                  [placeholder]="fields?.value?.name"
                   [formControlName]="fields?.value?.label"
                   #dobDateInput
                   appDateFormat
@@ -409,7 +407,6 @@
                 <input
                   matInput
                   [matDatepicker]="doiDate"
-                  [placeholder]="fields?.value?.name"
                   [formControlName]="fields?.value?.label"
                   #doiDateInput
                   appDateFormat
