@@ -99,6 +99,7 @@ export class MotorInsuranceComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     private cdr: ChangeDetectorRef
   ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     // if (window.innerWidth <= 768) {
     //   this.bottomSheet.open(NotCertifiedComponent);
     // } else {
@@ -106,6 +107,7 @@ export class MotorInsuranceComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
       this.motorInsurance.reset();

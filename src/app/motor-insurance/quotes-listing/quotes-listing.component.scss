@@ -36,6 +36,8 @@
       height: 34px;
       text-align: end;
       font-weight: 600;
+      display: flex;
+      justify-content: center;
     }
     .premium-breakup {
       color: #5384ea;
@@ -488,8 +490,12 @@
       display: none;
     }
     .comprehensive-tab {
-      .premium-btn {
-        text-align: end;
+      .premium-btn-tp {
+        margin-top: 7px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
       }
     }
     ::ng-deep .mat-radio-button {

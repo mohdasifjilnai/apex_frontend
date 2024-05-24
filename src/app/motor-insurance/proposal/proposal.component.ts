@@ -84,6 +84,7 @@ export class ProposalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.renewalDetails = sessionStorage.getItem('renewalDetails');
     const parsedRenewalDetails = JSON.parse(this.renewalDetails);
     if (parsedRenewalDetails) {

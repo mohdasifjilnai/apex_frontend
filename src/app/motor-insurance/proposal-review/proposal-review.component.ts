@@ -115,6 +115,7 @@ export class ProposalReviewComponent implements OnInit {
     private router: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');

@@ -74,6 +74,7 @@ export class QuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
 
     this.route.queryParamMap.subscribe((params) => {

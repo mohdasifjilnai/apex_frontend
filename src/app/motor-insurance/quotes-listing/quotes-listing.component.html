@@ -152,7 +152,7 @@
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
-                    ></mat-checkbox>
+                    >Add to Share</mat-checkbox>
                   </div>
                 </div>
               </div>
@@ -345,15 +345,15 @@
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
-                    ></mat-checkbox>
+                    >Add to Share</mat-checkbox>
                   </div>
                 </div>
               </div>
 
               <!-- {{quotes.insurer_name}} -->
-              <div class="col-lg-6 col-md-6 col-6">
+              <div class="col-lg-6 col-md-6" >
                 <div class="d-flex justify-content-between">
-                  <div *ngIf="addShare" class="web-checkbox">
+                  <div class=" web-checkbox" *ngIf="addShare">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
@@ -362,7 +362,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-6 premium-btn">
+              <div class="col-lg-3 col-md-3 col-12 premium-btn-tp">
                 <div class="renewal-card" (click)="getProposalDetails(quotes)" *ngIf="renewalType=='renewal' && quotes?.insurer_code==insurerCode">
                   <span class="text">Renewal Quote</span>
                 <button
