@@ -64,7 +64,7 @@ export class SharedDataService {
   checkRenewalQuotes = new BehaviorSubject<any>(null);
   updateVehicleType = new BehaviorSubject<any>(null);
   renewalVehicleData = new BehaviorSubject<any>(null);
-
+  getRenewalMmv = new BehaviorSubject<any>(null);
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
 
   changePolicyExpDate: Subject<any> = new Subject();
@@ -303,7 +303,8 @@ export class SharedDataService {
       partner_code: localStorage.getItem('partner_code')
         ? localStorage.getItem('partner_code')
         : '',
-      offered_ncb_value: data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
+      offered_ncb_value:
+        data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
     };
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
@@ -735,7 +736,6 @@ export class SharedDataService {
       .subscribe(
         (res) => {
           if (res) {
-            console.log(res)
             this.createdProposalId = res;
             sessionStorage.setItem('proposal_Id', res?.proposal_id);
             this.sendProposalData(res);
@@ -1083,5 +1083,8 @@ export class SharedDataService {
 
   renewalData(data: any) {
     this.renewalVehicleData.next(data);
+  }
+  sendRenewalMmv(data: any) {
+    this.getRenewalMmv.next(data);
   }
 }

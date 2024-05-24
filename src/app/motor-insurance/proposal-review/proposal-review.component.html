@@ -52,8 +52,7 @@
       </div>
       <div class="row m-2">
         <div class="col-lg-3 col-md-3 col-6 mt-3">
-          <span class="field-title">Salutation</span
-          ><br />
+          <span class="field-title">Salutation</span><br />
           <span class="field-value">{{
             generateProposalData?.customer_details?.salutation  || "-"
             | titlecase}}</span>
@@ -427,10 +426,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="acknowledgment-confirm mt-2"
-          *ngIf="generateProposalData?.previous_policy_details?.is_consent"
-        >
+        <div class="acknowledgment-confirm mt-2" *ngIf="preAddons?.is_consent">
           <div class="d-flex">
             <mat-checkbox
               class="custom-checkbox"

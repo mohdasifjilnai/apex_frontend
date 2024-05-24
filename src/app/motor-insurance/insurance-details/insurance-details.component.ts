@@ -100,6 +100,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.productType = sessionStorage.getItem('productType');
+    this.sharedData.getRenewalMmv.subscribe((mmv_data: any) => {
+      if (!this.mmvData) {
+        this.mmvData = mmv_data;
+      }
+    });
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
      */

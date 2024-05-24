@@ -765,7 +765,7 @@ export class ProposalComponent implements OnInit {
     this.apiService
       .postRequestedResponse(ApiConstants.united_ckyc_response, data)
       .subscribe((res) => {
-        if (res?.status==true) {
+        if (res?.status == true) {
           this.sharedData.openSnackBar(res?.message, true, 3000);
           this.sharedData.createProposalId();
         } else {
@@ -838,7 +838,7 @@ export class ProposalComponent implements OnInit {
 
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.getCoverageType}?reg_year=${response?.quote_request?.registration_year}&vehicle_type=${response?.quote_request?.vehicle_type}`
+              `${ApiConstants.getCoverageType}?reg_year=${response?.quote_request?.registration_year}&vehicle_type=${response?.quote_request?.vehicle_type}&previous_policy_type=${response?.quote_request?.product_type}&previous_policy_expiry_date=${response?.quote_request?.previous_policy_exp_date}`
             )
             .subscribe((res: any) => {
               if (res) {
@@ -903,6 +903,7 @@ export class ProposalComponent implements OnInit {
           if (mmvData) {
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
           }
+          this.sharedData.sendRenewalMmv(mmvData);
         }
       });
   }

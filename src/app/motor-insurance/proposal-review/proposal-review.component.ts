@@ -166,8 +166,8 @@ export class ProposalReviewComponent implements OnInit {
     this.proposalType = sessionStorage.getItem('proposerType');
   }
   navigateToUrl(titleName: string) {
-    let proposal_punched=sessionStorage.getItem('proposal_punched')
-    if(!proposal_punched){
+    let proposal_punched = sessionStorage.getItem('proposal_punched');
+    if (!proposal_punched) {
       if (this.proposalData) {
         this.route.navigate([
           `/motor/quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
@@ -176,25 +176,21 @@ export class ProposalReviewComponent implements OnInit {
         this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
         this.shareData.sendProposalReviewEditId(titleName);
       }
-    }else{
-      this.shareData.openSnackBar('Proposal Already Created ',
-        true,
-        3000
-      );
+    } else {
+      this.shareData.openSnackBar('Proposal Already Created ', true, 3000);
     }
-    
   }
   back() {
     this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
-    if (this.generateProposalData?.previous_policy_details?.is_consent) {
+    if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();
     }
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     if (window.innerWidth <= 999) {
       const bottomSheetConfig: MatBottomSheetConfig = {
-        data: [this.quoteData], 
+        data: [this.quoteData],
       };
       this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
       this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
@@ -316,10 +312,10 @@ export class ProposalReviewComponent implements OnInit {
         this.isAcknowledged !== this.isAcknowledgedConsent) ||
       (this.isAcknowledged &&
         !this.isAcknowledgedConsent &&
-        !this.generateProposalData?.previous_policy_details?.is_consent) ||
+        !this.preAddons?.is_consent) ||
       (!this.isAcknowledged &&
         this.isAcknowledgedConsent &&
-        !this.generateProposalData?.previous_policy_details?.is_consent)
+        !this.preAddons?.is_consent)
     ) {
       this.isButtonEnabled = true;
     } else {
@@ -334,9 +330,11 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((response) => {
         if (response) {
-          if (this.generateProposalData?.previous_policy_details?.is_consent) {
+          const insurers = ['future', 'liberty', 'universal_sompo'];
+          if (insurers.includes(this.quoteData?.insurer_code)) {
             this.getPrevPolicyDetails(response);
           }
+
           this.shareData.getInsurerDetail(response);
         }
       });

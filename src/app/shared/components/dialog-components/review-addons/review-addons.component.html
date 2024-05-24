@@ -15,7 +15,10 @@
         />
       </div>
     </div>
-    <div class="d-grid" *ngFor="let addons of previousAddons; let i = index">
+    <div
+      class="d-grid"
+      *ngFor="let addons of previousAddons.data; let i = index"
+    >
       <span class="addons-value">{{ i + 1 }} {{ addons?.rb_name }}</span>
     </div>
   </div>
