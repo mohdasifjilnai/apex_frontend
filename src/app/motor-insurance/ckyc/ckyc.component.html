@@ -192,19 +192,17 @@
           class="submit-btn owner-vehicle-submission"
           type="submit"
           [disabled]="
-            (isEnableCKyc &&
-              (!ckycFormGroup.valid || !isDownloading || isDisableCKyc)) ||
-            (!isEnableCKyc && isDisableCKyc)
+            isEnableCKyc
+              ? !ckycFormGroup.valid || !isDownloading || isDisableCKyc
+              : false
           "
         >
           {{
-            !isEnableCKyc
+            isEnableCKyc
               ? changeSubmitCkycName
                 ? "Save & Continue"
-                : "Proceed CKYC"
-              : changeSubmitCkycName
-              ? "Save & Continue"
-              : "Fetch Details"
+                : "Fetch Details"
+              : "Proceed CKYC"
           }}
         </button>
       </div>
