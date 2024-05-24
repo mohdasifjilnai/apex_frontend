@@ -16,7 +16,6 @@
         (opened)="loadCkyc('ckyc')"
         id-automation="ckyc_details"
         [expanded]="accordianExpanded === 'ckyc'"
-        *ngIf="isNotShowCkycDetails"
       >
         <mat-expansion-panel-header>
           <mat-panel-title> CKYC </mat-panel-title>
@@ -120,10 +119,7 @@
           (selectionChange)="onStepChange($event)"
           [selectedIndex]="currentStepIndex"
         >
-          <mat-step
-            [completed]="showVehicleOwnerDetails"
-            *ngIf="isNotShowCkycDetails"
-          >
+          <mat-step [completed]="showVehicleOwnerDetails">
             <hr />
             <div class="row mb-5">
               <app-ckyc

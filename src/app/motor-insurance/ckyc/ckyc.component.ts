@@ -14,6 +14,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
+declare var HyperKYCModule: any;
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -42,6 +43,10 @@ export class CkycComponent implements OnInit {
   isDownloading: boolean = false;
   insurerCode: any;
   isDisableCKyc: boolean = false;
+  isEnableCKyc: boolean = true;
+  proposalId: any;
+  unitedTokenValue: any;
+  decodedString: any;
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -116,7 +121,13 @@ export class CkycComponent implements OnInit {
     this.getDocumentType();
     let isSubmitCkycFormGroupCalled = false;
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
+      this.proposalId = proposal?.proposal_id;
       if (proposal?.ckyc_details !== null) {
+        if (this.quoteData?.insurer_code == 'united_india') {
+          if (proposal?.ckyc_details?.is_verification) {
+            this.isDisableCKyc = true;
+          }
+        }
         this.isCkycDone = true;
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
@@ -132,14 +143,14 @@ export class CkycComponent implements OnInit {
           if (this.ckycFormGroup.valid) {
             let isCkycDone = sessionStorage.getItem('isCKycDOne');
             if (!isCkycDone) {
-              if(!kycData?.verification_status){
+              if (!kycData?.verification_status) {
                 this.submitCkycFormGroup(true);
               }
               isSubmitCkycFormGroupCalled = true;
             }
           }
         }
-        
+
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
           sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -186,6 +197,10 @@ export class CkycComponent implements OnInit {
     if (parsedRenewalDetails?.ckyc_status) {
       this.ckycFormGroup?.disable();
     }
+    if (this.quoteData?.insurer_code == 'united_india') {
+      // this.ckycFormGroup.disable();
+      this.isEnableCKyc = false;
+    }
   }
 
   /**
@@ -230,6 +245,9 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
+    if (this.quoteData?.insurer_code == 'united_india') {
+      this.getUnitedCkycToken();
+    }
     sessionStorage.setItem(
       'previous_insurerCode',
       JSON.stringify(this.quoteData['insurer_code'])
@@ -402,37 +420,54 @@ export class CkycComponent implements OnInit {
    */
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
-    const documentNumberBasedField = this.ckycFormGroup.get('document_number_based_field');
-    if(event=='pan_number'){
-      this.documentMaxLength=10
-      documentNumberBasedField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)]);
-    }
-    else if(event=='mobile_number') {
-      this.documentMaxLength=10
-      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{10}')]);
-    }else if(event=='aadhaar_number') {
-      this.documentMaxLength=12
-      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{12}')]);
-    }else if(event=='ckyc_number'){
-      this.documentMaxLength=14
-      documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{14}')]);
-    }else if(event=='driving_license'){
-      this.documentMaxLength=15
-      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z]{2}\d{13}$/)]);
-    }else if(event=='voter_id'){
-      this.documentMaxLength=10
-      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/)]);
-    }else if(event=='passport_number'){
-      this.documentMaxLength=8
-      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/)]);
-    }
-    else if(event=='cin'){
-      this.documentMaxLength=21
-      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{21}$/)]);
-    }
-    else{
-      this.documentMaxLength=30
-      documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{30}$/)]);
+    const documentNumberBasedField = this.ckycFormGroup.get(
+      'document_number_based_field'
+    );
+    if (event == 'pan_number') {
+      this.documentMaxLength = 10;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/),
+      ]);
+    } else if (event == 'mobile_number') {
+      this.documentMaxLength = 10;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern('[0-9]{10}'),
+      ]);
+    } else if (event == 'aadhaar_number') {
+      this.documentMaxLength = 12;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern('[0-9]{12}'),
+      ]);
+    } else if (event == 'ckyc_number') {
+      this.documentMaxLength = 14;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern('[0-9]{14}'),
+      ]);
+    } else if (event == 'driving_license') {
+      this.documentMaxLength = 15;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^[A-Za-z]{2}\d{13}$/),
+      ]);
+    } else if (event == 'voter_id') {
+      this.documentMaxLength = 10;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/),
+      ]);
+    } else if (event == 'passport_number') {
+      this.documentMaxLength = 8;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/),
+      ]);
+    } else if (event == 'cin') {
+      this.documentMaxLength = 21;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^[A-Za-z0-9]{21}$/),
+      ]);
+    } else {
+      this.documentMaxLength = 30;
+      documentNumberBasedField?.setValidators([
+        Validators.pattern(/^[A-Za-z0-9]{30}$/),
+      ]);
     }
     this.ckycFormGroup.patchValue({
       document_number_based_field: '',
@@ -501,5 +536,91 @@ export class CkycComponent implements OnInit {
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedDataService.handleEnterKey(event, manufacture);
+  }
+  /**
+   * get united Ckyc Token api
+   */
+
+  getUnitedCkycToken() {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${this.quoteData?.quote_id}&transaction_id=${this.quoteData?.transaction_id}`
+      )
+      .subscribe((res) => {
+        this.unitedTokenValue = res;
+        const base64String = `${res?.workflow_id}`;
+        this.decodedString = atob(base64String);
+        setTimeout(() => {
+          this.unitedCkycVerification(res?.token, this.decodedString);
+        }, 1000);
+      });
+  }
+
+  unitedCkycVerification(token: any, workflod_id: any) {
+    const accessToken = `${token}`;
+    const hyperKycConfig = new (window as any).HyperKycConfig(
+      accessToken,
+      `${workflod_id}`,
+      `${this.proposalId}`
+    );
+    // (window as any).HyperKYCModule.launch(hyperKycConfig, this.handler);
+    this.launchHyperKYC(hyperKycConfig);
+  }
+
+  launchHyperKYC(config: any) {
+    HyperKYCModule.launch(config, this.handler);
+  }
+
+  handler = (HyperKycResult: any) => {
+    switch (HyperKycResult.status) {
+      case 'user_cancelled':
+        this.sharedDataService.openSnackBar(
+          HyperKycResult['errorMessage'],
+          false,
+          3000
+        );
+        this.unitedCkycResponse(HyperKycResult);
+        break;
+      case 'error':
+        this.sharedDataService.openSnackBar(
+          HyperKycResult['errorMessage'],
+          false,
+          3000
+        );
+        this.unitedCkycResponse(HyperKycResult);
+        break;
+      case 'auto_approved':
+        this.unitedCkycResponse(HyperKycResult);
+        break;
+      case 'auto_declined':
+        this.unitedCkycResponse(HyperKycResult);
+        break;
+      case 'needs_review':
+        this.unitedCkycResponse(HyperKycResult);
+        break;
+    }
+  };
+
+  /**
+   * United CKYC Response Update
+   */
+
+  unitedCkycResponse(ckycResponse: any) {
+    const data = {
+      transaction_id: this.quoteData?.transaction_id,
+      proposal_id: this.proposalId,
+      ckyc_response: { ckycResponse },
+    };
+    this.apiService
+      .postRequestedResponse(ApiConstants.united_ckyc_response, data)
+      .subscribe((res) => {
+        if (res?.status == true) {
+          this.sharedDataService.openSnackBar(res?.message, true, 3000);
+          this.sharedDataService.createProposalId();
+        } else {
+          this.sharedDataService.openSnackBar(res?.message, false, 3000);
+          this.getUnitedCkycToken();
+        }
+      });
   }
 }

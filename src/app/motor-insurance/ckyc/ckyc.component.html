@@ -25,7 +25,7 @@
         </div>
       </div> -->
       <ng-container *ngIf="!isCheckKyc">
-        <div class="col-lg-4 col-md-6 col-12">
+        <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field
             appearance="outline"
             class="document-list mat-input-custom"
@@ -53,7 +53,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-lg-4 col-md-6 col-12">
+        <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field
             appearance="outline"
             class="document_number mat-input-custom"
@@ -97,14 +97,14 @@
           </mat-form-field>
         </div>
         <ng-container *ngIf="documentName == 'aadhaar_number'">
-          <div class="col-lg-4 col-md-6 col-12">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
             <app-owner-full-name
               [required]="true"
               [formControlNameData]="'ckyc_full_name'"
               [label]="'Full Name'"
             ></app-owner-full-name>
           </div>
-          <div class="col-lg-4 col-md-6 col-12">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
             <app-owner-gender
               [formControlNameData]="'ckyc_gender'"
               [label]="'Gender'"
@@ -113,7 +113,7 @@
           </div>
         </ng-container>
 
-        <div class="col-lg-4 col-md-6 col-12">
+        <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field appearance="outline" class="mat-input-custom">
             <mat-label>{{ dobPlaceholder }}</mat-label>
             <input
@@ -151,7 +151,7 @@
         </div>
       </ng-container>
       <ng-container *ngIf="isCheckKyc">
-        <div class="col-lg-4 col-md-6 col-12">
+        <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field
             appearance="outline"
             class="CKYC_Number mat-input-custom"
@@ -171,7 +171,7 @@
           </mat-form-field>
         </div>
       </ng-container>
-      <div class="acknowledgment-confirm">
+      <div class="acknowledgment-confirm" *ngIf="isEnableCKyc">
         <div class="display-checkbox">
           <mat-checkbox
             class="custom-checkbox"
@@ -186,15 +186,33 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row d-flex">
       <div class="col-lg-4 col-md-6 col-12 mt-2">
         <button
           class="submit-btn owner-vehicle-submission"
           type="submit"
-          [disabled]="!ckycFormGroup.valid || !isDownloading || isDisableCKyc"
+          [disabled]="
+            (isEnableCKyc &&
+              (!ckycFormGroup.valid || !isDownloading || isDisableCKyc)) ||
+            (!isEnableCKyc && isDisableCKyc)
+          "
         >
-          {{ changeSubmitCkycName ? "Save & Continue" : "Fetch Details" }}
+          {{
+            !isEnableCKyc
+              ? changeSubmitCkycName
+                ? "Save & Continue"
+                : "Proceed CKYC"
+              : changeSubmitCkycName
+              ? "Save & Continue"
+              : "Fetch Details"
+          }}
         </button>
+      </div>
+      <div class="col-lg-6 mt-4" *ngIf="!isEnableCKyc">
+        <span
+          >Please click on <span class="fw-bolder">"Proceed button"</span> to
+          complete your CKYC...</span
+        >
       </div>
     </div>
   </form>
