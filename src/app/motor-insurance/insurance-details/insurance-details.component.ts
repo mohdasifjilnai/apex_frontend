@@ -71,6 +71,7 @@ export class InsuranceDetailsComponent implements OnInit {
   productType: any;
   url: any;
   showInsurerButton = true;
+  downloadLoader: boolean=false;
   constructor(
     public matDialog: WindowRef,
 
@@ -257,7 +258,7 @@ export class InsuranceDetailsComponent implements OnInit {
     let quotesValue = JSON.parse(this.quotesDetails);
     let url;
     if (quotesValue?.quote_id) {
-      url = `?quote_id=${quotesValue?.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details`;
+      url = `?quote_id=${quotesValue?.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=uw_details&transaction_id=${this.quoteData?.transaction_id}`;
       this.apiservice
         .getRequestedResponse(`${ApiConstants?.downloadPremiumBreakup}${url}`)
         .subscribe((res: any) => {
@@ -299,8 +300,14 @@ export class InsuranceDetailsComponent implements OnInit {
    */
 
   downloadPremiumBreakup() {
+    this.downloadLoader=true
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form`;
+    let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
+    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
+      if(response){
+        this.downloadLoader=false
+      }
+  })
   }
 }

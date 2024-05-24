@@ -315,10 +315,14 @@
       class="download-button mt-3"
       id-automation="download_underwriting"
       (click)="downloadPremiumBreakup()"
+      *ngIf="!downloadLoader"
     >
       <img src="/assets/icon/download.svg" alt="" class="edit-image" />
       Download
     </button>
+    <div class="download-button text-center mt-3" *ngIf="downloadLoader">
+      <img class="loader" src="assets/gif/downloadLoader.gif" alt=""/>
+    </div>
   </div>
 </div>
 <div class="res-insurance-details">

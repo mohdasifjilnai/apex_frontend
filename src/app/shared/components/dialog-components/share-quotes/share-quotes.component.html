@@ -32,13 +32,16 @@
             maxlength="10"
             appNumbersOnly
           />
-          <button class="social-media-image" (click)="shareQuotes()">
+          <button class="social-media-image"  *ngIf="!whatsappShareLoader" (click)="shareQuotes('whatsapp')">
             <img
               src="/assets/icon/whatsapp.svg"
               class="whatsapp-image"
               alt="close"
             />
           </button>
+          <div class="social-media-image" *ngIf="whatsappShareLoader">
+            <img class="loader" src="assets/gif/shareLoader.gif" alt="" />
+          </div>
         </mat-form-field>
       </div>
       <div class="col-12">
@@ -56,15 +59,20 @@
           />
           <button
             class="social-media-image"
-            (click)="shareQuotes()"
+            (click)="shareQuotes('mobile')"
             [disabled]="shareQuotationForm.invalid"
+            *ngIf="!mobileShareLoader"
           >
             <img
               src="/assets/icon/sms.svg"
               class="whatsapp-image"
               alt="close"
             />
+            
           </button>
+          <div class="social-media-image" *ngIf="mobileShareLoader">
+            <img class="loader" src="assets/gif/shareLoader.gif" alt=""/>
+          </div>
         </mat-form-field>
       </div>
       <div class="col-12">
@@ -82,8 +90,9 @@
           <button
             class="social-media-image"
             type="submit"
-            (click)="shareQuotes()"
+            (click)="shareQuotes('email')"
             [disabled]="shareQuotationForm.invalid"
+            *ngIf="!emailShareLoader"
           >
             <img
               src="/assets/icon/mail.svg"
@@ -91,6 +100,9 @@
               alt="close"
             />
           </button>
+          <div class="social-media-image" *ngIf="emailShareLoader">
+            <img class="loader" src="assets/gif/shareLoader.gif" alt=""/>
+          </div>
         </mat-form-field>
       </div>
     </div>

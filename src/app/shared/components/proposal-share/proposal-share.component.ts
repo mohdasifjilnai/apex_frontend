@@ -67,6 +67,7 @@ export class ProposalShareComponent implements OnInit {
   quoteInfo: any;
   isStartDate: boolean = true;
   loader: boolean = false;
+  downloadLoader: boolean=false;
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -352,9 +353,15 @@ export class ProposalShareComponent implements OnInit {
    */
 
   downloadPremiumBreakup() {
+    this.downloadLoader=true
     let quote_data = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
-    let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form`;
+    let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
+    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
+      if(response){
+        this.downloadLoader=false
+      }
+  })
   }
 }

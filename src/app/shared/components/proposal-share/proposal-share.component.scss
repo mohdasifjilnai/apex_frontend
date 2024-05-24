@@ -162,6 +162,11 @@
   height: 16px;
   margin-bottom: 6px;
 }
+.downloadloader {
+  width: 24px;
+  height: 16px;
+  margin-top: -5px;
+}
 @media only screen and (max-width: 999px) {
   ::ng-deep .mat-form-field{
     width: 100%;

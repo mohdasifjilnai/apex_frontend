@@ -59,6 +59,7 @@ export class PremiumBreakupComponent implements OnInit {
   isIdvGreaterThan50Lac: any;
   endPath: string;
   showAddons: boolean = false;
+  downloadLoader: any=false;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -153,9 +154,15 @@ export class PremiumBreakupComponent implements OnInit {
    */
 
   downloadPremiumBreakup(data: any) {
+    this.downloadLoader=true
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
-    this.sharedDataService.downloadPolicy(url);
+    this.sharedDataService.downloadPolicy(url)
+    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
+      if(response){
+        this.downloadLoader=false
+      }
+      })
   }
   /**
    * Function used for buy Now Button in responsive

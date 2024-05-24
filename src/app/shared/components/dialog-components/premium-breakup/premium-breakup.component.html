@@ -264,14 +264,18 @@
           <img src="/assets/icon/share.svg" class="share-icon" />
           <p class="share-text text-light-blue">Share</p>
         </div>
-        <div class="download-group light-green justify-content-center d-flex">
-          <img src="/assets/icon/download.svg" class="download-icon" />
+        <div class="download-group light-green justify-content-center d-flex" >
+          <img src="/assets/icon/download.svg" class="download-icon" *ngIf="!downloadLoader"/>
           <p
             class="download-text text-light-green"
             (click)="downloadPremiumBreakup(initiateQuotes)"
-          >
+            *ngIf="!downloadLoader" >
             Download
           </p>
+          <img class="loader" src="assets/gif/downloadLoader.gif" alt="" *ngIf="downloadLoader"/>
+        </div>
+        <div>
+          
         </div>
       </div>
     </div>
@@ -287,10 +291,14 @@
         <button
           mat-button
           class="light-green"
+          *ngIf="!downloadLoader"
           (click)="downloadPremiumBreakup(initiateQuotes)"
         >
           <img src="/assets/icon/download.svg" class="share-icon" alt="" />
         </button>
+        <div  class="light-green" *ngIf="downloadLoader">
+          <img class="loader" src="assets/gif/downloadLoader.gif" alt="" />
+        </div>
       </div>
       <div class="col-6" *ngIf="endPath == 'quotes'">
         <button

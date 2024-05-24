@@ -53,6 +53,7 @@ export class SharedDataService {
   redirectInsurerDetails: Subject<any> = new Subject();
   disableInitiatesQuotes: Subject<any> = new Subject();
   throughEmailVehicle: Subject<any> = new Subject();
+  downloadBreakupResponse: Subject<any> = new Subject();
   vehicleCardEmailValue: Subject<any> = new Subject();
   nomineeData: Subject<any> = new Subject();
   quotesEnableForMobile: Subject<any> = new Subject();
@@ -988,7 +989,7 @@ export class SharedDataService {
        * Create a Blob from the response data
        */
       const blob = new Blob([response], { type: 'application/pdf' });
-
+      this.downloadBreakupResponse.next(response);
       /**
        * Create a download link
        */

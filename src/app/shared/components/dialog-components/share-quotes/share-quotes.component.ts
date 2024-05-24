@@ -22,6 +22,9 @@ export class ShareQuotesComponent implements OnInit {
   partner_name: any;
   endPath: string;
   quoteData: any;
+  whatsappShareLoader:boolean=false
+  emailShareLoader:boolean=false
+  mobileShareLoader:boolean=false
   constructor(
     public dialogRef: MatDialogRef<ShareQuotesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -96,7 +99,14 @@ export class ShareQuotesComponent implements OnInit {
   /**
    * Share Quotes Api Integration
    */
-  shareQuotes() {
+  shareQuotes(shareType:any) {
+    if(shareType=='whatsapp'){
+      this.whatsappShareLoader=true
+    }else if(shareType=='email'){
+      this.emailShareLoader=true
+    }else if(shareType=='mobile'){
+      this.mobileShareLoader=true
+    }
     this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
@@ -127,11 +137,25 @@ export class ShareQuotesComponent implements OnInit {
           (res) => {
             if (res?.message == 'Success') {
               this.sharedDataService.openSnackBar(message, true, 3000);
+              if(shareType=='whatsapp'){
+                this.whatsappShareLoader=false
+              }else if(shareType=='email'){
+                this.emailShareLoader=false
+              }else if(shareType=='mobile'){
+                this.mobileShareLoader=false
+              }
               this.shareQuotationForm.reset();
             }
           },
           (error) => {
             this.shareQuotationForm.reset();
+            if(shareType=='whatsapp'){
+              this.whatsappShareLoader=false
+            }else if(shareType=='email'){
+              this.emailShareLoader=false
+            }else if(shareType=='mobile'){
+              this.mobileShareLoader=false
+            }
           }
         );
     } else {
@@ -152,10 +176,24 @@ export class ShareQuotesComponent implements OnInit {
             if (res?.message == 'Success') {
               this.sharedDataService.openSnackBar(message, true, 3000);
               this.shareQuotationForm.reset();
+              if(shareType=='whatsapp'){
+              this.whatsappShareLoader=false
+            }else if(shareType=='email'){
+              this.emailShareLoader=false
+            }else if(shareType=='mobile'){
+              this.mobileShareLoader=false
+            }
             }
           },
           (error) => {
             this.shareQuotationForm.reset();
+            if(shareType=='whatsapp'){
+              this.whatsappShareLoader=false
+            }else if(shareType=='email'){
+              this.emailShareLoader=false
+            }else if(shareType=='mobile'){
+              this.mobileShareLoader=false
+            }
           }
         );
     }
