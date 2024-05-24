@@ -394,6 +394,7 @@ export class ProposalReviewComponent implements OnInit {
                 coverage?.code ===
                 this.proposalData?.quote_request?.product_type
               ) {
+                this.shareData.sendPlanType(coverage);
                 sessionStorage.setItem('planType', JSON.stringify(coverage));
               }
             }

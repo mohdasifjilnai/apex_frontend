@@ -71,7 +71,7 @@ export class InsuranceDetailsComponent implements OnInit {
   productType: any;
   url: any;
   showInsurerButton = true;
-  downloadLoader: boolean=false;
+  downloadLoader: boolean = false;
   constructor(
     public matDialog: WindowRef,
 
@@ -101,10 +101,11 @@ export class InsuranceDetailsComponent implements OnInit {
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.productType = sessionStorage.getItem('productType');
+    this.sharedData.getPlanType.subscribe((planType) => {
+      this.planType = planType;
+    });
     this.sharedData.getRenewalMmv.subscribe((mmv_data: any) => {
-      if (!this.mmvData) {
-        this.mmvData = mmv_data;
-      }
+      this.mmvData = mmv_data;
     });
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
@@ -300,14 +301,16 @@ export class InsuranceDetailsComponent implements OnInit {
    */
 
   downloadPremiumBreakup() {
-    this.downloadLoader=true
+    this.downloadLoader = true;
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
-    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
-      if(response){
-        this.downloadLoader=false
+    this.sharedDataService.downloadBreakupResponse.subscribe(
+      (response: any) => {
+        if (response) {
+          this.downloadLoader = false;
+        }
       }
-  })
+    );
   }
 }

@@ -66,6 +66,7 @@ export class SharedDataService {
   updateVehicleType = new BehaviorSubject<any>(null);
   renewalVehicleData = new BehaviorSubject<any>(null);
   getRenewalMmv = new BehaviorSubject<any>(null);
+  getPlanType = new BehaviorSubject<any>(null);
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
   checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
@@ -1121,5 +1122,8 @@ export class SharedDataService {
   }
   sendRenewalMmv(data: any) {
     this.getRenewalMmv.next(data);
+  }
+  sendPlanType(data: any) {
+    this.getPlanType.next(data);
   }
 }
