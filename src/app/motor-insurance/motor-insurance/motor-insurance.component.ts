@@ -25,6 +25,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../../shared/components/dialog-components/not-certified/not-certified.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { CheckVehicleTypeComponent } from 'src/app/shared/components/dialog-components/check-vehicle-type/check-vehicle-type.component';
 
 const moment = _rollupMoment || _moment;
 @Component({
@@ -53,7 +54,26 @@ export class MotorInsuranceComponent implements OnInit {
   notSureHide = true;
   isPolicyNumber: boolean = false;
   loader: boolean = false;
+  vehicleCheck = false;
   url = 'motor';
+  isCheckWheeler: boolean = true;
+  vaahanName: any;
+  vehicleDetailsJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: CheckVehicleTypeComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: '5%',
+    isOutSideClose: true,
+    classObtained: 'vehicle-details-class',
+  };
+
   motorInsurance: FormGroup = new FormGroup({
     registration_number: new FormControl('', [
       Validators.required,
@@ -89,6 +109,7 @@ export class MotorInsuranceComponent implements OnInit {
   policyNumber: any;
   transactionDetails: any;
   vehicleDetailsRollover: any;
+  checkWheeler: any;
 
   constructor(
     private router: Router,
@@ -279,6 +300,23 @@ export class MotorInsuranceComponent implements OnInit {
         }
       }
     );
+    this.sharedDataService.checkVehicleType.subscribe((res) => {
+      if (res) {
+        this.checkWheeler = JSON.parse(
+          sessionStorage.getItem('checkWheeler') || '{}'
+        );
+        if (
+          this.checkWheeler &&
+          Object.keys(this.checkWheeler).length > 0 &&
+          !this.vehicleCheck
+        ) {
+          this.isCheckWheeler = res.isCheckWheeler;
+          this.vaahanName = res.vaahanName;
+          this.vehicleCheck = true;
+          this.openVehicleDetailsPopup(null);
+        }
+      }
+    });
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
@@ -345,8 +383,8 @@ export class MotorInsuranceComponent implements OnInit {
     this.isPolicyNumber = false;
     this.disableInsurer = true;
     this.motorInsurance.reset();
-    this.vehicleResponse=null
-    this.rtoResponse=null
+    this.vehicleResponse = null;
+    this.rtoResponse = null;
     if (this.withoutVehicleNumber) {
       setTimeout(() => {
         this.motorInsurance.get('registration_number')?.setValidators([]);
@@ -373,9 +411,7 @@ export class MotorInsuranceComponent implements OnInit {
       }, 0);
       this.cdr.detectChanges();
     } else {
-      
       setTimeout(() => {
-        
         this.motorInsurance
           .get('registration_number')
           ?.setValidators([Validators.required]);
@@ -581,5 +617,32 @@ export class MotorInsuranceComponent implements OnInit {
       control.setValidators([Validators.required]);
       control.updateValueAndValidity();
     }
+  }
+
+  openVehicleDetailsPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = '95%';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.vehicleDetailsJSON['modalName'],
+      width: this.vehicleDetailsJSON['widthObtained'],
+      height: this.vehicleDetailsJSON['heightObtained'],
+      classNameObtained: this.vehicleDetailsJSON['classObtained'],
+      isOutSideClose: this.vehicleDetailsJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

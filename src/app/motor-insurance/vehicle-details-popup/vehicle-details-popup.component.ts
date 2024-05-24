@@ -269,7 +269,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         );
       }
     });
-    this.checkWheelerType(this.editVehicleDetails);
+    // this.checkWheelerType(this.editVehicleDetails);
 
     // ONInit Function Call
 

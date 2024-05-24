@@ -337,7 +337,13 @@
                 appearance="outline"
                 class="vehicle-details-dropdown"
               >
-                <mat-label>Used <span>{{vehicleTypeValue=='private_car'?'Car' : 'Bike'}}</span>/ RC Transfer</mat-label>
+                <mat-label
+                  >Used
+                  <span>{{
+                    vehicleTypeValue == "private_car" ? "Car" : "Bike"
+                  }}</span
+                  >/ RC Transfer</mat-label
+                >
                 <mat-select
                   formControlName="user_car"
                   (selectionChange)="onRCTransferChange($event.value)"
@@ -472,19 +478,8 @@
     </div>
   </form>
 </ng-container>
-<ng-container *ngIf="!isCheckWheeler">
-  <!-- Dialog title -->
-  <!-- <div mat-dialog-title>
-    <div class="error-popup-header d-flex justify-content-end">
-      <img
-        src="/assets/icon/cross.svg"
-        (click)="onClose()"
-        class="cursor-pointer"
-        alt="close"
-      />
-    </div>
-  </div> -->
-  <!-- Dialog content -->
+<!-- <ng-container *ngIf="!isCheckWheeler">
+
   <div mat-dialog-content>
     <div class="row res-view">
       <div class="col-12 text-center">
@@ -520,4 +515,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+</ng-container> -->

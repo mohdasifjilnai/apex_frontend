@@ -1,0 +1,35 @@
+<ng-container *ngIf="!isCheckWheeler">
+  <div mat-dialog-content>
+    <div class="row res-view">
+      <div class="col-12 text-center">
+        <div class="error-gif">
+          <img
+            src="/assets/gif/error.gif"
+            class="error-gif-image"
+            alt="close"
+          />
+        </div>
+      </div>
+      <div class="col-12">
+        <p class="text-content text-center">
+          It Looks like you have entered a {{ vaahanName }}'s registration
+          number. Do you want to proceed...
+        </p>
+      </div>
+      <div class="col-6">
+        <button class="submit-btn btn-text" (click)="newNumber()" type="submit">
+          Enter new Number
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          class="submit-btn btn-text"
+          (click)="proccedToCurrentJourney(checkWheeler)"
+          type="submit"
+        >
+          Proceed to {{ vaahanName }} journey
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

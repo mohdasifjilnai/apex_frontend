@@ -66,7 +66,7 @@ export class SharedDataService {
   renewalVehicleData = new BehaviorSubject<any>(null);
   getRenewalMmv = new BehaviorSubject<any>(null);
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
-
+  checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
@@ -95,6 +95,10 @@ export class SharedDataService {
   addonsValue: any;
   ckycFormInfo: any;
   mmvData: any;
+  editVehicleDetails = true;
+  checkWheeler: any;
+  isCheckWheeler = true;
+  vaahanName: any;
 
   constructor(
     private apiService: ApiService,
@@ -175,9 +179,9 @@ export class SharedDataService {
             is_four_wheeler: res['is_four_wheeler'],
           };
           sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
+          this.checkWheelerType(this.editVehicleDetails);
           this.regNumberData.next(res);
-          // this.getQuotationListing(res, data);
-          this.router.navigate(['/motor/quotes']);
+
           let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
           let dateObj = moment(registrationDate, 'MM/YYYY');
           // this.getRegistrationData.next(dateObj);
@@ -185,6 +189,36 @@ export class SharedDataService {
           this.detailNotFound.next(res?.detail);
         }
       });
+  }
+
+  checkWheelerType(editVehicleDetails: boolean) {
+    this.checkWheeler = JSON.parse(
+      sessionStorage.getItem('checkWheeler') || '{}'
+    );
+    if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
+      if (
+        (localStorage.getItem('vehicleType') == 'private_car' &&
+          this.checkWheeler['is_four_wheeler']) ||
+        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+          this.checkWheeler['is_two_wheeler'])
+      ) {
+        this.isCheckWheeler = true;
+        this.router.navigate(['/motor/quotes']);
+      } else {
+        if (this.checkWheeler['is_two_wheeler']) {
+          this.vaahanName = 'bike';
+        }
+        if (this.checkWheeler['is_four_wheeler']) {
+          this.vaahanName = 'car';
+        }
+        this.isCheckWheeler = false;
+        let vehicledata = {
+          isCheckWheeler: this.isCheckWheeler,
+          vaahanName: this.vaahanName,
+        };
+        this.checkVehicleType.next(vehicledata);
+      }
+    }
   }
 
   vehicleDetailsRenewal(data: any) {
