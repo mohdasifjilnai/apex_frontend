@@ -37,7 +37,7 @@
           class="form-control registration-number-last-digit capitalize-text"
           placeholder="{{ RegNumber }}"
           formControlName="registration_number_last_digit"
-          maxlength="8"
+          [maxlength]="8"
           (input)="addHyphen($event)"
         />
       </div>
