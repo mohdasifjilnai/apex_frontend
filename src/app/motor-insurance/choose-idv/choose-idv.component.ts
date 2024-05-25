@@ -36,6 +36,8 @@ export class ChooseIDVComponent implements OnInit {
   customIDV: boolean = false;
   clearIdvButton: boolean = false;
 
+  currency: any;
+
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -93,6 +95,7 @@ export class ChooseIDVComponent implements OnInit {
       this.chooseIdvForm.patchValue({
         chooseIdv: this.investedAmount,
       });
+      this.changeToCurrency();
     });
     this.sharedDataService.idvValue.subscribe((idvData) => {
       if (idvData.min_idv != undefined) {
@@ -132,6 +135,7 @@ export class ChooseIDVComponent implements OnInit {
         this.chooseIdvForm.patchValue({
           chooseIdv: this.investedAmount,
         });
+        this.changeToCurrency();
       }
     });
 
@@ -177,6 +181,7 @@ export class ChooseIDVComponent implements OnInit {
       this.chooseIdvForm.patchValue({
         chooseIdv: this.amountShow,
       });
+      this.changeToCurrency();
     }
   }
   selectedIDVOption: string = ''; // Default selected option
@@ -305,5 +310,24 @@ export class ChooseIDVComponent implements OnInit {
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
+  }
+  changeToCurrency() {
+    this.currency = this.chooseIdvForm.get('chooseIdv');
+
+    let a = this.currency.value;
+    if (/,/.test(a)) {
+      a = a.replace(/,/g, '');
+    } else {
+      a = a;
+    }
+
+    if (a && !isNaN(+a)) {
+      let num: number = +a;
+      let currencyValue = new Intl.NumberFormat('en-IN').format(num); //inplace of en-IN you can mention your country's code
+
+      currencyValue = currencyValue ? currencyValue.toString() : '';
+
+      this.currency.setValue(currencyValue);
+    }
   }
 }

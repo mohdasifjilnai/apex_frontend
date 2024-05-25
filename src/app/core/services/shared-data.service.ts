@@ -312,6 +312,14 @@ export class SharedDataService {
     } else {
       previousPolicyType = null;
     }
+    let idvValue;
+    if (data?.vehicle_idv) {
+      if (/,/.test(data?.vehicle_idv)) {
+        idvValue = data?.vehicle_idv.replace(/,/g, '');
+      } else {
+        idvValue = data?.vehicle_idv;
+      }
+    }
 
     let quotesData = {
       transaction_id: transactionIdData,
@@ -333,7 +341,7 @@ export class SharedDataService {
       product_type: productType,
       manufacture_month: data.manufacture_month,
       manufacture_year: data.manufacture_year,
-      vehicle_idv: data?.vehicle_idv,
+      vehicle_idv: idvValue,
       previous_policy_type: previousPolicyType,
       meta_data: data?.meta_data,
       partner_code: localStorage.getItem('partner_code')
