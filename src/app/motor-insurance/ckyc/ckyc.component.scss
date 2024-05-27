@@ -36,6 +36,20 @@
     display: flex;
   }
 }
+.united-ckyc-text{
+  font-size: 14px;
+  font-weight: 600;
+  color: #adabab;
+  // opacity: 50%;
+  .complete-ckyc{
+    font-weight: 600;
+    color: #282828;
+    opacity: 100% !important;
+  }
+}
+.united-btn{
+  display: flex;
+}
 
 @media screen and (max-width: 999px) {
   .cky-form {
@@ -51,6 +65,9 @@
     .accept-text {
       margin-left: 2em !important;
     }
+  }
+  .united-btn{
+    flex-wrap: wrap-reverse;
   }
 }
 .ckyc-field {
