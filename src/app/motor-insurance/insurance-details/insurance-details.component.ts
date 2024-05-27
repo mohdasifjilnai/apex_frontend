@@ -96,17 +96,17 @@ export class InsuranceDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sharedData.getRenewalMmv.subscribe((mmv_data: any) => {
+      this.mmvData = mmv_data;
+    });
+    this.sharedData.getPlanType.subscribe((planType) => {
+      this.planType = planType;
+    });
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     this.planType = JSON.parse(sessionStorage.getItem('planType') || '{}');
     this.vehicleTypeValue = localStorage.getItem('vehicleType');
     this.productType = sessionStorage.getItem('productType');
-    this.sharedData.getPlanType.subscribe((planType) => {
-      this.planType = planType;
-    });
-    this.sharedData.getRenewalMmv.subscribe((mmv_data: any) => {
-      this.mmvData = mmv_data;
-    });
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
      */

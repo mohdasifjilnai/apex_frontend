@@ -247,74 +247,75 @@ export class CkycComponent implements OnInit {
   submitCkycFormGroup(isValid: boolean) {
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
-    }
-    sessionStorage.setItem(
-      'previous_insurerCode',
-      JSON.stringify(this.quoteData['insurer_code'])
-    );
-    if (this.changeSubmitCkycName) {
-      this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
     } else {
-      this.qoutes_data = JSON.parse(
-        sessionStorage.getItem('quotes_data') || '{}'
-      );
-      let ckycData: any = {
-        proposal_id: sessionStorage.getItem('proposal_Id'),
-        proposer_type: sessionStorage.getItem('proposerType'),
-        insurer_code: this.qoutes_data['insurer_code'],
-        transaction_id: sessionStorage.getItem('transaction_id'),
-      };
-      if (isValid) {
-        if (this.documentName == 'aadhaar_number') {
-          if (
-            this.qoutes_data['insurer_code'] === 'liberty' ||
-            this.qoutes_data['insurer_code'] === 'future' ||
-            this.qoutes_data['insurer_code'] === 'sbi_general' ||
-            this.qoutes_data['insurer_code'] === 'universal_sompo'
-          ) {
-            let inputString = this.ckycFormGroup.get(
-              'document_number_based_field'
-            )?.value;
-            this.documentNumber = inputString.substr(inputString.length - 4);
+      if (this.changeSubmitCkycName) {
+        this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
+      } else {
+        this.qoutes_data = JSON.parse(
+          sessionStorage.getItem('quotes_data') || '{}'
+        );
+        let ckycData: any = {
+          proposal_id: sessionStorage.getItem('proposal_Id'),
+          proposer_type: sessionStorage.getItem('proposerType'),
+          insurer_code: this.qoutes_data['insurer_code'],
+          transaction_id: sessionStorage.getItem('transaction_id'),
+        };
+        if (isValid) {
+          if (this.documentName == 'aadhaar_number') {
+            if (
+              this.qoutes_data['insurer_code'] === 'liberty' ||
+              this.qoutes_data['insurer_code'] === 'future' ||
+              this.qoutes_data['insurer_code'] === 'sbi_general' ||
+              this.qoutes_data['insurer_code'] === 'universal_sompo'
+            ) {
+              let inputString = this.ckycFormGroup.get(
+                'document_number_based_field'
+              )?.value;
+              this.documentNumber = inputString.substr(inputString.length - 4);
+            } else {
+              this.documentNumber = this.ckycFormGroup.get(
+                'document_number_based_field'
+              )?.value;
+            }
           } else {
             this.documentNumber = this.ckycFormGroup.get(
               'document_number_based_field'
             )?.value;
           }
-        } else {
-          this.documentNumber = this.ckycFormGroup.get(
-            'document_number_based_field'
-          )?.value;
-        }
 
-        ckycData['dob'] = this.datePipe.transform(
-          this.ckycFormGroup.get('dob')?.value,
-          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-        );
-        ckycData['document_number'] = String(
-          this.documentNumber
-            ? this.documentNumber
-            : this.ckycFormGroup.get('document_number_based_field')?.value
-        ).toLocaleUpperCase();
-        // ckycData['ckyc_number'] = '';
-        ckycData['document_type'] = this.filterDocumentType(
-          this.ckycFormGroup.get('document_type_based_field')?.value
-        );
-        ckycData['is_consent_given'] = true;
-        ckycData['full_name'] =
-          this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
-          this.ckycFormGroup.get('ckyc_full_name')?.value != ''
-            ? this.ckycFormGroup.get('ckyc_full_name')?.value
-            : null;
-        ckycData['gender'] =
-          this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
-          this.ckycFormGroup.get('ckyc_gender')?.value != ''
-            ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
-            : null;
-        this.openWaitCkycVerificationPopup(ckycData);
-        this.sharedDataService?.sendCkycFormData(this.ckycFormGroup);
+          ckycData['dob'] = this.datePipe.transform(
+            this.ckycFormGroup.get('dob')?.value,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          );
+          ckycData['document_number'] = String(
+            this.documentNumber
+              ? this.documentNumber
+              : this.ckycFormGroup.get('document_number_based_field')?.value
+          ).toLocaleUpperCase();
+          // ckycData['ckyc_number'] = '';
+          ckycData['document_type'] = this.filterDocumentType(
+            this.ckycFormGroup.get('document_type_based_field')?.value
+          );
+          ckycData['is_consent_given'] = true;
+          ckycData['full_name'] =
+            this.ckycFormGroup.get('ckyc_full_name')?.value != undefined &&
+            this.ckycFormGroup.get('ckyc_full_name')?.value != ''
+              ? this.ckycFormGroup.get('ckyc_full_name')?.value
+              : null;
+          ckycData['gender'] =
+            this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
+            this.ckycFormGroup.get('ckyc_gender')?.value != ''
+              ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+              : null;
+          this.openWaitCkycVerificationPopup(ckycData);
+          this.sharedDataService?.sendCkycFormData(this.ckycFormGroup);
+        }
       }
     }
+    sessionStorage.setItem(
+      'previous_insurerCode',
+      JSON.stringify(this.quoteData['insurer_code'])
+    );
   }
   /**
    * calender min max handling

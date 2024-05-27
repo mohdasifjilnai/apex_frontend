@@ -487,7 +487,10 @@ export class ProposalComponent implements OnInit {
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
         } else {
-          if (this.kycPending?.redirection_url_via_form) {
+          if (
+            this.kycPending?.redirection_url_via_form ||
+            proposal?.ckyc_details?.is_verification
+          ) {
             this.sharedData.vehicleOwnerForm.subscribe((res) => {
               if (res) {
                 this.showVehicleDetails = true;
