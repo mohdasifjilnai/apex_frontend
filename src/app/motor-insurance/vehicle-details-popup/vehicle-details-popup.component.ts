@@ -1496,6 +1496,7 @@ Get the expiring policy list based on the given date or the registration details
           );
 
           policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+          policyDate = policyDate != 'Invalid date' ? policyDate : '';
         }
         let userRCtransfer = this.vehicleDetailsForm.value.user_car
           ? this.vehicleDetailsForm.value.user_car
@@ -1814,7 +1815,7 @@ Get the expiring policy list based on the given date or the registration details
             }
             if (this.registrationNumber?.previous_policy_exp_date) {
               let inputDate = this.registrationNumber?.previous_policy_exp_date;
-              let [day, month, year] = inputDate.split('-');
+              let [day, month, year] = inputDate.split('/');
               let reformattedDate = `${month}/${day}/${year}`;
               if (!this.vehiclePopupList) {
                 this.vehicleDetailsForm.patchValue({
