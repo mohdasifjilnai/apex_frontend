@@ -164,6 +164,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_number: sessionStorage.getItem('registrationNumber'),
       });
     }
+    /**
+     * To handel the data Button Enable and disable for ckyc
+     */
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (this.quoteData?.insurer_code == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
