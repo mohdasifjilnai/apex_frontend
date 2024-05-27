@@ -185,6 +185,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('renewalPreviousInsurer');
     sessionStorage.removeItem('checkWheeler');
     sessionStorage.removeItem('proposal_punched');
+    sessionStorage.removeItem('quotesUrl');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -364,6 +365,7 @@ export class MotorInsuranceComponent implements OnInit {
       'withoutVehicleNumber',
       `${this.withoutVehicleNumber}`
     );
+    sessionStorage.setItem('quotesUrl', 'true');
     // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
     sessionStorage.removeItem('isPayment');
     if (!this.withoutVehicleNumber && !this.isPolicyNumber) {

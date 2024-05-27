@@ -82,6 +82,7 @@ export class QuotesComponent implements OnInit {
       const insurer_quote_id = params?.get('insurer_quote_id');
       if (shareTransaction != null && insurer_quote_id != null) {
         sessionStorage.setItem('vehiclePopup', 'true');
+        sessionStorage.setItem('quotesUrl', 'true');
         sessionStorage.setItem('transaction_id', shareTransaction);
         this.getInsurerCode(shareTransaction, insurer_quote_id);
       } else {
@@ -92,6 +93,10 @@ export class QuotesComponent implements OnInit {
             parsedRenewalDetails?.transactional_details?.transaction_id,
             parsedRenewalDetails?.transactional_details?.quote_id
           );
+        }
+        let quotesUrl = sessionStorage.getItem('quotesUrl');
+        if (!quotesUrl) {
+          this.router.navigate(['/motor']);
         }
       }
     });
@@ -115,7 +120,10 @@ export class QuotesComponent implements OnInit {
       }
     } else {
       if (!popupData) {
-        this.openVehicleDetailsPopup(null);
+        let quotesUrl = sessionStorage.getItem('quotesUrl');
+        if (quotesUrl) {
+          this.openVehicleDetailsPopup(null);
+        }
       }
     }
   }
