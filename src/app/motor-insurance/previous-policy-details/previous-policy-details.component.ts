@@ -55,7 +55,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   tpStartminDate: any;
   tpEndminDate: any;
   fetchedKyc: any;
-  tpStartmaxDate:any
+  tpStartmaxDate: any;
   tpEndmaxDate: any;
   vehicleTypeSelected: any;
 
@@ -84,30 +84,41 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    this.vehicleTypeSelected=localStorage.getItem('vehicleType')
+    this.vehicleTypeSelected = localStorage.getItem('vehicleType');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
+      if (this.quoteData?.insurer_code == 'united_india') {
+        if (proposal?.ckyc_details?.is_verification) {
+          this.isDisableCKyc = false;
+        }
+      }
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =
         proposal?.vehicle_details?.registration_date.split('/').map(Number);
       const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
       this.tpStartminDate = reformattedRegDate;
-      this.tpStartmaxDate=new Date();
+      this.tpStartmaxDate = new Date();
       const currentDate = new Date();
       this.tpEndminDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd')!;
-      if(this.vehicleTypeSelected=='private_car'){
+      if (this.vehicleTypeSelected == 'private_car') {
         const fourYearsFromNow = new Date(
           currentDate.getFullYear() + 2,
           currentDate.getMonth(),
           currentDate.getDate()
         );
-        this.tpEndmaxDate = this.datePipe.transform(fourYearsFromNow, 'yyyy-MM-dd')!;
-      }else if(this.vehicleTypeSelected=='two_wheeler'){
+        this.tpEndmaxDate = this.datePipe.transform(
+          fourYearsFromNow,
+          'yyyy-MM-dd'
+        )!;
+      } else if (this.vehicleTypeSelected == 'two_wheeler') {
         const fourYearsFromNow = new Date(
           currentDate.getFullYear() + 4,
           currentDate.getMonth(),
           currentDate.getDate()
         );
-        this.tpEndmaxDate = this.datePipe.transform(fourYearsFromNow, 'yyyy-MM-dd')!;
+        this.tpEndmaxDate = this.datePipe.transform(
+          fourYearsFromNow,
+          'yyyy-MM-dd'
+        )!;
       }
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({

@@ -165,6 +165,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       });
     }
     this.shareData.getProposalDetails.subscribe((proposal) => {
+      if (this.quoteData?.insurer_code == 'united_india') {
+        if (proposal?.ckyc_details?.is_verification) {
+          this.isDisableCKyc = false;
+        }
+      }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
