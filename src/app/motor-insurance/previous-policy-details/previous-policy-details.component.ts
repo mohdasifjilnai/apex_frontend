@@ -86,18 +86,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleTypeSelected = localStorage.getItem('vehicleType');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
-      if (this.quoteData?.insurer_code == 'united_india') {
-        if (proposal?.ckyc_details?.is_verification) {
-          this.isDisableCKyc = false;
-        }
-      }
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =
         proposal?.vehicle_details?.registration_date.split('/').map(Number);
       const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
       this.tpStartminDate = reformattedRegDate;
       this.tpStartmaxDate = new Date();
-     
+
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
@@ -159,12 +154,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
+      } else if (this.quoteData?.insurer_code == 'united_india') {
+        if (proposal?.ckyc_details?.is_verification) {
+          this.isDisableCKyc = false;
+        }
       } else if (
         sessionStorage.getItem('proposerType') !==
         this.fetchedKyc?.proposer_type
       ) {
         this.isDisableCKyc = true;
       }
+
       let renewalDataType = sessionStorage.getItem('renewalType');
       if (renewalDataType == 'renewal') {
         const [day, month, year] =
@@ -444,9 +444,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       .get('tp_policy_end_date')
       ?.updateValueAndValidity();
     this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
-    const selectedDateValue = this.previousPolicyDetailsForm.get('tp_policy_start_date')?.value;
-    if(selectedDateValue){
-      this.tpEndminDate = this.datePipe.transform(selectedDateValue, 'yyyy-MM-dd')!;
+    const selectedDateValue = this.previousPolicyDetailsForm.get(
+      'tp_policy_start_date'
+    )?.value;
+    if (selectedDateValue) {
+      this.tpEndminDate = this.datePipe.transform(
+        selectedDateValue,
+        'yyyy-MM-dd'
+      )!;
       const selectedDate = new Date(selectedDateValue);
       if (this.vehicleTypeSelected == 'private_car') {
         const fourYearsFromNow = new Date(
@@ -470,7 +475,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         )!;
       }
     }
-    
   }
   getPreviousVehicleData(isValid: any) {
     if (isValid && this.renewalType != 'renewal') {
