@@ -39,6 +39,9 @@ export class PaymentComponent implements OnInit {
     classObtained: 'nonPOS-class',
   };
   ngOnInit(): void {
+    if (sessionStorage.getItem('isPayment')) {
+      this.router.navigate(['/motor']);
+    }
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
@@ -141,7 +144,7 @@ export class PaymentComponent implements OnInit {
         localStorage.removeItem('withoutVehicleNumber');
       }
       sessionStorage.clear();
-      if(this.paymentSuccess){
+      if (this.paymentSuccess) {
         sessionStorage.setItem('isPayment', 'true');
       }
     });
@@ -154,11 +157,13 @@ export class PaymentComponent implements OnInit {
     this.router.navigate(['/motor']);
   }
 
-   /**
+  /**
    * redirection form payment failure page  to review page
    */
-   retryPayment() {
-    this.router.navigate([`/motor/quotes/proposal/${this.transactionId}/review`]);
+  retryPayment() {
+    this.router.navigate([
+      `/motor/quotes/proposal/${this.transactionId}/review`,
+    ]);
   }
 
   downloadPolicy() {
