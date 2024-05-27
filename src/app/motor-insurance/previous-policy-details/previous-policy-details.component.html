@@ -12,13 +12,13 @@
           [previousInsurer]="'proposal-previous-insurer'"
           [required]="true"
           [formControlNameData]="'previous_insurer'"
-          [label]="'Search Previous Insurer'"
+          [label]="'Search OD insurance company'"
           (responseEvent)="previousInsurerComponentResponse($event)"
         ></app-previous-insurer>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <mat-form-field appearance="outline" class="mat-input-custom">
-          <mat-label>Previous Policy Number</mat-label>
+          <mat-label>OD policy number</mat-label>
           <input
             matInput
             formControlName="prev_policy_number"
