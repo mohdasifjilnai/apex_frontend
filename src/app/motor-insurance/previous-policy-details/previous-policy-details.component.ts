@@ -97,29 +97,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
       this.tpStartminDate = reformattedRegDate;
       this.tpStartmaxDate = new Date();
-      const currentDate = new Date();
-      this.tpEndminDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd')!;
-      if (this.vehicleTypeSelected == 'private_car') {
-        const fourYearsFromNow = new Date(
-          currentDate.getFullYear() + 2,
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-        this.tpEndmaxDate = this.datePipe.transform(
-          fourYearsFromNow,
-          'yyyy-MM-dd'
-        )!;
-      } else if (this.vehicleTypeSelected == 'two_wheeler') {
-        const fourYearsFromNow = new Date(
-          currentDate.getFullYear() + 4,
-          currentDate.getMonth(),
-          currentDate.getDate()
-        );
-        this.tpEndmaxDate = this.datePipe.transform(
-          fourYearsFromNow,
-          'yyyy-MM-dd'
-        )!;
-      }
+     
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
@@ -466,6 +444,33 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       .get('tp_policy_end_date')
       ?.updateValueAndValidity();
     this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
+    const selectedDateValue = this.previousPolicyDetailsForm.get('tp_policy_start_date')?.value;
+    if(selectedDateValue){
+      this.tpEndminDate = this.datePipe.transform(selectedDateValue, 'yyyy-MM-dd')!;
+      const selectedDate = new Date(selectedDateValue);
+      if (this.vehicleTypeSelected == 'private_car') {
+        const fourYearsFromNow = new Date(
+          selectedDate.getFullYear() + 3,
+          selectedDate.getMonth(),
+          selectedDate.getDate()
+        );
+        this.tpEndmaxDate = this.datePipe.transform(
+          fourYearsFromNow,
+          'yyyy-MM-dd'
+        )!;
+      } else if (this.vehicleTypeSelected == 'two_wheeler') {
+        const fourYearsFromNow = new Date(
+          selectedDate.getFullYear() + 5,
+          selectedDate.getMonth(),
+          selectedDate.getDate()
+        );
+        this.tpEndmaxDate = this.datePipe.transform(
+          fourYearsFromNow,
+          'yyyy-MM-dd'
+        )!;
+      }
+    }
+    
   }
   getPreviousVehicleData(isValid: any) {
     if (isValid && this.renewalType != 'renewal') {
