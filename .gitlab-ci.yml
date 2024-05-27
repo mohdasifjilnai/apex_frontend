@@ -2,6 +2,7 @@ stages:
   - validate
   - build
   - deploy
+  - production
 
 builderrors:
   stage: validate
@@ -19,12 +20,14 @@ sast:
 build:
   stage: build
   image: docker:latest
+  variables:
+    server: "development" 
   services:
     - name: docker:dind
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
-    - DOCKER_BUILDKIT=0 docker build -t $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) .
+    - DOCKER_BUILDKIT=0 docker build --build-arg server=$server -t $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) .
     - docker push $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H)
     - docker tag $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
@@ -42,3 +45,21 @@ deploy:
 
   only:
     - master
+production:
+  stage: production
+  image: docker:latest
+  variables:
+    server: "production" 
+  services:
+    - name: docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - DOCKER_BUILDKIT=0 docker build --build-arg server=$server -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG $CI_REGISTRY_IMAGE:latest-production
+    - docker push $CI_REGISTRY_IMAGE:latest-production
+    - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; cd repos/apex-frontend; sh deploy.sh"
+
+  only:
+    - tag
