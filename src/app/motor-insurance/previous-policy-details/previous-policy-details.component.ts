@@ -55,6 +55,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   tpStartminDate: any;
   tpEndminDate: any;
   fetchedKyc: any;
+  tpStartmaxDate:any
+  tpEndmaxDate: any;
+  vehicleTypeSelected: any;
 
   constructor(
     private router: Router,
@@ -81,12 +84,31 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    this.vehicleTypeSelected=localStorage.getItem('vehicleType')
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =
         proposal?.vehicle_details?.registration_date.split('/').map(Number);
       const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
       this.tpStartminDate = reformattedRegDate;
+      this.tpStartmaxDate=new Date();
+      const currentDate = new Date();
+      this.tpEndminDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd')!;
+      if(this.vehicleTypeSelected=='private_car'){
+        const fourYearsFromNow = new Date(
+          currentDate.getFullYear() + 2,
+          currentDate.getMonth(),
+          currentDate.getDate()
+        );
+        this.tpEndmaxDate = this.datePipe.transform(fourYearsFromNow, 'yyyy-MM-dd')!;
+      }else if(this.vehicleTypeSelected=='two_wheeler'){
+        const fourYearsFromNow = new Date(
+          currentDate.getFullYear() + 4,
+          currentDate.getMonth(),
+          currentDate.getDate()
+        );
+        this.tpEndmaxDate = this.datePipe.transform(fourYearsFromNow, 'yyyy-MM-dd')!;
+      }
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
@@ -433,10 +455,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       .get('tp_policy_end_date')
       ?.updateValueAndValidity();
     this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
-    const selectedDate = new Date(event.value);
-    selectedDate.setFullYear(selectedDate.getFullYear() + 1);
-    selectedDate.setDate(selectedDate.getDate() - 1);
-    this.tpEndminDate = this.datePipe.transform(selectedDate, 'yyyy-MM-dd')!;
   }
   getPreviousVehicleData(isValid: any) {
     if (isValid && this.renewalType != 'renewal') {

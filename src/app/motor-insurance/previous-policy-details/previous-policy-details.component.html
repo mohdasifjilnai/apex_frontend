@@ -85,6 +85,7 @@
             formControlName="tp_policy_start_date"
             id-automation="tp_policy_start_date"
             [min]="tpStartminDate"
+            [max]="tpStartmaxDate"
             (click)="tpPolicyStartDate.open()"
             (dateChange)="onTpStartDateSelected($event)"
             (keyup.enter)="EnterKey($event, tpPolicyStartDate)"
@@ -113,6 +114,7 @@
             formControlName="tp_policy_end_date"
             id-automation="tp_policy_end_date"
             [min]="tpEndminDate"
+            [max]="tpEndmaxDate"
             (click)="tpPolicyEndDate.open()"
           />
           <mat-datepicker-toggle matSuffix [for]="tpPolicyEndDate"

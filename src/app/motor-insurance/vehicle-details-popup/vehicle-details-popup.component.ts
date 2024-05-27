@@ -486,7 +486,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @param data
    */
   updateVehicleDetail() {
-    this.sharedDataService.sendCarLoaderMessage(0);
+    // this.sharedDataService.sendCarLoaderMessage(0);
     this.renderer.removeClass(document.body, 'dropdown-focus');
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();

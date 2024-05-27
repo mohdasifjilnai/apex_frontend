@@ -206,10 +206,10 @@ export class QuotesListingComponent implements OnInit {
       }
     });
     let popupData = sessionStorage.getItem('vehiclePopup');
-    if (popupData) {
-      this.progressValue = 0;
-      this.startProgress(0);
-    }
+    // if (popupData) {
+    //   this.progressValue = 0;
+    //   this.startProgress(0);
+    // }
 
     this.sharedDataService.getProgressValue.subscribe((res) => {
       this.progressValue = 0;
@@ -457,7 +457,7 @@ export class QuotesListingComponent implements OnInit {
     );
     bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
       this.progressValue = 0;
-      this.startProgress(this.progressValue);
+      // this.startProgress(this.progressValue);
       // Handle the data received from the bottom sheet
       this.owner_type = sessionStorage.getItem('proposerType');
     });
@@ -862,6 +862,10 @@ export class QuotesListingComponent implements OnInit {
   }
   intervalId: any = null;
   startProgress(progressValue: any) {
+    if (this.intervalId) {
+      return;
+    }
+    
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
       this.progressValue += 0.1;

@@ -229,6 +229,7 @@ export class SharedDataService {
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
+    this.sendCarLoaderMessage(0);
     this.proposerType = sessionStorage.getItem('proposerType');
 
     let setectedAddons;
