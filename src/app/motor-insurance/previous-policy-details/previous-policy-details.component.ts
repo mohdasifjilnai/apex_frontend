@@ -54,6 +54,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   isOdPolicyDetails: boolean = false;
   tpStartminDate: any;
   tpEndminDate: any;
+  fetchedKyc: any;
 
   constructor(
     private router: Router,
@@ -147,6 +148,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
+      } else if (
+        sessionStorage.getItem('proposerType') !==
+        this.fetchedKyc?.proposer_type
+      ) {
+        this.isDisableCKyc = true;
       }
       let renewalDataType = sessionStorage.getItem('renewalType');
       if (renewalDataType == 'renewal') {
@@ -412,6 +418,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     this.sharedData?.fetchedCkycData.subscribe((kyc) => {
       if (kyc) {
+        this.fetchedKyc = kyc;
         this.isDisableCKyc = false;
       }
     });

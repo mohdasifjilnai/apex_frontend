@@ -71,6 +71,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   vehicleColor: any;
   previousInsurerCode: any;
   isVehicleButton: boolean = false;
+  fetchedKyc: any;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -309,6 +310,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
+      } else if (
+        sessionStorage.getItem('proposerType') !==
+        this.fetchedKyc?.proposer_type
+      ) {
+        this.isDisableCKyc = true;
       }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
@@ -335,7 +341,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.isRegistrationNumber = true;
       let regFirstDigit = regNumber?.slice(0, 2);
       let regSecondDigit = regNumber?.slice(3, 5);
-      let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
+      let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
       let regLastDigit = regNumber.split(combineRegData);
       this.proposalVehilceDetailsForm.patchValue({
         registration_number_first: regFirstDigit,
@@ -371,6 +377,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
     this.shareData?.fetchedCkycData.subscribe((kyc) => {
       if (kyc) {
+        this.fetchedKyc = kyc;
         this.isDisableCKyc = false;
       }
     });
@@ -498,12 +505,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       agreementTypeControl?.setValidators([Validators.required]);
       financerCityControl?.setValidators([Validators.required]);
       financerControl?.updateValueAndValidity();
-    agreementTypeControl?.updateValueAndValidity();
-    financerCityControl?.updateValueAndValidity();
+      agreementTypeControl?.updateValueAndValidity();
+      financerCityControl?.updateValueAndValidity();
     } else {
-      financerControl?.reset()
-      agreementTypeControl?.reset()
-      financerCityControl?.reset()
+      financerControl?.reset();
+      agreementTypeControl?.reset();
+      financerCityControl?.reset();
       financerControl?.clearValidators();
       agreementTypeControl?.clearValidators();
       financerCityControl?.clearValidators();
@@ -514,8 +521,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       agreementTypeControl?.updateValueAndValidity();
       financerCityControl?.updateValueAndValidity();
     }
-
-    
   }
   getRegistrationAddressValue(isChecked?: any) {
     this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
