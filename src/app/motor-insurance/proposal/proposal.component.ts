@@ -12,6 +12,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatStepper } from '@angular/material/stepper';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 declare var HyperKYCModule: any;
 @Component({
@@ -75,12 +76,14 @@ export class ProposalComponent implements OnInit {
   getInsurerData: any;
   vehicleMMVData: any;
   rtoCity: any;
+  isLoading: boolean = false;
 
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +91,7 @@ export class ProposalComponent implements OnInit {
     this.renewalDetails = sessionStorage.getItem('renewalDetails');
     const parsedRenewalDetails = JSON.parse(this.renewalDetails);
     if (parsedRenewalDetails) {
+      this.loaderService.show();
       sessionStorage.setItem(
         'proposal_Id',
         parsedRenewalDetails?.transactional_details?.proposal_id
@@ -150,14 +154,16 @@ export class ProposalComponent implements OnInit {
       this.quoteData['is_breakin'] &&
       this.vehicleCardData?.policy_expiry_date != 'Not Sure'
     ) {
-      this.vehicleInspectionMessage ='Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+      this.vehicleInspectionMessage =
+        'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
       this.breakIn = true;
     } else if (
       this.quoteData['status'] &&
       this.quoteData['is_breakin'] &&
       this.vehicleCardData?.policy_expiry_date == 'Not Sure'
     ) {
-      this.vehicleInspectionMessage = 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+      this.vehicleInspectionMessage =
+        'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
     // if (this.quoteData?.insurer_code == 'united_india') {
@@ -469,9 +475,11 @@ export class ProposalComponent implements OnInit {
         this.quoteData['insurer_code'] !== 'digit'
       ) {
         if (this.quoteData?.insurer_code == 'united_india') {
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-          this.showVehicleOwnerDetails = true;
+          if (proposal?.ckyc_details?.is_verification) {
+            this.accordianExpanded = 'vehicleOwnerDetails';
+            this.openDesiredStep(this.accordianExpanded);
+            this.showVehicleOwnerDetails = true;
+          }
         }
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (Object.keys(kycData).length > 0) {
@@ -884,6 +892,7 @@ export class ProposalComponent implements OnInit {
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res: any) => {
+        this.loaderService.hide();
         if (res && this.rtoCity) {
           this.vehicleMMVData = res;
           this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
