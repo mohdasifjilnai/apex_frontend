@@ -716,7 +716,7 @@ export class QuotesListingComponent implements OnInit {
             this.renewalDataList = true;
           }
         }
-        if (this.renewalDataList && !this.refreshPageApiHandling) {
+        if (this.renewalDataList) {
           this.sharedDataService.vehicleMMVDetails(
             productTypeValue,
             mmvFormData,
@@ -865,7 +865,7 @@ export class QuotesListingComponent implements OnInit {
     if (this.intervalId) {
       return;
     }
-    
+
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
       this.progressValue += 0.1;
