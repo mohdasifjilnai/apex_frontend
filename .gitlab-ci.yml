@@ -47,7 +47,6 @@ deploy:
     - master
 production:
   stage: production
-  image: docker:latest
   variables:
     server: "production" 
   services:
