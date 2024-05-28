@@ -62,4 +62,4 @@ production:
     - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; cd repos/apex-frontend; sh deploy.sh"
 
   only:
-    - tag
+    - tags
