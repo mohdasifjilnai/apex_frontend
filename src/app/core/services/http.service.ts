@@ -1,11 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SetHeaderService } from './set-header.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private setHeader: SetHeaderService) {}
 
   headersFormulated: any;
 
@@ -31,7 +32,11 @@ export class HttpService {
   postRequest(url: string, dataObtained: any, productModules?: string) {
     const data = dataObtained ? dataObtained : {};
     const productHeaders = productModules ? productModules : '';
-    return this.http.post(url, data);
+    return this.http.post(
+      url,
+      data,
+      this.getHeaderAsProductModule(productHeaders)
+    );
   }
   /**
    * Invokes HTTP get Request
@@ -44,14 +49,8 @@ export class HttpService {
   /**
    * Invokes HTTP header data Request
    **/
-  getHeaderAsProductModule(
-    product: string,
-    isDoc?: any,
-    isToken?: any,
-    isDashboardAuth?: any,
-    isrefresh_token?: any,
-  ) {
-    // this.headersFormulated = this.setHeader.getHeaders(product, isDoc, isToken,isDashboardAuth,isrefresh_token);
+  getHeaderAsProductModule(isToken?: any) {
+    this.headersFormulated = this.setHeader.getHeaders(isToken);
     return this.headersFormulated;
   }
   /**
@@ -63,7 +62,7 @@ export class HttpService {
     return this.http.put(
       url,
       data,
-      this.getHeaderAsProductModule(productHeaders),
+      this.getHeaderAsProductModule(productHeaders)
     );
   }
 
@@ -76,7 +75,7 @@ export class HttpService {
     return this.http.patch(
       url,
       data,
-      this.getHeaderAsProductModule(productHeaders),
+      this.getHeaderAsProductModule(productHeaders)
     );
   }
 

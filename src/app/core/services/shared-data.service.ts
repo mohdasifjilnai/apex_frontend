@@ -321,9 +321,14 @@ export class SharedDataService {
         idvValue = data?.vehicle_idv;
       }
     }
+    let regNumberValue = sessionStorage.getItem('registrationNumber');
+    if (regNumberValue) {
+      regNumberValue = regNumberValue.replace(/-/g, '');
+    }
 
     let quotesData = {
       transaction_id: transactionIdData,
+      registration_no: regNumberValue,
       customer_type: this.proposerType,
       vehicle_type: this.vehicleType,
       rb_mmv_id: mmvId,
