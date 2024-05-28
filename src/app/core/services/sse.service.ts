@@ -32,6 +32,10 @@ export class SseService {
       eventSource.addEventListener('quotes', (event) => {
         this.zone.run(() => {
           observer.next(event);
+          if (this.currentPageUrl != '/motor/quotes') {
+            console.log('Connection Drop', event);
+            eventSource.close();
+          }
         });
       });
     });

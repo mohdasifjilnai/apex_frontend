@@ -184,7 +184,6 @@ export class AddOnsComponent implements OnInit {
             }
           }
         }
-        console.log(this.addOnsArray);
       }
     });
 
@@ -405,11 +404,11 @@ export class AddOnsComponent implements OnInit {
           } else {
             this.selectedAddOns = JSON.parse(this.addonsValue);
           }
-          if(this.selectedAddOns.length>0){
-            this.showUpdateButton=true
+          if (this.selectedAddOns.length > 0) {
+            this.showUpdateButton = true;
             this.clearAllButton = true;
             this.showButtons = true;
-          }else {
+          } else {
             this.showUpdateButton = false;
             this.clearAllButton = false;
             this.showButtons = false;
