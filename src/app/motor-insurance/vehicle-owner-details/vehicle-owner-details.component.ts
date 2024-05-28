@@ -343,6 +343,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.owenerVehicleDetailsForm
         .get('marital_status')
         ?.updateValueAndValidity();
+      this.owenerVehicleDetailsForm.patchValue({ marital_status: '' });
     }
     setTimeout(() => {
       this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
