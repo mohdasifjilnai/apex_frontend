@@ -150,20 +150,14 @@ export class ProposalComponent implements OnInit {
       this.quoteData['is_breakin'] &&
       this.vehicleCardData?.policy_expiry_date != 'Not Sure'
     ) {
-      this.vehicleInspectionMessage =
-        this.insuranceVehicleType == 'private_car'
-          ? ''
-          : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+      this.vehicleInspectionMessage ='Attention!! Some insurance company will ask for an inspection as previous policy is expired';
       this.breakIn = true;
     } else if (
       this.quoteData['status'] &&
       this.quoteData['is_breakin'] &&
       this.vehicleCardData?.policy_expiry_date == 'Not Sure'
     ) {
-      this.vehicleInspectionMessage =
-        this.insuranceVehicleType == 'private_car'
-          ? ''
-          : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+      this.vehicleInspectionMessage = 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
       this.breakIn = true;
     }
     // if (this.quoteData?.insurer_code == 'united_india') {

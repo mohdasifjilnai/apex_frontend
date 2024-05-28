@@ -53,7 +53,7 @@
         <button
           class="submit-btn inspection-btn mt-2"
           type="submit"
-          (click)="proceedToPayment()"
+          (click)="loader ? null :proceedToPayment()"
         >
           <span *ngIf="!quoteData?.is_breakin"><img
             src="/assets/gif/button-loader.gif"
@@ -61,7 +61,13 @@
             class="loader me-2"
             *ngIf="loader"
           />Proceed for Payment</span>
-          <span *ngIf="quoteData?.is_breakin">Proceed for Inspection</span>
+          <span *ngIf="quoteData?.is_breakin"><img
+            src="/assets/gif/button-loader.gif"
+            alt="close"
+            class="loader me-2"
+            *ngIf="loader"
+            
+          />Proceed for Inspection</span>
         </button>
       </div>
       <div class="col-12 mt-2">

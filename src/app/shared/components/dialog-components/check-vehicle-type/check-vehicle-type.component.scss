@@ -83,6 +83,14 @@
   color: #282828;
   line-height: 15px;
 }
+.btn-text {
+  font-size: 12px !important;
+  height: 36px;
+  width: 100%;
+}
+.isRcClaimDisable {
+  display: none;
+}
 @media screen and (max-width: 999px) {
   .edit-vehicle-details {
     .line {
@@ -110,17 +118,13 @@
   .res-view {
     padding: 8px 16px;
   }
+  .btn-text {
+    font-size: 11px !important;
+  }
 }
 .custom-modalbox {
   mat-dialog-container {
     border-radius: 20px;
   }
 }
-.btn-text {
-  font-size: 12px !important;
-  height: 36px;
-  width: 100%;
-}
-.isRcClaimDisable {
-  display: none;
-}
+
