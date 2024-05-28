@@ -427,18 +427,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   filterInsurer(name: string) {}
 
   proposalFinancierBlankData(data: any) {
-    if (!this.financierOninit) {
-      if (typeof this.proposalVehilceDetailsForm.value.financer == 'object') {
-        this.isProposalFinancier = false;
-        this.proposalVehilceDetailsForm.get('financer')?.setErrors(null);
+    if (this.isFinancedChecked) {
+      if (!this.financierOninit) {
+        if (typeof this.proposalVehilceDetailsForm.value.financer == 'object') {
+          this.isProposalFinancier = false;
+          this.proposalVehilceDetailsForm.get('financer')?.setErrors(null);
+        } else {
+          this.proposalVehilceDetailsForm
+            .get('financer')
+            ?.setErrors({ validFinancer: true });
+          this.isProposalFinancier = true;
+        }
       } else {
-        this.proposalVehilceDetailsForm
-          .get('financer')
-          ?.setErrors({ validFinancer: true });
-        this.isProposalFinancier = true;
+        this.financierOninit = false;
       }
-    } else {
-      this.financierOninit = false;
     }
   }
   getProposalVehicleData(isValid: any) {
@@ -525,6 +527,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       financerControl?.updateValueAndValidity();
       agreementTypeControl?.updateValueAndValidity();
       financerCityControl?.updateValueAndValidity();
+      this.isProposalFinancier = false;
     }
   }
   getRegistrationAddressValue(isChecked?: any) {
