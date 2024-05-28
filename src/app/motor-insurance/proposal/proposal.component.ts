@@ -474,6 +474,11 @@ export class ProposalComponent implements OnInit {
         proposal?.ckyc_details !== null &&
         this.quoteData['insurer_code'] !== 'digit'
       ) {
+        if (this.quoteData?.insurer_code == 'united_india') {
+          this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
+          this.showVehicleOwnerDetails = true;
+        }
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (Object.keys(kycData).length > 0) {
           this.accordianExpanded = 'vehicleOwnerDetails';
