@@ -72,8 +72,8 @@ export class PolicyExpiredDateComponent implements OnInit {
     this.proposalUrl = currentUrl[currentUrl.length - 2];
 
     const currentDate = new Date();
-    const minDateOffset = -20; // Subtract 20 years from current date
-    const maxDateOffset = 45; //add days to current date
+    const minDateOffset = -1; // Subtract 20 years from current date
+    const maxDateOffset = 60; //add days to current date
     this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
 
