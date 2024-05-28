@@ -628,7 +628,8 @@ export class CkycComponent implements OnInit {
           this.sharedDataService.createProposalId();
         } else {
           this.sharedDataService.openSnackBar(res?.message, false, 3000);
-          this.getUnitedCkycToken();
+          this.sharedDataService.createProposalId();
+
         }
       });
   }
