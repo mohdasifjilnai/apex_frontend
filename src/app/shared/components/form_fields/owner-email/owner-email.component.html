@@ -5,7 +5,7 @@
     formControlName="owner_email"
     appSpecialCharcaterExceptAt
     appNotAllowDot
-    maxlength="40"
+    maxlength="80"
     [readonly]="readonly"
   />
   <mat-error *ngIf="form.controls['owner_email']?.hasError('required')">
