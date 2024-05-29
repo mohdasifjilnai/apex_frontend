@@ -138,7 +138,12 @@ export class VehicleComponent implements OnInit {
     let vehicleType = localStorage.getItem('vehicleType');
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_vehicle_mmv}?product_name=${vehicleType}&search_element=${name}`
+        `${
+          ApiConstants.get_vehicle_mmv
+        }?product_name=${vehicleType}&search_element=${name
+          .replace(/\|/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()}`
       )
       .subscribe(
         (res) => {

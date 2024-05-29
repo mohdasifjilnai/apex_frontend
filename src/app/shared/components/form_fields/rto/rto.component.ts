@@ -83,7 +83,10 @@ export class RTOComponent implements OnInit {
   getRTOData(name: any) {
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_rto_list}?search_element=${name}`
+        `${ApiConstants.get_rto_list}?search_element=${name
+          ?.replace(/[()]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()}`
       )
       .subscribe((res) => {
         if (res && res.length > 0 && !res.message) {
