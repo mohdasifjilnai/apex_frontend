@@ -139,10 +139,10 @@ export class MotorInsuranceComponent implements OnInit {
         this.vehicleNotFound = false;
       }, 3000);
     });
-    if(localStorage.getItem('pos_status')=='false'){
-      this.openNotCertifiedPopup('')
+    if (localStorage.getItem('pos_status') == 'false') {
+      this.openNotCertifiedPopup('');
     }
-    
+
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
       const start = new Date();
       const end = new Date(res.value);
@@ -294,6 +294,7 @@ export class MotorInsuranceComponent implements OnInit {
 
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');
+    sessionStorage.removeItem('pageRefresh');
 
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {

@@ -102,6 +102,7 @@ export class SharedDataService {
   checkWheeler: any;
   isCheckWheeler = true;
   vaahanName: any;
+  isPageRefresh: boolean = true;
 
   constructor(
     private apiService: ApiService,
@@ -230,6 +231,7 @@ export class SharedDataService {
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
+    let pageRefreash = sessionStorage.getItem('pageRefresh');
     this.sendCarLoaderMessage(0);
     this.proposerType = sessionStorage.getItem('proposerType');
 
@@ -359,10 +361,7 @@ export class SharedDataService {
     };
     this.chooseIdvDataShow.next(productType);
 
-    const currentUrl = this.router.url;
-    let currentUrlPresent = sessionStorage.getItem('current_url');
-    if (!currentUrlPresent) {
-      sessionStorage.setItem('current_url', currentUrl);
+    if (pageRefreash == 'true') {
       this.apiService
         .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
         .subscribe((res) => {
@@ -1112,50 +1111,48 @@ export class SharedDataService {
     /**
      * service call for the server side event handling
      */
-    if (this.transactionId && this.quotesId) {
-      this.sseService
-        .getServerSentEvent(
-          `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
-        )
-        .subscribe(
-          (eventSource) => {
-            if (eventSource.data != 'null') {
-              let quotesEvent = JSON.parse(eventSource.data);
+    this.sseService
+      .getServerSentEvent(
+        `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
+      )
+      .subscribe(
+        (eventSource) => {
+          if (eventSource.data != 'null') {
+            let quotesEvent = JSON.parse(eventSource.data);
 
-              this.quotesConnectionData.push(quotesEvent);
+            this.quotesConnectionData.push(quotesEvent);
 
-              this.allQuotes = this.quotesConnectionData;
+            this.allQuotes = this.quotesConnectionData;
 
-              this.quotesValue = this.quotesConnectionData;
-              this.allQuotes = Object.values(
-                this.quotesValue.reduce(
-                  (
-                    data: any,
-                    obj: {
-                      insurer_name: any;
-                    }
-                  ) => ({ ...data, [obj.insurer_name]: obj }),
-                  {}
-                )
-              );
-              this.quotesCount = '';
-              this.quotesCount = this.allQuotes;
-              setTimeout(() => {
-                this.enableQuotesAction.next(true);
-                this.enableQuotesAction.next(this.quotesCount);
-              }, 25000);
-              console.log(this.allQuotes);
-              this.quotationListing.next(this.allQuotes);
-            }
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-            console.log('==> complete');
+            this.quotesValue = this.quotesConnectionData;
+            this.allQuotes = Object.values(
+              this.quotesValue.reduce(
+                (
+                  data: any,
+                  obj: {
+                    insurer_name: any;
+                  }
+                ) => ({ ...data, [obj.insurer_name]: obj }),
+                {}
+              )
+            );
+            this.quotesCount = '';
+            this.quotesCount = this.allQuotes;
+            setTimeout(() => {
+              this.enableQuotesAction.next(true);
+              this.enableQuotesAction.next(this.quotesCount);
+            }, 25000);
+            console.log(this.allQuotes);
+            this.quotationListing.next(this.allQuotes);
           }
-        );
-    }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          console.log('==> complete');
+        }
+      );
   }
 
   vehicleCardEmailData(fromData: any) {
