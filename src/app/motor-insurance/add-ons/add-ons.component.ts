@@ -64,6 +64,7 @@ export class AddOnsComponent implements OnInit {
   isTab: boolean = false;
   isMobileView = false;
   multipCheckboxName: any = [];
+  isPageRefresh = true;
   addMultiCheckboxValue: any = [];
   constructor(
     private apiService: ApiService,
@@ -437,6 +438,15 @@ export class AddOnsComponent implements OnInit {
     );
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
+    // if (window.performance.navigation.type === 1) {
+    //   console.log('Page was refreshed');
+    //   this.isPageRefresh = false;
+    //   // sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
+    // } else {
+    //   console.log('Page was not refreshed');
+    //   this.isPageRefresh = true;
+    //   // sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
+    // }
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     if (this.registrationNumber) {
       this.sharedDataService.vehicleMMVDetails(
