@@ -193,7 +193,7 @@ export class ChooseIDVComponent implements OnInit {
 
   onSelectIDVOption(option: string) {
     this.clearIdvButton = true;
-    this.sharedDataService.sendCarLoaderMessage(0);
+    // this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
       // Show input field if "Choose IDV" option is selected
       this.customIDV = true; // Reset custom IDV value
@@ -232,7 +232,7 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     if (this.selectedIDVOption) {
-      this.sharedDataService.sendCarLoaderMessage(0);
+      // this.sharedDataService.sendCarLoaderMessage(0);
       if (window.innerWidth <= 999) {
         this.bottomSheetRef.dismiss();
       }
@@ -252,7 +252,7 @@ export class ChooseIDVComponent implements OnInit {
     }
   }
   cancelIdv() {
-    this.sharedDataService.sendCarLoaderMessage(0);
+    // this.sharedDataService.sendCarLoaderMessage(0);
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     }

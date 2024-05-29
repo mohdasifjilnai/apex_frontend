@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { environment } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-not-certified',
   templateUrl: './not-certified.component.html',
@@ -19,13 +21,12 @@ export class NotCertifiedComponent implements OnInit {
  /**
    * this fucntion use for close pop up
    */
-  onClose(): void {
+ Understand(): void {
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();
     }
-    
-    
+    window.location.href=environment?.profile_redirection
   }
 }

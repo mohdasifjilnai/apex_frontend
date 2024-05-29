@@ -502,8 +502,8 @@ export class QuotesListingComponent implements OnInit {
         JSON.stringify(event.index)
       );
       sessionStorage.removeItem('selectedAddons');
-      this.progressValue = 0;
-      this.startProgress(0);
+      // this.progressValue = 0;
+      // this.startProgress(0);
       this.selectedProductType = event.tab.textLabel;
       sessionStorage.setItem('productType', this.selectedProductType);
       let productTypeValue = sessionStorage.getItem('productType');
@@ -874,13 +874,12 @@ export class QuotesListingComponent implements OnInit {
   }
   intervalId: any = null;
   startProgress(progressValue: any) {
-    if (this.intervalId) {
-      return;
-    }
-
+    // if (this.intervalId) {
+    //   return;
+    // }
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      this.progressValue += 0.1;
+      this.progressValue += 0.05;
       if (this.progressValue >= 100) {
         clearInterval(this.intervalId);
       } else {

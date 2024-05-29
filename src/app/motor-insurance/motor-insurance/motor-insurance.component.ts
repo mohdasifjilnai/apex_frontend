@@ -139,7 +139,10 @@ export class MotorInsuranceComponent implements OnInit {
         this.vehicleNotFound = false;
       }, 3000);
     });
-
+    if(localStorage.getItem('pos_status')=='false'){
+      this.openNotCertifiedPopup('')
+    }
+    
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
       const start = new Date();
       const end = new Date(res.value);

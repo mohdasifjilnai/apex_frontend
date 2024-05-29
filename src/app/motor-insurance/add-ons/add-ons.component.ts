@@ -234,7 +234,7 @@ export class AddOnsComponent implements OnInit {
    * this fucntion use for clear all check box to uncheck
    */
   clearAllChecked() {
-    this.sharedDataService.sendCarLoaderMessage(0);
+    // this.sharedDataService.sendCarLoaderMessage(0);
     for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
       for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
         this.addOnsArray[i].fe_template[j].checked = false;
@@ -422,7 +422,7 @@ export class AddOnsComponent implements OnInit {
     }
   }
   update() {
-    this.sharedDataService.sendCarLoaderMessage(0);
+    // this.sharedDataService.sendCarLoaderMessage(0);
 
     this.selected_addons = {};
 

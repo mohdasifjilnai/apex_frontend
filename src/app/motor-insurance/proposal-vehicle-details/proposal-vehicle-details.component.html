@@ -67,22 +67,22 @@
         >
           Minimum length 8
         </div>
-        <!-- <div
-          class="mt-1 error"
-          *ngIf="
-            proposalVehilceDetailsForm
-              .get('registration_number_last_digit')
-              ?.hasError('maxlength')
-          "
-        >
-          Max Length 11
-        </div> -->
         <div
           class="mt-1 error"
           *ngIf="
             proposalVehilceDetailsForm
               .get('registration_number_last_digit')
-              ?.hasError('pattern')
+              ?.hasError('maxlength')&& !proposalVehilceDetailsForm.get('registration_number_last_digit')?.hasError('pattern')
+          "
+        >
+          Max Length 11
+        </div>
+        <div
+          class="mt-1 error"
+          *ngIf="
+            proposalVehilceDetailsForm
+              .get('registration_number_last_digit')
+              ?.hasError('pattern') 
           "
         >
           Invalid Registration Number
