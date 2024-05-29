@@ -358,99 +358,113 @@ export class SharedDataService {
         data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
     };
     this.chooseIdvDataShow.next(productType);
-    this.apiService
-      .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
-      .subscribe((res) => {
-        this.transactionId = res.transaction_id;
-        this.sendTransactionId(res.transaction_id);
-        sessionStorage.setItem('transaction_id', res.transaction_id);
-        this.quotesId = res.quote_request_id;
-        this.quotesConnectionData = [];
-        // this.longPollingInfo = this.longPollingService.getAllQuotes(
-        //   this.transactionId,
-        //   this.quotesId
-        // );
 
-        // // Define an empty array to store emitted values
-        // let dataArray: any[] = [];
+    const currentUrl = this.router.url;
+    let currentUrlPresent = sessionStorage.getItem('current_url');
+    if (!currentUrlPresent) {
+      sessionStorage.setItem('current_url', currentUrl);
+      this.apiService
+        .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
+        .subscribe((res) => {
+          this.transactionId = res.transaction_id;
+          this.sendTransactionId(res.transaction_id);
+          sessionStorage.setItem('transaction_id', res.transaction_id);
+          sessionStorage.setItem('quote_request_id', res.quote_request_id);
 
-        // // Subscribe to the Observable
-        // this.longPollingInfo.subscribe({
-        //   next: (value: any) => {
-        //     // Push each emitted value into the array
-        //     dataArray = [];
-        //     dataArray.push(value);
+          this.quotesId = res.quote_request_id;
+          this.quotesConnectionData = [];
+          // this.longPollingInfo = this.longPollingService.getAllQuotes(
+          //   this.transactionId,
+          //   this.quotesId
+          // );
 
-        //     const quotesArray = dataArray[0].quotes;
+          // // Define an empty array to store emitted values
+          // let dataArray: any[] = [];
 
-        //     // Parse each string element into a JavaScript object
-        //     const parsedQuotesArray = quotesArray.map((quote: string) =>
-        //       JSON.parse(quote)
-        //     );
-        //     console.log(parsedQuotesArray);
-        //     this.quotesCount = '';
-        //     this.quotesCount = parsedQuotesArray;
-        //     this.quotationListing.next(parsedQuotesArray);
-        //     // setTimeout(() => {
-        //     //   this.enableQuotesAction.next(true);
-        //     // }, 25000);
-        //   },
-        //   complete: () => {
-        //     // When the Observable completes, dataArray contains all emitted values
+          // // Subscribe to the Observable
+          // this.longPollingInfo.subscribe({
+          //   next: (value: any) => {
+          //     // Push each emitted value into the array
+          //     dataArray = [];
+          //     dataArray.push(value);
 
-        //     this.enableQuotesAction.next(this.quotesCount);
-        //   },
-        //   error: (error: any) => {
-        //     // Handle errors if any
-        //     console.error('Error occurred:', error);
-        //   },
-        // });
-        /**
-         * service call for the server side event handling
-         */
-        this.sseService
-          .getServerSentEvent(
-            `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
-          )
-          .subscribe(
-            (eventSource) => {
-              if (eventSource.data != 'null') {
-                let quotesEvent = JSON.parse(eventSource.data);
+          //     const quotesArray = dataArray[0].quotes;
 
-                this.quotesConnectionData.push(quotesEvent);
+          //     // Parse each string element into a JavaScript object
+          //     const parsedQuotesArray = quotesArray.map((quote: string) =>
+          //       JSON.parse(quote)
+          //     );
+          //     console.log(parsedQuotesArray);
+          //     this.quotesCount = '';
+          //     this.quotesCount = parsedQuotesArray;
+          //     this.quotationListing.next(parsedQuotesArray);
+          //     // setTimeout(() => {
+          //     //   this.enableQuotesAction.next(true);
+          //     // }, 25000);
+          //   },
+          //   complete: () => {
+          //     // When the Observable completes, dataArray contains all emitted values
 
-                this.allQuotes = this.quotesConnectionData;
+          //     this.enableQuotesAction.next(this.quotesCount);
+          //   },
+          //   error: (error: any) => {
+          //     // Handle errors if any
+          //     console.error('Error occurred:', error);
+          //   },
+          // });
+          /**
+           * service call for the server side event handling
+           */
+          this.sseService
+            .getServerSentEvent(
+              `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
+            )
+            .subscribe(
+              (eventSource) => {
+                if (eventSource.data != 'null') {
+                  let quotesEvent = JSON.parse(eventSource.data);
 
-                this.quotesValue = this.quotesConnectionData;
-                this.allQuotes = Object.values(
-                  this.quotesValue.reduce(
-                    (
-                      data: any,
-                      obj: {
-                        insurer_name: any;
-                      }
-                    ) => ({ ...data, [obj.insurer_name]: obj }),
-                    {}
-                  )
-                );
-                this.quotesCount = '';
-                this.quotesCount = this.allQuotes;
-                setTimeout(() => {
-                  this.enableQuotesAction.next(true);
-                  this.enableQuotesAction.next(this.quotesCount);
-                }, 25000);
-                console.log(this.allQuotes);
-                this.quotationListing.next(this.allQuotes);
+                  this.quotesConnectionData.push(quotesEvent);
+
+                  this.allQuotes = this.quotesConnectionData;
+
+                  this.quotesValue = this.quotesConnectionData;
+                  this.allQuotes = Object.values(
+                    this.quotesValue.reduce(
+                      (
+                        data: any,
+                        obj: {
+                          insurer_name: any;
+                        }
+                      ) => ({ ...data, [obj.insurer_name]: obj }),
+                      {}
+                    )
+                  );
+                  this.quotesCount = '';
+                  this.quotesCount = this.allQuotes;
+                  setTimeout(() => {
+                    this.enableQuotesAction.next(true);
+                    this.enableQuotesAction.next(this.quotesCount);
+                  }, 25000);
+                  console.log(this.allQuotes);
+                  this.quotationListing.next(this.allQuotes);
+                }
+              },
+              (error) => {
+                console.log(error);
+              },
+              () => {
+                console.log('==> complete');
               }
-            },
-            (error) => {
-              console.log(error);
-            },
-            () => {
-              console.log('==> complete');
-            }
-          );
-      });
+            );
+        });
+    } else {
+      let data = {
+        transaction_id: sessionStorage.getItem('transaction_id'),
+        quote_request_id: sessionStorage.getItem('quote_request_id'),
+      };
+      this.getQuotesOnTransactionId(data);
+    }
   }
 
   /**
@@ -1098,48 +1112,50 @@ export class SharedDataService {
     /**
      * service call for the server side event handling
      */
-    this.sseService
-      .getServerSentEvent(
-        `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
-      )
-      .subscribe(
-        (eventSource) => {
-          if (eventSource.data != 'null') {
-            let quotesEvent = JSON.parse(eventSource.data);
+    if (this.transactionId && this.quotesId) {
+      this.sseService
+        .getServerSentEvent(
+          `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
+        )
+        .subscribe(
+          (eventSource) => {
+            if (eventSource.data != 'null') {
+              let quotesEvent = JSON.parse(eventSource.data);
 
-            this.quotesConnectionData.push(quotesEvent);
+              this.quotesConnectionData.push(quotesEvent);
 
-            this.allQuotes = this.quotesConnectionData;
+              this.allQuotes = this.quotesConnectionData;
 
-            this.quotesValue = this.quotesConnectionData;
-            this.allQuotes = Object.values(
-              this.quotesValue.reduce(
-                (
-                  data: any,
-                  obj: {
-                    insurer_name: any;
-                  }
-                ) => ({ ...data, [obj.insurer_name]: obj }),
-                {}
-              )
-            );
-            this.quotesCount = '';
-            this.quotesCount = this.allQuotes;
-            setTimeout(() => {
-              this.enableQuotesAction.next(true);
-              this.enableQuotesAction.next(this.quotesCount);
-            }, 25000);
-            console.log(this.allQuotes);
-            this.quotationListing.next(this.allQuotes);
+              this.quotesValue = this.quotesConnectionData;
+              this.allQuotes = Object.values(
+                this.quotesValue.reduce(
+                  (
+                    data: any,
+                    obj: {
+                      insurer_name: any;
+                    }
+                  ) => ({ ...data, [obj.insurer_name]: obj }),
+                  {}
+                )
+              );
+              this.quotesCount = '';
+              this.quotesCount = this.allQuotes;
+              setTimeout(() => {
+                this.enableQuotesAction.next(true);
+                this.enableQuotesAction.next(this.quotesCount);
+              }, 25000);
+              console.log(this.allQuotes);
+              this.quotationListing.next(this.allQuotes);
+            }
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            console.log('==> complete');
           }
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          console.log('==> complete');
-        }
-      );
+        );
+    }
   }
 
   vehicleCardEmailData(fromData: any) {

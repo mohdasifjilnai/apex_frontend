@@ -283,6 +283,14 @@ export class MotorInsuranceComponent implements OnInit {
     if (isCKycDOne) {
       sessionStorage.removeItem('isCKycDOne');
     }
+    let quoteRequesId = sessionStorage.getItem('quote_request_id');
+    if (quoteRequesId) {
+      sessionStorage.removeItem('quote_request_id');
+    }
+    let currentUrl = sessionStorage.getItem('current_url');
+    if (currentUrl) {
+      sessionStorage.removeItem('current_url');
+    }
 
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');
