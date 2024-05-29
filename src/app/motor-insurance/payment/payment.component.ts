@@ -39,9 +39,6 @@ export class PaymentComponent implements OnInit {
     classObtained: 'nonPOS-class',
   };
   ngOnInit(): void {
-    if (sessionStorage.getItem('isPayment')) {
-      this.router.navigate(['/motor']);
-    }
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
@@ -143,7 +140,11 @@ export class PaymentComponent implements OnInit {
       if (withoutVehicleNumber) {
         localStorage.removeItem('withoutVehicleNumber');
       }
-      sessionStorage.clear();
+      if (sessionStorage.getItem('isPayment')) {
+        this.router.navigate(['/motor']);
+      } else {
+        sessionStorage.clear();
+      }
     });
   }
 

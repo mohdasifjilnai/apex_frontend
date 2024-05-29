@@ -1079,7 +1079,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
   }
 
-  getExpiringPolicy(date?: any, policyExpiryDate?: any, dateChange?: any) {
+  getExpiringPolicy(
+    date?: any,
+    policyExpiryDate?: any,
+    dateChange?: any,
+    ownershipTransfer?: any
+  ) {
     let expiringPolicyType;
 
     if (this.registrationNumber) {
@@ -1228,6 +1233,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
               res?.is_new_vehicle == false ? 'renewal' : 'new';
             sessionStorage.setItem('newVehicleType', this.newVehicleData);
             this.setUpdateValidetion(this.isNewVehicle);
+
             this.expiryList = res.expiring_policy_type;
             if (res.expiring_policy_type.length > 0) {
               this.policyTypeBaseNCB =
@@ -1283,6 +1289,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   'renewalPolicyExpiry',
                   JSON.stringify(policyExpiryValue)
                 );
+              }
+            }
+
+            if (ownershipTransfer == 'ownerTransfer') {
+              let selectedPreviousPolicy =
+                this.vehicleDetailsForm.value.policy_expiry;
+              if (selectedPreviousPolicy) {
+                this.hideFieldOnExpiryPolicy(selectedPreviousPolicy);
               }
             }
           }
@@ -1436,8 +1450,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.patchData = false;
+
     if (this.regDateValue) {
-      this.getExpiringPolicy(this.regDateValue);
+      this.getExpiringPolicy(this.regDateValue, '', '', 'ownerTransfer');
     } else {
       this.getExpiringPolicy();
     }
