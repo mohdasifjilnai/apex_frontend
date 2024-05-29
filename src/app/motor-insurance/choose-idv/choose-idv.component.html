@@ -1,7 +1,7 @@
 <div
   class="idv-range"
   [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
-  [hidden]="idvShowHide == 'bundled_tp' || idvShowHide == 'satp'"
+  [hidden]="showIdv == 'bundled_tp' || showIdv == 'satp'"
   *ngIf="!isMobileView"
 >
   <div class="card my-2">

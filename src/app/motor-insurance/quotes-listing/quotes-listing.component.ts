@@ -688,12 +688,15 @@ export class QuotesListingComponent implements OnInit {
     if (!this.proposalTypeOninit) {
       // this.progressValue = 0;
       // this.startProgress(0);
-      sessionStorage.setItem(
-        'proposerType',
-        this.proposalList.filter((res: any) => res.proposer_id == event)[0][
-          'proposer_name'
-        ]
-      );
+      let proposarTypeData = sessionStorage.getItem('proposerType');
+      let selectedProposarType = this.proposalList.filter(
+        (res: any) => res.proposer_id == event
+      )[0]['proposer_name'];
+
+      if (selectedProposarType != proposarTypeData) {
+        sessionStorage.removeItem('selectedAddons');
+      }
+      sessionStorage.setItem('proposerType', selectedProposarType);
       let productTypeValue = sessionStorage.getItem('productType');
       let mmvFormData = sessionStorage.getItem('mmv_data');
       this.registrationNumber = sessionStorage.getItem('registrationNumber');
@@ -763,6 +766,15 @@ export class QuotesListingComponent implements OnInit {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
           let productTypeValue = sessionStorage.getItem('productType');
+          let tabData = this.tabDataList.findIndex((item: any) => {
+            if (item.code == productTypeValue) {
+              return item;
+            }
+          });
+
+          if (tabData == -1) {
+            sessionStorage.setItem('productType', this.selectedProductType);
+          }
           if (!productTypeValue) {
             sessionStorage.setItem('productType', this.selectedProductType);
           }

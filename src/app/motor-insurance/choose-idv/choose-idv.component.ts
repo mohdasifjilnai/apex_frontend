@@ -28,6 +28,7 @@ export class ChooseIDVComponent implements OnInit {
   quotesCount: any;
   idvError: any;
   updateIdvButton = false;
+  showIdv: any;
   isMobileView: boolean = false;
   chooseIdvForm: FormGroup = new FormGroup({
     chooseIdv: new FormControl('', [Validators.required]),
@@ -144,6 +145,10 @@ export class ChooseIDVComponent implements OnInit {
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
+    });
+
+    this.sharedDataService.chooseIdvDataShow.subscribe((idvData) => {
+      this.showIdv = idvData;
     });
 
     this.sharedDataService.idvSliderHide.subscribe((idvHide) => {

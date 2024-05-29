@@ -181,6 +181,18 @@ export class QuotesComponent implements OnInit {
           this.quotesRequest = response.quote_request;
           localStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
           sessionStorage.setItem(
+            'newVehicleType',
+            this.quotesRequest.business_type
+          );
+          sessionStorage.setItem(
+            'proposerType',
+            this.quotesRequest.customer_type
+          );
+          sessionStorage.setItem(
+            'productType',
+            this.quotesRequest.product_type
+          );
+          sessionStorage.setItem(
             'lastSelectedTabIndex',
             this.quotesRequest?.meta_data?.selectedTabIndex
           );

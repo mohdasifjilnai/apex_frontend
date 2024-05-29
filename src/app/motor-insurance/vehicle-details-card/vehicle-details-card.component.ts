@@ -55,7 +55,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   vehicleType: any;
   registartionDate: any;
   satpNCB: any;
-  showZeroNCB: boolean=false;
+  showZeroNCB: boolean = false;
 
   constructor(
     private matDialog: WindowRef,
@@ -127,10 +127,10 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
     this.sharedDataService.idvSliderHide.subscribe((idvHide) => {
       this.satpNCB = idvHide;
-      if(this.satpNCB=='satp' || this.satpNCB=='bundled_tp'){
-        this.showZeroNCB=true
-      }else{
-        this.showZeroNCB=false
+      if (this.satpNCB == 'satp' || this.satpNCB == 'bundled_tp') {
+        this.showZeroNCB = true;
+      } else {
+        this.showZeroNCB = false;
       }
     });
 
@@ -180,7 +180,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     // if (this.parsedVehicleData?.ncb_discount) {
     //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
     // }
-    if(!this.parsedVehicleData?.user_car){
+    if (!this.parsedVehicleData?.user_car) {
       if (this.parsedVehicleData?.addNcbBoth?.new_ncb_name) {
         this.newNCB = this.parsedVehicleData?.addNcbBoth.new_ncb_name;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;

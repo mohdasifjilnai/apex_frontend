@@ -67,6 +67,7 @@ export class SharedDataService {
   renewalVehicleData = new BehaviorSubject<any>(null);
   getRenewalMmv = new BehaviorSubject<any>(null);
   getPlanType = new BehaviorSubject<any>(null);
+  chooseIdvDataShow = new BehaviorSubject<any>(null);
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
   checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
@@ -356,6 +357,7 @@ export class SharedDataService {
       offered_ncb_value:
         data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
     };
+    this.chooseIdvDataShow.next(productType);
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
