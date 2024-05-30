@@ -93,6 +93,13 @@ export class QuotesComponent implements OnInit {
             parsedRenewalDetails?.transactional_details?.transaction_id,
             parsedRenewalDetails?.transactional_details?.quote_id
           );
+        } else {
+          let shareData = JSON.parse(
+            sessionStorage.getItem('sharable_transactionData') || '{}'
+          );
+          if (shareData) {
+            this.getInsurerCode(shareData.transaction_id, shareData.quote_id);
+          }
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (!quotesUrl) {

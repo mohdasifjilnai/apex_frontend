@@ -278,6 +278,15 @@ export class ProposalReviewComponent implements OnInit {
               this.generateProposalData?.transaction_id,
               this.generateProposalData?.insurer_quote_id
             );
+            const dataToStore = {
+              transaction_id: this.generateProposalData?.transaction_id,
+              insurer_quote_id: this.generateProposalData?.insurer_quote_id,
+            };
+
+            sessionStorage.setItem(
+              'sharable_transactionData',
+              JSON.stringify(dataToStore)
+            );
             const kycData = JSON.parse(
               sessionStorage.getItem('kycData') || '{}'
             );
