@@ -97,8 +97,13 @@ export class QuotesComponent implements OnInit {
           let shareData = JSON.parse(
             sessionStorage.getItem('sharable_transactionData') || '{}'
           );
-          if (shareData) {
-            // this.getInsurerCode(shareData.transaction_id, shareData.quote_id);
+          let shareabableObject = Object.keys(shareData);
+          if (shareabableObject.length > 0) {
+            sessionStorage.setItem('vehiclePopup', 'true');
+            this.getInsurerCode(
+              shareData.transaction_id,
+              shareData.insurer_quote_id
+            );
           }
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
