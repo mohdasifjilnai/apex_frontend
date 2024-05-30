@@ -102,7 +102,7 @@ export class SharedDataService {
   checkWheeler: any;
   isCheckWheeler = true;
   vaahanName: any;
-  isPageRefresh: boolean = true;
+  // isPageRefresh: boolean = true;
 
   constructor(
     private apiService: ApiService,
@@ -231,7 +231,6 @@ export class SharedDataService {
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
-    let pageRefreash = sessionStorage.getItem('pageRefresh');
     this.sendCarLoaderMessage(0);
     this.proposerType = sessionStorage.getItem('proposerType');
 
@@ -361,109 +360,110 @@ export class SharedDataService {
     };
     this.chooseIdvDataShow.next(productType);
 
-    if (pageRefreash == 'true') {
-      this.apiService
-        .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
-        .subscribe((res) => {
-          this.transactionId = res.transaction_id;
-          this.sendTransactionId(res.transaction_id);
-          sessionStorage.setItem('transaction_id', res.transaction_id);
-          sessionStorage.setItem('quote_request_id', res.quote_request_id);
+    // if (pageRefreash == 'true') {
+    this.apiService
+      .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
+      .subscribe((res) => {
+        this.transactionId = res.transaction_id;
+        this.sendTransactionId(res.transaction_id);
+        sessionStorage.setItem('transaction_id', res.transaction_id);
+        sessionStorage.setItem('quote_request_id', res.quote_request_id);
 
-          this.quotesId = res.quote_request_id;
-          this.quotesConnectionData = [];
-          // this.longPollingInfo = this.longPollingService.getAllQuotes(
-          //   this.transactionId,
-          //   this.quotesId
-          // );
+        this.quotesId = res.quote_request_id;
+        this.quotesConnectionData = [];
+        // this.longPollingInfo = this.longPollingService.getAllQuotes(
+        //   this.transactionId,
+        //   this.quotesId
+        // );
 
-          // // Define an empty array to store emitted values
-          // let dataArray: any[] = [];
+        // // Define an empty array to store emitted values
+        // let dataArray: any[] = [];
 
-          // // Subscribe to the Observable
-          // this.longPollingInfo.subscribe({
-          //   next: (value: any) => {
-          //     // Push each emitted value into the array
-          //     dataArray = [];
-          //     dataArray.push(value);
+        // // Subscribe to the Observable
+        // this.longPollingInfo.subscribe({
+        //   next: (value: any) => {
+        //     // Push each emitted value into the array
+        //     dataArray = [];
+        //     dataArray.push(value);
 
-          //     const quotesArray = dataArray[0].quotes;
+        //     const quotesArray = dataArray[0].quotes;
 
-          //     // Parse each string element into a JavaScript object
-          //     const parsedQuotesArray = quotesArray.map((quote: string) =>
-          //       JSON.parse(quote)
-          //     );
-          //     console.log(parsedQuotesArray);
-          //     this.quotesCount = '';
-          //     this.quotesCount = parsedQuotesArray;
-          //     this.quotationListing.next(parsedQuotesArray);
-          //     // setTimeout(() => {
-          //     //   this.enableQuotesAction.next(true);
-          //     // }, 25000);
-          //   },
-          //   complete: () => {
-          //     // When the Observable completes, dataArray contains all emitted values
+        //     // Parse each string element into a JavaScript object
+        //     const parsedQuotesArray = quotesArray.map((quote: string) =>
+        //       JSON.parse(quote)
+        //     );
+        //     console.log(parsedQuotesArray);
+        //     this.quotesCount = '';
+        //     this.quotesCount = parsedQuotesArray;
+        //     this.quotationListing.next(parsedQuotesArray);
+        //     // setTimeout(() => {
+        //     //   this.enableQuotesAction.next(true);
+        //     // }, 25000);
+        //   },
+        //   complete: () => {
+        //     // When the Observable completes, dataArray contains all emitted values
 
-          //     this.enableQuotesAction.next(this.quotesCount);
-          //   },
-          //   error: (error: any) => {
-          //     // Handle errors if any
-          //     console.error('Error occurred:', error);
-          //   },
-          // });
-          /**
-           * service call for the server side event handling
-           */
-          this.sseService
-            .getServerSentEvent(
-              `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
-            )
-            .subscribe(
-              (eventSource) => {
-                if (eventSource.data != 'null') {
-                  let quotesEvent = JSON.parse(eventSource.data);
+        //     this.enableQuotesAction.next(this.quotesCount);
+        //   },
+        //   error: (error: any) => {
+        //     // Handle errors if any
+        //     console.error('Error occurred:', error);
+        //   },
+        // });
+        /**
+         * service call for the server side event handling
+         */
+        this.sseService
+          .getServerSentEvent(
+            `/api/v1/fetch_quotes/${this.transactionId}/${this.quotesId}`
+          )
+          .subscribe(
+            (eventSource) => {
+              if (eventSource.data != 'null') {
+                let quotesEvent = JSON.parse(eventSource.data);
 
-                  this.quotesConnectionData.push(quotesEvent);
+                this.quotesConnectionData.push(quotesEvent);
 
-                  this.allQuotes = this.quotesConnectionData;
+                this.allQuotes = this.quotesConnectionData;
 
-                  this.quotesValue = this.quotesConnectionData;
-                  this.allQuotes = Object.values(
-                    this.quotesValue.reduce(
-                      (
-                        data: any,
-                        obj: {
-                          insurer_name: any;
-                        }
-                      ) => ({ ...data, [obj.insurer_name]: obj }),
-                      {}
-                    )
-                  );
-                  this.quotesCount = '';
-                  this.quotesCount = this.allQuotes;
-                  setTimeout(() => {
-                    this.enableQuotesAction.next(true);
-                    this.enableQuotesAction.next(this.quotesCount);
-                  }, 25000);
-                  console.log(this.allQuotes);
-                  this.quotationListing.next(this.allQuotes);
-                }
-              },
-              (error) => {
-                console.log(error);
-              },
-              () => {
-                console.log('==> complete');
+                this.quotesValue = this.quotesConnectionData;
+                this.allQuotes = Object.values(
+                  this.quotesValue.reduce(
+                    (
+                      data: any,
+                      obj: {
+                        insurer_name: any;
+                      }
+                    ) => ({ ...data, [obj.insurer_name]: obj }),
+                    {}
+                  )
+                );
+                this.quotesCount = '';
+                this.quotesCount = this.allQuotes;
+                setTimeout(() => {
+                  this.enableQuotesAction.next(true);
+                  this.enableQuotesAction.next(this.quotesCount);
+                }, 25000);
+                console.log(this.allQuotes);
+                this.quotationListing.next(this.allQuotes);
               }
-            );
-        });
-    } else {
-      let data = {
-        transaction_id: sessionStorage.getItem('transaction_id'),
-        quote_request_id: sessionStorage.getItem('quote_request_id'),
-      };
-      this.getQuotesOnTransactionId(data);
-    }
+            },
+            (error) => {
+              console.log(error);
+            },
+            () => {
+              console.log('==> complete');
+            }
+          );
+      });
+    // }
+    // else {
+    //   let data = {
+    //     transaction_id: sessionStorage.getItem('transaction_id'),
+    //     quote_request_id: sessionStorage.getItem('quote_request_id'),
+    //   };
+    //   this.getQuotesOnTransactionId(data);
+    // }
   }
 
   /**

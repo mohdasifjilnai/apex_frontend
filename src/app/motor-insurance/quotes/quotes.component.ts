@@ -98,7 +98,7 @@ export class QuotesComponent implements OnInit {
             sessionStorage.getItem('sharable_transactionData') || '{}'
           );
           if (shareData) {
-            this.getInsurerCode(shareData.transaction_id, shareData.quote_id);
+            // this.getInsurerCode(shareData.transaction_id, shareData.quote_id);
           }
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');

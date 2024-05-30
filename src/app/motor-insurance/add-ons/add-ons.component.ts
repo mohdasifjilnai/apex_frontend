@@ -64,7 +64,7 @@ export class AddOnsComponent implements OnInit {
   isTab: boolean = false;
   isMobileView = false;
   multipCheckboxName: any = [];
-  isPageRefresh = true;
+  // isPageRefresh = true;
   addMultiCheckboxValue: any = [];
   constructor(
     private apiService: ApiService,

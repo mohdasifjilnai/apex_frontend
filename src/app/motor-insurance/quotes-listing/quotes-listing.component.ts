@@ -146,7 +146,7 @@ export class QuotesListingComponent implements OnInit {
   renewalType: any;
   insurerCode: any;
   renewalDataList = false;
-  isPageRefresh = true;
+  // isPageRefresh = true;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -305,29 +305,29 @@ export class QuotesListingComponent implements OnInit {
       this.insurerCode = quotesData?.insurer_code;
     }
 
-    let currentPageUrl = this.router.url;
-    if (window.performance.navigation.type === 1) {
-      console.log('Page was refreshed');
+    // let currentPageUrl = this.router.url;
+    // if (window.performance.navigation.type === 1) {
+    //   console.log('Page was refreshed');
 
-      let vehicledetailPopup = sessionStorage.getItem('vehiclePopup');
-      if (vehicledetailPopup) {
-        this.isPageRefresh = false;
-        sessionStorage.setItem(
-          'pageRefresh',
-          JSON.stringify(this.isPageRefresh)
-        );
-      } else {
-        this.isPageRefresh = true;
-        sessionStorage.setItem(
-          'pageRefresh',
-          JSON.stringify(this.isPageRefresh)
-        );
-      }
-    } else {
-      console.log('Page was not refreshed');
-      this.isPageRefresh = true;
-      sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
-    }
+    //   let vehicledetailPopup = sessionStorage.getItem('vehiclePopup');
+    //   if (vehicledetailPopup) {
+    //     this.isPageRefresh = false;
+    //     sessionStorage.setItem(
+    //       'pageRefresh',
+    //       JSON.stringify(this.isPageRefresh)
+    //     );
+    //   } else {
+    //     this.isPageRefresh = true;
+    //     sessionStorage.setItem(
+    //       'pageRefresh',
+    //       JSON.stringify(this.isPageRefresh)
+    //     );
+    //   }
+    // } else {
+    //   console.log('Page was not refreshed');
+    //   this.isPageRefresh = true;
+    //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
+    // }
   }
 
   getProposalType() {
