@@ -4,5 +4,5 @@ export const environment = {
   amsurl: 'https://accounts.rbstaging.in/',
   artivatic_flag: false,
   apex: 'https://preprod-apex.rbstaging.in/',
-  profile_redirection: 'https://partners.rbstaging.in',
+  profile_redirection: 'https://partners.rbstaging.in/home',
 };

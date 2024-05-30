@@ -35,7 +35,7 @@ export class ShareQuotesComponent implements OnInit {
     public sharedDataService: SharedDataService
   ) {
     this.shareQuotationForm = this.formBuilder.group({
-      whatsApp_number: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
+      whatsApp_number: [{ value: '', disabled: true }, [Validators.pattern(/^[6-9]\d{9}$/)]],
       contact_number: ['', [Validators.pattern(/^[6-9]\d{9}$/)]],
       email: ['', [Validators.email]],
     });

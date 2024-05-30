@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/app/shared/components/dialog-components/snackbar/snackbar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -112,7 +114,8 @@ export class SharedDataService {
     public longPollingService: LongPollingService,
     private datePipe: DatePipe,
     private snackbar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    public dialog: MatDialog
   ) {}
 
   sendVehicleEditData(data: any) {
@@ -231,7 +234,6 @@ export class SharedDataService {
   }
 
   getQuotationListing(data?: any, productType?: any, value?: any) {
-    this.sendCarLoaderMessage(0);
     this.proposerType = sessionStorage.getItem('proposerType');
 
     let setectedAddons;
@@ -364,6 +366,8 @@ export class SharedDataService {
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
+        if(res?.status){
+          this.sendCarLoaderMessage(0);        
         this.transactionId = res.transaction_id;
         this.sendTransactionId(res.transaction_id);
         sessionStorage.setItem('transaction_id', res.transaction_id);
@@ -455,7 +459,19 @@ export class SharedDataService {
               console.log('==> complete');
             }
           );
-      });
+      }else {
+        const dialogRef = this.dialog.open(FailureDialogComponent, {
+          width: 'auto',
+          height: 'auto',
+          data: {
+            errorData: res?.message,
+            statusdata: status,
+          },
+          panelClass: 'failure-dialog-class',
+        });
+        dialogRef.afterClosed().subscribe((result: any) => {});
+      }}
+    );
     // }
     // else {
     //   let data = {

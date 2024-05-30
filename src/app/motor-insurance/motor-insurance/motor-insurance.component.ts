@@ -139,9 +139,13 @@ export class MotorInsuranceComponent implements OnInit {
         this.vehicleNotFound = false;
       }, 3000);
     });
-    if (localStorage.getItem('pos_status') == 'false') {
-      this.openNotCertifiedPopup('');
-    }
+    const partner_code=localStorage.getItem('partner_code')?.slice(0,2)
+    if(partner_code!='EM'){
+      const pos_status=localStorage.getItem('pos_status')?.toLowerCase()
+      if ( pos_status== 'false') {
+        this.openNotCertifiedPopup('');
+      }
+    }    
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
       const start = new Date();

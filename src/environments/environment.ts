@@ -7,5 +7,5 @@ export const environment = {
   artivatic_flag: false,
   apex: 'https://dev-apex.rbstaging.in/',
 
-  profile_redirection: 'https://partners.rbstaging.in',
+  profile_redirection: 'https://partners.rbstaging.in/home',
 };
