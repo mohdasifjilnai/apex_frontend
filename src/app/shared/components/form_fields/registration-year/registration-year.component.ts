@@ -49,7 +49,6 @@ export const MY_FORMATS = {
 
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
-
 })
 export class RegistrationYearComponent implements OnInit {
   form!: FormGroup;
@@ -126,7 +125,7 @@ export class RegistrationYearComponent implements OnInit {
     // );
     // this.form.controls['registration_date'].setValue('');
 
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 10));
     const currentYear = moment().year();
     /**
      * Set minDate to the first day of January 1990
@@ -165,26 +164,25 @@ export class RegistrationYearComponent implements OnInit {
       this.form.get('registration_date')?.disable();
     }
   }
-/**
+  /**
    * for use month selection
    */
-chosenMonthRegistration(
-  normalizedMonth: Moment,
-  datepicker: MatDatepicker<Moment>
-) {
-  let registrationDate =
-    this.form.controls['registration_date'].value;
+  chosenMonthRegistration(
+    normalizedMonth: Moment,
+    datepicker: MatDatepicker<Moment>
+  ) {
+    let registrationDate = this.form.controls['registration_date'].value;
     if (!registrationDate) {
       registrationDate = moment();
     } else {
       registrationDate = moment(registrationDate);
     }
-  registrationDate.month(normalizedMonth.month());
-  registrationDate?.year(normalizedMonth.year());
-  registrationDate?.date(normalizedMonth.date());
-  this.form.controls['registration_date'].setValue(registrationDate);
-  datepicker.close();
-}
+    registrationDate.month(normalizedMonth.month());
+    registrationDate?.year(normalizedMonth.year());
+    registrationDate?.date(normalizedMonth.date());
+    this.form.controls['registration_date'].setValue(registrationDate);
+    datepicker.close();
+  }
   ngOnDestroy(): void {
     /**
      * remove form control for the Registration Year

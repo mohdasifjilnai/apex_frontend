@@ -51,6 +51,7 @@ export class HeaderComponent implements OnInit {
       this.copiedId = this.id;
     } else {
       this.transactionId = this.transactionIDByUrl;
+      this.copiedId=this.transactionIDByUrl
     }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {

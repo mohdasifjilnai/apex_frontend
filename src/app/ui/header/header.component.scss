@@ -114,7 +114,9 @@
   display: flex;
   align-items: center;
 }
-
+.traceid-copy{
+  white-space: nowrap;
+}
 .class_login {
   display: none;
   #userProfile {

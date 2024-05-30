@@ -79,7 +79,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
     this.vehiclePopupList = sessionStorage.getItem('mmv_data');
-    this.vehicleType = localStorage.getItem('vehicleType');
+    this.vehicleType = sessionStorage.getItem('vehicleType');
     let vehicleCard = JSON.parse(this.vehiclePopupList);
     if (vehicleCard) {
       this.vehicleCardData(vehicleCard);

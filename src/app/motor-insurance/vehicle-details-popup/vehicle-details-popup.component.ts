@@ -222,7 +222,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   registrationNumber: any;
   dataWithoutRegistration: any;
   ngOnInit(): void {
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.showSelectedFuelandCapacity = false;
     const expiryPolicy = this.vehicleDetailsForm.get('policy_expiry')?.value;
     if (expiryPolicy === 'bundled_tp') {
@@ -273,7 +273,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     // ONInit Function Call
 
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumber = numberData;
@@ -395,9 +395,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     );
     if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
       if (
-        (localStorage.getItem('vehicleType') == 'private_car' &&
+        (sessionStorage.getItem('vehicleType') == 'private_car' &&
           this.checkWheeler['is_four_wheeler']) ||
-        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+        (sessionStorage.getItem('vehicleType') == 'two_wheeler' &&
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.isCheckWheeler = true;
@@ -1473,14 +1473,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   proccedToCurrentJourney(checkWheeler: any, rb_mmv_id: any) {
     if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
-      localStorage.setItem('vehicleType', 'private_car');
+      sessionStorage.setItem('vehicleType', 'private_car');
     }
     if (!checkWheeler['is_four_wheeler'] && checkWheeler['is_two_wheeler']) {
-      localStorage.setItem('vehicleType', 'two_wheeler');
+      sessionStorage.setItem('vehicleType', 'two_wheeler');
     }
     checkWheeler['is_four_wheeler'] = true;
     checkWheeler['is_two_wheeler'] = true;
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.getVehicleDetailsPopup('', '', '', rb_mmv_id, '');
     this.getRTOData('rto_code');
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
@@ -1496,7 +1496,7 @@ Get the expiring policy list based on the given date or the registration details
  */
   expiryPolicyGetList(date: any, modifiedDate: any, policyExpDate?: any) {
     let expiringPolicyType;
-    let vehicleType = localStorage.getItem('vehicleType');
+    let vehicleType = sessionStorage.getItem('vehicleType');
     if (this.registrationNumber && modifiedDate == '') {
       if (
         this.registrationNumber?.registration_month &&
@@ -1760,7 +1760,7 @@ Get the expiring policy list based on the given date or the registration details
     type?: any
   ) {
     let apiData;
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     if (id) {
       apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;

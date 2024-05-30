@@ -355,7 +355,7 @@ export class ProposalShareComponent implements OnInit {
   downloadPremiumBreakup() {
     this.downloadLoader=true
     let quote_data = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
     this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {

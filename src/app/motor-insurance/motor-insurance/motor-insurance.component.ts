@@ -496,7 +496,7 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetailsInfo() {
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     const regn_no =
       this.motorInsurance.controls['registration_number']?.value.toUpperCase();

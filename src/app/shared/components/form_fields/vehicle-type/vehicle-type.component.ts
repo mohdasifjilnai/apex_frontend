@@ -15,7 +15,7 @@ export class VehicleTypeComponent implements OnInit {
   constructor(private http: HttpClient, private sharedata: SharedDataService) {}
 
   ngOnInit(): void {
-    localStorage.setItem('vehicleType', `private_car`);
+    sessionStorage.setItem('vehicleType', `private_car`);
     // Initialize selectedVehicleType to "Private Car" by default
     this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(
       (vehicle) => vehicle.optionName === 'Private Car'
@@ -25,7 +25,7 @@ export class VehicleTypeComponent implements OnInit {
   selectVehicle(vehicle: any) {
     this.selectedVehicleType = vehicle;
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       'vehicleType',
       `${this.selectedVehicleType.optionNameValue}`
     );

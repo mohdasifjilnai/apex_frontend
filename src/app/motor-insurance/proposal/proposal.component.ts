@@ -120,7 +120,7 @@ export class ProposalComponent implements OnInit {
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
-    this.insuranceVehicleType = localStorage.getItem('vehicleType');
+    this.insuranceVehicleType = sessionStorage.getItem('vehicleType');
     this.productTypeValue = sessionStorage.getItem('productType');
     this.vehicleCardData = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'

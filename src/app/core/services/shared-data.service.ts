@@ -204,9 +204,9 @@ export class SharedDataService {
     );
     if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
       if (
-        (localStorage.getItem('vehicleType') == 'private_car' &&
+        (sessionStorage.getItem('vehicleType') == 'private_car' &&
           this.checkWheeler['is_four_wheeler']) ||
-        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+        (sessionStorage.getItem('vehicleType') == 'two_wheeler' &&
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.isCheckWheeler = true;
@@ -263,7 +263,7 @@ export class SharedDataService {
     let registrationMonth;
     let registrationYear;
     let registrationDay;
-    this.vehicleType = localStorage.getItem('vehicleType');
+    this.vehicleType = sessionStorage.getItem('vehicleType');
     if (data?.registration_month) {
       registrationMonth = data?.registration_month;
       registrationYear = data?.registration_year;
@@ -606,7 +606,7 @@ export class SharedDataService {
    */
   createProposalId(flag?: any, formData?: any, fetchCkyc?: any) {
     this.proposerType = sessionStorage.getItem('proposerType');
-    this.vehicleType = localStorage.getItem('vehicleType');
+    this.vehicleType = sessionStorage.getItem('vehicleType');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     const proposalId = sessionStorage.getItem('proposal_Id');

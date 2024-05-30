@@ -73,7 +73,7 @@ export class AddOnsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     // this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
     //   this.vehicleData = cardData;
     //   this.parsedVehicleData = JSON.parse(this.vehicleData);

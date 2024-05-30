@@ -28,9 +28,12 @@ export class RegistrationDateComponent implements OnInit {
   @ViewChild('registrationDate') registrationDate!: MatDatepicker<Date>;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
 
-  constructor(private ctrlContainer: FormGroupDirective,private sharedDataService:SharedDataService) {
+  constructor(
+    private ctrlContainer: FormGroupDirective,
+    private sharedDataService: SharedDataService
+  ) {
     // this.minDate = new Date(1970, 0);
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 15));
+    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 10));
     const currentYear = moment().year();
     /**
      * Set minDate to the first day of January 1990
@@ -59,6 +62,6 @@ export class RegistrationDateComponent implements OnInit {
     this.form.removeControl('registration_date');
   }
   EnterKey(event: Event) {
-    this.sharedDataService.handleEnterKey(event,this.registrationDate)
+    this.sharedDataService.handleEnterKey(event, this.registrationDate);
   }
 }

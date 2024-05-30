@@ -50,14 +50,14 @@ export class CheckVehicleTypeComponent implements OnInit {
    */
   proccedToCurrentJourney(checkWheeler: any) {
     if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
-      localStorage.setItem('vehicleType', 'private_car');
+      sessionStorage.setItem('vehicleType', 'private_car');
     }
     if (!checkWheeler['is_four_wheeler'] && checkWheeler['is_two_wheeler']) {
-      localStorage.setItem('vehicleType', 'two_wheeler');
+      sessionStorage.setItem('vehicleType', 'two_wheeler');
     }
     checkWheeler['is_four_wheeler'] = true;
     checkWheeler['is_two_wheeler'] = true;
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;

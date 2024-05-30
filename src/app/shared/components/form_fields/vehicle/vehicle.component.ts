@@ -135,7 +135,7 @@ export class VehicleComponent implements OnInit {
   }
 
   getVehicleMMV(name: any, vehicletype: any) {
-    let vehicleType = localStorage.getItem('vehicleType');
+    let vehicleType = sessionStorage.getItem('vehicleType');
     this.apiservice
       .getRequestedResponse(
         `${

@@ -197,10 +197,10 @@ export class QuotesListingComponent implements OnInit {
     });
 
     this.sharedDataService.updateVehicleType.subscribe((updateVehicleType) => {
-      this.vehicleTypeValue = localStorage.getItem('vehicleType');
+      this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     });
 
-    this.vehicleTypeValue = localStorage.getItem('vehicleType');
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.renderer.removeClass(document.body, 'dropdown-focus');

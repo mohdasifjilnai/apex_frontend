@@ -84,7 +84,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    this.vehicleTypeSelected = localStorage.getItem('vehicleType');
+    this.vehicleTypeSelected = sessionStorage.getItem('vehicleType');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =

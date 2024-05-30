@@ -59,9 +59,9 @@ export class QuotesComponent implements OnInit {
     );
     if (sessionStorage.getItem('registrationNumber')) {
       if (
-        (localStorage.getItem('vehicleType') == 'private_car' &&
+        (sessionStorage.getItem('vehicleType') == 'private_car' &&
           this.checkWheeler['is_four_wheeler']) ||
-        (localStorage.getItem('vehicleType') == 'two_wheeler' &&
+        (sessionStorage.getItem('vehicleType') == 'two_wheeler' &&
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
@@ -197,7 +197,7 @@ export class QuotesComponent implements OnInit {
       .subscribe((response: any) => {
         if (response) {
           this.quotesRequest = response.quote_request;
-          localStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
+          sessionStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
           sessionStorage.setItem(
             'newVehicleType',
             this.quotesRequest.business_type
