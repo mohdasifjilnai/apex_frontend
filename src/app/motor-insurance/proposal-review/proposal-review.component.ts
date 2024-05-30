@@ -113,7 +113,11 @@ export class ProposalReviewComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute
-  ) {}
+  ) {
+    window.addEventListener('load', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  }
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');

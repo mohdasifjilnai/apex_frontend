@@ -449,8 +449,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       'tp_policy_start_date'
     )?.value;
     if (selectedDateValue) {
+      const EndMinDate = new Date(
+        selectedDateValue.getFullYear() +1,
+        selectedDateValue.getMonth(),
+        selectedDateValue.getDate()-1
+      );
       this.tpEndminDate = this.datePipe.transform(
-        selectedDateValue,
+        EndMinDate,
         'yyyy-MM-dd'
       )!;
       const selectedDate = new Date(selectedDateValue);

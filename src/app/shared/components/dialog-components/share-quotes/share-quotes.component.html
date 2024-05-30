@@ -32,7 +32,7 @@
             maxlength="10"
             appNumbersOnly
           />
-          <button class="social-media-image"  *ngIf="!whatsappShareLoader" (click)="shareQuotes('whatsapp')">
+          <button class="social-media-image"  *ngIf="!whatsappShareLoader" (click)="shareQuotes('whatsapp')" [disabled]="true">
             <img
               src="/assets/icon/whatsapp.svg"
               class="whatsapp-image"

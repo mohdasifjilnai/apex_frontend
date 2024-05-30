@@ -84,7 +84,11 @@ export class ProposalComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private loaderService: LoaderService
-  ) {}
+  ) {
+    window.addEventListener('load', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  }
 
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -145,7 +149,7 @@ export class ProposalComponent implements OnInit {
     }
     this.getProposalDataForPatch();
     if (window.innerWidth <= 999) {
-      this.isMobileView = true;
+      this.isMobileView = true;  
     }
     if (this.isNotShowNomineeDetails && this.isNotShowInNewPolicyDetails) {
       this.stepNumber = 'Step 1/5';
