@@ -106,6 +106,12 @@ export class QuotesComponent implements OnInit {
             );
           }
         }
+        const registrationNumberUrl = params?.get('reg_no');
+        if (registrationNumberUrl) {
+          sessionStorage.setItem('quotesUrl', 'true');
+          sessionStorage.setItem('registrationNumber', registrationNumberUrl);
+          this.shareDataService.vehicleDetails('');
+        }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (!quotesUrl) {
           this.router.navigate(['/motor']);
