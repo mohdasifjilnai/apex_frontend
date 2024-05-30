@@ -33,7 +33,7 @@ export class SetHeaderService {
     // if (isToken) {
     this.httpHeaders.headers = this.httpHeaders.headers.append(
       'Authorization',
-      `${token}`
+      `Token ${token}`
     );
     // }
 
