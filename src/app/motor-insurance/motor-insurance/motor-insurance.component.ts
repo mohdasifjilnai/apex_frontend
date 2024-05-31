@@ -319,6 +319,7 @@ export class MotorInsuranceComponent implements OnInit {
     );
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
+        this.vehicleCheck=false
         this.checkWheeler = JSON.parse(
           sessionStorage.getItem('checkWheeler') || '{}'
         );
