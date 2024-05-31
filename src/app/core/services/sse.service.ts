@@ -36,6 +36,10 @@ export class SseService {
             console.log('Connection Drop', event);
             eventSource.close();
           }
+          setTimeout(() => {
+            console.log('Connection Drop', event);
+            eventSource.close();
+          }, 25000);
         });
       });
     });
