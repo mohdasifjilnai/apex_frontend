@@ -317,7 +317,7 @@ export class SharedDataService {
     } else {
       previousPolicyType = null;
     }
-    let idvValue;
+    let idvValue = null;
     if (data?.vehicle_idv) {
       if (/,/.test(data?.vehicle_idv)) {
         idvValue = data?.vehicle_idv.replace(/,/g, '');
@@ -367,7 +367,7 @@ export class SharedDataService {
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
         if(res?.status){
-          this.sendCarLoaderMessage(0);        
+          this.sendCarLoaderMessage(0);
         this.transactionId = res.transaction_id;
         this.sendTransactionId(res.transaction_id);
         sessionStorage.setItem('transaction_id', res.transaction_id);
@@ -1069,14 +1069,14 @@ export class SharedDataService {
     });
   }
   /**
- 
+
    * @param url - use when user come through the email
    */
   vehicleCardDataEmail(data: any) {
     this.throughEmailVehicle.next(data);
   }
   /**
- 
+
    * @param url - use for get Quotes when transaction id already genrated
    */
   getQuotesOnTransactionId(data: any) {
