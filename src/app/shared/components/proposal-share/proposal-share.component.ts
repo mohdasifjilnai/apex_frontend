@@ -353,8 +353,12 @@ export class ProposalShareComponent implements OnInit {
    */
 
   downloadPremiumBreakup() {
-    this.downloadLoader=true
     let quote_data = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(`${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${this.quoteData.transaction_id}`);
+    }
+    this.downloadLoader=true
+    
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);

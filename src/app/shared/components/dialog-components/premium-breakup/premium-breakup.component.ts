@@ -13,6 +13,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { Router } from '@angular/router';
 import { NonPosPopupComponent } from 'src/app/motor-insurance/non-pos-popup/non-pos-popup.component';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-premium-breakup',
   templateUrl: './premium-breakup.component.html',
@@ -154,6 +156,10 @@ export class PremiumBreakupComponent implements OnInit {
    */
 
   downloadPremiumBreakup(data: any) {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(`${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`);
+      console.log(`${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`)
+    }
     this.downloadLoader=true
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;

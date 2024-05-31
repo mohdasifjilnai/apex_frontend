@@ -12,6 +12,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-insurance-details',
@@ -301,6 +302,9 @@ export class InsuranceDetailsComponent implements OnInit {
    */
 
   downloadPremiumBreakup() {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(`${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${this.quoteData.transaction_id}`);
+    }
     this.downloadLoader = true;
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;

@@ -5,4 +5,5 @@ export const environment = {
   artivatic_flag: false,
   apex: 'https://preprod-apex.rbstaging.in/',
   profile_redirection: 'https://partners.rbstaging.in/home',
+  backend_url:'https://apidev-apex.rbstaging.in'
 };
