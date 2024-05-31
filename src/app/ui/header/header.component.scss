@@ -118,7 +118,7 @@
   white-space: nowrap;
 }
 .class_login {
-  display: none;
+  // display: none;
   #userProfile {
     background: #fff !important;
     border-radius: 10px !important;
@@ -180,9 +180,9 @@
     }
   }
 
-  .class_login {
-    padding: 10px 0px 0px !important;
-  }
+  // .class_login {
+  //   padding: 10px 0px 0px !important;
+  // }
 }
 
 @media only screen and (max-width: 999px) {
@@ -202,7 +202,7 @@
     .trace-id {
       font-size: 11px;
       padding: 8px 12px;
-      width: 205px;
+      width: 170px;
       // height: 32px;
     }
   }
@@ -250,4 +250,254 @@
 }
 .notification-bell {
   position: absolute;
+}
+
+.navbar-section {
+  // background-color: #F1F7FA;
+  .navbar-nav {
+    width: 100%;
+
+    .dropdown {
+      .dropdown-toggle.show {
+        display: block;
+      }
+    }
+  }
+
+  .nav-item {
+    font-size: 14px;
+    font-weight: 400;
+
+    .nav-link {
+      color: #282828;
+      padding: 10px 10px 10px 0px;
+    }
+  }
+
+  .navbar-toggler {
+    width: 47px;
+    height: 34px;
+    background-color: #fff;
+    border: none;
+  }
+
+  .navbar-toggler .line {
+    width: 100%;
+    float: left;
+    height: 2px;
+    background-color: #333;
+    margin-bottom: 5px;
+  }
+
+  .dropdown-menu {
+    min-width: max-content;
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 1px 0px 1px #f7f7f7;
+
+    ul {
+      border-right: 1px solid #f27f22;
+      padding-right: 20px;
+
+      li {
+        list-style: initial;
+        margin-left: -16px;
+        font-size: 12px;
+
+        a {
+          padding-left: 0px !important;
+          // font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+
+    .last-child {
+      border-right: none;
+    }
+  }
+
+  .sub-menu-container {
+    left: 50%;
+    transform: translate(-30%, 5%);
+  }
+
+  .dedicated_support {
+    .support_deliver {
+      background: #fff;
+      margin: 0px 2px 5px;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+  }
+  .loyalty-coin-diamond-balance {
+    .support_deliver {
+      background: #ffe6a6;
+      margin: 0px 2px 5px;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 500;
+      width: 140px;
+      border: 1px solid #ff943d;
+    }
+    img {
+      padding-left: 5px;
+    }
+  }
+
+  // .menu_submenu{
+  //     display: inline-flex;
+  //     .list_class{
+  //         width: 33%;
+  //     }
+  // }
+}
+
+.class_login {
+  #userProfile {
+    background: #fff !important;
+    border-radius: 10px !important;
+    color: #333 !important;
+    padding: 10px !important;
+    // height: 40px !important;
+  }
+}
+
+.disable-web {
+  display: none;
+}
+
+.logo-img {
+  width: 125px;
+}
+
+.notification {
+  background-color: #f27f22;
+}
+
+.unreadCount {
+  position: absolute;
+  top: 0px;
+  right: -2px;
+  color: #ff9732;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 1024px) {
+  .navbar-section {
+    .nav-item {
+      font-size: 12px !important;
+    }
+
+    .dedicated_support {
+      margin-bottom: 10px;
+    }
+
+    .class_login {
+      pointer-events: all;
+
+      #userProfile {
+        pointer-events: all;
+      }
+    }
+  }
+
+  .header-container {
+    .navbar-nav {
+      width: 30%;
+      display: inline-table !important;
+
+      li {
+        display: table-cell !important;
+      }
+    }
+  }
+
+  .disable-mb {
+    display: none !important;
+  }
+
+  .disable-web {
+    display: block;
+  }
+
+  .dedicated_support {
+    .support_deliver {
+      padding: 20px 10px 0px !important;
+      background: transparent !important;
+    }
+  }
+
+  // .class_login {
+  //   padding: 10px 0px 0px !important;
+  // }
+
+  .unreadCount {
+    position: absolute;
+    top: 12px;
+    right: 25px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .sub-menu-container {
+    transform: none !important;
+  }
+
+  .dropdown-menu {
+    min-width: unset !important;
+
+    ul {
+      border-right: unset !important;
+    }
+  }
+
+  .columns {
+    p {
+      font-weight: bold;
+    }
+  }
+
+  .class_login {
+    #userProfile {
+      background: grey !important;
+      color: #fff !important;
+      // left: 10px !important;
+      // right: unset !important;
+    }
+  }
+
+  .res_column {
+    padding-top: 30px;
+  }
+
+  .logo-img {
+    width: 90px;
+  }
+
+  .unreadCount {
+    position: absolute;
+    top: 11px;
+    right: 4px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .unreadCount {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .mobile-pad-remove {
+    padding: 10px 0px !important;
+
+    img {
+      width: 60px !important;
+    }
+  }
 }

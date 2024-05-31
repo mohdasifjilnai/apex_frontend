@@ -41,6 +41,16 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = sessionStorage.getItem('transaction_id');
+    this.isLoggedInVal = this.authService.isLoggedIn;
+    const userInfo = JSON.parse(
+      localStorage.getItem('userInfo') || '{}'
+    )?.executive_code;
+    // this.d2dExecutive = userInfo?.split('D2D');
+    // if (this.d2dExecutive.length > 1 && this.d2dExecutive[0] == '') {
+    //   this.d2dFlag = true;
+    // } else {
+    //   this.d2dFlag = false;
+    // }
     this.transactionIDByUrl = this.router.url.split('/')[4];
 
     if (window.innerWidth <= 999) {
