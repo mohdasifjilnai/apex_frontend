@@ -156,6 +156,7 @@ export class PremiumBreakupComponent implements OnInit {
    */
 
   downloadPremiumBreakup(data: any) {
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (window.ReactNativeWebView) {
       const url = `${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
       const apiUrlObject = {
@@ -165,7 +166,6 @@ export class PremiumBreakupComponent implements OnInit {
       window.ReactNativeWebView.postMessage(messageJSON);
     }
     this.downloadLoader=true
-    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
     this.sharedDataService.downloadPolicy(url)
     this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {

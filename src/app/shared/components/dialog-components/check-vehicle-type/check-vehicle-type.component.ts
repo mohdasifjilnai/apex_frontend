@@ -38,11 +38,7 @@ export class CheckVehicleTypeComponent implements OnInit {
    * navigates to the motor insurance  page
    */
   newNumber() {
-    if (window.innerWidth <= 999) {
-      this.bottomSheetRef.dismiss();
-    } else {
-      this.dialogRef.close();
-    }
+    this.dialogRef.close();
   }
 
   /**
