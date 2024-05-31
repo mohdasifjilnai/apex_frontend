@@ -322,7 +322,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
     );
 
     this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-      if (renewalInsurer) {
+      if (renewalInsurer != 'No result found') {
+        this.vehicleDetailsForm.patchValue({
+          previous_insurer: renewalInsurer,
+        });
+        sessionStorage.setItem(
+          'renewalPreviousInsurer',
+          JSON.stringify(renewalInsurer)
+        );
+      } else if (renewalInsurer == 'No result found') {
         this.vehicleDetailsForm.patchValue({
           previous_insurer: renewalInsurer,
         });

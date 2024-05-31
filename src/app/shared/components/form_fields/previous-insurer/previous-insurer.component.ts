@@ -185,7 +185,10 @@ export class PreviousInsurerComponent implements OnInit {
         } else {
           this.previousInsurerNoData = 'No result found';
           this.filteredInsurerList = of(['No result found']);
-          this.form.controls['previous_insurer'].setValidators([Validators.required]);
+          this.form.controls['previous_insurer'].setValidators([
+            Validators.required,
+          ]);
+          this.sharedDataService.patchInsurer('No result found');
         }
       });
     this.sendResponse(this.previousInsurerNoData);
