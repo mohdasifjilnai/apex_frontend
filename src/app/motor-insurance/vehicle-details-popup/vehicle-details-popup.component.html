@@ -294,7 +294,26 @@
                 #autoRegistrationCity="matAutocomplete"
                 [displayWith]="displayRegistration.bind(this)"
               >
-                <span *ngIf="rtoDataNotAvailable == ''">
+                <ng-container *ngIf="rtoDataLength > 1">
+                  <span *ngIf="rtoDataNotAvailable == ''">
+                    <mat-option
+                      *ngFor="let cityData of filteredRtoList | async"
+                      [value]="cityData"
+                      id-automation="searchRtoDropdown"
+                    >
+                      <span>{{ cityData.display_name }}</span>
+                    </mat-option>
+                  </span>
+                  <span *ngIf="rtoDataNotAvailable">
+                    <mat-option
+                      *ngFor="let cityData of filteredRtoList | async"
+                      [value]="cityData"
+                    >
+                      <span>{{ cityData }}</span>
+                    </mat-option>
+                  </span>
+                </ng-container>
+                <!-- <span *ngIf="rtoDataNotAvailable == ''">
                   <mat-option
                     *ngFor="let cityData of filteredRtoList | async"
                     [value]="cityData"
@@ -309,7 +328,7 @@
                   >
                     <span>{{ cityData }}</span>
                   </mat-option>
-                </span>
+                </span> -->
               </mat-autocomplete>
             </mat-form-field>
           </div>

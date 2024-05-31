@@ -107,6 +107,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   regDateValue: any;
   allValue: any;
   renewalMMvList: any;
+  rtoDataLength: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -797,42 +798,31 @@ export class VehicleDetailsPopupComponent implements OnInit {
         apiData = `?search_element=${this.registrationNumber?.rb_rto_code}`;
       }
     }
-    this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
-      .subscribe((res) => {
-        if (res && res.length > 0 && !res.message) {
-          this.rtoList = res;
-          this.rtoDataNotAvailable = '';
+    if (type != 'blank') {
+      this.apiservice
+        .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+        .subscribe((res) => {
+          if (res && res.length > 0 && !res.message) {
+            this.rtoList = res;
+            this.rtoDataNotAvailable = '';
 
-          this.filteredRtoList = this.vehicleDetailsForm.controls[
-            'registration_city'
-          ].valueChanges.pipe(
-            debounceTime(500),
-            startWith(''),
-            switchMap((name) => (name ? this.filterRTO(name) : '')),
-            catchError((error) => {
-              this.rtoDataNotAvailable = 'Error fetching data';
-              return of(['No result found']);
-            })
-          );
-          if (type != 'blank') {
-            if (this.registrationNumber) {
-              for (let i = 0; i <= this.rtoList.length - 1; i++) {
-                if (
-                  this.rtoList[i].rb_rto_code ==
-                  this.registrationNumber?.rb_rto_code
-                ) {
-                  this.vehicleDetailsForm.patchValue({
-                    registration_city: this.rtoList[i],
-                  });
-                }
-              }
-            } else {
-              if (this.vehicleMMVValue) {
+            this.filteredRtoList = this.vehicleDetailsForm.controls[
+              'registration_city'
+            ].valueChanges.pipe(
+              debounceTime(500),
+              startWith(''),
+              switchMap((name) => (name ? this.filterRTO(name) : '')),
+              catchError((error) => {
+                this.rtoDataNotAvailable = 'Error fetching data';
+                return of(['No result found']);
+              })
+            );
+            if (type != 'blank') {
+              if (this.registrationNumber) {
                 for (let i = 0; i <= this.rtoList.length - 1; i++) {
                   if (
                     this.rtoList[i].rb_rto_code ==
-                    this.vehicleMMVValue?.rto_city?.rb_rto_code
+                    this.registrationNumber?.rb_rto_code
                   ) {
                     this.vehicleDetailsForm.patchValue({
                       registration_city: this.rtoList[i],
@@ -840,28 +830,41 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   }
                 }
               } else {
-                for (let i = 0; i <= this.rtoList.length - 1; i++) {
-                  if (
-                    this.rtoList[i].rb_rto_code ==
-                    this.allValue?.quotesRequest.rb_rto_code
-                  ) {
-                    this.vehicleDetailsForm.patchValue({
-                      registration_city: this.rtoList[i],
-                    });
-                    sessionStorage.setItem(
-                      'renewalRTOData',
-                      JSON.stringify(this.rtoList[i])
-                    );
+                if (this.vehicleMMVValue) {
+                  for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                    if (
+                      this.rtoList[i].rb_rto_code ==
+                      this.vehicleMMVValue?.rto_city?.rb_rto_code
+                    ) {
+                      this.vehicleDetailsForm.patchValue({
+                        registration_city: this.rtoList[i],
+                      });
+                    }
+                  }
+                } else {
+                  for (let i = 0; i <= this.rtoList.length - 1; i++) {
+                    if (
+                      this.rtoList[i].rb_rto_code ==
+                      this.allValue?.quotesRequest.rb_rto_code
+                    ) {
+                      this.vehicleDetailsForm.patchValue({
+                        registration_city: this.rtoList[i],
+                      });
+                      sessionStorage.setItem(
+                        'renewalRTOData',
+                        JSON.stringify(this.rtoList[i])
+                      );
+                    }
                   }
                 }
               }
             }
+          } else {
+            this.rtoDataNotAvailable = 'No data available';
+            this.filteredRtoList = of(['No result found']);
           }
-        } else {
-          this.rtoDataNotAvailable = 'No data available';
-          this.filteredRtoList = of(['No result found']);
-        }
-      });
+        });
+    }
   }
 
   /**
@@ -869,30 +872,63 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @param name filterMMV used for filter MMV data
    * @returns
    */
+  // filterRTO(name: string): Observable<any[]> {
+  //   return this.apiservice
+  //     .getRequestedResponse(
+  //       `${ApiConstants.get_rto_list}?search_element=${name}`
+  //     )
+  //     .pipe(
+  //       map((res) => {
+  //         if (res && !res?.message) {
+  //           if (Array.isArray(res)) {
+  //             this.rtoList = res;
+  //           } else if (typeof res === 'object') {
+  //             this.rtoList = [res];
+  //           }
+
+  //           this.rtoDataNotAvailable =
+  //             this.rtoList.length === 0 ? 'No result found' : '';
+
+  //           return this.rtoList;
+  //         } else {
+  //           this.rtoDataNotAvailable = 'No data available';
+  //           this.filteredRtoList = of(['No result found']);
+  //         }
+  //       })
+  //     );
+  // }
+
   filterRTO(name: string): Observable<any[]> {
+    // if (typeof name != 'object' && name != '') {
     return this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_rto_list}?search_element=${name}`
+        `${ApiConstants.get_rto_list}?search_element=${name
+          ?.replace(/[()]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()}`
       )
       .pipe(
-        map((res) => {
-          if (res && !res?.message) {
-            if (Array.isArray(res)) {
-              this.rtoList = res;
-            } else if (typeof res === 'object') {
-              this.rtoList = [res];
+        map((rtoResponse) => {
+          if (rtoResponse && !rtoResponse?.message) {
+            if (Array.isArray(rtoResponse)) {
+              this.rtoList = rtoResponse;
+            } else if (typeof rtoResponse === 'object') {
+              this.rtoList = [rtoResponse];
             }
 
             this.rtoDataNotAvailable =
               this.rtoList.length === 0 ? 'No result found' : '';
-
+            // this.getRTODataSearch(name);
             return this.rtoList;
           } else {
             this.rtoDataNotAvailable = 'No data available';
-            this.filteredRtoList = of(['No result found']);
+            // this.filteredRtoList = of(['No result found']);
+            return of([this.rtoDataNotAvailable]);
           }
         })
       );
+    // }
+    // return of([]);
   }
   /**
    *
@@ -1008,6 +1044,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   vehcileRegistration(data: any) {
+    if (data?.length) {
+      this.rtoDataLength = data.length;
+    }
+
     if (!this.vehicleRegistrationCityOninit) {
       if (data == '') {
         this.getRTOData('blank');
