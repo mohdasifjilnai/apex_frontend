@@ -49,6 +49,9 @@
     [readonly]="true"
     (click)="registrationYear.open()"
     (keyup.enter)="EnterKey($event)"
+    [min]="minDate"
+    [max]="maxDate"
+    [matDatepickerFilter]="dateFilter"
   />
   <mat-datepicker-toggle matSuffix [for]="registrationYear"
     ><mat-icon matDatepickerToggleIcon>

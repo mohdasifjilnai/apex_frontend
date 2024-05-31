@@ -64,6 +64,7 @@ export class RegistrationYearComponent implements OnInit {
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   @Input() urlDate: any;
   registrationDate: any;
+  disableFromDate: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -125,16 +126,28 @@ export class RegistrationYearComponent implements OnInit {
     // );
     // this.form.controls['registration_date'].setValue('');
 
-    this.maxDate = new Date(new Date().setDate(new Date().getDate() + 10));
-    const currentYear = moment().year();
-    /**
-     * Set minDate to the first day of January 1990
-     */
+    // this.maxDate = new Date(new Date().setDate(new Date().getDate() + 10));
+    // const currentYear = moment().year();
+    // /**
+    //  * Set minDate to the first day of January 1990
+    //  */
 
-    // this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf('month');
-    const currentDate = new Date();
-    const minDateOffset = -20;
-    this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
+    // // this.minDate = moment({ year: currentYear - 20, month: 0 }).startOf('month');
+    // const currentDate = new Date();
+    // const minDateOffset = -20;
+    // this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
+
+    this.currentDate = new Date();
+    this.minDate = new Date(
+      this.currentDate.getFullYear() - 20,
+      this.currentDate.getMonth(),
+      this.currentDate.getDate()
+    );
+    this.disableFromDate = new Date(this.currentDate);
+    this.disableFromDate.setDate(this.disableFromDate.getDate() - 270);
+    this.maxDate = new Date(this.currentDate);
+    this.maxDate.setDate(this.maxDate.getDate() + 10);
+
     /**
      * Set up valueChanges subscription
      */
@@ -220,4 +233,15 @@ export class RegistrationYearComponent implements OnInit {
     result.setFullYear(result.getFullYear() + offset);
     return result;
   }
+
+  dateFilter = (date: Date | null): boolean => {
+    if (!date) {
+      return false;
+    }
+    const dayBeforeCurrDate = new Date(this.currentDate);
+    dayBeforeCurrDate.setDate(this.currentDate.getDate() - 1);
+    // Disable dates from 270 days ago to today
+    return date < this.disableFromDate || date >= dayBeforeCurrDate;
+    //return date < this.disableFromDate || date > this.currDate;
+  };
 }
