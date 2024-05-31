@@ -267,7 +267,7 @@ export class QuotesListingComponent implements OnInit {
 
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.tabChangeOninit = true;
-      this.quotesTabData();
+      this.quotesTabData('notSendTransactionId');
     });
     this.sharedDataService.vehicleCardEmailValue.subscribe((cardData) => {
       this.vehicleData = cardData;
@@ -760,7 +760,7 @@ export class QuotesListingComponent implements OnInit {
     }
   }
 
-  quotesTabData() {
+  quotesTabData(notSendTransactionId?: any) {
     if (this.parsedVehicleData != undefined) {
       let registrationDate = new Date(
         this.parsedVehicleData?.registration_date
@@ -838,7 +838,9 @@ export class QuotesListingComponent implements OnInit {
             this.sharedDataService.vehicleMMVDetails(
               getProductTypeName,
               this.mmvFormData,
-              'registrationNumber'
+              'registrationNumber',
+              '',
+              notSendTransactionId
             );
           } else if (
             this.parsedVehicleData?.policy_expiry_date_email &&
@@ -887,7 +889,9 @@ export class QuotesListingComponent implements OnInit {
               this.sharedDataService.vehicleMMVDetails(
                 getProductTypeName,
                 this.mmvFormData,
-                'mmvQuotes'
+                'mmvQuotes',
+                '',
+                notSendTransactionId
               );
               this.refreshPageApiHandling = true;
             }
