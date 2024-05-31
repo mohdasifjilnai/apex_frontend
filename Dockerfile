@@ -3,6 +3,7 @@ FROM node:16-alpine AS build
 ARG RB_GITLAB_TOKEN
 ARG server
 ENV server=$server
+RUN echo $server
 ADD ./ /ng-kmt
 WORKDIR /ng-kmt
 COPY package.json .
