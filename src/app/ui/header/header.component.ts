@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   id: any;
   copiedId: any;
   transactionIDByUrl: any;
+  tokenData: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
@@ -41,7 +42,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.id = sessionStorage.getItem('transaction_id');
     this.transactionIDByUrl = this.router.url.split('/')[4];
-    console.log(this.transactionIDByUrl);
+
     if (window.innerWidth <= 999) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
@@ -51,7 +52,7 @@ export class HeaderComponent implements OnInit {
       this.copiedId = this.id;
     } else {
       this.transactionId = this.transactionIDByUrl;
-      this.copiedId=this.transactionIDByUrl
+      this.copiedId = this.transactionIDByUrl;
     }
     this.sharedService.getTransactionId.subscribe((res: any) => {
       if (window.innerWidth <= 999) {
@@ -95,6 +96,7 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    this.tokenData = localStorage.getItem('token');
   }
 
   ngAfterViewInit() {
