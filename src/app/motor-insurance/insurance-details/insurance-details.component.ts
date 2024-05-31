@@ -303,8 +303,12 @@ export class InsuranceDetailsComponent implements OnInit {
 
   downloadPremiumBreakup() {
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(`${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${this.quoteData.transaction_id}`);
-    }
+      const url = `${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${this.quoteData.transaction_id}`;
+      const apiUrlObject = {
+        value: url
+       };
+       const messageJSON = JSON.stringify(apiUrlObject);
+      window.ReactNativeWebView.postMessage(messageJSON);    }
     this.downloadLoader = true;
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
