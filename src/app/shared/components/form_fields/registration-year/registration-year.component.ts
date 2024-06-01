@@ -194,7 +194,7 @@ export class RegistrationYearComponent implements OnInit {
     registrationDate?.year(normalizedMonth.year());
     registrationDate?.date(normalizedMonth.date());
     this.form.controls['registration_date'].setValue(registrationDate);
-    datepicker.close();
+    datepicker?.close();
   }
   ngOnDestroy(): void {
     /**
