@@ -30,12 +30,12 @@ export class SetHeaderService {
         headers: new HttpHeaders(''),
       };
     }
-    // if (isToken) {
-    this.httpHeaders.headers = this.httpHeaders.headers.append(
-      'Authorization',
-      `Token ${token}`
-    );
-    // }
+    if (token) {
+      this.httpHeaders.headers = this.httpHeaders.headers.append(
+        'Authorization',
+        `Token ${token}`
+      );
+    }
 
     return this.httpHeaders;
   }
