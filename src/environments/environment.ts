@@ -8,6 +8,6 @@ export const environment = {
   apex: 'https://dev-apex.rbstaging.in/',
 
   profile_redirection: 'https://partners.rbstaging.in/home',
-  backend_url:'https://apidev-apex.rbstaging.in',
+  backend_url:'https://apex.renewbuyinsurance.in',
   partner_v2: "https://partners.rbstaging.in/v2/",
 };
