@@ -22,7 +22,7 @@ export class SseService {
       const eventSource = this.getEventSource(url);
       eventSource.onopen = (ev) => {
         console.log('Connection to server opened.', ev);
-        if (this.currentPageUrl != '/motor/quotes') {
+        if (this.currentPageUrl != '/quotes') {
           eventSource.close();
         }
       };
@@ -32,7 +32,7 @@ export class SseService {
       eventSource.addEventListener('quotes', (event) => {
         this.zone.run(() => {
           observer.next(event);
-          if (this.currentPageUrl != '/motor/quotes') {
+          if (this.currentPageUrl != '/quotes') {
             console.log('Connection Drop', event);
             eventSource.close();
           }

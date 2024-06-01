@@ -5,5 +5,6 @@ export const environment = {
   artivatic_flag: false,
   apex: 'https://apex.renewbuy.com/',
   profile_redirection: 'https://partners.rbstaging.in/home',
-  backend_url:'https://apex.renewbuyinsurance.com',
+  backend_url: 'https://apex.renewbuyinsurance.com',
+  partner_v2: 'https://partners.renewbuy.com/v2/',
 };

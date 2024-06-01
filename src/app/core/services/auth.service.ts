@@ -144,9 +144,9 @@ export class AuthService {
 
     const token = localStorage.getItem('token');
     if (token) {
-      if (!this.standAloneFlag) {
-        // window.location.href = environment.partner_v2;
-      }
+      // if (!this.standAloneFlag) {
+      window.location.href = environment.partner_v2;
+      // }
     }
   }
 
