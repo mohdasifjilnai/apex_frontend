@@ -388,6 +388,10 @@ export class MotorInsuranceComponent implements OnInit {
       `${this.withoutVehicleNumber}`
     );
     sessionStorage.setItem('quotesUrl', 'true');
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    if (!vehicleTypeValue) {
+      sessionStorage.setItem('vehicleType', `private_car`);
+    }
     // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
     sessionStorage.removeItem('isPayment');
     if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
@@ -404,6 +408,10 @@ export class MotorInsuranceComponent implements OnInit {
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
     sessionStorage.removeItem('registrationNumber');
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    if (!vehicleTypeValue) {
+      sessionStorage.setItem('vehicleType', `private_car`);
+    }
     this.isPolicyNumber = false;
     this.disableInsurer = true;
     this.motorInsurance.reset();
