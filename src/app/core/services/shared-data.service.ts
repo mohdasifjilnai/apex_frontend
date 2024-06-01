@@ -186,6 +186,11 @@ export class SharedDataService {
             is_four_wheeler: res['is_four_wheeler'],
           };
           sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
+          if (res['is_four_wheeler'] && data == 'reg_no') {
+            sessionStorage.setItem('vehicleType', `private_car`);
+          } else if (data == 'reg_no') {
+            sessionStorage.setItem('vehicleType', `two_wheeler`);
+          }
           this.checkWheelerType(this.editVehicleDetails);
           this.regNumberData.next(res);
 

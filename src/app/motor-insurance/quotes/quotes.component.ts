@@ -110,11 +110,8 @@ export class QuotesComponent implements OnInit {
         if (registrationNumberUrl) {
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('registrationNumber', registrationNumberUrl);
-          let vehicleType = sessionStorage.getItem('vehicleType');
-          if (!vehicleType) {
-            sessionStorage.setItem('vehicleType', `private_car`);
-          }
-          this.shareDataService.vehicleDetails('');
+
+          this.shareDataService.vehicleDetails('reg_no');
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (!quotesUrl) {
