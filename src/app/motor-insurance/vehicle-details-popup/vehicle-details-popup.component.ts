@@ -287,6 +287,72 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ''
         );
         this.getRTOData('rto_code');
+      } else if (
+        this.registrationNumber?.rb_mmv_id == null &&
+        this.isCheckWheeler
+      ) {
+        if (
+          this.registrationNumber?.registration_month &&
+          this.registrationNumber?.registration_year
+        ) {
+          let registrationDate = `${this.registrationNumber?.registration_month}/01/${this.registrationNumber?.registration_year}`;
+
+          let dateObj = new Date(registrationDate);
+          this.vehicleDetailsForm.patchValue({
+            registration_date: new Date(registrationDate),
+          });
+          this.getExpiringPolicy(dateObj);
+        }
+
+        if (
+          this.registrationNumber?.manufactured_month &&
+          this.registrationNumber?.manufactured_year
+        ) {
+          let manufactureDate = `${this.registrationNumber?.manufactured_month}/01/${this.registrationNumber?.manufactured_year}`;
+
+          let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
+          this.vehicleDetailsForm.patchValue({
+            manufacture_date: new Date(manufactureDate),
+          });
+        }
+        if (this.registrationNumber?.previous_policy_exp_date) {
+          let inputDate = this.registrationNumber?.previous_policy_exp_date;
+          let [day, month, year] = inputDate.split('/');
+          let reformattedDate = `${month}/${day}/${year}`;
+          if (!this.vehiclePopupList) {
+            this.vehicleDetailsForm.patchValue({
+              policy_expiry_date: new Date(reformattedDate),
+            });
+          }
+        }
+        this.filteredPopupMake = this.vehicleDetailsForm.controls[
+          'vehicle_make'
+        ].valueChanges.pipe(
+          debounceTime(500),
+          startWith(''),
+          map((name) => {
+            return name ? this.filterMakePopup(name) : this.makeList;
+          })
+        );
+        this.filteredPopupModel = this.vehicleDetailsForm.controls[
+          'vehicle_model'
+        ].valueChanges.pipe(
+          debounceTime(500),
+          startWith(''),
+          map((name) => {
+            return name ? this.filterModelPopup(name) : [];
+          })
+        );
+        this.filteredPopupVariant = this.vehicleDetailsForm.controls[
+          'vehicle_variant'
+        ].valueChanges.pipe(
+          debounceTime(500),
+          startWith(''),
+          map((name) => {
+            return name ? this.filterVariantPopup(name) : [];
+          })
+        );
+        this.getRTOData('rto_code');
       }
     });
 
