@@ -320,7 +320,6 @@ export class MotorInsuranceComponent implements OnInit {
     );
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
-        this.vehicleCheck = false;
         this.checkWheeler = JSON.parse(
           sessionStorage.getItem('checkWheeler') || '{}'
         );
@@ -383,6 +382,9 @@ export class MotorInsuranceComponent implements OnInit {
 
   getVehicleDetails() {
     this.loader = true;
+    if (this.vehicleCheck) {
+      this.vehicleCheck = false;
+    }
     localStorage.setItem(
       'withoutVehicleNumber',
       `${this.withoutVehicleNumber}`
