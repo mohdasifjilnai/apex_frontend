@@ -175,10 +175,10 @@ export class ProposalReviewComponent implements OnInit {
     if (!proposal_punched) {
       if (this.proposalData) {
         this.route.navigate([
-          `/motor/quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
+          `quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
         ]);
       } else {
-        this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
+        this.route.navigate([`quotes/proposal/${this.transactionId}`]);
         this.shareData.sendProposalReviewEditId(titleName);
       }
     } else {
@@ -186,7 +186,7 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   back() {
-    this.route.navigate([`/motor/quotes/proposal/${this.transactionId}`]);
+    this.route.navigate([`quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
     if (this.preAddons?.is_consent) {

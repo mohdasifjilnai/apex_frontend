@@ -486,7 +486,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal.vehicle_details !== null
           ) {
             this.router.navigate([
-              `/motor/quotes/proposal/${this.transactionId}/review`,
+              `quotes/proposal/${this.transactionId}/review`,
             ]);
             this.proposalDetailsSubscription.unsubscribe();
           }

@@ -398,7 +398,7 @@ export class MotorInsuranceComponent implements OnInit {
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
       sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-      this.router.navigate(['/motor/quotes']);
+      this.router.navigate(['quotes']);
     }
   }
   getVehicleNumber() {
@@ -475,13 +475,13 @@ export class MotorInsuranceComponent implements OnInit {
           if (res.transactional_details && res?.ckyc_status) {
             this.transactionDetails = res.transactional_details;
             sessionStorage.setItem('renewalType', 'renewal');
-            let url = `/motor/quotes/proposal/${this.transactionDetails.transaction_id}/review`;
+            let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
             this.router.navigate([url]);
           } else if (res.transactional_details && !res?.ckyc_status) {
             this.transactionDetails = res.transactional_details;
             sessionStorage.setItem('renewalDetails', JSON.stringify(res));
             sessionStorage.setItem('renewalType', 'renewal');
-            let url = `/motor/quotes/proposal/${this.transactionDetails.transaction_id}`;
+            let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
             this.router.navigate([url]);
           } else {
             this.vehicleDetailsRollover = res.vehicle_details;

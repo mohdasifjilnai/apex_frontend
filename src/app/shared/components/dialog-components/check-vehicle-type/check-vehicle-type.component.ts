@@ -60,7 +60,7 @@ export class CheckVehicleTypeComponent implements OnInit {
     this.dialogRef.removePanelClass('warn-details-class');
     this.dialogRef.addPanelClass('vehicle-details-class');
     this.sharedDataService.changeVehicleType(this.vehicleTypeValue);
-    this.router.navigate(['/motor/quotes']);
+    this.router.navigate(['quotes']);
     this.dialogRef.close();
   }
 }

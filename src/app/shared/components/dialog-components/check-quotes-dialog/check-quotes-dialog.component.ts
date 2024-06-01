@@ -34,11 +34,11 @@ export class CheckQuotesDialogComponent implements OnInit {
         insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
       };
       this.sharedDataService.quotesDataOnRenewal(insurerApiData);
-      this.route.navigate(['/motor/quotes']);
+      this.route.navigate(['quotes']);
     } else {
       sessionStorage.setItem('quotesUrl', 'true');
 
-      this.route.navigate(['/motor/quotes']);
+      this.route.navigate(['quotes']);
     }
   }
 }

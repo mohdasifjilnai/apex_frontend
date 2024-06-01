@@ -40,6 +40,6 @@ export class VehicleInspectionComponent implements OnInit {
       });
   }
   back() {
-    this.router.navigate(['/motor/quotes/proposal']);
+    this.router.navigate(['quotes/proposal']);
   }
 }

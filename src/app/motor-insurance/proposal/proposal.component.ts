@@ -470,7 +470,7 @@ export class ProposalComponent implements OnInit {
     }
   }
   back() {
-    this.router.navigate(['/motor/quotes']);
+    this.router.navigate(['quotes']);
   }
   getProposalDataForPatch() {
     this.sharedData.getProposalDetails.subscribe((proposal) => {

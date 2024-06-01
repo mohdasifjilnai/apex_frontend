@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'motor',
+    path: '',
     loadChildren: () => import('./ui/ui.module').then((m) => m.UiModule),
   },
 ];

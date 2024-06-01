@@ -161,7 +161,7 @@ export class PaymentComponent implements OnInit {
    */
   retryPayment() {
     this.router.navigate([
-      `/motor/quotes/proposal/${this.transactionId}/review`,
+      `quotes/proposal/${this.transactionId}/review`,
     ]);
   }
 

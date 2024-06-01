@@ -210,7 +210,7 @@ export class SharedDataService {
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.isCheckWheeler = true;
-        this.router.navigate(['/motor/quotes']);
+        this.router.navigate(['quotes']);
       } else {
         if (this.checkWheeler['is_two_wheeler']) {
           this.vaahanName = 'bike';
@@ -230,7 +230,7 @@ export class SharedDataService {
 
   vehicleDetailsRenewal(data: any) {
     this.regNumberDataRenewal.next(data);
-    this.router.navigate(['/motor/quotes']);
+    this.router.navigate(['quotes']);
   }
 
   getQuotationListing(

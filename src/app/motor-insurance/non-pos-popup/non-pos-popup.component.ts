@@ -68,6 +68,6 @@ export class NonPosPopupComponent implements OnInit {
   continueQuotes() {
     const transactionId = sessionStorage.getItem('transaction_id');
     this.dialogRef.close();
-    this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
+    this.router.navigate([`quotes/proposal/${transactionId}`]);
   }
 }

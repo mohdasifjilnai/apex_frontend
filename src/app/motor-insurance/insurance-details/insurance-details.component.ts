@@ -230,7 +230,7 @@ export class InsuranceDetailsComponent implements OnInit {
       insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
     };
     this.sharedDataService.quotesDataOnRenewal(insurerApiData);
-    this.router.navigate(['/motor/quotes']);
+    this.router.navigate(['quotes']);
   }
   premiumBreakup(quoteData: any) {
     const bottomSheetConfig: MatBottomSheetConfig = {

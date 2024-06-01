@@ -136,7 +136,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
       this.parsedVehicleData = vehicleData;
-      this.router.navigate(['/motor/quotes']);
+      this.router.navigate(['quotes']);
       this.throughEmail(vehicleData);
     });
   }

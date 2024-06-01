@@ -423,7 +423,7 @@ export class QuotesListingComponent implements OnInit {
     if (this.isIdvGreaterThan50Lac) {
       this.openNonPOSPopup(null);
     } else {
-      this.router.navigate([`/motor/quotes/proposal/${transactionId}`]);
+      this.router.navigate([`quotes/proposal/${transactionId}`]);
     }
   }
   /**

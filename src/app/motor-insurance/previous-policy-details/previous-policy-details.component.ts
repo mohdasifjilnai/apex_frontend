@@ -504,7 +504,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.sharedData.getProposalDetails.subscribe((proposal) => {
           if (proposal.vehicle_details !== null) {
             this.router.navigate([
-              `/motor/quotes/proposal/${this.transactionId}/review`,
+              `quotes/proposal/${this.transactionId}/review`,
             ]);
             /**
              * Unsubscribe after navigation to avoid repeated navigation
@@ -513,7 +513,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           }
         });
     } else if (this.renewalType == 'renewal') {
-      let url = `/motor/quotes/proposal/${this.transactionId}/review`;
+      let url = `quotes/proposal/${this.transactionId}/review`;
       this.router.navigate([url]);
     }
   }

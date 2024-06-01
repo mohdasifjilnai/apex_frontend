@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     component: MotorInsuranceComponent,
     data: {
-      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
+      breadcrumb: [{ name: 'Motor Insurance', path: [''] }],
     },
   },
   {
@@ -20,8 +20,8 @@ const routes: Routes = [
     component: QuotesComponent,
     data: {
       breadcrumb: [
-        { name: 'Motor Insurance', path: ['motor'] },
-        { name: 'Quotes Listing', path: ['motor/quotes'] },
+        { name: 'Motor Insurance', path: [''] },
+        { name: 'Quotes Listing', path: ['quotes'] },
       ],
     },
     canActivate: [AuthGuard],
@@ -31,8 +31,8 @@ const routes: Routes = [
     component: ProposalComponent,
     data: {
       breadcrumb: [
-        { name: 'Motor Insurance', path: ['motor'] },
-        { name: 'Quotes Listing', path: ['motor/quotes'] },
+        { name: 'Motor Insurance', path: [''] },
+        { name: 'Quotes Listing', path: ['quotes'] },
         {
           name: 'Proposal Form',
         },
@@ -44,7 +44,7 @@ const routes: Routes = [
     path: 'quotes/proposal/:transactionId/review/inspection',
     component: VehicleInspectionComponent,
     data: {
-      breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
+      breadcrumb: [{ name: 'Motor Insurance', path: [''] }],
     },
   },
   {
@@ -53,8 +53,8 @@ const routes: Routes = [
     data: {
       // breadcrumb: [
       //   { name: 'Motor Insurance', path: ['motor'] },
-      //   { name: 'Quotes Listing', path: ['motor/quotes'] },
-      //   { name: 'Proposal Form', path: ['motor/quotes/proposal'] },
+      //   { name: 'Quotes Listing', path: ['quotes'] },
+      //   { name: 'Proposal Form', path: ['quotes/proposal'] },
       // ],
     },
     canActivate: [AuthGuard],
