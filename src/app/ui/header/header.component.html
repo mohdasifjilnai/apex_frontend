@@ -41,9 +41,17 @@
               mat-raised-button
             />
           </div>
-          <div class="nav-item class_login ms-1" *ngIf="tokenData">
-            <span #widgetId></span>
+          <div class="class_login ms-1" *ngIf="tokenData">
+            <span class="userProfile" (click)="profile()">{{first_letter}}</span>
+            <div *ngIf="showProfile" class="profile">
+              <div class="show">
+                <span class="userFirstname">{{first_name}} {{middle_name}} {{last_name}}</span><br>
+                <span class="usercode">({{partner_code}})</span>
+              </div>
+              
+            </div>
           </div>
+          
         </div>
       </div>
 

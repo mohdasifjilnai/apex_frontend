@@ -30,6 +30,13 @@ export class HeaderComponent implements OnInit {
   copiedId: any;
   transactionIDByUrl: any;
   tokenData: any;
+showProfile: any;
+  partner_code: any;
+  partner_name: any;
+  first_name: any;
+  last_name: any;
+  middle_name: any;
+  first_letter: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
@@ -107,6 +114,13 @@ export class HeaderComponent implements OnInit {
       }
     });
     this.tokenData = localStorage.getItem('token');
+    if(this.tokenData){
+      this.partner_code=localStorage.getItem('partner_code');
+      this.first_name=localStorage.getItem('first_name')
+      this.first_letter=this.first_name.charAt(0)
+      this.middle_name=localStorage.getItem('middle_name')
+      this.last_name=localStorage.getItem('last_name')
+    }
   }
 
   ngAfterViewInit() {
@@ -155,5 +169,8 @@ export class HeaderComponent implements OnInit {
    */
   redirectHome() {
     this.router.navigate(['']);
+  }
+  profile(){
+    this.showProfile=!this.showProfile
   }
 }
