@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
     // } else {
     //   this.d2dFlag = false;
     // }
-    this.transactionIDByUrl = this.router.url.split('/')[4];
+    this.transactionIDByUrl = this.router.url.split('/')[3];
 
     if (window.innerWidth <= 999) {
       this.transactionId =
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl = this.router.url;
-        this.isTracId = this.currentUrl !== '/motor';
+        this.isTracId = this.currentUrl !== '/';
       }
     });
 
@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
      */
     if (!this.currentUrl) {
       this.currentUrl = this.router.url;
-      this.isTracId = this.currentUrl !== '/motor';
+      this.isTracId = this.currentUrl !== '/';
     }
     /**
      * subscribe when the redirection is done from Review page on clicking of share button
