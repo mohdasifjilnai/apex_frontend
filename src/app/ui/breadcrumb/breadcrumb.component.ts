@@ -47,6 +47,6 @@ export class BreadcrumbComponent implements OnInit {
    * Redirects the user to the home page.
    */
   redirectHome() {
-    this.router.navigate(['/motor']);
+    this.router.navigate(['']);
   }
 }
