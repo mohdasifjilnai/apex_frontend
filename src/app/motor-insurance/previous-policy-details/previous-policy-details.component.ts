@@ -164,6 +164,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
+      } else if (this.fetchedKyc?.is_verification) {
+        this.isDisableCKyc = false;
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
@@ -423,6 +425,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.isDisableCKyc = false;
       } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
+      } else if (this.fetchedKyc?.is_verification) {
+        this.isDisableCKyc = false;
       } else {
         this.isDisableCKyc = true;
       }
@@ -450,14 +454,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     )?.value;
     if (selectedDateValue) {
       const EndMinDate = new Date(
-        selectedDateValue.getFullYear() +1,
+        selectedDateValue.getFullYear() + 1,
         selectedDateValue.getMonth(),
-        selectedDateValue.getDate()-1
+        selectedDateValue.getDate() - 1
       );
-      this.tpEndminDate = this.datePipe.transform(
-        EndMinDate,
-        'yyyy-MM-dd'
-      )!;
+      this.tpEndminDate = this.datePipe.transform(EndMinDate, 'yyyy-MM-dd')!;
       const selectedDate = new Date(selectedDateValue);
       if (this.vehicleTypeSelected == 'private_car') {
         const fourYearsFromNow = new Date(

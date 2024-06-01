@@ -320,6 +320,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
+      } else if (this.fetchedKyc?.is_verification) {
+        this.isDisableCKyc = false;
       }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
@@ -374,6 +376,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       ) {
         this.isDisableCKyc = false;
       } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
+        this.isDisableCKyc = false;
+      } else if (this.fetchedKyc?.is_verification) {
         this.isDisableCKyc = false;
       } else {
         this.isDisableCKyc = true;
