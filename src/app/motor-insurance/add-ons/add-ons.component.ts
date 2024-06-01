@@ -97,85 +97,87 @@ export class AddOnsComponent implements OnInit {
     }
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
-      this.enableAddOns = false;
-      this.selectedAddOnsValue = idvData;
+      if (this.enableAddOns) {
+        this.enableAddOns = false;
+        this.selectedAddOnsValue = idvData;
 
-      this.addonsValue = sessionStorage.getItem('selectedAddons');
-      if (this.addonsValue == 'undefined') {
-        this.selectedAddOns = '';
-      } else {
-        this.selectedAddOns = JSON.parse(this.addonsValue);
-      }
+        this.addonsValue = sessionStorage.getItem('selectedAddons');
+        if (this.addonsValue == 'undefined') {
+          this.selectedAddOns = '';
+        } else {
+          this.selectedAddOns = JSON.parse(this.addonsValue);
+        }
 
-      if (this.selectedAddOns) {
-        this.selectedCheckedArray = this.selectedAddOns;
+        if (this.selectedAddOns) {
+          this.selectedCheckedArray = this.selectedAddOns;
 
-        for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
-          for (
-            let k = 0;
-            k <= this.addOnsArray[i].fe_template.length - 1;
-            k++
-          ) {
-            for (let key of this.selectedAddOns) {
-              const keys = Object.keys(key);
-              const value = Object.values(key);
-              if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
-                this.addOnsArray[i].fe_template[k].checked = true;
-                this.checkBoxValueArray.push(
-                  this.addOnsArray[i].fe_template[k].name
-                );
-                if (
-                  this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
-                  value[0]
-                ) {
-                  this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
-                }
-                if (
-                  this.addOnsArray[i].fe_template[k]?.next_type == 'int_input'
-                ) {
-                  this.inputFieldIndex[k] = k;
-                }
-                if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
-                  this.tabIndex[k] = k;
-                  this.selectedVoluntryValue = value[0];
-                }
-                if (
-                  this.addOnsArray[i].fe_template[k]?.next_type == 'dropdown'
-                ) {
-                  this.dropDownFieldIndex[k] = k;
-                }
-                if (
-                  this.addOnsArray[i].fe_template[k]?.next_type ==
-                  'multi_checkbox'
-                ) {
-                  this.multiCheckboxField[k] = k;
-                  this.addMultiCheckboxValue = [];
+          for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+            for (
+              let k = 0;
+              k <= this.addOnsArray[i].fe_template.length - 1;
+              k++
+            ) {
+              for (let key of this.selectedAddOns) {
+                const keys = Object.keys(key);
+                const value = Object.values(key);
+                if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
+                  this.addOnsArray[i].fe_template[k].checked = true;
+                  this.checkBoxValueArray.push(
+                    this.addOnsArray[i].fe_template[k].name
+                  );
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
+                    value[0]
+                  ) {
+                    this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
+                  }
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.next_type == 'int_input'
+                  ) {
+                    this.inputFieldIndex[k] = k;
+                  }
+                  if (this.addOnsArray[i].fe_template[k]?.next_type == 'tab') {
+                    this.tabIndex[k] = k;
+                    this.selectedVoluntryValue = value[0];
+                  }
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.next_type == 'dropdown'
+                  ) {
+                    this.dropDownFieldIndex[k] = k;
+                  }
+                  if (
+                    this.addOnsArray[i].fe_template[k]?.next_type ==
+                    'multi_checkbox'
+                  ) {
+                    this.multiCheckboxField[k] = k;
+                    this.addMultiCheckboxValue = [];
 
-                  this.addMultiCheckboxValue.push(...value);
-                  let modifiedMultipleCheckbox =
-                    this.addMultiCheckboxValue[0].split(',');
-                  if (modifiedMultipleCheckbox?.length > 0) {
-                    for (
-                      let l = 0;
-                      l <= modifiedMultipleCheckbox.length - 1;
-                      l++
-                    ) {
+                    this.addMultiCheckboxValue.push(...value);
+                    let modifiedMultipleCheckbox =
+                      this.addMultiCheckboxValue[0].split(',');
+                    if (modifiedMultipleCheckbox?.length > 0) {
                       for (
-                        let m = 0;
-                        m <=
-                        this.addOnsArray[i].fe_template[k]
-                          ?.modifiedMultiCheckList.length -
-                          1;
-                        m++
+                        let l = 0;
+                        l <= modifiedMultipleCheckbox.length - 1;
+                        l++
                       ) {
-                        if (
+                        for (
+                          let m = 0;
+                          m <=
                           this.addOnsArray[i].fe_template[k]
-                            ?.modifiedMultiCheckList[m].name ==
-                          modifiedMultipleCheckbox[l]
+                            ?.modifiedMultiCheckList.length -
+                            1;
+                          m++
                         ) {
-                          this.addOnsArray[i].fe_template[
-                            k
-                          ].modifiedMultiCheckList[m].multiChecked = true;
+                          if (
+                            this.addOnsArray[i].fe_template[k]
+                              ?.modifiedMultiCheckList[m].name ==
+                            modifiedMultipleCheckbox[l]
+                          ) {
+                            this.addOnsArray[i].fe_template[
+                              k
+                            ].modifiedMultiCheckList[m].multiChecked = true;
+                          }
                         }
                       }
                     }
@@ -438,15 +440,7 @@ export class AddOnsComponent implements OnInit {
     );
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
-    // if (window.performance.navigation.type === 1) {
-    //   console.log('Page was refreshed');
-    //   this.isPageRefresh = false;
-    //   // sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
-    // } else {
-    //   console.log('Page was not refreshed');
-    //   this.isPageRefresh = true;
-    //   // sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
-    // }
+
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     if (this.registrationNumber) {
       this.sharedDataService.vehicleMMVDetails(

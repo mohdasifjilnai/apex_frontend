@@ -95,30 +95,32 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
-      this.enableIdvCard = false;
-      let quotationArray = idvData;
-      this.breakIn = false;
-      for (let i = 0; i <= quotationArray.length - 1; i++) {
-        if (
-          quotationArray[i]['status'] &&
-          quotationArray[i]['is_breakin'] &&
-          vehicleCard?.policy_expiry_date != 'Not Sure'
-        ) {
-          this.vehicleInspectionMessage =
-            this.vehicleType == 'private_car'
-              ? 'Vehicle inspection is required as your previous policy is expired'
-              : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
-          this.breakIn = true;
-        } else if (
-          quotationArray[i]['status'] &&
-          quotationArray[i]['is_breakin'] &&
-          vehicleCard?.policy_expiry_date == 'Not Sure'
-        ) {
-          this.vehicleInspectionMessage =
-            this.vehicleType == 'private_car'
-              ? 'Vehicle inspection is required as your previous policy is not available'
-              : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
-          this.breakIn = true;
+      if (this.enableIdvCard) {
+        this.enableIdvCard = false;
+        let quotationArray = idvData;
+        this.breakIn = false;
+        for (let i = 0; i <= quotationArray.length - 1; i++) {
+          if (
+            quotationArray[i]['status'] &&
+            quotationArray[i]['is_breakin'] &&
+            vehicleCard?.policy_expiry_date != 'Not Sure'
+          ) {
+            this.vehicleInspectionMessage =
+              this.vehicleType == 'private_car'
+                ? 'Vehicle inspection is required as your previous policy is expired'
+                : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+            this.breakIn = true;
+          } else if (
+            quotationArray[i]['status'] &&
+            quotationArray[i]['is_breakin'] &&
+            vehicleCard?.policy_expiry_date == 'Not Sure'
+          ) {
+            this.vehicleInspectionMessage =
+              this.vehicleType == 'private_car'
+                ? 'Vehicle inspection is required as your previous policy is not available'
+                : 'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+            this.breakIn = true;
+          }
         }
       }
     });

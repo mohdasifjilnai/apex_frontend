@@ -110,6 +110,10 @@ export class QuotesComponent implements OnInit {
         if (registrationNumberUrl) {
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('registrationNumber', registrationNumberUrl);
+          let vehicleType = sessionStorage.getItem('vehicleType');
+          if (!vehicleType) {
+            sessionStorage.setItem('vehicleType', `private_car`);
+          }
           this.shareDataService.vehicleDetails('');
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
@@ -197,7 +201,10 @@ export class QuotesComponent implements OnInit {
       .subscribe((response: any) => {
         if (response) {
           this.quotesRequest = response.quote_request;
-          sessionStorage.setItem('vehicleType', this.quotesRequest.vehicle_type);
+          sessionStorage.setItem(
+            'vehicleType',
+            this.quotesRequest.vehicle_type
+          );
           sessionStorage.setItem(
             'newVehicleType',
             this.quotesRequest.business_type

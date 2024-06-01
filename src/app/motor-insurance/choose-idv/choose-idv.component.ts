@@ -49,55 +49,57 @@ export class ChooseIDVComponent implements OnInit {
   ngOnInit(): void {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       // this.quotesCount = idvData;
-      this.enableIdvCard = false;
-      this.quotationData = [];
-      if (idvData.length > 0) {
-        for (let i = 0; i <= idvData.length - 1; i++) {
-          idvData[i]['error_message'];
-          if (idvData[i]['status']) {
-            this.quotationData.push(idvData[i]);
+      if (this.enableIdvCard) {
+        this.enableIdvCard = false;
+        this.quotationData = [];
+        if (idvData.length > 0) {
+          for (let i = 0; i <= idvData.length - 1; i++) {
+            idvData[i]['error_message'];
+            if (idvData[i]['status']) {
+              this.quotationData.push(idvData[i]);
+            }
           }
         }
-      }
-      if (this.quotationData.length > 0) {
-        this.quotesCount = this.quotationData.length;
-      } else {
-        this.quotesCount = 0;
-      }
+        if (this.quotationData.length > 0) {
+          this.quotesCount = this.quotationData.length;
+        } else {
+          this.quotesCount = 0;
+        }
 
-      this.chooseIdvValue = sessionStorage.getItem('idvData');
-      let chooseIdvAmount;
-      if (this.chooseIdvValue == 'undefined') {
-        chooseIdvAmount = '';
-      } else {
-        chooseIdvAmount = JSON.parse(this.chooseIdvValue);
-      }
+        this.chooseIdvValue = sessionStorage.getItem('idvData');
+        let chooseIdvAmount;
+        if (this.chooseIdvValue == 'undefined') {
+          chooseIdvAmount = '';
+        } else {
+          chooseIdvAmount = JSON.parse(this.chooseIdvValue);
+        }
 
-      if (chooseIdvAmount) {
-        this.clearIdvButton = true;
-      }
-      if (chooseIdvAmount?.chooseIdv) {
-        this.investedAmount = chooseIdvAmount.chooseIdv;
-        this.selectedIDVOption = 'choose';
-        this.amountShow = this.averageIdv;
-      } else if (chooseIdvAmount?.minIdv) {
-        this.selectedIDVOption = 'min';
+        if (chooseIdvAmount) {
+          this.clearIdvButton = true;
+        }
+        if (chooseIdvAmount?.chooseIdv) {
+          this.investedAmount = chooseIdvAmount.chooseIdv;
+          this.selectedIDVOption = 'choose';
+          this.amountShow = this.averageIdv;
+        } else if (chooseIdvAmount?.minIdv) {
+          this.selectedIDVOption = 'min';
 
-        this.amountShow = this.averageIdv;
-        this.investedAmount = this.averageIdv;
-      } else if (chooseIdvAmount?.maxIdv) {
-        this.selectedIDVOption = 'max';
-        this.amountShow = this.averageIdv;
+          this.amountShow = this.averageIdv;
+          this.investedAmount = this.averageIdv;
+        } else if (chooseIdvAmount?.maxIdv) {
+          this.selectedIDVOption = 'max';
+          this.amountShow = this.averageIdv;
 
-        this.investedAmount = this.averageIdv;
-      } else {
-        this.investedAmount = this.averageIdv;
-        this.amountShow = this.averageIdv;
+          this.investedAmount = this.averageIdv;
+        } else {
+          this.investedAmount = this.averageIdv;
+          this.amountShow = this.averageIdv;
+        }
+        this.chooseIdvForm.patchValue({
+          chooseIdv: this.investedAmount,
+        });
+        this.changeToCurrency();
       }
-      this.chooseIdvForm.patchValue({
-        chooseIdv: this.investedAmount,
-      });
-      this.changeToCurrency();
     });
     this.sharedDataService.idvValue.subscribe((idvData) => {
       if (idvData.min_idv != undefined) {

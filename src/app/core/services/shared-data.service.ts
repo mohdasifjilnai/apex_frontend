@@ -483,7 +483,7 @@ export class SharedDataService {
                   this.quotesCount = '';
                   this.quotesCount = this.allQuotes;
                   setTimeout(() => {
-                    this.enableQuotesAction.next(true);
+                    // this.enableQuotesAction.next(true);
                     this.enableQuotesAction.next(this.quotesCount);
                   }, 50000);
                   console.log(this.allQuotes);
@@ -1199,7 +1199,7 @@ export class SharedDataService {
             this.quotesCount = '';
             this.quotesCount = this.allQuotes;
             setTimeout(() => {
-              this.enableQuotesAction.next(true);
+              // this.enableQuotesAction.next(true);
               this.enableQuotesAction.next(this.quotesCount);
             }, 50000);
             console.log(this.allQuotes);
