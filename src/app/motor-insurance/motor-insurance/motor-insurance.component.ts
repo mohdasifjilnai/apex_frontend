@@ -193,6 +193,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('checkWheeler');
     sessionStorage.removeItem('proposal_punched');
     sessionStorage.removeItem('quotesUrl');
+    sessionStorage.removeItem('sharable_transactionData');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -319,7 +320,7 @@ export class MotorInsuranceComponent implements OnInit {
     );
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
-        this.vehicleCheck=false
+        this.vehicleCheck = false;
         this.checkWheeler = JSON.parse(
           sessionStorage.getItem('checkWheeler') || '{}'
         );

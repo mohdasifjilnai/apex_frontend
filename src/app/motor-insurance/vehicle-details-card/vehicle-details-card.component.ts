@@ -339,12 +339,13 @@ export class VehicleDetailsCardComponent implements OnInit {
           'idvData',
           this.parsedVehicleData?.allQuotesRequest.meta_data.idvData
         );
-        sessionStorage.setItem(
-          'selectedAddons',
-          JSON.stringify(
+        let addonValue;
+        if (this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons) {
+          addonValue = JSON.parse(
             this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons
-          )
-        );
+          );
+        }
+        sessionStorage.setItem('selectedAddons', JSON.stringify(addonValue));
         let vehicleFrom = JSON.stringify(vehicleEmailData);
         sessionStorage.setItem(
           'newVehicleType',

@@ -335,36 +335,7 @@ export class SharedDataService {
       regNumberValue = regNumberValue;
     }
     let quotesData = {};
-    quotesData = {
-      transaction_id: transactionIdData,
-      registration_no: regNumberValue,
-      customer_type: this.proposerType,
-      vehicle_type: this.vehicleType,
-      rb_mmv_id: mmvId,
-      rb_rto_code: rtoCode,
-      registration_day: registrationDay,
-      registration_month: registrationMonth,
-      registration_year: registrationYear,
-      previous_insurer_code: previousInsurerCode,
-      previous_policy_exp_date:
-        previousExpiryDate != '' ? previousExpiryDate : null,
-      previous_year_ncb: ncbValue,
-      is_ownership_transfer: data?.user_car,
-      is_claimed: data?.previous_claimed,
-      business_type: sessionStorage.getItem('newVehicleType'),
-      selected_addons: setectedAddons,
-      product_type: productType,
-      manufacture_month: data.manufacture_month,
-      manufacture_year: data.manufacture_year,
-      vehicle_idv: idvValue,
-      previous_policy_type: previousPolicyType,
-      meta_data: data?.meta_data,
-      partner_code: localStorage.getItem('partner_code')
-        ? localStorage.getItem('partner_code')
-        : '',
-      offered_ncb_value:
-        data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
-    };
+
     if (notTransactionId == 'notSendTransactionId') {
       quotesData = {
         registration_no: regNumberValue,
