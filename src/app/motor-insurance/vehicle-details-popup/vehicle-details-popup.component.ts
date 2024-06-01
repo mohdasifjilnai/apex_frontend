@@ -1509,7 +1509,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * navigates to the motor insurance  page
    */
   newNumber() {
-    this.router.navigate(['/motor']);
+    this.router.navigate(['']);
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {

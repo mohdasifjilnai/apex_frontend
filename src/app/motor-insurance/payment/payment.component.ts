@@ -141,7 +141,7 @@ export class PaymentComponent implements OnInit {
         localStorage.removeItem('withoutVehicleNumber');
       }
       if (sessionStorage.getItem('isPayment')) {
-        this.router.navigate(['/motor']);
+        this.router.navigate(['']);
       } else {
         sessionStorage.clear();
       }
@@ -152,7 +152,7 @@ export class PaymentComponent implements OnInit {
    * redirection form payment page to home page
    */
   goTohome() {
-    this.router.navigate(['/motor']);
+    this.router.navigate(['']);
     sessionStorage.setItem('isPayment', 'true');
   }
 

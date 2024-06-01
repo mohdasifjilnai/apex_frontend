@@ -114,7 +114,7 @@ export class QuotesComponent implements OnInit {
         }
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (!quotesUrl) {
-          this.router.navigate(['/motor']);
+          this.router.navigate(['']);
         }
       }
     });
@@ -181,7 +181,7 @@ export class QuotesComponent implements OnInit {
     this.matDialog.openDialog(obj);
   }
   back() {
-    this.router.navigate(['/motor']);
+    this.router.navigate(['']);
   }
   /**
    * Get the insurer code for the given transaction id and insurer quote id.

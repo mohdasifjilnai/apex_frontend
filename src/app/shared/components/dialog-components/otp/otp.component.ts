@@ -168,7 +168,7 @@ export class OtpComponent implements OnInit {
                       this.dialogRef.close();
                     }
                     this.router.navigate([
-                      `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                      `quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
                     this.apiService
@@ -246,7 +246,7 @@ export class OtpComponent implements OnInit {
                       this.dialogRef.close();
                     }
                     this.router.navigate([
-                      `motor/quotes/proposal/${this.transactionId}/review/inspection`,
+                      `quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
                     this.apiService
