@@ -321,7 +321,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
-      } else if (this.fetchedKyc?.verification_status !== null) {
+      } else if (
+        this.fetchedKyc?.verification_status !== null &&
+        this.fetchedKyc?.verification_status !== undefined
+      ) {
         this.isDisableCKyc = false;
       }
     });
@@ -378,7 +381,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.isDisableCKyc = false;
       } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
         this.isDisableCKyc = false;
-      } else if (this.fetchedKyc?.verification_status !== null) {
+      } else if (
+        this.fetchedKyc?.verification_status !== null &&
+        this.fetchedKyc?.verification_status !== undefined
+      ) {
         this.isDisableCKyc = false;
       } else {
         this.isDisableCKyc = true;
