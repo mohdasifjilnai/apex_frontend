@@ -67,7 +67,8 @@ export class CkycDocumentsComponent implements OnInit {
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
   isfileInputError: boolean = false;
-documentMaxLength: any;
+  documentMaxLength: any;
+  loader: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -234,7 +235,9 @@ handles the form submit for uploading the required documents
 @param valid - boolean value indicating if the form is valid or not
  */
   submitUploadDocumentsForm(valid: boolean) {
+
     if (valid) {
+      this.loader=true
       let body = {
         proposal_id: this.proposalId,
         transaction_id: this.transactionId,
@@ -296,6 +299,7 @@ handles the form submit for uploading the required documents
         .postRequestedResponse(`${ApiConstants.upload_document_save}`, body)
         .subscribe((response) => {
           if (response) {
+            this.loader=false
             setTimeout(() => {
               if (window.innerWidth <= 999) {
                 this.bottomSheetRef.dismiss(response);

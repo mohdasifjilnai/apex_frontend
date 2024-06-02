@@ -118,17 +118,17 @@
       <span class="od-value">
         <span
           *ngIf="
-            quoteData.premium_details.od_premium_details.ncb_discount != 0
+            quoteData?.premium_details?.od_premium_details?.ncb_discount != 0
           "
           >-</span
         >
         &#8377;
         {{
-          quoteData.premium_details.od_premium_details.ncb_discount < 0
-            ? (-quoteData.premium_details.od_premium_details.ncb_discount
+          quoteData?.premium_details?.od_premium_details?.ncb_discount < 0
+            ? (-quoteData?.premium_details?.od_premium_details?.ncb_discount
               | number : "2.")
-            : (quoteData.premium_details.od_premium_details.ncb_discount
-              | number : "2.")
+            : (quoteData?.premium_details?.od_premium_details?.ncb_discount
+              | number : "1.")
         }}</span
       >
       

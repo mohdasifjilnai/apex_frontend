@@ -487,7 +487,13 @@
           class="submit-btn continue"
           [disabled]="!uploadDocumentsForm.valid"
           type="submit"
-        >
+        ><img
+        src="/assets/gif/button-loader.gif"
+        alt="close"
+        class="loader me-1"
+        *ngIf="loader"
+        
+      />
           Continue
         </button>
       </div>
