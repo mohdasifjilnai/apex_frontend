@@ -72,7 +72,10 @@
           *ngIf="
             proposalVehilceDetailsForm
               .get('registration_number_last_digit')
-              ?.hasError('maxlength')&& !proposalVehilceDetailsForm.get('registration_number_last_digit')?.hasError('pattern')
+              ?.hasError('maxlength') &&
+            !proposalVehilceDetailsForm
+              .get('registration_number_last_digit')
+              ?.hasError('pattern')
           "
         >
           Max Length 11
@@ -82,7 +85,7 @@
           *ngIf="
             proposalVehilceDetailsForm
               .get('registration_number_last_digit')
-              ?.hasError('pattern') 
+              ?.hasError('pattern')
           "
         >
           Invalid Registration Number
@@ -338,13 +341,7 @@
       <button
         class="submit-btn owner-vehicle-submission"
         type="submit"
-        [disabled]="
-          proposalVehilceDetailsForm.invalid ||
-          isNotShowVehicleDetails ||
-          isDisableCKyc ||
-          isProposalFinancier ||
-          isVehicleButton
-        "
+        [disabled]="proposalVehilceDetailsForm.invalid"
       >
         {{
           vehicleType === "new" || mmvItem?.policy_expiry === "IDK"
