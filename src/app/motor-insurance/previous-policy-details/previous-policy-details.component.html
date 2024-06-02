@@ -206,7 +206,7 @@
       <button
         class="submit-btn previous-vehicle-submission"
         type="submit"
-        [disabled]="previousPolicyDetailsForm.invalid"
+        [disabled]="previousPolicyDetailsForm.invalid || isDisableCKyc"
       >
         Confirm & Review
       </button>

@@ -341,7 +341,13 @@
       <button
         class="submit-btn owner-vehicle-submission"
         type="submit"
-        [disabled]="proposalVehilceDetailsForm.invalid"
+        [disabled]="
+          proposalVehilceDetailsForm.invalid ||
+          isNotShowVehicleDetails ||
+          isDisableCKyc ||
+          isProposalFinancier ||
+          isVehicleButton
+        "
       >
         {{
           vehicleType === "new" || mmvItem?.policy_expiry === "IDK"

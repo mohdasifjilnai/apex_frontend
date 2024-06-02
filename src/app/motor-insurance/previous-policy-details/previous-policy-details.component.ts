@@ -163,6 +163,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
         this.fetchedKyc?.proposer_type !== undefined &&
+        this.fetchedKyc.proposer_type !== null &&
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
