@@ -165,12 +165,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       });
     }
     this.shareData.getProposalDetails.subscribe((proposal) => {
-      if (proposal?.ckyc_details !== null) {
-        if (proposal?.ckyc_details?.is_verification) {
-          this.isDisableCKyc = false;
-          console.log(this.isDisableCKyc);
-        }
-      }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -316,11 +310,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       } else if (JSON.parse(this.quoteData)['insurer_code'] == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
-          console.log(this.isDisableCKyc);
         }
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
@@ -329,10 +321,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
-        console.log(this.isDisableCKyc);
       } else if (this.fetchedKyc?.verification_status) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
@@ -378,7 +368,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
     this.shareData?.nomineeData.subscribe((nominee) => {
       this.isNotShowVehicleDetails = nominee;
-      console.log(this.isNotShowVehicleDetails);
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (Object.keys(kycData).length > 0) {
@@ -387,16 +376,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       } else if (this.fetchedKyc?.verification_status) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       } else {
         this.isDisableCKyc = true;
-        console.log(this.isDisableCKyc);
       }
     }
 
@@ -404,7 +389,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       if (kyc) {
         this.fetchedKyc = kyc;
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
       }
     });
     /**
@@ -413,7 +397,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     const disableVehicleDetails = this.shareData.setIsNotShowNomineeItem;
     if (disableVehicleDetails) {
       this.isDisableCKyc = false;
-      console.log(this.isDisableCKyc);
     }
     this.proposalVehilceDetailsForm
       .get('vehicle_pincode')
@@ -443,7 +426,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (renewalType == 'renewal') {
       this.proposalVehilceDetailsForm?.disable();
       this.isVehicleButton = true;
-      console.log(this.isVehicleButton);
     }
   }
 
@@ -454,14 +436,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       if (!this.financierOninit) {
         if (typeof this.proposalVehilceDetailsForm.value.financer == 'object') {
           this.isProposalFinancier = false;
-          console.log(this.isProposalFinancier);
           this.proposalVehilceDetailsForm.get('financer')?.setErrors(null);
         } else {
           this.proposalVehilceDetailsForm
             .get('financer')
             ?.setErrors({ validFinancer: true });
           this.isProposalFinancier = true;
-          console.log(this.isProposalFinancier);
         }
       } else {
         this.financierOninit = false;
@@ -553,7 +533,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       agreementTypeControl?.updateValueAndValidity();
       financerCityControl?.updateValueAndValidity();
       this.isProposalFinancier = false;
-      console.log(this.isProposalFinancier);
     }
   }
   getRegistrationAddressValue(isChecked?: any) {
