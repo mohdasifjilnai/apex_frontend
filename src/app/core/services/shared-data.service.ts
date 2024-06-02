@@ -370,7 +370,9 @@ export class SharedDataService {
           : '',
         offered_ncb_value:
           data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
-        is_cse: localStorage.getItem('is_cse'),
+        is_cse: localStorage.getItem('is_cse')
+          ? localStorage.getItem('is_cse')
+          : false,
         employee_code: localStorage.getItem('employee_code'),
       };
     } else {
