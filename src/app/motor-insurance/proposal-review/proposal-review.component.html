@@ -17,7 +17,7 @@
     <app-insurance-details></app-insurance-details>
   </div>
   <div class="res-proposal-review">
-    <div  *ngIf="is_cse" class="d-flex  justify-content-end">
+    <div  *ngIf="is_cse=='true'" class="d-flex  justify-content-end">
       <span class="cse">CSE ({{employee_code}})</span>
     </div>
     <app-vehicle-details-card></app-vehicle-details-card>

@@ -1,16 +1,12 @@
 <div class="row quotes-page">
-  <div class="back-button mb-2 ">
-    <div class="d-flex justify-content-between">
-
-
+  <div class="back-button mb-2 d-flex justify-content-between">
     <div  (click)="back()"> 
       <img src="/assets/icon/back.svg" alt="" class="back-image me-2" />Quotes
     Listing
     </div>
-    <div  *ngIf="is_cse">
+    <div  *ngIf="is_cse=='true'">
       <span class="cse">CSE ({{employee_code}})</span>
     </div>
-  </div>
   </div>
   <!-- <app-skeleton-loading
     *ngIf="isLoading; else other_content"

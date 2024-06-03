@@ -106,7 +106,6 @@ export class ProposalReviewComponent implements OnInit {
   modifiedManufactureValue: any;
   is_cse: any;
   employee_code: any;
-  cse: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -128,8 +127,7 @@ export class ProposalReviewComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
-    this.cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.is_cse=JSON.parse(this.cse)
+    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code=localStorage.getItem('employee_code')
     let previousPolicyType = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
