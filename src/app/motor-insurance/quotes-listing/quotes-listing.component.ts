@@ -720,6 +720,7 @@ export class QuotesListingComponent implements OnInit {
 
       if (selectedProposarType != proposarTypeData) {
         sessionStorage.removeItem('selectedAddons');
+        this.refreshPageApiHandling = false;
       }
       sessionStorage.setItem('proposerType', selectedProposarType);
       let productTypeValue = sessionStorage.getItem('productType');
@@ -744,7 +745,7 @@ export class QuotesListingComponent implements OnInit {
             this.renewalDataList = true;
           }
         }
-        if (this.renewalDataList) {
+        if (this.renewalDataList && !this.refreshPageApiHandling) {
           this.sharedDataService.vehicleMMVDetails(
             productTypeValue,
             mmvFormData,

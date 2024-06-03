@@ -413,7 +413,6 @@ export class SharedDataService {
     }
     this.chooseIdvDataShow.next(productType);
 
-    // if (pageRefreash == 'true') {
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
@@ -523,14 +522,6 @@ export class SharedDataService {
           dialogRef.afterClosed().subscribe((result: any) => {});
         }
       });
-    // }
-    // else {
-    //   let data = {
-    //     transaction_id: sessionStorage.getItem('transaction_id'),
-    //     quote_request_id: sessionStorage.getItem('quote_request_id'),
-    //   };
-    //   this.getQuotesOnTransactionId(data);
-    // }
   }
 
   /**
