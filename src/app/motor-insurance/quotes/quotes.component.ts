@@ -39,6 +39,7 @@ export class QuotesComponent implements OnInit {
   renewalDetails: any;
   is_cse: any;
   employee_code: any;
+  cse:any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -147,7 +148,8 @@ export class QuotesComponent implements OnInit {
         }
       }
     }
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
+    this.cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.is_cse=JSON.parse(this.cse)
     this.employee_code=localStorage.getItem('employee_code')
   }
   receivedData: any;

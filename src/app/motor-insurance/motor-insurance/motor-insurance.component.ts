@@ -116,6 +116,7 @@ export class MotorInsuranceComponent implements OnInit {
   fullUrl: any;
   is_cse: any;
   employee_code: any;
+  cse: any;
 
   constructor(
     private router: Router,
@@ -358,7 +359,8 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
+    this.cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.is_cse=JSON.parse(this.cse)
     this.employee_code=localStorage.getItem('employee_code')
   }
   monthDiff = (d1: any, d2: any) => {
