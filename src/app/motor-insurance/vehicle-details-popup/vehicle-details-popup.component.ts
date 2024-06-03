@@ -860,11 +860,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
-      if (type == 'rto_code') {
+      if (type == 'rto_code' && this.registrationNumber?.rb_rto_code) {
         apiData = `?search_element=${this.registrationNumber?.rb_rto_code}`;
       }
     }
-    if (type != 'blank') {
+    if (type != 'blank' && apiData) {
       this.apiservice
         .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
         .subscribe((res) => {

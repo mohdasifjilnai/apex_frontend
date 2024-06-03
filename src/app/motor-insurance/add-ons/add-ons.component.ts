@@ -494,6 +494,7 @@ export class AddOnsComponent implements OnInit {
     } else {
       diesel = false;
     }
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.apiService
       .getRequestedResponse(
         `${ApiConstants?.addonsApi}?vehicle_type=${vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
