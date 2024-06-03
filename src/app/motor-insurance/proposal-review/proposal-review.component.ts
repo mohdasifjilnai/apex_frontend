@@ -114,9 +114,9 @@ export class ProposalReviewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: ActivatedRoute
   ) {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    });
   }
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -383,6 +383,16 @@ export class ProposalReviewComponent implements OnInit {
       const proposerType = this.proposalData?.quote_request?.customer_type;
       if (proposerType) {
         sessionStorage.setItem('proposerType', proposerType);
+      }
+      const kycData: any = {
+        verification_status:
+          this.generateProposalData?.ckyc_details?.is_verification,
+        proposer_type:
+          this.generateProposalData?.customer_details?.customer_type,
+        insurer_code: this.generateProposalData?.insurer_code,
+      };
+      if (kycData) {
+        sessionStorage.setItem('kycData', JSON.stringify(kycData));
       }
 
       const productType = this.proposalData?.quote_request?.product_type;
