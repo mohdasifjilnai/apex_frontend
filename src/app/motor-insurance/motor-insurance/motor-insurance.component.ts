@@ -6,7 +6,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import city from './city-name.json';
 import multi_select_city from './multi-select.json';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -26,6 +26,8 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../../shared/components/dialog-components/not-certified/not-certified.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CheckVehicleTypeComponent } from 'src/app/shared/components/dialog-components/check-vehicle-type/check-vehicle-type.component';
+import { environment } from 'src/environments/environment';
+import { filter } from 'rxjs';
 
 const moment = _rollupMoment || _moment;
 @Component({
@@ -110,6 +112,8 @@ export class MotorInsuranceComponent implements OnInit {
   transactionDetails: any;
   vehicleDetailsRollover: any;
   checkWheeler: any;
+  devUrl: boolean = false;
+  fullUrl: any;
 
   constructor(
     private router: Router,
@@ -128,6 +132,18 @@ export class MotorInsuranceComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.fullUrl = this.removeLastSegment(window.location.href);
+      });
+
+    this.fullUrl = this.removeLastSegment(window.location.href);
+    if (environment?.apex === this.fullUrl) {
+      this.devUrl = true;
+    } else if ((this.fullUrl = 'http://test.rbstaging.in')) {
+      this.devUrl = true;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -467,6 +483,11 @@ export class MotorInsuranceComponent implements OnInit {
       }, 0);
       this.cdr.detectChanges();
     }
+  }
+  removeLastSegment(url: string): string {
+    const urlObj = new URL(url);
+    urlObj.pathname = urlObj.pathname.replace(/\/[^\/]*$/, '');
+    return urlObj.origin;
   }
 
   getRenewalPolicyData() {

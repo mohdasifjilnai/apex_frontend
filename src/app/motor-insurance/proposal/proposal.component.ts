@@ -85,9 +85,9 @@ export class ProposalComponent implements OnInit {
     private apiService: ApiService,
     private loaderService: LoaderService
   ) {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    });
   }
 
   ngOnInit(): void {
@@ -125,7 +125,9 @@ export class ProposalComponent implements OnInit {
     this.vehicleCardData = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
     );
-    this.reviewData = this.sharedData.getProposalReviewDetails;
+    this.sharedData?.getProposalReviewDetails?.subscribe((reviewDetails) => {
+      this.reviewData = reviewDetails;
+    });
     if (this.vehicleType === 'new') {
       this.isNotShowInNewPolicyDetails = false;
     }
@@ -149,7 +151,7 @@ export class ProposalComponent implements OnInit {
     }
     this.getProposalDataForPatch();
     if (window.innerWidth <= 999) {
-      this.isMobileView = true;  
+      this.isMobileView = true;
     }
     if (this.isNotShowNomineeDetails && this.isNotShowInNewPolicyDetails) {
       this.stepNumber = 'Step 1/5';

@@ -21,13 +21,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
-  getProposalReviewDetails: Subject<any> = new Subject();
   getRegistrationData: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getProgressValue: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
+  getProposalReviewDetails = new BehaviorSubject<any>(null);
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
@@ -640,7 +640,7 @@ export class SharedDataService {
     this.addOnsBaseProposalType.next(data);
   }
   sendProposalReviewEditId(data: any) {
-    this.getProposalReviewDetails = data;
+    this.getProposalReviewDetails.next(data);
   }
   getRegistrationDate(data: any) {
     this.getRegistrationData.next(data);

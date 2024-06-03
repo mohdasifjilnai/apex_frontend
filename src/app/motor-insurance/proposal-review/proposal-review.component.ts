@@ -177,6 +177,7 @@ export class ProposalReviewComponent implements OnInit {
         this.route.navigate([
           `quotes/proposal/${this.proposalData?.quote_response?.transaction_id}`,
         ]);
+        this.shareData.sendProposalReviewEditId(titleName);
       } else {
         this.route.navigate([`quotes/proposal/${this.transactionId}`]);
         this.shareData.sendProposalReviewEditId(titleName);
