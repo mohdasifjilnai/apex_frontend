@@ -295,7 +295,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.registrationNumber?.registration_month &&
           this.registrationNumber?.registration_year
         ) {
-          let registrationDate = `${this.registrationNumber?.registration_month}/01/${this.registrationNumber?.registration_year}`;
+          let regdate =
+            this.registrationNumber?.registration_day > 9
+              ? this.registrationNumber?.registration_day
+              : '0' + this.registrationNumber?.registration_day;
+          let registrationDate = `${this.registrationNumber?.registration_month}/${regdate}/${this.registrationNumber?.registration_year}`;
 
           let dateObj = new Date(registrationDate);
           this.vehicleDetailsForm.patchValue({
@@ -1923,7 +1927,11 @@ Get the expiring policy list based on the given date or the registration details
               this.registrationNumber?.registration_month &&
               this.registrationNumber?.registration_year
             ) {
-              let registrationDate = `${this.registrationNumber?.registration_month}/01/${this.registrationNumber?.registration_year}`;
+              let regdate =
+                this.registrationNumber?.registration_day > 9
+                  ? this.registrationNumber?.registration_day
+                  : '0' + this.registrationNumber?.registration_day;
+              let registrationDate = `${this.registrationNumber?.registration_month}/${regdate}/${this.registrationNumber?.registration_year}`;
 
               let dateObj = new Date(registrationDate);
               this.vehicleDetailsForm.patchValue({
@@ -2166,7 +2174,11 @@ Get the expiring policy list based on the given date or the registration details
               this.allValue.quotesRequest.registration_month &&
               this.allValue.quotesRequest.registration_year
             ) {
-              let registrationDate = `${this.allValue.quotesRequest.registration_month}/01/${this.allValue.quotesRequest.registration_year}`;
+              let regdate =
+                this.registrationNumber?.registration_day > 9
+                  ? this.registrationNumber?.registration_day
+                  : '0' + this.registrationNumber?.registration_day;
+              let registrationDate = `${this.allValue.quotesRequest.registration_month}/${regdate}/${this.allValue.quotesRequest.registration_year}`;
 
               let dateObj = moment(registrationDate, 'MM/YYYY');
               this.vehicleDetailsForm.patchValue({
