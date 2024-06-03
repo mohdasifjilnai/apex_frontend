@@ -1,27 +1,27 @@
 <!-- add breadcrumb through routing -->
-<div class="d-flex justify-content-between breadscrum" style="width: 100%;">
-<span  >
-  <ul *ngIf="!reviewPageUrl">
-    <img
-      src="/assets/icon/home.svg"
-      class="mx-2 cursor-pointer"
-      (click)="redirectHome()"
-    />
-    <!-- <img src="/assets/icon/right-arrow.svg" class="mx-2" /> -->
-    <li *ngFor="let breadcrumb of breadcrumbs$ | async">
-      <img src="/assets/icon/right-arrow.svg" class="mx-2" />
-      <a [routerLink]="breadcrumb.url" class="breadcrumb-title">{{
-        breadcrumb.label
-      }}</a>
-    </li>
-  </ul>
-  <!-- <ul class="ab"></ul> -->
-  <!-- </div> -->
-  <!-- <br /> -->
-  <!-- <mat-progress-bar mode="determinate" value={{progress}}></mat-progress-bar> -->
-  <!-- <br /> -->
-</span>
-<div class="cse" *ngIf="is_cse=='true'">
-  <span>CSE ({{employee_code}})</span>
-</div>
+<div class="d-flex justify-content-between breadscrum" style="width: 100%">
+  <span>
+    <ul *ngIf="!reviewPageUrl">
+      <img
+        src="/assets/icon/home.svg"
+        class="mx-2 cursor-pointer"
+        (click)="redirectHome()"
+      />
+      <!-- <img src="/assets/icon/right-arrow.svg" class="mx-2" /> -->
+      <li *ngFor="let breadcrumb of breadcrumbs$ | async">
+        <img src="/assets/icon/right-arrow.svg" class="mx-2" />
+        <a [routerLink]="breadcrumb.url" class="breadcrumb-title">{{
+          breadcrumb.label
+        }}</a>
+      </li>
+    </ul>
+    <!-- <ul class="ab"></ul> -->
+    <!-- </div> -->
+    <!-- <br /> -->
+    <!-- <mat-progress-bar mode="determinate" value={{progress}}></mat-progress-bar> -->
+    <!-- <br /> -->
+  </span>
+  <div class="cse" *ngIf="is_cse == 'true'">
+    <span>CSE ({{ employee_code }}) Partner Code ({{ partner_code }})</span>
+  </div>
 </div>
