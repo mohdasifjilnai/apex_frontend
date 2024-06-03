@@ -909,7 +909,7 @@ export class QuotesListingComponent implements OnInit {
     // }
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      this.progressValue += 0.05;
+      this.progressValue += 0.1;
       if (this.progressValue >= 100) {
         clearInterval(this.intervalId);
       } else {
