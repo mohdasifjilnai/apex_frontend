@@ -127,8 +127,8 @@ export class ProposalReviewComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code')
+    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = localStorage.getItem('employee_code');
     let previousPolicyType = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
     );
@@ -352,6 +352,12 @@ export class ProposalReviewComponent implements OnInit {
           const insurers = ['future', 'liberty', 'universal_sompo'];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.getPrevPolicyDetails(response);
+          }
+          if (response?.quote_request?.vehicle_type) {
+            sessionStorage.setItem(
+              'vehicleType',
+              response?.quote_request?.vehicle_type
+            );
           }
 
           this.shareData.getInsurerDetail(response);
