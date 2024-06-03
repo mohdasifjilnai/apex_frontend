@@ -10,6 +10,7 @@ export class RegistrationNumberDirective {
   @HostListener('input', ['$event']) onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value = input.value;
+    value = value.replace(/\s/g, '');
     if (sessionStorage.getItem('registration_form_isValid') === 'false') {
       // Remove existing hyphens
       const sanitizedValue = value.replace(/-/g, '');
@@ -27,6 +28,9 @@ export class RegistrationNumberDirective {
       }
     }
     // Update the input value
+    value = value.replace(/^-|-$/g, '');
+    // Remove any consecutive hyphens
+    value = value.replace(/--+/g, '-');
     input.value = value;
   }
 
