@@ -11,12 +11,12 @@
         class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
         *ngIf="parsedVehicleData != ''"
       >
-        {{ parsedVehicleData?.vehicle_variant?.rb_make_name | titlecase}}
-        {{ parsedVehicleData?.vehicle_variant?.rb_model_name | titlecase}}
-        {{ parsedVehicleData?.vehicle_variant?.rb_variant_name | titlecase}}
+        {{ parsedVehicleData?.vehicle_variant?.rb_make_name | titlecase }}
+        {{ parsedVehicleData?.vehicle_variant?.rb_model_name | titlecase }}
+        {{ parsedVehicleData?.vehicle_variant?.rb_variant_name | titlecase }}
         {{ parsedVehicleData?.vehicle_variant?.cubic_capacity }} cc ,
-        {{ parsedVehicleData?.vehicle_fuel | titlecase}} ,
-        {{ parsedVehicleData?.registration_city?.display_name | titlecase}}
+        {{ parsedVehicleData?.vehicle_fuel | titlecase }} ,
+        {{ parsedVehicleData?.registration_city?.display_name | titlecase }}
       </span>
     </div>
     <div class="col-lg-9 col-md-9">
@@ -48,27 +48,27 @@
           ><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-            >{{ previousInsurer ? previousInsurer : "-" | titlecase }}</span
+            >{{ previousInsurer ? previousInsurer : ("-" | titlecase) }}</span
           >
         </div>
         <div class="me-1">
           <span class="vehicle-card-heading-details">Previous NCB</span><br />
           <span
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-            >{{ previousNCB ? previousNCB : "0" }}</span
+            >{{ previousNCB ? previousNCB : "0%" }}</span
           >
         </div>
         <div class="me-1">
           <span class="vehicle-card-heading-details">New NCB</span><br />
           <span
-          *ngIf="!showZeroNCB"
+            *ngIf="!showZeroNCB"
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-            >{{ newNCB ? newNCB : "0" }}</span
+            >{{ newNCB ? newNCB : "0%" }}</span
           >
           <span
             *ngIf="showZeroNCB"
             class="vehicle-card-heading-details-data col-lg-3 col-md-4 col-12"
-            >0</span
+            >0%</span
           >
         </div>
         <div>
@@ -109,12 +109,14 @@
         <span
           class="vehicle-card-heading-details-data"
           *ngIf="parsedVehicleData != ''"
-          >{{ parsedVehicleData?.vehicle_variant?.rb_make_name | titlecase}}
-          {{ parsedVehicleData?.vehicle_variant?.rb_model_name | titlecase}}
-          {{ parsedVehicleData?.vehicle_variant?.rb_variant_name | titlecase}}
+          >{{ parsedVehicleData?.vehicle_variant?.rb_make_name | titlecase }}
+          {{ parsedVehicleData?.vehicle_variant?.rb_model_name | titlecase }}
+          {{ parsedVehicleData?.vehicle_variant?.rb_variant_name | titlecase }}
           {{ parsedVehicleData?.vehicle_variant?.cubic_capacity }} cc ,
-          {{ parsedVehicleData?.vehicle_fuel | titlecase}} ,
-          {{ parsedVehicleData?.registration_city?.display_name | titlecase}}</span
+          {{ parsedVehicleData?.vehicle_fuel | titlecase }} ,
+          {{
+            parsedVehicleData?.registration_city?.display_name | titlecase
+          }}</span
         >
       </div>
       <div *ngIf="!ProposalURL">
@@ -166,7 +168,7 @@
           ><br />
           <span
             class="vehicle-card-heading-details-data d-flex justify-content-end"
-            >{{ previousInsurer ? previousInsurer : "-" | titlecase}}</span
+            >{{ previousInsurer ? previousInsurer : ("-" | titlecase) }}</span
           >
         </div>
       </div>
@@ -200,6 +202,6 @@
 <div class="mt-2 mb-2 vehicle-inspection" *ngIf="breakIn">
   <div class="d-flex">
     <img src="/assets/icon/vehicle-inspection.svg" alt="" class="icon" />
-    <span class="details ms-2">{{ vehicleInspectionMessage | titlecase}}</span>
+    <span class="details ms-2">{{ vehicleInspectionMessage | titlecase }}</span>
   </div>
 </div>

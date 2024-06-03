@@ -587,7 +587,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.value?.policy_expiry != '' &&
       this.vehicleDetailsForm.value?.policy_expiry != 'satp' &&
       this.vehicleDetailsForm.value?.policy_expiry != 'bundled_tp' &&
-      !this.isNewVehicle
+      !this.isNewVehicle &&
+      !this.vehicleDetailsForm.value?.previous_claimed
     ) {
       if (
         this.vehicleDetailsForm.value?.ncb_discount ||
