@@ -139,9 +139,10 @@ export class MotorInsuranceComponent implements OnInit {
       });
 
     this.fullUrl = this.removeLastSegment(window.location.href);
-    if (environment?.apex === this.fullUrl) {
+    console.log(environment?.apex);
+    if (environment?.apex === this.fullUrl + '/') {
       this.devUrl = true;
-    } else if ((this.fullUrl = 'http://test.rbstaging.in')) {
+    } else if (this.fullUrl == 'http://test.rbstaging.in/') {
       this.devUrl = true;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
