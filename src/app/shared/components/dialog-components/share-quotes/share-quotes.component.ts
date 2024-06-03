@@ -161,7 +161,7 @@ export class ShareQuotesComponent implements OnInit {
               this.partner_name,
               `motor/quotes/?transaction_id_share=${
                 this.quotesData[0]['transaction_id']
-              }&insurer_quote_id=${this.quotes_id}`,
+              }&insurer_quote_id=${this.quotes_id[0]}`,
               this.shareQuotationForm.get('email')?.value,
               this.shareQuotationForm.get('contact_number')?.value,
               this.quotes_id
@@ -251,7 +251,7 @@ export class ShareQuotesComponent implements OnInit {
               this.partner_name,
               `motor/quotes/?transaction_id_share=${
                 this.quotesData[0]['transaction_id']
-              }&insurer_quote_id=${this.quotes_id}`,
+              }&insurer_quote_id=${this.quotes_id[0]}`,
               this.shareQuotationForm.get('email')?.value,
               this.shareQuotationForm.get('contact_number')?.value,
               this.quotes_id
