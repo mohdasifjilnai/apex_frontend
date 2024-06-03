@@ -15,6 +15,8 @@ export class BreadcrumbComponent implements OnInit {
   breadcrumbs$: Observable<Breadcrumb[]>;
   routerEvents: any;
   reviewPageUrl = false;
+  is_cse: any;
+  employee_code: any;
 
   constructor(
     private readonly breadcrumbService: BreadcrumbService,
@@ -41,6 +43,8 @@ export class BreadcrumbComponent implements OnInit {
     } else {
       this.reviewPageUrl = false;
     }
+    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code=localStorage.getItem('employee_code')
   }
 
   /**

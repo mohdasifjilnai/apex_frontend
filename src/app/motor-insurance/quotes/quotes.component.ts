@@ -37,6 +37,8 @@ export class QuotesComponent implements OnInit {
   quotesRequest: any;
   vehicleMMVData: any;
   renewalDetails: any;
+  is_cse: any;
+  employee_code: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -145,6 +147,8 @@ export class QuotesComponent implements OnInit {
         }
       }
     }
+    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code=localStorage.getItem('employee_code')
   }
   receivedData: any;
   // receivedCheckBoxValue: any;

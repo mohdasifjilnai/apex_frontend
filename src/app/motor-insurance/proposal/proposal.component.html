@@ -87,8 +87,13 @@
   </div>
 </div>
 <div class="res-proposal-page p-2" *ngIf="isMobileView">
-  <div class="back-button mb-2" (click)="back()">
-    <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal
+  <div class="back-button mb-2 d-flex justify-content-between" >
+    <div (click)="back()">
+      <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal
+    </div>
+    <div  *ngIf="is_cse=='true'">
+      <span class="cse">CSE ({{employee_code}})</span>
+    </div>
   </div>
   <div class="inspectionData mb-3 d-flex" *ngIf="breakIn">
     <img src="/assets/icon/vehicle-inspection.svg" alt="" class="icon" />

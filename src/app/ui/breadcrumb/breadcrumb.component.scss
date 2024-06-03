@@ -1,4 +1,9 @@
 // css for the breadcrumb
+.breadscrum{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 ul {
   & {
     list-style: none;
@@ -65,4 +70,12 @@ a {
 .breadcrumb-title {
   font-size: 14px;
   font-weight: 600;
+}
+.cse{
+  margin-right: 42px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #282828;
+  display: flex;
+  align-items: center;
 }

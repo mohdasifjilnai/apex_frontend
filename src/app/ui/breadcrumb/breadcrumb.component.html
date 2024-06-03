@@ -1,6 +1,7 @@
 <!-- add breadcrumb through routing -->
-<span *ngIf="!reviewPageUrl">
-  <ul>
+<div class="d-flex justify-content-between breadscrum" style="width: 100%;">
+<span  >
+  <ul *ngIf="!reviewPageUrl">
     <img
       src="/assets/icon/home.svg"
       class="mx-2 cursor-pointer"
@@ -20,3 +21,7 @@
   <!-- <mat-progress-bar mode="determinate" value={{progress}}></mat-progress-bar> -->
   <!-- <br /> -->
 </span>
+<div class="cse" *ngIf="is_cse=='true'">
+  <span>CSE ({{employee_code}})</span>
+</div>
+</div>
