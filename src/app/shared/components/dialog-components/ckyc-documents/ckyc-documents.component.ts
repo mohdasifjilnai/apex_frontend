@@ -236,7 +236,7 @@ handles the form submit for uploading the required documents
  */
   submitUploadDocumentsForm(valid: boolean) {
 
-    if (valid) {
+    if (valid && !this.loader) {
       this.loader=true
       let body = {
         proposal_id: this.proposalId,
