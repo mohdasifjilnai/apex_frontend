@@ -55,6 +55,7 @@ export class QuotesListingComponent implements OnInit {
   emailInsurer: any;
   selectedTabIndex: any;
   refreshPageApiHandling = false;
+  proposalTypeValueOninit = true;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -331,54 +332,57 @@ export class QuotesListingComponent implements OnInit {
   }
 
   getProposalType() {
-    this.apiService
-      .getRequestedResponse(`${ApiConstants.proposal_type}`)
-      .subscribe((res: any) => {
-        if (res) {
-          this.proposalList = res;
-          if (this.registrationNumberData) {
-            let proposalTypeValue = sessionStorage.getItem('proposerType');
-            if (!proposalTypeValue) {
-              this.owner_type = this.registrationNumberData.customer_type;
-              for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                if (this.proposalList[i].proposer_name == this.owner_type) {
-                  this.quotesListing.patchValue({
-                    proposalType: this.proposalList[i].proposer_id,
-                  });
+    if (this.proposalTypeValueOninit) {
+      this.proposalTypeValueOninit = false;
+      this.apiService
+        .getRequestedResponse(`${ApiConstants.proposal_type}`)
+        .subscribe((res: any) => {
+          if (res) {
+            this.proposalList = res;
+            if (this.registrationNumberData) {
+              let proposalTypeValue = sessionStorage.getItem('proposerType');
+              if (!proposalTypeValue) {
+                this.owner_type = this.registrationNumberData.customer_type;
+                for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                  if (this.proposalList[i].proposer_name == this.owner_type) {
+                    this.quotesListing.patchValue({
+                      proposalType: this.proposalList[i].proposer_id,
+                    });
+                  }
+                }
+                sessionStorage.setItem('proposerType', this.owner_type);
+              } else {
+                this.owner_type = proposalTypeValue;
+                for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                  if (this.proposalList[i].proposer_name == this.owner_type) {
+                    this.quotesListing.patchValue({
+                      proposalType: this.proposalList[i].proposer_id,
+                    });
+                  }
                 }
               }
-              sessionStorage.setItem('proposerType', this.owner_type);
             } else {
-              this.owner_type = proposalTypeValue;
-              for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                if (this.proposalList[i].proposer_name == this.owner_type) {
-                  this.quotesListing.patchValue({
-                    proposalType: this.proposalList[i].proposer_id,
-                  });
-                }
-              }
-            }
-          } else {
-            let proposalTypeValue = sessionStorage.getItem('proposerType');
-            if (!proposalTypeValue) {
-              this.owner_type = this.proposalList[0]?.proposer_name;
-              this.quotesListing.patchValue({
-                proposalType: this.proposalList[0].proposer_id,
-              });
-              sessionStorage.setItem('proposerType', this.owner_type);
-            } else {
-              this.owner_type = proposalTypeValue;
-              for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                if (this.proposalList[i].proposer_name == this.owner_type) {
-                  this.quotesListing.patchValue({
-                    proposalType: this.proposalList[i].proposer_id,
-                  });
+              let proposalTypeValue = sessionStorage.getItem('proposerType');
+              if (!proposalTypeValue) {
+                this.owner_type = this.proposalList[0]?.proposer_name;
+                this.quotesListing.patchValue({
+                  proposalType: this.proposalList[0].proposer_id,
+                });
+                sessionStorage.setItem('proposerType', this.owner_type);
+              } else {
+                this.owner_type = proposalTypeValue;
+                for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                  if (this.proposalList[i].proposer_name == this.owner_type) {
+                    this.quotesListing.patchValue({
+                      proposalType: this.proposalList[i].proposer_id,
+                    });
+                  }
                 }
               }
             }
           }
-        }
-      });
+        });
+    }
   }
 
   /**

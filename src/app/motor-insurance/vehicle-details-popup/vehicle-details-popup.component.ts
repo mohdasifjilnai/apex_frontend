@@ -429,7 +429,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
       );
     }
 
-    this.getNcbList();
     this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal') {
@@ -1348,6 +1347,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
           if (res) {
             this.isEditable = res;
             this.isNewVehicle = res?.is_new_vehicle;
+            if (!this.isNewVehicle) {
+              this.getNcbList();
+            }
             this.newVehicleData =
               res?.is_new_vehicle == false ? 'renewal' : 'new';
             sessionStorage.setItem('newVehicleType', this.newVehicleData);

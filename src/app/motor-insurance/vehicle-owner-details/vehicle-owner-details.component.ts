@@ -157,6 +157,39 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_gender: proposal?.customer_details?.gender,
           ownner_salutation_type: proposal?.customer_details?.salutation,
         });
+
+        if (this.occupationList?.length > 0) {
+          let occupationTypeId = this.occupationList.findIndex((item: any) => {
+            if (
+              item.rb_id ==
+              this.owenerVehicleDetailsForm.value.ownner_salutation_type
+            ) {
+              return;
+            }
+          });
+
+          if (occupationTypeId == -1) {
+            this.owenerVehicleDetailsForm.patchValue({
+              ownner_occupation_type: '',
+            });
+          }
+        }
+        if (this.salutationList?.length > 0) {
+          let salutionTypeId = this.salutationList.findIndex((item: any) => {
+            if (
+              item.rb_salutation ==
+              this.owenerVehicleDetailsForm.value.ownner_salutation_type
+            ) {
+              return;
+            }
+          });
+          if (salutionTypeId == -1) {
+            this.owenerVehicleDetailsForm.patchValue({
+              ownner_salutation_type: '',
+            });
+          }
+        }
+
         if (
           this.proposalData?.customer_details?.communication_address?.pincode
         ) {
