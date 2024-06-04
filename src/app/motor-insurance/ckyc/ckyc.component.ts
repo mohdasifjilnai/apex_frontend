@@ -68,6 +68,7 @@ export class CkycComponent implements OnInit {
   documentNumber: any;
   renewalDetails: any;
   documentMaxLength: any;
+  getInsurerDetails: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -118,7 +119,13 @@ export class CkycComponent implements OnInit {
     this.proposerType == 'individual'
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
-    this.getDocumentType();
+    this.sharedDataService?.insurerDetails?.subscribe((getInsurerDetails) => {
+      this.getInsurerDetails = getInsurerDetails;
+      this.getDocumentType();
+    });
+    if (this.quoteData?.insurer_code) {
+      this.getDocumentType();
+    }
     let isSubmitCkycFormGroupCalled = false;
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
@@ -357,6 +364,8 @@ export class CkycComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.document_type}?insurer_code=${
           this.quoteData?.insurer_code
+            ? this.quoteData?.insurer_code
+            : this.getInsurerDetails?.quote_response?.insurer_code
         }&is_individual=${this.isProposerTrue}&is_corporate=${!this
           .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
       )
@@ -629,7 +638,6 @@ export class CkycComponent implements OnInit {
         } else {
           this.sharedDataService.openSnackBar(res?.message, false, 3000);
           this.sharedDataService.createProposalId();
-
         }
       });
   }

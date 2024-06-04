@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -81,13 +81,15 @@ export class ProposalComponent implements OnInit {
   employee_code: any;
   cse: any;
   partner_code: any;
+  transactionId: any;
 
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
     private router: Router,
     private apiService: ApiService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private route: ActivatedRoute
   ) {
     window.addEventListener('load', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -97,8 +99,8 @@ export class ProposalComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code');
-    this.partner_code=localStorage.getItem('partner_code');
+    this.employee_code = localStorage.getItem('employee_code');
+    this.partner_code = localStorage.getItem('partner_code');
     let quoteRequesId = sessionStorage.getItem('quote_request_id');
     if (quoteRequesId) {
       sessionStorage.removeItem('quote_request_id');
@@ -120,7 +122,19 @@ export class ProposalComponent implements OnInit {
         parsedRenewalDetails?.transactional_details?.quote_id
       );
     } else {
-      this.sharedData.createProposalId();
+      this.quoteData = JSON.parse(
+        sessionStorage.getItem('quotes_data') || '{}'
+      );
+      if (Object.keys(this.quoteData).length > 0) {
+        this.sharedData.createProposalId();
+      } else {
+        this.route.url.subscribe((segments) => {
+          const urlSegments = segments.map((segment) => segment.path);
+          const transactionId = urlSegments[urlSegments.length - 1];
+          console.log(transactionId);
+          this.getInsurerQuoteId(transactionId);
+        });
+      }
     }
 
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
@@ -483,6 +497,16 @@ export class ProposalComponent implements OnInit {
   }
   getProposalDataForPatch() {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
+      if (!sessionStorage.getItem('kycData')) {
+        const kycData: any = {
+          verification_status: proposal?.ckyc_details?.is_verification,
+          proposer_type: proposal?.customer_details?.customer_type,
+          insurer_code: proposal?.insurer_code,
+        };
+        if (kycData) {
+          sessionStorage.setItem('kycData', JSON.stringify(kycData));
+        }
+      }
       if (
         proposal?.ckyc_details !== null &&
         this.quoteData['insurer_code'] === 'digit'
@@ -808,7 +832,21 @@ export class ProposalComponent implements OnInit {
   //       }
   //     });
   // }
-
+  getInsurerQuoteId(transaction_Id: any) {
+    this.transactionId = transaction_Id;
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_insurer_quote_id}/${transaction_Id}`
+      )
+      .subscribe((response) => {
+        if (response) {
+          if (response) {
+            sessionStorage.setItem('proposal_Id', response?.proposal_id);
+            this.getInsurerCode(this.transactionId, response?.insurer_quote_id);
+          }
+        }
+      });
+  }
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(
@@ -830,12 +868,12 @@ export class ProposalComponent implements OnInit {
             sessionStorage.setItem('transaction_id', transactionId);
           }
 
-          let pageLoadData = sessionStorage.getItem('pageLoad');
-          if (!pageLoadData) {
-            sessionStorage.setItem('pageLoad', 'true');
-            window.location.reload();
-          }
-
+          // let pageLoadData = sessionStorage.getItem('pageLoad');
+          // if (!pageLoadData) {
+          //   sessionStorage.setItem('pageLoad', 'true');
+          //   window.location.reload();
+          // }
+          console.log('shiva,1', response);
           const quoteResponseToStore = response?.quote_response;
           if (quoteResponseToStore) {
             sessionStorage.setItem(
@@ -872,7 +910,19 @@ export class ProposalComponent implements OnInit {
 
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.getCoverageType}?reg_year=${response?.quote_request?.registration_year}&vehicle_type=${response?.quote_request?.vehicle_type}&previous_policy_type=${response?.quote_request?.product_type}&previous_policy_expiry_date=${response?.quote_request?.previous_policy_exp_date}`
+              `${ApiConstants.getCoverageType}?reg_year=${
+                response?.quote_request?.registration_year
+              }&vehicle_type=${
+                response?.quote_request?.vehicle_type
+              }&previous_policy_type=${
+                response?.quote_request?.product_type
+                  ? response?.quote_request?.product_type
+                  : ''
+              }&previous_policy_expiry_date=${
+                response?.quote_request?.previous_policy_exp_date
+                  ? response?.quote_request?.previous_policy_exp_date
+                  : ''
+              }`
             )
             .subscribe((res: any) => {
               if (res) {

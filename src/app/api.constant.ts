@@ -101,4 +101,5 @@ export class ApiConstants {
   public static united_ckyc_response = `/api/v1/ckyc/united_ckyc_response/`;
 
   public static get_usgi_ckyc_details = `/api/v1/ckyc/get_usgi_ckyc_details`;
+  public static get_insurer_quote_id = `/api/v1/proposal/get_proposal_quote_id`;
 }
