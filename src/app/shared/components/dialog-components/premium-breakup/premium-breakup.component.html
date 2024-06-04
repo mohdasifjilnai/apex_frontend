@@ -107,13 +107,13 @@
   </div> -->
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold">
-      <div class="d-flex">
+      <div class="d-flex cursor-pointer" (mouseenter)="showCard = true"
+      (mouseleave)="showCard = false">
         Total Addons
         {{ initiateQuotes.premium_details?.is_addon_addition ? "(D)" : "" }}
         <img
           src="/assets/icon/cpa-hover.svg"
-          (mouseenter)="showCard = true"
-          (mouseleave)="showCard = false"
+          
           alt=""
           class="addons-hover-image ms-2"
           *ngIf="

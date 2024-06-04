@@ -60,6 +60,7 @@ import { CheckQuotesDialogComponent } from './components/dialog-components/check
 import { ReviewAddonsComponent } from './components/dialog-components/review-addons/review-addons.component';
 import { CheckVehicleTypeComponent } from './components/dialog-components/check-vehicle-type/check-vehicle-type.component';
 import { AlphanumericWithSlashDirective } from './directives/alphanumeric-with-slash.directive';
+import { RemoveNewlinesDirective } from './directives/remove-newlines.directive';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { AlphanumericWithSlashDirective } from './directives/alphanumeric-with-s
     ReviewAddonsComponent,
     CheckVehicleTypeComponent,
     AlphanumericWithSlashDirective,
+    RemoveNewlinesDirective,
   ],
   imports: [
     CommonModule,
