@@ -168,11 +168,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             }
           });
 
-          if (occupationTypeId == -1) {
-            this.owenerVehicleDetailsForm.patchValue({
-              ownner_occupation_type: '',
-            });
-          }
+          // if (occupationTypeId == -1) {
+          //   this.owenerVehicleDetailsForm.patchValue({
+          //     ownner_occupation_type: '',
+          //   });
+          // }
         }
         if (this.salutationList?.length > 0) {
           let salutionTypeId = this.salutationList.findIndex((item: any) => {
@@ -183,11 +183,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               return;
             }
           });
-          if (salutionTypeId == -1) {
-            this.owenerVehicleDetailsForm.patchValue({
-              ownner_salutation_type: '',
-            });
-          }
+          // if (salutionTypeId == -1) {
+          //   this.owenerVehicleDetailsForm.patchValue({
+          //     ownner_salutation_type: '',
+          //   });
+          // }
         }
 
         if (
