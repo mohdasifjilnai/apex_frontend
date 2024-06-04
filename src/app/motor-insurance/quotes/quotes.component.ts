@@ -39,6 +39,8 @@ export class QuotesComponent implements OnInit {
   renewalDetails: any;
   is_cse: any;
   employee_code: any;
+  cse:any;
+  partner_code: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -147,8 +149,9 @@ export class QuotesComponent implements OnInit {
         }
       }
     }
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code')
+    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code=localStorage.getItem('employee_code');
+    this.partner_code=localStorage.getItem('partner_code')
   }
   receivedData: any;
   // receivedCheckBoxValue: any;
@@ -163,7 +166,7 @@ export class QuotesComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = '5%';
     } else {
       resWidth = 'auto';

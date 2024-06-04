@@ -106,6 +106,8 @@ export class ProposalReviewComponent implements OnInit {
   modifiedManufactureValue: any;
   is_cse: any;
   employee_code: any;
+  cse: any;
+partner_code: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -129,6 +131,7 @@ export class ProposalReviewComponent implements OnInit {
     let productTypeValue = sessionStorage.getItem('productType');
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
+    this.partner_code = localStorage.getItem('partner_code');
     let previousPolicyType = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
     );
@@ -218,7 +221,7 @@ export class ProposalReviewComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 999) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = jsonData['topObtained'];
     } else {
       resWidth = 'auto';

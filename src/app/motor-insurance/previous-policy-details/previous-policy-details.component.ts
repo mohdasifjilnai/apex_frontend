@@ -89,7 +89,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.proposalData = proposal;
       const [dayReg, monthReg, yearReg] =
         proposal?.vehicle_details?.registration_date.split('/').map(Number);
-      const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
+      const reformattedRegDate = new Date(yearReg, monthReg - 2, dayReg);
       this.tpStartminDate = reformattedRegDate;
       this.tpStartmaxDate = new Date();
 

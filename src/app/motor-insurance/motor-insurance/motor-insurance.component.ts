@@ -116,6 +116,8 @@ export class MotorInsuranceComponent implements OnInit {
   fullUrl: any;
   is_cse: any;
   employee_code: any;
+  cse: any;
+  partner_code: any;
 
   constructor(
     private router: Router,
@@ -358,8 +360,9 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code')
+    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code=localStorage.getItem('employee_code');
+    this.partner_code = localStorage.getItem('partner_code');
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
@@ -570,7 +573,7 @@ export class MotorInsuranceComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = '5%';
     } else {
       resWidth = 'auto';
@@ -687,7 +690,7 @@ export class MotorInsuranceComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = '5%';
     } else {
       resWidth = 'auto';

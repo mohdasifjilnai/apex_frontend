@@ -79,6 +79,8 @@ export class ProposalComponent implements OnInit {
   isLoading: boolean = false;
   is_cse: any;
   employee_code: any;
+  cse: any;
+  partner_code: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -94,8 +96,9 @@ export class ProposalComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.is_cse=localStorage.getItem('is_cse')?.toLowerCase();
+    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code=localStorage.getItem('employee_code');
+    this.partner_code=localStorage.getItem('partner_code');
     let quoteRequesId = sessionStorage.getItem('quote_request_id');
     if (quoteRequesId) {
       sessionStorage.removeItem('quote_request_id');

@@ -3,7 +3,7 @@
     class="res-header-icon text-center mb-3"
   >
     <div  *ngIf="is_cse=='true'" class="d-flex  justify-content-end">
-      <span class="cse">CSE ({{employee_code}})</span>
+      <span class="cse">CSE ({{employee_code}})<br>PC({{ partner_code }})</span>
     </div>
     <img *ngIf="vehcileType == 'private_car'" src="/assets/icon/private_car_res_bg.svg" alt="" />
     <img  *ngIf="vehcileType == 'two_wheeler'" src="/assets/icon/two_wheeler_res_bg.svg" alt="" />

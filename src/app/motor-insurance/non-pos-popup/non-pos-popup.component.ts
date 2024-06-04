@@ -39,7 +39,7 @@ export class NonPosPopupComponent implements OnInit {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
-      resWidth = '95%';
+      resWidth = 'auto';
       resTop = '5%';
     } else {
       resWidth = 'auto';

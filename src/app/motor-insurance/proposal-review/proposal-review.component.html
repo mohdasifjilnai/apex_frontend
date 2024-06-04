@@ -18,7 +18,7 @@
   </div>
   <div class="res-proposal-review">
     <div  *ngIf="is_cse=='true'" class="d-flex  justify-content-end">
-      <span class="cse">CSE ({{employee_code}})</span>
+      <span class="cse">CSE ({{employee_code}})<br>PC({{ partner_code }})</span>
     </div>
     <app-vehicle-details-card></app-vehicle-details-card>
     <div class="renewalsCard mb-3" *ngIf="renewalType == 'renewal'">
