@@ -61,7 +61,9 @@ export class PremiumBreakupComponent implements OnInit {
   isIdvGreaterThan50Lac: any;
   endPath: string;
   showAddons: boolean = false;
-  downloadLoader: any=false;
+  downloadLoader: any = false;
+  mmv_data: any;
+  mmvParseData: any;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -92,6 +94,10 @@ export class PremiumBreakupComponent implements OnInit {
     //   this.gstToggleData = true;
     // }
     this.thirdParty = sessionStorage.getItem('productType');
+    this.mmv_data = sessionStorage.getItem('mmv_data');
+    if (this.mmv_data) {
+      this.mmvParseData = JSON.parse(this.mmv_data);
+    }
   }
   /**
    * this fucntion use for close pop up
@@ -160,19 +166,21 @@ export class PremiumBreakupComponent implements OnInit {
     if (window.ReactNativeWebView) {
       const url = `${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
       const apiUrlObject = {
-        downloadQuotes: url
-       };
-       const messageJSON = JSON.stringify(apiUrlObject);
+        downloadQuotes: url,
+      };
+      const messageJSON = JSON.stringify(apiUrlObject);
       window.ReactNativeWebView.postMessage(messageJSON);
     }
-    this.downloadLoader=true
+    this.downloadLoader = true;
     let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
-    this.sharedDataService.downloadPolicy(url)
-    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
-      if(response){
-        this.downloadLoader=false
+    this.sharedDataService.downloadPolicy(url);
+    this.sharedDataService.downloadBreakupResponse.subscribe(
+      (response: any) => {
+        if (response) {
+          this.downloadLoader = false;
+        }
       }
-      })
+    );
   }
   /**
    * Function used for buy Now Button in responsive

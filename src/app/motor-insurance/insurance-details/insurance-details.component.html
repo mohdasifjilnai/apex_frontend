@@ -125,7 +125,10 @@
         }}
       </p>
     </div> -->
-    <div class="d-flex justify-content-between mt-2">
+    <div
+      class="d-flex justify-content-between mt-2"
+      *ngIf="!mmvParseData?.previous_claimed"
+    >
       <span class="od-value od-name">NCB Discount</span>
       <span class="od-value">
         <span

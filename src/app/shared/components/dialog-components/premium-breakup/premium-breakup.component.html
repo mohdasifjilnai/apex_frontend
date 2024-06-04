@@ -48,7 +48,10 @@
         }}
       </span>
     </div> -->
-    <div class="d-flex justify-content-between">
+    <div
+      class="d-flex justify-content-between"
+      *ngIf="!mmvParseData?.previous_claimed"
+    >
       <span class="own-damage-text"> NCB Discount </span>
       <span class="own-damage-amount"
         ><span
@@ -113,7 +116,9 @@
           (mouseleave)="showCard = false"
           alt=""
           class="addons-hover-image ms-2"
-          *ngIf="initiateQuotes?.premium_details?.addon_premium_details.length != 0"
+          *ngIf="
+            initiateQuotes?.premium_details?.addon_premium_details.length != 0
+          "
         />
         <img
           src="/assets/icon/cpa-hover.svg"
@@ -264,19 +269,27 @@
           <img src="/assets/icon/share.svg" class="share-icon" />
           <p class="share-text text-light-blue">Share</p>
         </div>
-        <div class="download-group light-green justify-content-center d-flex" >
-          <img src="/assets/icon/download.svg" class="download-icon" *ngIf="!downloadLoader"/>
+        <div class="download-group light-green justify-content-center d-flex">
+          <img
+            src="/assets/icon/download.svg"
+            class="download-icon"
+            *ngIf="!downloadLoader"
+          />
           <p
             class="download-text text-light-green"
             (click)="downloadPremiumBreakup(initiateQuotes)"
-            *ngIf="!downloadLoader" >
+            *ngIf="!downloadLoader"
+          >
             Download
           </p>
-          <img class="loader" src="assets/gif/downloadLoader.gif" alt="" *ngIf="downloadLoader"/>
+          <img
+            class="loader"
+            src="assets/gif/downloadLoader.gif"
+            alt=""
+            *ngIf="downloadLoader"
+          />
         </div>
-        <div>
-          
-        </div>
+        <div></div>
       </div>
     </div>
   </div>
@@ -296,8 +309,12 @@
         >
           <img src="/assets/icon/download.svg" class="share-icon" alt="" />
         </button>
-        <div  class="light-green text-center p-2" *ngIf="downloadLoader">
-          <img class="loader-download" src="assets/gif/downloadLoader.gif" alt="" />
+        <div class="light-green text-center p-2" *ngIf="downloadLoader">
+          <img
+            class="loader-download"
+            src="assets/gif/downloadLoader.gif"
+            alt=""
+          />
         </div>
       </div>
       <div class="col-6" *ngIf="endPath == 'quotes'">
@@ -323,7 +340,11 @@
           <div
             class="download-group col-6 light-green justify-content-center d-flex"
           >
-            <img src="/assets/icon/download.svg" class="download-icon" *ngIf="!downloadLoader"/>
+            <img
+              src="/assets/icon/download.svg"
+              class="download-icon"
+              *ngIf="!downloadLoader"
+            />
             <p
               class="download-text text-light-green"
               *ngIf="!downloadLoader"
@@ -331,7 +352,12 @@
             >
               Download
             </p>
-            <img class="loader" src="assets/gif/downloadLoader.gif" alt="" *ngIf="downloadLoader"/>
+            <img
+              class="loader"
+              src="assets/gif/downloadLoader.gif"
+              alt=""
+              *ngIf="downloadLoader"
+            />
           </div>
         </div>
       </div>

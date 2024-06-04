@@ -73,6 +73,8 @@ export class InsuranceDetailsComponent implements OnInit {
   url: any;
   showInsurerButton = true;
   downloadLoader: boolean = false;
+  mmv_data: any;
+  mmvParseData: any;
   constructor(
     public matDialog: WindowRef,
 
@@ -158,6 +160,11 @@ export class InsuranceDetailsComponent implements OnInit {
       this.showInsurerButton = false;
     } else {
       this.showInsurerButton = true;
+    }
+
+    this.mmv_data = sessionStorage.getItem('mmv_data');
+    if (this.mmv_data) {
+      this.mmvParseData = JSON.parse(this.mmv_data);
     }
   }
 
