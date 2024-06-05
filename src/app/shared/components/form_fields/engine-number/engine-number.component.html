@@ -11,4 +11,9 @@
   <mat-error *ngIf="engineForm.controls['engine_number']?.hasError('required')">
     This is a required field.
   </mat-error>
+  <mat-error
+    *ngIf="engineForm.controls['engine_number']?.hasError('minlength')"
+  >
+    Cannot be less than 6 Characters
+  </mat-error>
 </mat-form-field>

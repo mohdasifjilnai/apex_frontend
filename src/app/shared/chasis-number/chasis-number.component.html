@@ -5,8 +5,8 @@
     formControlName="chassis_number"
     class="text-uppercase"
     id-automation="chassis_number"
-    minlength="17"
-    maxlength="25"
+    minlength="6"
+    maxlength="17"
   />
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('required')"
@@ -20,11 +20,13 @@
     Exceeded max limit
   </mat-error>
   <mat-error
-    *ngIf="
-      chassisForm.controls['chassis_number']?.hasError('minlength') &&
-      !chassisForm.controls['chassis_number']?.hasError('pattern')
-    "
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('minlength')"
   >
-    Cannot be less than 17 Characters
+    Cannot be less than 6 Characters
+  </mat-error>
+  <mat-error
+    *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
+  >
+    Cannot be more than 17 Characters
   </mat-error>
 </mat-form-field>

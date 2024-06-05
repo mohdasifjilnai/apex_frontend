@@ -92,8 +92,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(17),
-          Validators.maxLength(25),
+          Validators.minLength(6),
+          Validators.maxLength(17),
         ],
       ],
       registration_date: ['', Validators.required],
