@@ -6,7 +6,7 @@
     class="text-uppercase"
     id-automation="chassis_number"
     minlength="6"
-    maxlength="17"
+    maxlength="25"
   />
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('required')"
@@ -27,6 +27,6 @@
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
   >
-    Cannot be more than 17 Characters
+    Cannot be more than 25 Characters
   </mat-error>
 </mat-form-field>
