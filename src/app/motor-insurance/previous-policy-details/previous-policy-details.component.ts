@@ -32,6 +32,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   url = '';
   renewalDetails: any;
   renewalQuotesRequest: any;
+  isTpStartDate: boolean = true;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
@@ -58,6 +59,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   tpStartmaxDate: any;
   tpEndmaxDate: any;
   vehicleTypeSelected: any;
+  tpFormattedDate: any;
 
   constructor(
     private router: Router,
@@ -75,11 +77,36 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
-    if (this.mmvData?.policy_expiry_date) {
-      this.isExpiryDate = true;
+    if (this.mmvData?.policy_expiry === 'comprehensive') {
+      this.isTpStartDate = false;
+      if (this.mmvData?.policy_expiry_date) {
+        this.previousPolicyDetailsForm.patchValue({
+          tp_policy_end_date: this.mmvData?.policy_expiry_date,
+        });
+      }
+      const selectedDateValue =
+        this.previousPolicyDetailsForm.get('tp_policy_end_date')?.value;
+      const selectedDateNewValue = new Date(selectedDateValue);
+      const inputDate = new Date(selectedDateNewValue);
+      const outputDate = new Date(
+        inputDate.getFullYear() - 1,
+        inputDate.getMonth(),
+        inputDate.getDate() + 1
+      ); // Add 1 day
+      this.tpFormattedDate = this.datePipe.transform(
+        outputDate,
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'Z"
+      );
       this.previousPolicyDetailsForm.patchValue({
-        policy_expiry_date: this.mmvData?.policy_expiry_date,
+        tp_policy_start_date: new Date(this.tpFormattedDate),
       });
+    } else {
+      this.isExpiryDate = true;
+      if (this.mmvData?.policy_expiry_date) {
+        this.previousPolicyDetailsForm.patchValue({
+          policy_expiry_date: this.mmvData?.policy_expiry_date,
+        });
+      }
     }
 
     this.transactionId = sessionStorage.getItem('transaction_id');
@@ -102,16 +129,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_no,
-          tp_policy_start_date: moment(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_start_date,
-            'DD/MM/YYYY'
-          ).toDate(),
-          tp_policy_end_date: moment(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_expiry_date,
-            'DD/MM/YYYY'
-          ).toDate(),
         });
         if (
           this.proposalData.previous_policy_details?.insurer_code ||
@@ -546,41 +563,44 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
   }
   onTpStartDateSelected(event: any) {
-    this.previousPolicyDetailsForm
-      .get('tp_policy_end_date')
-      ?.updateValueAndValidity();
-    this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
-    const selectedDateValue = this.previousPolicyDetailsForm.get(
-      'tp_policy_start_date'
-    )?.value;
-    if (selectedDateValue) {
-      const EndMinDate = new Date(
-        selectedDateValue.getFullYear() + 1,
-        selectedDateValue.getMonth(),
-        selectedDateValue.getDate() - 1
-      );
-      this.tpEndminDate = this.datePipe.transform(EndMinDate, 'yyyy-MM-dd')!;
-      const selectedDate = new Date(selectedDateValue);
-      if (this.vehicleTypeSelected == 'private_car') {
-        const fourYearsFromNow = new Date(
-          selectedDate.getFullYear() + 3,
-          selectedDate.getMonth(),
-          selectedDate.getDate()
+    if (this.mmvData?.policy_expiry === 'comprehensive') {
+    } else {
+      this.previousPolicyDetailsForm
+        .get('tp_policy_end_date')
+        ?.updateValueAndValidity();
+      this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
+      const selectedDateValue = this.previousPolicyDetailsForm.get(
+        'tp_policy_start_date'
+      )?.value;
+      if (selectedDateValue) {
+        const EndMinDate = new Date(
+          selectedDateValue.getFullYear() + 1,
+          selectedDateValue.getMonth(),
+          selectedDateValue.getDate() - 1
         );
-        this.tpEndmaxDate = this.datePipe.transform(
-          fourYearsFromNow,
-          'yyyy-MM-dd'
-        )!;
-      } else if (this.vehicleTypeSelected == 'two_wheeler') {
-        const fourYearsFromNow = new Date(
-          selectedDate.getFullYear() + 5,
-          selectedDate.getMonth(),
-          selectedDate.getDate()
-        );
-        this.tpEndmaxDate = this.datePipe.transform(
-          fourYearsFromNow,
-          'yyyy-MM-dd'
-        )!;
+        this.tpEndminDate = this.datePipe.transform(EndMinDate, 'yyyy-MM-dd')!;
+        const selectedDate = new Date(selectedDateValue);
+        if (this.vehicleTypeSelected == 'private_car') {
+          const fourYearsFromNow = new Date(
+            selectedDate.getFullYear() + 3,
+            selectedDate.getMonth(),
+            selectedDate.getDate()
+          );
+          this.tpEndmaxDate = this.datePipe.transform(
+            fourYearsFromNow,
+            'yyyy-MM-dd'
+          )!;
+        } else if (this.vehicleTypeSelected == 'two_wheeler') {
+          const fourYearsFromNow = new Date(
+            selectedDate.getFullYear() + 5,
+            selectedDate.getMonth(),
+            selectedDate.getDate()
+          );
+          this.tpEndmaxDate = this.datePipe.transform(
+            fourYearsFromNow,
+            'yyyy-MM-dd'
+          )!;
+        }
       }
     }
   }
