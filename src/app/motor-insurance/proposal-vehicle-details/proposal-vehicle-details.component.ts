@@ -87,20 +87,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.proposalVehilceDetailsForm = this.formBuild.group({
       registration_number: [''],
       vehicle_colour: [''],
-      engine_number: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$'),
-        ],
-      ],
+      engine_number: ['', [Validators.required]],
       chassis_number: [
         '',
         [
           Validators.required,
-          Validators.pattern(
-            new RegExp('^([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*$')
-          ),
           Validators.minLength(17),
           Validators.maxLength(25),
         ],

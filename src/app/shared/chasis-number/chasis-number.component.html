@@ -13,11 +13,7 @@
   >
     This is a required field.
   </mat-error>
-  <mat-error
-    *ngIf="chassisForm.controls['chassis_number']?.hasError('pattern')"
-  >
-    Invalid Chassis Number
-  </mat-error>
+
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
   >
