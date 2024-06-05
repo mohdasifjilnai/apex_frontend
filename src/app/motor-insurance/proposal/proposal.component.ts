@@ -842,6 +842,11 @@ export class ProposalComponent implements OnInit {
         if (response) {
           if (response) {
             sessionStorage.setItem('proposal_Id', response?.proposal_id);
+            this.renewalDetails = sessionStorage.getItem('renewalDetails');
+            const parsedRenewalDetails = JSON.parse(this.renewalDetails);
+            if (!parsedRenewalDetails) {
+              sessionStorage.setItem('vehiclePopup', 'true');
+            }
             this.getInsurerCode(this.transactionId, response?.insurer_quote_id);
           }
         }
@@ -855,6 +860,10 @@ export class ProposalComponent implements OnInit {
       .subscribe((response) => {
         if (response) {
           this.getInsurerData = response;
+          sessionStorage.setItem(
+            'vehicleType',
+            response.quote_request.vehicle_type
+          );
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.getVehicleMMVPopup(
             '',

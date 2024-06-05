@@ -577,17 +577,23 @@ export class SharedDataService {
       } else {
         selectedIdv = 0;
       }
-      this.metaDataIdv = sessionStorage.getItem('idvData');
-      let metaDataIdvValue = JSON.parse(this.metaDataIdv);
-      this.metaDataAddon = sessionStorage.getItem('selectedAddons');
-      let metaDataAddonValue = JSON.parse(this.metaDataAddon);
+      // this.metaDataIdv = sessionStorage.getItem('idvData');
+      // let metaDataIdvValue = JSON.parse(this.metaDataIdv);
+      // this.metaDataAddon = sessionStorage.getItem('selectedAddons');
+      // let metaDataAddonValue;
+      // if (typeof this.metaDataAddon == 'string') {
+      //   metaDataAddonValue = JSON.parse(this.metaDataAddon);
+      // } else {
+      // metaDataAddonValue = this.metaDataAddon;
+      // }
+
       let popupHideShowData = {
         NoExpiryPolicy: mmvData?.NoExpiryPolicy,
         hidePreviousClaimed: mmvData?.hidePreviousClaimed,
         policy_expiry_id_data: mmvData?.policy_expiry_id_data,
         policy_expiry_type: mmvData?.policy_expiry,
-        idvData: metaDataIdvValue,
-        selectedAddons: metaDataAddonValue,
+        idvData: sessionStorage.getItem('idvData'),
+        selectedAddons: sessionStorage.getItem('selectedAddons'),
         mmv_form_data: mmvData,
         selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
       };
