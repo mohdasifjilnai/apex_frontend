@@ -782,6 +782,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
     if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
       value = value.replace(/-/g, '');
+      value = value.replace(/\s/g, '');
       value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
       this.proposalVehilceDetailsForm.patchValue({
         registration_number_last_digit: value.toUpperCase(),
