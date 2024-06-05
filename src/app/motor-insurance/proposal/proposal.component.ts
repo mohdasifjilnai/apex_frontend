@@ -82,6 +82,9 @@ export class ProposalComponent implements OnInit {
   cse: any;
   partner_code: any;
   transactionId: any;
+  expiryListData: any;
+  allNCBData: any;
+  mmvStoreData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -864,6 +867,7 @@ export class ProposalComponent implements OnInit {
             'vehicleType',
             response.quote_request.vehicle_type
           );
+          this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.getVehicleMMVPopup(
             '',
@@ -970,6 +974,10 @@ export class ProposalComponent implements OnInit {
         if (res && this.rtoCity) {
           this.vehicleMMVData = res;
           this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
+          sessionStorage.setItem(
+            'productType',
+            this.getInsurerData?.quote_request?.product_type
+          );
 
           let mmvData = {
             rb_mmv_id: this.getInsurerData?.quote_request?.rb_mmv_id,
@@ -987,7 +995,19 @@ export class ProposalComponent implements OnInit {
             vehicle_variant: this.vehicleMMVData[0],
             allQuotesRequest: allRequestData,
             vehicle_fuel: this.vehicleMMVData[0].fuel,
+            addNcbBoth: '',
+            user_car: this.getInsurerData?.quote_request.is_ownership_transfer,
+            previous_claimed: this.getInsurerData?.quote_request.is_claimed,
+            policy_expiry_id_data:
+              this.getInsurerData?.quote_request.previous_policy_type,
+            typeofPreviousPolicy:
+              this.getInsurerData?.quote_request?.meta_data?.policy_expiry_type,
+            hidePreviousClaimed:
+              this.getInsurerData?.quote_request?.meta_data
+                ?.hidePreviousClaimed,
+            ncb_discount: '',
           };
+
           if (mmvData) {
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
           }
@@ -998,6 +1018,26 @@ export class ProposalComponent implements OnInit {
           }
           this.sharedData.sendRenewalMmv(mmvData);
         }
+      });
+  }
+
+  getNcbList(allRequestData: any) {
+    this.apiService
+      .getRequestedResponse(ApiConstants.ncb_list)
+      .subscribe((res) => {
+        this.expiryListData = res;
+        for (let i = 0; i <= this.expiryListData.length - 1; i++) {
+          if (
+            this.expiryListData[i].old_ncb_value ==
+            allRequestData.previous_year_ncb
+          ) {
+            this.allNCBData = this.expiryListData[i];
+          }
+        }
+        sessionStorage.setItem(
+          'allNCBDataProposal',
+          JSON.stringify(this.allNCBData)
+        );
       });
   }
 }

@@ -87,11 +87,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.vehicleTypeSelected = sessionStorage.getItem('vehicleType');
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
-      const [dayReg, monthReg, yearReg] =
-        proposal?.vehicle_details?.registration_date.split('/').map(Number);
-      const reformattedRegDate = new Date(yearReg, monthReg - 2, dayReg);
-      this.tpStartminDate = reformattedRegDate;
-      this.tpStartmaxDate = new Date();
+      if (proposal?.vehicle_details) {
+        const [dayReg, monthReg, yearReg] =
+          proposal?.vehicle_details?.registration_date.split('/').map(Number);
+        const reformattedRegDate = new Date(yearReg, monthReg - 2, dayReg);
+        this.tpStartminDate = reformattedRegDate;
+        this.tpStartmaxDate = new Date();
+      }
 
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({

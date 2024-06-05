@@ -36,6 +36,16 @@ export class CheckQuotesDialogComponent implements OnInit {
       this.sharedDataService.quotesDataOnRenewal(insurerApiData);
       this.route.navigate(['quotes']);
     } else {
+      let allNCbValue = sessionStorage.getItem('allNCBDataProposal');
+      if (allNCbValue) {
+        let mmvValueData = sessionStorage.getItem('mmv_data');
+        if (mmvValueData) {
+          let mmvListData = JSON.parse(mmvValueData);
+          mmvListData.addNcbBoth = JSON.parse(allNCbValue);
+          mmvListData.ncb_discount = mmvListData.addNcbBoth.old_ncb_value;
+          sessionStorage.setItem('mmv_data', JSON.stringify(mmvListData));
+        }
+      }
       sessionStorage.setItem('quotesUrl', 'true');
 
       this.route.navigate(['quotes']);
