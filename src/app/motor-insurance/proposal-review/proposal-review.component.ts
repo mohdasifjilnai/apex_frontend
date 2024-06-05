@@ -107,7 +107,7 @@ export class ProposalReviewComponent implements OnInit {
   is_cse: any;
   employee_code: any;
   cse: any;
-partner_code: any;
+  partner_code: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -137,11 +137,13 @@ partner_code: any;
     );
     if (
       previousPolicyType?.policy_expiry === 'saod' ||
-      previousPolicyType?.policy_expiry === 'comprehensive' ||
       previousPolicyType?.policy_expiry === 'bundle'
     ) {
       this.isTpDetailsDisabled = true;
       this.isOdDetailsShow = true;
+    } else if (previousPolicyType?.policy_expiry === 'comprehensive') {
+      this.isTpDetailsDisabled = true;
+      this.isOdDetailsShow = false;
     } else if (
       previousPolicyType?.policy_expiry === 'satp' ||
       previousPolicyType?.policy_expiry === 'bundled_tp'
