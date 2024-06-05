@@ -104,6 +104,8 @@ export class SharedDataService {
   checkWheeler: any;
   isCheckWheeler = true;
   vaahanName: any;
+  metaDataIdv: any;
+  metaDataAddon: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -575,13 +577,17 @@ export class SharedDataService {
       } else {
         selectedIdv = 0;
       }
+      this.metaDataIdv = sessionStorage.getItem('idvData');
+      let metaDataIdvValue = JSON.parse(this.metaDataIdv);
+      this.metaDataAddon = sessionStorage.getItem('selectedAddons');
+      let metaDataAddonValue = JSON.parse(this.metaDataAddon);
       let popupHideShowData = {
         NoExpiryPolicy: mmvData?.NoExpiryPolicy,
         hidePreviousClaimed: mmvData?.hidePreviousClaimed,
         policy_expiry_id_data: mmvData?.policy_expiry_id_data,
         policy_expiry_type: mmvData?.policy_expiry,
-        idvData: sessionStorage.getItem('idvData'),
-        selectedAddons: sessionStorage.getItem('selectedAddons'),
+        idvData: metaDataIdvValue,
+        selectedAddons: metaDataAddonValue,
         mmv_form_data: mmvData,
         selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
       };

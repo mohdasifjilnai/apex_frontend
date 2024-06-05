@@ -162,7 +162,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           let occupationTypeId = this.occupationList.findIndex((item: any) => {
             if (
               item.rb_id ==
-              this.owenerVehicleDetailsForm.value.ownner_salutation_type
+              this.owenerVehicleDetailsForm.value.ownner_occupation_type
             ) {
               return;
             }

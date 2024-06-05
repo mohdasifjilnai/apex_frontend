@@ -131,7 +131,7 @@ export class ProposalComponent implements OnInit {
         this.route.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
           const transactionId = urlSegments[urlSegments.length - 1];
-          console.log(transactionId);
+
           this.getInsurerQuoteId(transactionId);
         });
       }
@@ -868,12 +868,6 @@ export class ProposalComponent implements OnInit {
             sessionStorage.setItem('transaction_id', transactionId);
           }
 
-          // let pageLoadData = sessionStorage.getItem('pageLoad');
-          // if (!pageLoadData) {
-          //   sessionStorage.setItem('pageLoad', 'true');
-          //   window.location.reload();
-          // }
-          console.log('shiva,1', response);
           const quoteResponseToStore = response?.quote_response;
           if (quoteResponseToStore) {
             sessionStorage.setItem(
@@ -987,6 +981,11 @@ export class ProposalComponent implements OnInit {
           };
           if (mmvData) {
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
+          }
+          let pageLoadData = sessionStorage.getItem('pageLoad');
+          if (!pageLoadData) {
+            sessionStorage.setItem('pageLoad', 'true');
+            window.location.reload();
           }
           this.sharedData.sendRenewalMmv(mmvData);
         }
