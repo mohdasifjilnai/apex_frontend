@@ -33,6 +33,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   renewalDetails: any;
   renewalQuotesRequest: any;
   isTpStartDate: boolean = true;
+  isTpEndDateDisable: boolean = false;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   @Input() fetchVehicleDetails: any;
@@ -79,6 +80,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     if (this.mmvData?.policy_expiry === 'comprehensive') {
       this.isTpStartDate = false;
+      this.isTpEndDateDisable = true;
       if (this.mmvData?.policy_expiry_date) {
         this.previousPolicyDetailsForm.patchValue({
           tp_policy_end_date: this.mmvData?.policy_expiry_date,

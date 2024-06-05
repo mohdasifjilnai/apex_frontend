@@ -117,6 +117,7 @@
             [min]="tpEndminDate"
             [max]="tpEndmaxDate"
             (click)="tpPolicyEndDate.open()"
+            [disabled]="isTpEndDateDisable"
           />
           <mat-datepicker-toggle matSuffix [for]="tpPolicyEndDate"
             ><mat-icon matDatepickerToggleIcon>
