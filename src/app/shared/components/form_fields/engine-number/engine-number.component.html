@@ -5,19 +5,13 @@
     formControlName="engine_number"
     class="text-uppercase"
     id-automation="engine_number"
-    appAlphaNumeric
     minlength="6"
     maxlength="25"
   />
-  <mat-error
-    *ngIf="engineForm.controls['engine_number']?.hasError('required')"
-    
-  >
+  <mat-error *ngIf="engineForm.controls['engine_number']?.hasError('required')">
     This is a required field.
   </mat-error>
-  <mat-error
-    *ngIf="engineForm.controls['engine_number']?.hasError('pattern')"
-  >
+  <mat-error *ngIf="engineForm.controls['engine_number']?.hasError('pattern')">
     Invalid Engine Number
   </mat-error>
 </mat-form-field>

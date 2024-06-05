@@ -807,7 +807,6 @@ export class SharedDataService {
     if (
       flag === 'previous_policy_details' &&
       (previousPolicyType?.policy_expiry === 'saod' ||
-        previousPolicyType?.policy_expiry === 'comprehensive' ||
         previousPolicyType?.policy_expiry === 'bundle')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
@@ -828,7 +827,6 @@ export class SharedDataService {
       );
       if (
         previousPolicyType?.policy_expiry === 'saod' ||
-        previousPolicyType?.policy_expiry === 'comprehensive' ||
         previousPolicyType?.policy_expiry === 'bundle'
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
@@ -871,6 +869,46 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
       };
+    } else if (
+      flag === 'previous_policy_details' &&
+      previousPolicyType?.policy_expiry === 'comprehensive'
+    ) {
+      this.proposalDataItem['previous_policy_details'] = {};
+      this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+      this.proposalDataItem['previous_policy_details'] = {
+        insurer_code: formData?.get('tp_insurance_company')?.value
+          ?.rb_insurer_code,
+        policy_no: formData?.get('tp_policy_number')?.value,
+        policy_expiry_date:
+          this.datePipe.transform(
+            formData?.get('tp_policy_end_date')?.value,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          ) || '',
+      };
+
+      let productTypeValue = sessionStorage.getItem('productType');
+      let previousPolicyType = JSON.parse(
+        sessionStorage.getItem('mmv_data') || '{}'
+      );
+      if (previousPolicyType?.policy_expiry === 'comprehensive') {
+        this.proposalDataItem['previous_policy_details'].tp_policy_details = {
+          tp_insurer_code: formData?.get('tp_insurance_company')?.value
+            ?.rb_insurer_code,
+          tp_policy_no: formData?.get('tp_policy_number')?.value,
+          tp_policy_expiry_date:
+            this.datePipe.transform(
+              formData?.get('tp_policy_end_date')?.value,
+              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            ) || '',
+          tp_policy_start_date:
+            this.datePipe.transform(
+              formData?.get('tp_policy_start_date')?.value,
+              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            ) || '',
+        };
+      } else {
+        this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+      }
     }
     if (flag === 'proposal_review') {
       this.proposalDataItem['previous_policy_details'] = {
