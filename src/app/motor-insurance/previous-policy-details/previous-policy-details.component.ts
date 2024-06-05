@@ -106,7 +106,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.isExpiryDate = true;
       if (this.mmvData?.policy_expiry_date) {
         this.previousPolicyDetailsForm.patchValue({
-          policy_expiry_date: this.mmvData?.policy_expiry_date,
+          policy_expiry_date: new Date(this.mmvData?.policy_expiry_date),
         });
       }
     }
