@@ -123,7 +123,20 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.tpStartminDate = reformattedRegDate;
         this.tpStartmaxDate = new Date();
       }
-
+      if (this.mmvData?.policy_expiry !== 'comprehensive') {
+        this.previousPolicyDetailsForm.patchValue({
+          tp_policy_start_date: moment(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_start_date,
+            'DD/MM/YYYY'
+          ).toDate(),
+          tp_policy_end_date: moment(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_expiry_date,
+            'DD/MM/YYYY'
+          ).toDate(),
+        });
+      }
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:

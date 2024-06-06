@@ -361,7 +361,7 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code');
+    this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
   }
   monthDiff = (d1: any, d2: any) => {
@@ -550,15 +550,16 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.setItem('registrationNumber', `${regn_no}`);
 
       this.sharedDataService.vehicleDetails('registrationNumber');
-      this.sharedDataService.regNumberData.subscribe((numberData) => {
-        if (numberData) {
+      this.sharedDataService.regNumberData.subscribe(
+        (numberData) => {
+          if (numberData) {
+            this.loader = false;
+          }
+        },
+        (error) => {
           this.loader = false;
         }
-      },
-      (error) => {
-        this.loader = false;
-      }
-    );
+      );
       this.sharedDataService.detailNotFound.subscribe((numberData) => {
         if (numberData) {
           this.loader = false;
