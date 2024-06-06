@@ -1029,10 +1029,19 @@ export class ProposalComponent implements OnInit {
               JSON.stringify(addonsValue)
             );
           }
-
-          if (mmvData) {
-            sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
+          if (this.getInsurerData?.quote_request?.meta_data?.mmv_form_data) {
+            let mmvFormData =
+              this.getInsurerData?.quote_request?.meta_data?.mmv_form_data;
+            // let mmvValue = JSON.parse(mmvFormData);
+            sessionStorage.setItem(
+              'lastSelectedTabIndex',
+              this.getInsurerData?.quote_request?.meta_data?.selectedTabIndex
+            );
+            sessionStorage.setItem('mmv_data', JSON.stringify(mmvFormData));
           }
+          // if (mmvData) {
+          //   sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
+          // }
           let pageLoadData = sessionStorage.getItem('pageLoad');
           if (!pageLoadData) {
             sessionStorage.setItem('pageLoad', 'true');

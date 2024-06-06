@@ -56,19 +56,21 @@
     </div>
     <hr *ngIf="isOdPolicyDetails" />
     <div class="row mt-3" *ngIf="isTpPolicyDetails">
-      <div class="col-12">
+      <div class="col-12" *ngIf="isTpStartDate">
         <label>Third Party (TP) Policy Details</label>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <app-previous-insurer
-          [label]="'TP Insurance Company'"
+          [label]="isTpStartDate ? 'TP Insurance Company' : 'Insurance Company'"
           [formControlNameData]="'tp_insurance_company'"
           (responseEvent)="previousInsurerComponentResponse($event)"
         ></app-previous-insurer>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <mat-form-field appearance="outline">
-          <mat-label>TP Policy Number</mat-label>
+          <mat-label>{{
+            isTpStartDate ? "TP Policy Number" : "Policy Number"
+          }}</mat-label>
           <input
             matInput
             formControlName="tp_policy_number"
@@ -108,7 +110,9 @@
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <mat-form-field appearance="outline" class="cpa-date">
-          <mat-label>TP Policy End Date</mat-label>
+          <mat-label>{{
+            isTpStartDate ? "TP Policy End Date" : "Policy End Date"
+          }}</mat-label>
           <input
             matInput
             [matDatepicker]="tpPolicyEndDate"
