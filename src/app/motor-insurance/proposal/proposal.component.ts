@@ -978,13 +978,25 @@ export class ProposalComponent implements OnInit {
             'productType',
             this.getInsurerData?.quote_request?.product_type
           );
+          let reformattedPolicyDate;
+          if (this.getInsurerData?.quote_request?.previous_policy_exp_date) {
+            let inputDate =
+              this.getInsurerData?.quote_request?.previous_policy_exp_date;
+            let [day, month, year] = inputDate.split('/');
+            let reformattedDate = `${month}/${day}/${year}`;
+            // console.log();
+            reformattedPolicyDate = new Date(reformattedDate);
+          } else {
+            reformattedPolicyDate = null;
+          }
 
           let mmvData = {
             rb_mmv_id: this.getInsurerData?.quote_request?.rb_mmv_id,
             policy_expiry: this.getInsurerData?.quote_request?.product_type,
-            policy_expiry_date:
-              this.getInsurerData?.quote_request?.previous_policy_exp_date,
-            previous_insurer: this.previous_insurer,
+            policy_expiry_date: reformattedPolicyDate,
+            previous_insurer:
+              this.getInsurerData?.quote_request?.meta_data?.mmv_form_data
+                ?.previous_insurer,
             manufacture_date:
               this.getInsurerData?.quote_request?.manufacture_date,
             registration_date:
@@ -1007,6 +1019,16 @@ export class ProposalComponent implements OnInit {
                 ?.hidePreviousClaimed,
             ncb_discount: '',
           };
+          if (this.getInsurerData?.quote_request?.meta_data?.selectedAddons) {
+            let addonsValue = JSON.parse(
+              this.getInsurerData?.quote_request?.meta_data?.selectedAddons
+            );
+
+            sessionStorage.setItem(
+              'selectedAddons',
+              JSON.stringify(addonsValue)
+            );
+          }
 
           if (mmvData) {
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
