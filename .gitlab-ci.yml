@@ -59,7 +59,7 @@ production:
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG $CI_REGISTRY_IMAGE:latest-production
     - docker push $CI_REGISTRY_IMAGE:latest-production
     - chmod 400 -v ${PROD_SERVER_KEY}
-    - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; cd repos/apex-frontend; sh deploy.sh"
-
+    - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/apex-frontend; sh deploy.sh"
+    - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP_1} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/apex-frontend; sh deploy.sh"
   only:
     - tags
