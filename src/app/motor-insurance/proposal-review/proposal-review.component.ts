@@ -420,6 +420,24 @@ export class ProposalReviewComponent implements OnInit {
       if (mmv_data) {
         // Store mmv_data object in session storage
         sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
+        let previousPolicyType = JSON.parse(
+          sessionStorage.getItem('mmv_data') || '{}'
+        );
+        if (
+          previousPolicyType?.policy_expiry === 'saod' ||
+          previousPolicyType?.policy_expiry === 'bundle'
+        ) {
+          this.isTpDetailsDisabled = true;
+          this.isOdDetailsShow = true;
+        } else if (previousPolicyType?.policy_expiry === 'comprehensive') {
+          this.isTpDetailsDisabled = true;
+          this.isOdDetailsShow = false;
+        } else if (
+          previousPolicyType?.policy_expiry === 'satp' ||
+          previousPolicyType?.policy_expiry === 'bundled_tp'
+        ) {
+          this.isTpDetailsDisabled = true;
+        }
       }
       this.shareData.sendRenewalMmv(mmv_data);
       this.apiService

@@ -114,19 +114,21 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.quoteData = sessionStorage.getItem('quotes_data');
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (
-      JSON.parse(this.quoteData)['premium_details']['idv'] >= 5000000 ||
-      JSON.parse(this.quoteData)['premium_details']['gross_premium'] >= 100000
-    ) {
-      this.isPancard = true;
-      this.owenerVehicleDetailsForm
-        .get('document_number_based_field')
-        ?.setValidators([Validators.required]);
-    } else {
-      this.isPancard = false;
-      this.owenerVehicleDetailsForm
-        .get('document_number_based_field')
-        ?.clearValidators();
+    if (this.quoteData) {
+      if (
+        JSON.parse(this.quoteData)['premium_details']['idv'] >= 5000000 ||
+        JSON.parse(this.quoteData)['premium_details']['gross_premium'] >= 100000
+      ) {
+        this.isPancard = true;
+        this.owenerVehicleDetailsForm
+          .get('document_number_based_field')
+          ?.setValidators([Validators.required]);
+      } else {
+        this.isPancard = false;
+        this.owenerVehicleDetailsForm
+          .get('document_number_based_field')
+          ?.clearValidators();
+      }
     }
 
     this.owenerVehicleDetailsForm
@@ -331,9 +333,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         }
       }
     }
-    this.getOccupationType();
-    this.getPincodeList();
-    this.getSalutationType();
+    if (this.quoteData) {
+      this.getOccupationType();
+      this.getPincodeList();
+      this.getSalutationType();
+    }
 
     this.proposalType = sessionStorage.getItem('proposerType');
     if (this.proposalType == 'individual') {
