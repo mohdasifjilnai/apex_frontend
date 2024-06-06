@@ -85,6 +85,7 @@ export class ProposalComponent implements OnInit {
   expiryListData: any;
   allNCBData: any;
   mmvStoreData: any;
+  fetCkycData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -499,6 +500,9 @@ export class ProposalComponent implements OnInit {
     this.router.navigate(['quotes']);
   }
   getProposalDataForPatch() {
+    this.sharedData?.fetchedCkycData.subscribe((kyc) => {
+      this.fetCkycData = kyc;
+    });
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (!sessionStorage.getItem('kycData')) {
         const kycData: any = {
@@ -511,128 +515,143 @@ export class ProposalComponent implements OnInit {
         }
       }
       if (
-        proposal?.ckyc_details !== null &&
-        this.quoteData['insurer_code'] === 'digit'
+        this.proposerType ===
+          (this.kycPending?.proposer_type
+            ? this.kycPending?.proposer_type
+            : this.fetCkycData?.proposer_type) &&
+        this.quoteData?.insurer_code ===
+          (this.fetCkycData?.insurer_code
+            ? this.fetCkycData?.insurer_code
+            : this.kycPending?.insurer_code)
       ) {
-        this.showVehicleOwnerDetails = true;
-        this.stepper?.next();
-        this.accordianExpanded = 'vehicleOwnerDetails';
-        this.openDesiredStep(this.accordianExpanded);
-      } else if (
-        proposal?.ckyc_details !== null &&
-        this.quoteData['insurer_code'] !== 'digit'
-      ) {
-        if (this.quoteData?.insurer_code == 'united_india') {
-          if (proposal?.ckyc_details?.is_verification) {
+        if (
+          proposal?.ckyc_details !== null &&
+          this.quoteData['insurer_code'] === 'digit'
+        ) {
+          this.showVehicleOwnerDetails = true;
+          this.stepper?.next();
+          this.accordianExpanded = 'vehicleOwnerDetails';
+          this.openDesiredStep(this.accordianExpanded);
+        } else if (
+          proposal?.ckyc_details !== null &&
+          this.quoteData['insurer_code'] !== 'digit'
+        ) {
+          if (this.quoteData?.insurer_code == 'united_india') {
+            if (proposal?.ckyc_details?.is_verification) {
+              this.accordianExpanded = 'vehicleOwnerDetails';
+              this.openDesiredStep(this.accordianExpanded);
+              this.showVehicleOwnerDetails = true;
+            }
+          }
+          const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+          if (Object.keys(kycData).length > 0) {
             this.accordianExpanded = 'vehicleOwnerDetails';
             this.openDesiredStep(this.accordianExpanded);
             this.showVehicleOwnerDetails = true;
           }
         }
-        const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-        if (Object.keys(kycData).length > 0) {
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-          this.showVehicleOwnerDetails = true;
+        if (
+          proposal.customer_details !== null &&
+          !this.isNotShowNomineeDetails
+        ) {
+          if (this.reviewData === 'vehilceOwnerPanel') {
+            this.showVehicleDetails = true;
+            this.accordianExpanded = 'vehicleOwnerDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else {
+            if (
+              this.kycPending?.redirection_url_via_form ||
+              proposal?.ckyc_details?.is_verification
+            ) {
+              this.sharedData.vehicleOwnerForm.subscribe((res) => {
+                if (res) {
+                  this.showVehicleDetails = true;
+                  this.accordianExpanded = 'vehicleDetails';
+                  this.openDesiredStep(this.accordianExpanded);
+                }
+              });
+            } else {
+              this.showVehicleDetails = true;
+              this.accordianExpanded = 'vehicleDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            }
+          }
+        } else if (
+          proposal.customer_details !== null &&
+          this.isNotShowNomineeDetails
+        ) {
+          if (this.reviewData === 'vehilceOwnerPanel') {
+            this.showNomineeDetails = true;
+            this.showVehicleOwnerDetails = true;
+            this.accordianExpanded = 'vehicleOwnerDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else {
+            if (
+              this.kycPending?.redirection_url_via_form ||
+              proposal?.ckyc_details?.is_verification
+            ) {
+              this.sharedData.vehicleOwnerForm.subscribe((res) => {
+                if (res) {
+                  this.showNomineeDetails = true;
+                  this.showVehicleOwnerDetails = true;
+                  this.accordianExpanded = 'nomineeDetails';
+                  this.openDesiredStep(this.accordianExpanded);
+                }
+              });
+            } else {
+              this.showNomineeDetails = true;
+              this.showVehicleOwnerDetails = true;
+              this.accordianExpanded = 'nomineeDetails';
+              this.openDesiredStep(this.accordianExpanded);
+            }
+          }
         }
-      }
-      if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
-        if (this.reviewData === 'vehilceOwnerPanel') {
-          this.showVehicleDetails = true;
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else {
-          if (
-            this.kycPending?.redirection_url_via_form ||
-            proposal?.ckyc_details?.is_verification
-          ) {
-            this.sharedData.vehicleOwnerForm.subscribe((res) => {
-              if (res) {
-                this.showVehicleDetails = true;
-                this.accordianExpanded = 'vehicleDetails';
-                this.openDesiredStep(this.accordianExpanded);
-              }
-            });
+        if (proposal.nominee_details !== null) {
+          if (this.reviewData === 'nomineDetailsPanel') {
+            this.showVehicleDetails = true;
+            this.accordianExpanded = 'nomineeDetails';
+            this.openDesiredStep(this.accordianExpanded);
           } else {
             this.showVehicleDetails = true;
             this.accordianExpanded = 'vehicleDetails';
             this.openDesiredStep(this.accordianExpanded);
           }
         }
-      } else if (
-        proposal.customer_details !== null &&
-        this.isNotShowNomineeDetails
-      ) {
-        if (this.reviewData === 'vehilceOwnerPanel') {
-          this.showNomineeDetails = true;
-          this.showVehicleOwnerDetails = true;
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else {
-          if (
-            this.kycPending?.redirection_url_via_form ||
-            proposal?.ckyc_details?.is_verification
-          ) {
-            this.sharedData.vehicleOwnerForm.subscribe((res) => {
-              if (res) {
-                this.showNomineeDetails = true;
-                this.showVehicleOwnerDetails = true;
-                this.accordianExpanded = 'nomineeDetails';
-                this.openDesiredStep(this.accordianExpanded);
-              }
-            });
-          } else {
-            this.showNomineeDetails = true;
-            this.showVehicleOwnerDetails = true;
+        if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
+          if (this.reviewData === 'vehilceOwnerPanel') {
+            this.showPreviousPolicyDetails = true;
+            this.accordianExpanded = 'vehicleOwnerDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else if (this.reviewData === 'nomineDetailsPanel') {
+            this.showPreviousPolicyDetails = true;
             this.accordianExpanded = 'nomineeDetails';
             this.openDesiredStep(this.accordianExpanded);
+          } else {
+            this.showPreviousPolicyDetails = true;
+            this.accordianExpanded = 'vehicleDetails';
+            this.openDesiredStep(this.accordianExpanded);
           }
-        }
-      }
-      if (proposal.nominee_details !== null) {
-        if (this.reviewData === 'nomineDetailsPanel') {
-          this.showVehicleDetails = true;
-          this.accordianExpanded = 'nomineeDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else {
-          this.showVehicleDetails = true;
-          this.accordianExpanded = 'vehicleDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        }
-      }
-      if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
-        if (this.reviewData === 'vehilceOwnerPanel') {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else if (this.reviewData === 'nomineDetailsPanel') {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'nomineeDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'vehicleDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        }
-      } else if (
-        (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
-        (this.quoteData?.is_breakin && this.productTypeValue === 'satp')
-      ) {
-        if (this.reviewData === 'vehicleDetailPanel') {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'vehicleDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else if (this.reviewData === 'vehilceOwnerPanel') {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'vehicleOwnerDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else if (this.reviewData === 'nomineDetailsPanel') {
-          this.showPreviousPolicyDetails = true;
-          this.accordianExpanded = 'nomineeDetails';
-          this.openDesiredStep(this.accordianExpanded);
-        } else {
-          this.accordianExpanded = 'previousPolicyDetails';
-          this.openDesiredStep(this.accordianExpanded);
+        } else if (
+          (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
+          (this.quoteData?.is_breakin && this.productTypeValue === 'satp')
+        ) {
+          if (this.reviewData === 'vehicleDetailPanel') {
+            this.showPreviousPolicyDetails = true;
+            this.accordianExpanded = 'vehicleDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else if (this.reviewData === 'vehilceOwnerPanel') {
+            this.showPreviousPolicyDetails = true;
+            this.accordianExpanded = 'vehicleOwnerDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else if (this.reviewData === 'nomineDetailsPanel') {
+            this.showPreviousPolicyDetails = true;
+            this.accordianExpanded = 'nomineeDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          } else {
+            this.showVehicleDetails = true;
+            this.accordianExpanded = 'previousPolicyDetails';
+            this.openDesiredStep(this.accordianExpanded);
+          }
         }
       }
     });
