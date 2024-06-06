@@ -25,3 +25,24 @@
   margin-top: -20px;
 }
 
+::ng-deep {
+  .mat-option{
+    border-bottom: 2px solid #EAEAEA;
+    border-radius: 4px;
+    
+  }
+  .mat-option:hover{
+    background: #F5F8FE !important;
+    color: #5384EA  ;
+    padding: 5px;
+  }
+  .mat-option-text{
+    // height: 36px;
+    display: flex;
+    justify-content: center;
+    word-wrap: break-word;  /* Allows long words to be broken and wrap onto the next line */
+    white-space: normal;    /* Normalizes white-space handling to wrap text */
+    overflow-wrap: break-word;
+    line-height: 1.2;
+  }
+}
