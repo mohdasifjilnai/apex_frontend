@@ -7,6 +7,7 @@
     id-automation="owner_communication_address"
     minlength="10"
     appRemoveNewlines
+    appNoSpace
   ></textarea>
   <mat-error
     *ngIf="form.controls['owner_communication_addres']?.hasError('required')"
@@ -18,7 +19,12 @@
   >
     Cannot be less than 10 Characters
   </mat-error>
-  <mat-error *ngIf="isNotShowErrorMsg">
-    {{ proposalErrorMsg }}
+  <mat-error
+    *ngIf="form.controls['owner_communication_addres']?.hasError('maxlength')"
+  >
+    Cannot be more than {{ maxLength }} Characters
   </mat-error>
+  <!-- <mat-error *ngIf="isNotShowErrorMsg">
+    {{ proposalErrorMsg }}
+  </mat-error> -->
 </mat-form-field>

@@ -21,6 +21,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
   @Input('required') isRequired = false;
   proposalErrorMsg: any;
   isNotShowErrorMsg: boolean = true;
+  maxLength: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -48,20 +49,25 @@ export class VehicleRegistrationAddressComponent implements OnInit {
       );
     }
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-      if (errData?.detail[0]) {
-        for (let error of errData?.detail[0]?.loc) {
-          if (error === 'address_line') {
-            this.proposalErrorMsg = errData?.detail[0]?.msg;
-          }
-        }
+      if (errData) {
+        this.maxLength = errData?.max_length;
       }
     });
-    this.vehilceRegistrationForm
-      .get('vehicle_registration_address')
-      ?.valueChanges.subscribe((res) => {
-        if (res.length === 0) {
-          this.isNotShowErrorMsg = false;
-        }
-      });
+    // this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
+    //   if (errData?.detail[0]) {
+    //     for (let error of errData?.detail[0]?.loc) {
+    //       if (error === 'address_line') {
+    //         this.proposalErrorMsg = errData?.detail[0]?.msg;
+    //       }
+    //     }
+    //   }
+    // });
+    // this.vehilceRegistrationForm
+    //   .get('vehicle_registration_address')
+    //   ?.valueChanges.subscribe((res) => {
+    //     if (res.length === 0) {
+    //       this.isNotShowErrorMsg = false;
+    //     }
+    //   });
   }
 }

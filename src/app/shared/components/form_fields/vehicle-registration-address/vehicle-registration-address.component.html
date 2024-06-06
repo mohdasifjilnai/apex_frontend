@@ -27,7 +27,16 @@
   >
     Cannot be less than 10 Characters
   </mat-error>
-  <mat-error *ngIf="isNotShowErrorMsg">
-    {{ proposalErrorMsg }}
+  <mat-error
+    *ngIf="
+      vehilceRegistrationForm.controls[
+        'vehicle_registration_address'
+      ]?.hasError('maxlength')
+    "
+  >
+    Cannot be more than {{ maxLength }} Characters
   </mat-error>
+  <!-- <mat-error *ngIf="isNotShowErrorMsg">
+    {{ proposalErrorMsg }}
+  </mat-error> -->
 </mat-form-field>

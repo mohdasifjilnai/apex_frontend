@@ -36,6 +36,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   isTpEndDateDisable: boolean = false;
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
+  isOwnerAddressValidation: boolean = false;
+
   @Input() fetchVehicleDetails: any;
   @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
 
@@ -221,6 +223,19 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           policy_expiry_date: reformattedPolicyExpDate,
         });
       }
+    });
+    this.sharedData?.getOwnnerAddres?.subscribe((ownerAddres) => {
+      if (ownerAddres) {
+        this.isOwnerAddressValidation = false;
+      } else {
+        this.isOwnerAddressValidation = true;
+      }
+      // if (this.maxlength < ownerAddres.length) {
+      //   // this.sharedDataService?.sendOwnnerAddres(this.addresLength);
+      //   this.isOwnerAddressValidation = true;
+      // } else {
+      //   this.isOwnerAddressValidation = false;
+      // }
     });
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     if (this.vehicleType !== 'new') {

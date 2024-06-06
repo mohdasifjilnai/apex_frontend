@@ -68,6 +68,7 @@ export class SharedDataService {
   updateVehicleType = new BehaviorSubject<any>(null);
   renewalVehicleData = new BehaviorSubject<any>(null);
   getRenewalMmv = new BehaviorSubject<any>(null);
+  getOwnnerAddres = new BehaviorSubject<any>(null);
   getPlanType = new BehaviorSubject<any>(null);
   chooseIdvDataShow = new BehaviorSubject<any>(null);
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
@@ -996,7 +997,7 @@ export class SharedDataService {
           }
         },
         (error: any) => {
-          this.sendErrorProposalData(error?.error);
+          // this.sendErrorProposalData(error?.error);
         }
       );
   }
@@ -1342,5 +1343,18 @@ export class SharedDataService {
 
   vehicleCardTypeData(data: any) {
     this.traceIdVehicleType.next(data);
+  }
+  getAddressValidation(insurerCode: any) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.address_validation}?insurer_code=${insurerCode}`
+      )
+      .subscribe((res) => {
+        // this.expiryListData = res;
+        this.sendErrorProposalData(res);
+      });
+  }
+  sendOwnnerAddres(data: any) {
+    this.getOwnnerAddres.next(data);
   }
 }

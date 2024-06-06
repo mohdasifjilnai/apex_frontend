@@ -21,6 +21,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
   @Input('required') isRequired = false;
   proposalErrorMsg: any;
   isNotShowErrorMsg: boolean = true;
+  maxLength: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -43,22 +44,17 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     }
 
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-      if (errData?.detail[0]) {
-        for (let error of errData?.detail[0]?.loc) {
-          if (error == 'address_line') {
-            this.isNotShowErrorMsg = true;
-            this.proposalErrorMsg = errData?.detail[0]?.msg;
-          }
-        }
+      if (errData) {
+        this.maxLength = errData?.max_length;
       }
     });
-    this.form
-      .get('owner_communication_addres')
-      ?.valueChanges.subscribe((res) => {
-        if (res.length <= 10) {
-          this.isNotShowErrorMsg = false;
-        }
-      });
+    // this.form
+    //   .get('owner_communication_addres')
+    //   ?.valueChanges.subscribe((res) => {
+    //     if (res.length <= 10) {
+    //       this.isNotShowErrorMsg = false;
+    //     }
+    //   });
   }
 
   ngOnDestroy(): void {

@@ -128,8 +128,13 @@ export class ProposalComponent implements OnInit {
       this.quoteData = JSON.parse(
         sessionStorage.getItem('quotes_data') || '{}'
       );
+      // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+      // if (kycData?.insurer_code === this.quoteData['insurer_code']) {
+      //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+      // }
       if (Object.keys(this.quoteData).length > 0) {
         this.sharedData.createProposalId();
+        this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       } else {
         this.route.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
@@ -142,6 +147,9 @@ export class ProposalComponent implements OnInit {
 
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    // if (kycData?.insurer_code === this.quoteData['insurer_code']) {
+    // this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+    // }
     this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.insuranceVehicleType = sessionStorage.getItem('vehicleType');
@@ -945,6 +953,8 @@ export class ProposalComponent implements OnInit {
                 }
               }
             });
+          this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+
           this.sharedData.createProposalId();
         }
       });

@@ -57,6 +57,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   isPancardDisabled: boolean = false;
   renewalType: any;
   renewalQuotesData: any;
+  maxlength: any;
+  addresLength: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', [
@@ -208,6 +210,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 owner_city: res[0].rb_city_name,
                 owner_state: res[0].rb_state_name,
               });
+              this.sharedDataService?.sendOwnnerAddres(
+                this.owenerVehicleDetailsForm.valid
+              );
             });
         }
       }
@@ -278,14 +283,14 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       }
     });
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-      if (errData?.detail[0]) {
-        for (let error of errData?.detail[0]?.loc) {
-          if (error === 'address_line') {
-            this.owenerVehicleDetailsForm.controls[
-              'owner_communication_addres'
-            ].setErrors({ pattern: true });
-          }
-        }
+      if (errData) {
+        this.maxlength = errData?.max_length;
+        this.updateMaxLengthValidator(this.maxlength);
+        this.owenerVehicleDetailsForm
+          ?.get('owner_communication_addres')
+          ?.valueChanges.subscribe((addressLength) => {
+            this.addresLength = addressLength;
+          });
       }
     });
     this.owenerVehicleDetailsForm
@@ -398,6 +403,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         this.owenerVehicleDetailsForm
       );
       sessionStorage.setItem('isCKycDOne', 'true');
+      // if (this.maxlength < this.addresLength?.length) {
+      //   this.sharedDataService?.sendOwnnerAddres(this.addresLength);
+      // }
+      // this.sharedDataService?.getAddressValidation(
+      //   JSON.parse(this.quoteData)['insurer_code']
+      // );
     }
   }
   /**
@@ -529,6 +540,22 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           .get('owner_gstin')
           ?.setErrors({ validGSTNumber: true });
       }
+    }
+  }
+  updateMaxLengthValidator(maxLength: number) {
+    const ownerCommunicationAddressControl = this.owenerVehicleDetailsForm.get(
+      'owner_communication_addres'
+    );
+
+    if (ownerCommunicationAddressControl) {
+      ownerCommunicationAddressControl.setValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(maxLength),
+      ]);
+
+      // Update the control validity status
+      ownerCommunicationAddressControl.updateValueAndValidity();
     }
   }
 }

@@ -211,7 +211,11 @@
       <button
         class="submit-btn previous-vehicle-submission"
         type="submit"
-        [disabled]="previousPolicyDetailsForm.invalid || isDisableCKyc"
+        [disabled]="
+          previousPolicyDetailsForm.invalid ||
+          isDisableCKyc ||
+          isOwnerAddressValidation
+        "
       >
         Confirm & Review
       </button>

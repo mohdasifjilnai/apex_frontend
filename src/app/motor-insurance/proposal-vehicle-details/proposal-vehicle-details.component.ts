@@ -72,6 +72,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   previousInsurerCode: any;
   isVehicleButton: boolean = false;
   fetchedKyc: any;
+  maxlength: any;
+  isOwnerAddressValidation: boolean = false;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -158,6 +160,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_number: sessionStorage.getItem('registrationNumber'),
       });
     }
+    this.shareData?.getOwnnerAddres?.subscribe((ownerAddres) => {
+      if (ownerAddres) {
+        this.isOwnerAddressValidation = false;
+      } else {
+        this.isOwnerAddressValidation = true;
+      }
+      // if (this.maxlength < ownerAddres.length) {
+      //   // this.sharedDataService?.sendOwnnerAddres(this.addresLength);
+      //   this.isOwnerAddressValidation = true;
+      // } else {
+      //   this.isOwnerAddressValidation = false;
+      // }
+    });
     this.shareData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
@@ -409,14 +424,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
       });
     this.shareData.getErrorProposalDetails.subscribe((errData) => {
-      if (errData?.detail[0]) {
-        for (let error of errData?.detail[0]?.loc) {
-          if (error === 'address_line') {
-            this.proposalVehilceDetailsForm.controls[
-              'vehicle_registration_address'
-            ].setErrors({ pattern: true });
-          }
-        }
+      if (errData) {
+        this.maxlength = errData?.max_length;
+        this.updateMaxLengthValidator(this.maxlength);
+        // this.owenerVehicleDetailsForm
+        //   ?.get('owner_communication_addres')
+        //   ?.valueChanges.subscribe((addressLength) => {
+        //     if (this.maxlength < addressLength?.length) {
+        //       this.sharedDataService?.sendOwnnerAddres(true);
+        //     }
+        //   });
       }
     });
     this.getPincodeList();
@@ -465,6 +482,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           registration_number: registrationNumberFirst,
         });
       }
+
+      // this.shareData?.getAddressValidation(
+      //   JSON.parse(this.quoteData)['insurer_code']
+      // );
 
       this.afterVehicleData.emit(formValues);
       this.shareData.createProposalId(
@@ -560,9 +581,18 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         .get('vehicle_state')
         ?.updateValueAndValidity();
     } else {
-      this.proposalVehilceDetailsForm
-        .get('vehicle_registration_address')
-        ?.setValidators([Validators.required]);
+      if (this.maxlength) {
+        this.proposalVehilceDetailsForm
+          .get('vehicle_registration_address')
+          ?.setValidators([
+            Validators.required,
+            Validators.maxLength(this.maxlength),
+          ]);
+      } else {
+        this.proposalVehilceDetailsForm
+          .get('vehicle_registration_address')
+          ?.setValidators([Validators.required]);
+      }
       this.proposalVehilceDetailsForm
         .get('vehicle_registration_address')
         ?.updateValueAndValidity();
@@ -584,6 +614,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();
+      // this.updateMaxLengthValidator(this.maxlength);
     }
   }
   /**
@@ -829,5 +860,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .subscribe((vehicleColor) => {
         this.vehicleColor = vehicleColor;
       });
+  }
+  updateMaxLengthValidator(maxLength: number) {
+    const ownerCommunicationAddressControl =
+      this.proposalVehilceDetailsForm.get('vehicle_registration_address');
+
+    if (ownerCommunicationAddressControl) {
+      ownerCommunicationAddressControl.setValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(maxLength),
+      ]);
+
+      // Update the control validity status
+      ownerCommunicationAddressControl.updateValueAndValidity();
+    }
   }
 }
