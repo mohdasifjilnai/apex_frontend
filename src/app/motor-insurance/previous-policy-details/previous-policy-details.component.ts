@@ -188,9 +188,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       } else if (this.quoteData?.insurer_code == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
+          console.log(this.isDisableCKyc);
         }
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
@@ -199,11 +201,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
+        console.log(this.isDisableCKyc);
       } else if (
         this.fetchedKyc?.verification_status !== null &&
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
@@ -365,6 +369,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
+      console.log(this.previousPolicyDetailsForm);
     }
 
     this.sharedData.renewalPreviousPolicyData.subscribe((data: any) => {
@@ -518,6 +523,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.previousPolicyDetailsForm
               .get('policy_expiry_date')
               ?.updateValueAndValidity();
+            console.log(this.previousPolicyDetailsForm);
           }
         }
       }
@@ -553,15 +559,19 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       } else if (
         this.fetchedKyc?.verification_status !== null &&
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       } else {
         this.isDisableCKyc = true;
+        console.log(this.isDisableCKyc);
       }
     }
 
@@ -569,6 +579,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       if (kyc) {
         this.fetchedKyc = kyc;
         this.isDisableCKyc = false;
+        console.log(this.isDisableCKyc);
       }
     });
 
