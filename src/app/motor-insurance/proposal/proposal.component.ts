@@ -1019,7 +1019,10 @@ export class ProposalComponent implements OnInit {
                 ?.hidePreviousClaimed,
             ncb_discount: '',
           };
-          if (this.getInsurerData?.quote_request?.meta_data?.selectedAddons) {
+          if (
+            this.getInsurerData?.quote_request?.meta_data?.selectedAddons !==
+            'undefined'
+          ) {
             let addonsValue = JSON.parse(
               this.getInsurerData?.quote_request?.meta_data?.selectedAddons
             );
@@ -1028,6 +1031,8 @@ export class ProposalComponent implements OnInit {
               'selectedAddons',
               JSON.stringify(addonsValue)
             );
+          } else {
+            sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
           }
           if (this.getInsurerData?.quote_request?.meta_data?.mmv_form_data) {
             let mmvFormData =
