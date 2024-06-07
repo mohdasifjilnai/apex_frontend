@@ -1368,11 +1368,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.policyTypeBaseNCB =
                 res.expiring_policy_type[0].offered_ncb_value;
             }
-            if (res?.is_editable) {
-              this.vehicleDetailsForm.get('ncb_discount')?.enable();
-            } else {
-              this.vehicleDetailsForm.get('ncb_discount')?.disable();
-            }
+            // if (res?.is_editable) {
+            //   this.vehicleDetailsForm.get('ncb_discount')?.enable();
+            // } else {
+            //   this.vehicleDetailsForm.get('ncb_discount')?.disable();
+            // }
             this.expiring_policy_type =
               this.expiryList[0]?.rb_expiring_policy_type_code;
             this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
@@ -1509,11 +1509,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ?.setValue(this.policyTypeBaseNCB);
       }
     }
-    if (this.isEditable?.is_editable) {
-      this.vehicleDetailsForm.get('ncb_discount')?.enable();
-    } else {
-      this.vehicleDetailsForm.get('ncb_discount')?.disable();
-    }
+    // if (this.isEditable?.is_editable) {
+    //   this.vehicleDetailsForm.get('ncb_discount')?.enable();
+    // } else {
+    //   this.vehicleDetailsForm.get('ncb_discount')?.disable();
+    // }
   }
   /**
    *
@@ -1784,11 +1784,11 @@ Get the expiring policy list based on the given date or the registration details
                 ? this.vehicleAllData?.ncb_discount
                 : 0,
             });
-            if (this.isEditable?.is_editable) {
-              this.vehicleDetailsForm.get('ncb_discount')?.enable();
-            } else {
-              this.vehicleDetailsForm.get('ncb_discount')?.disable();
-            }
+            // if (this.isEditable?.is_editable) {
+            //   this.vehicleDetailsForm.get('ncb_discount')?.enable();
+            // } else {
+            //   this.vehicleDetailsForm.get('ncb_discount')?.disable();
+            // }
           }
         });
     }
