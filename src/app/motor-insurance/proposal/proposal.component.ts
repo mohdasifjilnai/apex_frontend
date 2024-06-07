@@ -896,6 +896,10 @@ export class ProposalComponent implements OnInit {
               JSON.stringify(quoteResponseToStore)
             );
           }
+          this.quoteData = JSON.parse(
+            sessionStorage.getItem('quotes_data') || '{}'
+          );
+          this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
           const newVehicleType = response?.quote_request?.business_type;
           if (newVehicleType) {
             sessionStorage.setItem('newVehicleType', newVehicleType);

@@ -51,6 +51,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxLength = errData?.max_length;
+        this.isNotShowErrorMsg = true;
       }
     });
     // this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
@@ -62,12 +63,12 @@ export class VehicleRegistrationAddressComponent implements OnInit {
     //     }
     //   }
     // });
-    // this.vehilceRegistrationForm
-    //   .get('vehicle_registration_address')
-    //   ?.valueChanges.subscribe((res) => {
-    //     if (res.length === 0) {
-    //       this.isNotShowErrorMsg = false;
-    //     }
-    //   });
+    this.vehilceRegistrationForm
+      .get('vehicle_registration_address')
+      ?.valueChanges.subscribe((res) => {
+        if (res.length === 0) {
+          this.isNotShowErrorMsg = false;
+        }
+      });
   }
 }
