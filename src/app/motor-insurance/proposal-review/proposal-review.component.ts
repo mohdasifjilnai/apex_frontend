@@ -374,7 +374,24 @@ export class ProposalReviewComponent implements OnInit {
               JSON.stringify(traceId)
             );
           }
+          if (
+            response?.quote_request?.meta_data?.selectedAddons !== 'undefined'
+          ) {
+            let addonsValue = JSON.parse(
+              response?.quote_request?.meta_data?.selectedAddons
+            );
 
+            sessionStorage.setItem(
+              'selectedAddons',
+              JSON.stringify(addonsValue)
+            );
+          } else {
+            sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
+          }
+          sessionStorage.setItem(
+            'lastSelectedTabIndex',
+            response?.quote_request?.meta_data?.selectedTabIndex
+          );
           this.shareData.getInsurerDetail(response);
         }
       });
@@ -399,6 +416,7 @@ export class ProposalReviewComponent implements OnInit {
           'quotes_data',
           JSON.stringify(quoteResponseToStore)
         );
+        this.shareData.quotesADDOnData(JSON.stringify(quoteResponseToStore));
       }
 
       const newVehicleType = this.proposalData?.quote_request?.business_type;

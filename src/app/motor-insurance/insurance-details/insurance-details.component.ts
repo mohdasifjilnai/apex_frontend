@@ -166,6 +166,29 @@ export class InsuranceDetailsComponent implements OnInit {
     if (this.mmv_data) {
       this.mmvParseData = JSON.parse(this.mmv_data);
     }
+    this.sharedData?.sendQuotesADDOnData.subscribe((res) => {
+      if (res) {
+        this.quoteData = JSON.parse(
+          sessionStorage.getItem('quotes_data') || '{}'
+        );
+
+        if (this.quoteData) {
+          this.addonsValue =
+            this.quoteData?.premium_details?.addon_premium_details;
+          if (this.addonsValue?.length > 0) {
+            this.addonsList = this.addonsValue;
+          }
+          // if (
+          //   this.quoteData?.premium_details?.addon_premium_details[0]
+          //     ?.add_on_name === 'Compulsory Personal Accident'
+          // ) {
+          //   this.onCpaCheckboxChange(true);
+          // } else {
+          //   this.onCpaCheckboxChange(false);
+          // }
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {

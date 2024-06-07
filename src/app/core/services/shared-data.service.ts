@@ -75,6 +75,7 @@ export class SharedDataService {
   checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
   traceIdVehicleType = new BehaviorSubject<any>(null);
+  sendQuotesADDOnData = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
@@ -1280,5 +1281,9 @@ export class SharedDataService {
           console.log('==> complete');
         }
       );
+  }
+
+  quotesADDOnData(data: any) {
+    this.sendQuotesADDOnData.next(data);
   }
 }
