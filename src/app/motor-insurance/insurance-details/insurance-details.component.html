@@ -71,12 +71,7 @@
         <span class="plan-type">Plan & Policy Type</span>
         <span
           class="plan-type"
-          *ngIf="
-            productType !== 'bundled_tp' &&
-            productType !== 'satp' &&
-            mmvData?.policy_expiry !== 'bundled_tp' &&
-            mmvData?.policy_expiry !== 'satp'
-          "
+          *ngIf="productType !== 'bundled_tp' && productType !== 'satp'"
           >Total IDV</span
         >
       </div>
@@ -86,12 +81,7 @@
         }}</span>
         <span
           class="plan-type"
-          *ngIf="
-            productType !== 'bundled_tp' &&
-            productType !== 'satp' &&
-            mmvData?.policy_expiry !== 'bundled_tp' &&
-            mmvData?.policy_expiry !== 'satp'
-          "
+          *ngIf="productType !== 'bundled_tp' && productType !== 'satp'"
         >
           &#x20B9;{{
             quoteData?.premium_details?.idv != 0
