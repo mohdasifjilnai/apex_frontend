@@ -46,13 +46,15 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxLength = errData?.max_length;
-        this.isNotShowErrorMsg = true;
+        // this.isNotShowErrorMsg = true;
       }
     });
     this.form
       .get('owner_communication_addres')
       ?.valueChanges.subscribe((res) => {
-        if (res.length <= 10) {
+        if (res.length > this.maxLength) {
+          this.isNotShowErrorMsg = true;
+        } else {
           this.isNotShowErrorMsg = false;
         }
       });
