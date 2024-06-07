@@ -305,7 +305,16 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
+          if (res?.meta_data?.selectedAddons !== 'undefined') {
+            let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);
 
+            sessionStorage.setItem(
+              'selectedAddons',
+              JSON.stringify(addonsValue)
+            );
+          } else {
+            sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
+          }
           sessionStorage.setItem(
             'mmv_data',
             JSON.stringify(res.meta_data.mmv_form_data)
@@ -315,6 +324,10 @@ export class QuotesComponent implements OnInit {
           );
           this.shareDataService.vehicleCardTypeData(
             JSON.stringify(res.meta_data.mmv_form_data)
+          );
+          sessionStorage.setItem(
+            'lastSelectedTabIndex',
+            res.meta_data?.selectedTabIndex
           );
         } else {
           let quotesUrl = sessionStorage.getItem('quotesUrl');
