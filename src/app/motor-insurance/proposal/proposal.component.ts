@@ -875,6 +875,17 @@ export class ProposalComponent implements OnInit {
             'vehicleType',
             response.quote_request.vehicle_type
           );
+          if (this.getInsurerData?.quote_request?.trace_id) {
+            let traceId = {
+              trace_id: this.getInsurerData?.quote_request?.trace_id,
+              partner_code: this.getInsurerData?.quote_request?.partner_code,
+            };
+            sessionStorage.setItem(
+              'partnerCodeTraceId',
+              JSON.stringify(traceId)
+            );
+          }
+
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.getVehicleMMVPopup(

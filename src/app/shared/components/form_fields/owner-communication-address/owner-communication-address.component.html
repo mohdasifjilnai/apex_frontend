@@ -26,6 +26,10 @@
     Cannot be more than {{ maxLength }} Characters
   </mat-error>
 </mat-form-field>
-<div *ngIf="isNotShowErrorMsg" class="text-danger">
+<div
+  *ngIf="isNotShowErrorMsg"
+  class="text-danger"
+  [ngClass]="isNotShowErrorMsg ? 'mb-3' : ''"
+>
   Cannot be more than {{ maxLength }} Characters
 </div>

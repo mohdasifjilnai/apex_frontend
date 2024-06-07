@@ -364,6 +364,16 @@ export class ProposalReviewComponent implements OnInit {
               response?.quote_request?.vehicle_type
             );
           }
+          if (response?.quote_request?.trace_id) {
+            let traceId = {
+              trace_id: response?.quote_request?.trace_id,
+              partner_code: response?.quote_request?.partner_code,
+            };
+            sessionStorage.setItem(
+              'partnerCodeTraceId',
+              JSON.stringify(traceId)
+            );
+          }
 
           this.shareData.getInsurerDetail(response);
         }
