@@ -16,6 +16,7 @@ export class CheckQuotesDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  traceIdData: any;
   ngOnInit(): void {}
 
   /**
@@ -34,7 +35,10 @@ export class CheckQuotesDialogComponent implements OnInit {
         insurer_quote_id: sessionStorage.getItem('renewalInsurerQuotesId'),
       };
       this.sharedDataService.quotesDataOnRenewal(insurerApiData);
-      this.route.navigate(['quotes']);
+
+      this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+      let traceValue = JSON.parse(this.traceIdData);
+      this.route.navigate([`quotes/${traceValue.trace_id}`]);
     } else {
       let allNCbValue = sessionStorage.getItem('allNCBDataProposal');
       if (allNCbValue) {
@@ -47,8 +51,9 @@ export class CheckQuotesDialogComponent implements OnInit {
         }
       }
       sessionStorage.setItem('quotesUrl', 'true');
-
-      this.route.navigate(['quotes']);
+      this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+      let traceValue = JSON.parse(this.traceIdData);
+      this.route.navigate([`quotes/${traceValue.trace_id}`]);
     }
   }
 }

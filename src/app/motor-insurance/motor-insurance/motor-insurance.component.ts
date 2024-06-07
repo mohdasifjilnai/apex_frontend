@@ -59,6 +59,7 @@ export class MotorInsuranceComponent implements OnInit {
   vehicleCheck = false;
   url = 'motor';
   isCheckWheeler: boolean = true;
+  traceId: any;
   vaahanName: any;
   vehicleDetailsJSON: {
     modalName: any;
@@ -299,6 +300,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (mmvData) {
       sessionStorage.removeItem('mmvData');
     }
+
     let registration_form_isValid = sessionStorage.getItem(
       'registration_form_isValid'
     );
@@ -321,6 +323,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');
     sessionStorage.removeItem('pageRefresh');
+    sessionStorage.removeItem('allNCBDataProposal');
 
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {
@@ -363,6 +366,7 @@ export class MotorInsuranceComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
+    this.getTraceId();
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
@@ -428,7 +432,7 @@ export class MotorInsuranceComponent implements OnInit {
     } else {
       let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
       sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-      this.router.navigate(['quotes']);
+      this.router.navigate([`quotes/${this.traceId}`]);
     }
   }
   getVehicleNumber() {
@@ -712,5 +716,21 @@ export class MotorInsuranceComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+
+  getTraceId() {
+    let apiUrl;
+    this.partner_code = localStorage.getItem('partner_code')
+      ? localStorage.getItem('partner_code')
+      : '';
+
+    apiUrl = `?partner_code=${this.partner_code}`;
+
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_trace_Id}${apiUrl}`)
+      .subscribe((res: any) => {
+        this.traceId = res.trace_id;
+        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+      });
   }
 }

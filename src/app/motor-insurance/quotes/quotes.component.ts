@@ -39,8 +39,9 @@ export class QuotesComponent implements OnInit {
   renewalDetails: any;
   is_cse: any;
   employee_code: any;
-  cse:any;
+  cse: any;
   partner_code: any;
+  traceIdUrl: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -49,7 +50,8 @@ export class QuotesComponent implements OnInit {
     public loaderService: LoaderService,
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private shareDataService: SharedDataService
+    private shareDataService: SharedDataService,
+    private routerData: ActivatedRoute
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -117,12 +119,20 @@ export class QuotesComponent implements OnInit {
 
           this.shareDataService.vehicleDetails('reg_no');
         }
-        let quotesUrl = sessionStorage.getItem('quotesUrl');
-        if (!quotesUrl) {
-          this.router.navigate(['']);
-        }
+        this.routerData.url.subscribe((segments) => {
+          const urlSegments = segments.map((segment) => segment.path);
+          if (urlSegments[1]) {
+            this.traceIdUrl = urlSegments[1];
+            this.traceIdBaseData(this.traceIdUrl);
+          }
+        });
+        // let quotesUrl = sessionStorage.getItem('quotesUrl');
+        // if (!quotesUrl) {
+        //   this.router.navigate(['']);
+        // }
       }
     });
+
     this.shareDataService.renewalQuotes.subscribe((quotesValue: any) => {
       if (
         quotesValue?.transaction_id != null &&
@@ -150,8 +160,8 @@ export class QuotesComponent implements OnInit {
       }
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code=localStorage.getItem('employee_code');
-    this.partner_code=localStorage.getItem('partner_code')
+    this.employee_code = localStorage.getItem('employee_code');
+    this.partner_code = localStorage.getItem('partner_code');
   }
   receivedData: any;
   // receivedCheckBoxValue: any;
@@ -270,6 +280,47 @@ export class QuotesComponent implements OnInit {
             vehicle_fuel: this.vehicleMMVData[0].fuel,
           };
           this.shareDataService.vehicleCardDataEmail(mmvData);
+        }
+      });
+  }
+
+  traceIdBaseData(traceId: any) {
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.fetch_trace_Id}${traceId}`)
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res != null) {
+          sessionStorage.setItem('vehicleType', res.vehicle_type);
+          sessionStorage.setItem('proposerType', res.customer_type);
+          let traceIdValue = {
+            trace_id: traceId,
+            partner_code: res.partner_code,
+          };
+          sessionStorage.setItem(
+            'partnerCodeTraceId',
+            JSON.stringify(traceIdValue)
+          );
+          sessionStorage.setItem('quotesUrl', 'true');
+          sessionStorage.setItem('vehiclePopup', 'true');
+          sessionStorage.setItem('productType', res.product_type);
+          sessionStorage.setItem('transaction_id', res.transaction_id);
+          sessionStorage.setItem('newVehicleType', res.business_type);
+
+          sessionStorage.setItem(
+            'mmv_data',
+            JSON.stringify(res.meta_data.mmv_form_data)
+          );
+          this.shareDataService.vehicleCardEmailData(
+            JSON.stringify(res.meta_data.mmv_form_data)
+          );
+          this.shareDataService.vehicleCardTypeData(
+            JSON.stringify(res.meta_data.mmv_form_data)
+          );
+        } else {
+          let quotesUrl = sessionStorage.getItem('quotesUrl');
+          if (!quotesUrl) {
+            this.router.navigate(['']);
+          }
         }
       });
   }

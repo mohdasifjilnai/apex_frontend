@@ -73,6 +73,7 @@ export class SharedDataService {
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
   checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
+  traceIdVehicleType = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
@@ -106,6 +107,7 @@ export class SharedDataService {
   vaahanName: any;
   metaDataIdv: any;
   metaDataAddon: any;
+  traceIdData: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -217,7 +219,10 @@ export class SharedDataService {
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.isCheckWheeler = true;
-        this.router.navigate(['quotes']);
+        this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+        let traceValue = JSON.parse(this.traceIdData);
+        this.router.navigate([`quotes/${traceValue.trace_id}`]);
+        // this.router.navigate(['quotes']);
       } else {
         if (this.checkWheeler['is_two_wheeler']) {
           this.vaahanName = 'bike';
@@ -342,7 +347,13 @@ export class SharedDataService {
       regNumberValue = regNumberValue;
     }
     let quotesData = {};
-
+    let traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+    let traceIdValue;
+    let traceId;
+    if (traceIdData) {
+      traceIdValue = JSON.parse(traceIdData);
+      traceId = traceIdValue.trace_id;
+    }
     if (notTransactionId == 'notSendTransactionId') {
       quotesData = {
         registration_no: regNumberValue,
@@ -376,6 +387,7 @@ export class SharedDataService {
           ? localStorage.getItem('is_cse')
           : false,
         employee_code: localStorage.getItem('employee_code'),
+        trace_id: traceId,
       };
     } else {
       quotesData = {
@@ -411,6 +423,7 @@ export class SharedDataService {
           ? localStorage.getItem('is_cse')
           : false,
         employee_code: localStorage.getItem('employee_code'),
+        trace_id: traceId,
       };
     }
     this.chooseIdvDataShow.next(productType);
@@ -1325,5 +1338,9 @@ export class SharedDataService {
   }
   sendPlanType(data: any) {
     this.getPlanType.next(data);
+  }
+
+  vehicleCardTypeData(data: any) {
+    this.traceIdVehicleType.next(data);
   }
 }

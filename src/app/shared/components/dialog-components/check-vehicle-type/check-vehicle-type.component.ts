@@ -22,6 +22,7 @@ export class CheckVehicleTypeComponent implements OnInit {
   vaahanName: any;
   vehicleTypeValue: any;
   checkWheeler: any;
+  traceIdData: any;
   ngOnInit(): void {
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
@@ -60,7 +61,9 @@ export class CheckVehicleTypeComponent implements OnInit {
     this.dialogRef.removePanelClass('warn-details-class');
     this.dialogRef.addPanelClass('vehicle-details-class');
     this.sharedDataService.changeVehicleType(this.vehicleTypeValue);
-    this.router.navigate(['quotes']);
+    this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+    let traceValue = JSON.parse(this.traceIdData);
+    this.router.navigate([`quotes/${traceValue.trace_id}`]);
     this.dialogRef.close();
   }
 }

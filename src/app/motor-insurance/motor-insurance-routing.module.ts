@@ -16,7 +16,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'quotes',
+    path: 'quotes/:traceId',
     component: QuotesComponent,
     data: {
       breadcrumb: [

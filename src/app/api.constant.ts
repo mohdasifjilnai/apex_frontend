@@ -102,4 +102,8 @@ export class ApiConstants {
 
   public static get_usgi_ckyc_details = `/api/v1/ckyc/get_usgi_ckyc_details`;
   public static get_insurer_quote_id = `/api/v1/proposal/get_proposal_quote_id`;
+
+  public static get_trace_Id = `/api/v1/get_trace_id/`;
+
+  public static fetch_trace_Id = `/api/v1/fetch_quote_request/`;
 }
