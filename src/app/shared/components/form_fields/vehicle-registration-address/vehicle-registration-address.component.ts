@@ -54,15 +54,6 @@ export class VehicleRegistrationAddressComponent implements OnInit {
         // this.isNotShowErrorMsg = true;
       }
     });
-    // this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-    //   if (errData?.detail[0]) {
-    //     for (let error of errData?.detail[0]?.loc) {
-    //       if (error === 'address_line') {
-    //         this.proposalErrorMsg = errData?.detail[0]?.msg;
-    //       }
-    //     }
-    //   }
-    // });
     this.vehilceRegistrationForm
       .get('vehicle_registration_address')
       ?.valueChanges.subscribe((res) => {
