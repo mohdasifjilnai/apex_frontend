@@ -366,7 +366,6 @@ export class MotorInsuranceComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
-    this.getTraceId();
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
@@ -409,31 +408,7 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    this.loader = true;
-    if (this.vehicleCheck) {
-      this.vehicleCheck = false;
-    }
-    localStorage.setItem(
-      'withoutVehicleNumber',
-      `${this.withoutVehicleNumber}`
-    );
-    sessionStorage.setItem('quotesUrl', 'true');
-    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    if (!vehicleTypeValue) {
-      sessionStorage.setItem('vehicleType', `private_car`);
-    }
-    // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
-    sessionStorage.removeItem('isPayment');
-    if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
-      this.getVehicleDetailsInfo();
-      // this.motorInsurance.reset();
-    } else if (this.isPolicyNumber) {
-      this.getRenewalPolicyData();
-    } else {
-      let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
-      sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-      this.router.navigate([`quotes/${this.traceId}`]);
-    }
+    this.getTraceId();
   }
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
@@ -731,6 +706,31 @@ export class MotorInsuranceComponent implements OnInit {
       .subscribe((res: any) => {
         this.traceId = res.trace_id;
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        this.loader = true;
+        if (this.vehicleCheck) {
+          this.vehicleCheck = false;
+        }
+        localStorage.setItem(
+          'withoutVehicleNumber',
+          `${this.withoutVehicleNumber}`
+        );
+        sessionStorage.setItem('quotesUrl', 'true');
+        let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+        if (!vehicleTypeValue) {
+          sessionStorage.setItem('vehicleType', `private_car`);
+        }
+        // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
+        sessionStorage.removeItem('isPayment');
+        if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
+          this.getVehicleDetailsInfo();
+          // this.motorInsurance.reset();
+        } else if (this.isPolicyNumber) {
+          this.getRenewalPolicyData();
+        } else {
+          let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+          sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
+          this.router.navigate([`quotes/${this.traceId}`]);
+        }
       });
   }
 }
