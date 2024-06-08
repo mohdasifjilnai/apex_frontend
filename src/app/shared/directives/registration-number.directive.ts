@@ -58,7 +58,7 @@ export class RegistrationNumberDirective {
           ''
         )}`;
       }
-
+      // let formatter = formattedText[formattedText.length-1]
       document.execCommand('insertText', false, formattedText);
       event.preventDefault();
     }

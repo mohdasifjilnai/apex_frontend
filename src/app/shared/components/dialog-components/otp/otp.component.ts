@@ -67,7 +67,8 @@ export class OtpComponent implements OnInit {
   breakIn: any;
   library: any;
   @ViewChild('myform') myform!: ElementRef;
-  formHtmlData: any;
+
+  paymentObject: any;
 
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
@@ -95,44 +96,15 @@ export class OtpComponent implements OnInit {
     } else {
       this.failureJSON['modalName'] = FailureDialogComponent;
     }
-    //     this.formHtmlData = `<form name='PostForm' method='POST' action='https://rgiservices.reliancegeneral.co.in/RGIPayment/PaymentGateway.aspx'>
-    //     <input type='hidden' name='AgentCode' type='text' value='UUeSKDBzo0keinNukq6CjQ%3d%3d'>
-    //     <input type='hidden' name='BasCode' type='text' value='ZovtlfNieDnRxXgKhrLj9A%3d%3d'>
-    //     <input type='hidden' name='AgentMobileNo' type='text' value='WHfq4u%2fgLFRZWlAoHOfLig%3d%3d'>
-    //     <input type='hidden' name='AgentEmailID' type='text' value='cOw4OaY1VWcKIlEx2y2IHfOthyAQW3daKPUVUT%2bRNRQ%3d'>
-    //     <input type='hidden' name='CustomerName' type='text' value='2oAEyM%2bWP5B%2flAQHwo9SIw%3d%3d'>
-    //     <input type='hidden' name='CustomerMobileNo' type='text' value='PcVgOQ9wb6GTluHhd12eCA%3d%3d'>
-    //     <input type='hidden' name='CustomerEmailID' type='text' value='t%2fPWYktcsbIC%2bm2DWLDmadlug0koes8mimPFeQtszxU%3d'>
-    //     <input type='hidden' name='UserID' type='text' value=''>
-    //     <input type='hidden' name='ProposalNo' type='text' value='NZb5VY8Zv3ZmgxchNqMLqg%3d%3d'>
-    //     <input type='hidden' name='TransactionNumber' type='text' value='SIpFV1%2brnhA%2bSttaClNJ8g%3d%3d'>
-    //     <input type='hidden' name='ProposalAmount' type='text' value='tpqGWTTvSubgDh5NQi1UPA%3d%3d'>
-    //     <input type='hidden' name='BundledProposalNo' type='text' value=''>
-    //     <input type='hidden' name='BundledTransactionID' type='text' value=''>
-    //     <input type='hidden' name='GatewayID' type='text' value='hfkfOapKXjEWprZsezreNA%3d%3d'>
-    //     <input type='hidden' name='ReturnURL' type='text' value='h6JJk2OeeRYU8ppJV5Ty%2bupuznICnt%2bURfRzRNzSCDVAdbvUR0eyr9Iov%2bjpeyXUPheJ%2fPu0NWl3JzH%2f9N02iS6pQLf92OcjL%2b%2bhcXZhBEKOCDBkUhSKjWcIPeKA3MCzeeR%2fhPvH%2fxICxnnPrXpg0D1DBlZkllDqI7sJ8ydY3gY%3d'>
-    //     <input type='hidden' name='SystemID' type='text' value='CnVJxib9D7tmzutyP6GOIQ%3d%3d'>
-    //     <input type='hidden' name='SubSystemID' type='text' value='BWJvR8KFL%2fo5saszZHZJRw%3d%3d'>
-    //     <input type='hidden' name='IntegrationResponseurl' type='text' value='h6JJk2OeeRYU8ppJV5Ty%2bupuznICnt%2bURfRzRNzSCDVAdbvUR0eyr9Iov%2bjpeyXUPheJ%2fPu0NWl3JzH%2f9N02iS6pQLf92OcjL%2b%2bhcXZhBEKOCDBkUhSKjWcIPeKA3MCzeeR%2fhPvH%2fxICxnnPrXpg0D1DBlZkllDqI7sJ8ydY3gY%3d'>
-    //     <input type='hidden' name='EMIFrequency' type='text' value=''>
-    //     <input type='hidden' name='ProductCode' type='text' value='cQ73leYBCbnmKrVtQZgFSA%3d%3d'>
-    //     <input type='hidden' name='PolicyTenure' type='text' value='uOKsB0WbALQ5inOUryamzw%3d%3d'>
-    //     <input type='hidden' name='PolicyStratDate' type='text' value='NYAwxWisWndj51AG%2fGIDdw%3d%3d'>
-    //     <input type='hidden' name='CustomerAddress' type='text' value='xrZSyzt3%2bEkhG1DqDmbzPC%2fOTCN%2faqcUR%2fbOgnHfpWpxgBpbhursRrcm173507ZaxV%2bJrcCWglBWgPCW7zM30ANP3dB2VWVCVBVuy%2flXYVsIjFI8TZ4CZikdQ3rl5KS0JtAZ5VxvX0ap5Qq%2btc7rEMbaI2IjCm55vcXOxAv2h%2bpFPIekdI4CKL06ROE9GT1b'>
-    //     <input type='hidden' name='CustomerPincode' type='text' value='OJnRm7ZqIKeNeYOPh3%2buZw%3d%3d'>
-    //     <input type='hidden' name='Pan' type='text' value='2KL7%2b%2f8Ic14yqISQCdB%2bEg%3d%3d'>
-    //     <input type='hidden' name='CKYC' type='text' value='vHD%2b2x1lu282zcHUdAJ7lw%3d%3d'>
-    //     <input type='hidden' name='IsDocumentUpload' type='text' value='KpLZS8YIy4eoHg5HGfIsHw%3d%3d'>
-    //     <input type='hidden' name='IsForm60' type='text' value='KpLZS8YIy4eoHg5HGfIsHw%3d%3d'>
-    //     <input type='hidden' name='OldPGResponse' type='text' value=''>
-    //     <input type='hidden' name='IsSuccess' type='text' value='yg8A278BKECeD1F9rGmazg%3d%3d'>
-    // </form>`;
-
-    //     this.formHtmlData.forms[0].submit();
   }
 
   ngOnInit(): void {
     this.startResendTimer();
+  }
+
+  ngAfterViewInit(): void {
+    // this.myform.nativeElement.innerHTML = this.paymentObject.form;
+    // this.myform.nativeElement.getElementsByTagName('form')[0].submit();
   }
 
   onOtpChange(otp: any) {
@@ -223,11 +195,30 @@ export class OtpComponent implements OnInit {
                       .subscribe(
                         (payment_getway_response) => {
                           if (payment_getway_response) {
+                            this.paymentObject = payment_getway_response;
+
                             if (!payment_getway_response.is_html) {
                               window.location.href =
                                 payment_getway_response.url;
                             } else {
-                              this.formHtmlData = payment_getway_response.form;
+                              let paymentObjectValue =
+                                this.paymentObject.form.replace(
+                                  '<html><head></head><body>',
+                                  ''
+                                );
+                              // </body></html>
+                              let paymentObjectValueData =
+                                this.paymentObject.form.replace(
+                                  '</form></body></html>',
+                                  `<input  type='submit'   value=''></form>`
+                                );
+                              this.paymentObject.form = paymentObjectValueData;
+
+                              this.myform.nativeElement.innerHTML =
+                                this.paymentObject.form;
+                              this.myform.nativeElement
+                                .getElementsByTagName('form')[0]
+                                .submit();
                             }
                             // this.library = payment_getway_response;
                             // this.myform.nativeElement.submit();
@@ -309,13 +300,32 @@ export class OtpComponent implements OnInit {
                       .subscribe(
                         (payment_getway_response) => {
                           if (payment_getway_response) {
+                            this.paymentObject = payment_getway_response;
+
                             // this.library = payment_getway_response;
                             // window.location.href = payment_getway_response;
                             if (!payment_getway_response.is_html) {
                               window.location.href =
                                 payment_getway_response.url;
                             } else {
-                              this.formHtmlData = payment_getway_response.form;
+                              let paymentObjectValue =
+                                this.paymentObject.form.replace(
+                                  '<html><head></head><body>',
+                                  ''
+                                );
+                              // </body></html>
+                              let paymentObjectValueData =
+                                this.paymentObject.form.replace(
+                                  '</form></body></html>',
+                                  `<input  type='submit'   value=''></form>`
+                                );
+                              this.paymentObject.form = paymentObjectValueData;
+
+                              this.myform.nativeElement.innerHTML =
+                                this.paymentObject.form;
+                              this.myform.nativeElement
+                                .getElementsByTagName('form')[0]
+                                .submit();
                             }
                             this.loader = false;
                             if (window.innerWidth <= 999) {
