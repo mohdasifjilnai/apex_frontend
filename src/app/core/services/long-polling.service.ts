@@ -40,7 +40,7 @@ export class LongPollingService implements OnDestroy {
         )
       ),
       retry(),
-      take(10),
+      take(6),
       share(),
       takeUntil(this.stopPolling)
     );
