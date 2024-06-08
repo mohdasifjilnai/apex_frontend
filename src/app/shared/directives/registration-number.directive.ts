@@ -38,10 +38,10 @@ export class RegistrationNumberDirective {
     const clipboardData = event.clipboardData;
     if (clipboardData) {
       const pastedText = clipboardData.getData('text');
-      let formattedText = pastedText
-        
+      let formattedText = pastedText;
+
       // formattedText = formattedText.slice(0, -4) + formattedText.slice(-3,-1);
-      
+
       const sanitizedValue = formattedText.replace(/-/g, '');
 
       if (sanitizedValue.length < 7) {
@@ -52,13 +52,15 @@ export class RegistrationNumberDirective {
         const prefix = sanitizedValue.substring(0, 2);
         const prefix2 = sanitizedValue.substring(2, 4);
         const postfix = sanitizedValue.substring(4);
-        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
-        formattedText = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
+        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1');
+        formattedText = `${prefix}-${prefix2}-${formattedPostfix.replace(
+          /-$/,
+          ''
+        )}`;
       }
+
       document.execCommand('insertText', false, formattedText);
       event.preventDefault();
     }
-    
-    }
-  
+  }
 }
