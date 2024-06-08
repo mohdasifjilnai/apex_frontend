@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
@@ -59,6 +65,10 @@ export class OtpComponent implements OnInit {
   proposalId: any;
   quoteData: any;
   breakIn: any;
+  library: any;
+  @ViewChild('myform') myform!: ElementRef;
+  formHtmlData: any;
+
   constructor(
     public bottomSheetRef: MatBottomSheetRef<OtpComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
@@ -128,6 +138,7 @@ export class OtpComponent implements OnInit {
   }
   verify() {
     this.loader = true;
+
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
     this.apiService.getRequestedResponse(url).subscribe((res) => {
       if (res['message'] == 'Invalid OTP') {
@@ -138,16 +149,11 @@ export class OtpComponent implements OnInit {
         );
         this.loader = false;
         this.ngOtpInput.setValue('');
-      }else if(res['message'] == 'OTP Expired'){
-        this.sharedDataService.openSnackBar(
-          'OTP Expired',
-          false,
-          3000
-        );
+      } else if (res['message'] == 'OTP Expired') {
+        this.sharedDataService.openSnackBar('OTP Expired', false, 3000);
         this.loader = false;
         this.ngOtpInput.setValue('');
-      }
-       else {
+      } else {
         let renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal') {
           this.apiService
@@ -159,12 +165,15 @@ export class OtpComponent implements OnInit {
             .subscribe(
               (generatedProposal: any) => {
                 if (generatedProposal.status) {
-                  sessionStorage.setItem('proposal_punched',generatedProposal.status)
+                  sessionStorage.setItem(
+                    'proposal_punched',
+                    generatedProposal.status
+                  );
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
                       this.bottomSheetRef.dismiss();
-                    }else{
+                    } else {
                       this.dialogRef.close();
                     }
                     this.router.navigate([
@@ -177,25 +186,35 @@ export class OtpComponent implements OnInit {
                           ApiConstants['redirection_payment_getway']
                         }${this.proposalId.replace(/['"]+/g, '')}`
                       )
-                      .subscribe((payment_getway_response) => {
-                        if (payment_getway_response) {
-                          window.location.href = payment_getway_response;
+                      .subscribe(
+                        (payment_getway_response) => {
+                          if (payment_getway_response) {
+                            if (!payment_getway_response.is_html) {
+                              window.location.href =
+                                payment_getway_response.url;
+                            } else {
+                              this.formHtmlData = payment_getway_response.form;
+                            }
+                            // this.library = payment_getway_response;
+                            // this.myform.nativeElement.submit();
+                            // window.location.href = payment_getway_response;
+                            this.loader = false;
+                            if (window.innerWidth <= 999) {
+                              this.bottomSheetRef.dismiss();
+                            } else {
+                              this.dialogRef.close();
+                            }
+                          }
+                        },
+                        (error) => {
                           this.loader = false;
                           if (window.innerWidth <= 999) {
                             this.bottomSheetRef.dismiss();
-                          }else{
+                          } else {
                             this.dialogRef.close();
                           }
                         }
-                      },
-                      (error) => {
-                        this.loader = false;
-                        if (window.innerWidth <= 999) {
-                          this.bottomSheetRef.dismiss();
-                        }else{
-                          this.dialogRef.close();
-                        }
-                      });
+                      );
                   }
                 } else {
                   if (
@@ -211,7 +230,7 @@ export class OtpComponent implements OnInit {
                   this.loader = false;
                   if (window.innerWidth <= 999) {
                     this.bottomSheetRef.dismiss();
-                  }else{
+                  } else {
                     this.dialogRef.close();
                   }
                 }
@@ -220,7 +239,7 @@ export class OtpComponent implements OnInit {
                 this.loader = false;
                 if (window.innerWidth <= 999) {
                   this.bottomSheetRef.dismiss();
-                }else{
+                } else {
                   this.dialogRef.close();
                 }
               }
@@ -234,15 +253,13 @@ export class OtpComponent implements OnInit {
             )
             .subscribe(
               (generatedProposal: any) => {
-                
-
                 if (generatedProposal.status) {
-                  sessionStorage.setItem('proposal_punched','true')
+                  sessionStorage.setItem('proposal_punched', 'true');
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
                       this.bottomSheetRef.dismiss();
-                    }else{
+                    } else {
                       this.dialogRef.close();
                     }
                     this.router.navigate([
@@ -255,27 +272,35 @@ export class OtpComponent implements OnInit {
                           ApiConstants['redirection_payment_getway']
                         }${this.proposalId.replace(/['"]+/g, '')}`
                       )
-                      .subscribe((payment_getway_response) => {
-                        if (payment_getway_response) {
-                          window.location.href = payment_getway_response;
+                      .subscribe(
+                        (payment_getway_response) => {
+                          if (payment_getway_response) {
+                            // this.library = payment_getway_response;
+                            // window.location.href = payment_getway_response;
+                            if (!payment_getway_response.is_html) {
+                              window.location.href =
+                                payment_getway_response.url;
+                            } else {
+                              this.formHtmlData = payment_getway_response.form;
+                            }
+                            this.loader = false;
+                            if (window.innerWidth <= 999) {
+                              this.bottomSheetRef.dismiss();
+                            } else {
+                              this.dialogRef.close();
+                            }
+                          }
+                        },
+                        (error) => {
                           this.loader = false;
                           if (window.innerWidth <= 999) {
                             this.bottomSheetRef.dismiss();
-                          }else{
+                          } else {
                             this.dialogRef.close();
                           }
                         }
-                      },
-                      (error) => {
-                        this.loader = false;
-                        if (window.innerWidth <= 999) {
-                          this.bottomSheetRef.dismiss();
-                        }else{
-                          this.dialogRef.close();
-                        }
-                      });
+                      );
                   }
-                  
                 } else {
                   if (
                     JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
@@ -290,7 +315,7 @@ export class OtpComponent implements OnInit {
                   this.loader = false;
                   if (window.innerWidth <= 999) {
                     this.bottomSheetRef.dismiss();
-                  }else{
+                  } else {
                     this.dialogRef.close();
                   }
                 }
@@ -299,7 +324,7 @@ export class OtpComponent implements OnInit {
                 this.loader = false;
                 if (window.innerWidth <= 999) {
                   this.bottomSheetRef.dismiss();
-                }else{
+                } else {
                   this.dialogRef.close();
                 }
               }
