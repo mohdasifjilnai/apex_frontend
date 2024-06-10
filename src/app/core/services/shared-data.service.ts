@@ -1267,8 +1267,9 @@ export class SharedDataService {
             this.quotesCount = '';
             this.quotesCount = this.allQuotes;
             setTimeout(() => {
+              // this.enableQuotesAction.next(true);
               this.enableQuotesAction.next(this.quotesCount);
-            }, 10000);
+            }, 40000);
             console.log(this.allQuotes);
             this.quotationListing.next(this.allQuotes);
           }
