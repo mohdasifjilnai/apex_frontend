@@ -40,8 +40,8 @@
 </mat-form-field>
 <div
   *ngIf="isNotShowErrorMsg"
-  class="text-danger"
-  [ngClass]="isNotShowErrorMsg ? 'mb-3' : ''"
+  class="text-danger error"
+  [ngClass]="isNotShowErrorMsg ? 'mb-3 ms-3' : ''"
 >
   Cannot be more than {{ maxLength }} Characters
 </div>

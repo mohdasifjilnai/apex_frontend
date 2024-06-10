@@ -33,11 +33,10 @@
       border-radius: 12px;
       padding: 7px 20px;
       width: 121px;
-      height: 34px;
-      text-align: end;
+      height: 50px;
+      text-align: center;
       font-weight: 600;
-      display: flex;
-      justify-content: center;
+
     }
     .premium-breakup {
       color: #5384ea;
@@ -430,6 +429,12 @@
   margin: 5px 0 0px 0;
   overflow-x: hidden;
   overflow-y: hidden;
+}
+.inc{
+  font-size: 12px;
+  font-weight: 500;
+  color: #F8F8F8;
+  line-height: 14px;
 }
 @media screen and (max-width: 999px) {
   .toggle-btn {
