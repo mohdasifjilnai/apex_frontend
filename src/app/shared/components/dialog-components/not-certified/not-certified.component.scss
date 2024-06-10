@@ -6,4 +6,26 @@
   .btn-understand {
     width: 80%;
   }
+  .btn-procced{
+    width: 100%;
+  }
+  .message-text{
+    font-size: 14px;
+  }
+  .cancel-btn {
+    color: #ffb171 !important;
+    font-size: 14px;
+    font-weight: 600;
+    background: #fff;
+    border: 1px solid #ffb171;
+    height: 44px;
+    border-radius: 12px;
+    width: 100%;
+    padding: 5px 15px 5px 15px;
+  }
+  .loader{
+    width: 28px;
+    height: 16px;
+    margin-bottom: 6px;
+  }
 }

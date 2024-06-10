@@ -19,6 +19,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { NotCertifiedComponent } from '../dialog-components/not-certified/not-certified.component';
 
 @Component({
   selector: 'app-proposal-share',
@@ -68,6 +69,21 @@ export class ProposalShareComponent implements OnInit {
   isStartDate: boolean = true;
   loader: boolean = false;
   downloadLoader: boolean=false;
+  notCertifiedComponentJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NotCertifiedComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'not-certifiedComponent-class',
+  };
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -249,78 +265,84 @@ export class ProposalShareComponent implements OnInit {
       );
   }
   proceedToPayment() {
+    this.openNotCertifiedPopup('Partner_Mapped');
+    if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      } else {
+        this.dialogRef.close();
+      }
     this.loader=true
-    if (this.proposalData) {
+    // if (this.proposalData) {
       
-      let sendCommunicationObject = {
-        transaction_id: this.proposalData?.quote_response?.transaction_id,
-        share_type: 'otp',
-        partner_name: this.generateProposalData?.customer_details?.full_name,
-        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-        mail_id: this.generateProposalData?.customer_details?.email_id,
-        mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-        quote_id: [this.proposalData?.quote_response?.quote_id],
-        quote_request_id: this.proposalData?.quote_response?.quote_request_id,
-      };
-      this.apiService
-        .postRequestedResponse(
-          `${ApiConstants.send_communication}`,
-          sendCommunicationObject
-        )
-        .subscribe((res) => {
-          this.loader=false
-          if (window.innerWidth <= 999) {
-            this.bottomSheetRef.dismiss();
-          } else {
-            this.dialogRef.close();
-          }
-          if (res['message'] == 'Success') {
-            if (window.innerWidth <= 999) {
-              const bottomSheetConfig: MatBottomSheetConfig = {
-                data: sendCommunicationObject, // Pass your data here
-              };
-              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-            } else {
-              this.openModal(sendCommunicationObject, this.otpDialog);
-            }
-          }
-        });
-    } else {
+    //   let sendCommunicationObject = {
+    //     transaction_id: this.proposalData?.quote_response?.transaction_id,
+    //     share_type: 'otp',
+    //     partner_name: this.generateProposalData?.customer_details?.full_name,
+    //     URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+    //     mail_id: this.generateProposalData?.customer_details?.email_id,
+    //     mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+    //     quote_id: [this.proposalData?.quote_response?.quote_id],
+    //     quote_request_id: this.proposalData?.quote_response?.quote_request_id,
+    //   };
+    //   this.apiService
+    //     .postRequestedResponse(
+    //       `${ApiConstants.send_communication}`,
+    //       sendCommunicationObject
+    //     )
+    //     .subscribe((res) => {
+    //       this.loader=false
+    //       if (window.innerWidth <= 999) {
+    //         this.bottomSheetRef.dismiss();
+    //       } else {
+    //         this.dialogRef.close();
+    //       }
+    //       if (res['message'] == 'Success') {
+    //         if (window.innerWidth <= 999) {
+    //           const bottomSheetConfig: MatBottomSheetConfig = {
+    //             data: sendCommunicationObject, // Pass your data here
+    //           };
+    //           this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+    //         } else {
+    //           this.openModal(sendCommunicationObject, this.otpDialog);
+    //         }
+    //       }
+    //     });
+    // } else {
       
-      let sendCommunicationObject = {
-        transaction_id: this.quoteData?.transaction_id,
-        share_type: 'otp',
-        partner_name: this.generateProposalData?.customer_details?.full_name,
-        URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-        mail_id: this.generateProposalData?.customer_details?.email_id,
-        mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-        quote_id: [this.quoteData?.quote_id],
-        quote_request_id: this.quoteData?.quote_request_id,
-      };
-      this.apiService
-        .postRequestedResponse(
-          `${ApiConstants.send_communication}`,
-          sendCommunicationObject
-        )
-        .subscribe((res) => {
-          this.loader=false
-          if (window.innerWidth <= 999) {
-            this.bottomSheetRef.dismiss();
-          } else {
-            this.dialogRef.close();
-          }
-          if (res['message'] == 'Success') {
-            if (window.innerWidth <= 999) {
-              const bottomSheetConfig: MatBottomSheetConfig = {
-                data: sendCommunicationObject, // Pass your data here
-              };
-              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-            } else {
-              this.openModal(sendCommunicationObject, this.otpDialog);
-            }
-          }
-        });
-    }
+    //   let sendCommunicationObject = {
+    //     transaction_id: this.quoteData?.transaction_id,
+    //     share_type: 'otp',
+    //     partner_name: this.generateProposalData?.customer_details?.full_name,
+    //     URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+    //     mail_id: this.generateProposalData?.customer_details?.email_id,
+    //     mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+    //     quote_id: [this.quoteData?.quote_id],
+    //     quote_request_id: this.quoteData?.quote_request_id,
+    //   };
+    //   this.apiService
+    //     .postRequestedResponse(
+    //       `${ApiConstants.send_communication}`,
+    //       sendCommunicationObject
+    //     )
+    //     .subscribe((res) => {
+    //       this.loader=false
+    //       if (window.innerWidth <= 999) {
+    //         this.bottomSheetRef.dismiss();
+    //       } else {
+    //         this.dialogRef.close();
+    //       }
+    //       if (res['message'] == 'Success') {
+    //         if (window.innerWidth <= 999) {
+    //           const bottomSheetConfig: MatBottomSheetConfig = {
+    //             data: sendCommunicationObject, // Pass your data here
+    //           };
+    //           this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+    //         } else {
+    //           this.openModal(sendCommunicationObject, this.otpDialog);
+    //         }
+    //       }
+    //     });
+    // }
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';
@@ -373,5 +395,34 @@ export class ProposalShareComponent implements OnInit {
         this.downloadLoader=false
       }
   })
+  }
+  /**
+   * this fucntion use open Not Certified Popup modal
+   */
+  openNotCertifiedPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.notCertifiedComponentJSON['modalName'],
+      width: this.notCertifiedComponentJSON['widthObtained'],
+      height: this.notCertifiedComponentJSON['heightObtained'],
+      classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+      isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

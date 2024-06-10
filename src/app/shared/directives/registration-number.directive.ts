@@ -52,11 +52,14 @@ export class RegistrationNumberDirective {
         const prefix = sanitizedValue.substring(0, 2);
         const prefix2 = sanitizedValue.substring(2, 4);
         const postfix = sanitizedValue.substring(4);
-        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1');
+        let formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');        
         formattedText = `${prefix}-${prefix2}-${formattedPostfix.replace(
           /-$/,
           ''
         )}`;
+        // if (formattedPostfix.charAt(formattedPostfix.length - 7)== '-') {
+        //   formattedText = formattedText.slice(0, -7);
+        // }
       }
       // let formatter = formattedText[formattedText.length-1]
       document.execCommand('insertText', false, formattedText);

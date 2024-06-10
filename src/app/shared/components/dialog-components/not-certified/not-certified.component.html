@@ -1,6 +1,6 @@
 <!-- Dialog title -->
 <div mat-dialog-title class="main-not-certified">
-  <div class="row">
+  <div class="row" *ngIf="data?.data!='Partner_Mapped'">
     <div class="col-12 text-center not-certified">
       <img
         src="/assets/icon/not-certified.svg"
@@ -16,5 +16,33 @@
           I Understand
         </button>
     </div>
+  </div>
+  <div *ngIf="data?.data=='Partner_Mapped'" class="mt-3">
+    <div class="message-text text-center">
+      <span>This Policy will be mapped <span>{{
+        partner_code
+          ? ('under ('+partner_code+')')
+          : ('directly')
+      }}</span></span>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <button class="cancel-btn btn-procced mt-2" type="submit" (click)="login()">
+          Login
+        </button>
+      </div>
+      <div class="col-lg-6">
+        <button class="submit-btn btn-procced mt-2" type="submit" (click)="loader ? null : procced()">
+          <img
+          src="/assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-2"
+          *ngIf="loader"
+          
+        /> Procced
+        </button>
+      </div>
+    </div>
+    
   </div>
 </div>
