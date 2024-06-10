@@ -24,6 +24,8 @@ export class SseService {
         console.log('Connection to server opened.', ev);
         if (!this.currentPageUrl.includes('/quotes')) {
           eventSource.close();
+        } else if (this.currentPageUrl.includes('/proposal')) {
+          eventSource.close();
         }
       };
       eventSource.onerror = (ev) => {
@@ -35,11 +37,13 @@ export class SseService {
           if (!this.currentPageUrl.includes('/quotes')) {
             console.log('Connection Drop', event);
             eventSource.close();
-          }
-          setTimeout(() => {
-            console.log('Connection Drop', event);
+          } else if (this.currentPageUrl.includes('/proposal')) {
             eventSource.close();
-          }, 40000);
+          }
+          // setTimeout(() => {
+          //   console.log('Connection Drop', event);
+          //   eventSource.close();
+          // }, 40000);
         });
       });
     });

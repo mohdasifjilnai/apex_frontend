@@ -40,7 +40,7 @@ export class QuotesListingComponent implements OnInit {
   individualSelected: any;
   lowHighSelected = 'low';
   proposalList: any;
-  quotationData: any;
+  quotationData: any = [];
   quotationArray = [];
   errorQuotationArray: any;
   tabDataList: any;
@@ -195,6 +195,7 @@ export class QuotesListingComponent implements OnInit {
 
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
+      this.quotationData = [];
     });
 
     this.sharedDataService.updateVehicleType.subscribe((updateVehicleType) => {
@@ -223,14 +224,26 @@ export class QuotesListingComponent implements OnInit {
         this.selectedQuotes = [];
         this.isCheckboxChecked = false;
         this.quotationArray = quotes;
-        this.quotationData = [];
+        // this.quotationData = [];
         this.errorQuotationArray = [];
         this.chooseIdvArray = [];
         if (this.quotationArray.length > 0) {
           for (let i = 0; i <= this.quotationArray.length - 1; i++) {
             this.quotationArray[i]['error_message'];
             if (this.quotationArray[i]['status']) {
-              this.quotationData.push(this.quotationArray[i]);
+              let quotesValueList = this.quotationData.findIndex(
+                (item: any) => {
+                  if (
+                    item.insurer_code == this.quotationArray[i]['insurer_code']
+                  ) {
+                    return item;
+                  }
+                }
+              );
+
+              if (quotesValueList == -1) {
+                this.quotationData.push(this.quotationArray[i]);
+              }
             } else {
               this.errorQuotationArray.push(this.quotationArray[i]);
             }
