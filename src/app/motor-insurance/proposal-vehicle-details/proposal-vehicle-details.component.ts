@@ -290,6 +290,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
+        this.shareData.isFinancedAddress(
+          proposal?.vehicle_details?.is_vehicle_financed
+        );
         if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
