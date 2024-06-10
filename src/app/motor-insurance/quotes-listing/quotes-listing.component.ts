@@ -286,7 +286,7 @@ export class QuotesListingComponent implements OnInit {
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
 
-      this.quotesTabData();
+      // this.quotesTabData();
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');

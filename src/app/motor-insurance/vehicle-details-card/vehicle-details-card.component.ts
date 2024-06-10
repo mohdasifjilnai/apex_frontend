@@ -56,6 +56,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   registartionDate: any;
   satpNCB: any;
   showZeroNCB: boolean = false;
+  traceIdData: any;
+  mmvFromDataEmail: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -143,9 +145,13 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
 
     this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
-      this.parsedVehicleData = vehicleData;
-      this.router.navigate(['quotes']);
-      this.throughEmail(vehicleData);
+      this.mmvFromDataEmail = sessionStorage.getItem('mmv_data');
+      this.parsedVehicleData = JSON.parse(this.mmvFromDataEmail);
+      this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+      let traceValue = JSON.parse(this.traceIdData);
+      this.router.navigate([`quotes/${traceValue.trace_id}`]);
+
+      // this.throughEmail(vehicleData);
     });
   }
 

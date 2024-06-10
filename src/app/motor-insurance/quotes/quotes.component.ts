@@ -90,15 +90,23 @@ export class QuotesComponent implements OnInit {
         sessionStorage.setItem('vehiclePopup', 'true');
         sessionStorage.setItem('quotesUrl', 'true');
         sessionStorage.setItem('transaction_id', shareTransaction);
-        this.getInsurerCode(shareTransaction, insurer_quote_id);
+        sessionStorage.setItem('throughEmail', 'true');
+        this.routerData.url.subscribe((segments) => {
+          const urlSegments = segments.map((segment) => segment.path);
+          if (urlSegments[1]) {
+            this.traceIdUrl = urlSegments[1];
+            this.traceIdBaseData(this.traceIdUrl);
+          }
+        });
+        // this.getInsurerCode(shareTransaction, insurer_quote_id);
       } else {
         this.renewalDetails = sessionStorage.getItem('renewalDetails');
         const parsedRenewalDetails = JSON.parse(this.renewalDetails);
         if (parsedRenewalDetails) {
-          this.getInsurerCode(
-            parsedRenewalDetails?.transactional_details?.transaction_id,
-            parsedRenewalDetails?.transactional_details?.quote_id
-          );
+          // this.getInsurerCode(
+          //   parsedRenewalDetails?.transactional_details?.transaction_id,
+          //   parsedRenewalDetails?.transactional_details?.quote_id
+          // );
         } else {
           let shareData = JSON.parse(
             sessionStorage.getItem('sharable_transactionData') || '{}'
@@ -106,10 +114,17 @@ export class QuotesComponent implements OnInit {
           let shareabableObject = Object.keys(shareData);
           if (shareabableObject.length > 0) {
             sessionStorage.setItem('vehiclePopup', 'true');
-            this.getInsurerCode(
-              shareData.transaction_id,
-              shareData.insurer_quote_id
-            );
+            // this.getInsurerCode(
+            //   shareData.transaction_id,
+            //   shareData.insurer_quote_id
+            // );
+            this.routerData.url.subscribe((segments) => {
+              const urlSegments = segments.map((segment) => segment.path);
+              if (urlSegments[1]) {
+                this.traceIdUrl = urlSegments[1];
+                this.traceIdBaseData(this.traceIdUrl);
+              }
+            });
           }
         }
         const registrationNumberUrl = params?.get('reg_no');
@@ -235,6 +250,11 @@ export class QuotesComponent implements OnInit {
             'lastSelectedTabIndex',
             this.quotesRequest?.meta_data?.selectedTabIndex
           );
+          let traceId = {
+            trace_id: this.quotesRequest?.trace_id,
+            partner_code: this.quotesRequest?.partner_code,
+          };
+          sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(traceId));
 
           this.renewalDetails = sessionStorage.getItem('renewalDetails');
           if (this.renewalDetails) {
@@ -330,6 +350,11 @@ export class QuotesComponent implements OnInit {
             'lastSelectedTabIndex',
             res.meta_data?.selectedTabIndex
           );
+          let throughEmail = sessionStorage.getItem('throughEmail');
+          if (throughEmail) {
+            this.shareDataService.vehicleCardDataEmail('throughEmail');
+            sessionStorage.removeItem('throughEmail');
+          }
         } else {
           let quotesUrl = sessionStorage.getItem('quotesUrl');
           if (!quotesUrl) {
