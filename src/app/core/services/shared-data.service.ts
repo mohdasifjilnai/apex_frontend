@@ -442,8 +442,8 @@ export class SharedDataService {
 
           this.quotesId = res.quote_request_id;
           this.quotesConnectionData = [];
-          this.longPollingInformation(this.transactionId, this.quotesId);
-          // this.quotesThroughSSE(this.transactionId, this.quotesId);
+          // this.longPollingInformation(this.transactionId, this.quotesId);
+          this.quotesThroughSSE(this.transactionId, this.quotesId);
         } else {
           const dialogRef = this.dialog.open(FailureDialogComponent, {
             width: 'auto',
@@ -1117,8 +1117,8 @@ export class SharedDataService {
 
     this.quotesId = data.quote_request_id;
     this.quotesConnectionData = [];
-    this.longPollingInformation(this.transactionId, this.quotesId);
-    // this.quotesThroughSSE(this.transactionId, this.quotesId);
+    // this.longPollingInformation(this.transactionId, this.quotesId);
+    this.quotesThroughSSE(this.transactionId, this.quotesId);
   }
 
   vehicleCardEmailData(fromData: any) {
@@ -1269,7 +1269,7 @@ export class SharedDataService {
             setTimeout(() => {
               // this.enableQuotesAction.next(true);
               this.enableQuotesAction.next(this.quotesCount);
-            }, 60000);
+            }, 40000);
             console.log(this.allQuotes);
             this.quotationListing.next(this.allQuotes);
           }

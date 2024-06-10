@@ -22,7 +22,7 @@ export class SseService {
       const eventSource = this.getEventSource(url);
       eventSource.onopen = (ev) => {
         console.log('Connection to server opened.', ev);
-        if (this.currentPageUrl != '/quotes') {
+        if (!this.currentPageUrl.includes('/quotes')) {
           eventSource.close();
         }
       };
@@ -32,14 +32,14 @@ export class SseService {
       eventSource.addEventListener('quotes', (event) => {
         this.zone.run(() => {
           observer.next(event);
-          if (this.currentPageUrl != '/quotes') {
+          if (!this.currentPageUrl.includes('/quotes')) {
             console.log('Connection Drop', event);
             eventSource.close();
           }
           setTimeout(() => {
             console.log('Connection Drop', event);
             eventSource.close();
-          }, 60000);
+          }, 40000);
         });
       });
     });
