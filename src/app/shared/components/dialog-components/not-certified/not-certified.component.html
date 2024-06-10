@@ -26,12 +26,12 @@
       }}</span></span>
     </div>
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-6" *ngIf="partner_code==null">
         <button class="cancel-btn btn-procced mt-2" type="submit" (click)="login()">
           Login
         </button>
       </div>
-      <div class="col-lg-6">
+      <div [ngClass]="partner_code==null ? 'col-lg-6':'col-lg-12'" >
         <button class="submit-btn btn-procced mt-2" type="submit" (click)="loader ? null : procced()">
           <img
           src="/assets/gif/button-loader.gif"
