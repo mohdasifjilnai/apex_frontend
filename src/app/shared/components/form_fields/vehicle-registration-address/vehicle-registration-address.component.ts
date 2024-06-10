@@ -52,16 +52,18 @@ export class VehicleRegistrationAddressComponent implements OnInit {
       if (errData) {
         this.maxLength = errData?.max_length;
         // this.isNotShowErrorMsg = true;
+        if (this.maxLength) {
+          this.vehilceRegistrationForm
+            .get('vehicle_registration_address')
+            ?.valueChanges.subscribe((res) => {
+              if (res.length > this.maxLength) {
+                this.isNotShowErrorMsg = true;
+              } else {
+                this.isNotShowErrorMsg = false;
+              }
+            });
+        }
       }
     });
-    this.vehilceRegistrationForm
-      .get('vehicle_registration_address')
-      ?.valueChanges.subscribe((res) => {
-        if (res.length > this.maxLength) {
-          this.isNotShowErrorMsg = true;
-        } else {
-          this.isNotShowErrorMsg = false;
-        }
-      });
   }
 }

@@ -47,17 +47,19 @@ export class OwnerCommunicationAddressComponent implements OnInit {
       if (errData) {
         this.maxLength = errData?.max_length;
         // this.isNotShowErrorMsg = true;
+        if (this.maxLength) {
+          this.form
+            .get('owner_communication_addres')
+            ?.valueChanges.subscribe((res) => {
+              if (res.length > this.maxLength) {
+                this.isNotShowErrorMsg = true;
+              } else {
+                this.isNotShowErrorMsg = false;
+              }
+            });
+        }
       }
     });
-    this.form
-      .get('owner_communication_addres')
-      ?.valueChanges.subscribe((res) => {
-        if (res.length > this.maxLength) {
-          this.isNotShowErrorMsg = true;
-        } else {
-          this.isNotShowErrorMsg = false;
-        }
-      });
   }
 
   ngOnDestroy(): void {
