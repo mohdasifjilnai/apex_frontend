@@ -31,8 +31,8 @@
           Login
         </button>
       </div>
-      <div [ngClass]="partner_code==null ? 'col-lg-6':'col-lg-12'" >
-        <button class="submit-btn btn-procced mt-2" type="submit" (click)="loader ? null : procced()">
+      <div [ngClass]="partner_code==null ? 'col-lg-6':'col-lg-12 d-flex justify-content-center'" >
+        <button [ngClass]="partner_code==null ? 'btn-procced':'btn-procced-width'"  class="submit-btn  mt-2" type="submit" (click)="loader ? null : procced()">
           <img
           src="/assets/gif/button-loader.gif"
           alt="close"
