@@ -933,7 +933,7 @@ export class QuotesListingComponent implements OnInit {
         const position = this.progressValue * 3.5;
         const translatedX = this.getImagePosition();
       }
-    }, 50);
+    }, 15);
   }
   getImagePosition(): string {
     if (window.innerWidth <= 999) {

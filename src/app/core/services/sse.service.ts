@@ -40,10 +40,10 @@ export class SseService {
           } else if (this.currentPageUrl.includes('/proposal')) {
             eventSource.close();
           }
-          // setTimeout(() => {
-          //   console.log('Connection Drop', event);
-          //   eventSource.close();
-          // }, 40000);
+          setTimeout(() => {
+            console.log('Connection Drop', event);
+            eventSource.close();
+          }, 40000);
         });
       });
     });
