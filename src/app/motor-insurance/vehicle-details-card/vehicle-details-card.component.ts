@@ -93,9 +93,11 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
 
     this.sharedDataService.traceIdVehicleType.subscribe((cardData: any) => {
-      this.vehicleData = cardData;
-      this.parsedVehicleData = JSON.parse(this.vehicleData);
-      this.vehicleCardData(this.parsedVehicleData);
+      if (cardData) {
+        this.vehicleData = cardData;
+        this.parsedVehicleData = JSON.parse(this.vehicleData);
+        this.vehicleCardData(this.parsedVehicleData);
+      }
     });
 
     this.sharedDataService.inspectionCard.subscribe((cardData) => {
