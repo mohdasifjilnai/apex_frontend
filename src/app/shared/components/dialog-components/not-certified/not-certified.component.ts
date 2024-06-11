@@ -37,6 +37,7 @@ export class NotCertifiedComponent implements OnInit {
   loader: boolean=false;
   partner_code: any;
   hideLogin: boolean=false;
+  partnerCodeTraceId:any;
   constructor(
     public dialogRef: MatDialogRef<NotCertifiedComponent>,
     public bottomSheetRef: MatBottomSheetRef<NotCertifiedComponent>,
@@ -55,7 +56,8 @@ export class NotCertifiedComponent implements OnInit {
       this.quoteData = details[3];
     });
     this.proposalData = this.sharedDataService.proposalData;
-    this.partner_code = localStorage.getItem('partner_code');
+    this.partnerCodeTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
+    this.partner_code = this.partnerCodeTraceId?.partner_code;
     if(this.partner_code==null || this.partner_code==''){
       this.hideLogin=true
     }

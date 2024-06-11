@@ -85,6 +85,7 @@ export class ProposalComponent implements OnInit {
   expiryListData: any;
   allNCBData: any;
   mmvStoreData: any;
+  partnerCodeTraceId: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -504,7 +505,8 @@ export class ProposalComponent implements OnInit {
     }
   }
   back() {
-    this.router.navigate(['quotes']);
+    this.partnerCodeTraceId=sessionStorage.getItem('partnerCodeTraceId');
+    this.router.navigate(['quotes/',JSON.parse(this.partnerCodeTraceId)?.trace_id]);
   }
   getProposalDataForPatch() {
     this.sharedData.getProposalDetails.subscribe((proposal) => {

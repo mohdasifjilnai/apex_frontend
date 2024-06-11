@@ -374,7 +374,7 @@
                   <span class="text">Renewal Quote</span>
                 <button
                   tabindex="0"
-                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
                   
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
@@ -391,7 +391,7 @@
                 <button
                 *ngIf="renewalType=='renewal' && quotes?.insurer_code!=insurerCode"
                    tabindex="0"
-                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
                    (click)="getProposalDetails(quotes)"
                  >
                    <span class="d-none">{{ quotes?.insurer_name }}</span>
@@ -405,7 +405,7 @@
                    <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
                  </button>
                 <button
-                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
                   (click)="getProposalDetails(quotes)"
                   *ngIf="renewalType!='renewal'"
                 >
