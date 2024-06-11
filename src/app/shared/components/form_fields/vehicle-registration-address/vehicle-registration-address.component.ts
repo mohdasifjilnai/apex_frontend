@@ -65,5 +65,6 @@ export class VehicleRegistrationAddressComponent implements OnInit {
         }
       }
     });
+    this.isNotShowErrorMsg = false;
   }
 }

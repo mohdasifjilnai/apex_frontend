@@ -937,6 +937,10 @@ export class ProposalComponent implements OnInit {
           if (productType) {
             sessionStorage.setItem('productType', productType);
           }
+          const regNo = response?.quote_request?.registration_no;
+          if (regNo) {
+            sessionStorage.setItem('registrationNumber', regNo);
+          }
           this.apiService
             .getRequestedResponse(ApiConstants.get_previous_insurer)
             .subscribe((response: any) => {

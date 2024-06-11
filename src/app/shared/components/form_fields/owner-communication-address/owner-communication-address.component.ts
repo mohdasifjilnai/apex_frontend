@@ -60,6 +60,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
         }
       }
     });
+    this.isNotShowErrorMsg = false;
   }
 
   ngOnDestroy(): void {

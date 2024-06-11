@@ -74,6 +74,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   fetchedKyc: any;
   maxlength: any;
   isOwnerAddressValidation: boolean = false;
+  regNumber: any;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -315,6 +316,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               });
             });
         }
+      } else {
+        this.regNumber = sessionStorage.getItem('registrationNumber');
+        this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
+          )
+          .subscribe((res: any) => {
+            if (res) {
+              this.proposalVehilceDetailsForm.patchValue({
+                chassis_number: res?.chassis_number,
+                engine_number: res?.engine_number,
+              });
+            }
+          });
       }
       if (
         kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
