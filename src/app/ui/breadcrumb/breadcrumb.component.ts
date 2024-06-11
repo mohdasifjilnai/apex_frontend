@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from './breadcrumb';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -18,10 +19,12 @@ export class BreadcrumbComponent implements OnInit {
   is_cse: any;
   employee_code: any;
   partner_code: any;
+  partnerCodewithTraceId: any;
 
   constructor(
     private readonly breadcrumbService: BreadcrumbService,
-    private router: Router
+    private router: Router,
+    private sharedData:SharedDataService
   ) {
     // get breadcrumb label data
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
@@ -47,6 +50,15 @@ export class BreadcrumbComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
+    this.partnerCodewithTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
+    if(this.partnerCodewithTraceId?.partner_code){
+      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    }
+    this.sharedData.partnerCodeFromApiRes.subscribe((res) => {
+      if (res) {
+        this.partner_code=res
+      }
+    });
   }
 
   /**

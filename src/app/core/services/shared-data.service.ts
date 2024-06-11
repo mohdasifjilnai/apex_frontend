@@ -60,6 +60,7 @@ export class SharedDataService {
   nomineeData: Subject<any> = new Subject();
   quotesEnableForMobile: Subject<any> = new Subject();
   vehicleOwnerForm: Subject<any> = new Subject();
+  partnerCodeFromApiRes: Subject<any> = new Subject();
   regNumberDataRenewal = new BehaviorSubject<any>(null);
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   renewalInsurer = new BehaviorSubject<any>(null);
@@ -1159,6 +1160,10 @@ export class SharedDataService {
   }
   formCheck(data: any) {
     this.vehicleOwnerForm.next(data);
+  }
+
+  partnerCode(data: any) {
+    this.partnerCodeFromApiRes.next(data);
   }
 
   policyExpiryDate(date: any) {

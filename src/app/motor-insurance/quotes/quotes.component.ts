@@ -42,6 +42,7 @@ export class QuotesComponent implements OnInit {
   cse: any;
   partner_code: any;
   traceIdUrl: any;
+  partnerCodewithTraceId: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -177,6 +178,14 @@ export class QuotesComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
+    if(this.partnerCodewithTraceId?.partner_code){
+      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    }
+    this.shareDataService.partnerCodeFromApiRes.subscribe((res) => {
+      if (res) {
+        this.partner_code=res
+      }
+    });
   }
   receivedData: any;
   // receivedCheckBoxValue: any;
@@ -255,7 +264,7 @@ export class QuotesComponent implements OnInit {
             partner_code: this.quotesRequest?.partner_code,
           };
           sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(traceId));
-
+          this.shareDataService.partnerCode(this.quotesRequest?.partner_code)
           this.renewalDetails = sessionStorage.getItem('renewalDetails');
           if (this.renewalDetails) {
             let allData = {
@@ -320,6 +329,7 @@ export class QuotesComponent implements OnInit {
             'partnerCodeTraceId',
             JSON.stringify(traceIdValue)
           );
+          this.shareDataService.partnerCode(res.partner_code)
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('vehiclePopup', 'true');
           sessionStorage.setItem('productType', res.product_type);

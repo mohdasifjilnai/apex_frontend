@@ -324,6 +324,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage?.removeItem('renewalType');
     sessionStorage.removeItem('pageRefresh');
     sessionStorage.removeItem('allNCBDataProposal');
+    sessionStorage.removeItem('partnerCodeTraceId');
 
     this.motorInsurance.controls['registration_number'].valueChanges.subscribe(
       (val: any) => {

@@ -86,6 +86,7 @@ export class ProposalComponent implements OnInit {
   allNCBData: any;
   mmvStoreData: any;
   partnerCodeTraceId: any;
+  partnerCodewithTraceId: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -105,6 +106,14 @@ export class ProposalComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
+    if(this.partnerCodewithTraceId?.partner_code){
+      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    }
+    this.sharedData.partnerCodeFromApiRes.subscribe((res) => {
+      if (res) {
+        this.partner_code=res
+      }
+    });
     let quoteRequesId = sessionStorage.getItem('quote_request_id');
     if (quoteRequesId) {
       sessionStorage.removeItem('quote_request_id');
@@ -886,6 +895,7 @@ export class ProposalComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
+            this.sharedData.partnerCode(this.getInsurerData?.quote_request?.partner_code)
           }
 
           this.getNcbList(response.quote_request);

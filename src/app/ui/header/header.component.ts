@@ -37,6 +37,7 @@ showProfile: any;
   last_name: any;
   middle_name: any;
   first_letter: any;
+  partnerCodewithTraceId: any;
   constructor(
     private win: WindowRef,
     private authService: AuthService,
@@ -120,6 +121,15 @@ showProfile: any;
       this.first_letter=this.first_name.charAt(0)
       this.middle_name=localStorage.getItem('middle_name')
       this.last_name=localStorage.getItem('last_name')
+      this.partnerCodewithTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
+      if(this.partnerCodewithTraceId?.partner_code !=this.partner_code){
+        this.tokenData=false
+      }
+      this.sharedService.partnerCodeFromApiRes.subscribe((res) => {
+        if (res !=this.partner_code) {
+          this.tokenData=false
+        }
+      });
     }
   }
 

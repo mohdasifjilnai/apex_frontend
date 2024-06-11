@@ -108,6 +108,7 @@ export class ProposalReviewComponent implements OnInit {
   employee_code: any;
   cse: any;
   partner_code: any;
+  partnerCodewithTraceId: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -132,6 +133,14 @@ export class ProposalReviewComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
+    if(this.partnerCodewithTraceId?.partner_code){
+      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    }
+    this.shareData.partnerCodeFromApiRes.subscribe((res) => {
+      if (res) {
+        this.partner_code=res
+      }
+    });
     let previousPolicyType = JSON.parse(
       sessionStorage.getItem('mmv_data') || '{}'
     );
@@ -373,6 +382,7 @@ export class ProposalReviewComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
+            this.shareData.partnerCode(response?.quote_request?.partner_code)
           }
           if (
             response?.quote_request?.meta_data?.selectedAddons !== 'undefined'
