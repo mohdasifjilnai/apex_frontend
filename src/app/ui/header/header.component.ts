@@ -122,8 +122,11 @@ showProfile: any;
       this.middle_name=localStorage.getItem('middle_name')
       this.last_name=localStorage.getItem('last_name')
       this.partnerCodewithTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
-      if(this.partnerCodewithTraceId?.partner_code !=this.partner_code){
-        this.tokenData=false
+      console.log(this.partnerCodewithTraceId?.partner_code, this.partner_code)
+      if(this.partnerCodewithTraceId?.partner_code != undefined){
+        if(this.partnerCodewithTraceId?.partner_code != this.partner_code){
+          this.tokenData=false
+        }
       }
       this.sharedService.partnerCodeFromApiRes.subscribe((res) => {
         if (res !=this.partner_code) {
