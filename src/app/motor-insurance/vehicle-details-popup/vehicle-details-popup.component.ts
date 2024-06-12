@@ -1423,7 +1423,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
             if (ownershipTransfer == 'ownerTransfer') {
               let selectedPreviousPolicy =
-                this.vehicleDetailsForm.value.policy_expiry;
+                this.expiryList[0].rb_expiring_policy_type_code;
               if (selectedPreviousPolicy) {
                 this.hideFieldOnExpiryPolicy(selectedPreviousPolicy);
               }
