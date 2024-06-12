@@ -133,12 +133,12 @@ export class ProposalReviewComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
-    if(this.partnerCodewithTraceId?.partner_code){
-      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    if (this.partnerCodewithTraceId?.partner_code) {
+      this.partner_code = this.partnerCodewithTraceId?.partner_code;
     }
     this.shareData.partnerCodeFromApiRes.subscribe((res) => {
       if (res) {
-        this.partner_code=res
+        this.partner_code = res;
       }
     });
     let previousPolicyType = JSON.parse(
@@ -382,7 +382,7 @@ export class ProposalReviewComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
-            this.shareData.partnerCode(response?.quote_request?.partner_code)
+            this.shareData.partnerCode(response?.quote_request?.partner_code);
           }
           if (
             response?.quote_request?.meta_data?.selectedAddons !== 'undefined'
@@ -455,10 +455,11 @@ export class ProposalReviewComponent implements OnInit {
       }
       const mmv_data =
         this.proposalData?.quote_request?.meta_data?.mmv_form_data;
+      let previousPolicyType;
       if (mmv_data) {
         // Store mmv_data object in session storage
         sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
-        let previousPolicyType = JSON.parse(
+        previousPolicyType = JSON.parse(
           sessionStorage.getItem('mmv_data') || '{}'
         );
         if (
@@ -478,9 +479,10 @@ export class ProposalReviewComponent implements OnInit {
         }
       }
       this.shareData.sendRenewalMmv(mmv_data);
+
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}`
+          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${this.proposalData?.quote_request.previous_policy_exp_date}`
         )
         .subscribe((res: any) => {
           if (res) {
