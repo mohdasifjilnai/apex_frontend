@@ -479,10 +479,15 @@ export class ProposalReviewComponent implements OnInit {
         }
       }
       this.shareData.sendRenewalMmv(mmv_data);
+      let policyExpiryDate = '';
+      if (this.proposalData?.quote_request.previous_policy_exp_date) {
+        policyExpiryDate =
+          this.proposalData?.quote_request.previous_policy_exp_date;
+      }
 
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${this.proposalData?.quote_request.previous_policy_exp_date}`
+          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${policyExpiryDate}`
         )
         .subscribe((res: any) => {
           if (res) {

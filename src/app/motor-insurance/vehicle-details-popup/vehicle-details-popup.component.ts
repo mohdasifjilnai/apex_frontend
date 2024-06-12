@@ -429,7 +429,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       );
     }
 
-    this.getPolicyExpiryList();
+    // this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal') {
       this.isRenewNotShownField = true;
@@ -1451,13 +1451,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
   /**
    *   get expiry ploicy list api
    */
-  getPolicyExpiryList() {
-    this.apiservice
-      .getRequestedResponse(ApiConstants.expiry_policy_list)
-      .subscribe((res) => {
-        this.expiryPolicyList = res;
-      });
-  }
+  // getPolicyExpiryList() {
+  //   this.apiservice
+  //     .getRequestedResponse(ApiConstants.expiry_policy_list)
+  //     .subscribe((res) => {
+  //       this.expiryPolicyList = res;
+  //     });
+  // }
 
   /**
    * set from validation

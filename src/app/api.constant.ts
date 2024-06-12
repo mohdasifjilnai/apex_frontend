@@ -28,7 +28,7 @@ export class ApiConstants {
   public static proposal_type: string = `/api/v1/proposer_type/`;
 
   // get expiry policy
-  public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
+  // public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
 
   public static getCoverageType = `/api/v1/get_coverage_types/`;
 
