@@ -18,6 +18,8 @@ export class BreadcrumbService {
 
   // Observable exposing the breadcrumb hierarchy
   readonly breadcrumbs$ = this._breadcrumbs$.asObservable();
+  traceId: any;
+  partnerCodeTraceId: any;
 
   constructor(private router: Router) {
     this.router.events
@@ -44,23 +46,36 @@ export class BreadcrumbService {
     if (route) {
       // Construct the route URL
       const routeUrl = parentUrl.concat(route.url.map((url) => url.path));
-
+      this.partnerCodeTraceId = JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}');
+      this.traceId=this.partnerCodeTraceId?.trace_id
       // Add an element for the current route part
       if (route.data['breadcrumb']) {
         if (Array.isArray(route.data['breadcrumb'])) {
           route.data['breadcrumb'].forEach((bc: any) => {
+            const breadcrumbUrl = bc['path']
+              ? '/' + bc['path'].join('/')
+              : '/' + routeUrl.join('/');
+            // Add this.traceId to the URL if path contains 'quotes'
+            const finalUrl = breadcrumbUrl.includes('quotes') && !breadcrumbUrl.includes('proposal')
+              ? `${breadcrumbUrl}/${this.traceId}`
+              : breadcrumbUrl;
             const breadcrumb = {
               label: this.getLabel({ breadcrumb: bc['name'] }),
-              url: bc['path']
-                ? '/' + bc['path'].join('/')
-                : '/' + routeUrl.join('/'),
+              url: finalUrl,
             };
             breadcrumbs.push(breadcrumb);
           });
         } else {
+          const breadcrumbUrl = '/' + routeUrl.join('/');
+          
+          // Add traceId to the URL if path contains 'quotes'
+          const finalUrl = breadcrumbUrl.includes('quotes') && !breadcrumbUrl.includes('proposal')
+            ? `${breadcrumbUrl}/${this.traceId}`
+            : breadcrumbUrl;
+
           const breadcrumb = {
             label: this.getLabel(route.data),
-            url: '/' + routeUrl.join('/'),
+            url: finalUrl,
           };
           breadcrumbs.push(breadcrumb);
         }
