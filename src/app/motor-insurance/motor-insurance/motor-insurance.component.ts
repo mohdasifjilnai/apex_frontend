@@ -119,6 +119,7 @@ export class MotorInsuranceComponent implements OnInit {
   employee_code: any;
   cse: any;
   partner_code: any;
+  isPartnerPOSStatus: boolean=false;
 
   constructor(
     private router: Router,
@@ -161,12 +162,22 @@ export class MotorInsuranceComponent implements OnInit {
         this.vehicleNotFound = false;
       }, 3000);
     });
+    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = localStorage.getItem('employee_code');
+    this.partner_code = localStorage.getItem('partner_code');
     const partner_code = localStorage.getItem('partner_code')?.slice(0, 2);
     if (partner_code != 'EM') {
       const pos_status = localStorage.getItem('pos_status')?.toLowerCase();
-      if (pos_status == 'false') {
-        this.openNotCertifiedPopup('');
-      }
+      for (let i = 0; i < environment?.partnerswithoutPOS.length; i++) {
+        if (environment?.partnerswithoutPOS[i] === this.partner_code) {
+          this.isPartnerPOSStatus=true
+            break; 
+        }
+    }
+    if (pos_status == 'false' && !this.isPartnerPOSStatus) {
+      this.openNotCertifiedPopup('');
+    }
+      
     }
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
@@ -364,9 +375,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
-    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code = localStorage.getItem('employee_code');
-    this.partner_code = localStorage.getItem('partner_code');
+    
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
