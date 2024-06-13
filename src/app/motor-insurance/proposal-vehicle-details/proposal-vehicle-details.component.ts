@@ -785,12 +785,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       if (valueToCheck.length > maxLength) {
         return { maxlength: true };
       }
-      if (
-        !/^[A-Za-z]+\-[0-9]+$/.test(control.value) &&
-        !/^[0-9]+\-[A-Za-z]+$/.test(control.value)
-      ) {
-        return { pattern: true };
-      }
+      // if (
+      //   !/^[A-Za-z]+\-[0-9]+$/.test(control.value) &&
+      //   !/^[0-9]+\-[A-Za-z]+$/.test(control.value)
+      // ) {
+      //   // return { pattern: true };
+      // }
     }
 
     return null;
