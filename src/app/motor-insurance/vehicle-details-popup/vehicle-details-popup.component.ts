@@ -585,7 +585,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (this.vehicleMMVValue) {
       sessionStorage.removeItem('vehicleMMVData');
     }
-    this.vehicleDetailsForm.get('ncb_discount')?.enable();
+    // this.vehicleDetailsForm.get('ncb_discount')?.enable();
     this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
     this.vehicleDetailsForm.value.hidePreviousClaimed =
       this.hidePreviousClaimed;
@@ -595,8 +595,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.vehicleDetailsForm.value?.policy_expiry != '' &&
       this.vehicleDetailsForm.value?.policy_expiry != 'satp' &&
       this.vehicleDetailsForm.value?.policy_expiry != 'bundled_tp' &&
-      !this.isNewVehicle &&
-      !this.vehicleDetailsForm.value?.previous_claimed
+      !this.isNewVehicle
     ) {
       if (
         this.vehicleDetailsForm.value?.ncb_discount ||
@@ -1185,10 +1184,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
   claimedPolicy(data: any, allData?: any) {
     if (data) {
-      this.ncbDiscountData = false;
+      // this.ncbDiscountData = false;
       // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
     } else {
-      this.ncbDiscountData = true;
+      // this.ncbDiscountData = true;
       if (this.renewalType == 'renewal') {
         this.vehicleDetailsForm.patchValue({
           ncb_discount: this.vehicleAllData?.renewalNCBDiscount,
@@ -1276,9 +1275,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.vehicleMMVValue &&
         this.vehicleMMVValue?.policy_expiry_date != 'Not Sure'
       ) {
-        policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
+        if (
+          this.vehicleMMVValue?.policy_expiry_date != null &&
+          this.vehicleMMVValue?.policy_expiry_date != undefined
+        ) {
+          policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
-        policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+          policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');
+        }
       }
       let userRCtransfer = this.vehicleDetailsForm.value.user_car
         ? this.vehicleDetailsForm.value.user_car
@@ -1759,15 +1763,15 @@ Get the expiring policy list based on the given date or the registration details
         )
         ?.subscribe((res) => {
           if (res) {
-            if (modifiedDate == 'dateChange') {
-              this.isNewVehicle = res?.is_new_vehicle;
-              if (!this.isNewVehicle) {
-                this.getNcbList();
-              }
-              this.newVehicleData =
-                res?.is_new_vehicle == false ? 'renewal' : 'new';
-              sessionStorage.setItem('newVehicleType', this.newVehicleData);
+            // if (modifiedDate == 'dateChange') {
+            this.isNewVehicle = res?.is_new_vehicle;
+            if (!this.isNewVehicle) {
+              this.getNcbList();
             }
+            this.newVehicleData =
+              res?.is_new_vehicle == false ? 'renewal' : 'new';
+            sessionStorage.setItem('newVehicleType', this.newVehicleData);
+            // }
             this.expiryList = res.expiring_policy_type;
             if (res.expiring_policy_type.length > 0) {
               for (let i = 0; i <= this.expiryList.length - 1; i++) {
