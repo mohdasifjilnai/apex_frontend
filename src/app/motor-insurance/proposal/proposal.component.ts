@@ -514,8 +514,11 @@ export class ProposalComponent implements OnInit {
     }
   }
   back() {
-    this.partnerCodeTraceId=sessionStorage.getItem('partnerCodeTraceId');
-    this.router.navigate(['quotes/',JSON.parse(this.partnerCodeTraceId)?.trace_id]);
+    this.partnerCodeTraceId = sessionStorage.getItem('partnerCodeTraceId');
+    this.router.navigate([
+      'quotes/',
+      JSON.parse(this.partnerCodeTraceId)?.trace_id,
+    ]);
   }
   getProposalDataForPatch() {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
@@ -900,12 +903,6 @@ export class ProposalComponent implements OnInit {
 
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
-          this.getVehicleMMVPopup(
-            '',
-            response?.quote_request?.rb_mmv_id,
-            response?.quote_request?.vehicle_type,
-            response?.quote_request
-          );
           this.sharedData.getInsurerDetail(response);
           const transactionId = response?.quote_response?.transaction_id;
           if (transactionId) {
@@ -1000,6 +997,12 @@ export class ProposalComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.rtoCity = res;
+          this.getVehicleMMVPopup(
+            '',
+            this.getInsurerData?.quote_request?.rb_mmv_id,
+            this.getInsurerData?.quote_request?.vehicle_type,
+            this.getInsurerData?.quote_request
+          );
         }
       });
   }
@@ -1012,7 +1015,7 @@ export class ProposalComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res: any) => {
         this.loaderService.hide();
-        if (res && this.rtoCity) {
+        if (res) {
           this.vehicleMMVData = res;
           this.vehicleMMVData[0].displayMM = `${this.vehicleMMVData[0].rb_make_name} | ${this.vehicleMMVData[0].rb_model_name}`;
           sessionStorage.setItem(
@@ -1116,5 +1119,15 @@ export class ProposalComponent implements OnInit {
           JSON.stringify(this.allNCBData)
         );
       });
+  }
+  disableKeyboardInteraction(event: KeyboardEvent): void {
+    if (
+      event.key === 'Enter' ||
+      event.key === ' ' ||
+      event.code === 'Enter' ||
+      event.code === 'Space'
+    ) {
+      event.preventDefault();
+    }
   }
 }

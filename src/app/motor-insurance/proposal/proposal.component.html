@@ -1,8 +1,5 @@
 <div class="row ms-2 me-2 proposal-page" *ngIf="!isMobileView">
-  <div
-    class="inspectionData mb-3"
-    *ngIf="breakIn"
-  >
+  <div class="inspectionData mb-3" *ngIf="breakIn">
     <span class="col-lg-12 inspectionCase details ms-2">{{
       vehicleInspectionMessage
     }}</span>
@@ -17,7 +14,10 @@
         id-automation="ckyc_details"
         [expanded]="accordianExpanded === 'ckyc'"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          tabindex="-1"
+          (keydown)="disableKeyboardInteraction($event)"
+        >
           <mat-panel-title> CKYC </mat-panel-title>
         </mat-expansion-panel-header>
         <app-ckyc (afterProceedGetData)="getProceedData($event)"></app-ckyc>
@@ -29,7 +29,10 @@
         [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
         [expanded]="accordianExpanded === 'vehicleOwnerDetails'"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          tabindex="-1"
+          (keydown)="disableKeyboardInteraction($event)"
+        >
           <mat-panel-title> Vehicle Owner Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-vehicle-owner-details
@@ -45,7 +48,10 @@
         *ngIf="isNotShowNomineeDetails"
         [expanded]="accordianExpanded === 'nomineeDetails'"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          tabindex="-1"
+          (keydown)="disableKeyboardInteraction($event)"
+        >
           <mat-panel-title> Nominee Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-nominee-details
@@ -60,7 +66,10 @@
         [ngClass]="{ isAccordianDisable: !showVehicleDetails }"
         [expanded]="accordianExpanded === 'vehicleDetails'"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          tabindex="-1"
+          (keydown)="disableKeyboardInteraction($event)"
+        >
           <mat-panel-title> Vehicle Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-proposal-vehicle-details
@@ -76,7 +85,10 @@
         [expanded]="accordianExpanded === 'previousPolicyDetails'"
         *ngIf="isNotShowInNewPolicyDetails"
       >
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header
+          tabindex="-1"
+          (keydown)="disableKeyboardInteraction($event)"
+        >
           <mat-panel-title> Previous Policy Details </mat-panel-title>
         </mat-expansion-panel-header>
         <app-previous-policy-details
@@ -86,13 +98,17 @@
     </mat-accordion>
   </div>
 </div>
+
 <div class="res-proposal-page p-2" *ngIf="isMobileView">
-  <div class="back-button mb-2 d-flex justify-content-between" >
+  <div class="back-button mb-2 d-flex justify-content-between">
     <div (click)="back()">
       <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal
     </div>
-    <div  *ngIf="is_cse=='true'">
-      <span class="cse">CSE ({{employee_code}})<br> PC({{ partner_code }})</span>
+    <div *ngIf="is_cse == 'true'">
+      <span class="cse"
+        >CSE ({{ employee_code }})<br />
+        PC({{ partner_code }})</span
+      >
     </div>
   </div>
   <div class="inspectionData mb-3 d-flex" *ngIf="breakIn">

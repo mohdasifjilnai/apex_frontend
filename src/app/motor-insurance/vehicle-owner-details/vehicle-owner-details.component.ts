@@ -153,45 +153,39 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_gstin: proposal?.customer_details?.gst_no,
           additional_contact:
             proposal?.customer_details?.additional_mobile_number,
-          ownner_occupation_type:
-            proposal?.customer_details?.occupation_type_id,
+          // ownner_occupation_type:
+          //   proposal?.customer_details?.occupation_type_id,
           owner_communication_addres:
             proposal?.customer_details?.communication_address?.address_line,
           marital_status: proposal?.customer_details?.marital_status,
           owner_gender: proposal?.customer_details?.gender,
-          ownner_salutation_type: proposal?.customer_details?.salutation,
         });
-
-        if (this.occupationList?.length > 0) {
-          let occupationTypeId = this.occupationList.findIndex((item: any) => {
+        if (this.salutationList) {
+          for (let data of this.salutationList) {
             if (
-              item.rb_id ==
-              this.owenerVehicleDetailsForm.value.ownner_occupation_type
+              data?.rb_salutation ===
+              this.proposalData?.customer_details?.salutation
             ) {
-              return;
+              this.owenerVehicleDetailsForm.patchValue({
+                ownner_salutation_type:
+                  this.proposalData?.customer_details?.salutation,
+              });
             }
-          });
-
-          // if (occupationTypeId == -1) {
-          //   this.owenerVehicleDetailsForm.patchValue({
-          //     ownner_occupation_type: '',
-          //   });
-          // }
+          }
         }
-        if (this.salutationList?.length > 0) {
-          let salutionTypeId = this.salutationList.findIndex((item: any) => {
+
+        if (this.occupationList) {
+          for (let data of this.occupationList) {
             if (
-              item.rb_salutation ==
-              this.owenerVehicleDetailsForm.value.ownner_salutation_type
+              data?.rb_id ===
+              this.proposalData?.customer_details?.occupation_type_id
             ) {
-              return;
+              this.owenerVehicleDetailsForm.patchValue({
+                ownner_occupation_type:
+                  this.proposalData?.customer_details?.occupation_type_id,
+              });
             }
-          });
-          // if (salutionTypeId == -1) {
-          //   this.owenerVehicleDetailsForm.patchValue({
-          //     ownner_salutation_type: '',
-          //   });
-          // }
+          }
         }
 
         if (
