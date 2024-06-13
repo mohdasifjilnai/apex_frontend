@@ -44,11 +44,13 @@
     [matDatepicker]="registrationYear"
     formControlName="registration_date"
     appDateFormat
+    [min]="minDate"
+    [max]="maxDate"
     [readonly]="true"
+    (click)="registrationYear.open()"
     (keyup.enter)="EnterKey($event)"
     [min]="minDate"
     [max]="maxDate"
-    (dateChange)="registrationDateSelected(registrationInput.value)"
     [matDatepickerFilter]="dateFilter"
   />
   <mat-datepicker-toggle matSuffix [for]="registrationYear"

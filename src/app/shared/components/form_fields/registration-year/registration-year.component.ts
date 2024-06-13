@@ -244,15 +244,4 @@ export class RegistrationYearComponent implements OnInit {
     return date < this.disableFromDate || date >= dayBeforeCurrDate;
     //return date < this.disableFromDate || date > this.currDate;
   };
-
-  registrationDateSelected(data: any) {
-    // let registrationDate = this.form.controls['registration_date'].value;
-    // if (this.urlDate == 'motor') {
-    //   this.sharedDataService.registrationYearData(
-    //     this.form.controls['registration_date']
-    //   );
-    // } else {
-    //   this.onRegistrationDateChange(registrationDate);
-    // }
-  }
 }
