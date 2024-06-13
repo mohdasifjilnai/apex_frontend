@@ -50,7 +50,9 @@ export class ChooseIDVComponent implements OnInit {
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       // this.quotesCount = idvData;
       if (this.enableIdvCard) {
-        this.enableIdvCard = false;
+        setTimeout(() => {
+          this.enableIdvCard = false;
+        }, 40000);
         this.quotationData = [];
         if (idvData.length > 0) {
           for (let i = 0; i <= idvData.length - 1; i++) {
@@ -144,7 +146,9 @@ export class ChooseIDVComponent implements OnInit {
     });
 
     this.sharedDataService.quotesEnableForMobile.subscribe((data) => {
-      this.enableIdvCard = false;
+      setTimeout(() => {
+        this.enableIdvCard = false;
+      }, 40000);
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
