@@ -160,7 +160,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           marital_status: proposal?.customer_details?.marital_status,
           owner_gender: proposal?.customer_details?.gender,
         });
-        if (this.salutationList) {
+        if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
             if (
               data?.rb_salutation ===
@@ -174,7 +174,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           }
         }
 
-        if (this.occupationList) {
+        if (this.occupationList && this.proposalData) {
           for (let data of this.occupationList) {
             if (
               data?.rb_id ===
@@ -424,6 +424,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       )
       .subscribe((occupation) => {
         this.occupationList = occupation;
+        if (this.occupationList && this.proposalData) {
+          for (let data of this.occupationList) {
+            if (
+              data?.rb_id ===
+              this.proposalData?.customer_details?.occupation_type_id
+            ) {
+              this.owenerVehicleDetailsForm.patchValue({
+                ownner_occupation_type:
+                  this.proposalData?.customer_details?.occupation_type_id,
+              });
+            }
+          }
+        }
       });
   }
   /**
@@ -483,6 +496,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       )
       .subscribe((salutation) => {
         this.salutationList = salutation;
+        if (this.salutationList && this.proposalData) {
+          for (let data of this.salutationList) {
+            if (
+              data?.rb_salutation ===
+              this.proposalData?.customer_details?.salutation
+            ) {
+              this.owenerVehicleDetailsForm.patchValue({
+                ownner_salutation_type:
+                  this.proposalData?.customer_details?.salutation,
+              });
+            }
+          }
+        }
       });
   }
   onEnterKeyPressedForPincode() {

@@ -157,7 +157,7 @@
     overflow: scroll;
   }
 }
-.loader{
+.loader {
   width: 28px;
   height: 16px;
   margin-bottom: 6px;
@@ -168,7 +168,12 @@
   margin-top: -5px;
 }
 @media only screen and (max-width: 999px) {
-  ::ng-deep .mat-form-field{
+  ::ng-deep .mat-form-field {
     width: 100%;
   }
+}
+.send-loader {
+  position: relative;
+  bottom: 25px;
+  left: 114px;
 }

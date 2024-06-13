@@ -68,7 +68,8 @@ export class ProposalShareComponent implements OnInit {
   quoteInfo: any;
   isStartDate: boolean = true;
   loader: boolean = false;
-  downloadLoader: boolean=false;
+  downloadLoader: boolean = false;
+  sendLoader: boolean = false;
   notCertifiedComponentJSON: {
     modalName: any;
     widthObtained: string;
@@ -222,6 +223,7 @@ export class ProposalShareComponent implements OnInit {
   shareQuotes() {
     this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
+    this.sendLoader = true;
     if (this.shareQuotationForm.get('email')?.value != null) {
       message =
         'Sent to Email ' +
@@ -248,6 +250,7 @@ export class ProposalShareComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res?.message == 'Success') {
+            this.sendLoader = false;
             this.sharedDataService.openSnackBar(message, true, 3000);
             this.shareQuotationForm.reset();
           } else {
@@ -267,13 +270,13 @@ export class ProposalShareComponent implements OnInit {
   proceedToPayment() {
     this.openNotCertifiedPopup('Partner_Mapped');
     if (window.innerWidth <= 999) {
-        this.bottomSheetRef.dismiss();
-      } else {
-        this.dialogRef.close();
-      }
-    this.loader=true
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
+    this.loader = true;
     // if (this.proposalData) {
-      
+
     //   let sendCommunicationObject = {
     //     transaction_id: this.proposalData?.quote_response?.transaction_id,
     //     share_type: 'otp',
@@ -308,7 +311,7 @@ export class ProposalShareComponent implements OnInit {
     //       }
     //     });
     // } else {
-      
+
     //   let sendCommunicationObject = {
     //     transaction_id: this.quoteData?.transaction_id,
     //     share_type: 'otp',
@@ -380,21 +383,23 @@ export class ProposalShareComponent implements OnInit {
     if (window.ReactNativeWebView) {
       const url = `${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${this.quoteData.transaction_id}`;
       const apiUrlObject = {
-        downloadQuotes: url
-       };
-       const messageJSON = JSON.stringify(apiUrlObject);
-      window.ReactNativeWebView.postMessage(messageJSON);  
-      console.log(apiUrlObject)  
+        downloadQuotes: url,
+      };
+      const messageJSON = JSON.stringify(apiUrlObject);
+      window.ReactNativeWebView.postMessage(messageJSON);
+      console.log(apiUrlObject);
     }
-    this.downloadLoader=true
-    
+    this.downloadLoader = true;
+
     let url = `?quote_id=${quote_data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
-    this.sharedDataService.downloadBreakupResponse.subscribe((response: any) => {
-      if(response){
-        this.downloadLoader=false
+    this.sharedDataService.downloadBreakupResponse.subscribe(
+      (response: any) => {
+        if (response) {
+          this.downloadLoader = false;
+        }
       }
-  })
+    );
   }
   /**
    * this fucntion use open Not Certified Popup modal
