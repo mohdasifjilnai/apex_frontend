@@ -47,12 +47,13 @@ export class ChooseIDVComponent implements OnInit {
   ) {}
   enableIdvCard = true;
   ngOnInit(): void {
-    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+    this.sharedDataService.enableChooseIDV.subscribe((idvData) => {
       // this.quotesCount = idvData;
+      this.enableIdvCard=true
       if (this.enableIdvCard) {
         setTimeout(() => {
           this.enableIdvCard = false;
-        }, 40000);
+        }, 50000);
         this.quotationData = [];
         if (idvData.length > 0) {
           for (let i = 0; i <= idvData.length - 1; i++) {
@@ -148,7 +149,7 @@ export class ChooseIDVComponent implements OnInit {
     this.sharedDataService.quotesEnableForMobile.subscribe((data) => {
       setTimeout(() => {
         this.enableIdvCard = false;
-      }, 40000);
+      }, 50000);
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;

@@ -48,6 +48,8 @@ export class SharedDataService {
   idvSliderHide: Subject<any> = new Subject();
   selectedADDOnsList: Subject<any> = new Subject();
   enableQuotesAction: Subject<any> = new Subject();
+  enableCarLoader: Subject<any> = new Subject();
+  enableChooseIDV: Subject<any> = new Subject();
   getTransactionId: Subject<any> = new Subject();
   tabChanges: Subject<any> = new Subject();
   inspectionCard: Subject<any> = new Subject();
@@ -443,6 +445,8 @@ export class SharedDataService {
 
           this.quotesId = res.quote_request_id;
           this.quotesConnectionData = [];
+          this.enableCarLoader.next(this.quotesCount);
+          this.enableChooseIDV.next(this.quotesCount);
           // this.longPollingInformation(this.transactionId, this.quotesId);
           this.quotesThroughSSE(this.transactionId, this.quotesId);
         } else {

@@ -147,6 +147,7 @@ export class QuotesListingComponent implements OnInit {
   renewalType: any;
   insurerCode: any;
   renewalDataList = false;
+  carLoader: boolean=true;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -192,7 +193,14 @@ export class QuotesListingComponent implements OnInit {
         this.sorting(this.sortObjectkey);
       }
     });
-
+    this.sharedDataService.enableCarLoader.subscribe((idvData) => {
+      this.carLoader = true;
+      setTimeout(() => {
+        if(this.carLoader){
+          this.carLoader = false;
+        }
+      }, 50000);
+    })
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
       this.quotationData = [];
@@ -926,48 +934,48 @@ export class QuotesListingComponent implements OnInit {
     // }
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      this.progressValue += 0.1;
+      this.progressValue += 0.08;
       if (this.progressValue >= 100) {
         clearInterval(this.intervalId);
       } else {
         const position = this.progressValue * 3.5;
         const translatedX = this.getImagePosition();
       }
-    }, 15);
+    }, 40);
   }
   getImagePosition(): string {
     if (window.innerWidth <= 999) {
       const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1000 && window.innerWidth <= 1100) {
-      const position = this.progressValue * 12; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 14; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
-      const position = this.progressValue * 13; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 15; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
-      const position = this.progressValue * 15.5; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 17; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1400 && window.innerWidth <= 1500) {
-      const position = this.progressValue * 18; // Adjust the multiplier based on your desired movement
-      return `translateX(${position}%)`;
-    } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
       const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
-    } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
+    } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
       const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
+    } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
+      const position = this.progressValue * 21; // Adjust the multiplier based on your desired movement
+      return `translateX(${position}%)`;
     } else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
-      const position = this.progressValue * 22; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 23; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
-      const position = this.progressValue * 24; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 25; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
       const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     } else {
-      const position = this.progressValue * 31; // Adjust the multiplier based on your desired movement
+      const position = this.progressValue * 33; // Adjust the multiplier based on your desired movement
       return `translateX(${position}%)`;
     }
   }
