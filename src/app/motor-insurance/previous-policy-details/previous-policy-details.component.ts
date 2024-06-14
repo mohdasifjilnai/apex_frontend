@@ -120,11 +120,15 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.proposalData = proposal;
       if (proposal?.vehicle_details) {
         const [dayReg, monthReg, yearReg] =
-          proposal?.vehicle_details?.registration_date.split('/').map(Number);
-        const reformattedRegDate = new Date(yearReg, monthReg - 2, dayReg);
-        this.tpStartminDate = reformattedRegDate;
-        this.tpStartmaxDate = new Date();
+          proposal.vehicle_details.registration_date.split('/').map(Number);
+        const registrationDate = new Date(yearReg, monthReg - 1, dayReg);
+        const sixMonthsBackDate = new Date(registrationDate);
+        sixMonthsBackDate.setMonth(sixMonthsBackDate.getMonth() - 6);
+
+        this.tpStartminDate = sixMonthsBackDate;
+        this.tpStartmaxDate = registrationDate;
       }
+
       if (this.mmvData?.policy_expiry !== 'comprehensive') {
         this.previousPolicyDetailsForm.patchValue({
           tp_policy_start_date: moment(
