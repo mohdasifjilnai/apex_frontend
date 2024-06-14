@@ -8,8 +8,8 @@
     Listing
     </div>
 
-    <div class="cse">
-      <span  *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span><br> <span *ngIf="partner_code">PC ({{ partner_code }})</span>
+    <div *ngIf="is_cse == 'true'">
+      <span class="cse">CSE ({{ employee_code }})<br> PC ({{ partner_code }})</span>
     </div>
   </div>
   </div>
