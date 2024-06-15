@@ -126,7 +126,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         sixMonthsBackDate.setMonth(sixMonthsBackDate.getMonth() - 6);
 
         this.tpStartminDate = sixMonthsBackDate;
-        this.tpStartmaxDate = registrationDate;
+        console.log(registrationDate);
+        // this.tpStartmaxDate = registrationDate;
+        const currentDate = new Date();
+        const maxDateOffset = 0; //add days to current date
+        this.tpStartmaxDate = this.getDateOffset(currentDate, maxDateOffset);
       }
 
       if (this.mmvData?.policy_expiry !== 'comprehensive') {
@@ -731,5 +735,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     } else {
       this.previousInsurerResponse = response;
     }
+  }
+
+  getDateOffset(date: Date, offset: number): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() + offset);
+    return result;
   }
 }

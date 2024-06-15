@@ -1331,7 +1331,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
         let regModifiedDate = `${this.registrationMonth}/${this.registrationYear}`;
         let policyExpiryDate;
         let policyDate = '';
-        if (this.vehicleMMVValue?.policy_expiry_date != 'Not Sure') {
+        if (
+          this.vehicleMMVValue?.policy_expiry_date != 'Not Sure' &&
+          this.vehicleMMVValue?.policy_expiry_date != null
+        ) {
           policyExpiryDate = new Date(this.vehicleMMVValue?.policy_expiry_date);
 
           policyDate = moment(policyExpiryDate).format('DD/MM/YYYY');

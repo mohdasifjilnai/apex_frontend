@@ -47,10 +47,8 @@
     [min]="minDate"
     [max]="maxDate"
     [readonly]="true"
-    (click)="registrationYear.open()"
+    (dateChange)="registrationDateSelected(registrationInput.value)"
     (keyup.enter)="EnterKey($event)"
-    [min]="minDate"
-    [max]="maxDate"
     [matDatepickerFilter]="dateFilter"
   />
   <mat-datepicker-toggle matSuffix [for]="registrationYear"
