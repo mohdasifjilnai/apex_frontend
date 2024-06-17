@@ -162,13 +162,13 @@ export class RegistrationYearComponent implements OnInit {
        */
 
       if (value != null) {
-        // if (this.urlDate == 'motor') {
-        //   this.sharedDataService.registrationYearData(
-        //     this.form.controls['registration_date']
-        //   );
-        // } else {
-        //   this.onRegistrationDateChange(value);
-        // }
+        if (this.urlDate == 'motor') {
+          this.sharedDataService.registrationYearData(
+            this.form.controls['registration_date']
+          );
+        } else {
+          this.onRegistrationDateChange(value);
+        }
       }
     });
 
@@ -246,13 +246,13 @@ export class RegistrationYearComponent implements OnInit {
   };
 
   registrationDateSelected(date: any) {
-    let registrationDate = this.form.controls['registration_date'].value;
-    if (this.urlDate == 'motor') {
-      this.sharedDataService.registrationYearData(
-        this.form.controls['registration_date']
-      );
-    } else {
-      this.onRegistrationDateChange(registrationDate);
-    }
+    // let registrationDate = this.form.controls['registration_date'].value;
+    // if (this.urlDate == 'motor') {
+    //   this.sharedDataService.registrationYearData(
+    //     this.form.controls['registration_date']
+    //   );
+    // } else {
+    //   this.onRegistrationDateChange(registrationDate);
+    // }
   }
 }
