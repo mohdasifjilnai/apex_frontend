@@ -141,49 +141,54 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             'DD/MM/YYYY'
           ).toDate(),
         });
-        const selectedDateValue = this.previousPolicyDetailsForm.get(
-          'tp_policy_start_date'
-        )?.value;
-        if (selectedDateValue) {
-          const EndMinDate = new Date(
-            selectedDateValue.getFullYear() + 1,
-            selectedDateValue.getMonth(),
-            selectedDateValue.getDate() - 1
-          );
-          this.tpEndminDate = this.datePipe.transform(
-            EndMinDate,
-            'yyyy-MM-dd'
-          )!;
-          const selectedDate = new Date(selectedDateValue);
-          if (this.vehicleTypeSelected == 'private_car') {
-            const fourYearsFromNow = new Date(
-              selectedDate.getFullYear() + 3,
-              selectedDate.getMonth(),
-              selectedDate.getDate()
+        if (
+          this.proposalData.previous_policy_details?.tp_policy_details
+            ?.tp_policy_start_date
+        ) {
+          const selectedDateValue = this.previousPolicyDetailsForm.get(
+            'tp_policy_start_date'
+          )?.value;
+          if (selectedDateValue) {
+            const EndMinDate = new Date(
+              selectedDateValue.getFullYear() + 1,
+              selectedDateValue.getMonth(),
+              selectedDateValue.getDate() - 1
             );
-            this.tpEndmaxDate = this.datePipe.transform(
-              fourYearsFromNow,
+            this.tpEndminDate = this.datePipe.transform(
+              EndMinDate,
               'yyyy-MM-dd'
             )!;
-          } else if (this.vehicleTypeSelected == 'two_wheeler') {
-            const fourYearsFromNow = new Date(
-              selectedDate.getFullYear() + 5,
-              selectedDate.getMonth(),
-              selectedDate.getDate()
-            );
-            this.tpEndmaxDate = this.datePipe.transform(
-              fourYearsFromNow,
-              'yyyy-MM-dd'
-            )!;
+            const selectedDate = new Date(selectedDateValue);
+            if (this.vehicleTypeSelected == 'private_car') {
+              const fourYearsFromNow = new Date(
+                selectedDate.getFullYear() + 3,
+                selectedDate.getMonth(),
+                selectedDate.getDate()
+              );
+              this.tpEndmaxDate = this.datePipe.transform(
+                fourYearsFromNow,
+                'yyyy-MM-dd'
+              )!;
+            } else if (this.vehicleTypeSelected == 'two_wheeler') {
+              const fourYearsFromNow = new Date(
+                selectedDate.getFullYear() + 5,
+                selectedDate.getMonth(),
+                selectedDate.getDate()
+              );
+              this.tpEndmaxDate = this.datePipe.transform(
+                fourYearsFromNow,
+                'yyyy-MM-dd'
+              )!;
+            }
           }
-          this.previousPolicyDetailsForm.patchValue({
-            tp_policy_end_date: moment(
-              this.proposalData.previous_policy_details?.tp_policy_details
-                ?.tp_policy_expiry_date,
-              'DD/MM/YYYY'
-            ).toDate(),
-          });
         }
+        this.previousPolicyDetailsForm.patchValue({
+          tp_policy_end_date: moment(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_expiry_date,
+            'DD/MM/YYYY'
+          ).toDate(),
+        });
       }
       if (this.proposalData.previous_policy_details !== null) {
         this.previousPolicyDetailsForm.patchValue({
