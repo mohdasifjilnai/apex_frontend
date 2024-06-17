@@ -77,6 +77,7 @@ export class SharedDataService {
   changePolicyExpDate: Subject<any> = new Subject();
   traceIdVehicleType = new BehaviorSubject<any>(null);
   sendQuotesADDOnData = new BehaviorSubject<any>(null);
+  sendRegDatePolicyExpiry = new BehaviorSubject<any>(null);
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
@@ -1289,5 +1290,9 @@ export class SharedDataService {
 
   quotesADDOnData(data: any) {
     this.sendQuotesADDOnData.next(data);
+  }
+
+  regDateForPolicyExpiry(data: any) {
+    this.sendRegDatePolicyExpiry.next(data);
   }
 }

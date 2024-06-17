@@ -33,6 +33,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   maxDate!: Date;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   policyExpiryDateSubscription: any;
+  regDateValue: any;
 
   @Input() urlDate: any;
 
@@ -70,11 +71,26 @@ export class PolicyExpiredDateComponent implements OnInit {
     }
     const currentUrl = this.router.url.split('/');
     this.proposalUrl = currentUrl[currentUrl.length - 2];
-
+    this.sharedDataService.getRegistrationData.subscribe((res) => {
+      if (res) {
+        this.regDateValue = new Date(res);
+        const minDateYear = this.regDateValue.getFullYear();
+        const minDateMonth = this.regDateValue.getMonth() - 6;
+        this.minDate = new Date(minDateYear, minDateMonth);
+      }
+    });
+    this.sharedDataService.sendRegDatePolicyExpiry.subscribe((res) => {
+      if (res) {
+        this.regDateValue = res;
+        const minDateYear = this.regDateValue.getFullYear();
+        const minDateMonth = this.regDateValue.getMonth() - 6;
+        this.minDate = new Date(minDateYear, minDateMonth);
+      }
+    });
     const currentDate = new Date();
     const minDateOffset = -1; // Subtract 20 years from current date
     const maxDateOffset = 60; //add days to current date
-    this.minDate = this.getYearDateOffset(currentDate, minDateOffset);
+
     this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
 
     let renewalType = sessionStorage.getItem('renewalType');

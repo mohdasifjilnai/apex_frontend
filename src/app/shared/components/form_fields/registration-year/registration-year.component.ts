@@ -166,6 +166,10 @@ export class RegistrationYearComponent implements OnInit {
           this.sharedDataService.registrationYearData(
             this.form.controls['registration_date']
           );
+          let registrationDate = this.form.controls['registration_date'].value;
+          this.sharedDataService.regDateForPolicyExpiry(
+            new Date(registrationDate)
+          );
         } else {
           this.onRegistrationDateChange(value);
         }

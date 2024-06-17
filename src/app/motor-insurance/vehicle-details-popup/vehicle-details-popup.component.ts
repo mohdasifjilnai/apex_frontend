@@ -1954,6 +1954,9 @@ Get the expiring policy list based on the given date or the registration details
               this.vehicleDetailsForm.patchValue({
                 registration_date: new Date(registrationDate),
               });
+              this.sharedDataService.regDateForPolicyExpiry(
+                new Date(registrationDate)
+              );
               this.getExpiringPolicy(dateObj);
             }
             if (
