@@ -8,6 +8,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 
 @Component({
   selector: 'app-quotes',
@@ -32,6 +33,21 @@ export class QuotesComponent implements OnInit {
     topObtained: '5%',
     isOutSideClose: true,
     classObtained: 'vehicle-details-class',
+  };
+  notCertifiedComponentJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NotCertifiedComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'not-certifiedComponent-class',
   };
   isLoading: boolean = true;
   quotesRequest: any;
@@ -171,19 +187,26 @@ export class QuotesComponent implements OnInit {
       if (!popupData) {
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (quotesUrl) {
-          this.openVehicleDetailsPopup(null);
+          this.openNotCertifiedPopup('Partner_Mapped');
+          this.shareDataService.sendLoginPartner('quote');
+          // this.openVehicleDetailsPopup(null);
         }
       }
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
-    if(this.partnerCodewithTraceId?.partner_code){
-      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    if (this.partnerCodewithTraceId?.partner_code) {
+      this.partner_code = this.partnerCodewithTraceId?.partner_code;
     }
     this.shareDataService.partnerCodeFromApiRes.subscribe((res) => {
       if (res) {
-        this.partner_code=res
+        this.partner_code = res;
+      }
+    });
+    this.shareDataService.getIsNotCertifiedData.subscribe((notCertified) => {
+      if (notCertified === 'quote') {
+        this.openVehicleDetailsPopup(null);
       }
     });
   }
@@ -264,7 +287,7 @@ export class QuotesComponent implements OnInit {
             partner_code: this.quotesRequest?.partner_code,
           };
           sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(traceId));
-          this.shareDataService.partnerCode(this.quotesRequest?.partner_code)
+          this.shareDataService.partnerCode(this.quotesRequest?.partner_code);
           this.renewalDetails = sessionStorage.getItem('renewalDetails');
           if (this.renewalDetails) {
             let allData = {
@@ -329,7 +352,7 @@ export class QuotesComponent implements OnInit {
             'partnerCodeTraceId',
             JSON.stringify(traceIdValue)
           );
-          this.shareDataService.partnerCode(res.partner_code)
+          this.shareDataService.partnerCode(res.partner_code);
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('vehiclePopup', 'true');
           sessionStorage.setItem('productType', res.product_type);
@@ -372,5 +395,34 @@ export class QuotesComponent implements OnInit {
           }
         }
       });
+  }
+  /**
+   * this fucntion use open Not Certified Popup modal
+   */
+  openNotCertifiedPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.notCertifiedComponentJSON['modalName'],
+      width: this.notCertifiedComponentJSON['widthObtained'],
+      height: this.notCertifiedComponentJSON['heightObtained'],
+      classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+      isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

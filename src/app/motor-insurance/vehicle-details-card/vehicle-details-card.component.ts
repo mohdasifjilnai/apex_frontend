@@ -8,6 +8,7 @@ import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-d
 import moment from 'moment';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
+import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 
 @Component({
   selector: 'app-vehicle-details-card',
@@ -58,6 +59,21 @@ export class VehicleDetailsCardComponent implements OnInit {
   showZeroNCB: boolean = false;
   traceIdData: any;
   mmvFromDataEmail: any;
+  notCertifiedComponentJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NotCertifiedComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'not-certifiedComponent-class',
+  };
 
   constructor(
     private matDialog: WindowRef,
@@ -102,6 +118,12 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.sharedDataService.inspectionCard.subscribe((cardData) => {
       this.inspectionValue = cardData;
+    });
+    this.sharedData.getIsNotCertifiedData.subscribe((notCertified) => {
+      if (notCertified === 'edit') {
+        this.openVehicleDetailsPopup(null);
+        this.sharedData.sendVehicleEditData(notCertified);
+      }
     });
 
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
@@ -207,7 +229,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      this.openVehicleDetailsPopup(null);
+      // this.openVehicleDetailsPopup(null);
+      this.openNotCertifiedPopup('Partner_Mapped');
+      this.sharedData.sendLoginPartner('edit');
     }
     this.sharedData.sendVehicleEditData(edit);
   }
@@ -420,5 +444,34 @@ export class VehicleDetailsCardComponent implements OnInit {
 
         sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
       });
+  }
+  /**
+   * this fucntion use open Not Certified Popup modal
+   */
+  openNotCertifiedPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.notCertifiedComponentJSON['modalName'],
+      width: this.notCertifiedComponentJSON['widthObtained'],
+      height: this.notCertifiedComponentJSON['heightObtained'],
+      classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+      isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }

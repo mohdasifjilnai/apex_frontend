@@ -47,6 +47,7 @@
     [min]="minDate"
     [max]="maxDate"
     [readonly]="true"
+    (click)="registrationYear.open()"
     (dateChange)="registrationDateSelected(registrationInput.value)"
     (keyup.enter)="EnterKey($event)"
     [matDatepickerFilter]="dateFilter"
