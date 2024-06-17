@@ -109,6 +109,7 @@ export class ProposalReviewComponent implements OnInit {
   cse: any;
   partner_code: any;
   partnerCodewithTraceId: any;
+  consentSubmitButton = false;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -350,7 +351,9 @@ export class ProposalReviewComponent implements OnInit {
         this.isAcknowledgedConsent &&
         !this.preAddons?.is_consent)
     ) {
-      this.isButtonEnabled = true;
+      if (!this.consentSubmitButton) {
+        this.isButtonEnabled = true;
+      }
     } else {
       this.isButtonEnabled = false;
     }
@@ -365,7 +368,10 @@ export class ProposalReviewComponent implements OnInit {
         if (response) {
           const insurers = ['future', 'liberty', 'universal_sompo'];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
+            this.consentSubmitButton = true;
             this.getPrevPolicyDetails(response);
+          } else {
+            this.consentSubmitButton = false;
           }
           if (response?.quote_request?.vehicle_type) {
             sessionStorage.setItem(
@@ -528,6 +534,8 @@ export class ProposalReviewComponent implements OnInit {
         `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`
       )
       .subscribe((res: any) => {
+        this.consentSubmitButton = false;
+        this.isButtonEnabled = false;
         this.preAddons = res;
         this.shareData.sendPrevAddon(res);
       });
