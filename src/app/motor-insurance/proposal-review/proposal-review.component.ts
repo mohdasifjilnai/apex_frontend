@@ -535,8 +535,13 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((res: any) => {
         this.consentSubmitButton = false;
-        this.isButtonEnabled = false;
+
         this.preAddons = res;
+        if (this.preAddons?.is_consent) {
+          this.isButtonEnabled = false;
+        } else {
+          this.isButtonEnabled = true;
+        }
         this.shareData.sendPrevAddon(res);
       });
   }
