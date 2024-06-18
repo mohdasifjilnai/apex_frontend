@@ -104,10 +104,10 @@
     <div (click)="back()">
       <img src="/assets/icon/back.png" alt="" class="back-image me-2" />Proposal
     </div>
-    <div *ngIf="is_cse == 'true'">
+    <div >
       <span class="cse"
-        >CSE ({{ employee_code }})<br />
-        PC({{ partner_code }})</span
+        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span><br/>
+        <span *ngIf="partner_code">PC({{ partner_code }})</span></span
       >
     </div>
   </div>
