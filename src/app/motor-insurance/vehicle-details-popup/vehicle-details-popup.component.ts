@@ -2405,7 +2405,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   filterModelPopup(name: string) {
-    if (typeof name != 'object' && name.length >= 3) {
+    if (typeof name != 'object' && name.length >= 2) {
       let selectedMakeValue =
         typeof this.vehicleDetailsForm.value.vehicle_make == 'object'
           ? this.vehicleDetailsForm.value.vehicle_make.rb_make_name
