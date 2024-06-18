@@ -236,7 +236,7 @@
               }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
-              <div class="form-group">
+              <div class="form-group" *ngIf="fields?.value?.label === 'poa_doc_url'">
                 <label class="lable-file-input" for="fileInput">
                   <p class="file-input-text">
                     {{ POAFileName == "" ? fields?.value?.name : POAFileName }}
@@ -257,6 +257,38 @@
                 <input
                   type="file"
                   id="fileInput"
+                  class="form-control-file"
+                  (change)="onFileSelected($event, fields?.value?.label)"
+                  [formControlName]="fields?.value?.label"
+                />
+                <div *ngIf="isfileInputError" class="text-danger">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+                <div *ngIf="fileInputError" class="error-msg">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+              </div>
+              <div class="form-group mt-2" *ngIf="fields?.value?.label === 'poa_doc_url_1'">
+                <label class="lable-file-input" for="fileInput1">
+                  <p class="file-input-text">
+                    {{ POAFileName1 == "" ? fields?.value?.name : POAFileName1 }}
+                  </p>
+                </label>
+                <img
+                  src="{{
+                    POAFileName1 === ''
+                      ? '/assets/icon/upload.svg'
+                      : '/assets/icon/see.svg'
+                  }}"
+                  alt=""
+                  class="upload-doc-image"
+                  (click)="
+                    POAFileName1 === '' ? null : checkUploadDocment(documentURl)
+                  "
+                />
+                <input
+                  type="file"
+                  id="fileInput1"
                   class="form-control-file"
                   (change)="onFileSelected($event, fields?.value?.label)"
                   [formControlName]="fields?.value?.label"
