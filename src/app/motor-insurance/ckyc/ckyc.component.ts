@@ -69,6 +69,7 @@ export class CkycComponent implements OnInit {
   renewalDetails: any;
   documentMaxLength: any;
   getInsurerDetails: any;
+  proposalData: any;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -129,6 +130,7 @@ export class CkycComponent implements OnInit {
     let isSubmitCkycFormGroupCalled = false;
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
+      this.proposalData = proposal;
       if (proposal?.ckyc_details !== null) {
         if (this.quoteData?.insurer_code == 'united_india') {
           if (proposal?.ckyc_details?.is_verification) {
@@ -138,12 +140,28 @@ export class CkycComponent implements OnInit {
         this.isCkycDone = true;
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
-          document_type_based_field: proposal?.ckyc_details?.document_type,
+          // document_type_based_field: proposal?.ckyc_details?.document_type,
           document_number_based_field: proposal?.ckyc_details?.document_number,
           dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
+        if (
+          this.documentList &&
+          this.proposalData?.ckyc_details?.document_type
+        ) {
+          for (let document of this.documentList) {
+            if (
+              document?.document_code ===
+              this.proposalData?.ckyc_details?.document_type
+            ) {
+              this.ckycFormGroup.patchValue({
+                document_type_based_field:
+                  this.proposalData?.ckyc_details?.document_type,
+              });
+            }
+          }
+        }
         let renewalDataType = sessionStorage.getItem('renewalType');
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
         if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
@@ -371,6 +389,22 @@ export class CkycComponent implements OnInit {
       )
       .subscribe((res) => {
         this.documentList = res;
+        if (
+          this.documentList &&
+          this.proposalData?.ckyc_details?.document_type
+        ) {
+          for (let document of this.documentList) {
+            if (
+              document?.document_code ===
+              this.proposalData?.ckyc_details?.document_type
+            ) {
+              this.ckycFormGroup.patchValue({
+                document_type_based_field:
+                  this.proposalData?.ckyc_details?.document_type,
+              });
+            }
+          }
+        }
       });
   }
 
