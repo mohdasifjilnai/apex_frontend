@@ -366,7 +366,7 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((response) => {
         if (response) {
-          const insurers = ['future', 'liberty', 'universal_sompo'];
+          const insurers = ['future', 'liberty', 'universal_sompo','hdfc_ergo'];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.consentSubmitButton = true;
             this.getPrevPolicyDetails(response);
