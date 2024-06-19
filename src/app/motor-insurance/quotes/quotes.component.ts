@@ -206,8 +206,11 @@ export class QuotesComponent implements OnInit {
       }
     });
     this.shareDataService.getIsNotCertifiedData.subscribe((notCertified) => {
-      if (notCertified === 'quote') {
-        this.openVehicleDetailsPopup(null);
+      this.currentPageUrl = this.router.url;
+      if (!this.currentPageUrl.includes('proposal')) {
+        if (notCertified === 'quote') {
+          this.openVehicleDetailsPopup(null);
+        }
       }
     });
   }

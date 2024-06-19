@@ -11,6 +11,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { OtpComponent } from '../otp/otp.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-not-certified',
@@ -43,6 +44,7 @@ export class NotCertifiedComponent implements OnInit {
   hideLogin: boolean = false;
   partnerCodeTraceId: any;
   isQuotePopUp: any;
+  currentPageUrl: any;
   constructor(
     public dialogRef: MatDialogRef<NotCertifiedComponent>,
     public bottomSheetRef: MatBottomSheetRef<NotCertifiedComponent>,
@@ -50,12 +52,18 @@ export class NotCertifiedComponent implements OnInit {
     public sharedDataService: SharedDataService,
     private apiService: ApiService,
     public matDialog: WindowRef,
-    public bottomSheet: MatBottomSheet
+    public bottomSheet: MatBottomSheet,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.currentPageUrl = this.router.url;
     this.sharedDataService.getLoginPartner.subscribe((partner) => {
-      this.isQuotePopUp = partner;
+      if (this.currentPageUrl.includes('proposal')) {
+        this.isQuotePopUp = '';
+      } else {
+        this.isQuotePopUp = partner;
+      }
     });
     this.sharedDataService.previousPolicyDetails$.subscribe((details) => {
       this.previousPolicyDetails = details[0];
