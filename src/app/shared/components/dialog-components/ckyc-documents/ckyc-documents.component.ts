@@ -53,7 +53,6 @@ export class CkycDocumentsComponent implements OnInit {
   documentPOIText: any;
   isTwoObject: boolean = false;
   POAFileName: string = '';
-  POAFileName1: string = '';
   POIFileName: string = '';
   documentUploaded: any;
   documentURl: any;
@@ -147,24 +146,6 @@ Event handler for when a file is selected.
         this.isfileInputError = false;
       }
     }
-    if (fileFormControlName == 'poa_doc_url_1') {
-      doc_type = 'poa';
-      if (
-        !(
-          fileType === 'image/jpeg' ||
-          fileType === 'image/png' ||
-          fileType === 'application/pdf'
-        )
-      ) {
-        this.POAFileName1 = '';
-        this.fileInputError = false;
-        this.isfileInputError = true;
-      } else {
-        this.POAFileName1 = this.fileName;
-        this.fileInputError = false;
-        this.isfileInputError = false;
-      }
-    }
     if (fileFormControlName == 'poi_doc_url') {
       doc_type = 'poi';
       if (
@@ -206,11 +187,6 @@ Event handler for when a file is selected.
       },(error)=>{
         if (fileFormControlName == 'poa_doc_url'){
           this.POAFileName = '';
-          this.fileInputError = false;
-          this.isfileInputError = true;
-        }
-        else if(fileFormControlName == 'poa_doc_url_1'){
-          this.POAFileName1 = '';
           this.fileInputError = false;
           this.isfileInputError = true;
         }
@@ -303,18 +279,11 @@ handles the form submit for uploading the required documents
           poa_no: this.uploadDocumentsForm.get('poa_no')?.value
             ? this.uploadDocumentsForm.get('poa_no')?.value
             : null,
-          pan_number: this.uploadDocumentsForm.get('pan_number')?.value
-          ? this.uploadDocumentsForm.get('pan_number')?.value
-          : null,
           poa_doc_url: this.uploadDocumentsForm.get('poa_doc_url')?.value
             ? this.uploadDocumentsForm.get('poa_doc_url')?.value
             : null,
-          poa_doc_url_1: this.uploadDocumentsForm.get('poa_doc_url_1')?.value
-          ? this.uploadDocumentsForm.get('poa_doc_url_1')?.value
-          : null 
         },
       };
-    
       if(this.uploadDocumentsForm.get('document_type_based_field')?.value=='aadhaar_number'){
         if (
           this.fetchCkycParam['insurer_code'] === 'liberty' ||
