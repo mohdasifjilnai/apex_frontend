@@ -69,6 +69,7 @@ export class CkycDocumentsComponent implements OnInit {
   isfileInputError: boolean = false;
   documentMaxLength: any;
   loader: boolean = false;
+  POAFileName1: string = '';
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -146,6 +147,25 @@ Event handler for when a file is selected.
         this.isfileInputError = false;
       }
     }
+    if (fileFormControlName == 'poa_doc_url_1') {
+      doc_type = 'poa';
+      if (
+        !(
+          fileType === 'image/jpeg' ||
+          fileType === 'image/png' ||
+          fileType === 'application/pdf'
+        )
+      ) {
+        this.POAFileName1 = '';
+        this.fileInputError = false;
+        this.isfileInputError = true;
+      } else {
+        this.POAFileName1 = this.fileName;
+        this.fileInputError = false;
+        this.isfileInputError = false;
+      }
+    }
+
     if (fileFormControlName == 'poi_doc_url') {
       doc_type = 'poi';
       if (
@@ -194,6 +214,11 @@ Event handler for when a file is selected.
           this.POIFileName = '';
           this.PoiFileInputError = false;
           this.isPoiFileInputError = true; 
+        }
+        else if(fileFormControlName == 'poa_doc_url_1'){
+          this.POAFileName1 = '';
+          this.fileInputError = false;
+          this.isfileInputError = true;
         }
       });
   }
@@ -279,9 +304,15 @@ handles the form submit for uploading the required documents
           poa_no: this.uploadDocumentsForm.get('poa_no')?.value
             ? this.uploadDocumentsForm.get('poa_no')?.value
             : null,
+          pan_number: this.uploadDocumentsForm.get('pan_number')?.value
+          ? this.uploadDocumentsForm.get('pan_number')?.value
+          : null,  
           poa_doc_url: this.uploadDocumentsForm.get('poa_doc_url')?.value
             ? this.uploadDocumentsForm.get('poa_doc_url')?.value
             : null,
+          poa_doc_url_1: this.uploadDocumentsForm.get('poa_doc_url_1')?.value
+          ? this.uploadDocumentsForm.get('poa_doc_url_1')?.value
+          : null   
         },
       };
       if(this.uploadDocumentsForm.get('document_type_based_field')?.value=='aadhaar_number'){
@@ -382,10 +413,16 @@ handles the form submit for uploading the required documents
           this.isTwoObject = true;
         }
         const documentNumberBasedField = this.uploadDocumentsForm.get('poa_no');
+        const panNumberValidation = this.uploadDocumentsForm.get('pan_number')?.value;
+        const panNumberValidationField = this.uploadDocumentsForm.get('pan_number');
         const documentTypeValue=this.uploadDocumentsForm.get('document_type_based_field')?.value
         if(documentTypeValue=='pan_number'){
           this.documentMaxLength=10
           documentNumberBasedField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)])
+        }
+        else if(panNumberValidation==''){
+          this.documentMaxLength=10
+          panNumberValidationField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/),Validators.required])
         }
         else if(documentTypeValue=='mobile_number') {
           this.documentMaxLength=10
