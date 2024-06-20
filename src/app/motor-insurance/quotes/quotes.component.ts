@@ -60,6 +60,7 @@ export class QuotesComponent implements OnInit {
     classObtained: 'not-certifiedComponent-class',
   };
   currentPageUrl: any;
+  isPopupClose: boolean = true;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -206,10 +207,13 @@ export class QuotesComponent implements OnInit {
       }
     });
     this.shareDataService.getIsNotCertifiedData.subscribe((notCertified) => {
-      this.currentPageUrl = this.router.url;
-      if (!this.currentPageUrl.includes('proposal')) {
-        if (notCertified === 'quote') {
-          this.openVehicleDetailsPopup(null);
+      if (this.isPopupClose) {
+        this.isPopupClose = false;
+        this.currentPageUrl = this.router.url;
+        if (!this.currentPageUrl.includes('proposal')) {
+          if (notCertified === 'quote') {
+            this.openVehicleDetailsPopup(null);
+          }
         }
       }
     });

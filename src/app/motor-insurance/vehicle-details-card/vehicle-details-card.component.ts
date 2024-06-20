@@ -77,6 +77,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     classObtained: 'not-certifiedComponent-class',
   };
   isPopUp: any;
+  isPopUpClose: boolean = true;
 
   currentPageUrl: any;
 
@@ -127,11 +128,14 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.subscription = this.sharedData.getIsNotCertifiedData.subscribe(
       (notCertified) => {
-        if (notCertified === 'edit') {
-          this.currentPageUrl = this.router.url;
-          if (!this.currentPageUrl.includes('proposal')) {
-            this.openVehicleDetailsPopup(null);
-            this.sharedData.sendVehicleEditData(notCertified);
+        if (this.isPopUpClose) {
+          this.isPopUpClose = false;
+          if (notCertified === 'edit') {
+            this.currentPageUrl = this.router.url;
+            if (!this.currentPageUrl.includes('proposal')) {
+              this.openVehicleDetailsPopup(null);
+              this.sharedData.sendVehicleEditData(notCertified);
+            }
           }
         }
       }
@@ -244,6 +248,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.sharedData.sendLoginPartner('edit');
     }
     this.sharedData.sendVehicleEditData(edit);
+    this.isPopUpClose = true;
   }
 
   /**
