@@ -499,6 +499,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.currentPageUrl == '/'
     ) {
       this.subscription.unsubscribe();
+      sessionStorage.removeItem('vehicleLoginPopup');
     }
   }
 }

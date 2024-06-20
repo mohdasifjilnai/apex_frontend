@@ -209,7 +209,12 @@ export class QuotesComponent implements OnInit {
       }
     });
     this.shareDataService.getIsNotCertifiedData.subscribe((notCertified) => {
-      if (this.isPopupClose) {
+      let vehicleLogin = sessionStorage.getItem('vehicleLoginPopup');
+      // let popupLogin;
+      // if (vehicleLogin) {
+      //   popupLogin = JSON.parse(vehicleLogin);
+      // }
+      if (vehicleLogin == 'true') {
         this.currentPageUrl = this.router.url;
         if (
           !this.currentPageUrl.includes('proposal') &&
@@ -220,6 +225,7 @@ export class QuotesComponent implements OnInit {
           }
         }
         this.isPopupClose = false;
+        sessionStorage.setItem('vehicleLoginPopup', 'false');
       }
     });
   }
@@ -414,6 +420,7 @@ export class QuotesComponent implements OnInit {
    */
   openNotCertifiedPopup(ObjData: any) {
     this.isPopupClose = true;
+    sessionStorage.setItem('vehicleLoginPopup', 'true');
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
