@@ -276,7 +276,7 @@
                 </label>
                 <img
                   src="{{
-                    POAFileName === ''
+                    POAFileName1 === ''
                       ? '/assets/icon/upload.svg'
                       : '/assets/icon/see.svg'
                   }}"
@@ -293,10 +293,10 @@
                   (change)="onFileSelected($event, fields?.value?.label)"
                   [formControlName]="fields?.value?.label"
                 />
-                <div *ngIf="isfileInputError" class="text-danger">
+                <div *ngIf="isfileInputError1" class="text-danger">
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
-                <div *ngIf="fileInputError" class="error-msg">
+                <div *ngIf="fileInputError1" class="error-msg">
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
               </div>

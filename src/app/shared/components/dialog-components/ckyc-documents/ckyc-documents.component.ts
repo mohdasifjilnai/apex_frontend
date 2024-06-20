@@ -64,9 +64,11 @@ export class CkycDocumentsComponent implements OnInit {
   maxDoiDate = new Date();
   minDoiDate = new Date();
   fileInputError: boolean = true;
+  fileInputError1: boolean = true;
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
   isfileInputError: boolean = false;
+  isfileInputError1: boolean = false;
   documentMaxLength: any;
   loader: boolean = false;
   POAFileName1: string = '';
@@ -157,12 +159,12 @@ Event handler for when a file is selected.
         )
       ) {
         this.POAFileName1 = '';
-        this.fileInputError = false;
-        this.isfileInputError = true;
+        this.fileInputError1 = false;
+        this.isfileInputError1 = true;
       } else {
         this.POAFileName1 = this.fileName;
-        this.fileInputError = false;
-        this.isfileInputError = false;
+        this.fileInputError1 = false;
+        this.isfileInputError1 = false;
       }
     }
 
@@ -339,6 +341,15 @@ handles the form submit for uploading the required documents
               }
             }, 300);
           }
+        },(error)=>{
+          this.loader=false
+            setTimeout(() => {
+              if (window.innerWidth <= 999) {
+                this.bottomSheetRef.dismiss();
+              } else {
+                this.dialogRef.close();
+              }
+            }, 300);
         });
     }
   }
