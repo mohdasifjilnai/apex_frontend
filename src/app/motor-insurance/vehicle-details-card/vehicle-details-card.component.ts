@@ -243,9 +243,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      // this.openVehicleDetailsPopup(null);
-      this.openNotCertifiedPopup('Partner_Mapped');
-      this.sharedData.sendLoginPartner('edit');
+      this.openVehicleDetailsPopup(null);
+      // this.openNotCertifiedPopup('Partner_Mapped');
+      // this.sharedData.sendLoginPartner('edit');
     }
     this.sharedData.sendVehicleEditData(edit);
     this.isPopUpClose = true;

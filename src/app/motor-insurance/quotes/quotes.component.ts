@@ -189,9 +189,9 @@ export class QuotesComponent implements OnInit {
       if (!popupData) {
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (quotesUrl) {
-          this.openNotCertifiedPopup('Partner_Mapped');
-          this.shareDataService.sendLoginPartner('quote');
-          // this.openVehicleDetailsPopup(null);
+          // this.openNotCertifiedPopup('Partner_Mapped');
+          // this.shareDataService.sendLoginPartner('quote');
+          this.openVehicleDetailsPopup(null);
         }
       }
     }
