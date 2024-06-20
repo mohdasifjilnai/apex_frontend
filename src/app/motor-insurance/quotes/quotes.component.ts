@@ -60,7 +60,7 @@ export class QuotesComponent implements OnInit {
     classObtained: 'not-certifiedComponent-class',
   };
   currentPageUrl: any;
-  isPopupClose: boolean = true;
+  isPopupClose: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -189,9 +189,11 @@ export class QuotesComponent implements OnInit {
       if (!popupData) {
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (quotesUrl) {
-          // this.openNotCertifiedPopup('Partner_Mapped');
-          // this.shareDataService.sendLoginPartner('quote');
-          this.openVehicleDetailsPopup(null);
+          this.openNotCertifiedPopup('Partner_Mapped');
+
+          this.shareDataService.sendLoginPartner('quote');
+
+          // this.openVehicleDetailsPopup(null);
         }
       }
     }
@@ -208,13 +210,16 @@ export class QuotesComponent implements OnInit {
     });
     this.shareDataService.getIsNotCertifiedData.subscribe((notCertified) => {
       if (this.isPopupClose) {
-        this.isPopupClose = false;
         this.currentPageUrl = this.router.url;
-        if (!this.currentPageUrl.includes('proposal')) {
+        if (
+          !this.currentPageUrl.includes('proposal') &&
+          this.currentPageUrl != '/'
+        ) {
           if (notCertified === 'quote') {
             this.openVehicleDetailsPopup(null);
           }
         }
+        this.isPopupClose = false;
       }
     });
   }
@@ -408,6 +413,7 @@ export class QuotesComponent implements OnInit {
    * this fucntion use open Not Certified Popup modal
    */
   openNotCertifiedPopup(ObjData: any) {
+    this.isPopupClose = true;
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {

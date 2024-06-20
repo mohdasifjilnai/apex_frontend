@@ -77,7 +77,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     classObtained: 'not-certifiedComponent-class',
   };
   isPopUp: any;
-  isPopUpClose: boolean = true;
+  isPopUpClose: any;
 
   currentPageUrl: any;
 
@@ -128,15 +128,16 @@ export class VehicleDetailsCardComponent implements OnInit {
 
     this.subscription = this.sharedData.getIsNotCertifiedData.subscribe(
       (notCertified) => {
-        if (this.isPopUpClose) {
-          this.isPopUpClose = false;
-          if (notCertified === 'edit') {
+        if (notCertified === 'edit' && this.isPopUpClose) {
+          if (this.isPopUpClose) {
             this.currentPageUrl = this.router.url;
             if (!this.currentPageUrl.includes('proposal')) {
               this.openVehicleDetailsPopup(null);
               this.sharedData.sendVehicleEditData(notCertified);
             }
           }
+
+          this.isPopUpClose = false;
         }
       }
     );
@@ -243,9 +244,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      this.openVehicleDetailsPopup(null);
-      // this.openNotCertifiedPopup('Partner_Mapped');
-      // this.sharedData.sendLoginPartner('edit');
+      // this.openVehicleDetailsPopup(null);
+      this.openNotCertifiedPopup('Partner_Mapped');
+      this.sharedData.sendLoginPartner('edit');
     }
     this.sharedData.sendVehicleEditData(edit);
     this.isPopUpClose = true;
@@ -492,8 +493,11 @@ export class VehicleDetailsCardComponent implements OnInit {
 
   ngOnDestroy() {
     this.currentPageUrl = this.router.url;
-    console.log(this.router.url);
-    if (this.currentPageUrl.includes('proposal')) {
+
+    if (
+      this.currentPageUrl.includes('proposal') ||
+      this.currentPageUrl == '/'
+    ) {
       this.subscription.unsubscribe();
     }
   }
