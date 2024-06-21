@@ -1804,7 +1804,7 @@ Get the expiring policy list based on the given date or the registration details
    */
 
   vehcileMake(data: any) {
-    if (data?.length >= 3 && !this.vehicleMakeOninit) {
+    if (data?.length >= 1 && !this.vehicleMakeOninit) {
       this.makeSelected = data;
       this.vehicleDetailsForm.get('vehicle_model')?.reset();
       this.vehicleDetailsForm.get('vehicle_variant')?.reset();
@@ -1828,7 +1828,7 @@ Get the expiring policy list based on the given date or the registration details
    * @returns
    */
   vehcileModel(data: any) {
-    if (data?.length >= 3 && !this.vehicleModelOninit) {
+    if (data?.length >= 1 && !this.vehicleModelOninit) {
       this.modelSelected = data;
       this.vehicleDetailsForm.get('vehicle_variant')?.reset();
       this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
