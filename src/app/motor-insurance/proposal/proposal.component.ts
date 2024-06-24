@@ -106,12 +106,12 @@ export class ProposalComponent implements OnInit {
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = localStorage.getItem('employee_code');
     this.partner_code = localStorage.getItem('partner_code');
-    if(this.partnerCodewithTraceId?.partner_code){
-      this.partner_code=this.partnerCodewithTraceId?.partner_code
+    if (this.partnerCodewithTraceId?.partner_code) {
+      this.partner_code = this.partnerCodewithTraceId?.partner_code;
     }
     this.sharedData.partnerCodeFromApiRes.subscribe((res) => {
       if (res) {
-        this.partner_code=res
+        this.partner_code = res;
       }
     });
     let quoteRequesId = sessionStorage.getItem('quote_request_id');
@@ -552,10 +552,13 @@ export class ProposalComponent implements OnInit {
           }
         }
         const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-        if (Object.keys(kycData).length > 0) {
+        if (
+          Object.keys(kycData).length > 0 &&
+          this.isNonEmptyDetails(proposal?.ckyc_details)
+        ) {
+          this.showVehicleOwnerDetails = true;
           this.accordianExpanded = 'vehicleOwnerDetails';
           this.openDesiredStep(this.accordianExpanded);
-          this.showVehicleOwnerDetails = true;
         }
       }
       if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
@@ -898,7 +901,9 @@ export class ProposalComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
-            this.sharedData.partnerCode(this.getInsurerData?.quote_request?.partner_code)
+            this.sharedData.partnerCode(
+              this.getInsurerData?.quote_request?.partner_code
+            );
           }
 
           this.getNcbList(response.quote_request);
@@ -1129,5 +1134,9 @@ export class ProposalComponent implements OnInit {
     ) {
       event.preventDefault();
     }
+  }
+  isNonEmptyDetails(details: any) {
+    const { is_verification, ...restDetails } = details;
+    return Object.values(restDetails).some((value) => value !== null);
   }
 }
