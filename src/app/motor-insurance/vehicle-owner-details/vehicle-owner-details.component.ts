@@ -140,6 +140,23 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     this.proposerType == 'individual'
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
+    if (
+      this.proposalType !== 'individual' &&
+      JSON.parse(this.quoteData)['insurer_code'] === 'united_india'
+    ) {
+      this.owenerVehicleDetailsForm
+        .get('owner_gstin')
+        ?.setValidators([Validators.required]);
+      this.owenerVehicleDetailsForm
+        .get('owner_gstin')
+        ?.updateValueAndValidity();
+    } else {
+      this.owenerVehicleDetailsForm.get('owner_gstin')?.clearValidators();
+      this.owenerVehicleDetailsForm
+        .get('owner_gstin')
+        ?.updateValueAndValidity();
+    }
+
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (proposal?.customer_details?.full_name) {
