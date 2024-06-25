@@ -212,6 +212,7 @@
                 name="customIDV"
                 (ngModelChange)="chooseIdvData()"
                 appRemoveZeroFromStarting
+                (input)="changeToCurrency()"
               />
             </mat-form-field>
             <div class="col-lg-6 col-md-12 col-6" *ngIf="clearIdvButton">

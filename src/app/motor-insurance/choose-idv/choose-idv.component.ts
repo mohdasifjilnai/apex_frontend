@@ -307,6 +307,7 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
+    this.enableIdvCard=false
     if (!this.enableIdvCard) {
       let formControlIdv = this.chooseIdvForm.value.chooseIdv;
       this.updateIdvButton = true;

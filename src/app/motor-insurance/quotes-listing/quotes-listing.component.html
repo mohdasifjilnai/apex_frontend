@@ -310,7 +310,8 @@
         <div class="d-flex justify-content-around" [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'">
           <div
             class="fixed-btn  d-flex justify-content-center"
-            (click)="enableIdvCard ? null : openChangeIDV()"
+            (click)="carLoader ? null : openChangeIDV()"
+            [ngClass]="carLoader ? 'addonBlur' : 'addonShow'"
           >
             Change IDV
             
