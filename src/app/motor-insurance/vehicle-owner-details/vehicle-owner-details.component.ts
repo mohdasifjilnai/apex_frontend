@@ -141,7 +141,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
     if (
-      this.proposalType !== 'individual' &&
+      sessionStorage.getItem('proposerType') !== 'individual' &&
       JSON.parse(this.quoteData)['insurer_code'] === 'united_india'
     ) {
       this.owenerVehicleDetailsForm
