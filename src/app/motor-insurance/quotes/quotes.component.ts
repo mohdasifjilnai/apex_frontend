@@ -179,22 +179,14 @@ export class QuotesComponent implements OnInit {
       }
     });
     let popupData = sessionStorage.getItem('vehiclePopup');
-    if (window.innerWidth <= 999) {
-      if (!popupData) {
-        this.bottomSheet.open(VehicleDetailsPopupComponent, {
-          disableClose: true, // Disable closing on outside click
-        });
-      }
-    } else {
-      if (!popupData) {
-        let quotesUrl = sessionStorage.getItem('quotesUrl');
-        if (quotesUrl) {
-          this.openNotCertifiedPopup('Partner_Mapped');
+    if (!popupData) {
+      let quotesUrl = sessionStorage.getItem('quotesUrl');
+      if (quotesUrl) {
+        this.openNotCertifiedPopup('Partner_Mapped');
 
-          this.shareDataService.sendLoginPartner('quote');
+        this.shareDataService.sendLoginPartner('quote');
 
-          // this.openVehicleDetailsPopup(null);
-        }
+        // this.openVehicleDetailsPopup(null);
       }
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
@@ -221,7 +213,15 @@ export class QuotesComponent implements OnInit {
           this.currentPageUrl != '/'
         ) {
           if (notCertified === 'quote') {
-            this.openVehicleDetailsPopup(null);
+            if (window.innerWidth <= 999) {
+              
+                this.bottomSheet.open(VehicleDetailsPopupComponent, {
+                  disableClose: true, // Disable closing on outside click
+                });
+              
+            }else{
+              this.openVehicleDetailsPopup(null);
+            }
           }
         }
         this.isPopupClose = false;

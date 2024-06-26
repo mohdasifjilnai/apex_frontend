@@ -132,8 +132,15 @@ export class VehicleDetailsCardComponent implements OnInit {
           if (this.isPopUpClose) {
             this.currentPageUrl = this.router.url;
             if (!this.currentPageUrl.includes('proposal')) {
-              this.openVehicleDetailsPopup(null);
-              this.sharedData.sendVehicleEditData(notCertified);
+              if (window.innerWidth <= 999) {
+                this.bottomSheet.open(VehicleDetailsPopupComponent);
+                this.sharedData.sendVehicleEditData(notCertified);
+              } else {
+                // this.openVehicleDetailsPopup(null);
+                this.openVehicleDetailsPopup(null);
+                this.sharedData.sendVehicleEditData(notCertified);
+              }
+              
             }
           }
 
@@ -241,13 +248,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     }
   }
   openDialog(edit: string): void {
-    if (window.innerWidth <= 999) {
-      this.bottomSheet.open(VehicleDetailsPopupComponent);
-    } else {
-      // this.openVehicleDetailsPopup(null);
-      this.openNotCertifiedPopup('Partner_Mapped');
-      this.sharedData.sendLoginPartner('edit');
-    }
+    
+    this.openNotCertifiedPopup('Partner_Mapped');
+    this.sharedData.sendLoginPartner('edit');
     this.sharedData.sendVehicleEditData(edit);
     this.isPopUpClose = true;
   }
