@@ -158,6 +158,14 @@ export class CkycComponent implements OnInit {
               this.ckycFormGroup.patchValue({
                 document_type_based_field:
                   this.proposalData?.ckyc_details?.document_type,
+                document_number_based_field:
+                  this.proposalData?.ckyc_details?.document_number,
+                dob: moment(
+                  this.proposalData?.ckyc_details?.dob,
+                  'DD/MM/YYYY'
+                ).toDate(),
+                ckyc_full_name: this.proposalData?.ckyc_details?.full_name,
+                ckyc_gender: this.proposalData?.ckyc_details?.gender,
               });
             }
           }
@@ -401,6 +409,14 @@ export class CkycComponent implements OnInit {
               this.ckycFormGroup.patchValue({
                 document_type_based_field:
                   this.proposalData?.ckyc_details?.document_type,
+                document_number_based_field:
+                  this.proposalData?.ckyc_details?.document_number,
+                dob: moment(
+                  this.proposalData?.ckyc_details?.dob,
+                  'DD/MM/YYYY'
+                ).toDate(),
+                ckyc_full_name: this.proposalData?.ckyc_details?.full_name,
+                ckyc_gender: this.proposalData?.ckyc_details?.gender,
               });
             }
           }
