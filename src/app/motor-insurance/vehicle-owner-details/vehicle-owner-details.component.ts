@@ -61,10 +61,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   addresLength: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
-    owner_full_Name: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z\s]*$/),
-    ]),
+    owner_full_Name: new FormControl(''),
     owner_email: new FormControl('', [
       Validators.required,
       Validators.pattern(/^.+@.+[.].+$/),
@@ -155,6 +152,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.owenerVehicleDetailsForm
         .get('owner_gstin')
         ?.updateValueAndValidity();
+    }
+    if (sessionStorage.getItem('proposerType') !== 'individual') {
+      this.owenerVehicleDetailsForm
+        .get('owner_full_Name')
+        ?.setValidators([Validators.required]);
+    } else {
+      [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)];
     }
 
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
