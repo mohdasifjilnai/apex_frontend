@@ -239,6 +239,10 @@ export class ChooseIDVComponent implements OnInit {
   }
 
   updateIdv() {
+    this.enableIdvCard=true
+    setTimeout(() => {
+      this.enableIdvCard = false;
+    }, 50000);
     if (this.selectedIDVOption) {
       // this.sharedDataService.sendCarLoaderMessage(0);
       if (window.innerWidth <= 999) {
@@ -307,8 +311,10 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
-    this.enableIdvCard=false
     if (!this.enableIdvCard) {
+      setTimeout(() => {
+        this.enableIdvCard = false;
+      }, 50000);
       let formControlIdv = this.chooseIdvForm.value.chooseIdv;
       this.updateIdvButton = true;
       if (parseInt(formControlIdv) < parseInt(this.minIdv)) {

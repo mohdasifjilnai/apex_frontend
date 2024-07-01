@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
@@ -23,10 +24,12 @@ export class RegistrationNumberComponent implements OnInit {
   @Input() registrationNumber!: string;
   @Input() isRegistrationNumber: any;
   vehicleNotFound: any;
+  regNo: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private fb: FormBuilder,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +46,9 @@ export class RegistrationNumberComponent implements OnInit {
     } else {
       this.form.addControl('registration_number', new FormControl());
     }
+    this.form.patchValue({
+      registration_number: this.registrationNumber
+    });
   }
   inputValue: string = '';
   /**

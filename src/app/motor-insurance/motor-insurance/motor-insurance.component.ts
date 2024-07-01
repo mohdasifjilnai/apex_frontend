@@ -120,6 +120,7 @@ export class MotorInsuranceComponent implements OnInit {
   cse: any;
   partner_code: any;
   isPartnerPOSStatus: boolean=false;
+  regNo: any;
 
   constructor(
     private router: Router,
@@ -128,7 +129,8 @@ export class MotorInsuranceComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // if (window.innerWidth <= 768) {
@@ -375,7 +377,28 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
-    
+    this.route.queryParamMap.subscribe(params => {
+      this.regNo = params.get('reg_no');
+      if(this.regNo!=null){
+        let value = this.regNo;
+      value = value.replace(/\s/g, '');
+      const sanitizedValue = value.replace(/-/g, '');
+      if (sanitizedValue.length < 7) {
+        const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
+        value = formattedValue.replace(/-$/, '');
+      } else {
+        const prefix = sanitizedValue.substring(0, 2);
+        const prefix2 = sanitizedValue.substring(2, 4);
+        const postfix = sanitizedValue.substring(4);
+        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
+        value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
+      }
+      value = value.replace(/^-|-$/g, '');
+      value = value.replace(/--+/g, '-');
+      this.regNo = value;
+      this.getVehicleDetails();
+      }
+    });
   }
   monthDiff = (d1: any, d2: any) => {
     let months;
