@@ -512,6 +512,215 @@
             </div>
           </ng-container>
         </ng-container>
+        <ng-container *ngIf="showOther">
+          <div class="col-12 mt-4">
+            <p [ngClass]="{ 'text-center': !isTwoObject }">
+              {{ documentOtherText }}
+            </p>
+          </div>
+
+          <ng-container
+            *ngFor="let fields of formFieldOther | keyvalue; let i = index"
+          >
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="fields?.value?.data_type === 'dropdown'"
+            >
+              <mat-form-field
+                appearance="outline"
+                class="document-list mat-input-custom"
+              >
+                <mat-label>{{ fields?.value?.name }}</mat-label>
+                <mat-select
+                  [formControlName]="fields?.value?.lable"
+                  (selectionChange)="
+                    onSelectionChange($event, fields?.value?.label)
+                  "
+                >
+                  <mat-option
+                    *ngFor="let list of fields?.value?.dropdown_list"
+                    [value]="list?.key"
+                  >
+                    {{ list?.value }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="fields?.value?.data_type === 'string'"
+            >
+              <mat-form-field
+                appearance="outline"
+                class="document_number mat-input-custom"
+              >
+                <mat-label>{{ fields?.value?.name }}</mat-label>
+                <input
+                  [formControlName]="fields?.value?.label"
+                  matInput
+                  aria-label="document_number"
+                  class="text-uppercase"
+                />
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'dob'
+              "
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fields?.value?.name }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="dobDate"
+                  [formControlName]="fields?.value?.label"
+                  #dobDateInput
+                  appDateFormat
+                  [max]="maxDate"
+                  [min]="minDate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="dobDate">
+                  <mat-icon matDatepickerToggleIcon>
+                    <img
+                      src="/assets/icon/calendar.svg"
+                      class="cursor-pointer mb-2"
+                      alt="calendar"
+                    />
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker
+                  #dobDate
+                  startView="multi-year"
+                  id-automation="`${fields?.value?.name}`_id"
+                ></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="
+                fields?.value?.data_type === 'date' &&
+                fields?.value?.label === 'doi'
+              "
+            >
+              <mat-form-field appearance="outline">
+                <mat-label>{{ fields?.value?.name }} </mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="doiDate"
+                  [formControlName]="fields?.value?.label"
+                  #doiDateInput
+                  appDateFormat
+                  [max]="maxDoiDate"
+                  [min]="minDoiDate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="doiDate">
+                  <mat-icon matDatepickerToggleIcon>
+                    <img
+                      src="/assets/icon/calendar.svg"
+                      class="cursor-pointer mb-2"
+                      alt="calendar"
+                    />
+                  </mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker
+                  #doiDate
+                  startView="multi-year"
+                  id-automation="`${fields?.value?.name}`_id"
+                ></mat-datepicker>
+                <mat-error
+                  *ngIf="
+                    uploadDocumentsForm
+                      .get(fields?.value?.label)
+                      ?.hasError('required')
+                  "
+                >
+                  This is a required field.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div
+              [ngClass]="{
+                'col-12 col-lg-4': isTwoObject,
+                'col-12 col-lg-12': !isTwoObject
+              }"
+              *ngIf="fields?.value?.data_type === 'upload'"
+            >
+              <div class="form-group">
+                <label class="lable-file-input" for="fileInputOther">
+                  <p class="file-input-text">
+                    {{ OtherFileName == "" ? fields?.value?.name : OtherFileName }}
+                  </p>
+                </label>
+                <img
+                  src="{{
+                    OtherFileName === ''
+                      ? '/assets/icon/upload.svg'
+                      : '/assets/icon/see.svg'
+                  }}"
+                  alt=""
+                  class="upload-doc-image"
+                  (click)="
+                    OtherFileName === '' ? null : checkUploadDocment(documentURl)
+                  "
+                />
+                <input
+                  type="file"
+                  id="fileInputOther"
+                  class="form-control-file"
+                  (change)="onFileSelected($event, fields?.value?.label)"
+                  [formControlName]="fields?.value?.label"
+                />
+                <div *ngIf="PoiFileInputError" class="error-msg">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+                <div *ngIf="isPoiFileInputError" class="text-danger">
+                  Please upload an image (JPG/PNG) or a PDF file.
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
       </div>
       <div [hidden]="isUploadDocment">
       <div class="d-flex justify-content-center mt-3" >

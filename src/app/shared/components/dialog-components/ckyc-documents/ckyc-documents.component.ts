@@ -54,6 +54,7 @@ export class CkycDocumentsComponent implements OnInit {
   isTwoObject: boolean = false;
   POAFileName: string = '';
   POIFileName: string = '';
+  OtherFileName:string = '';
   documentUploaded: any;
   documentURl: any;
   fileControlName: string = '';
@@ -72,6 +73,9 @@ export class CkycDocumentsComponent implements OnInit {
   documentMaxLength: any;
   loader: boolean = false;
   POAFileName1: string = '';
+  showOther: boolean=false;
+  formFieldOther: Record<string, any> = {};
+  documentOtherText: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -163,6 +167,24 @@ Event handler for when a file is selected.
         this.isfileInputError1 = true;
       } else {
         this.POAFileName1 = this.fileName;
+        this.fileInputError1 = false;
+        this.isfileInputError1 = false;
+      }
+    }
+    if (fileFormControlName == 'photograph_url_for_indivisual') {
+      doc_type = 'other';
+      if (
+        !(
+          fileType === 'image/jpeg' ||
+          fileType === 'image/png' ||
+          fileType === 'application/pdf'
+        )
+      ) {
+        this.OtherFileName = '';
+        this.fileInputError1 = false;
+        this.isfileInputError1 = true;
+      } else {
+        this.OtherFileName = this.fileName;
         this.fileInputError1 = false;
         this.isfileInputError1 = false;
       }
@@ -316,6 +338,14 @@ handles the form submit for uploading the required documents
           ? this.uploadDocumentsForm.get('poa_doc_url_1')?.value
           : null   
         },
+        other: {
+          photograph:{
+            photograph_url_for_indivisual: this.uploadDocumentsForm.get('photograph_url_for_indivisual')?.value
+          ? this.uploadDocumentsForm.get('photograph_url_for_indivisual')?.value
+          : null 
+          }
+              
+        },
       };
       if(this.uploadDocumentsForm.get('document_type_based_field')?.value=='aadhaar_number'){
         if (
@@ -416,6 +446,17 @@ handles the form submit for uploading the required documents
           for (let field in this.formFieldPOI) {
             this.uploadDocumentsForm.addControl(
               this.formFieldPOI[field]?.label,
+              new FormControl('', Validators.required)
+            );
+          }
+        }
+        if (res['other']) {
+          this.formFieldOther = res?.other['photograph'];
+          this.showOther = true;
+          this.documentOtherText = `Please complete your other details`;
+          for (let field in this.formFieldOther) {
+            this.uploadDocumentsForm.addControl(
+              this.formFieldOther[field]?.label,
               new FormControl('', Validators.required)
             );
           }
