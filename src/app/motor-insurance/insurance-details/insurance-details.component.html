@@ -194,6 +194,7 @@
       </span>
     </div>
     <div class="mt-2" *ngFor="let addons of addonsList">
+      <ng-container *ngIf="addons.is_offered">
       <div
         class="d-flex justify-content-between mt-1 w-100"
         *ngIf="
@@ -202,21 +203,22 @@
           addons.add_on_code != 'CPA5'
         "
       >
-        <span class="od-value od-name" *ngIf="addons.is_offered">{{
+        <span class="od-value od-name" >{{
           addons.add_on_name | titlecase
         }}</span>
         <span
           class="od-value"
-          *ngIf="addons.is_offered"
-          [hidden]="addons?.is_offered && addons?.add_on_premium == 0"
+          
+          [hidden]="addons?.add_on_premium == 0"
           >&#x20B9; {{ addons.add_on_premium }}</span
         >
         <span
-          *ngIf="addons?.is_offered && addons?.add_on_premium == 0"
+          *ngIf="addons?.add_on_premium == 0"
           class="included"
           >Included</span
         >
       </div>
+    </ng-container>
     </div>
   </div>
   <!-- <div class="col-12 policy" *ngIf="!reviewURL">
