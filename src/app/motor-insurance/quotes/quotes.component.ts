@@ -9,6 +9,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
+import { IdleService } from 'src/app/core/services/idle.service';
 
 @Component({
   selector: 'app-quotes',
@@ -70,7 +71,8 @@ export class QuotesComponent implements OnInit {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private shareDataService: SharedDataService,
-    private routerData: ActivatedRoute
+    private routerData: ActivatedRoute,
+    private idleService: IdleService
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -99,6 +101,7 @@ export class QuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idleService.startWatching();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
 
@@ -229,6 +232,9 @@ export class QuotesComponent implements OnInit {
       }
     });
   }
+  ngOnDestroy(): void {
+    this.idleService.stopWatching();
+  } 
   receivedData: any;
   // receivedCheckBoxValue: any;
   // receiveDataFromChild(data: string) {

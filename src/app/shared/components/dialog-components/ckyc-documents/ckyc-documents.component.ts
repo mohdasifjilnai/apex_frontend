@@ -76,6 +76,7 @@ export class CkycDocumentsComponent implements OnInit {
   showOther: boolean=false;
   formFieldOther: Record<string, any> = {};
   documentOtherText: any;
+  isIndividualTrue: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -268,6 +269,7 @@ Event handler for when a file is selected.
       .subscribe((res) => {
         this.documentList = res;
       });
+      this.isIndividualTrue=fetchCkycParam.isProposerTrue
   }
   /**
    * Closes the dialog and returns any data passed to the dialog.
@@ -451,7 +453,8 @@ handles the form submit for uploading the required documents
           }
         }
         if (res['other']) {
-          this.formFieldOther = res?.other['photograph'];
+          if(this.isIndividualTrue && this.fetchCkycParam['insurer_code'] === 'iffco'){
+            this.formFieldOther = res?.other['photograph'];
           this.showOther = true;
           this.documentOtherText = `Please complete your other details`;
           for (let field in this.formFieldOther) {
@@ -459,6 +462,7 @@ handles the form submit for uploading the required documents
               this.formFieldOther[field]?.label,
               new FormControl('', Validators.required)
             );
+          }
           }
         }
         if (res['poa'] && res['poi']) {
