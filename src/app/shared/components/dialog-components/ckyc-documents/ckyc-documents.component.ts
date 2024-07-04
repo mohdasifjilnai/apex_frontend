@@ -172,7 +172,7 @@ Event handler for when a file is selected.
         this.isfileInputError1 = false;
       }
     }
-    if (fileFormControlName == 'photograph_url_for_indivisual') {
+    if (fileFormControlName == 'doc_url') {
       doc_type = 'other';
       if (
         !(
