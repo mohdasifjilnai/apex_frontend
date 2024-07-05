@@ -147,7 +147,7 @@ export class QuotesListingComponent implements OnInit {
   renewalType: any;
   insurerCode: any;
   renewalDataList = false;
-  carLoader: boolean=true;
+  carLoader: boolean = true;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -168,6 +168,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     // sessionStorage.removeItem('gstValue');
+
     if (sessionStorage.getItem('sortObjectkey') == null) {
       sessionStorage.setItem('sortObjectkey', 'low');
     }
@@ -196,11 +197,11 @@ export class QuotesListingComponent implements OnInit {
     this.sharedDataService.enableCarLoader.subscribe((idvData) => {
       this.carLoader = true;
       setTimeout(() => {
-        if(this.carLoader){
+        if (this.carLoader) {
           this.carLoader = false;
         }
       }, 50000);
-    })
+    });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
       this.quotationData = [];
@@ -353,57 +354,63 @@ export class QuotesListingComponent implements OnInit {
   }
 
   getProposalType() {
-    if (this.proposalTypeValueOninit) {
-      this.proposalTypeValueOninit = false;
-      this.apiService
-        .getRequestedResponse(`${ApiConstants.proposal_type}`)
-        .subscribe((res: any) => {
-          if (res) {
-            this.proposalList = res;
-            if (this.registrationNumberData) {
-              let proposalTypeValue = sessionStorage.getItem('proposerType');
-              if (!proposalTypeValue) {
-                this.owner_type = this.registrationNumberData.customer_type;
-                for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                  if (this.proposalList[i].proposer_name == this.owner_type) {
-                    this.quotesListing.patchValue({
-                      proposalType: this.proposalList[i].proposer_id,
-                    });
-                  }
-                }
-                sessionStorage.setItem('proposerType', this.owner_type);
-              } else {
-                this.owner_type = proposalTypeValue;
-                for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                  if (this.proposalList[i].proposer_name == this.owner_type) {
-                    this.quotesListing.patchValue({
-                      proposalType: this.proposalList[i].proposer_id,
-                    });
-                  }
+    this.proposalTypeValueOninit = false;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.proposal_type}`)
+      .subscribe((res: any) => {
+        if (res) {
+          this.proposalList = res;
+          if (this.registrationNumberData) {
+            let proposalTypeValue = sessionStorage.getItem('proposerType');
+            if (!proposalTypeValue) {
+              this.owner_type = this.registrationNumberData.customer_type;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
                 }
               }
-            } else {
-              let proposalTypeValue = sessionStorage.getItem('proposerType');
-              if (!proposalTypeValue) {
-                this.owner_type = this.proposalList[0]?.proposer_name;
-                this.quotesListing.patchValue({
-                  proposalType: this.proposalList[0].proposer_id,
-                });
+              if (this.owner_type) {
                 sessionStorage.setItem('proposerType', this.owner_type);
               } else {
-                this.owner_type = proposalTypeValue;
-                for (let i = 0; i <= this.proposalList.length - 1; i++) {
-                  if (this.proposalList[i].proposer_name == this.owner_type) {
-                    this.quotesListing.patchValue({
-                      proposalType: this.proposalList[i].proposer_id,
-                    });
-                  }
+                sessionStorage.setItem(
+                  'proposerType',
+                  this.proposalList[0]?.proposer_name
+                );
+              }
+            } else {
+              this.owner_type = proposalTypeValue;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
+                }
+              }
+            }
+          } else {
+            let proposalTypeValue = sessionStorage.getItem('proposerType');
+            if (!proposalTypeValue) {
+              this.owner_type = this.proposalList[0]?.proposer_name;
+              this.quotesListing.patchValue({
+                proposalType: this.proposalList[0].proposer_id,
+              });
+              sessionStorage.setItem('proposerType', this.owner_type);
+            } else {
+              this.owner_type = proposalTypeValue;
+              for (let i = 0; i <= this.proposalList.length - 1; i++) {
+                if (this.proposalList[i].proposer_name == this.owner_type) {
+                  this.quotesListing.patchValue({
+                    proposalType: this.proposalList[i].proposer_id,
+                  });
                 }
               }
             }
           }
-        });
-    }
+        }
+      });
+    // }
   }
 
   /**
@@ -947,79 +954,79 @@ export class QuotesListingComponent implements OnInit {
     if (window.innerWidth <= 999) {
       const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
       if (position >= 630) {
-        return `translateX(630%)`; 
-      }else{
+        return `translateX(630%)`;
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1000 && window.innerWidth <= 1100) {
       const position = this.progressValue * 14; // Adjust the multiplier based on your desired movement
       if (position >= 1360) {
-        return `translateX(1360%)`; 
-      }else{
+        return `translateX(1360%)`;
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
       const position = this.progressValue * 15;
       if (position >= 1455) {
         return `translateX(1455%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
       const position = this.progressValue * 17;
       if (position >= 1650) {
         return `translateX(1650%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
-       // Adjust the multiplier based on your desired movement
+      // Adjust the multiplier based on your desired movement
     } else if (window.innerWidth > 1400 && window.innerWidth <= 1500) {
       const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
       if (position >= 1840) {
         return `translateX(1840%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
       const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
       if (position >= 1940) {
         return `translateX(1940%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
       const position = this.progressValue * 21; // Adjust the multiplier based on your desired movement
       if (position >= 2030) {
         return `translateX(2030%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
       const position = this.progressValue * 23; // Adjust the multiplier based on your desired movement
       if (position >= 2230) {
         return `translateX(2230%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
       const position = this.progressValue * 25; // Adjust the multiplier based on your desired movement
       if (position >= 2425) {
         return `translateX(2425%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
       const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
       if (position >= 2660) {
         return `translateX(2660%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     } else {
       const position = this.progressValue * 33; // Adjust the multiplier based on your desired movement
       if (position >= 3201) {
         return `translateX(3201%)`;
-      }else{
+      } else {
         return `translateX(${position}%)`;
       }
     }
