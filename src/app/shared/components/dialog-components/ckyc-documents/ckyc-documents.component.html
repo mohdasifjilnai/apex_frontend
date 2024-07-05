@@ -236,7 +236,10 @@
               }"
               *ngIf="fields?.value?.data_type === 'upload'"
             >
-              <div class="form-group" *ngIf="fields?.value?.label === 'poa_doc_url'">
+              <div
+                class="form-group"
+                *ngIf="fields?.value?.label === 'poa_doc_url'"
+              >
                 <label class="lable-file-input" for="fileInput">
                   <p class="file-input-text">
                     {{ POAFileName == "" ? fields?.value?.name : POAFileName }}
@@ -251,7 +254,9 @@
                   alt=""
                   class="upload-doc-image"
                   (click)="
-                    POAFileName === '' ? null : checkUploadDocment(documentURl)
+                    POAFileName === ''
+                      ? null
+                      : checkUploadDocment(documentURlPOA)
                   "
                 />
                 <input
@@ -268,10 +273,15 @@
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
               </div>
-              <div class="form-group mt-2" *ngIf="fields?.value?.label === 'poa_doc_url_1'">
+              <div
+                class="form-group mt-2"
+                *ngIf="fields?.value?.label === 'poa_doc_url_1'"
+              >
                 <label class="lable-file-input" for="fileInput1">
                   <p class="file-input-text">
-                    {{ POAFileName1 == "" ? fields?.value?.name : POAFileName1 }}
+                    {{
+                      POAFileName1 == "" ? fields?.value?.name : POAFileName1
+                    }}
                   </p>
                 </label>
                 <img
@@ -283,7 +293,9 @@
                   alt=""
                   class="upload-doc-image"
                   (click)="
-                    POAFileName1 === '' ? null : checkUploadDocment(documentURl)
+                    POAFileName1 === ''
+                      ? null
+                      : checkUploadDocment(documentURlPOA)
                   "
                 />
                 <input
@@ -492,7 +504,9 @@
                   alt=""
                   class="upload-doc-image"
                   (click)="
-                    POIFileName === '' ? null : checkUploadDocment(documentURl)
+                    POIFileName === ''
+                      ? null
+                      : checkUploadDocment(documentURlPOI)
                   "
                 />
                 <input
@@ -689,7 +703,9 @@
               <div class="form-group">
                 <label class="lable-file-input" for="fileInputOther">
                   <p class="file-input-text">
-                    {{ OtherFileName == "" ? fields?.value?.name : OtherFileName }}
+                    {{
+                      OtherFileName == "" ? fields?.value?.name : OtherFileName
+                    }}
                   </p>
                 </label>
                 <img
@@ -701,7 +717,9 @@
                   alt=""
                   class="upload-doc-image"
                   (click)="
-                    OtherFileName === '' ? null : checkUploadDocment(documentURl)
+                    OtherFileName === ''
+                      ? null
+                      : checkUploadDocment(documentURlOther)
                   "
                 />
                 <input
@@ -723,22 +741,22 @@
         </ng-container>
       </div>
       <div [hidden]="isUploadDocment">
-      <div class="d-flex justify-content-center mt-3" >
-        <button
-          class="submit-btn continue"
-          [disabled]="!uploadDocumentsForm.valid"
-          type="submit"
-        ><img
-        src="/assets/gif/button-loader.gif"
-        alt="close"
-        class="loader me-1"
-        *ngIf="loader"
-        
-      />
-          Continue
-        </button>
+        <div class="d-flex justify-content-center mt-3">
+          <button
+            class="submit-btn continue"
+            [disabled]="!uploadDocumentsForm.valid"
+            type="submit"
+          >
+            <img
+              src="/assets/gif/button-loader.gif"
+              alt="close"
+              class="loader me-1"
+              *ngIf="loader"
+            />
+            Continue
+          </button>
+        </div>
       </div>
-    </div>
       <ng-container>
         <div class="col-12" [hidden]="!isUploadDocment">
           <div class="image-main">

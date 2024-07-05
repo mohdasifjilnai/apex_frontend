@@ -54,7 +54,7 @@ export class CkycDocumentsComponent implements OnInit {
   isTwoObject: boolean = false;
   POAFileName: string = '';
   POIFileName: string = '';
-  OtherFileName:string = '';
+  OtherFileName: string = '';
   documentUploaded: any;
   documentURl: any;
   fileControlName: string = '';
@@ -73,10 +73,14 @@ export class CkycDocumentsComponent implements OnInit {
   documentMaxLength: any;
   loader: boolean = false;
   POAFileName1: string = '';
-  showOther: boolean=false;
+  showOther: boolean = false;
   formFieldOther: Record<string, any> = {};
   documentOtherText: any;
   isIndividualTrue: any;
+  docTypeData: any;
+  documentURlPOI: any;
+  documentURlPOA: any;
+  documentURlOther: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -132,12 +136,14 @@ Event handler for when a file is selected.
     this.fileControlName = fileFormControlName;
     const fileType = selectedFile.type;
     let doc_type;
+    this.docTypeData = '';
     this.fileName =
       selectedFile.name.length > 20
         ? selectedFile.name.substring(0, 20) + '...'
         : selectedFile.name;
     if (fileFormControlName == 'poa_doc_url') {
       doc_type = 'poa';
+      this.docTypeData = 'poa';
       if (
         !(
           fileType === 'image/jpeg' ||
@@ -156,6 +162,7 @@ Event handler for when a file is selected.
     }
     if (fileFormControlName == 'poa_doc_url_1') {
       doc_type = 'poa';
+      this.docTypeData = 'poa';
       if (
         !(
           fileType === 'image/jpeg' ||
@@ -174,6 +181,7 @@ Event handler for when a file is selected.
     }
     if (fileFormControlName == 'doc_url') {
       doc_type = 'other';
+      this.docTypeData = 'other';
       if (
         !(
           fileType === 'image/jpeg' ||
@@ -193,6 +201,7 @@ Event handler for when a file is selected.
 
     if (fileFormControlName == 'poi_doc_url') {
       doc_type = 'poi';
+      this.docTypeData = 'poi';
       if (
         !(
           fileType === 'image/jpeg' ||
@@ -216,36 +225,44 @@ Event handler for when a file is selected.
         `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
         formData
       )
-      ?.subscribe((res) => {
-        if (res['status']) {
-          if (isReupload) {
-            this.isReUploadDocument = true;
-            this.checkUploadDocment(res['document_url']);
+      ?.subscribe(
+        (res) => {
+          if (res['status']) {
+            if (isReupload) {
+              this.isReUploadDocument = true;
+              this.checkUploadDocment(res['document_url']);
+            }
+            if (this.docTypeData == 'poi') {
+              this.documentURlPOI = res['document_url'];
+            } else if (this.docTypeData == 'poa') {
+              this.documentURlPOA = res['document_url'];
+            } else if (this.docTypeData == 'other') {
+              this.documentURlOther = res['document_url'];
+            }
+
+            this.uploadDocumentsForm
+              .get(fileFormControlName)
+              ?.setValue(res['document_url']);
+          } else {
+            this.apiService.errorHandler(res);
           }
-          this.documentURl = res['document_url'];
-          this.uploadDocumentsForm
-            .get(fileFormControlName)
-            ?.setValue(res['document_url']);
-        } else {
-          this.apiService.errorHandler(res);
+        },
+        (error) => {
+          if (fileFormControlName == 'poa_doc_url') {
+            this.POAFileName = '';
+            this.fileInputError = false;
+            this.isfileInputError = true;
+          } else if (fileFormControlName == 'poi_doc_url') {
+            this.POIFileName = '';
+            this.PoiFileInputError = false;
+            this.isPoiFileInputError = true;
+          } else if (fileFormControlName == 'poa_doc_url_1') {
+            this.POAFileName1 = '';
+            this.fileInputError = false;
+            this.isfileInputError = true;
+          }
         }
-      },(error)=>{
-        if (fileFormControlName == 'poa_doc_url'){
-          this.POAFileName = '';
-          this.fileInputError = false;
-          this.isfileInputError = true;
-        }
-        else if(fileFormControlName == 'poi_doc_url'){
-          this.POIFileName = '';
-          this.PoiFileInputError = false;
-          this.isPoiFileInputError = true; 
-        }
-        else if(fileFormControlName == 'poa_doc_url_1'){
-          this.POAFileName1 = '';
-          this.fileInputError = false;
-          this.isfileInputError = true;
-        }
-      });
+      );
   }
   /**
    * Event handler for when a file is selected.
@@ -269,7 +286,7 @@ Event handler for when a file is selected.
       .subscribe((res) => {
         this.documentList = res;
       });
-      this.isIndividualTrue=fetchCkycParam.isProposerTrue
+    this.isIndividualTrue = fetchCkycParam.isProposerTrue;
   }
   /**
    * Closes the dialog and returns any data passed to the dialog.
@@ -286,9 +303,8 @@ handles the form submit for uploading the required documents
 @param valid - boolean value indicating if the form is valid or not
  */
   submitUploadDocumentsForm(valid: boolean) {
-
     if (valid && !this.loader) {
-      this.loader=true
+      this.loader = true;
       let body = {
         proposal_id: this.proposalId,
         transaction_id: this.transactionId,
@@ -300,9 +316,9 @@ handles the form submit for uploading the required documents
               'dd/MM/yyyy'
             )
           : this.datePipe.transform(
-            this.uploadDocumentsForm.get('doi')?.value,
-            'dd/MM/yyyy'
-          ),
+              this.uploadDocumentsForm.get('doi')?.value,
+              'dd/MM/yyyy'
+            ),
         family_member_name: this.uploadDocumentsForm.get('family_member_name')
           ?.value
           ? this.uploadDocumentsForm.get('family_member_name')?.value
@@ -331,50 +347,55 @@ handles the form submit for uploading the required documents
             ? this.uploadDocumentsForm.get('poa_no')?.value
             : null,
           pan_number: this.uploadDocumentsForm.get('pan_number')?.value
-          ? this.uploadDocumentsForm.get('pan_number')?.value
-          : null,  
+            ? this.uploadDocumentsForm.get('pan_number')?.value
+            : null,
           poa_doc_url: this.uploadDocumentsForm.get('poa_doc_url')?.value
             ? this.uploadDocumentsForm.get('poa_doc_url')?.value
             : null,
           poa_doc_url_1: this.uploadDocumentsForm.get('poa_doc_url_1')?.value
-          ? this.uploadDocumentsForm.get('poa_doc_url_1')?.value
-          : null   
+            ? this.uploadDocumentsForm.get('poa_doc_url_1')?.value
+            : null,
         },
         other: {
-          photograph:{
+          photograph: {
             doc_url: this.uploadDocumentsForm.get('doc_url')?.value
-          ? this.uploadDocumentsForm.get('doc_url')?.value
-          : null 
-          }
-              
+              ? this.uploadDocumentsForm.get('doc_url')?.value
+              : null,
+          },
         },
       };
-      if(this.uploadDocumentsForm.get('document_type_based_field')?.value=='aadhaar_number'){
+      if (
+        this.uploadDocumentsForm.get('document_type_based_field')?.value ==
+        'aadhaar_number'
+      ) {
         if (
           this.fetchCkycParam['insurer_code'] === 'liberty' ||
           this.fetchCkycParam['insurer_code'] === 'future' ||
           this.fetchCkycParam['insurer_code'] === 'sbi_general' ||
           this.fetchCkycParam['insurer_code'] === 'universal_sompo'
-        ){
-          body.poa_document.poa_no=this.uploadDocumentsForm.get('poa_no')?.value.slice(-4)
+        ) {
+          body.poa_document.poa_no = this.uploadDocumentsForm
+            .get('poa_no')
+            ?.value.slice(-4);
         }
-        
       }
       this.apiService
         .postRequestedResponse(`${ApiConstants.upload_document_save}`, body)
-        .subscribe((response) => {
-          if (response) {
-            this.loader=false
-            setTimeout(() => {
-              if (window.innerWidth <= 999) {
-                this.bottomSheetRef.dismiss(response);
-              } else {
-                this.dialogRef.close(response);
-              }
-            }, 300);
-          }
-        },(error)=>{
-          this.loader=false
+        .subscribe(
+          (response) => {
+            if (response) {
+              this.loader = false;
+              setTimeout(() => {
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss(response);
+                } else {
+                  this.dialogRef.close(response);
+                }
+              }, 300);
+            }
+          },
+          (error) => {
+            this.loader = false;
             setTimeout(() => {
               if (window.innerWidth <= 999) {
                 this.bottomSheetRef.dismiss();
@@ -382,7 +403,8 @@ handles the form submit for uploading the required documents
                 this.dialogRef.close();
               }
             }, 300);
-        });
+          }
+        );
     }
   }
   /**
@@ -393,6 +415,7 @@ handles the form submit for uploading the required documents
     this.isUploadDocment = true;
     this.showPOA = false;
     this.showPOI = false;
+    this.document_url = '';
     this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService
@@ -429,7 +452,7 @@ handles the form submit for uploading the required documents
       )
       .subscribe((res) => {
         this.formGetData = res;
-        
+
         if (res['poa']) {
           this.formFieldPOA = res['poa'];
           this.showPOA = true;
@@ -453,58 +476,80 @@ handles the form submit for uploading the required documents
           }
         }
         if (res['other']) {
-          if(this.isIndividualTrue && this.fetchCkycParam['insurer_code'] === 'iffco'){
+          if (
+            this.isIndividualTrue &&
+            this.fetchCkycParam['insurer_code'] === 'iffco'
+          ) {
             this.formFieldOther = res?.other['photograph'];
-          this.showOther = true;
-          this.documentOtherText = `Please complete your other details`;
-          for (let field in this.formFieldOther) {
-            this.uploadDocumentsForm.addControl(
-              this.formFieldOther[field]?.label,
-              new FormControl('', Validators.required)
-            );
-          }
+            this.showOther = true;
+            this.documentOtherText = `Please complete your other details`;
+            for (let field in this.formFieldOther) {
+              this.uploadDocumentsForm.addControl(
+                this.formFieldOther[field]?.label,
+                new FormControl('', Validators.required)
+              );
+            }
           }
         }
         if (res['poa'] && res['poi']) {
           this.isTwoObject = true;
         }
         const documentNumberBasedField = this.uploadDocumentsForm.get('poa_no');
-        const panNumberValidation = this.uploadDocumentsForm.get('pan_number')?.value;
-        const panNumberValidationField = this.uploadDocumentsForm.get('pan_number');
-        const documentTypeValue=this.uploadDocumentsForm.get('document_type_based_field')?.value
-        if(documentTypeValue=='pan_number'){
-          this.documentMaxLength=10
-          documentNumberBasedField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/)])
-        }
-        else if(panNumberValidation==''){
-          this.documentMaxLength=10
-          panNumberValidationField?.setValidators([Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/),Validators.required])
-        }
-        else if(documentTypeValue=='mobile_number') {
-          this.documentMaxLength=10
-          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{10}')]);
-        }else if(documentTypeValue=='aadhaar_number') {
-          this.documentMaxLength=12
-          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{12}')]);
-        }else if(documentTypeValue=='ckyc_number'){
-          this.documentMaxLength=14
-          documentNumberBasedField?.setValidators([Validators.pattern('[0-9]{14}')]);
-        }else if(documentTypeValue=='driving_license'){
-          this.documentMaxLength=15
-          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z]{2}\d{13}$/)]);
-        }else if(documentTypeValue=='voter_id'){
-          this.documentMaxLength=10
-          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/)]);
-        }else if(documentTypeValue=='passport_number'){
-          this.documentMaxLength=8
-          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/)]);
-        }
-        else if(documentTypeValue=='cin'){
-          this.documentMaxLength=21
-          documentNumberBasedField?.setValidators([Validators.pattern(/^[A-Za-z0-9]{21}$/)])
-        }
-        else{
-          this.documentMaxLength=30
+        const panNumberValidation =
+          this.uploadDocumentsForm.get('pan_number')?.value;
+        const panNumberValidationField =
+          this.uploadDocumentsForm.get('pan_number');
+        const documentTypeValue = this.uploadDocumentsForm.get(
+          'document_type_based_field'
+        )?.value;
+        if (documentTypeValue == 'pan_number') {
+          this.documentMaxLength = 10;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/),
+          ]);
+        } else if (panNumberValidation == '') {
+          this.documentMaxLength = 10;
+          panNumberValidationField?.setValidators([
+            Validators.pattern(/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/),
+            Validators.required,
+          ]);
+        } else if (documentTypeValue == 'mobile_number') {
+          this.documentMaxLength = 10;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern('[0-9]{10}'),
+          ]);
+        } else if (documentTypeValue == 'aadhaar_number') {
+          this.documentMaxLength = 12;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern('[0-9]{12}'),
+          ]);
+        } else if (documentTypeValue == 'ckyc_number') {
+          this.documentMaxLength = 14;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern('[0-9]{14}'),
+          ]);
+        } else if (documentTypeValue == 'driving_license') {
+          this.documentMaxLength = 15;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern(/^[A-Za-z]{2}\d{13}$/),
+          ]);
+        } else if (documentTypeValue == 'voter_id') {
+          this.documentMaxLength = 10;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern(/^[A-Za-z][A-Za-z0-9]{8}[0-9]$/),
+          ]);
+        } else if (documentTypeValue == 'passport_number') {
+          this.documentMaxLength = 8;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/),
+          ]);
+        } else if (documentTypeValue == 'cin') {
+          this.documentMaxLength = 21;
+          documentNumberBasedField?.setValidators([
+            Validators.pattern(/^[A-Za-z0-9]{21}$/),
+          ]);
+        } else {
+          this.documentMaxLength = 30;
         }
       });
   }
