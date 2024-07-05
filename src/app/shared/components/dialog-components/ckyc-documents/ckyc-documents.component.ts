@@ -342,8 +342,8 @@ handles the form submit for uploading the required documents
         },
         other: {
           photograph:{
-            photograph_url_for_indivisual: this.uploadDocumentsForm.get('photograph_url_for_indivisual')?.value
-          ? this.uploadDocumentsForm.get('photograph_url_for_indivisual')?.value
+            doc_url: this.uploadDocumentsForm.get('doc_url')?.value
+          ? this.uploadDocumentsForm.get('doc_url')?.value
           : null 
           }
               

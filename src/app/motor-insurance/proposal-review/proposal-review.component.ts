@@ -125,7 +125,6 @@ export class ProposalReviewComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
@@ -339,24 +338,41 @@ export class ProposalReviewComponent implements OnInit {
   }
 
   updateButtonState(): void {
-    if (
-      (this.isAcknowledged && this.isAcknowledgedConsent) ||
-      (!this.isAcknowledged &&
-        !this.isAcknowledgedConsent &&
-        this.isAcknowledged !== this.isAcknowledgedConsent) ||
-      (this.isAcknowledged &&
-        !this.isAcknowledgedConsent &&
-        !this.preAddons?.is_consent) ||
-      (!this.isAcknowledged &&
-        this.isAcknowledgedConsent &&
-        !this.preAddons?.is_consent)
-    ) {
-      if (!this.consentSubmitButton) {
+    if(this.consentSubmitButton){
+      if(this.isAcknowledged && this.isAcknowledgedConsent){
         this.isButtonEnabled = true;
       }
-    } else {
-      this.isButtonEnabled = false;
-    }
+      else if(this.isAcknowledged && !this.preAddons?.is_consent){
+        this.isButtonEnabled = true;
+      }
+      else{
+        this.isButtonEnabled = false;
+      }
+    }else{
+      if(this.isAcknowledged){
+        this.isButtonEnabled = true;
+      }else{
+        this.isButtonEnabled = false;
+      }
+    }  
+    // if (
+    //   (this.isAcknowledged && this.isAcknowledgedConsent) ||
+    //   (!this.isAcknowledged &&
+    //     !this.isAcknowledgedConsent &&
+    //     this.isAcknowledged !== this.isAcknowledgedConsent) ||
+    //   (this.isAcknowledged &&
+    //     !this.isAcknowledgedConsent &&
+    //     !this.preAddons?.is_consent) ||
+    //   (!this.isAcknowledged &&
+    //     this.isAcknowledgedConsent &&
+    //     !this.preAddons?.is_consent)
+    // ) {
+    //   if (!this.consentSubmitButton) {
+    //     this.isButtonEnabled = true;
+    //   }
+    // } else {
+    //   this.isButtonEnabled = false;
+    // }
   }
 
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
@@ -366,7 +382,12 @@ export class ProposalReviewComponent implements OnInit {
       )
       .subscribe((response) => {
         if (response) {
-          const insurers = ['future', 'liberty', 'universal_sompo','hdfc_ergo'];
+          const insurers = [
+            'future',
+            'liberty',
+            'universal_sompo',
+            'hdfc_ergo',
+          ];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.consentSubmitButton = true;
             this.getPrevPolicyDetails(response);
@@ -520,7 +541,8 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   getPrevPolicyDetails(getInsurerData: any) {
-    let diesel;
+    // this.isAcknowledgedConsent = false;
+    let diesel:any;
     if (
       getInsurerData?.quote_request?.meta_data?.mmv_form_data?.vehicle_fuel ==
       'DIESEL'
@@ -529,20 +551,22 @@ export class ProposalReviewComponent implements OnInit {
     } else {
       diesel = false;
     }
+    setTimeout(() => {
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`
       )
       .subscribe((res: any) => {
-        this.consentSubmitButton = false;
-
+        // this.consentSubmitButton = false;
         this.preAddons = res;
-        if (this.preAddons?.is_consent) {
-          this.isButtonEnabled = false;
-        } else {
-          this.isButtonEnabled = true;
-        }
+        // this.isAcknowledgedConsent = true;
+        // if (this.preAddons?.is_consent) {
+        //   this.isAcknowledgedConsent = false;
+        // } else {
+        //   this.isAcknowledgedConsent = true;
+        // }
         this.shareData.sendPrevAddon(res);
       });
+    }, 30000);
   }
 }
