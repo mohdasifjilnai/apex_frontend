@@ -342,8 +342,11 @@ export class ProposalReviewComponent implements OnInit {
       if(this.isAcknowledged && this.isAcknowledgedConsent){
         this.isButtonEnabled = true;
       }
-      else if(this.isAcknowledged && !this.preAddons?.is_consent){
-        this.isButtonEnabled = true;
+      // else if(this.isAcknowledged && !this.preAddons?.is_consent){
+      //   this.isButtonEnabled = true;
+      // }
+      else if(this.isAcknowledged && !this.isAcknowledgedConsent){
+        this.isButtonEnabled = false;
       }
       else{
         this.isButtonEnabled = false;
@@ -541,7 +544,6 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   getPrevPolicyDetails(getInsurerData: any) {
-    // this.isAcknowledgedConsent = false;
     let diesel:any;
     if (
       getInsurerData?.quote_request?.meta_data?.mmv_form_data?.vehicle_fuel ==
@@ -551,22 +553,21 @@ export class ProposalReviewComponent implements OnInit {
     } else {
       diesel = false;
     }
-    setTimeout(() => {
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`
       )
       .subscribe((res: any) => {
-        // this.consentSubmitButton = false;
         this.preAddons = res;
-        // this.isAcknowledgedConsent = true;
-        // if (this.preAddons?.is_consent) {
-        //   this.isAcknowledgedConsent = false;
-        // } else {
-        //   this.isAcknowledgedConsent = true;
-        // }
+        if (this.preAddons?.is_consent) {
+          this.isButtonEnabled = false;
+        }else{
+          this.isAcknowledgedConsent=true
+          if(this.isAcknowledged){
+            this.isButtonEnabled = true;
+          }
+        } 
         this.shareData.sendPrevAddon(res);
       });
-    }, 30000);
   }
 }
