@@ -556,10 +556,13 @@ handles the form submit for uploading the required documents
   /**
    * This function is used to re-upload the document after the first upload is unsuccessful.
    */
-  reUploadDone() {
+  reUploadDone(data?: any) {
     this.cdr.detectChanges();
     this.isUploadDocment = false;
-    this.isReUploadDocument = false;
+    if (data != 'close') {
+      this.isReUploadDocument = false;
+    }
+
     if (this.formGetData['poa']) {
       this.formFieldPOA = this.formGetData['poa'];
       this.showPOA = true;
