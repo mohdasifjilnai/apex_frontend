@@ -410,6 +410,7 @@
                   appDateFormat
                   [max]="maxDate"
                   [min]="minDate"
+                  (click)="dobDate.open()"
                 />
                 <mat-datepicker-toggle matSuffix [for]="dobDate">
                   <mat-icon matDatepickerToggleIcon>
@@ -729,11 +730,11 @@
                   (change)="onFileSelected($event, fields?.value?.label)"
                   [formControlName]="fields?.value?.label"
                 />
-                <div *ngIf="PoiFileInputError" class="error-msg">
-                  Please upload an image (JPG/PNG) or a PDF file.
+                <div *ngIf="otherfileInputError" class="error-msg">
+                  Please upload an image (JPG/PNG).
                 </div>
-                <div *ngIf="isPoiFileInputError" class="text-danger">
-                  Please upload an image (JPG/PNG) or a PDF file.
+                <div *ngIf="isOtherfileInputError" class="text-danger">
+                  Please upload an image (JPG/PNG).
                 </div>
               </div>
             </div>

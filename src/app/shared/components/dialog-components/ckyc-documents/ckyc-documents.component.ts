@@ -69,6 +69,7 @@ export class CkycDocumentsComponent implements OnInit {
   PoiFileInputError: boolean = true;
   isPoiFileInputError: boolean = false;
   isfileInputError: boolean = false;
+  isOtherfileInputError: boolean = false;
   isfileInputError1: boolean = false;
   documentMaxLength: any;
   loader: boolean = false;
@@ -81,6 +82,7 @@ export class CkycDocumentsComponent implements OnInit {
   documentURlPOI: any;
   documentURlPOA: any;
   documentURlOther: any;
+  otherfileInputError:boolean=false
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -185,17 +187,16 @@ Event handler for when a file is selected.
       if (
         !(
           fileType === 'image/jpeg' ||
-          fileType === 'image/png' ||
-          fileType === 'application/pdf'
+          fileType === 'image/png'
         )
       ) {
         this.OtherFileName = '';
-        this.fileInputError1 = false;
-        this.isfileInputError1 = true;
+        this.otherfileInputError = false;
+        this.isOtherfileInputError = true;
       } else {
         this.OtherFileName = this.fileName;
-        this.fileInputError1 = false;
-        this.isfileInputError1 = false;
+        this.otherfileInputError = false;
+        this.isOtherfileInputError = false;
       }
     }
 
