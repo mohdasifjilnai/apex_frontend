@@ -416,7 +416,8 @@ handles the form submit for uploading the required documents
     this.showPOA = false;
     this.showPOI = false;
     this.document_url = '';
-    this.showOther=false
+    this.showOther=false;
+    this.isTwoObject=false
     this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService
@@ -570,7 +571,6 @@ handles the form submit for uploading the required documents
     if (data != 'close') {
       this.isReUploadDocument = false;
     }
-
     if (this.formGetData['poa']) {
       this.formFieldPOA = this.formGetData['poa'];
       this.showPOA = true;
@@ -580,6 +580,11 @@ handles the form submit for uploading the required documents
       this.formFieldPOI = this.formGetData['poi'];
       this.showPOI = true;
       this.documentPOIText = `Please complete the document details for POI`;
+    }
+    if (this.formGetData['other']) {
+      this.formFieldOther = this.formGetData['other']['photograph'];
+      this.showOther = true;
+      this.documentOtherText = `Please complete  your other details`;
     }
     if (this.formGetData['poa'] && this.formGetData['poi']) {
       this.isTwoObject = true;
