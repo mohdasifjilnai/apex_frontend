@@ -416,6 +416,7 @@ handles the form submit for uploading the required documents
     this.showPOA = false;
     this.showPOI = false;
     this.document_url = '';
+    this.showOther=false
     this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService
@@ -543,7 +544,14 @@ handles the form submit for uploading the required documents
           documentNumberBasedField?.setValidators([
             Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/),
           ]);
-        } else if (documentTypeValue == 'cin') {
+        }else if (documentTypeValue == 'gstin_number') {
+          this.documentMaxLength = 15;
+          documentNumberBasedField?.setValidators([
+            Validators.required,
+            Validators.pattern(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/),
+          ]);
+        }
+         else if (documentTypeValue == 'cin') {
           this.documentMaxLength = 21;
           documentNumberBasedField?.setValidators([
             Validators.pattern(/^[A-Za-z0-9]{21}$/),
