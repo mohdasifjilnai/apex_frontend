@@ -17,7 +17,7 @@
 </div>
 <!-- Dialog content -->
 <div mat-dialog-content>
-  <div class="row">
+  <div class="row" *ngIf="bottomSheetdata!='footer'">
     <div class="col-12">
       <div class="d-flex terms-content">
         <p>1.</p>
@@ -77,6 +77,50 @@
           I hereby confirm, if i have not selected Compulsory personal accident
           as a cover, then I hold another personal accident cover amounting to
           Rs 15,00,000/- or more or I do not possess a valid driving license
+        </p>
+      </div>
+      <div
+        class="d-flex terms-content"
+        *ngIf="insurerCode?.insurer_code === 'sbi_general'"
+      >
+        <p>9.</p>
+        <p class="px-2">
+          I hereby confirm to issue my policy against communication address
+          mentioned on portal.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="bottomSheetdata=='footer'">
+    <div class="col-12">
+      <div class="d-flex terms-content">
+        <p>1.</p>
+        <p class="px-2">
+          Commission amount shown herein in INR (R) against each quotation is an indicative figure.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>2.</p>
+        <p class="px-2">
+          Exact amount as per applicable grid would be paid in the monthly payout cycle post all the insta payment adjustments, if any.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>3.</p>
+        <p class="px-2">
+          Please refer monthly payout statement at the end of month for exact amount paid against each transaction as per the grid.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>4.</p>
+        <p class="px-2">
+          Due to uncontrollable parameters, company reserves the right to completely change the amount at any point of time and stage of transaction .
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>5.</p>
+        <p class="px-2">
+          The Commission is subject to changes at the discretion of the insurers/Broker. For payout details, please refer to the grid.
         </p>
       </div>
       <div
