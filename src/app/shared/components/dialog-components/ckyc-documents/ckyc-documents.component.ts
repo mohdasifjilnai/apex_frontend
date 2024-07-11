@@ -83,6 +83,7 @@ export class CkycDocumentsComponent implements OnInit {
   documentURlPOA: any;
   documentURlOther: any;
   otherfileInputError:boolean=false
+  reUploadFileCOntrolName: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -231,7 +232,7 @@ Event handler for when a file is selected.
           if (res['status']) {
             if (isReupload) {
               this.isReUploadDocument = true;
-              this.checkUploadDocment(res['document_url']);
+              this.checkUploadDocment(res['document_url'],fileFormControlName);
             }
             if (this.docTypeData == 'poi') {
               this.documentURlPOI = res['document_url'];
@@ -412,13 +413,14 @@ handles the form submit for uploading the required documents
    * This function is used to check if the uploaded document is valid or not.
    * @param event - The event object that contains the file information.
    */
-  checkUploadDocment(url: string) {
+  checkUploadDocment(url: string,fileFormControlName:any) {
     this.isUploadDocment = true;
     this.showPOA = false;
     this.showPOI = false;
     this.document_url = '';
     this.showOther=false;
     this.isTwoObject=false
+    this.reUploadFileCOntrolName=fileFormControlName
     this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService

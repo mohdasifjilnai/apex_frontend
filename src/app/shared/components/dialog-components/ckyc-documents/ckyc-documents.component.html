@@ -256,7 +256,7 @@
                   (click)="
                     POAFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlPOA)
+                      : checkUploadDocment(documentURlPOA,fields?.value?.label)
                   "
                 />
                 <input
@@ -295,7 +295,7 @@
                   (click)="
                     POAFileName1 === ''
                       ? null
-                      : checkUploadDocment(documentURlPOA)
+                      : checkUploadDocment(documentURlPOA,fields?.value?.label)
                   "
                 />
                 <input
@@ -507,7 +507,7 @@
                   (click)="
                     POIFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlPOI)
+                      : checkUploadDocment(documentURlPOI,fields?.value?.label)
                   "
                 />
                 <input
@@ -720,7 +720,7 @@
                   (click)="
                     OtherFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlOther)
+                      : checkUploadDocment(documentURlOther,fields?.value?.label)
                   "
                 />
                 <input
@@ -779,7 +779,7 @@
             id="fileInput"
             class="form-control-file"
             formControlName="reupload_document"
-            (change)="onFileSelected($event, fileControlName, true)"
+            (change)="onFileSelected($event, reUploadFileCOntrolName, true)"
           />
         </div>
         <div class="col-12 mt-4" [hidden]="!isUploadDocment">
