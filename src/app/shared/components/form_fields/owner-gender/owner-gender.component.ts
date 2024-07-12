@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-owner-gender',
@@ -10,28 +16,28 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validator
   ],
 })
 export class OwnerGenderComponent implements OnInit {
-  genderList:any;
+  genderList: any;
   form!: FormGroup;
-  @Input('required') isRequired = false
+  @Input('required') isRequired = false;
   @Input() formControlNameData: any;
-  @Input() label:any;
+  @Input() label: any;
 
   constructor(private ctrlContainer: FormGroupDirective) {
-    this.genderList = [ 
+    this.genderList = [
       {
-        id:1,
-        name:"Male"
+        id: 1,
+        name: 'Male',
       },
       {
-        id:2,
-        name:"Female"
+        id: 2,
+        name: 'Female',
       },
       {
-        id:3,
-        name:"Other"
-      }
-    ]
-   }
+        id: 3,
+        name: 'Others',
+      },
+    ];
+  }
 
   ngOnInit(): void {
     /**
@@ -56,5 +62,4 @@ export class OwnerGenderComponent implements OnInit {
 
     this.form.removeControl(this.formControlNameData);
   }
-
 }
