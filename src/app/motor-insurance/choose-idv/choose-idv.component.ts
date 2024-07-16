@@ -335,6 +335,8 @@ export class ChooseIDVComponent implements OnInit {
         }
       }
       this.quotesCount = count;
+    }else{
+      this.updateIdvButton = true;
     }
   }
   cancelChangeIDv(event: MouseEvent): void {
