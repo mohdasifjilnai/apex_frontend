@@ -332,7 +332,7 @@ handles the form submit for uploading the required documents
           : null,
         poi_document: {
           poi_type: this.showPOI
-            ? this.uploadDocumentsForm.get('poi_type')?.value
+            ? this.uploadDocumentsForm.get('document_type_based_field')?.value
             : null,
           poi_no: this.uploadDocumentsForm.get('poi_no')?.value
             ? this.uploadDocumentsForm.get('poi_no')?.value
