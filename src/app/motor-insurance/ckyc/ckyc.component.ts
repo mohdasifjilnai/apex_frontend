@@ -213,12 +213,8 @@ export class CkycComponent implements OnInit {
     }
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
       if (kyc?.customer_details?.dob) {
-        const [day, month, year] = kyc?.customer_details?.dob
-          .split('/')
-          .map(Number);
-        const reformattedDate = new Date(year, month - 1, day);
         this.ckycFormGroup.patchValue({
-          dob: new Date(reformattedDate),
+          dob: new Date(kyc?.customer_details?.dob),
         });
       }
       if (kyc?.verification_status === true) {
