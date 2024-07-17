@@ -214,7 +214,7 @@ export class CkycComponent implements OnInit {
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
       if (kyc?.customer_details?.dob) {
         this.ckycFormGroup.patchValue({
-          dob: new Date(kyc?.customer_details?.dob),
+          dob: moment(kyc?.customer_details?.dob, 'DD/MM/YYYY').toDate(),
         });
       }
       if (kyc?.verification_status === true) {
