@@ -257,6 +257,21 @@ export class QuotesListingComponent implements OnInit {
 
               if (quotesValueList == -1) {
                 this.quotationData.push(this.quotationArray[i]);
+              } else {
+                ////////////////check key exist or not
+                const checkCurrentDataKey = Object.keys(
+                  this.quotationArray[i]
+                ).includes('payout_response');
+                if (checkCurrentDataKey === true) {
+                  //now check previous data key exis tor no t
+                  const checkPreviousDataKey = Object.keys(
+                    this.quotationData[quotesValueList]
+                  ).includes('payout_response');
+                  if (checkPreviousDataKey === false) {
+                    this.quotationData[quotesValueList]['payout_response'] =
+                      this.quotationArray[i]['payout_response'];
+                  }
+                }
               }
             } else {
               this.errorQuotationArray.push(this.quotationArray[i]);
@@ -284,6 +299,7 @@ export class QuotesListingComponent implements OnInit {
           this.errorQuotationArray = [];
           this.chooseIdvArray = [];
         }
+        console.log(this.quotationData);
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }
