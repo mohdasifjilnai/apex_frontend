@@ -104,7 +104,11 @@
           [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
         >
           <div class="gst me-2 pb-1">Inc. GST</div>
-          <mat-slide-toggle [checked]="defaultGST" [disabled]="enableIdvCard" (change)="gstToggle($event)">
+          <mat-slide-toggle
+            [checked]="defaultGST"
+            [disabled]="enableIdvCard"
+            (change)="gstToggle($event)"
+          >
           </mat-slide-toggle>
         </div>
       </div>
@@ -140,7 +144,11 @@
       <div *ngFor="let quotes of quotationData">
         <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
-            <div class="payout" *ngIf="payout"><span class="payout-value pb-2">{{quotes?.payout_response}} *T&C</span></div>
+            <div class="payout" *ngIf="payout && quotes?.payout_response">
+              <span class="payout-value pb-2"
+                >{{ quotes?.payout_response }} *T&C</span
+              >
+            </div>
             <div class="row">
               <div class="col-lg-3 col-md-3 col-12 insurer-img">
                 <div class="d-flex justify-content-between">
@@ -153,7 +161,8 @@
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
-                    >Add to Share</mat-checkbox>
+                      >Add to Share</mat-checkbox
+                    >
                   </div>
                 </div>
               </div>
@@ -183,26 +192,37 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-6 premium-btn">
-                <div class="renewal-card" (click)="getProposalDetails(quotes)" *ngIf="renewalType=='renewal' && quotes?.insurer_code==insurerCode">
+                <div
+                  class="renewal-card"
+                  (click)="getProposalDetails(quotes)"
+                  *ngIf="
+                    renewalType == 'renewal' &&
+                    quotes?.insurer_code == insurerCode
+                  "
+                >
                   <span class="text">Renewal Quote</span>
-                <button
-                  tabindex="0"
-                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
-                  
-                >
-                  <span class="d-none">{{ quotes?.insurer_name }}</span>
-                  &#8377;
+                  <button
+                    tabindex="0"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  >
+                    <span class="d-none">{{ quotes?.insurer_name }}</span>
+                    &#8377;
 
-                  {{
-                    defaultGST
-                      ? (quotes.premium_details.gross_premium | number : "2.")
-                      : (quotes.premium_details.net_premium | number : "2.")
-                  }}
-                  <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
-                </button>
-               </div>
-               <button
-               *ngIf="renewalType=='renewal' && quotes?.insurer_code!=insurerCode"
+                    {{
+                      defaultGST
+                        ? (quotes.premium_details.gross_premium | number : "2.")
+                        : (quotes.premium_details.net_premium | number : "2.")
+                    }}
+                    <p class="inc">
+                      {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                    </p>
+                  </button>
+                </div>
+                <button
+                  *ngIf="
+                    renewalType == 'renewal' &&
+                    quotes?.insurer_code != insurerCode
+                  "
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
                   (click)="getProposalDetails(quotes)"
@@ -215,13 +235,15 @@
                       ? (quotes.premium_details.gross_premium | number : "2.")
                       : (quotes.premium_details.net_premium | number : "2.")
                   }}
-                  <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
+                  <p class="inc">
+                    {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                  </p>
                 </button>
                 <button
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
                   (click)="getProposalDetails(quotes)"
-                  *ngIf="renewalType!='renewal'"
+                  *ngIf="renewalType != 'renewal'"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
@@ -231,7 +253,9 @@
                       ? (quotes.premium_details.gross_premium | number : "2.")
                       : (quotes.premium_details.net_premium | number : "2.")
                   }}
-                  <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
+                  <p class="inc">
+                    {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                  </p>
                 </button>
                 <p>
                   <span>
@@ -308,27 +332,28 @@
 
       <br />
       <div class="changeIDV-sort-btn" *ngIf="!isChecked">
-        <div class="d-flex justify-content-around" [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'">
+        <div
+          class="d-flex justify-content-around"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
           <div
-            class="fixed-btn  d-flex justify-content-center"
+            class="fixed-btn d-flex justify-content-center"
             (click)="carLoader ? null : openChangeIDV()"
             [ngClass]="carLoader ? 'addonBlur' : 'addonShow'"
           >
             Change IDV
-            
           </div>
           <div class="pipe">|</div>
           <div
-            class="fixed-btn  d-flex justify-content-between"
+            class="fixed-btn d-flex justify-content-between"
             (click)="enableIdvCard ? null : openAddons()"
           >
             <!-- <img src="/assets/icon/addOn.svg" alt="" class="icons me-3" /> -->
             Addons
-            
           </div>
           <div class="pipe">|</div>
           <div
-            class="fixed-btn "
+            class="fixed-btn"
             (click)="enableIdvCard ? null : openSort('Sort')"
           >
             <!-- <img src="/assets/icon/sort.svg" alt="" class="icons me-3" /> -->
@@ -354,15 +379,16 @@
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
-                    >Add to Share</mat-checkbox>
+                      >Add to Share</mat-checkbox
+                    >
                   </div>
                 </div>
               </div>
 
               <!-- {{quotes.insurer_name}} -->
-              <div class="col-lg-6 col-md-6" >
+              <div class="col-lg-6 col-md-6">
                 <div class="d-flex justify-content-between">
-                  <div class=" web-checkbox" *ngIf="addShare">
+                  <div class="web-checkbox" *ngIf="addShare">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
@@ -372,12 +398,40 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-12 premium-btn-tp">
-                <div class="renewal-card" (click)="getProposalDetails(quotes)" *ngIf="renewalType=='renewal' && quotes?.insurer_code==insurerCode">
+                <div
+                  class="renewal-card"
+                  (click)="getProposalDetails(quotes)"
+                  *ngIf="
+                    renewalType == 'renewal' &&
+                    quotes?.insurer_code == insurerCode
+                  "
+                >
                   <span class="text">Renewal Quote</span>
+                  <button
+                    tabindex="0"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
+                  >
+                    <span class="d-none">{{ quotes?.insurer_name }}</span>
+                    &#8377;
+
+                    {{
+                      defaultGST
+                        ? (quotes.premium_details.gross_premium | number : "2.")
+                        : (quotes.premium_details.net_premium | number : "2.")
+                    }}
+                    <p class="inc">
+                      {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                    </p>
+                  </button>
+                </div>
                 <button
+                  *ngIf="
+                    renewalType == 'renewal' &&
+                    quotes?.insurer_code != insurerCode
+                  "
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
-                  
+                  (click)="getProposalDetails(quotes)"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
@@ -387,29 +441,14 @@
                       ? (quotes.premium_details.gross_premium | number : "2.")
                       : (quotes.premium_details.net_premium | number : "2.")
                   }}
-                  <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
+                  <p class="inc">
+                    {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                  </p>
                 </button>
-               </div>
-                <button
-                *ngIf="renewalType=='renewal' && quotes?.insurer_code!=insurerCode"
-                   tabindex="0"
-                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
-                   (click)="getProposalDetails(quotes)"
-                 >
-                   <span class="d-none">{{ quotes?.insurer_name }}</span>
-                   &#8377;
- 
-                   {{
-                     defaultGST
-                       ? (quotes.premium_details.gross_premium | number : "2.")
-                       : (quotes.premium_details.net_premium | number : "2.")
-                   }}
-                   <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
-                 </button>
                 <button
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
                   (click)="getProposalDetails(quotes)"
-                  *ngIf="renewalType!='renewal'"
+                  *ngIf="renewalType != 'renewal'"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
@@ -418,7 +457,9 @@
                       ? (quotes?.premium_details?.gross_premium | number : "2.")
                       : (quotes?.premium_details?.net_premium | number : "2.")
                   }}
-                  <p class="inc">{{defaultGST ? "(Incl. GST)": "(Excl. GST)"}}</p>
+                  <p class="inc">
+                    {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                  </p>
                 </button>
                 <p>
                   <span>
@@ -503,10 +544,7 @@
           "
         >
           <div class="d-flex justify-content-around">
-            <div
-              class="fixed-btn "
-              (click)="openAddons()"
-            >
+            <div class="fixed-btn" (click)="openAddons()">
               <!-- <img
                 src="/assets/icon/addOn.svg"
                 alt=""
@@ -516,7 +554,7 @@
             </div>
             <div class="pipe">|</div>
 
-            <div class="fixed-btn " (click)="openSort('Sort')">
+            <div class="fixed-btn" (click)="openSort('Sort')">
               <!-- <img src="/assets/icon/sort.svg" alt="" class="icons me-3" /> -->
               Sort
             </div>
