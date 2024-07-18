@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalLoaderInterceptor } from './core/interceptor/global-loader.interceptor';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,13 +21,15 @@ import { GlobalLoaderInterceptor } from './core/interceptor/global-loader.interc
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [WindowRef,DatePipe, 
+  providers: [
+    WindowRef,
+    DatePipe,
     // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: GlobalLoaderInterceptor,
-  //   multi: true
-  // }
-],
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: GlobalLoaderInterceptor,
+    //   multi: true
+    // }
+  ],
 
   bootstrap: [AppComponent],
 })

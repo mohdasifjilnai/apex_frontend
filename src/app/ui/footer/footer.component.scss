@@ -4,3 +4,18 @@
     font-weight: 600;
     color: #939393;
 }
+.payout-res{
+    display: none;
+}
+@media only screen and (max-width: 999px) {
+    .payout{
+        display: none;
+    }
+    .payout-res{
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        color: #5384EA;
+        line-height: 12px;
+    }
+}

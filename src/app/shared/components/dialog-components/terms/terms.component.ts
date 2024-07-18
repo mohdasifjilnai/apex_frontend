@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-terms',
@@ -9,9 +10,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class TermsComponent implements OnInit {
   insurerCode: any;
+  currentUrl: any;
+  extractedPath: any;
   constructor(
     public dialogRef: MatDialogRef<TermsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
     public bottomSheetRef: MatBottomSheetRef<TermsComponent>
   ) {}
 

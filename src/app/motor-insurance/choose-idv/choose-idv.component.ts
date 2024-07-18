@@ -337,6 +337,25 @@ export class ChooseIDVComponent implements OnInit {
       this.quotesCount = count;
     }else{
       this.updateIdvButton = true;
+      let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+      if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+        this.idvError = true;
+      } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+        this.idvError = true;
+      } else {
+        this.idvError = false;
+      }
+      let count = 0;
+
+      for (let i = 0; i <= this.quotationData.length - 1; i++) {
+        if (
+          parseInt(formControlIdv) >= this.minIdv &&
+          parseInt(formControlIdv) <= this.maxIdv
+        ) {
+          count += 1;
+        }
+      }
+      this.quotesCount = count;
     }
   }
   cancelChangeIDv(event: MouseEvent): void {

@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 @Injectable({
   providedIn: 'root',
@@ -9,12 +10,14 @@ export class SseService {
   private eventSource!: EventSource;
   routerEvents: any;
   currentPageUrl: any;
+  tokenValue: any;
   constructor(private zone: NgZone, private router: Router) {
     this.routerEvents = this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.currentPageUrl = event.url;
       }
     });
+    this.tokenValue = localStorage.getItem('token');
   }
 
   getServerSentEvent(url: string): Observable<MessageEvent> {
@@ -53,7 +56,18 @@ export class SseService {
       console.log('EventSource closed.');
       this.eventSource.close();
     }
-    this.eventSource = new EventSource(url);
+    // this.eventSource = new EventSource(url, {
+    //     headers: {
+    //       'Authorization': 'Bearer YOUR_TOKEN_HERE',
+    //       'Custom-Header': 'CustomValue'
+    //     }
+    //   });
+    this.eventSource = new EventSourcePolyfill(url, {
+      headers: {
+        Authorization: `Token ${this.tokenValue}`,
+      },
+    });
+
     return this.eventSource;
   }
 }

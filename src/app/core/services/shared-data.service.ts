@@ -941,7 +941,12 @@ export class SharedDataService {
     let data = {
       transaction_id: quotes_data['transaction_id'],
       share_type: share_type,
-      partner_name:localStorage.getItem('first_name')!=null? localStorage.getItem('first_name')+' '+ localStorage.getItem('last_name'):'',
+      partner_name:
+        localStorage.getItem('first_name') != null
+          ? localStorage.getItem('first_name') +
+            ' ' +
+            localStorage.getItem('last_name')
+          : '',
       URL: `${baseURL}${url}`,
       mail_id: mail_id ? mail_id : '',
       mobile_no: mobile_name ? mobile_name : null,
