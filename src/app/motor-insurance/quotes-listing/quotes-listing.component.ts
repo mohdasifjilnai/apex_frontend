@@ -148,7 +148,7 @@ export class QuotesListingComponent implements OnInit {
   insurerCode: any;
   renewalDataList = false;
   carLoader: boolean = true;
-  payout: boolean=false;
+  payout: boolean = false;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -169,10 +169,10 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnInit(): void {
     // sessionStorage.removeItem('gstValue');
-    const token=localStorage.getItem('token')
-    const executive_code=localStorage.getItem('executive')
-    if(token!=null && executive_code!=null){
-      this.payout=true
+    const token = localStorage.getItem('token');
+    const executive_code = localStorage.getItem('partner_code');
+    if (token != null && executive_code != null) {
+      this.payout = true;
     }
     if (sessionStorage.getItem('sortObjectkey') == null) {
       sessionStorage.setItem('sortObjectkey', 'low');

@@ -56,12 +56,7 @@ export class SseService {
       console.log('EventSource closed.');
       this.eventSource.close();
     }
-    // this.eventSource = new EventSource(url, {
-    //     headers: {
-    //       'Authorization': 'Bearer YOUR_TOKEN_HERE',
-    //       'Custom-Header': 'CustomValue'
-    //     }
-    //   });
+
     this.eventSource = new EventSourcePolyfill(url, {
       headers: {
         Authorization: `Token ${this.tokenValue}`,
