@@ -5,6 +5,8 @@
     margin: 5px 0 0px 0;
     overflow-x: hidden;
     overflow-y: hidden;
+    z-index: 1;
+    padding-top: 10px;
   }
   .comprehensive-tab {
     background-color: #fff;
@@ -36,7 +38,6 @@
       height: 50px;
       text-align: center;
       font-weight: 600;
-
     }
     .premium-breakup {
       color: #5384ea;
@@ -151,12 +152,12 @@
   .premium-breakup-amount-btn {
     border: none;
   }
-  .renewal-card{
+  .renewal-card {
     border-radius: 16px;
     background-color: rgba(255, 245, 237, 1);
     width: 129px;
     padding-bottom: 4px;
-    .text{
+    .text {
       font-weight: 600;
       font-size: 12px;
       line-height: 15px;
@@ -187,10 +188,10 @@
 }
 .shareQuotes {
   position: relative;
-  .share-quotes-text{
+  .share-quotes-text {
     font-size: 12px;
     font-weight: 600;
-    color: #5384EA;
+    color: #5384ea;
     line-height: 15px;
   }
 }
@@ -201,13 +202,13 @@
   width: 97%;
   left: 25px;
 }
-.quotes-header{
+.quotes-header {
   margin-bottom: -25px;
 }
-.insurer-img{
+.insurer-img {
   margin-top: 9px;
 }
-.idv-range{
+.idv-range {
   margin-top: 2px;
 }
 .toggle-btn {
@@ -335,7 +336,7 @@
     }
     ::ng-deep .mat-slide-toggle-thumb-container {
       top: 1px !important;
-      left:2px !important;
+      left: 2px !important;
     }
     ::ng-deep .mat-slide-toggle-bar {
       width: 30px;
@@ -356,21 +357,24 @@
   .owner-type {
     display: block;
   }
-  
 }
 
 .payout {
-  background-image: url('../../../assets/icon/payout-bg.svg'); /* Replace with your image path */
+  background-image: url("../../../assets/icon/payout-bg.svg"); /* Replace with your image path */
   background-size: cover; /* Adjust to 'contain' or other values if necessary */
- 
+
   color: white; /* Adjust text color for better readability */
   border-radius: 10px; /* Optional: Add rounded corners */
   width: 16%;
   height: 26px;
   text-align: center;
-  margin-top: -25px;
+  margin-top: 20px;
+  margin-bottom: -36px;
+  margin-left: 15px;
+  position: relative;
+  z-index: 2;
 }
-.payout-value{
+.payout-value {
   font-size: 11px;
   font-weight: 500;
   color: #fff;
@@ -448,10 +452,10 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
-.inc{
+.inc {
   font-size: 12px;
   font-weight: 500;
-  color: #F8F8F8;
+  color: #f8f8f8;
   line-height: 14px;
 }
 @media screen and (max-width: 999px) {
@@ -480,9 +484,9 @@
     width: 95%;
     left: 8px;
   }
-  .payout{
+  .payout {
     width: 50%;
-    height: 22px;
+    height: 25px;
   }
   .quotesDropdown {
     ::ng-deep .mat-select-value {
@@ -508,11 +512,10 @@
       display: none;
     }
   }
-  .quotes-header{
+  .quotes-header {
     margin-bottom: 0px;
   }
   .quotation-listing {
-    
     .comprehensive-key-features {
       display: none;
     }
@@ -573,14 +576,14 @@
       width: 85%;
       z-index: 2;
       right: 36px;
-      padding-bottom: 5px ;
+      padding-bottom: 5px;
 
       .fixed-btn {
         font-size: 11px;
         font-weight: 600;
         color: #fff;
         cursor: pointer;
-        
+
         .icons {
           width: 14px;
           height: 14px;
@@ -612,7 +615,7 @@
       margin-left: 0px;
     }
   }
-  .tp-res-btn{
+  .tp-res-btn {
     margin-top: -20px;
   }
 }
