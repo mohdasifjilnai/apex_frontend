@@ -142,11 +142,19 @@
     </div> -->
     <div class="quotation-listing" *ngIf="showComprehensiveDiv">
       <div *ngFor="let quotes of quotationData">
-        <div class="payout" *ngIf="payout && quotes?.payout_response">
-          <span class="payout-value pb-2"
-            >{{ quotes?.payout_response }} *T&C</span
-          >
+        <div class="payout">
+          <div class="payout-inside">
+            <img
+              src="/assets/icon/payout-bg.svg"
+              alt="Payout Image"
+              class="payout-image"
+            />
+            <div class="payout-value pb-2">
+              {{ quotes?.payout_response }}100 *T&C
+            </div>
+          </div>
         </div>
+
         <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
             <div class="row">
