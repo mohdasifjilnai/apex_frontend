@@ -150,7 +150,7 @@
               class="payout-image"
             />
             <div class="payout-value pb-2">
-              {{ quotes?.payout_response }} *T&C
+              {{ quotes?.payout_response | currency: 'INR'}} *T&C
             </div>
           </div>
         </div>
