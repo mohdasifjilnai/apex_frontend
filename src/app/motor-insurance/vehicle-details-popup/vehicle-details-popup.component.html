@@ -420,6 +420,12 @@
                   [formControlNameData]="'policy_expiry_date'"
                   [urlDate]="url"
                 ></app-policy-expired-date>
+                <div
+                  *ngIf="showExpiryDateErrorMessage"
+                  class="error ms-4"
+                >
+                  This is a required field
+                </div>
               </div>
               <!-- Previous Insurer dropdown -->
               <div

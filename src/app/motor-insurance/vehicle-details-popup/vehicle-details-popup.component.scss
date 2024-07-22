@@ -90,6 +90,13 @@
   color: #282828;
   line-height: 15px;
 }
+.error{
+  color: red;
+  margin-top: -18px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 11px;
+}
 @media screen and (max-width: 999px) {
   .edit-vehicle-details {
     .line {

@@ -146,6 +146,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   isEditable: any;
   mmvFromValue: any;
   showErrorMessage: boolean=true;
+  showExpiryDateErrorMessage: boolean=false;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -267,7 +268,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.sharedDataService.changePolicyExpDate.subscribe((res) => {
       if (this.url == 'quotes') {
         let policyExpDateValue = new Date(res.value);
-
+        this.showExpiryDateErrorMessage=false
         this.getExpiringPolicy(
           this.regDateValue,
           policyExpDateValue,
@@ -1980,10 +1981,19 @@ Get the expiring policy list based on the given date or the registration details
               let inputDate = this.registrationNumber?.previous_policy_exp_date;
               let [day, month, year] = inputDate.split('/');
               let reformattedDate = `${month}/${day}/${year}`;
-              if (!this.vehiclePopupList) {
-                this.vehicleDetailsForm.patchValue({
-                  policy_expiry_date: new Date(reformattedDate),
-                });
+              let parsedInputDate = new Date(reformattedDate);
+              // Get the current date and add 60 days
+              let currentDate = new Date();
+              let futureDate = new Date();
+              futureDate.setDate(currentDate.getDate() + 60);
+              if (parsedInputDate > futureDate) {
+                this.showExpiryDateErrorMessage=true
+              } else {
+                if (!this.vehiclePopupList) {
+                  this.vehicleDetailsForm.patchValue({
+                    policy_expiry_date: parsedInputDate,
+                  });
+                }
               }
             }
           } else if (this.registrationNumber && this.editClick == 'edit') {
