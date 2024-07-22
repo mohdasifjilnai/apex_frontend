@@ -386,15 +386,29 @@
 
     <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
       <div *ngFor="let quotes of quotationData">
-        <div class="payout" *ngIf="payout && quotes?.payout_response">
-          <div class="payout-inside">
+        <div class="payout" *ngIf="payout">
+          <ng-container *ngIf="quotes?.payout_response">
+            <div class="payout-inside" *ngIf="quotes?.payout_response!=0">
+              <img
+                src="/assets/icon/payout-bg.svg"
+                alt="Payout Image"
+                class="payout-image"
+              />
+              
+              <div class="payout-value pb-2" >
+                {{ quotes?.payout_response | currency: 'INR'}} *T&C
+              </div>
+            </div>
+          </ng-container>
+          
+          <div class="payout-inside" *ngIf="quotes?.payout_response==0">
             <img
               src="/assets/icon/payout-bg.svg"
               alt="Payout Image"
               class="payout-image"
             />
-            <div class="payout-value pb-2">
-              {{ quotes?.payout_response }} *T&C
+            <div class="payout-value pb-2" >
+              -----   *T&C
             </div>
           </div>
         </div>
