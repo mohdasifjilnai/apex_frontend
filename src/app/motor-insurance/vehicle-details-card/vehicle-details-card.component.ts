@@ -125,7 +125,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.sharedDataService.inspectionCard.subscribe((cardData) => {
       this.inspectionValue = cardData;
     });
-
+    this.sharedDataService.vehicleTypeValue.subscribe((vehicleType) => {
+      this.vehicleType=vehicleType
+    });
     this.subscription = this.sharedData.getIsNotCertifiedData.subscribe(
       (notCertified) => {
         if (notCertified === 'edit' && this.isPopUpClose) {

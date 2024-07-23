@@ -59,6 +59,7 @@ export class SharedDataService {
   throughEmailVehicle: Subject<any> = new Subject();
   downloadBreakupResponse: Subject<any> = new Subject();
   vehicleCardEmailValue: Subject<any> = new Subject();
+  vehicleTypeValue: Subject<any> = new Subject();
   nomineeData: Subject<any> = new Subject();
   quotesEnableForMobile: Subject<any> = new Subject();
   vehicleOwnerForm: Subject<any> = new Subject();
@@ -1136,6 +1137,9 @@ export class SharedDataService {
 
   vehicleCardEmailData(fromData: any) {
     this.vehicleCardEmailValue.next(fromData);
+  }
+  getVehicleType(data: any) {
+    this.vehicleTypeValue.next(data);
   }
   sendQuoteData(quoteData: any) {
     this.quoteItem = quoteData;
