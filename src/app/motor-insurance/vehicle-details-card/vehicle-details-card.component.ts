@@ -159,10 +159,17 @@ export class VehicleDetailsCardComponent implements OnInit {
             quotationArray[i]['is_breakin'] &&
             vehicleCard?.policy_expiry_date != 'Not Sure'
           ) {
-            this.vehicleInspectionMessage =
+            if(vehicleCard?.policy_expiry=='satp' || vehicleCard?.policy_expiry=='bundled_tp'){
+              this.vehicleInspectionMessage =
+              this.vehicleType == 'private_car'
+                ? 'Vehicle inspection is required as your previous policy is Liability Only.'
+                : 'Attention!! Some insurance company will ask for an inspection as previous policy is Liability Only.';
+            }else{
+              this.vehicleInspectionMessage =
               this.vehicleType == 'private_car'
                 ? 'Vehicle inspection is required as your previous policy is expired'
                 : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+            }
             this.breakIn = true;
           } else if (
             quotationArray[i]['status'] &&
