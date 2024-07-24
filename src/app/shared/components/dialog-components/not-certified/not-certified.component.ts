@@ -66,9 +66,9 @@ export class NotCertifiedComponent implements OnInit {
       }
     });
     this.sharedDataService.previousPolicyDetails$.subscribe((details) => {
-      this.previousPolicyDetails = details[0];
-      this.generateProposalData = details[2];
-      this.quoteData = details[3];
+      this.previousPolicyDetails = details?.[0];
+      this.generateProposalData = details?.[2];
+      this.quoteData = details?.[3];
     });
     this.proposalData = this.sharedDataService.proposalData;
     this.partnerCodeTraceId = JSON.parse(
