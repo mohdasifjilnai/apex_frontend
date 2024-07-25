@@ -171,7 +171,7 @@ export class QuotesListingComponent implements OnInit {
     // sessionStorage.removeItem('gstValue');
     const token = localStorage.getItem('token');
     const partner_code = localStorage.getItem('partner_code');
-    if (token != null && partner_code =='EI00341995') {
+    if (token != null && partner_code !=null) {
       this.payout = true;
     }
     if (sessionStorage.getItem('sortObjectkey') == null) {
