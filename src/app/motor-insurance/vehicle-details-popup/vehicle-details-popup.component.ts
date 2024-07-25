@@ -145,6 +145,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   policyTypeBaseNCB: any;
   isEditable: any;
   mmvFromValue: any;
+  showErrorMessage: boolean=true;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -229,7 +230,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (expiryPolicy === 'bundled_tp') {
       this.hideFieldOnExpiryPolicy('bundled_tp');
     }
-
+    if(expiryPolicy === ''){
+      this.showErrorMessage=true
+    }else{
+      this.showErrorMessage=false
+    }
     this.sharedDataService.getValueWithoutRegistration.subscribe((res) => {
       this.dataWithoutRegistration = res;
     });
@@ -1376,8 +1381,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
             // } else {
             //   this.vehicleDetailsForm.get('ncb_discount')?.disable();
             // }
-            this.expiring_policy_type =
-              this.expiryList[0]?.rb_expiring_policy_type_code;
+            // this.expiring_policy_type =
+            //   this.expiryList[0]?.rb_expiring_policy_type_code;
             this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
             if (this.ncbDiscount) {
               this.getNcbList();
@@ -1503,6 +1508,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   onExpiryPolicyChange(event: MatSelectChange): void {
+    this.showErrorMessage=false
     this.hideFieldOnExpiryPolicy(event.value);
     for (let i = 0; i <= this.expiryList.length - 1; i++) {
       if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {

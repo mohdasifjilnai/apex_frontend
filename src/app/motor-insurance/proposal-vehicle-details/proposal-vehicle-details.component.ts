@@ -803,14 +803,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    */
   addHyphen(event: any) {
     let value = event.target.value;
-    sessionStorage.setItem(
-      'isRegistrationNumber',
-      String(
-        this.proposalVehilceDetailsForm.controls[
-          'registration_number_last_digit'
-        ].valid
-      )
-    );
+    value = value.replace(/-/g, '');
+    value = value.replace(/\s/g, '');
+    value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
+    this.proposalVehilceDetailsForm.patchValue({
+      registration_number_last_digit: value.toUpperCase(),
+    });
+    event.target.setSelectionRange(value.length, value.length);
     if (
       this.proposalVehilceDetailsForm.controls['registration_number_last_digit']
         .valid
@@ -832,15 +831,28 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       });
     }
 
-    if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
-      value = value.replace(/-/g, '');
-      value = value.replace(/\s/g, '');
-      value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
-      this.proposalVehilceDetailsForm.patchValue({
-        registration_number_last_digit: value.toUpperCase(),
-      });
-      event.target.setSelectionRange(value.length, value.length);
-    }
+    // if (sessionStorage.getItem('isRegistrationNumber') == 'false') {
+    //   value = value.replace(/-/g, '');
+    //   value = value.replace(/\s/g, '');
+    //   value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
+    //   this.proposalVehilceDetailsForm.patchValue({
+    //     registration_number_last_digit: value.toUpperCase(),
+    //   });
+    //   event.target.setSelectionRange(value.length, value.length);
+    // }else{
+    //   value = value.replace(/-/g, '');
+    //   value = value.replace(/\s/g, '');
+    //   value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
+    //   this.proposalVehilceDetailsForm.patchValue({
+    //     registration_number_last_digit: value.toUpperCase(),
+    //   });
+    //   event.target.setSelectionRange(value.length, value.length);
+    // }
+  }
+  onPaste(event: ClipboardEvent) {
+    setTimeout(() => {
+      this.addHyphen(event);
+    }, 0);
   }
   /**
    * Divides a string into two parts, splitting it down the middle.

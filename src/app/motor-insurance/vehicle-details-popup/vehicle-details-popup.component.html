@@ -399,8 +399,14 @@
                   >
                     {{ expiry?.rb_expiring_policy_type }}
                   </mat-option>
-                </mat-select>
+                </mat-select> 
               </mat-form-field>
+              <div
+                  *ngIf="showErrorMessage"
+                  class="error ms-4"
+                >
+                  This is a required field
+                </div>
             </div>
             <!-- Expiry -->
             <ng-container *ngIf="!NoExpiryPolicy">

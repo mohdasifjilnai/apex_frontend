@@ -39,6 +39,7 @@
           formControlName="registration_number_last_digit"
           [maxlength]="8"
           (input)="addHyphen($event)"
+          (paste)="onPaste($event)"
         />
       </div>
       <ng-container
