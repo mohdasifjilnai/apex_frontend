@@ -373,6 +373,16 @@ export class MotorInsuranceComponent implements OnInit {
         }
       }
     });
+    // Extract the base URL
+    const currentBaseUrl = window.location.href;
+    const url = new URL(currentBaseUrl);
+    const hostParts = url.host.split('.');
+    let subdomain = hostParts[0];
+    if(subdomain=='d2c'){
+      sessionStorage.setItem('vehiclePopup', 'true');
+    }else{
+      sessionStorage.setItem('vehiclePopup', 'false');
+    }
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
@@ -396,7 +406,9 @@ export class MotorInsuranceComponent implements OnInit {
       value = value.replace(/^-|-$/g, '');
       value = value.replace(/--+/g, '-');
       this.regNo = value;
-      this.getVehicleDetails();
+      if(subdomain!='d2c'){
+        this.getVehicleDetails();
+      }
       }
     });
   }

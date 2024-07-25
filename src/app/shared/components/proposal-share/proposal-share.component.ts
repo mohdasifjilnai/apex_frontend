@@ -85,6 +85,7 @@ export class ProposalShareComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'not-certifiedComponent-class',
   };
+  subdomain: any;
   constructor(
     public dialogRef: MatDialogRef<ProposalShareComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -105,6 +106,10 @@ export class ProposalShareComponent implements OnInit {
 
   ngOnInit(): void {
     this.quoteInfo = sessionStorage.getItem('quotes_data');
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    const hostParts = url.host.split('.');
+    this.subdomain = hostParts[0];
     if (JSON.parse(this.quoteInfo)?.is_breakin) {
       this.isStartDate = false;
     }
@@ -268,84 +273,89 @@ export class ProposalShareComponent implements OnInit {
       );
   }
   proceedToPayment() {
-    this.openNotCertifiedPopup('Partner_Mapped');
+    
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     } else {
       this.dialogRef.close();
     }
     this.loader = true;
-    // if (this.proposalData) {
+    if(this.subdomain!='d2c'){
+      this.openNotCertifiedPopup('Partner_Mapped');
+    }else{
+      if (this.proposalData) {
 
-    //   let sendCommunicationObject = {
-    //     transaction_id: this.proposalData?.quote_response?.transaction_id,
-    //     share_type: 'otp',
-    //     partner_name: this.generateProposalData?.customer_details?.full_name,
-    //     URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-    //     mail_id: this.generateProposalData?.customer_details?.email_id,
-    //     mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-    //     quote_id: [this.proposalData?.quote_response?.quote_id],
-    //     quote_request_id: this.proposalData?.quote_response?.quote_request_id,
-    //   };
-    //   this.apiService
-    //     .postRequestedResponse(
-    //       `${ApiConstants.send_communication}`,
-    //       sendCommunicationObject
-    //     )
-    //     .subscribe((res) => {
-    //       this.loader=false
-    //       if (window.innerWidth <= 999) {
-    //         this.bottomSheetRef.dismiss();
-    //       } else {
-    //         this.dialogRef.close();
-    //       }
-    //       if (res['message'] == 'Success') {
-    //         if (window.innerWidth <= 999) {
-    //           const bottomSheetConfig: MatBottomSheetConfig = {
-    //             data: sendCommunicationObject, // Pass your data here
-    //           };
-    //           this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-    //         } else {
-    //           this.openModal(sendCommunicationObject, this.otpDialog);
-    //         }
-    //       }
-    //     });
-    // } else {
-
-    //   let sendCommunicationObject = {
-    //     transaction_id: this.quoteData?.transaction_id,
-    //     share_type: 'otp',
-    //     partner_name: this.generateProposalData?.customer_details?.full_name,
-    //     URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-    //     mail_id: this.generateProposalData?.customer_details?.email_id,
-    //     mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-    //     quote_id: [this.quoteData?.quote_id],
-    //     quote_request_id: this.quoteData?.quote_request_id,
-    //   };
-    //   this.apiService
-    //     .postRequestedResponse(
-    //       `${ApiConstants.send_communication}`,
-    //       sendCommunicationObject
-    //     )
-    //     .subscribe((res) => {
-    //       this.loader=false
-    //       if (window.innerWidth <= 999) {
-    //         this.bottomSheetRef.dismiss();
-    //       } else {
-    //         this.dialogRef.close();
-    //       }
-    //       if (res['message'] == 'Success') {
-    //         if (window.innerWidth <= 999) {
-    //           const bottomSheetConfig: MatBottomSheetConfig = {
-    //             data: sendCommunicationObject, // Pass your data here
-    //           };
-    //           this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-    //         } else {
-    //           this.openModal(sendCommunicationObject, this.otpDialog);
-    //         }
-    //       }
-    //     });
-    // }
+        let sendCommunicationObject = {
+          transaction_id: this.proposalData?.quote_response?.transaction_id,
+          share_type: 'otp',
+          partner_name: this.generateProposalData?.customer_details?.full_name,
+          URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+          mail_id: this.generateProposalData?.customer_details?.email_id,
+          mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+          quote_id: [this.proposalData?.quote_response?.quote_id],
+          quote_request_id: this.proposalData?.quote_response?.quote_request_id,
+        };
+        this.apiService
+          .postRequestedResponse(
+            `${ApiConstants.send_communication}`,
+            sendCommunicationObject
+          )
+          .subscribe((res) => {
+            this.loader=false
+            if (window.innerWidth <= 999) {
+              this.bottomSheetRef.dismiss();
+            } else {
+              this.dialogRef.close();
+            }
+            if (res['message'] == 'Success') {
+              if (window.innerWidth <= 999) {
+                const bottomSheetConfig: MatBottomSheetConfig = {
+                  data: sendCommunicationObject, // Pass your data here
+                };
+                this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+              } else {
+                this.openModal(sendCommunicationObject, this.otpDialog);
+              }
+            }
+          });
+      } else {
+  
+        let sendCommunicationObject = {
+          transaction_id: this.quoteData?.transaction_id,
+          share_type: 'otp',
+          partner_name: this.generateProposalData?.customer_details?.full_name,
+          URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
+          mail_id: this.generateProposalData?.customer_details?.email_id,
+          mobile_no: this.generateProposalData?.customer_details?.mobile_number,
+          quote_id: [this.quoteData?.quote_id],
+          quote_request_id: this.quoteData?.quote_request_id,
+        };
+        this.apiService
+          .postRequestedResponse(
+            `${ApiConstants.send_communication}`,
+            sendCommunicationObject
+          )
+          .subscribe((res) => {
+            this.loader=false
+            if (window.innerWidth <= 999) {
+              this.bottomSheetRef.dismiss();
+            } else {
+              this.dialogRef.close();
+            }
+            if (res['message'] == 'Success') {
+              if (window.innerWidth <= 999) {
+                const bottomSheetConfig: MatBottomSheetConfig = {
+                  data: sendCommunicationObject, // Pass your data here
+                };
+                this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+              } else {
+                this.openModal(sendCommunicationObject, this.otpDialog);
+              }
+            }
+          });
+      }
+    }
+    
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';

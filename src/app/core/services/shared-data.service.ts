@@ -117,6 +117,7 @@ export class SharedDataService {
   metaDataIdv: any;
   metaDataAddon: any;
   traceIdData: any;
+  subdomain: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -129,7 +130,13 @@ export class SharedDataService {
     private snackbar: MatSnackBar,
     private http: HttpClient,
     public dialog: MatDialog
-  ) {}
+  ) {
+    // Extract the base URL
+    const currentBaseUrl = window.location.href;
+    const url = new URL(currentBaseUrl);
+    const hostParts = url.host.split('.');
+    this.subdomain = hostParts[0];
+  }
 
   sendVehicleEditData(data: any) {
     this.getVehicleDetails.next(data);
@@ -355,7 +362,7 @@ export class SharedDataService {
     if (regNumberValue) {
       regNumberValue = regNumberValue;
     }
-    let quotesData = {};
+    let quotesData;
     let traceIdData = sessionStorage.getItem('partnerCodeTraceId');
     let traceIdValue;
     let traceId;
@@ -397,6 +404,7 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
+        is_d2c:false
       };
     } else {
       quotesData = {
@@ -433,10 +441,13 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
+        is_d2c:false
       };
     }
     this.chooseIdvDataShow.next(productType);
-
+    if(this.subdomain=='d2c'){
+      quotesData.is_d2c=true
+    }
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {

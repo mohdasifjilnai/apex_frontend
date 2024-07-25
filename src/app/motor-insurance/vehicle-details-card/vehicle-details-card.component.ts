@@ -80,6 +80,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   isPopUpClose: any;
 
   currentPageUrl: any;
+  subdomain: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -102,6 +103,11 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.ProposalURL = true;
       }
     });
+    // Extract the base URL
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    const hostParts = url.host.split('.');
+    this.subdomain = hostParts[0];
     this.vehiclePopupList = sessionStorage.getItem('mmv_data');
     this.vehicleType = sessionStorage.getItem('vehicleType');
     let vehicleCard = JSON.parse(this.vehiclePopupList);
@@ -258,10 +264,16 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
   openDialog(edit: string): void {
     
-    this.openNotCertifiedPopup('Partner_Mapped');
-    this.sharedData.sendLoginPartner('edit');
-    this.sharedData.sendVehicleEditData(edit);
+    
+    
     this.isPopUpClose = true;
+    if(this.subdomain=='d2c'){
+      this.openVehicleDetailsPopup(null);
+      this.sharedData.sendVehicleEditData(edit);
+    }else{
+      this.openNotCertifiedPopup('Partner_Mapped');
+      this.sharedData.sendLoginPartner('edit');
+    }
   }
 
   /**

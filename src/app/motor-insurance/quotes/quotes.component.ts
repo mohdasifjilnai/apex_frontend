@@ -104,7 +104,16 @@ export class QuotesComponent implements OnInit {
     this.idleService.startWatching();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
-
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    const hostParts = url.host.split('.');
+    let subdomain = hostParts[0];
+    if(subdomain=='d2c'){
+      sessionStorage.setItem('vehicleLoginPopup', 'false');
+    }
+    else{
+      sessionStorage.setItem('vehicleLoginPopup', 'true');
+    }
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
       const insurer_quote_id = params?.get('insurer_quote_id');
@@ -181,15 +190,21 @@ export class QuotesComponent implements OnInit {
         );
       }
     });
-    let popupData = sessionStorage.getItem('vehiclePopup');
-    if (!popupData) {
-      let quotesUrl = sessionStorage.getItem('quotesUrl');
-      if (quotesUrl) {
-        this.openNotCertifiedPopup('Partner_Mapped');
-
-        this.shareDataService.sendLoginPartner('quote');
-
-        // this.openVehicleDetailsPopup(null);
+    let popupData = sessionStorage.getItem('vehicleLoginPopup');
+    const vehiclePopup=sessionStorage.getItem('vehiclePopup')
+    if (popupData=='true') {
+      if(vehiclePopup=='false'){
+        let quotesUrl = sessionStorage.getItem('quotesUrl');
+        if (quotesUrl) {
+          this.openNotCertifiedPopup('Partner_Mapped');
+          this.shareDataService.sendLoginPartner('quote');
+        }
+      }
+      
+    }else{
+      const vehiclePopup=sessionStorage.getItem('vehiclePopup')
+      if(vehiclePopup=='true'){
+        this.openVehicleDetailsPopup(null)
       }
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
