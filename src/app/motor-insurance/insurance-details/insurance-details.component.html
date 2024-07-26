@@ -4,7 +4,7 @@
     <div class="insurer-title">
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div *ngIf="showInsurerButton">
-        <button type="button" class="edit-button" (click)="changeInsurer()">
+        <button type="button" class="edit-button" (click)="changeInsurer()" [disabled]="proposalPunched">
           <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
           Change Insurer
         </button>

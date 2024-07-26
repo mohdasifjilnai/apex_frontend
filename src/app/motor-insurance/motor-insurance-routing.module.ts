@@ -57,7 +57,7 @@ const routes: Routes = [
       //   { name: 'Proposal Form', path: ['quotes/proposal'] },
       // ],
     },
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'quotes/proposal/:transactionId/review/payment-success',

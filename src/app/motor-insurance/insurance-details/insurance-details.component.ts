@@ -75,6 +75,7 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadLoader: boolean = false;
   mmv_data: any;
   mmvParseData: any;
+  proposalPunched: any;
   constructor(
     public matDialog: WindowRef,
 
@@ -149,6 +150,7 @@ export class InsuranceDetailsComponent implements OnInit {
       //   this.onCpaCheckboxChange(false);
       // }
     }
+    this.proposalPunched=sessionStorage.getItem('proposal_punched')
     this.renewalType = sessionStorage.getItem('renewalType');
     this.route.url.subscribe((segments) => {
       const urlSegments = segments.map((segment) => segment.path);

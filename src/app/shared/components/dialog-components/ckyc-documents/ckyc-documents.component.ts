@@ -366,6 +366,9 @@ handles the form submit for uploading the required documents
           },
         },
       };
+      if(this.uploadDocumentsForm.get('poi_type')?.value !=null){
+        body.poi_document.poi_type=this.uploadDocumentsForm.get('poi_type')?.value
+      }
       if (
         this.uploadDocumentsForm.get('document_type_based_field')?.value ==
         'aadhaar_number'
