@@ -25,10 +25,6 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['']);
       return false;
     }
-    if (sessionStorage.getItem('proposal_punched')) {
-      this.router.navigate(['']);
-      return false;
-    }
     return true;
   }
 }
