@@ -280,6 +280,7 @@ export class OtpComponent implements OnInit {
               (generatedProposal: any) => {
                 if (generatedProposal.status) {
                   sessionStorage.setItem('proposal_punched', 'true');
+                  this.sharedDataService.disabledChangeInsurerButton(true);
                   if (generatedProposal.is_breakin) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {

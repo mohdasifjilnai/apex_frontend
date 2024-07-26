@@ -271,6 +271,11 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
+          if(this.generateProposalData?.proposal_punched){
+            sessionStorage.setItem('proposal_punched', 'true');
+            this.shareData.disabledChangeInsurerButton(true);
+          }
+          this.shareData.disabledChangeInsurerButton(true);
           let manufactureDateValue =
             this.generateProposalData?.vehicle_details?.manufacture_date;
           let [day, month, year] = manufactureDateValue.split('/');

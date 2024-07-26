@@ -150,7 +150,9 @@ export class InsuranceDetailsComponent implements OnInit {
       //   this.onCpaCheckboxChange(false);
       // }
     }
-    this.proposalPunched=sessionStorage.getItem('proposal_punched')
+    this.sharedDataService.disableChangeInsurer.subscribe((res) => {
+      this.proposalPunched=res
+    });
     this.renewalType = sessionStorage.getItem('renewalType');
     this.route.url.subscribe((segments) => {
       const urlSegments = segments.map((segment) => segment.path);
