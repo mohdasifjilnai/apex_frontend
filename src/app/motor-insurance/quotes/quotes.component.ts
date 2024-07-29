@@ -203,7 +203,7 @@ export class QuotesComponent implements OnInit {
       
     }else{
       const vehiclePopup=sessionStorage.getItem('vehiclePopup')
-      if(vehiclePopup=='true'){
+      if(vehiclePopup=='false'){
         this.openVehicleDetailsPopup(null)
       }
     }
