@@ -378,11 +378,11 @@ export class MotorInsuranceComponent implements OnInit {
     const url = new URL(currentBaseUrl);
     const hostParts = url.host.split('.');
     let subdomain = hostParts[0];
-    if(subdomain=='d2c'){
-      sessionStorage.setItem('vehiclePopup', 'true');
-    }else{
-      sessionStorage.setItem('vehiclePopup', 'false');
-    }
+    // if(subdomain=='d2c'){
+    //   sessionStorage.setItem('vehiclePopup', 'true');
+    // }else{
+    //   sessionStorage.setItem('vehiclePopup', 'false');
+    // }
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);

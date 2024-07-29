@@ -193,7 +193,7 @@ export class QuotesComponent implements OnInit {
     let popupData = sessionStorage.getItem('vehicleLoginPopup');
     const vehiclePopup=sessionStorage.getItem('vehiclePopup')
     if (popupData=='true') {
-      if(vehiclePopup=='false'){
+      if(vehiclePopup!='true'){
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (quotesUrl) {
           this.openNotCertifiedPopup('Partner_Mapped');
@@ -203,7 +203,7 @@ export class QuotesComponent implements OnInit {
       
     }else{
       const vehiclePopup=sessionStorage.getItem('vehiclePopup')
-      if(vehiclePopup=='false'){
+      if(vehiclePopup!='true'){
         this.openVehicleDetailsPopup(null)
       }
     }
