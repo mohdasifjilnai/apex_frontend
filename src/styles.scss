@@ -580,6 +580,18 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
+.payout-info-class{
+  .mat-dialog-container {
+    border-radius: 30px !important;
+    overflow: unset !important;
+    width: 350px !important;
+    margin-top: 10%;
+    height: 100% !important;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+}
 
 .nonPOS-class {
   // margin-left: 30% !important;

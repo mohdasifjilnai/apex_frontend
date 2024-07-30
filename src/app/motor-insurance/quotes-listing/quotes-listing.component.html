@@ -158,6 +158,11 @@
                   -----*  &nbsp; T&C
                 </div>
               </div>
+              <div class="payout-inside cursor-pointer" *ngIf="quotes?.payout_response=='NA'" (click)="info()">
+                <div class="payout-value info pb-2" >
+                  <img src="assets/icon/info.svg" width="16" height="16"/>Info  &nbsp; T&C
+                </div>
+              </div>
             </div>
             <div class="row">
               <div class="col-lg-3 col-md-3 col-12 insurer-img">

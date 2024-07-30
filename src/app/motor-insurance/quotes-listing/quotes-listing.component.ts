@@ -28,6 +28,7 @@ import moment from 'moment';
 import { SelectedShareComponent } from 'src/app/shared/components/dialog-components/selected-share/selected-share.component';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
+import { PayoutInfoComponent } from 'src/app/shared/components/dialog-components/payout-info/payout-info.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -85,6 +86,21 @@ export class QuotesListingComponent implements OnInit {
     topObtained: '0',
     isOutSideClose: true,
     classObtained: 'share-qoutes-class',
+  };
+  payoutInfoJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: PayoutInfoComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: '10%',
+    isOutSideClose: true,
+    classObtained: 'payout-info-class',
   };
   selectedShareJSON: {
     modalName: any;
@@ -372,6 +388,9 @@ export class QuotesListingComponent implements OnInit {
     //   this.isPageRefresh = true;
     //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
     // }
+  }
+  info(){
+    this.openModal('', this.payoutInfoJSON);
   }
 
   getProposalType() {

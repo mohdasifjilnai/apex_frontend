@@ -466,6 +466,11 @@
   color: #f8f8f8;
   line-height: 14px;
 }
+.info{
+  color: #5384EA;
+  font-weight: 600;
+  font-size: 11px;
+}
 @media screen and (max-width: 999px) {
   .toggle-btn {
     ::ng-deep .mat-tab-label {

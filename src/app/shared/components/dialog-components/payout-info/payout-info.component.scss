@@ -1,0 +1,25 @@
+.payout-info{
+    .failure-popup-header {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .error-gif-image {
+        width: 100px;
+        height: 100px;
+        position: relative;
+        bottom: 4px;
+      }
+      .attention{
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 20px;
+        color: #FF9E10;
+      }
+      .message{
+        font-size: 600;
+        font-weight: 12px;
+        color: #000000;
+        line-height: 17px;
+        text-align: center;
+      }
+}
