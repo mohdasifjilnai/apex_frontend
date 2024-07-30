@@ -104,6 +104,12 @@ export class ChooseIDVComponent implements OnInit {
         this.changeToCurrency();
       }
     });
+    this.chooseIdvValue = sessionStorage.getItem('idvData');
+      if (window.innerWidth <= 999) {
+        if(this.chooseIdvValue != null){
+          this.clearIdvButton=true
+        }
+      }
     this.sharedDataService.idvValue.subscribe((idvData) => {
       if (idvData.min_idv != undefined) {
         this.minIdv = idvData.min_idv;

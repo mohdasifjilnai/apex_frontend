@@ -123,7 +123,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (this.quoteData) {
       this.insurerCode = JSON.parse(this.quoteData)['insurer_code'];
     }
-
+    if(this.insurerCode=='oriental'){
+      this.proposalVehilceDetailsForm.get('vehicle_colour')?.setValidators(Validators.required);
+      this.proposalVehilceDetailsForm.get('vehicle_colour')?.updateValueAndValidity;
+    }
     this.previousInsurerCode = sessionStorage.getItem('previous_insurerCode');
     if (this.insurerCode === 'sbi_general') {
       this.getVehicleColourList();
@@ -318,6 +321,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
+        if(this.regNumber){
         this.apiservice
           .getRequestedResponse(
             `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
@@ -330,6 +334,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               });
             }
           });
+        }
       }
       if (
         kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&

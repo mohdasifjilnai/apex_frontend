@@ -112,6 +112,15 @@
             ></app-owner-gender>
           </div>
         </ng-container>
+        <ng-container *ngIf="showFullName">
+          <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
+            <app-owner-full-name
+              [required]="true"
+              [formControlNameData]="'ckyc_full_name'"
+              [label]="'Full Name'"
+            ></app-owner-full-name>
+          </div>
+        </ng-container>
 
         <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field appearance="outline" class="mat-input-custom">

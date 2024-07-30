@@ -70,6 +70,7 @@ export class CkycComponent implements OnInit {
   documentMaxLength: any;
   getInsurerDetails: any;
   proposalData: any;
+  showFullName: boolean=false;
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -560,6 +561,17 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
+    }
+    if(this.quoteData['insurer_code'] === 'cholamandalam'){
+      if(this.documentName!='aadhaar_number'){
+        this.showFullName=true
+      this.ckycFormGroup.get('ckyc_full_name')?.setValidators([Validators.required]);
+      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+      }else{
+        this.showFullName=false
+        this.ckycFormGroup.get('ckyc_full_name')?.removeValidators([Validators.required]);
+      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+      }
     }
   }
   /**

@@ -197,11 +197,12 @@
               </div>
             </mat-radio-group>
           </div>
-          <ng-container *ngIf="selectedIDVOption === 'choose'">
+          <ng-container >
             <mat-form-field
               appearance="outline"
               [formGroup]="chooseIdvForm"
               class="col-lg-12 mt-2"
+              *ngIf="selectedIDVOption === 'choose'"
             >
               <mat-label>Enter Value</mat-label>
               <input

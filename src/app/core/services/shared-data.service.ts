@@ -199,6 +199,7 @@ export class SharedDataService {
 
   vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
+    if(this.regNumber!=null){
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
@@ -225,6 +226,7 @@ export class SharedDataService {
           this.detailNotFound.next(res?.detail);
         }
       });
+    }
   }
 
   checkWheelerType(editVehicleDetails: boolean) {
@@ -400,7 +402,7 @@ export class SharedDataService {
         meta_data: data?.meta_data,
         partner_code: localStorage.getItem('partner_code')
           ? localStorage.getItem('partner_code')
-          : '',
+          : null,
         offered_ncb_value:
           data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
         is_cse: localStorage.getItem('is_cse')
@@ -437,7 +439,7 @@ export class SharedDataService {
         meta_data: data?.meta_data,
         partner_code: localStorage.getItem('partner_code')
           ? localStorage.getItem('partner_code')
-          : '',
+          : null,
         offered_ncb_value:
           data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
         is_cse: localStorage.getItem('is_cse')
