@@ -146,7 +146,7 @@
           
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
             <div class="payout" *ngIf="payout">
-              <ng-container *ngIf="quotes?.payout_response">
+              <ng-container *ngIf="quotes?.payout_response  && quotes?.payout_response!='NA'">
                 <div class="payout-inside" *ngIf="quotes?.payout_response!=0">
                   <div class="payout-value pb-2" >
                     {{ quotes?.payout_response }}* &nbsp; T&C
@@ -159,8 +159,8 @@
                 </div>
               </div>
               <div class="payout-inside cursor-pointer" *ngIf="quotes?.payout_response=='NA'" (click)="info()">
-                <div class="payout-value info pb-2" >
-                  <img src="assets/icon/info.svg" width="16" height="16"/>Info  &nbsp; T&C
+                <div class="payout-value  pb-2" >
+                  <img src="/assets/icon/info.svg" width="16" height="16" alt="info"/><span class="info">Info</span>  &nbsp; *T&C
                 </div>
               </div>
             </div>

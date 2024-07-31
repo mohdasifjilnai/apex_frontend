@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-payout-info',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PayoutInfoComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<PayoutInfoComponent>,) { }
 
   ngOnInit(): void {
   }
-
+ /**
+   * this fucntion use for close pop up
+   */
+ onClose(): void {
+  this.dialogRef.close();
+}
 }
