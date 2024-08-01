@@ -398,7 +398,11 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
-          localStorage.setItem('partner_code', res?.partner_code);
+          if(res?.partner_code==null){
+            localStorage.setItem('partner_code', '');
+          }else{
+            localStorage.setItem('partner_code', res?.partner_code);
+          }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);
 
