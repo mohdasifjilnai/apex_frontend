@@ -165,6 +165,7 @@ export class QuotesListingComponent implements OnInit {
   renewalDataList = false;
   carLoader: boolean = true;
   payout: boolean = false;
+  showRenewalQuotes: boolean=false;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -182,6 +183,7 @@ export class QuotesListingComponent implements OnInit {
     proposalType: new FormControl('', Validators.required),
   });
   noQuotesInformation: any;
+  isPrevoiusInsurer :any;
 
   ngOnInit(): void {
     // sessionStorage.removeItem('gstValue');
@@ -316,6 +318,7 @@ export class QuotesListingComponent implements OnInit {
           this.chooseIdvArray = [];
         }
         console.log(this.quotationData);
+
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }
@@ -358,11 +361,13 @@ export class QuotesListingComponent implements OnInit {
       this.getProposalType();
     });
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType == 'renewal') {
+    if (this.renewalType == 'renewal'  || this.renewalType == 'rollover') {
+      this.showRenewalQuotes=true
+      const insurerName = sessionStorage.getItem('previousInsurerCode');
       const quotesData: any = JSON.parse(
-        sessionStorage.getItem('quotes_data') || '{}'
+        sessionStorage.getItem('renewalPreviousInsurer') || '{}'
       );
-      this.insurerCode = quotesData?.insurer_code;
+      this.insurerCode = insurerName;
     }
 
     // let currentPageUrl = this.router.url;
@@ -486,6 +491,12 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   getProposalDetails(quotes_data: any) {
+    this.isPrevoiusInsurer = false;
+    if(quotes_data?.is_rb_renewal){
+      this.isPrevoiusInsurer = true;
+    }
+    sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
     const transactionId = sessionStorage.getItem('transaction_id');
 

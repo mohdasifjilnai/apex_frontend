@@ -150,7 +150,7 @@ export class MotorInsuranceComponent implements OnInit {
     console.log(environment?.apex);
     if (environment?.apex === this.fullUrl + '/') {
       this.devUrl = true;
-    } else if (this.fullUrl == 'http://test.rbstaging.in/') {
+    } else if (environment?.apex_local === this.fullUrl + '/') {
       this.devUrl = true;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -229,6 +229,8 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('proposal_punched');
     sessionStorage.removeItem('quotesUrl');
     sessionStorage.removeItem('sharable_transactionData');
+    sessionStorage.removeItem('previousInsurerCode')
+    sessionStorage.removeItem('isprevoiusInsurer');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -521,7 +523,7 @@ export class MotorInsuranceComponent implements OnInit {
     urlObj.pathname = urlObj.pathname.replace(/\/[^\/]*$/, '');
     return urlObj.origin;
   }
-
+  partnerCodeData:any;
   getRenewalPolicyData() {
     let apiUrl;
     if (this.motorInsurance.value.policy_number) {
@@ -535,24 +537,45 @@ export class MotorInsuranceComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           this.loader = false;
-          if (res.transactional_details && res?.ckyc_status) {
-            this.transactionDetails = res.transactional_details;
-            sessionStorage.setItem('renewalType', 'renewal');
-            let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
-            this.router.navigate([url]);
-          } else if (res.transactional_details && !res?.ckyc_status) {
-            this.transactionDetails = res.transactional_details;
-            sessionStorage.setItem('renewalDetails', JSON.stringify(res));
-            sessionStorage.setItem('renewalType', 'renewal');
-            let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
-            this.router.navigate([url]);
-          } else {
-            this.vehicleDetailsRollover = res.vehicle_details;
-            sessionStorage.setItem('renewalType', 'rollover');
-            this.sharedDataService.vehicleDetailsRenewal(
-              this.vehicleDetailsRollover
+          
+          sessionStorage.setItem('renewalType', 'rollover');
+          const vehicleDetails = res?.vehicle_details;
+          if(vehicleDetails)
+          {
+                this.sharedDataService.vehicleDetailsRenewal(
+                  vehicleDetails
             );
           }
+          // sessionStorage.setItem('vehicleMMVDataRenewal', JSON.stringify(vehicleDetails));
+          this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
+          const parsedValue = JSON.parse(this.partnerCodeData);
+          this.traceId = parsedValue?.trace_id;
+          this.router.navigate([`quotes/${this.traceId}`]);
+          console.log(res?.previous_policy_details?.vehicle_details?.registration_no);
+          
+          sessionStorage.setItem('registrationNumber', res?.previous_policy_details?.vehicle_details?.registration_no)
+          sessionStorage.setItem('previousInsurerCode', res?.previous_policy_details?.insurer_code)
+
+          // if (res.transactional_details && res?.ckyc_status) {
+          //   this.transactionDetails = res.transactional_details;
+          //   sessionStorage.setItem('renewalType', 'renewal');
+          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
+          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
+          //   this.router.navigate([url]);
+          // } else if (res.transactional_details && !res?.ckyc_status) {
+          //   this.transactionDetails = res.transactional_details;
+          //   sessionStorage.setItem('renewalDetails', JSON.stringify(res));
+          //   sessionStorage.setItem('renewalType', 'renewal');
+          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
+          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
+          //   this.router.navigate([url]);
+          // } else {
+          //   this.vehicleDetailsRollover = res.vehicle_details;
+          //   sessionStorage.setItem('renewalType', 'rollover');
+          //   this.sharedDataService.vehicleDetailsRenewal(
+          //     this.vehicleDetailsRollover
+          //   );
+          // }
         } else {
           this.sharedDataService.openSnackBar(res?.error_message, false, 3000);
           this.loader = false;
