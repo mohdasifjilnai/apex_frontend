@@ -66,6 +66,7 @@ export class AddOnsComponent implements OnInit {
   multipCheckboxName: any = [];
   // isPageRefresh = true;
   addMultiCheckboxValue: any = [];
+  loader:boolean=false
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -485,6 +486,7 @@ export class AddOnsComponent implements OnInit {
    * This (getAddonList) hit the get api and show the addons list in Quotes page
    */
   getAddonList(vehicleTypeValue: string, policy_expiry: any) {
+    this.loader=true
     let bussinessType = sessionStorage.getItem('newVehicleType');
     let proposalType = sessionStorage.getItem('proposerType');
     let productType = sessionStorage.getItem('productType');
@@ -502,7 +504,7 @@ export class AddOnsComponent implements OnInit {
       .subscribe((res: any) => {
         this.addonList = res;
         this.modifiedMultiCheckArray = [];
-
+        this.loader=false
         this.addOnsArray = [];
         for (let value of this.addonList) {
           const checkIndex = this.addOnsArray.findIndex(

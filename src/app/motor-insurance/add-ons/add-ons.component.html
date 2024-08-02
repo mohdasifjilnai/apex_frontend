@@ -229,6 +229,11 @@
     </div>
   </div>
   <hr />
+  <div *ngIf="loader" class="text-center">
+    <img src="/assets/gif/loading-gif.gif" alt="Loading..."  class="loader">
+  </div>
+  
+  <ng-container  *ngIf="!loader">
   <div class="m-2">
     <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
       <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{
@@ -432,4 +437,5 @@
       Update
     </button>
   </div>
+  </ng-container>
 </div>
