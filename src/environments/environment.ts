@@ -6,7 +6,6 @@ export const environment = {
 
   artivatic_flag: false,
   apex: 'https://dev-apex.rbstaging.in/',
-  apex_local:'http://test.rbstaging.in/',
 
   profile_redirection: 'https://partners.rbstaging.in/home',
   backend_url:'https://apex.renewbuyinsurance.in',

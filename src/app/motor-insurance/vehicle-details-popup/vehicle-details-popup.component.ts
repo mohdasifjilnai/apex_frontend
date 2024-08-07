@@ -393,9 +393,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.registrationNumber.rb_mmv_id,
             ''
           );
-          this.getRTOData('rto_code', this.registrationNumber.rb_rto_code);
-    
-          // this.getRTOData('rto');
+          this.getRTOData('');
         }
       }
     );
@@ -441,32 +439,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal') {
       this.isRenewNotShownField = true;
-      // this.vehicleDetailsForm.get('vehicle_make')?.disable();
-      // this.vehicleDetailsForm.get('vehicle_model')?.disable();
-      // this.vehicleDetailsForm.get('vehicle_variant')?.disable();
-      // this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
-      // this.vehicleDetailsForm.get('registration_city')?.disable();
-      // this.vehicleDetailsForm.get('ncb_discount')?.disable();
-      // this.vehicleDetailsForm.get('policy_expiry')?.disable();
-
-        
-      // this.vehicleMMVData = sessionStorage.getItem('vehicleMMVDataRenewal');
-      // this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
-      // this.rto_id = this.vehicleMMVValue?.rto_city?.rb_rto_id;
-      // if (this.vehicleMMVValue) {
-        
-        // this.getExpiringPolicy();
-  
-        // this.getRTOData('rto_code');
-  
-        // this.getVehicleDetailsPopup(
-        //   '',
-        //   '',
-        //   '',
-        //   this.vehicleMMVValue?.vehicle.rb_mmv_id,
-        //   'mmvData'
-        // );
-      // }
+      this.vehicleDetailsForm.get('vehicle_make')?.disable();
+      this.vehicleDetailsForm.get('vehicle_model')?.disable();
+      this.vehicleDetailsForm.get('vehicle_variant')?.disable();
+      this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
+      this.vehicleDetailsForm.get('registration_city')?.disable();
+      this.vehicleDetailsForm.get('ncb_discount')?.disable();
+      this.vehicleDetailsForm.get('policy_expiry')?.disable();
     }
   }
 

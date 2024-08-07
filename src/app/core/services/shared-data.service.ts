@@ -119,10 +119,6 @@ export class SharedDataService {
   metaDataAddon: any;
   traceIdData: any;
   subdomain: any;
-  partnerCodeData:any;
-  traceId:any;
-  isRbRenewal:boolean = false;
-
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -277,10 +273,7 @@ export class SharedDataService {
 
   vehicleDetailsRenewal(data: any) {
     this.regNumberDataRenewal.next(data);
-    this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
-    const parsedValue = JSON.parse(this.partnerCodeData);
-    this.traceId = parsedValue?.trace_id;
-    // this.router.navigate([`quotes/${this.traceId}`]);
+    this.router.navigate(['quotes']);
   }
 
   getQuotationListing(
@@ -426,8 +419,7 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false,
-        is_rb_renewal:false,
+        is_d2c:false
       };
     } else {
       quotesData = {
@@ -464,22 +456,15 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false,
-        is_rb_renewal:false,
+        is_d2c:false
       };
     }
     this.chooseIdvDataShow.next(productType);
     if(this.subdomain=='d2c'){
       quotesData.is_d2c=true
     }
-    
-    const renewal = sessionStorage.getItem('renewalType');
-    if(renewal != null){
-      quotesData.is_rb_renewal= true;
-    }
-
     this.apiService
-      .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
+      .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
         if (res?.status) {
           this.sendCarLoaderMessage(0);
@@ -1304,7 +1289,7 @@ export class SharedDataService {
    */
   quotesThroughSSE(transactionId: any, quotesId: any) {
     this.sseService
-      .getServerSentEvent(`${ApiConstants.fetch_quotes}${transactionId}/${quotesId}`)
+      .getServerSentEvent(`/api/v1/fetch_quotes/${transactionId}/${quotesId}`)
       .subscribe(
         (eventSource) => {
           if (eventSource.data != 'null') {

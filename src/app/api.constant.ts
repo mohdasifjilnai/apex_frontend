@@ -1,35 +1,4 @@
 export class ApiConstants {
-
-  public static get initiate_quotes(): string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/initiate_quotes/` : `/api/v1/initiate_quotes/`;
-  }
-
-  public static get fetch_quotes(): string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/fetch_quotes/` : `/api/v1/fetch_quotes/`;
-  }
-
-  public static get create_proposal(): string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/proposal/create_update_proposal/` : `api/v1/proposal/create_update_proposal/`;
-  }
-
-  public static get get_insurer_code(): string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/get_insurer_quote` : `/api/v1/get_insurer_quote`;
-  }
-
-  public static get getExpiringPolicy(): string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/get_previous_expiry_type/`:`/api/v1/get_previous_expiry_type/`;
-
-  }
-
-  public static get downloadPremiumBreakup():string {
-    const isRenewal = sessionStorage.getItem('renewalType');
-    return isRenewal ? `/renewal/api/v1/docfetch/download_pdf/`:`/api/v1/docfetch/download_pdf/`;
-  }
   //get vehicle
   public static get_vehicle_mmv: string = `/api/v1/vehicle_search/`;
 
@@ -43,7 +12,7 @@ export class ApiConstants {
   public static get_previous_insurer: string = `/api/v1/insurer_search/`;
 
   // Initiate quotes List
-  // public static initiate_quotes: string = `/api/v1/initiate_quotes/`;
+  public static initiate_quotes: string = `/api/v1/initiate_quotes/`;
 
   //addons end point
 
@@ -58,17 +27,14 @@ export class ApiConstants {
 
   public static proposal_type: string = `/api/v1/proposer_type/`;
 
-
-  //generate proposal
-  public static generate_proposal: string = `/api/v1/proposal/generate_proposal/`;
-
   // get expiry policy
   // public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
 
   public static getCoverageType = `/api/v1/get_coverage_types/`;
 
   //create proposal
-  // public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
+  public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
+  public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
 
   //get proposal Data
   public static get_proposal: string = `/api/v1/proposal/get_proposal`;
@@ -94,6 +60,8 @@ export class ApiConstants {
 
   //Financier Type
   public static financier_type: string = `/api/v1/financiers/`;
+  //generate proposal
+  public static generate_proposal: string = `/api/v1/proposal/generate_proposal/`;
   //pincode
   public static pincode: string = `/api/v1/pincode/`;
   //  upload document
@@ -107,7 +75,7 @@ export class ApiConstants {
   //financier name
   public static financier_List: string = `/api/v1/financiers/`;
   //Get Insurer Code
-  // public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
+  public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
   //make model and variant
   public static make_model_and_variant: string = `/api/v1/get_depending_mmv/`;
   // document save api
@@ -115,12 +83,14 @@ export class ApiConstants {
 
   public static downloadPolicy: string = `/api/v1/policy/get_policy_document/`;
 
+  public static downloadPremiumBreakup: string = `/api/v1/docfetch/download_pdf/`;
+
   public static get_inspection_data: string = `/api/v1/inspection/inspection_details/`;
 
-  public static get_renewal_policy: string = `/renewal/api/v1/renewals/previous_policy_details/`;
+  public static get_renewal_policy: string = `/api/v1/renewals/previous_policy_details/`;
   public static ckyc_upload_document_fields: string = `/api/v1/ckyc/ckyc_upload_document_fields/`;
 
-  public static generate_renewal_proposal: string = `/renewal/api/v1/renewals/generate_renewal_proposal/`;
+  public static generate_renewal_proposal: string = `/api/v1/renewals/generate_renewal_proposal/`;
 
   public static pre_policy_addons: string = `/api/v1/prev_policy_addon_details/`;
 
