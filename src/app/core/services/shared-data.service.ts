@@ -197,6 +197,15 @@ export class SharedDataService {
     this.disableInsurer?.next(data);
   }
 
+ crossSellRecomendation(proposal_number: any) {
+  this.apiService
+  .getRequestedResponse(
+    `${ApiConstants.crosssell_recommendation}${proposal_number}`
+  )
+  .subscribe((res: any) => {
+    
+  });
+}
   /**
    * registration number base api
    */

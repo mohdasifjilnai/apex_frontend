@@ -534,6 +534,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               this.mmvItem?.policy_expiry === 'IDK') &&
             proposal.vehicle_details !== null
           ) {
+            const proposal_id=sessionStorage.getItem('proposal_Id')
+            this.shareData.crossSellRecomendation(proposal_id)
             this.router.navigate([
               `quotes/proposal/${this.transactionId}/review`,
             ]);

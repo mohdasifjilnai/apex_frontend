@@ -137,4 +137,6 @@ export class ApiConstants {
 
   public static fetch_trace_Id = `/api/v1/fetch_quote_request/`;
   public static address_validation = `/api/v1/proposal/get_address_length/`;
+
+  public static crosssell_recommendation = `/api/v1/proposal/crosssell_recommendation/`;
 }

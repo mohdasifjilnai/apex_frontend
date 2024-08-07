@@ -697,6 +697,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
   }
   getPreviousVehicleData(isValid: any) {
+    const proposal_id=sessionStorage.getItem('proposal_Id')
+    this.sharedData.crossSellRecomendation(proposal_id)
     if (isValid && this.renewalType != 'renewal') {
       const formValues = this.previousPolicyDetailsForm.value;
       this.afterPreviousVehicleDetilsData.emit(formValues);

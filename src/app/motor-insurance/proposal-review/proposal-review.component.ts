@@ -275,7 +275,6 @@ export class ProposalReviewComponent implements OnInit {
             sessionStorage.setItem('proposal_punched', 'true');
             this.shareData.disabledChangeInsurerButton(true);
           }
-          this.shareData.disabledChangeInsurerButton(true);
           let manufactureDateValue =
             this.generateProposalData?.vehicle_details?.manufacture_date;
           let [day, month, year] = manufactureDateValue.split('/');
