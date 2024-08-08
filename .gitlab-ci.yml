@@ -1,6 +1,7 @@
 stages:
   - validate
   - build
+  - build-d2c
   - deploy
   - deploy-d2c
   - production
@@ -35,6 +36,24 @@ build:
 
   only:
     - master
+
+build-d2c:
+  stage: build-d2c
+  image: docker:latest
+  variables:
+    server: "development" 
+  services:
+    - name: docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - DOCKER_BUILDKIT=0 docker build --build-arg server=$server -t $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) .
+    - docker push $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H)
+    - docker tag $CI_REGISTRY_IMAGE:$(date +%Y.%m.%d.%H) $CI_REGISTRY_IMAGE:latest-d2c
+    - docker push $CI_REGISTRY_IMAGE:latest-d2c
+
+  only:
+    - renewaljourney
 
 deploy:
   stage: deploy
