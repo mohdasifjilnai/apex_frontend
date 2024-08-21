@@ -13,6 +13,10 @@ export class NumbersOnlyDirective {
     if ( initalValue !== this._el.nativeElement.value) {
       event.stopPropagation();
     }
+    if (this._el.nativeElement.value === '0') {
+      this._el.nativeElement.value = '';
+    }
+    
   }
 
 }
