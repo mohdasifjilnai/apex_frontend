@@ -274,6 +274,11 @@ export class AddOnsComponent implements OnInit {
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
+    let addOnsValue = sessionStorage.getItem('selectedAddons');
+    if (addOnsValue) {
+      sessionStorage.removeItem('selectedAddons');
+      this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
+    }
     if (this.updateAddOns) {
       if (this.registrationNumber) {
         this.sharedDataService.vehicleMMVDetails(
@@ -292,12 +297,13 @@ export class AddOnsComponent implements OnInit {
       }
       this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
       this.enableAddOns = true;
-    }
-
-    let addOnsValue = sessionStorage.getItem('selectedAddons');
-    if (addOnsValue) {
-      sessionStorage.removeItem('selectedAddons');
-      this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
+    }else {
+      this.sharedDataService.vehicleMMVDetails(
+        productTypeValue,
+        mmvFormData,
+        'mmvQuotes',
+        this.selected_addons
+      );
     }
   }
   @Output() checkBoxValue = new EventEmitter<any>();
