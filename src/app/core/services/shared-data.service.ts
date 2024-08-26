@@ -1292,8 +1292,12 @@ export class SharedDataService {
    * service call for the server side event handling
    */
   quotesThroughSSE(transactionId: any, quotesId: any) {
+    let d2c=false
+    if(this.subdomain=='d2c'){
+      d2c=true
+    }
     this.sseService
-      .getServerSentEvent(`/api/v1/fetch_quotes/${transactionId}/${quotesId}`)
+      .getServerSentEvent(`/api/v1/fetch_quotes/${transactionId}/${quotesId}/?is_d2c=${d2c}`)
       .subscribe(
         (eventSource) => {
           if (eventSource.data != 'null') {
