@@ -118,6 +118,12 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.vehicleCardData(this.parsedVehicleData);
+      const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
+        if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+          this.showZeroNCB = true;
+        } else {
+          this.showZeroNCB = false;
+        }
     });
 
     this.sharedDataService.traceIdVehicleType.subscribe((cardData: any) => {
@@ -125,6 +131,12 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.vehicleData = cardData;
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.vehicleCardData(this.parsedVehicleData);
+        const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
+        if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+          this.showZeroNCB = true;
+        } else {
+          this.showZeroNCB = false;
+        }
       }
     });
 
@@ -211,7 +223,12 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
       let traceValue = JSON.parse(this.traceIdData);
       this.router.navigate([`quotes/${traceValue.trace_id}`]);
-
+      const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
+      if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+        this.showZeroNCB = true;
+      } else {
+        this.showZeroNCB = false;
+      }
       // this.throughEmail(vehicleData);
     });
   }
@@ -525,5 +542,13 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.subscription.unsubscribe();
       sessionStorage.removeItem('vehicleLoginPopup');
     }
+  }
+  daysCountsFromToday(date:any){
+  const policyExpiryDate = new Date(date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diffInTime = policyExpiryDate.getTime() - today.getTime();
+  const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+  return Number(Math.abs(diffInDays));
   }
 }

@@ -421,8 +421,16 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c:false
       };
-      if(ncbValue==0){
-        quotesData.offered_ncb_value=data?.meta_data?.mmv_form_data?.addNcbBoth?.old_ncb_value
+      if(!data?.user_car){
+        if(data?.previous_claimed){
+          quotesData.offered_ncb_value=0
+        }else{
+          quotesData.offered_ncb_value=data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value
+        }
+      }
+      else{
+        quotesData.offered_ncb_value=0
+        quotesData.previous_year_ncb=0
       }
     } else {
       quotesData = {
@@ -461,6 +469,16 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c:false
       };
+      if(!data?.user_car){
+        if(data?.previous_claimed){
+          quotesData.offered_ncb_value=0
+        }else{
+          quotesData.offered_ncb_value=data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value
+        }
+      }else{
+        quotesData.offered_ncb_value=0
+        quotesData.previous_year_ncb=0
+      }
     }
     
     this.chooseIdvDataShow.next(productType);
