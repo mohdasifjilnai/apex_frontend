@@ -1199,16 +1199,18 @@ export class VehicleDetailsPopupComponent implements OnInit {
           ncb_discount: this.vehicleAllData?.renewalNCBDiscount,
         });
       } else {
-        this.vehicleDetailsForm.patchValue({
-          ncb_discount: allData?.ncb_discount,
-        });
+        if(allData!=null){
+          this.vehicleDetailsForm.patchValue({
+            ncb_discount: allData?.ncb_discount,
+          });
+        }
       }
     }
-    if (this.regDateValue) {
-      this.getExpiringPolicy(this.regDateValue);
-    } else {
-      this.getExpiringPolicy();
-    }
+    // if (this.regDateValue) {
+    //   this.getExpiringPolicy(this.regDateValue);
+    // } else {
+    //   this.getExpiringPolicy();
+    // }
   }
 
   getExpiringPolicy(
