@@ -239,25 +239,26 @@ export class AddOnsComponent implements OnInit {
       }
     });
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
-      this.subCheckBox = [];
-      this.selectedCheckedArray = [];
-      this.selectAddOnsOnly = [];
-      this.checkBoxValueArray = [];
-      this.inputValues = [];
-      this.showButtons = false;
-      this.showUpdateButton = false;
-      this.clearAllButton = false;
-      this.selected_addons = {};
-      this.addonsValue = sessionStorage.getItem('selectedAddons');
-      if (this.addonsValue == 'undefined') {
-        this.selectedAddOns = '';
-      } else {
-        this.selectedAddOns = JSON.parse(this.addonsValue);
-      }
+      // this.subCheckBox = [];
+      // this.selectedCheckedArray = [];
+      // this.selectAddOnsOnly = [];
+      // this.checkBoxValueArray = [];
+      // this.inputValues = [];
+      // this.showButtons = false;
+      // this.showUpdateButton = false;
+      // this.clearAllButton = false;
+      // this.selected_addons = {};
+      // this.addonsValue = sessionStorage.getItem('selectedAddons');
+      // if (this.addonsValue == 'undefined') {
+      //   this.selectedAddOns = '';
+      // } else {
+      //   this.selectedAddOns = JSON.parse(this.addonsValue);
+      // }
 
-      if (this.selectedAddOns) {
-        sessionStorage.removeItem('selectedAddons');
-      }
+      // if (this.selectedAddOns) {
+      //   console.log("09876543")
+      //   sessionStorage.removeItem('selectedAddons');
+      // }
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.getAddonList(

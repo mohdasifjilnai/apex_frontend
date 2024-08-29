@@ -1534,7 +1534,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   hideFieldOnExpiryPolicy(selectedValue: any) {
     if (selectedValue == 'IDK') {
       this.NoExpiryPolicy = true;
-      // this.hidePreviousClaimed = false;
+      this.hidePreviousClaimed = false;
       this.vehicleDetailsForm.get('policy_expiry_date')?.clearValidators();
       this.vehicleDetailsForm.get('previous_insurer')?.clearValidators();
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
@@ -1547,14 +1547,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
         ?.updateValueAndValidity();
     } else if (selectedValue == 'satp' || selectedValue == 'bundled_tp') {
       this.NoExpiryPolicy = false;
-      // this.hidePreviousClaimed = false;
+      this.hidePreviousClaimed = false;
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
       this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
       this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
       this.vehicleDetailsForm.get('previous_claimed')?.updateValueAndValidity();
     } else {
       this.NoExpiryPolicy = false;
-      // this.hidePreviousClaimed = true;
+      this.hidePreviousClaimed = true;
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
