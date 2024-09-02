@@ -1432,7 +1432,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
             }
 
             if (ownershipTransfer == 'ownerTransfer') {
-              let selectedPreviousPolicy =
+              let selectedPreviousPolicy =this.vehicleDetailsForm.value?.policy_expiry?this.vehicleDetailsForm.value?.policy_expiry:
                 this.expiryList[0]?.rb_expiring_policy_type_code;
               if (selectedPreviousPolicy) {
                 this.hideFieldOnExpiryPolicy(selectedPreviousPolicy);
@@ -1580,15 +1580,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
    */
   onRCTransferChange(event: any) {
     if (event) {
-      this.hidePreviousClaimed = false;
-      this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
+      // this.hidePreviousClaimed = false;
+      // this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
       // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
     } else {
       this.hidePreviousClaimed = true;
     }
 
     this.patchData = false;
-
     if (this.regDateValue) {
       this.getExpiringPolicy(this.regDateValue, '', '', 'ownerTransfer');
     } else {

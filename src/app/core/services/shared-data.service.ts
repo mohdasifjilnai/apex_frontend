@@ -430,7 +430,6 @@ export class SharedDataService {
       }
       else{
         quotesData.offered_ncb_value=0
-        quotesData.previous_year_ncb=0
       }
     } else {
       quotesData = {
@@ -477,7 +476,6 @@ export class SharedDataService {
         }
       }else{
         quotesData.offered_ncb_value=0
-        quotesData.previous_year_ncb=0
       }
     }
     
