@@ -1031,7 +1031,16 @@ export class SharedDataService {
       this.createProposalId('ckyc', this.ckycFormInfo, data);
     }
   }
+ /**
+   * To handel the Autocomplte Dropdown css issue
+   */
+ onOpenedAutoComplete() {
+  document.body.style.overflowY = 'hidden';
+}
 
+onClosedAutoComplete() {
+  document.body.style.overflowY = 'auto';
+}
   /**
    * Parses a date string into a Date object using the given format.
    *

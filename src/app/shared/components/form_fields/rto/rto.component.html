@@ -14,6 +14,8 @@
   <mat-autocomplete
     #autoRTO="matAutocomplete"
     [displayWith]="displayRto.bind(this)"
+    (opened)="onOpened()"
+    (closed)="onClosed()"
   >
     <ng-container *ngIf="rtoDataLength > 1">
       <span *ngIf="rtoDataNotAvailable == ''">

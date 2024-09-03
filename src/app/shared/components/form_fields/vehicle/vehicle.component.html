@@ -13,6 +13,8 @@
   <mat-autocomplete
     #autoVehicle="matAutocomplete"
     [displayWith]="displayVehicle.bind(this)"
+    (opened)="onOpened()"
+    (closed)="onClosed()"
     ><ng-container *ngIf="vehicleSearchDataLength > 2">
       <mat-option
         *ngIf="mmvDataNotAvailable === 'No result found'"

@@ -183,4 +183,11 @@ export class VehicleComponent implements OnInit {
       return data ? data.displayMMV : undefined;
     }
   }
+  onOpened(): void {
+    this.sharedata.onOpenedAutoComplete();
+  }
+
+  onClosed(): void {
+    this.sharedata.onClosedAutoComplete();
+  }
 }

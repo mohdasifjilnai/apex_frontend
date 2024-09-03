@@ -26,6 +26,7 @@ import {
 } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-rto',
@@ -51,7 +52,8 @@ export class RTOComponent implements OnInit {
   rtoDataLength: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private apiservice: ApiService
+    private apiservice: ApiService,
+    private shareData:SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -161,5 +163,12 @@ export class RTOComponent implements OnInit {
     // }
     // Emit the data to the debounceSubject
     this.debounceSubject.next(data);
+  }
+  onOpened(): void {
+    this.shareData.onOpenedAutoComplete();
+  }
+
+  onClosed(): void {
+    this.shareData.onClosedAutoComplete();
   }
 }

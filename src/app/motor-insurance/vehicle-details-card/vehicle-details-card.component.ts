@@ -551,7 +551,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.currentPageUrl.includes('proposal') ||
       this.currentPageUrl == '/'
     ) {
-      this.subscription.unsubscribe();
+      // this.subscription.unsubscribe();
       sessionStorage.removeItem('vehicleLoginPopup');
     }
   }

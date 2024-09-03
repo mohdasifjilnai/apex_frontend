@@ -260,4 +260,11 @@ export class PreviousInsurerComponent implements OnInit {
   inputClicked() {
     this.renderer.removeClass(document.body, 'dropdown-focus');
   }
+  onOpened(): void {
+    this.sharedDataService.onOpenedAutoComplete();
+  }
+
+  onClosed(): void {
+    this.sharedDataService.onClosedAutoComplete();
+  }
 }
