@@ -246,6 +246,10 @@ Event handler for when a file is selected.
               .get(fileFormControlName)
               ?.setValue(res['document_url']);
           } else {
+            this.uploadDocumentsForm
+              .get(fileFormControlName)
+              ?.reset();
+            this.isReUploadDocument=false
             if (fileFormControlName == 'poa_doc_url') {
               this.POAFileName = '';
               this.fileInputError = false;
@@ -256,6 +260,11 @@ Event handler for when a file is selected.
               this.isPoiFileInputError = true;
             } else if (fileFormControlName == 'poa_doc_url_1') {
               this.POAFileName1 = '';
+              this.fileInputError = false;
+              this.isfileInputError = true;
+            }
+            else if (fileFormControlName == 'other') {
+              this.OtherFileName = '';
               this.fileInputError = false;
               this.isfileInputError = true;
             }
