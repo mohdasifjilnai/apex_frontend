@@ -246,6 +246,19 @@ Event handler for when a file is selected.
               .get(fileFormControlName)
               ?.setValue(res['document_url']);
           } else {
+            if (fileFormControlName == 'poa_doc_url') {
+              this.POAFileName = '';
+              this.fileInputError = false;
+              this.isfileInputError = true;
+            } else if (fileFormControlName == 'poi_doc_url') {
+              this.POIFileName = '';
+              this.PoiFileInputError = false;
+              this.isPoiFileInputError = true;
+            } else if (fileFormControlName == 'poa_doc_url_1') {
+              this.POAFileName1 = '';
+              this.fileInputError = false;
+              this.isfileInputError = true;
+            }
             this.apiService.errorHandler(res);
           }
         },
@@ -260,6 +273,11 @@ Event handler for when a file is selected.
             this.isPoiFileInputError = true;
           } else if (fileFormControlName == 'poa_doc_url_1') {
             this.POAFileName1 = '';
+            this.fileInputError = false;
+            this.isfileInputError = true;
+          }
+          else if (fileFormControlName == 'other') {
+            this.OtherFileName = '';
             this.fileInputError = false;
             this.isfileInputError = true;
           }
