@@ -191,10 +191,11 @@
                       {{ quotes?.premium_details?.min_idv | number : "2." }}-
                       &#8377;
                       {{ quotes?.premium_details?.max_idv | number : "2." }})
-                    </span>
-                    <p class="idv-choose-amount mt-1">
+                    </span><br>
+                    <span class="idv-choose-amount mt-1">
                       &#8377; {{ quotes?.premium_details?.idv | number : "2." }}
-                    </p>
+                    </span><br>
+                    
                   </div>
                   <div *ngIf="addShare" class="web-checkbox">
                     <mat-checkbox
@@ -204,6 +205,19 @@
                       >Add to Share</mat-checkbox
                     >
                   </div>
+                  
+                </div>
+                <div *ngIf="quotes?.is_payd" >
+                  <ng-container >
+                    <span class="pay-drive mb-2">Pay as you Drive</span>
+                  <div class="km-buttons" >
+                    <div *ngFor="let data of payAsyouDrive" >
+                      <button class="km-value" value="data?.value" (click)="selectedKms(data?.value,quotes?.insurer_code)" [class.active]="selectedKmsValue == data?.value">{{data?.label}}</button>
+
+                    </div>
+                  </div>
+                  </ng-container>
+                  
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-6 premium-btn">

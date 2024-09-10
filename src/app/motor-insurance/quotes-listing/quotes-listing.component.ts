@@ -117,6 +117,13 @@ export class QuotesListingComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'selected-share-class',
   };
+  payAsyouDrive = [
+    { value: 2500, label: '2500 Kms'},
+    { value: 5000, label: '5000 Kms'},
+    { value: 7500, label: '7500 Kms'},
+    { value: 10000, label: '10000 Kms'},
+    { value: 0, label: 'Unlimited'},
+  ];
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
   addShare: boolean = false;
@@ -165,6 +172,7 @@ export class QuotesListingComponent implements OnInit {
   renewalDataList = false;
   carLoader: boolean = true;
   payout: boolean = false;
+  selectedKmsValue: any;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -1137,5 +1145,9 @@ export class QuotesListingComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  selectedKms(value:any,insurer_code:any){
+    this.selectedKmsValue=value
+    this.sharedDataService.initiateInsurerQuotePremium(value,insurer_code)
   }
 }

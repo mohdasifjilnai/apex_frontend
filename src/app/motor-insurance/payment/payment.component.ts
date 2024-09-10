@@ -48,12 +48,12 @@ export class PaymentComponent implements OnInit {
 
       this.transactionId = params[2]['path'];
     });
+    this.downloadPolicy();
     this.route.queryParamMap.subscribe((params) => {
       const policyNo = params?.get('policy_no');
       const proposalNo = params?.get('proposal_no');
       if (policyNo) {
         this.policyNumber = policyNo;
-        this.downloadPolicy();
       }
       if (proposalNo) {
         this.proposalNumber = proposalNo;

@@ -109,4 +109,6 @@ export class ApiConstants {
   public static address_validation = `/api/v1/proposal/get_address_length/`;
 
   public static crosssell_recommendation = `/api/v1/proposal/crosssell_recommendation/`;
+
+  public static initiate_insurer_quote = `/api/v1/initiate_insurer_quote/`;
 }

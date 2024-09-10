@@ -119,6 +119,7 @@ export class SharedDataService {
   metaDataAddon: any;
   traceIdData: any;
   subdomain: any;
+  initiate_QuotePayload: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -483,6 +484,7 @@ export class SharedDataService {
     if(this.subdomain=='d2c'){
       quotesData.is_d2c=true
     }
+    this.initiate_QuotePayload=quotesData
     this.apiService
       .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
       .subscribe((res) => {
@@ -1360,6 +1362,27 @@ onClosedAutoComplete() {
           console.log('==> complete');
         }
       );
+  }
+  initiateInsurerQuotePremium(selectedkms:any,insurerCode:any){
+    this.initiate_QuotePayload.isPay=selectedkms
+    this.apiService
+      .postRequestedResponse(ApiConstants.initiate_insurer_quote+`?insurer=${insurerCode}`, this.initiate_QuotePayload)
+      .subscribe((res) => {
+        if (res?.status) {
+         console.log(res)
+        } else {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: res?.message,
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
+        }
+      });
   }
 
   quotesADDOnData(data: any) {
