@@ -893,10 +893,14 @@ export class QuotesListingComponent implements OnInit {
           sessionStorage.setItem('productType',this.parsedVehicleData?.policy_expiry)
           let productTypeValue = sessionStorage.getItem('productType');
           let tabData = this.tabDataList.findIndex((item:any) => item.code === productTypeValue);
-
+          console.log(tabData,"0987654")
           if (tabData !== -1) {
             this.selectedTabIndex = tabData;
           } else {
+            sessionStorage.setItem(
+              'lastSelectedTabIndex',
+              JSON.stringify(tabData)
+            );
             this.selectedTabIndex = 0; 
           }
 
