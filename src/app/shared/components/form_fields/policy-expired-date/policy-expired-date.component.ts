@@ -34,7 +34,7 @@ export class PolicyExpiredDateComponent implements OnInit {
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   policyExpiryDateSubscription: any;
   regDateValue: any;
-
+  renewalType:any;
   @Input() urlDate: any;
 
   constructor(
@@ -87,15 +87,25 @@ export class PolicyExpiredDateComponent implements OnInit {
         this.minDate = new Date(minDateYear, minDateMonth);
       }
     });
-    const currentDate = new Date();
-    const minDateOffset = -1; // Subtract 20 years from current date
-    const maxDateOffset = 60; //add days to current date
+    this.renewalType = sessionStorage.getItem('renewalType');
+    const previousInsurer = sessionStorage.getItem('previousInsurer');
+    if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && previousInsurer == 'digit'){
+      const currentDate = new Date();
+      const minDateOffset = -1; // Subtract 20 years from current date
+      const maxDateOffset = 91; //add days to current date
+      this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
+    }else {
+      const currentDate = new Date();
+      const minDateOffset = -1; // Subtract 20 years from current date
+      const maxDateOffset = 60;
+      this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
+    }
 
-    this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
+    // this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
 
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
-      this.form.get(this.formControlNameData)?.disable();
+      // this.form.get(this.formControlNameData)?.disable();
     }
   }
 

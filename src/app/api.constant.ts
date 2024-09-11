@@ -1,4 +1,23 @@
 export class ApiConstants {
+
+  // Initiate quotes List
+  public static initiate_quotes: string = `/api/v1/initiate_quotes/`;
+
+  //fetch_quotes
+  public static fetch_quotes: string = `/api/v1/fetch_quotes/`;
+
+  //create proposal
+  public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
+
+  //Get Insurer Code
+  public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
+
+   //Get expiring policy
+   public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
+
+   //Get download Premium Breakup
+   public static downloadPremiumBreakup: string = `/api/v1/docfetch/download_pdf/`;
+
   //get vehicle
   public static get_vehicle_mmv: string = `/api/v1/vehicle_search/`;
 
@@ -11,8 +30,6 @@ export class ApiConstants {
 
   public static get_previous_insurer: string = `/api/v1/insurer_search/`;
 
-  // Initiate quotes List
-  public static initiate_quotes: string = `/api/v1/initiate_quotes/`;
 
   //addons end point
 
@@ -31,10 +48,6 @@ export class ApiConstants {
   // public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
 
   public static getCoverageType = `/api/v1/get_coverage_types/`;
-
-  //create proposal
-  public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
-  public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
 
   //get proposal Data
   public static get_proposal: string = `/api/v1/proposal/get_proposal`;
@@ -75,15 +88,12 @@ export class ApiConstants {
   //financier name
   public static financier_List: string = `/api/v1/financiers/`;
   //Get Insurer Code
-  public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
   //make model and variant
   public static make_model_and_variant: string = `/api/v1/get_depending_mmv/`;
   // document save api
   public static upload_document_save: string = `/api/v1/ckyc/upload_document/save/`;
 
   public static downloadPolicy: string = `/api/v1/policy/get_policy_document/`;
-
-  public static downloadPremiumBreakup: string = `/api/v1/docfetch/download_pdf/`;
 
   public static get_inspection_data: string = `/api/v1/inspection/inspection_details/`;
 

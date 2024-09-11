@@ -258,6 +258,12 @@ export class ProposalShareComponent implements OnInit {
             this.sendLoader = false;
             this.sharedDataService.openSnackBar(message, true, 3000);
             this.shareQuotationForm.reset();
+            Object.keys(this.shareQuotationForm.controls).forEach(key => {
+              const control = this.shareQuotationForm.get(key);
+              if (control) {
+                  control.setErrors(null);
+              }
+          });
           } else {
             this.failureMessage = true;
             this.message = res?.message;

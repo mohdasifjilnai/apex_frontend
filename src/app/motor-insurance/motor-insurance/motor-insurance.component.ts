@@ -121,6 +121,8 @@ export class MotorInsuranceComponent implements OnInit {
   partner_code: any;
   isPartnerPOSStatus: boolean=false;
   regNo: any;
+  partnerCodeData:any;
+  policyNo:any;
 
   constructor(
     private router: Router,
@@ -147,12 +149,15 @@ export class MotorInsuranceComponent implements OnInit {
       });
 
     this.fullUrl = this.removeLastSegment(window.location.href);
-    console.log(environment?.apex);
-    if (environment?.apex === this.fullUrl + '/') {
-      this.devUrl = true;
-    } else if (this.fullUrl == 'http://test.rbstaging.in/') {
-      this.devUrl = true;
-    }
+    // console.log(environment?.apex);
+    // if (environment?.apex === this.fullUrl + '/') {
+    //   this.devUrl = true;
+    // } else if (environment?.apex_local === this.fullUrl + '/') {
+    //   this.devUrl = true;
+    // } else if (environment?.apexD2C === this.fullUrl + '/') {
+    //   this.devUrl = true;
+    // }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -229,6 +234,13 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('proposal_punched');
     sessionStorage.removeItem('quotesUrl');
     sessionStorage.removeItem('sharable_transactionData');
+    sessionStorage.removeItem('previousInsurerCode')
+    sessionStorage.removeItem('isprevoiusInsurer');
+    sessionStorage.removeItem('RenewalPreviousDetails');
+    sessionStorage.removeItem('mmvId');
+    sessionStorage.removeItem('previousInsurer');
+    sessionStorage.removeItem('registrationDetails')
+    sessionStorage.removeItem('coverageType')
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -389,6 +401,7 @@ export class MotorInsuranceComponent implements OnInit {
     }
     this.route.queryParamMap.subscribe(params => {
       this.regNo = params.get('reg_no');
+      this.policyNo = params.get('policy_number');
       if(this.regNo!=null){
         let value = this.regNo;
       value = value.replace(/\s/g, '');
@@ -409,6 +422,12 @@ export class MotorInsuranceComponent implements OnInit {
       if(subdomain!='d2c'){
         this.getVehicleDetails();
       }
+      }else if(this.policyNo!=null){
+        this.motorInsurance.patchValue({
+          policy_number: this.policyNo
+        });
+          this.isPolicyNumber= true;
+          this.getVehicleDetails();
       }
     });
   }
@@ -522,12 +541,13 @@ export class MotorInsuranceComponent implements OnInit {
     return urlObj.origin;
   }
 
+  /** function for renewal journey */
   getRenewalPolicyData() {
     let apiUrl;
     if (this.motorInsurance.value.policy_number) {
-      apiUrl = `?previous_policy_number=${this.motorInsurance.value.policy_number}`;
+      apiUrl = `?previous_policy_number=${this.motorInsurance.value.policy_number.toUpperCase()}`;
     } else {
-      apiUrl = `?registration_number=${this.motorInsurance.value.registration_number}`;
+      apiUrl = `?registration_number=${this.motorInsurance.value.registration_number.toUpperCase()}`;
     }
 
     this.apiService
@@ -535,24 +555,49 @@ export class MotorInsuranceComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           this.loader = false;
-          if (res.transactional_details && res?.ckyc_status) {
-            this.transactionDetails = res.transactional_details;
-            sessionStorage.setItem('renewalType', 'renewal');
-            let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
-            this.router.navigate([url]);
-          } else if (res.transactional_details && !res?.ckyc_status) {
-            this.transactionDetails = res.transactional_details;
-            sessionStorage.setItem('renewalDetails', JSON.stringify(res));
-            sessionStorage.setItem('renewalType', 'renewal');
-            let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
-            this.router.navigate([url]);
-          } else {
-            this.vehicleDetailsRollover = res.vehicle_details;
-            sessionStorage.setItem('renewalType', 'rollover');
-            this.sharedDataService.vehicleDetailsRenewal(
-              this.vehicleDetailsRollover
-            );
+          if(res?.vehicle_details?.is_two_wheeler){
+          sessionStorage.setItem('vehicleType', 'two_wheeler');
+          }else if(res?.vehicle_details?.is_four_wheeler){
+            sessionStorage.setItem('vehicleType', 'private_car');
           }
+          sessionStorage.setItem('renewalType', 'rollover');
+          const vehicleDetails = res?.vehicle_details;
+          if(vehicleDetails)
+          {
+            this.sharedDataService.vehicleDetailsRenewal(vehicleDetails);
+          }
+          sessionStorage.setItem('mmvId',res?.vehicle_details?.rb_mmv_id)
+          sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          sessionStorage.setItem('previousInsurer',res?.vehicle_details?.previous_insurer_code);
+          this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
+          const parsedValue = JSON.parse(this.partnerCodeData);
+          this.traceId = parsedValue?.trace_id;
+          this.router.navigate([`quotes/${this.traceId}`]);
+          
+          sessionStorage.setItem('registrationNumber', res?.previous_policy_details?.vehicle_details?.registration_no)
+          sessionStorage.setItem('previousInsurerCode', res?.previous_policy_details?.insurer_code);
+          sessionStorage.setItem('coverageType', res?.previous_policy_details?.previous_policy_details?.coverage_type);
+
+          // if (res.transactional_details && res?.ckyc_status) {
+          //   this.transactionDetails = res.transactional_details;
+          //   sessionStorage.setItem('renewalType', 'renewal');
+          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
+          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
+          //   this.router.navigate([url]);
+          // } else if (res.transactional_details && !res?.ckyc_status) {
+          //   this.transactionDetails = res.transactional_details;
+          //   sessionStorage.setItem('renewalDetails', JSON.stringify(res));
+          //   sessionStorage.setItem('renewalType', 'renewal');
+          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
+          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
+          //   this.router.navigate([url]);
+          // } else {
+          //   this.vehicleDetailsRollover = res.vehicle_details;
+          //   sessionStorage.setItem('renewalType', 'rollover');
+          //   this.sharedDataService.vehicleDetailsRenewal(
+          //     this.vehicleDetailsRollover
+          //   );
+          // }
         } else {
           this.sharedDataService.openSnackBar(res?.error_message, false, 3000);
           this.loader = false;

@@ -173,6 +173,9 @@ export class QuotesListingComponent implements OnInit {
   carLoader: boolean = true;
   payout: boolean = false;
   selectedKmsValue: any;
+  showRenewalQuotes: boolean=false;
+  isPrevoiusInsurer :any;
+
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -366,11 +369,13 @@ export class QuotesListingComponent implements OnInit {
       this.getProposalType();
     });
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType == 'renewal') {
+    if (this.renewalType == 'renewal'  || this.renewalType == 'rollover') {
+      this.showRenewalQuotes=true
+      const insurerName = sessionStorage.getItem('previousInsurerCode');
       const quotesData: any = JSON.parse(
-        sessionStorage.getItem('quotes_data') || '{}'
+        sessionStorage.getItem('renewalPreviousInsurer') || '{}'
       );
-      this.insurerCode = quotesData?.insurer_code;
+      this.insurerCode = insurerName;
     }
 
     // let currentPageUrl = this.router.url;
@@ -494,9 +499,16 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   getProposalDetails(quotes_data: any) {
+    this.isPrevoiusInsurer = false;
+    if(quotes_data?.is_rb_renewal){
+      this.isPrevoiusInsurer = true;
+      sessionStorage.setItem('renewalType','renewal')
+    }
+    sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
     const transactionId = sessionStorage.getItem('transaction_id');
-
+    
     if (quotes_data?.premium_details?.idv > 5000000) {
       this.isIdvGreaterThan50Lac = true;
     }
@@ -593,9 +605,16 @@ export class QuotesListingComponent implements OnInit {
     const selectedTabData = { name: selectedName, code: selectedCode };
     sessionStorage.setItem('planType', JSON.stringify(selectedTabData));
     const lastIndex = sessionStorage.getItem('lastSelectedTabIndex');
+    this.renewalType = sessionStorage.getItem('renewalType');
+
     if (lastIndex !== null && lastIndex !== 'undefined') {
-      // Set the last selected tab
-      this.selectedTabIndex = JSON.parse(lastIndex);
+      if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
+        this.selectedTabIndex = selectedIndex
+      }else{
+        this.selectedTabIndex = JSON.parse(lastIndex);
+      }
+    } else if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
+      this.selectedTabIndex = selectedIndex
     } else {
       this.selectedTabIndex = 0;
     }
@@ -871,12 +890,15 @@ export class QuotesListingComponent implements OnInit {
         .subscribe((res: any) => {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
+          sessionStorage.setItem('productType',this.parsedVehicleData?.policy_expiry)
           let productTypeValue = sessionStorage.getItem('productType');
-          let tabData = this.tabDataList.findIndex((item: any) => {
-            if (item.code == productTypeValue) {
-              return item;
-            }
-          });
+          let tabData = this.tabDataList.findIndex((item:any) => item.code === productTypeValue);
+
+          if (tabData !== -1) {
+            this.selectedTabIndex = tabData;
+          } else {
+            this.selectedTabIndex = 0; 
+          }
 
           if (tabData == -1) {
             sessionStorage.setItem('productType', this.selectedProductType);

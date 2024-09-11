@@ -225,8 +225,7 @@
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"
                   *ngIf="
-                    renewalType == 'renewal' &&
-                    quotes?.insurer_code == insurerCode
+                  quotes?.is_rb_renewal
                   "
                 >
                   <span class="text">Renewal Quote</span>
@@ -247,10 +246,9 @@
                     </p>
                   </button>
                 </div>
-                <button
+                <!-- <button
                   *ngIf="
-                    renewalType == 'renewal' &&
-                    quotes?.insurer_code != insurerCode
+                  quotes?.is_rb_renewal
                   "
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
@@ -267,12 +265,12 @@
                   <p class="inc">
                     {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
                   </p>
-                </button>
+                </button> -->
                 <button
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
                   (click)="getProposalDetails(quotes)"
-                  *ngIf="renewalType != 'renewal'"
+                  *ngIf="!quotes?.is_rb_renewal"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;
@@ -441,19 +439,18 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-12 premium-btn-tp">
+              <div class="col-lg-3 col-md-3 col-12 premium-btn">
                 <div
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"
                   *ngIf="
-                    renewalType == 'renewal' &&
-                    quotes?.insurer_code == insurerCode
+                  quotes?.is_rb_renewal
                   "
                 >
                   <span class="text">Renewal Quote</span>
                   <button
                     tabindex="0"
-                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
                   >
                     <span class="d-none">{{ quotes?.insurer_name }}</span>
                     &#8377;
@@ -468,10 +465,9 @@
                     </p>
                   </button>
                 </div>
-                <button
+                <!-- <button
                   *ngIf="
-                    renewalType == 'renewal' &&
-                    quotes?.insurer_code != insurerCode
+                    quotes?.is_rb_renewal
                   "
                   tabindex="0"
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
@@ -488,11 +484,11 @@
                   <p class="inc">
                     {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
                   </p>
-                </button>
+                </button> -->
                 <button
                   class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn tp-res-btn"
                   (click)="getProposalDetails(quotes)"
-                  *ngIf="renewalType != 'renewal'"
+                  *ngIf="!quotes?.is_rb_renewal"
                 >
                   <span class="d-none">{{ quotes?.insurer_name }}</span>
                   &#8377;

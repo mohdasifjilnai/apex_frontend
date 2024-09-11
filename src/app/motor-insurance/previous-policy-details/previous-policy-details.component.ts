@@ -37,7 +37,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   private previousPolicyDetailsSubscription!: Subscription;
   isDisabledPreviousPolicyDetails: boolean = false;
   isOwnerAddressValidation: boolean = false;
-
+  previousDetails:any;
+  details:any;
   @Input() fetchVehicleDetails: any;
   @Output() afterPreviousVehicleDetilsData = new EventEmitter<any>();
 
@@ -135,11 +136,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
       if (this.mmvData?.policy_expiry !== 'comprehensive') {
         this.previousPolicyDetailsForm.patchValue({
-          tp_policy_start_date: moment(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_start_date,
-            'DD/MM/YYYY'
-          ).toDate(),
+          tp_policy_start_date: this.previousPolicyDetailsForm.value?.tp_policy_start_date,
         });
         if (
           this.proposalData.previous_policy_details?.tp_policy_details
@@ -183,11 +180,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           }
         }
         this.previousPolicyDetailsForm.patchValue({
-          tp_policy_end_date: moment(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_expiry_date,
-            'DD/MM/YYYY'
-          ).toDate(),
+          tp_policy_end_date: this.previousPolicyDetailsForm.value?.tp_policy_end_date,
         });
       }
       if (this.proposalData.previous_policy_details !== null) {
@@ -241,11 +234,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         proposal?.ckyc_details?.is_verification
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       } else if (this.quoteData?.insurer_code == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
-          console.log(this.isDisableCKyc);
+          
         }
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
@@ -254,13 +247,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
       ) {
         this.isDisableCKyc = true;
-        console.log(this.isDisableCKyc);
+        
       } else if (
         this.fetchedKyc?.verification_status !== null &&
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
@@ -594,6 +587,32 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }
       }
     });
+
+    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    this.details = JSON.parse(this.previousDetails)
+    
+    const previousPolicyDetails = this.details?.previous_policy_details?.previous_policy_details;
+    this.previousPolicyDetailsForm.patchValue({
+      prev_policy_number: previousPolicyDetails?.policy_no,
+      previous_insurer: previousPolicyDetails?.insurer_code,
+      policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
+      tp_insurance_company: previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
+      tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no,
+      tp_policy_start_date: previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
+      tp_policy_end_date: previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
+    });    
+
+    // prev_policy_number: new FormControl('', [
+    //   Validators.required,
+    //   Validators.pattern(/^[a-zA-Z0-9\/\-]+$/),
+    // ]),
+    // previous_insurer: new FormControl('', Validators.required),
+    // policy_expiry_date: new FormControl('', Validators.required),
+    // tp_insurance_company: new FormControl(''),
+    // tp_policy_number: new FormControl(''),
+    // tp_policy_start_date: new FormControl(''),
+    // tp_policy_end_date: new FormControl(''),
+
     // else {
     //   this.previousPolicyDetailsForm
     //     .get('tp_insurance_company')
@@ -625,19 +644,19 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       } else if (
         this.fetchedKyc?.verification_status !== null &&
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       } else {
         this.isDisableCKyc = true;
-        console.log(this.isDisableCKyc);
+        
       }
     }
 
@@ -645,14 +664,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       if (kyc) {
         this.fetchedKyc = kyc;
         this.isDisableCKyc = false;
-        console.log(this.isDisableCKyc);
+        
       }
     });
 
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType == 'renewal') {
+    if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
-    }
+    }    
   }
   onTpStartDateSelected(event: any) {
     if (this.mmvData?.policy_expiry === 'comprehensive') {
@@ -699,7 +718,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   getPreviousVehicleData(isValid: any) {
     const proposal_id=sessionStorage.getItem('proposal_Id')
     this.sharedData.crossSellRecomendation(proposal_id)
-    if (isValid && this.renewalType != 'renewal') {
+    if (isValid) {
       const formValues = this.previousPolicyDetailsForm.value;
       this.afterPreviousVehicleDetilsData.emit(formValues);
       this.sharedData.createProposalId(

@@ -111,7 +111,7 @@ export class PreviousInsurerComponent implements OnInit {
       (renewalregistartionnumber: any) => {
         this.registrationNumber = renewalregistartionnumber;
         if (this.registrationNumber?.previous_insurer_code) {
-          this.getInsurerData('');
+          this.getInsurerData(this.registrationNumber?.previous_insurer_code);
         }
       }
     );
@@ -120,6 +120,10 @@ export class PreviousInsurerComponent implements OnInit {
       if (numberData) {
         this.registrationNumber = numberData;
         this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+      }else {
+        this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '');
+        this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+
       }
     });
 

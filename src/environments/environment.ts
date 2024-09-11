@@ -5,7 +5,9 @@ export const environment = {
   amsurl: 'https://accounts.rbstaging.in/',
 
   artivatic_flag: false,
-  apex: 'https://dev-apex.rbstaging.in/',
+  // apex: 'https://dev-apex.rbstaging.in/',
+  // apexD2C: 'https://d2c.renewbuyinsurance.in/',
+  // apex_local:'http://test.rbstaging.in/',
 
   profile_redirection: 'https://partners.rbstaging.in/home',
   backend_url:'https://apex.renewbuyinsurance.in',

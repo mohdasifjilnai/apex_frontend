@@ -71,6 +71,9 @@ export class CkycComponent implements OnInit {
   getInsurerDetails: any;
   proposalData: any;
   showFullName: boolean=false;
+  previousDetails:any;
+  details:any;
+
   constructor(
     private formBuild: FormBuilder,
     private apiService: ApiService,
@@ -171,19 +174,19 @@ export class CkycComponent implements OnInit {
             }
           }
         }
-        let renewalDataType = sessionStorage.getItem('renewalType');
-        const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-        if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
-          if (this.ckycFormGroup.valid) {
-            let isCkycDone = sessionStorage.getItem('isCKycDOne');
-            if (!isCkycDone) {
-              if (!kycData?.verification_status) {
-                this.submitCkycFormGroup(true);
-              }
-              isSubmitCkycFormGroupCalled = true;
-            }
-          }
-        }
+        // let renewalDataType = sessionStorage.getItem('renewalType');
+        // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+        // if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
+        //   if (this.ckycFormGroup.valid) {
+        //     let isCkycDone = sessionStorage.getItem('isCKycDOne');
+        //     if (!isCkycDone) {
+        //       if (!kycData?.verification_status) {
+        //         this.submitCkycFormGroup(true);
+        //       }
+        //       isSubmitCkycFormGroupCalled = true;
+        //     }
+        //   }
+        // }
 
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
@@ -195,6 +198,8 @@ export class CkycComponent implements OnInit {
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    const renewalType = sessionStorage.getItem('renewalType');
+    if(renewalType != 'rollover' && renewalType != 'renewal') {
     if (
       kycData?.insurer_code === this.quoteData['insurer_code'] &&
       sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -212,6 +217,7 @@ export class CkycComponent implements OnInit {
         10000
       );
     }
+  }
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
       if (kyc?.customer_details?.dob) {
         this.ckycFormGroup.patchValue({
@@ -231,6 +237,18 @@ export class CkycComponent implements OnInit {
       // this.ckycFormGroup.disable();
       this.isEnableCKyc = false;
     }
+
+    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    this.details = JSON.parse(this.previousDetails)
+    const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
+    this.ckycFormGroup.patchValue({
+      document_type_based_field:ckycDetails?.document_type,
+      document_number_based_field:ckycDetails?.document_number,
+      dob: ckycDetails?.dob,
+      ckyc_full_name: ckycDetails?.full_name,
+      ckyc_gender: ckycDetails?.gender,
+      ckyc_download_data: ckycDetails?.is_verification,
+    });  
   }
 
   /**

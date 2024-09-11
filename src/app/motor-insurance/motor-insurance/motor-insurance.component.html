@@ -235,7 +235,7 @@
           </div>
 
           <div class="col-12 text-center">
-            <span *ngIf="this.devUrl">
+            <span>
               <span *ngIf="!isPolicyNumber" class="already-text"
                 >Already insured?</span
               >
@@ -247,7 +247,7 @@
                 *ngIf="!withoutVehicleNumber"
               >
                 {{
-                  !isPolicyNumber ? "Click Here" : "Proceed with Vehicle Number"
+                  !isPolicyNumber ? "Click Here" : "Continue with Registration Number"
                 }}
               </span>
               <span

@@ -31,12 +31,12 @@
         *ngIf="vehicleTypeValue == 'two_wheeler'"
       />
       <p class="pt-3">
-        {{ mmvData?.vehicle_variant?.rb_make_name | titlecase }}
-        {{ mmvData?.vehicle_variant?.rb_model_name | titlecase }}
-        {{ mmvData?.vehicle_variant?.rb_variant_name | titlecase }},
-        {{ mmvData?.vehicle_variant?.cubic_capacity }}cc,
-        {{ mmvData?.vehicle_variant?.fuel | titlecase }} ,
-        {{ mmvData?.registration_city?.display_name | titlecase }}
+        {{ mmvData?.vehicle_MMV?.rb_make_name | titlecase }}
+        {{ mmvData?.vehicle_MMV?.rb_model_name | titlecase }}
+        {{ mmvData?.vehicle_MMV?.rb_variant_name | titlecase }},
+        {{ mmvData?.vehicle_MMV?.cubic_capacity }}cc,
+        {{ mmvData?.vehicle_MMV?.fuel | titlecase }} ,
+        {{ mmvData?.registration_city?.display_name }}
       </p>
     </div>
     <!-- <div class="d-flex" *ngIf="mmvItem">

@@ -161,12 +161,13 @@ export class OtpComponent implements OnInit {
         this.ngOtpInput.setValue('');
       } else {
         let renewalType = sessionStorage.getItem('renewalType');
-        if (renewalType == 'renewal') {
+        if (renewalType == 'renewal' || renewalType == 'rollover') {
+          let is_rb_renewal = sessionStorage.getItem('isprevoiusInsurer');
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.generate_renewal_proposal}?insurer_code=${
+              `${ApiConstants.generate_proposal}?insurer_code=${
                 JSON.parse(this.quoteData)['insurer_code']
-              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
+              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}&is_rb_renewal=${is_rb_renewal}`
             )
             .subscribe(
               (generatedProposal: any) => {

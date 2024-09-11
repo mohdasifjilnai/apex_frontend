@@ -92,9 +92,7 @@ export class QuotesComponent implements OnInit {
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
-      } else {
-        this.vehicleDetailsJSON['classObtained'] = 'warn-details-class';
-      }
+      } 
     } else {
       this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
     }
@@ -246,6 +244,8 @@ export class QuotesComponent implements OnInit {
         sessionStorage.setItem('vehicleLoginPopup', 'false');
       }
     });
+    sessionStorage.removeItem('kycData');
+
   }
   ngOnDestroy(): void {
     this.idleService.stopWatching();

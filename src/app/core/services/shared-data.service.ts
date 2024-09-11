@@ -120,6 +120,9 @@ export class SharedDataService {
   traceIdData: any;
   subdomain: any;
   initiate_QuotePayload: any;
+  partnerCodeData:any;
+  traceId:any;
+  isRbRenewal:boolean = false;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -206,10 +209,11 @@ export class SharedDataService {
   /**
    * registration number base api
    */
-
+  renewalType:any;
   vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
-    if(this.regNumber!=null){
+    this.renewalType = sessionStorage.getItem('renewalType');
+    if(this.regNumber!=null && this.renewalType !='renewal' && this.renewalType != 'rollover'){
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
@@ -274,9 +278,12 @@ export class SharedDataService {
 
   vehicleDetailsRenewal(data: any) {
     this.regNumberDataRenewal.next(data);
-    this.router.navigate(['quotes']);
+    this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
+    const parsedValue = JSON.parse(this.partnerCodeData);
+    this.traceId = parsedValue?.trace_id;
+    // this.router.navigate(['quotes']);
   }
-
+  
   getQuotationListing(
     data?: any,
     productType?: any,
@@ -420,7 +427,8 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false
+        is_d2c:false,
+        is_rb_renewal:false,
       };
       if(!data?.user_car){
         if(data?.previous_claimed){
@@ -467,7 +475,8 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false
+        is_d2c:false,
+        is_rb_renewal:false,
       };
       if(!data?.user_car){
         if(data?.previous_claimed){
@@ -485,10 +494,20 @@ export class SharedDataService {
       quotesData.is_d2c=true
     }
     this.initiate_QuotePayload=quotesData
+    const renewal = sessionStorage.getItem('renewalType');
+    if(renewal != null){
+      quotesData.is_rb_renewal= true;
+      let mmvId = sessionStorage.getItem('mmvId');
+      quotesData.rb_mmv_id = Number(mmvId);
+    }
+
     this.apiService
-      .postRequestedResponse(ApiConstants.initiate_quotes, quotesData)
+    .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
       .subscribe((res) => {
         if (res?.status) {
+          if(renewal != null){
+            // sessionStorage.setItem('renewalType', 'renewal');
+          }
           this.sendCarLoaderMessage(0);
           this.transactionId = res.transaction_id;
           this.sendTransactionId(res.transaction_id);

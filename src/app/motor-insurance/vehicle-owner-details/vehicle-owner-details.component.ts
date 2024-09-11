@@ -59,6 +59,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   renewalQuotesData: any;
   maxlength: any;
   addresLength: any;
+  previousDetails:any;
+  details: any;
 
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', Validators.required),
@@ -312,6 +314,50 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           });
         }
       });
+
+      this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+      this.details = JSON.parse(this.previousDetails)
+      if(this.renewalType === 'renewal' || this.renewalType == 'rollover'){
+          const customerDetails = this.details?.previous_policy_details?.customer_details;
+          this.owenerVehicleDetailsForm.patchValue({
+            ownner_salutation_type:customerDetails?.salutation,
+            owner_full_Name: customerDetails?.full_name,
+            contact_number: customerDetails?.mobile_number,
+            owner_email: customerDetails?.email_id,
+            ownner_occupation_type: customerDetails?.occupation_type_id,
+            owner_gstin: customerDetails?.gst_no,
+            additional_contact: customerDetails?.additional_mobile_number,
+            owner_gender: customerDetails?.gender,
+            marital_satus: customerDetails?.marital_status,
+            owner_communication_addres: customerDetails?.communication_address?.address_line,
+            owner_pincode: customerDetails?.communication_address?.pincode,
+            owner_city: customerDetails?.communication_address?.rb_city_name,
+            owner_state: customerDetails?.communication_address?.rb_state_name,
+          });
+          if (
+            customerDetails?.communication_address?.pincode
+          ) {
+            this.apiService
+              .getRequestedResponse(
+                `${ApiConstants.pincode}?pincode=${
+                  customerDetails?.communication_address?.pincode
+                }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+              )
+              .subscribe((res) => {
+                this.owenerVehicleDetailsForm.patchValue({
+                  owner_pincode: res[0],
+                  owner_city: res[0].rb_city_name,
+                  owner_state: res[0].rb_state_name,
+                });
+                this.sharedDataService?.sendOwnnerAddres(
+                  this.owenerVehicleDetailsForm.valid
+                );
+              });
+          
+        }
+      }
+      
+
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (kycData?.customer_details) {
       this.owenerVehicleDetailsForm.patchValue({
@@ -322,6 +368,27 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_city: kycData?.customer_details?.rb_city_name,
         owner_state: kycData?.customer_details?.rb_state_name,
       });
+      if (
+        kycData?.customer_details?.pincode
+      ) {
+        this.apiService
+          .getRequestedResponse(
+            `${ApiConstants.pincode}?pincode=${
+              kycData?.customer_details?.pincode
+            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+          )
+          .subscribe((res) => {
+            this.owenerVehicleDetailsForm.patchValue({
+              owner_pincode: res[0],
+              owner_city: res[0].rb_city_name,
+              owner_state: res[0].rb_state_name,
+            });
+            this.sharedDataService?.sendOwnnerAddres(
+              this.owenerVehicleDetailsForm.valid
+            );
+          });
+      
+    }
       if (this.renewalType === 'renewal') {
         if (kycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;
@@ -399,6 +466,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     setTimeout(() => {
       this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
     }, 2000);
+
+   
   }
   getVehicleDetails(isValid: any) {
     if (isValid) {
