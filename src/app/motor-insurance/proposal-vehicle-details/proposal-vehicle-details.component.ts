@@ -472,71 +472,74 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
 
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails)
-    const vehicleDetails = this.details?.previous_policy_details?.vehicle_details;
-    let regNumbers = this.details?.previous_policy_details?.vehicle_details?.registration_no;
-    if (regNumbers) {
-      this.isRegistrationNumber = true;
-      let regFirstDigit = regNumbers?.slice(0, 2);
-      let regSecondDigit = regNumbers?.slice(2, 5);
-      let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
-      let regLastDigit = regNumbers?.slice(5, );
-      
-    this.proposalVehilceDetailsForm.patchValue({
-          registration_number_first: regFirstDigit,
-          registration_number_second: regSecondDigit,
-          registration_number_last_digit: regLastDigit,
-          registration_date: vehicleDetails?.registration_date,
-          manufacture_date: vehicleDetails?.manufacture_date,
-          engine_number: vehicleDetails?.engine_no,
-          chassis_number: vehicleDetails?.chassis_no,
-          vehicle_pincode: vehicleDetails?.registration_address?.pincode,
-          vehilce_city: vehicleDetails?.registration_address?.rb_city_name,
-          vehicle_state: vehicleDetails?.registration_address?.rb_state_name,
-          financer: vehicleDetails?.financer_details?.financer_id,
-          agreement_type: vehicleDetails?.financer_details?.agreement_type,
-          financer_city: vehicleDetails?.financer_details?.financer_branch,
-          is_financed: vehicleDetails?.is_vehicle_financed,
-          vehicle_registration_address: vehicleDetails?.registration_address?.address_line,
-          is_vehicle_address: vehicleDetails?.is_same_location,
-          
-        });
-        if (
-          vehicleDetails?.registration_address?.pincode
-        ) {
-          this.apiservice
-            .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                vehicleDetails?.registration_address?.pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-            )
-            .subscribe((res) => {
-              this.proposalVehilceDetailsForm.patchValue({
-                vehicle_pincode: res[0],
-                vehilce_city: res[0].rb_city_name,
-                vehicle_state: res[0].rb_state_name,
-              });
-              this.shareData?.sendOwnnerAddres(
-                this.proposalVehilceDetailsForm.valid
-              );
-            });
-          }
-          if (vehicleDetails?.financer_details?.financer_id) {
+    if(this.previousDetails != null){
+      this.details = JSON.parse(this.previousDetails)
+      const vehicleDetails = this.details?.previous_policy_details?.vehicle_details;
+      let regNumbers = this.details?.previous_policy_details?.vehicle_details?.registration_no;
+      if (regNumbers) {
+        this.isRegistrationNumber = true;
+        let regFirstDigit = regNumbers?.slice(0, 2);
+        let regSecondDigit = regNumbers?.slice(2, 5);
+        let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
+        let regLastDigit = regNumbers?.slice(5, );
+        
+      this.proposalVehilceDetailsForm.patchValue({
+            registration_number_first: regFirstDigit,
+            registration_number_second: regSecondDigit,
+            registration_number_last_digit: regLastDigit,
+            registration_date: vehicleDetails?.registration_date,
+            manufacture_date: vehicleDetails?.manufacture_date,
+            engine_number: vehicleDetails?.engine_no,
+            chassis_number: vehicleDetails?.chassis_no,
+            vehicle_pincode: vehicleDetails?.registration_address?.pincode,
+            vehilce_city: vehicleDetails?.registration_address?.rb_city_name,
+            vehicle_state: vehicleDetails?.registration_address?.rb_state_name,
+            financer: vehicleDetails?.financer_details?.financer_id,
+            agreement_type: vehicleDetails?.financer_details?.agreement_type,
+            financer_city: vehicleDetails?.financer_details?.financer_branch,
+            is_financed: vehicleDetails?.is_vehicle_financed,
+            vehicle_registration_address: vehicleDetails?.registration_address?.address_line,
+            is_vehicle_address: vehicleDetails?.is_same_location,
+            
+          });
+          if (
+            vehicleDetails?.registration_address?.pincode
+          ) {
             this.apiservice
               .getRequestedResponse(
-                `${ApiConstants.financier_List}?insurer_code=${
-                  JSON.parse(this.quoteData)['insurer_code']
-                }&financier_id=${
-                  vehicleDetails?.financer_details?.financer_id
-                }`
+                `${ApiConstants.pincode}?pincode=${
+                  vehicleDetails?.registration_address?.pincode
+                }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
               )
-              .subscribe((response) => {
+              .subscribe((res) => {
                 this.proposalVehilceDetailsForm.patchValue({
-                  financer: response[0],
+                  vehicle_pincode: res[0],
+                  vehilce_city: res[0].rb_city_name,
+                  vehicle_state: res[0].rb_state_name,
                 });
+                this.shareData?.sendOwnnerAddres(
+                  this.proposalVehilceDetailsForm.valid
+                );
               });
+            }
+            if (vehicleDetails?.financer_details?.financer_id) {
+              this.apiservice
+                .getRequestedResponse(
+                  `${ApiConstants.financier_List}?insurer_code=${
+                    JSON.parse(this.quoteData)['insurer_code']
+                  }&financier_id=${
+                    vehicleDetails?.financer_details?.financer_id
+                  }`
+                )
+                .subscribe((response) => {
+                  this.proposalVehilceDetailsForm.patchValue({
+                    financer: response[0],
+                  });
+                });
+            }
           }
-        }
+    }
+   
   }
 
   filterInsurer(name: string) {}

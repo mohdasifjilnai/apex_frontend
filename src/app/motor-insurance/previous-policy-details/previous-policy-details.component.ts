@@ -589,18 +589,20 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     });
 
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails)
+    if(this.previousDetails!=null){
+      this.details = JSON.parse(this.previousDetails)
+      const previousPolicyDetails = this.details?.previous_policy_details?.previous_policy_details;
+      this.previousPolicyDetailsForm.patchValue({
+        prev_policy_number: previousPolicyDetails?.policy_no,
+        previous_insurer: previousPolicyDetails?.insurer_code,
+        policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
+        tp_insurance_company: previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
+        tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no,
+        tp_policy_start_date: previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
+        tp_policy_end_date: previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
+      });   
+    }
     
-    const previousPolicyDetails = this.details?.previous_policy_details?.previous_policy_details;
-    this.previousPolicyDetailsForm.patchValue({
-      prev_policy_number: previousPolicyDetails?.policy_no,
-      previous_insurer: previousPolicyDetails?.insurer_code,
-      policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
-      tp_insurance_company: previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
-      tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no,
-      tp_policy_start_date: previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
-      tp_policy_end_date: previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
-    });    
 
     // prev_policy_number: new FormControl('', [
     //   Validators.required,
