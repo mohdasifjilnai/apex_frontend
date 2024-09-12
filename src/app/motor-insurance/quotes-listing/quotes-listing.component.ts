@@ -890,17 +890,15 @@ export class QuotesListingComponent implements OnInit {
         .subscribe((res: any) => {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
-          sessionStorage.setItem('productType',this.parsedVehicleData?.policy_expiry)
+          this.renewalType = sessionStorage.getItem('renewalType');
+          if(this.renewalType == 'renewal' || this.renewalType == 'rollover'){
+            sessionStorage.setItem('productType',this.parsedVehicleData?.policy_expiry)
+          }
           let productTypeValue = sessionStorage.getItem('productType');
           let tabData = this.tabDataList.findIndex((item:any) => item.code === productTypeValue);
-          console.log(tabData,"0987654")
           if (tabData !== -1) {
             this.selectedTabIndex = tabData;
           } else {
-            sessionStorage.setItem(
-              'lastSelectedTabIndex',
-              JSON.stringify(tabData)
-            );
             this.selectedTabIndex = 0; 
           }
 
