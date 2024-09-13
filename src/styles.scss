@@ -549,7 +549,8 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     padding: 12px 24px;
   }
   .mat-dialog-content {
-    overflow: unset !important;
+    overflow-y: scroll !important;
+    height: 100% !important;
   }
   .mat-bottom-sheet-container {
     border-radius: 20px 20px 0px 0px;

@@ -18,7 +18,7 @@
 <!-- Dialog content -->
 <div mat-dialog-content>
   <div class="row" *ngIf="bottomSheetdata!='footer'">
-    <div class="col-12">
+    <div class="col-12" *ngIf="insurerCode?.insurer_code != 'national_insurance'">
       <div class="d-flex terms-content">
         <p>1.</p>
         <p class="px-2">
@@ -90,9 +90,108 @@
         </p>
       </div>
     </div>
+    <div class="col-12" *ngIf="insurerCode?.insurer_code === 'national_insurance'">
+      <div class="d-flex terms-content">
+        <p>1.</p>
+        <p class="px-2">
+          I/We hereby declare that all the statements made by me/us in this Proposal are true to the best of my/our knowledge and belief and I/We hereby agree that this declaration shall form the basis of the contract between me/us and National Insurance Co. Ltd.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>2.</p>
+        <p class="px-2">
+          I/We consent and confirm that any inconsistencies found in the information including about Claims & NCB in previous policy provided by me may result in the non-issuance of the policy, cancellation of already issued policy and/or rejection of a claim.        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>3.</p>
+        <p class="px-2">
+          I/We consent that any modifications made to the details after payment may necessitate additional charges.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>4.</p>
+        <p class="px-2">
+          I/We consent that D2C Insurance broking Private Limited, including its representatives, shall not be held responsible for any changes due to the incorrect information provided.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>5.</p>
+        <p class="px-2">
+          Please select additional covers for Compulsory Personal Accident Cover which is mandatory if you don’t have an existing personal accident cover of Rs. 15 Lakhs.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>6.</p>
+        <p class="px-2">
+          I hereby confirm, if I have not selected for Compulsory Personal Accident as a cover, then I hold another personal accident cover amounting to Rs. 15,00,000 /- or more or I do not possess a valid driving license.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>7.</p>
+        <p class="px-2">
+          I/We hereby declare that the vehicle proposed for insurance has not met with an accident during the period of break in insurance. Any liability arising during this period of break will not be admissible under the policy. The vehicle proposed for insurance is in existence and is roadworthy at the time of taking the policy.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>8.</p>
+        <p class="px-2">
+          I/We hereby declare that the vehicle proposed for insurance has a valid Pollution Under Control Certificate & Fitness Certificate (in case of transport vehicles) on the date of fresh issuance / renewal of the policy.
+        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>9.</p>
+        <p class="px-2">
+          I/We hereby declare that the rate of NCB claimed by me/us is correct and that no claim has arisen in the expiring policy period. I/We further undertake that if this declaration is found to be incorrect, all benefits under the policy in respect of Section I of the Policy will stand forfeited.        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>10.</p>
+        <p class="px-2">
+          I/We hereby declare that if any additions or alterations are carried out to the vehicle after the submission of this proposal then the same would be conveyed to the insurers immediately.        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>11.</p>
+        <p class="px-2">
+          Previous year policy copy and PUC certificate may be asked by the insurance company at the time of claim        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>12.</p>
+        <p class="px-2">
+          In case of any premium difference due to any incorrect information provided including but not limited to vehicle/previous policy related dates, the premium difference will be borne by the customer.        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>13.</p>
+        <p class="px-2">
+          Your IDV should be 10% less than Previous Year Policy IDV or as per depreciation norms of Indian Motor Tariff. Insurers consider the same during payment of a Total loss claim/Theft case.        </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>14.</p>
+        <p class="px-2">
+          I agree and understand the provision of Section 41 Insurance Laws (Amendment) Act, 2015, Prohibition of Rebates: <br>
+            1) No person shall allow or offer to allow, either directly or indirectly as an inducement to any person to take out or renew or continue an insurance in respect of any kind of risk relating to lives or property in India, any rebate of the whole or part of the commission payable or any rebate of premium shown on the policy, nor shall any person taking out or renewing or continuing a policy accept any rebate except such rebate as may be allowed in accordance with the published prospectus or tables of the insurer. 
+            2) If any person fails to comply with the provisions of this section, s/he shall be liable to payment of a fine which may extend to Ten Lakh rupees.    
+       </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>15.</p>
+        <p class="px-2">
+          I/We confirm that my Vehicle will be re-registered as per statutory requirement (whenever the RC is about to cross the validity period), failing which the policy will not be considered valid.     
+        </p>
+         </div>
+      <div class="d-flex terms-content">
+        <p>16.</p>
+        <p class="px-2">
+          If the vehicle class selected above is found to be incorrect at any time during the policy, the policy shall be cancelled without any refund and all rights to recover there under in respect of past or future accidents shall forfeit. </p>
+      </div>
+      <div class="d-flex terms-content">
+        <p>17.</p>
+        <p class="px-2">
+          I/We also declare that details regarding previous year NCB, past claims history and ownership transfer during past 12 months are true and if found to be false at any time during the policy, the policy shall be void and all rights to recover there under in respect of past or future accidents shall forfeit.        </p>
+      </div>
+
+    </div>
   </div>
   <div class="row" *ngIf="bottomSheetdata=='footer'">
-    <div class="col-12">
+    <div class="col-12" >
       <div class="d-flex terms-content">
         <p>1.</p>
         <p class="px-2">
