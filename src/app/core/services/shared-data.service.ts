@@ -120,9 +120,11 @@ export class SharedDataService {
   traceIdData: any;
   subdomain: any;
   initiate_QuotePayload: any;
-  partnerCodeData:any;
-  traceId:any;
-  isRbRenewal:boolean = false;
+  partnerCodeData: any;
+  traceId: any;
+  isRbRenewal: boolean = false;
+  quotesListData: any;
+  uniqueDataList: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -197,49 +199,54 @@ export class SharedDataService {
     this.disableInsurer?.next(data);
   }
 
- crossSellRecomendation(proposal_number: any) {
-  this.apiService
-  .getRequestedResponse(
-    `${ApiConstants.crosssell_recommendation}${proposal_number}`
-  )
-  .subscribe((res: any) => {
-    
-  });
-}
+  crossSellRecomendation(proposal_number: any) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.crosssell_recommendation}${proposal_number}`
+      )
+      .subscribe((res: any) => {});
+  }
   /**
    * registration number base api
    */
-  renewalType:any;
+  renewalType: any;
   vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
     this.renewalType = sessionStorage.getItem('renewalType');
-    if(this.regNumber!=null && this.renewalType !='renewal' && this.renewalType != 'rollover'){
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
-      )
-      .subscribe((res: any) => {
-        if (res?.detail != 'Vehicle details not found.') {
-          let checkWheeler = {
-            is_two_wheeler: res['is_two_wheeler'],
-            is_four_wheeler: res['is_four_wheeler'],
-          };
-          sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
-          if (res['is_four_wheeler'] && data == 'reg_no') {
-            sessionStorage.setItem('vehicleType', `private_car`);
-          } else if (data == 'reg_no') {
-            sessionStorage.setItem('vehicleType', `two_wheeler`);
-          }
-          this.checkWheelerType(this.editVehicleDetails);
-          this.regNumberData.next(res);
+    if (
+      this.regNumber != null &&
+      this.renewalType != 'renewal' &&
+      this.renewalType != 'rollover'
+    ) {
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
+        )
+        .subscribe((res: any) => {
+          if (res?.detail != 'Vehicle details not found.') {
+            let checkWheeler = {
+              is_two_wheeler: res['is_two_wheeler'],
+              is_four_wheeler: res['is_four_wheeler'],
+            };
+            sessionStorage.setItem(
+              'checkWheeler',
+              JSON.stringify(checkWheeler)
+            );
+            if (res['is_four_wheeler'] && data == 'reg_no') {
+              sessionStorage.setItem('vehicleType', `private_car`);
+            } else if (data == 'reg_no') {
+              sessionStorage.setItem('vehicleType', `two_wheeler`);
+            }
+            this.checkWheelerType(this.editVehicleDetails);
+            this.regNumberData.next(res);
 
-          let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
-          let dateObj = moment(registrationDate, 'MM/YYYY');
-          // this.getRegistrationData.next(dateObj);
-        } else {
-          this.detailNotFound.next(res?.detail);
-        }
-      });
+            let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
+            let dateObj = moment(registrationDate, 'MM/YYYY');
+            // this.getRegistrationData.next(dateObj);
+          } else {
+            this.detailNotFound.next(res?.detail);
+          }
+        });
     }
   }
 
@@ -283,7 +290,7 @@ export class SharedDataService {
     this.traceId = parsedValue?.trace_id;
     // this.router.navigate(['quotes']);
   }
-  
+
   getQuotationListing(
     data?: any,
     productType?: any,
@@ -427,18 +434,18 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false,
-        is_rb_renewal:false,
+        is_d2c: false,
+        is_rb_renewal: false,
       };
-      if(!data?.user_car){
-        if(data?.previous_claimed){
-          quotesData.offered_ncb_value=0
-        }else{
-          quotesData.offered_ncb_value=data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value
+      if (!data?.user_car) {
+        if (data?.previous_claimed) {
+          quotesData.offered_ncb_value = 0;
+        } else {
+          quotesData.offered_ncb_value =
+            data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value;
         }
-      }
-      else{
-        quotesData.offered_ncb_value=0
+      } else {
+        quotesData.offered_ncb_value = 0;
       }
     } else {
       quotesData = {
@@ -475,37 +482,38 @@ export class SharedDataService {
           : false,
         employee_code: localStorage.getItem('employee_code'),
         trace_id: traceId,
-        is_d2c:false,
-        is_rb_renewal:false,
+        is_d2c: false,
+        is_rb_renewal: false,
       };
-      if(!data?.user_car){
-        if(data?.previous_claimed){
-          quotesData.offered_ncb_value=0
-        }else{
-          quotesData.offered_ncb_value=data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value
+      if (!data?.user_car) {
+        if (data?.previous_claimed) {
+          quotesData.offered_ncb_value = 0;
+        } else {
+          quotesData.offered_ncb_value =
+            data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value;
         }
-      }else{
-        quotesData.offered_ncb_value=0
+      } else {
+        quotesData.offered_ncb_value = 0;
       }
     }
-    
+
     this.chooseIdvDataShow.next(productType);
-    if(this.subdomain=='d2c'){
-      quotesData.is_d2c=true
+    if (this.subdomain == 'd2c') {
+      quotesData.is_d2c = true;
     }
-    this.initiate_QuotePayload=quotesData
+    this.initiate_QuotePayload = quotesData;
     const renewal = sessionStorage.getItem('renewalType');
-    if(renewal != null){
-      quotesData.is_rb_renewal= true;
+    if (renewal != null) {
+      quotesData.is_rb_renewal = true;
       let mmvId = sessionStorage.getItem('mmvId');
       quotesData.rb_mmv_id = Number(mmvId);
     }
 
     this.apiService
-    .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
+      .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
       .subscribe((res) => {
         if (res?.status) {
-          if(renewal != null){
+          if (renewal != null) {
             // sessionStorage.setItem('renewalType', 'renewal');
           }
           this.sendCarLoaderMessage(0);
@@ -1052,16 +1060,16 @@ export class SharedDataService {
       this.createProposalId('ckyc', this.ckycFormInfo, data);
     }
   }
- /**
+  /**
    * To handel the Autocomplte Dropdown css issue
    */
- onOpenedAutoComplete() {
-  document.body.style.overflowY = 'hidden';
-}
+  onOpenedAutoComplete() {
+    document.body.style.overflowY = 'hidden';
+  }
 
-onClosedAutoComplete() {
-  document.body.style.overflowY = 'auto';
-}
+  onClosedAutoComplete() {
+    document.body.style.overflowY = 'auto';
+  }
   /**
    * Parses a date string into a Date object using the given format.
    *
@@ -1338,12 +1346,14 @@ onClosedAutoComplete() {
    * service call for the server side event handling
    */
   quotesThroughSSE(transactionId: any, quotesId: any) {
-    let d2c=false
-    if(this.subdomain=='d2c'){
-      d2c=true
+    let d2c = false;
+    if (this.subdomain == 'd2c') {
+      d2c = true;
     }
     this.sseService
-      .getServerSentEvent(`/api/v1/fetch_quotes/${transactionId}/${quotesId}/?is_d2c=${d2c}`)
+      .getServerSentEvent(
+        `/api/v1/fetch_quotes/${transactionId}/${quotesId}/?is_d2c=${d2c}`
+      )
       .subscribe(
         (eventSource) => {
           if (eventSource.data != 'null') {
@@ -1354,23 +1364,39 @@ onClosedAutoComplete() {
             this.allQuotes = this.quotesConnectionData;
 
             this.quotesValue = this.quotesConnectionData;
-            this.allQuotes = Object.values(
-              this.quotesValue.reduce(
-                (
-                  data: any,
-                  obj: {
-                    insurer_name: any;
-                  }
-                ) => ({ ...data, [obj.insurer_name]: obj }),
-                {}
-              )
-            );
+            // console.log(this.allQuotes, '-----');
+            this.quotesListData = {};
+            this.quotesValue.forEach((item: any) => {
+              if (item.status) {
+                const uniqueKey = `${item.insurer_code}_${item.is_payd}`;
+                this.quotesListData[uniqueKey] = item;
+              } else {
+                const uniqueKey = `${item.insurer_code}_false`;
+                this.quotesListData[uniqueKey] = item;
+              }
+            });
+            // console.log(this.quotesListData, 'ttttt');
+            this.uniqueDataList = Object.values(this.quotesListData);
+            // console.log(this.uniqueDataList, 'fchggcg');
+            // this.allQuotes = Object.values(
+            //   this.quotesValue.reduce(
+            //     (
+            //       data: any,
+            //       obj: {
+            //         insurer_name: any;
+            //       }
+            //     ) => ({ ...data, [obj.insurer_name]: obj }),
+            //     {}
+            //   )
+            // );
+            this.allQuotes = this.uniqueDataList;
             this.quotesCount = '';
             this.quotesCount = this.allQuotes;
+            console.log(this.allQuotes);
             setTimeout(() => {
               this.enableQuotesAction.next(this.quotesCount);
             }, 10000);
-            console.log(this.allQuotes);
+            // console.log(this.allQuotes);
             this.quotationListing.next(this.allQuotes);
           }
         },
@@ -1382,13 +1408,16 @@ onClosedAutoComplete() {
         }
       );
   }
-  initiateInsurerQuotePremium(selectedkms:any,insurerCode:any){
-    this.initiate_QuotePayload.isPay=selectedkms
+  initiateInsurerQuotePremium(selectedkms: any, insurerCode: any) {
+    this.initiate_QuotePayload.isPay = selectedkms;
     this.apiService
-      .postRequestedResponse(ApiConstants.initiate_insurer_quote+`?insurer=${insurerCode}`, this.initiate_QuotePayload)
+      .postRequestedResponse(
+        ApiConstants.initiate_insurer_quote + `?insurer=${insurerCode}`,
+        this.initiate_QuotePayload
+      )
       .subscribe((res) => {
         if (res?.status) {
-         console.log(res)
+          console.log(res);
         } else {
           const dialogRef = this.dialog.open(FailureDialogComponent, {
             width: 'auto',

@@ -118,11 +118,11 @@ export class QuotesListingComponent implements OnInit {
     classObtained: 'selected-share-class',
   };
   payAsyouDrive = [
-    { value: 2500, label: '2500 Kms'},
-    { value: 5000, label: '5000 Kms'},
-    { value: 7500, label: '7500 Kms'},
-    { value: 10000, label: '10000 Kms'},
-    { value: 0, label: 'Unlimited'},
+    { value: 2500, label: '2500 Kms' },
+    { value: 5000, label: '5000 Kms' },
+    { value: 7500, label: '7500 Kms' },
+    { value: 10000, label: '10000 Kms' },
+    { value: 0, label: 'Unlimited' },
   ];
   knowMoreText: string = 'Know More';
   shareQuotesDropdownValue: boolean = false;
@@ -173,8 +173,8 @@ export class QuotesListingComponent implements OnInit {
   carLoader: boolean = true;
   payout: boolean = false;
   selectedKmsValue: any;
-  showRenewalQuotes: boolean=false;
-  isPrevoiusInsurer :any;
+  showRenewalQuotes: boolean = false;
+  isPrevoiusInsurer: any;
 
   // isPageRefresh = true;
   constructor(
@@ -198,7 +198,7 @@ export class QuotesListingComponent implements OnInit {
     // sessionStorage.removeItem('gstValue');
     const token = localStorage.getItem('token');
     const partner_code = localStorage.getItem('partner_code');
-    if (token != null && partner_code !=null) {
+    if (token != null && partner_code != null) {
       this.payout = true;
     }
     if (sessionStorage.getItem('sortObjectkey') == null) {
@@ -275,7 +275,9 @@ export class QuotesListingComponent implements OnInit {
               let quotesValueList = this.quotationData.findIndex(
                 (item: any) => {
                   if (
-                    item.insurer_code == this.quotationArray[i]['insurer_code']
+                    item.insurer_code ==
+                      this.quotationArray[i]['insurer_code'] &&
+                    item.is_payd == this.quotationArray[i]['is_payd']
                   ) {
                     return item;
                   }
@@ -369,8 +371,8 @@ export class QuotesListingComponent implements OnInit {
       this.getProposalType();
     });
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType == 'renewal'  || this.renewalType == 'rollover') {
-      this.showRenewalQuotes=true
+    if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
+      this.showRenewalQuotes = true;
       const insurerName = sessionStorage.getItem('previousInsurerCode');
       const quotesData: any = JSON.parse(
         sessionStorage.getItem('renewalPreviousInsurer') || '{}'
@@ -402,7 +404,7 @@ export class QuotesListingComponent implements OnInit {
     //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
     // }
   }
-  info(){
+  info() {
     this.openModal('', this.payoutInfoJSON);
   }
 
@@ -500,15 +502,15 @@ export class QuotesListingComponent implements OnInit {
   }
   getProposalDetails(quotes_data: any) {
     this.isPrevoiusInsurer = false;
-    if(quotes_data?.is_rb_renewal){
+    if (quotes_data?.is_rb_renewal) {
       this.isPrevoiusInsurer = true;
-      sessionStorage.setItem('renewalType','renewal')
+      sessionStorage.setItem('renewalType', 'renewal');
     }
     sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
 
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
     const transactionId = sessionStorage.getItem('transaction_id');
-    
+
     if (quotes_data?.premium_details?.idv > 5000000) {
       this.isIdvGreaterThan50Lac = true;
     }
@@ -608,13 +610,16 @@ export class QuotesListingComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
 
     if (lastIndex !== null && lastIndex !== 'undefined') {
-      if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
-        this.selectedTabIndex = selectedIndex
-      }else{
+      if (this.renewalType == 'rollover' || this.renewalType == 'renewal') {
+        this.selectedTabIndex = selectedIndex;
+      } else {
         this.selectedTabIndex = JSON.parse(lastIndex);
       }
-    } else if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
-      this.selectedTabIndex = selectedIndex
+    } else if (
+      this.renewalType == 'rollover' ||
+      this.renewalType == 'renewal'
+    ) {
+      this.selectedTabIndex = selectedIndex;
     } else {
       this.selectedTabIndex = 0;
     }
@@ -891,15 +896,20 @@ export class QuotesListingComponent implements OnInit {
           this.tabDataList = res;
           this.selectedProductType = this.tabDataList[0].code;
           this.renewalType = sessionStorage.getItem('renewalType');
-          if(this.renewalType == 'renewal' || this.renewalType == 'rollover'){
-            sessionStorage.setItem('productType',this.parsedVehicleData?.policy_expiry)
+          if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
+            sessionStorage.setItem(
+              'productType',
+              this.parsedVehicleData?.policy_expiry
+            );
           }
           let productTypeValue = sessionStorage.getItem('productType');
-          let tabData = this.tabDataList.findIndex((item:any) => item.code === productTypeValue);
+          let tabData = this.tabDataList.findIndex(
+            (item: any) => item.code === productTypeValue
+          );
           if (tabData !== -1) {
             this.selectedTabIndex = tabData;
           } else {
-            this.selectedTabIndex = 0; 
+            this.selectedTabIndex = 0;
           }
 
           if (tabData == -1) {
@@ -1170,8 +1180,8 @@ export class QuotesListingComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-  selectedKms(value:any,insurer_code:any){
-    this.selectedKmsValue=value
-    this.sharedDataService.initiateInsurerQuotePremium(value,insurer_code)
+  selectedKms(value: any, insurer_code: any) {
+    this.selectedKmsValue = value;
+    this.sharedDataService.initiateInsurerQuotePremium(value, insurer_code);
   }
 }
