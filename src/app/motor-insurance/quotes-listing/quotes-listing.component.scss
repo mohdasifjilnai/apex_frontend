@@ -165,13 +165,6 @@
     }
   }
 }
-.pay-drive{
-  font-size: 12px;
-  font-weight: 600;
-  color: #282828;
-  opacity: 50%;
-  line-height: 14px;
-}
 .km-buttons{
   display: flex;
   justify-content: space-between;
@@ -241,6 +234,25 @@
 }
 .insurer-img {
   margin-top: 9px;
+}
+.pay-drive{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(71, 190, 136, 0.08);
+  border-radius: 12px;
+  padding: 10px;
+  width: 165px;
+  .drive-img{
+    width: 18px;
+    height: 18px;
+
+  }
+  .drive-text{
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    color: #47BE88;
+  }
 }
 // .idv-range {
 //   margin-top: -20px;

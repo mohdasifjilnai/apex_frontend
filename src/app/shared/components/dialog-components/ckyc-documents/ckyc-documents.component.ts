@@ -290,6 +290,9 @@ Event handler for when a file is selected.
             this.fileInputError = false;
             this.isfileInputError = true;
           }
+          this.uploadDocumentsForm
+              .get(fileFormControlName)
+              ?.reset();
         }
       );
   }

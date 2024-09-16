@@ -209,13 +209,22 @@
                 </div>
                 <div *ngIf="quotes?.is_payd" >
                   <ng-container >
-                    <span class="pay-drive mb-2">Pay as you Drive</span>
-                  <div class="km-buttons" >
-                    <div *ngFor="let data of payAsyouDrive" >
-                      <button class="km-value" value="data?.value" (click)="selectedKms(data?.value,quotes?.insurer_code)" [class.active]="selectedKmsValue == data?.value">{{data?.label}}</button>
-
+                    <div class="pay-drive"> 
+                      <img
+                      src="/assets/icon/payDrive.svg"
+                      class="drive-img"
+                      alt=""
+                    />
+                    <span class="drive-text">PAY AS YOU DRIVE</span>
                     </div>
-                  </div>
+                   
+                    <!-- <span class="pay-drive mb-2">Pay as you Drive</span>
+                    <div class="km-buttons" >
+                      <div *ngFor="let data of payAsyouDrive" >
+                        <button class="km-value" value="data?.value" (click)="selectedKms(data?.value,quotes?.insurer_code)" [class.active]="selectedKmsValue == data?.value">{{data?.label}}</button>
+
+                      </div>
+                    </div> -->
                   </ng-container>
                   
                 </div>
