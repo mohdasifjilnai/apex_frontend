@@ -125,6 +125,8 @@ export class SharedDataService {
   isRbRenewal: boolean = false;
   quotesListData: any;
   uniqueDataList: any;
+  isRenewal:any;
+
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -701,6 +703,7 @@ export class SharedDataService {
           : '',
       is_breakin: this.quoteData?.is_breakin,
       insured_idv: this.quoteData?.premium_details?.idv,
+      is_renewal_proposal: false,
     };
     if (flag === 'ckyc') {
       this.proposalDataItem['ckyc_details'] = {
@@ -932,6 +935,15 @@ export class SharedDataService {
       this.proposalDataItem['previous_policy_details'] = {
         ...formData,
       };
+    }
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType == 'renewal' || renewalType == 'rollover') {
+      const isRenewal = sessionStorage.getItem('isprevoiusInsurer');
+      if(isRenewal == 'true'){
+        this.proposalDataItem.is_renewal_proposal = true;
+      }else{
+        this.proposalDataItem.is_renewal_proposal = false;
+      }
     }
     this.apiService
       .postRequestedResponseCreateProposal(
