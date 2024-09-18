@@ -241,10 +241,15 @@ Event handler for when a file is selected.
             } else if (this.docTypeData == 'other') {
               this.documentURlOther = res['document_url'];
             }
-
-            this.uploadDocumentsForm
+            if(res['document_url']!=null){
+              this.uploadDocumentsForm
+                .get(fileFormControlName)
+                ?.setValue(res['document_url']);
+            }else{
+              this.uploadDocumentsForm
               .get(fileFormControlName)
-              ?.setValue(res['document_url']);
+              ?.reset();
+            }
           } else {
             this.uploadDocumentsForm
               .get(fileFormControlName)

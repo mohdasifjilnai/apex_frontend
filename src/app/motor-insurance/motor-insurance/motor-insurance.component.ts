@@ -150,9 +150,11 @@ export class MotorInsuranceComponent implements OnInit {
 
     this.fullUrl = this.removeLastSegment(window.location.href);
     // console.log(environment?.apex);
-    // if (environment?.apex === this.fullUrl + '/') {
-    //   this.devUrl = true;
-    // } else if (environment?.apex_local === this.fullUrl + '/') {
+
+    if (this.fullUrl + '/' != 'https://apex.renewbuyinsurance.com/') {
+      this.devUrl = true;
+    }
+    //  else if (environment?.apex_local === this.fullUrl + '/') {
     //   this.devUrl = true;
     // } else if (environment?.apexD2C === this.fullUrl + '/') {
     //   this.devUrl = true;
