@@ -285,7 +285,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.showZeroNCB=true
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
       }else{
-        this.newNCB = this.parsedVehicleData?.addNcbBoth.new_ncb_name;
+        this.newNCB = this.parsedVehicleData?.addNcbBoth?.new_ncb_name;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
       }
     }
