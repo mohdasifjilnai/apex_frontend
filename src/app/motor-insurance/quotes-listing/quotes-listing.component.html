@@ -207,25 +207,24 @@
                   </div>
                   
                 </div>
-                <div *ngIf="quotes?.is_payd" >
-                  <ng-container >
-                    <div class="pay-drive"> 
+                <div *ngIf="quotes?.payd" >
+                  <div class="pay-drive mb-2">
+                    <div class="d-flex"> 
                       <img
                       src="/assets/icon/payDrive.svg"
-                      class="drive-img"
+                      class="drive-img me-2"
                       alt=""
                     />
                     <span class="drive-text">PAY AS YOU DRIVE</span>
                     </div>
-                   
-                    <!-- <span class="pay-drive mb-2">Pay as you Drive</span>
-                    <div class="km-buttons" >
-                      <div *ngFor="let data of payAsyouDrive" >
+                    <span class="pay-drive-message mb-2">{{quotes?.payd?.message}}</span>
+                    <div class="km-buttons" *ngIf="quotes?.payd?.payd_range!=null">
+                      <div *ngFor="let data of quotes?.payd?.payd_range" >
                         <button class="km-value" value="data?.value" (click)="selectedKms(data?.value,quotes?.insurer_code)" [class.active]="selectedKmsValue == data?.value">{{data?.label}}</button>
 
                       </div>
-                    </div> -->
-                  </ng-container>
+                    </div>
+                  </div>
                   
                 </div>
               </div>
@@ -439,8 +438,8 @@
               <!-- {{quotes.insurer_name}} -->
               <div class="col-lg-6 col-md-6">
                 <div class="d-flex justify-content-between">
-                  <div *ngIf="quotes?.is_payd" >
-                    <div class="pay-drive">
+                  <div *ngIf="quotes?.payd" >
+                    <div class="pay-drive mb-2">
                       <div class="d-flex"> 
                         <img
                         src="/assets/icon/payDrive.svg"
@@ -448,11 +447,10 @@
                         alt=""
                       />
                       <span class="drive-text">PAY AS YOU DRIVE</span>
-
                       </div>
-                      <span class="pay-drive-message mb-2">Your current Odometer reading must be between 10,000 kms- 20,000 kms</span>
-                      <div class="km-buttons" >
-                        <div *ngFor="let data of payAsyouDrive" >
+                      <span class="pay-drive-message mb-2">{{quotes?.payd?.message}}</span>
+                      <div class="km-buttons" *ngIf="quotes?.payd?.payd_range!=null">
+                        <div *ngFor="let data of quotes?.payd?.payd_range" >
                           <button class="km-value" value="data?.value" (click)="selectedKms(data?.value,quotes?.insurer_code)" [class.active]="selectedKmsValue == data?.value">{{data?.label}}</button>
   
                         </div>

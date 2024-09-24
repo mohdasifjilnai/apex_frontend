@@ -176,7 +176,7 @@ export class OtpComponent implements OnInit {
                     'proposal_punched',
                     generatedProposal.status
                   );
-                  if (generatedProposal.is_breakin) {
+                  if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
                       this.bottomSheetRef.dismiss();
@@ -282,7 +282,7 @@ export class OtpComponent implements OnInit {
                 if (generatedProposal.status) {
                   sessionStorage.setItem('proposal_punched', 'true');
                   this.sharedDataService.disabledChangeInsurerButton(true);
-                  if (generatedProposal.is_breakin) {
+                  if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
                       this.bottomSheetRef.dismiss();
