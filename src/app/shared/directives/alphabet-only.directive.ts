@@ -15,12 +15,12 @@ onInputChange(event: KeyboardEvent) {
   input.value = sanitized;
 }
 
-@HostListener('paste', ['$event'])
-onPaste(event: ClipboardEvent) {
-  event.preventDefault();
-  const input = event.target as HTMLInputElement;
-  input.value = '';
-}
+// @HostListener('paste', ['$event'])
+// onPaste(event: ClipboardEvent) {
+//   event.preventDefault();
+//   const input = event.target as HTMLInputElement;
+//   input.value = '';
+// }
 
 
 }
