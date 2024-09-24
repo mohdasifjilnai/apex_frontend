@@ -33,7 +33,7 @@
       background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
       color: #ffffff;
       border-radius: 12px;
-      padding: 7px 20px;
+      padding: 7px 19px;
       width: 121px;
       height: 50px;
       text-align: center;
@@ -183,7 +183,7 @@
 .km-value{
   padding: 4px, 8px, 4px, 8px;
   border-radius: 4px;
-  background-color: #F5F8FE;
+  background-color: #fff;
   font-size: 11px;
   font-weight: 500;
   color: #747474;
@@ -236,12 +236,9 @@
   margin-top: 9px;
 }
 .pay-drive{
-  display: flex;
-  justify-content: space-between;
   background-color: rgba(71, 190, 136, 0.08);
   border-radius: 12px;
   padding: 10px;
-  width: 165px;
   .drive-img{
     width: 18px;
     height: 18px;
@@ -252,6 +249,12 @@
     font-weight: 600;
     line-height: 18px;
     color: #47BE88;
+  }
+  .pay-drive-message{
+    font-size: 11px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 14px;
   }
 }
 // .idv-range {

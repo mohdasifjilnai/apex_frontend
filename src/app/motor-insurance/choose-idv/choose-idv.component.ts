@@ -47,7 +47,7 @@ export class ChooseIDVComponent implements OnInit {
   ) {}
   enableIdvCard = true;
   ngOnInit(): void {
-    this.sharedDataService.enableChooseIDV.subscribe((idvData) => {
+    this.sharedDataService.quotationListing.subscribe((idvData) => {
       // this.quotesCount = idvData;
       this.enableIdvCard=true
       if (this.enableIdvCard) {
@@ -55,7 +55,7 @@ export class ChooseIDVComponent implements OnInit {
           this.enableIdvCard = false;
         }, 50000);
         this.quotationData = [];
-        if (idvData.length > 0) {
+        if (idvData?.length > 0) {
           for (let i = 0; i <= idvData.length - 1; i++) {
             idvData[i]['error_message'];
             if (idvData[i]['status']) {
