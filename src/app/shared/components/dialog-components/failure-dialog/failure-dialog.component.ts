@@ -21,9 +21,10 @@ export class FailureDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialog: WindowRef,
     private sharedService: SharedDataService,
-    private route:Router
+    private route: Router
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
+
     this.faliureData = data['data'];
     if (this.faliureData?.error_message) {
       this.errorMessage = this.faliureData?.error_message;
@@ -34,12 +35,19 @@ export class FailureDialogComponent implements OnInit {
       this.errorMessage = data['errorData']['message'];
     } else if (data?.statusdata?.status == 409) {
       this.errorMessage = data['errorData']['message'];
-      if(data['errorData']['code']==1008){
+      if (data['errorData']['code'] == 1008) {
+        if (!this.transactionId) {
+          const url = this.route.url;
+          const parts = url.split('/');
+          this.transactionId = parts[3];
+        }
         this.dialogRef.close();
-        this.route.navigate([`quotes/proposal/${this.transactionId}/review/payment-success`])
+
+        this.route.navigate([
+          `quotes/proposal/${this.transactionId}/review/payment-success`,
+        ]);
       }
-    }
-    else if (
+    } else if (
       (data?.data?.status == false && data?.data?.insurer_code != 'digit') ||
       data?.data?.err_code == 1
     ) {
