@@ -1,12 +1,21 @@
 <div class="row main-container">
-  <div
-    class="res-header-icon text-center mb-3"
-  >
-    <div   class="d-flex  justify-content-end">
-      <span class="cse"><span *ngIf="is_cse=='true'">CSE ({{employee_code}})</span><br><span *ngIf="partner_code">PC({{ partner_code }})</span></span>
+  <div class="res-header-icon text-center mb-3">
+    <div class="d-flex justify-content-end">
+      <span class="cse"
+        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span
+        ><br /><span *ngIf="partner_code">PC({{ partner_code }})</span></span
+      >
     </div>
-    <img *ngIf="vehcileType == 'private_car'" src="/assets/icon/private_car_res_bg.svg" alt="" />
-    <img  *ngIf="vehcileType == 'two_wheeler'" src="/assets/icon/two_wheeler_res_bg.svg" alt="" />
+    <img
+      *ngIf="vehcileType == 'private_car'"
+      src="/assets/icon/private_car_res_bg.svg"
+      alt=""
+    />
+    <img
+      *ngIf="vehcileType == 'two_wheeler'"
+      src="/assets/icon/two_wheeler_res_bg.svg"
+      alt=""
+    />
   </div>
   <!-- <app-breadcrumb></app-breadcrumb> -->
   <div class="body-content">
@@ -234,7 +243,7 @@
             </div>
           </div>
 
-          <div class="col-12 text-center" *ngIf="devUrl==true">
+          <div class="col-12 text-center">
             <span>
               <span *ngIf="!isPolicyNumber" class="already-text"
                 >Already insured?</span
@@ -247,7 +256,9 @@
                 *ngIf="!withoutVehicleNumber"
               >
                 {{
-                  !isPolicyNumber ? "Click Here" : "Continue with Registration Number"
+                  !isPolicyNumber
+                    ? "Click Here"
+                    : "Continue with Registration Number"
                 }}
               </span>
               <span
