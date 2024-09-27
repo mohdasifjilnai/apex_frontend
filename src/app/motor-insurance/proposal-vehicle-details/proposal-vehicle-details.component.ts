@@ -562,59 +562,75 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
   }
   getProposalVehicleData(isValid: any) {
-    if (isValid) {
-      const formValues = this.proposalVehilceDetailsForm.value;
-      if (
-        this.mmvItem &&
-        this.proposalVehilceDetailsForm.value.registration_number_last_digit
-      ) {
-        let registrationNumberFirst =
+    const vehcileType=sessionStorage.getItem('vehicleType');
+    const partnerCode=localStorage.getItem('partner_code')
+    let registrationNumberFirst =
           this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
           '-' +
           this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
           '-' +
           this.proposalVehilceDetailsForm.value.registration_number_last_digit;
-        this.proposalVehilceDetailsForm.patchValue({
-          registration_number: registrationNumberFirst,
-        });
-      }
-
-      // this.shareData?.getAddressValidation(
-      //   JSON.parse(this.quoteData)['insurer_code']
-      // );
-
-      this.afterVehicleData.emit(formValues);
-      this.shareData.createProposalId(
-        'vehilce_details',
-        this.proposalVehilceDetailsForm
-      );
-
-      /**
-       * Unsubscribe before subscribing to avoid multiple subscriptions
-       */
-      if (this.proposalDetailsSubscription) {
-        this.proposalDetailsSubscription.unsubscribe();
-      }
-
-      /**
-       * subscribe to getProposalDetails and navigate after the response
-       */
-      this.proposalDetailsSubscription =
-        this.shareData.getProposalDetails.subscribe((proposal) => {
-          if (
-            (this.vehicleType === 'new' ||
-              (this.isBreakIn && this.productTypeValue === 'satp') ||
-              this.mmvItem?.policy_expiry === 'IDK') &&
-            proposal.vehicle_details !== null
-          ) {
-            const proposal_id=sessionStorage.getItem('proposal_Id')
-            this.shareData.crossSellRecomendation(proposal_id)
-            this.router.navigate([
-              `quotes/proposal/${this.transactionId}/review`,
-            ]);
-            this.proposalDetailsSubscription.unsubscribe();
-          }
-        });
+    if (isValid) {
+      const formValues = this.proposalVehilceDetailsForm.value;
+      this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.renewal_partner_validation}?vehicle_type=${vehcileType}&registration_num=${this.proposalVehilceDetailsForm.value.registration_number_last_digit?registrationNumberFirst:''}&partner_code=${partnerCode?partnerCode:''}`
+          )
+          .subscribe((res) => {
+            if(res?.status){
+              if (
+                this.mmvItem &&
+                this.proposalVehilceDetailsForm.value.registration_number_last_digit
+              ) {
+                let registrationNumberFirst =
+                  this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
+                  '-' +
+                  this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
+                  '-' +
+                  this.proposalVehilceDetailsForm.value.registration_number_last_digit;
+                this.proposalVehilceDetailsForm.patchValue({
+                  registration_number: registrationNumberFirst,
+                });
+              }
+        
+              // this.shareData?.getAddressValidation(
+              //   JSON.parse(this.quoteData)['insurer_code']
+              // );
+        
+              this.afterVehicleData.emit(formValues);
+              this.shareData.createProposalId(
+                'vehilce_details',
+                this.proposalVehilceDetailsForm
+              );
+        
+              /**
+               * Unsubscribe before subscribing to avoid multiple subscriptions
+               */
+              if (this.proposalDetailsSubscription) {
+                this.proposalDetailsSubscription.unsubscribe();
+              }
+        
+              /**
+               * subscribe to getProposalDetails and navigate after the response
+               */
+              this.proposalDetailsSubscription =
+                this.shareData.getProposalDetails.subscribe((proposal) => {
+                  if (
+                    (this.vehicleType === 'new' ||
+                      (this.isBreakIn && this.productTypeValue === 'satp') ||
+                      this.mmvItem?.policy_expiry === 'IDK') &&
+                    proposal.vehicle_details !== null
+                  ) {
+                    const proposal_id=sessionStorage.getItem('proposal_Id')
+                    this.shareData.crossSellRecomendation(proposal_id)
+                    this.router.navigate([
+                      `quotes/proposal/${this.transactionId}/review`,
+                    ]);
+                    this.proposalDetailsSubscription.unsubscribe();
+                  }
+                });
+            }
+          });
     }
   }
   /**

@@ -121,4 +121,6 @@ export class ApiConstants {
   public static crosssell_recommendation = `/api/v1/proposal/crosssell_recommendation/`;
 
   public static initiate_insurer_quote = `/api/v1/initiate_insurer_quote/`;
+
+  public static renewal_partner_validation = `/api/v1/proposal/renewal_partner_validation`;
 }

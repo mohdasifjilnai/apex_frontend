@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 
@@ -14,12 +15,15 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 export class FailureDialogComponent implements OnInit {
   faliureData: any;
   errorMessage: any;
+  transactionId: any;
   constructor(
     public dialogRef: MatDialogRef<FailureDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialog: WindowRef,
-    private sharedService: SharedDataService
+    private sharedService: SharedDataService,
+    private route:Router
   ) {
+    this.transactionId = sessionStorage.getItem('transaction_id');
     this.faliureData = data['data'];
     if (this.faliureData?.error_message) {
       this.errorMessage = this.faliureData?.error_message;
@@ -30,6 +34,10 @@ export class FailureDialogComponent implements OnInit {
       this.errorMessage = data['errorData']['message'];
     } else if (data?.statusdata?.status == 409) {
       this.errorMessage = data['errorData']['message'];
+      if(data['errorData']['code']==1008){
+        this.dialogRef.close();
+        this.route.navigate([`quotes/proposal/${this.transactionId}/review/payment-success`])
+      }
     }
     else if (
       (data?.data?.status == false && data?.data?.insurer_code != 'digit') ||
