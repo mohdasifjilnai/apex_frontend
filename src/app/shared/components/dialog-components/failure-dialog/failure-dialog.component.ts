@@ -42,7 +42,6 @@ export class FailureDialogComponent implements OnInit {
           this.transactionId = parts[3];
         }
         this.dialogRef.close();
-
         this.route.navigate([
           `quotes/proposal/${this.transactionId}/review/payment-success`,
         ]);
