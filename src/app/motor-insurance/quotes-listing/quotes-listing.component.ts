@@ -328,6 +328,11 @@ export class QuotesListingComponent implements OnInit {
           this.errorQuotationArray = [];
           this.chooseIdvArray = [];
         }
+        this.quotationData = this.quotationData.sort((a:any, b:any) => {
+          if (a.insurer_priority === null) return 1;
+          if (b.insurer_priority === null) return -1;
+          return a.insurer_priority - b.insurer_priority;
+        });
         console.log(this.quotationData);
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
