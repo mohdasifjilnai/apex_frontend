@@ -174,7 +174,7 @@ export class PreviousInsurerComponent implements OnInit {
                 this.sharedDataService.patchInsurer(this.patchInsurer);
               }
             }
-          } else if (this.allValue.quotesRequest) {
+          } else if (this.allValue?.quotesRequest) {
             for (let i = 0; i <= this.insurerList.length - 1; i++) {
               if (
                 this.insurerList[i].rb_insurer_code ==

@@ -602,11 +602,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
     if (isValid) {
       const formValues = this.proposalVehilceDetailsForm.value;
+      const proposal_id = sessionStorage.getItem('proposal_Id');
       this.apiservice
         .getRequestedResponse(
           `${
             ApiConstants.renewal_partner_validation
-          }?vehicle_type=${vehcileType}&registration_num=${
+          }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${
             this.proposalVehilceDetailsForm.value.registration_number_last_digit
               ? registrationNumberFirst
               : ''

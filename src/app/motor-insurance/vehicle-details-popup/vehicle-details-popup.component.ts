@@ -1591,8 +1591,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm
-        .get('policy_expiry_date')
-        ?.updateValueAndValidity();
+      .get('policy_expiry_date')
+      ?.updateValueAndValidity();  
       this.vehicleDetailsForm
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
