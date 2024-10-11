@@ -92,7 +92,7 @@ export class QuotesComponent implements OnInit {
           this.checkWheeler['is_two_wheeler'])
       ) {
         this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
-      } 
+      }
     } else {
       this.vehicleDetailsJSON['classObtained'] = 'vehicle-details-class';
     }
@@ -106,10 +106,9 @@ export class QuotesComponent implements OnInit {
     const url = new URL(currentUrl);
     const hostParts = url.host.split('.');
     let subdomain = hostParts[0];
-    if(subdomain=='d2c'){
+    if (subdomain == 'd2c') {
       sessionStorage.setItem('vehicleLoginPopup', 'false');
-    }
-    else{
+    } else {
       sessionStorage.setItem('vehicleLoginPopup', 'true');
     }
     this.route.queryParamMap.subscribe((params) => {
@@ -124,6 +123,7 @@ export class QuotesComponent implements OnInit {
           const urlSegments = segments.map((segment) => segment.path);
           if (urlSegments[1]) {
             this.traceIdUrl = urlSegments[1];
+            sessionStorage.setItem('alreadyCalled', 'true');
             this.traceIdBaseData(this.traceIdUrl);
           }
         });
@@ -151,7 +151,7 @@ export class QuotesComponent implements OnInit {
               const urlSegments = segments.map((segment) => segment.path);
               if (urlSegments[1]) {
                 this.traceIdUrl = urlSegments[1];
-                this.traceIdBaseData(this.traceIdUrl);
+                // this.traceIdBaseData(this.traceIdUrl);
               }
             });
           }
@@ -167,7 +167,10 @@ export class QuotesComponent implements OnInit {
           const urlSegments = segments.map((segment) => segment.path);
           if (urlSegments[1]) {
             this.traceIdUrl = urlSegments[1];
-            this.traceIdBaseData(this.traceIdUrl);
+            let alreadyCalledData = sessionStorage.getItem('alreadyCalled');
+            if (alreadyCalledData != 'true') {
+              this.traceIdBaseData(this.traceIdUrl);
+            }
           }
         });
         // let quotesUrl = sessionStorage.getItem('quotesUrl');
@@ -189,20 +192,19 @@ export class QuotesComponent implements OnInit {
       }
     });
     let popupData = sessionStorage.getItem('vehicleLoginPopup');
-    const vehiclePopup=sessionStorage.getItem('vehiclePopup')
-    if (popupData=='true') {
-      if(vehiclePopup!='true'){
+    const vehiclePopup = sessionStorage.getItem('vehiclePopup');
+    if (popupData == 'true') {
+      if (vehiclePopup != 'true') {
         let quotesUrl = sessionStorage.getItem('quotesUrl');
         if (quotesUrl) {
           this.openNotCertifiedPopup('Partner_Mapped');
           this.shareDataService.sendLoginPartner('quote');
         }
       }
-      
-    }else{
-      const vehiclePopup=sessionStorage.getItem('vehiclePopup')
-      if(vehiclePopup!='true'){
-        this.openVehicleDetailsPopup(null)
+    } else {
+      const vehiclePopup = sessionStorage.getItem('vehiclePopup');
+      if (vehiclePopup != 'true') {
+        this.openVehicleDetailsPopup(null);
       }
     }
     this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
@@ -230,12 +232,10 @@ export class QuotesComponent implements OnInit {
         ) {
           if (notCertified === 'quote') {
             if (window.innerWidth <= 999) {
-              
-                this.bottomSheet.open(VehicleDetailsPopupComponent, {
-                  disableClose: true, // Disable closing on outside click
-                });
-              
-            }else{
+              this.bottomSheet.open(VehicleDetailsPopupComponent, {
+                disableClose: true, // Disable closing on outside click
+              });
+            } else {
               this.openVehicleDetailsPopup(null);
             }
           }
@@ -245,11 +245,10 @@ export class QuotesComponent implements OnInit {
       }
     });
     sessionStorage.removeItem('kycData');
-
   }
   ngOnDestroy(): void {
     this.idleService.stopWatching();
-  } 
+  }
   receivedData: any;
   // receivedCheckBoxValue: any;
   // receiveDataFromChild(data: string) {
@@ -380,7 +379,8 @@ export class QuotesComponent implements OnInit {
     this.apiService
       .getRequestedResponse(`${ApiConstants.fetch_trace_Id}${traceId}`)
       .subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
+
         if (res != null) {
           sessionStorage.setItem('vehicleType', res.vehicle_type);
           sessionStorage.setItem('proposerType', res.customer_type);
@@ -398,9 +398,9 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
-          if(res?.partner_code==null){
+          if (res?.partner_code == null) {
             localStorage.setItem('partner_code', '');
-          }else{
+          } else {
             localStorage.setItem('partner_code', res?.partner_code);
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
@@ -417,7 +417,7 @@ export class QuotesComponent implements OnInit {
             'mmv_data',
             JSON.stringify(res.meta_data.mmv_form_data)
           );
-          this.shareDataService.getVehicleType(res.vehicle_type)
+          this.shareDataService.getVehicleType(res.vehicle_type);
           this.shareDataService.vehicleCardEmailData(
             JSON.stringify(res.meta_data.mmv_form_data)
           );

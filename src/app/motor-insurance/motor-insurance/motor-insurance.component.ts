@@ -119,10 +119,10 @@ export class MotorInsuranceComponent implements OnInit {
   employee_code: any;
   cse: any;
   partner_code: any;
-  isPartnerPOSStatus: boolean=false;
+  isPartnerPOSStatus: boolean = false;
   regNo: any;
-  partnerCodeData:any;
-  policyNo:any;
+  partnerCodeData: any;
+  policyNo: any;
 
   constructor(
     private router: Router,
@@ -179,14 +179,13 @@ export class MotorInsuranceComponent implements OnInit {
       const pos_status = localStorage.getItem('pos_status')?.toLowerCase();
       for (let i = 0; i < environment?.partnerswithoutPOS.length; i++) {
         if (environment?.partnerswithoutPOS[i] === this.partner_code) {
-          this.isPartnerPOSStatus=true
-            break; 
+          this.isPartnerPOSStatus = true;
+          break;
         }
-    }
-    if (pos_status == 'false' && !this.isPartnerPOSStatus) {
-      this.openNotCertifiedPopup('');
-    }
-      
+      }
+      if (pos_status == 'false' && !this.isPartnerPOSStatus) {
+        this.openNotCertifiedPopup('');
+      }
     }
 
     this.sharedDataService.registrationMonthSelection.subscribe((res) => {
@@ -236,13 +235,14 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('proposal_punched');
     sessionStorage.removeItem('quotesUrl');
     sessionStorage.removeItem('sharable_transactionData');
-    sessionStorage.removeItem('previousInsurerCode')
+    sessionStorage.removeItem('previousInsurerCode');
     sessionStorage.removeItem('isprevoiusInsurer');
     sessionStorage.removeItem('RenewalPreviousDetails');
     sessionStorage.removeItem('mmvId');
     sessionStorage.removeItem('previousInsurer');
-    sessionStorage.removeItem('registrationDetails')
-    sessionStorage.removeItem('coverageType')
+    sessionStorage.removeItem('registrationDetails');
+    sessionStorage.removeItem('coverageType');
+    sessionStorage.removeItem('alreadyCalled');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -401,35 +401,38 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
-    this.route.queryParamMap.subscribe(params => {
+    this.route.queryParamMap.subscribe((params) => {
       this.regNo = params.get('reg_no');
       this.policyNo = params.get('policy_number');
-      if(this.regNo!=null){
+      if (this.regNo != null) {
         let value = this.regNo;
-      value = value.replace(/\s/g, '');
-      const sanitizedValue = value.replace(/-/g, '');
-      if (sanitizedValue.length < 7) {
-        const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
-        value = formattedValue.replace(/-$/, '');
-      } else {
-        const prefix = sanitizedValue.substring(0, 2);
-        const prefix2 = sanitizedValue.substring(2, 4);
-        const postfix = sanitizedValue.substring(4);
-        const formattedPostfix = postfix.replace(/([A-Za-z]+|[0-9]+)/g, '$1-');
-        value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
-      }
-      value = value.replace(/^-|-$/g, '');
-      value = value.replace(/--+/g, '-');
-      this.regNo = value;
-      if(subdomain!='d2c'){
-        this.getVehicleDetails();
-      }
-      }else if(this.policyNo!=null){
-        this.motorInsurance.patchValue({
-          policy_number: this.policyNo
-        });
-          this.isPolicyNumber= true;
+        value = value.replace(/\s/g, '');
+        const sanitizedValue = value.replace(/-/g, '');
+        if (sanitizedValue.length < 7) {
+          const formattedValue = sanitizedValue.replace(/(.{2})/g, '$1-');
+          value = formattedValue.replace(/-$/, '');
+        } else {
+          const prefix = sanitizedValue.substring(0, 2);
+          const prefix2 = sanitizedValue.substring(2, 4);
+          const postfix = sanitizedValue.substring(4);
+          const formattedPostfix = postfix.replace(
+            /([A-Za-z]+|[0-9]+)/g,
+            '$1-'
+          );
+          value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
+        }
+        value = value.replace(/^-|-$/g, '');
+        value = value.replace(/--+/g, '-');
+        this.regNo = value;
+        if (subdomain != 'd2c') {
           this.getVehicleDetails();
+        }
+      } else if (this.policyNo != null) {
+        this.motorInsurance.patchValue({
+          policy_number: this.policyNo,
+        });
+        this.isPolicyNumber = true;
+        this.getVehicleDetails();
       }
     });
   }
@@ -557,28 +560,39 @@ export class MotorInsuranceComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           this.loader = false;
-          if(res?.vehicle_details?.is_two_wheeler){
-          sessionStorage.setItem('vehicleType', 'two_wheeler');
-          }else if(res?.vehicle_details?.is_four_wheeler){
+          if (res?.vehicle_details?.is_two_wheeler) {
+            sessionStorage.setItem('vehicleType', 'two_wheeler');
+          } else if (res?.vehicle_details?.is_four_wheeler) {
             sessionStorage.setItem('vehicleType', 'private_car');
           }
           sessionStorage.setItem('renewalType', 'rollover');
           const vehicleDetails = res?.vehicle_details;
-          if(vehicleDetails)
-          {
+          if (vehicleDetails) {
             this.sharedDataService.vehicleDetailsRenewal(vehicleDetails);
           }
-          sessionStorage.setItem('mmvId',res?.vehicle_details?.rb_mmv_id)
+          sessionStorage.setItem('mmvId', res?.vehicle_details?.rb_mmv_id);
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
-          sessionStorage.setItem('previousInsurer',res?.vehicle_details?.previous_insurer_code);
+          sessionStorage.setItem(
+            'previousInsurer',
+            res?.vehicle_details?.previous_insurer_code
+          );
           this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
           const parsedValue = JSON.parse(this.partnerCodeData);
           this.traceId = parsedValue?.trace_id;
           this.router.navigate([`quotes/${this.traceId}`]);
-          
-          sessionStorage.setItem('registrationNumber', res?.previous_policy_details?.vehicle_details?.registration_no)
-          sessionStorage.setItem('previousInsurerCode', res?.previous_policy_details?.insurer_code);
-          sessionStorage.setItem('coverageType', res?.previous_policy_details?.previous_policy_details?.coverage_type);
+
+          sessionStorage.setItem(
+            'registrationNumber',
+            res?.previous_policy_details?.vehicle_details?.registration_no
+          );
+          sessionStorage.setItem(
+            'previousInsurerCode',
+            res?.previous_policy_details?.insurer_code
+          );
+          sessionStorage.setItem(
+            'coverageType',
+            res?.previous_policy_details?.previous_policy_details?.coverage_type
+          );
 
           // if (res.transactional_details && res?.ckyc_status) {
           //   this.transactionDetails = res.transactional_details;

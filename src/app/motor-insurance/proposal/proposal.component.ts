@@ -332,6 +332,7 @@ export class ProposalComponent implements OnInit {
     //     }
     //   });
     // }
+    sessionStorage.removeItem('alreadyCalled');
   }
 
   loadCkyc(expansionName: string) {
