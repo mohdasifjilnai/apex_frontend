@@ -58,6 +58,7 @@ export class QuotesListingComponent implements OnInit {
   storedData = false;
   refreshPageApiHandling = false;
   proposalTypeValueOninit = true;
+  vehicleCardMultipleCall: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -329,7 +330,7 @@ export class QuotesListingComponent implements OnInit {
           this.errorQuotationArray = [];
           this.chooseIdvArray = [];
         }
-        this.quotationData = this.quotationData.sort((a:any, b:any) => {
+        this.quotationData = this.quotationData.sort((a: any, b: any) => {
           if (a.insurer_priority === null) return 1;
           if (b.insurer_priority === null) return -1;
           return a.insurer_priority - b.insurer_priority;
@@ -341,13 +342,14 @@ export class QuotesListingComponent implements OnInit {
       }
     });
 
-    this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
-      this.vehicleData = cardData;
+    this.vehicleCardMultipleCall =
+      this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
+        this.vehicleData = cardData;
 
-      this.parsedVehicleData = JSON.parse(this.vehicleData);
-      this.tabChangeOninit = true;
-      this.quotesTabData('notSendTransactionId');
-    });
+        this.parsedVehicleData = JSON.parse(this.vehicleData);
+        this.tabChangeOninit = true;
+        this.quotesTabData('notSendTransactionId');
+      });
     this.sharedDataService.vehicleCardEmailValue.subscribe((cardData) => {
       this.vehicleData = cardData;
 
@@ -1192,5 +1194,9 @@ export class QuotesListingComponent implements OnInit {
   selectedKms(value: any, insurer_code: any) {
     this.selectedKmsValue = value;
     this.sharedDataService.initiateInsurerQuotePremium(value, insurer_code);
+  }
+
+  ngOnDestroy() {
+    this.vehicleCardMultipleCall.unsubscribe();
   }
 }
