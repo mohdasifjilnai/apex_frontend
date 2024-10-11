@@ -512,6 +512,7 @@ export class QuotesListingComponent implements OnInit {
   }
   getProposalDetails(quotes_data: any) {
     this.isPrevoiusInsurer = false;
+    sessionStorage.setItem('alreadyCalled', 'true');
     if (quotes_data?.is_rb_renewal) {
       this.isPrevoiusInsurer = true;
       sessionStorage.setItem('renewalType', 'renewal');
