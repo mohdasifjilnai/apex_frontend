@@ -160,9 +160,7 @@ export class PaymentComponent implements OnInit {
    * redirection form payment failure page  to review page
    */
   retryPayment() {
-    this.router.navigate([
-      `quotes/proposal/${this.transactionId}/review`,
-    ]);
+    this.router.navigate([`quotes/proposal/${this.transactionId}/review`]);
   }
 
   downloadPolicy() {
@@ -172,16 +170,17 @@ export class PaymentComponent implements OnInit {
       )
       .subscribe((res: any) => {
         if (res?.err_code != 1) {
+          this.policyNumber = res?.policy_no;
           if (res?.status && res?.document_url) {
             window.open(res?.document_url);
             this.policyNumber = res?.policy_no;
-            if(this.policyNumber!=null){
-              this.paymentPendingCase=false
+            if (this.policyNumber != null) {
+              this.paymentPendingCase = false;
               this.router.navigate([
                 `quotes/proposal/${this.transactionId}/review/payment-success`,
               ]);
-            }else{
-              this.paymentPendingCase=true
+            } else {
+              this.paymentPendingCase = true;
             }
           } else {
             this.sharedService.openSnackBar(res?.error_message, true, 3000);
