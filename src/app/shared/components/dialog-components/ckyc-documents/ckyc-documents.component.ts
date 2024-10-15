@@ -126,181 +126,95 @@ export class CkycDocumentsComponent implements OnInit {
 Event handler for when a file is selected.
 @param event - The file selection event.
  */
-  /**
-Event handler for when a file is selected.
-@param event - The file selection event.
- */
-  onFileSelected(
-    event: any,
-    fileFormControlName: any,
-    isReupload: boolean = false
-  ): void {
-    const selectedFile: File = event.target.files[0];
-    this.fileControlName = fileFormControlName;
-    const fileType = selectedFile.type;
-    let doc_type;
-    this.docTypeData = '';
-    this.fileName =
-      selectedFile.name.length > 20
-        ? selectedFile.name.substring(0, 20) + '...'
-        : selectedFile.name;
-    if (fileFormControlName == 'poa_doc_url') {
-      doc_type = 'poa';
-      this.docTypeData = 'poa';
-      if (
-        !(
-          fileType === 'image/jpeg' ||
-          fileType === 'image/png' ||
-          fileType === 'application/pdf'
-        )
-      ) {
-        this.POAFileName = '';
-        this.fileInputError = false;
-        this.isfileInputError = true;
-      } else {
-        this.POAFileName = this.fileName;
-        this.fileInputError = false;
-        this.isfileInputError = false;
-      }
-    }
-    if (fileFormControlName == 'poa_doc_url_1') {
-      doc_type = 'poa';
-      this.docTypeData = 'poa';
-      if (
-        !(
-          fileType === 'image/jpeg' ||
-          fileType === 'image/png' ||
-          fileType === 'application/pdf'
-        )
-      ) {
-        this.POAFileName1 = '';
-        this.fileInputError1 = false;
-        this.isfileInputError1 = true;
-      } else {
-        this.POAFileName1 = this.fileName;
-        this.fileInputError1 = false;
-        this.isfileInputError1 = false;
-      }
-    }
-    if (fileFormControlName == 'doc_url') {
-      doc_type = 'other';
-      this.docTypeData = 'other';
-      if (
-        !(
-          fileType === 'image/jpeg' ||
-          fileType === 'image/png'
-        )
-      ) {
-        this.OtherFileName = '';
-        this.otherfileInputError = false;
-        this.isOtherfileInputError = true;
-      } else {
-        this.OtherFileName = this.fileName;
-        this.otherfileInputError = false;
-        this.isOtherfileInputError = false;
-      }
-    }
+onFileSelected(event: any, fileFormControlName: any, isReupload: boolean = false): void {
+  const selectedFile: File = event.target.files[0];
+  const fileInput = event.target as HTMLInputElement; // Reference to the file input element
+  this.fileControlName = fileFormControlName;
+  const fileType = selectedFile.type;
 
-    if (fileFormControlName == 'poi_doc_url') {
+  // Truncate file name if it's too long
+  this.fileName = selectedFile.name.length > 20 ? selectedFile.name.substring(0, 20) + '...' : selectedFile.name;
+
+  let isValidFile = false;
+  let doc_type = '';
+
+  // Determine file type and valid extensions
+  switch (fileFormControlName) {
+    case 'poa_doc_url':
+    case 'poa_doc_url_1':
+      doc_type = 'poa';
+      isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(fileType);
+      this.docTypeData = 'poa';
+      break;
+    case 'doc_url':
+      doc_type = 'other';
+      isValidFile = ['image/jpeg', 'image/png'].includes(fileType);
+      this.docTypeData = 'other';
+      break;
+    case 'poi_doc_url':
       doc_type = 'poi';
+      isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(fileType);
       this.docTypeData = 'poi';
-      if (
-        !(
-          fileType === 'image/jpeg' ||
-          fileType === 'image/png' ||
-          fileType === 'application/pdf'
-        )
-      ) {
-        this.POIFileName = '';
-        this.PoiFileInputError = false;
-        this.isPoiFileInputError = true;
-      } else {
-        this.POIFileName = this.fileName;
-        this.PoiFileInputError = false;
-        this.isPoiFileInputError = false;
-      }
-    }
-    let formData: FormData = new FormData();
-    formData.append('file', selectedFile, selectedFile.name);
-    this.apiService
-      .postRequestedResponse(
-        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
-        formData
-      )
-      ?.subscribe(
-        (res) => {
-          if (res['status']) {
-            if (isReupload) {
-              this.isReUploadDocument = true;
-              this.checkUploadDocment(res['document_url'],fileFormControlName);
-            }
-            if (this.docTypeData == 'poi') {
-              this.documentURlPOI = res['document_url'];
-            } else if (this.docTypeData == 'poa') {
-              this.documentURlPOA = res['document_url'];
-            } else if (this.docTypeData == 'other') {
-              this.documentURlOther = res['document_url'];
-            }
-            if(res['document_url']!=null){
-              this.uploadDocumentsForm
-                .get(fileFormControlName)
-                ?.setValue(res['document_url']);
-            }else{
-              this.uploadDocumentsForm
-              .get(fileFormControlName)
-              ?.reset();
-            }
-          } else {
-            this.uploadDocumentsForm
-              .get(fileFormControlName)
-              ?.reset();
-            this.isReUploadDocument=false
-            if (fileFormControlName == 'poa_doc_url') {
-              this.POAFileName = '';
-              this.fileInputError = false;
-              this.isfileInputError = true;
-            } else if (fileFormControlName == 'poi_doc_url') {
-              this.POIFileName = '';
-              this.PoiFileInputError = false;
-              this.isPoiFileInputError = true;
-            } else if (fileFormControlName == 'poa_doc_url_1') {
-              this.POAFileName1 = '';
-              this.fileInputError = false;
-              this.isfileInputError = true;
-            }
-            else if (fileFormControlName == 'other') {
-              this.OtherFileName = '';
-              this.fileInputError = false;
-              this.isfileInputError = true;
-            }
-            this.apiService.errorHandler(res);
-          }
-        },
-        (error) => {
-          if (fileFormControlName == 'poa_doc_url') {
-            this.POAFileName = '';
-            this.fileInputError = false;
-            this.isfileInputError = true;
-          } else if (fileFormControlName == 'poi_doc_url') {
-            this.POIFileName = '';
-            this.PoiFileInputError = false;
-            this.isPoiFileInputError = true;
-          } else if (fileFormControlName == 'poa_doc_url_1') {
-            this.POAFileName1 = '';
-            this.fileInputError = false;
-            this.isfileInputError = true;
-          }
-          else if (fileFormControlName == 'other') {
-            this.OtherFileName = '';
-            this.fileInputError = false;
-            this.isfileInputError = true;
-          }
-          this.uploadDocumentsForm
-              .get(fileFormControlName)
-              ?.reset();
-        }
-      );
+      break;
   }
+
+  if (!isValidFile) {
+    fileInput.value = ''; // This clears the file input
+    this.uploadDocumentsForm.get(fileFormControlName)?.reset(); // Reset the form control
+    this.setFileInputError(fileFormControlName, true); // Set error state
+    return;
+  }
+
+  // If file is valid, proceed with the file upload
+  const formData = new FormData();
+  formData.append('file', selectedFile, selectedFile.name);
+
+  this.apiService.postRequestedResponse(
+    `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
+    formData
+  ).subscribe(
+    (res) => {
+      if (res['status']) {
+        if (isReupload) {
+          this.isReUploadDocument = true;
+          this.checkUploadDocment(res['document_url'],fileFormControlName);
+        }
+        this.uploadDocumentsForm.get(fileFormControlName)?.setValue(res['document_url']);
+        this.setFileInputError(fileFormControlName, false);
+      } else {
+        fileInput.value = ''; 
+        this.uploadDocumentsForm.get(fileFormControlName)?.reset();
+        this.setFileInputError(fileFormControlName, true);
+      }
+    },
+    (error) => {
+      fileInput.value = ''; 
+      this.uploadDocumentsForm.get(fileFormControlName)?.reset();
+      this.setFileInputError(fileFormControlName, true);
+    }
+  );
+}
+
+setFileInputError(fileFormControlName: string, hasError: boolean) {
+  switch (fileFormControlName) {
+    case 'poa_doc_url':
+      this.POAFileName = hasError ? '' : this.fileName;
+      this.isfileInputError = hasError;
+      break;
+    case 'poi_doc_url':
+      this.POIFileName = hasError ? '' : this.fileName;
+      this.isPoiFileInputError = hasError;
+      break;
+    case 'poa_doc_url_1':
+      this.POAFileName1 = hasError ? '' : this.fileName;
+      this.isfileInputError = hasError;
+      break;
+    case 'doc_url':
+      this.OtherFileName = hasError ? '' : this.fileName;
+      this.isOtherfileInputError = hasError;
+      break;
+  }
+}
   /**
    * Event handler for when a file is selected.
    * @param event - The file selection event.
@@ -340,11 +254,12 @@ handles the form submit for uploading the required documents
 @param valid - boolean value indicating if the form is valid or not
  */
   submitUploadDocumentsForm(valid: boolean) {
-    // if (this.uploadDocumentsForm.get('poa_doc_url_1')?.value.includes('fakepath') || this.uploadDocumentsForm.get('poa_doc_url')?.value.includes('fakepath')) {
-    //  valid=false
-    //  this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
-    //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
-    // }
+    if (this.uploadDocumentsForm.get('poa_doc_url_1')?.value.includes('fakepath') || this.uploadDocumentsForm.get('poa_doc_url')?.value.includes('fakepath')) {
+     valid=false
+     this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
+     this.uploadDocumentsForm.get('poa_doc_url')?.reset();
+    }
+    console.log(this.uploadDocumentsForm.value)
     if (valid && !this.loader) {
       this.loader = true;
       let body = {
@@ -505,9 +420,9 @@ handles the form submit for uploading the required documents
           this.formFieldPOA = res['poa'];
           this.showPOA = true;
           this.documentHeaderText = `Please complete the document details for POA`;
-          for (let field in this.formFieldPOA) {
+          for (let field in res['poa']) {
             this.uploadDocumentsForm.addControl(
-              this.formFieldPOA[field]?.label,
+              res['poa'][field]?.label,
               new FormControl('', Validators.required)
             );
           }
@@ -516,9 +431,9 @@ handles the form submit for uploading the required documents
           this.formFieldPOI = res['poi'];
           this.showPOI = true;
           this.documentPOIText = `Please complete the document details for POI`;
-          for (let field in this.formFieldPOI) {
+          for (let field in res['poi']) {
             this.uploadDocumentsForm.addControl(
-              this.formFieldPOI[field]?.label,
+              res['poi'][field]?.label,
               new FormControl('', Validators.required)
             );
           }
@@ -531,9 +446,9 @@ handles the form submit for uploading the required documents
             this.formFieldOther = res?.other['photograph'];
             this.showOther = true;
             this.documentOtherText = `Please complete your other details`;
-            for (let field in this.formFieldOther) {
+            for (let field in res?.other['photograph']) {
               this.uploadDocumentsForm.addControl(
-                this.formFieldOther[field]?.label,
+                res?.other['photograph'][field]?.label,
                 new FormControl('', Validators.required)
               );
             }

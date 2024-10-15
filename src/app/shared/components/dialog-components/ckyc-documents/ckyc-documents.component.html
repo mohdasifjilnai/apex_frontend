@@ -256,7 +256,7 @@
                   (click)="
                     POAFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlPOA,fields?.value?.label)
+                      : checkUploadDocment(uploadDocumentsForm.get(fields?.value?.label)?.value,fields?.value?.label)
                   "
                 />
                 <input
@@ -264,8 +264,8 @@
                   id="fileInput"
                   class="form-control-file"
                   (change)="onFileSelected($event, fields?.value?.label)"
-                  [formControlName]="fields?.value?.label"
                 />
+                <input type="hidden" [formControlName]="fields?.value?.label" />
                 <div *ngIf="isfileInputError" class="text-danger">
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
@@ -295,7 +295,7 @@
                   (click)="
                     POAFileName1 === ''
                       ? null
-                      : checkUploadDocment(documentURlPOA,fields?.value?.label)
+                      : checkUploadDocment(uploadDocumentsForm.get(fields?.value?.label)?.value,fields?.value?.label)
                   "
                 />
                 <input
@@ -303,8 +303,9 @@
                   id="fileInput1"
                   class="form-control-file"
                   (change)="onFileSelected($event, fields?.value?.label)"
-                  [formControlName]="fields?.value?.label"
                 />
+                <input type="hidden" [formControlName]="fields?.value?.label" />
+
                 <div *ngIf="isfileInputError1" class="text-danger">
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
@@ -507,7 +508,7 @@
                   (click)="
                     POIFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlPOI,fields?.value?.label)
+                      : checkUploadDocment(uploadDocumentsForm.get(fields?.value?.label)?.value,fields?.value?.label)
                   "
                 />
                 <input
@@ -515,8 +516,8 @@
                   id="fileInputPOI"
                   class="form-control-file"
                   (change)="onFileSelected($event, fields?.value?.label)"
-                  [formControlName]="fields?.value?.label"
                 />
+                <input type="hidden" [formControlName]="fields?.value?.label" />
                 <div *ngIf="PoiFileInputError" class="error-msg">
                   Please upload an image (JPG/PNG) or a PDF file.
                 </div>
@@ -720,7 +721,7 @@
                   (click)="
                     OtherFileName === ''
                       ? null
-                      : checkUploadDocment(documentURlOther,fields?.value?.label)
+                      : checkUploadDocment(uploadDocumentsForm.get(fields?.value?.label)?.value,fields?.value?.label)
                   "
                 />
                 <input
@@ -728,8 +729,8 @@
                   id="fileInputOther"
                   class="form-control-file"
                   (change)="onFileSelected($event, fields?.value?.label)"
-                  [formControlName]="fields?.value?.label"
                 />
+                <input type="hidden" [formControlName]="fields?.value?.label" />
                 <div *ngIf="otherfileInputError" class="error-msg">
                   Please upload an image (JPG/PNG).
                 </div>
