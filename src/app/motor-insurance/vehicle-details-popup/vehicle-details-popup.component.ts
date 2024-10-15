@@ -1157,9 +1157,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     if (!this.vehicleRegistrationCityOninit) {
-      if (data == '') {
-        this.getRTOData('blank');
-      }
+      // if (data == '') {
+      //   this.getRTOData('blank');
+      // }
       if (
         typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
         typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
