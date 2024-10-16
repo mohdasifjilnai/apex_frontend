@@ -394,7 +394,8 @@ export class ProposalReviewComponent implements OnInit {
             'liberty',
             'universal_sompo',
             'hdfc_ergo',
-            'royal_sundaram'
+            'royal_sundaram',
+            'magma'
           ];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.consentSubmitButton = true;
