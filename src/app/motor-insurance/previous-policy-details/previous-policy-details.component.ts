@@ -64,6 +64,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   tpEndmaxDate: any;
   vehicleTypeSelected: any;
   tpFormattedDate: any;
+  partnerCodewithTraceId: any;
 
   constructor(
     private router: Router,
@@ -720,19 +721,39 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   getPreviousVehicleData(isValid: any) {
     const proposal_id=sessionStorage.getItem('proposal_Id')
     this.sharedData.crossSellRecomendation(proposal_id)
-    if (isValid) {
-      const formValues = this.previousPolicyDetailsForm.value;
-      this.afterPreviousVehicleDetilsData.emit(formValues);
-      this.sharedData.createProposalId(
-        'previous_policy_details',
-        this.previousPolicyDetailsForm
+    const vehcileType = sessionStorage.getItem('vehicleType');
+    let partnerCode = localStorage.getItem('partner_code');
+    if (!partnerCode) {
+      this.partnerCodewithTraceId = JSON.parse(
+        sessionStorage.getItem('partnerCodeTraceId') || '{}'
       );
-      /**
-       * Unsubscribe before subscribing to avoid multiple subscriptions
-       */
-      if (this.previousPolicyDetailsSubscription) {
-        this.previousPolicyDetailsSubscription.unsubscribe();
+      if (this.partnerCodewithTraceId?.partner_code) {
+        partnerCode = this.partnerCodewithTraceId?.partner_code;
       }
+    }
+    if (isValid) {
+      this.apiservice
+        .getRequestedResponse(
+          `${
+            ApiConstants.renewal_partner_validation
+          }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${
+            this.proposalData?.vehicle_details?.registration_no
+          }&partner_code=${partnerCode ? partnerCode : ''}`
+        )
+        .subscribe((res) => {
+          if (res?.status) {
+            const formValues = this.previousPolicyDetailsForm.value;
+            this.afterPreviousVehicleDetilsData.emit(formValues);
+            this.sharedData.createProposalId(
+              'previous_policy_details',
+              this.previousPolicyDetailsForm
+            );
+            /**
+             * Unsubscribe before subscribing to avoid multiple subscriptions
+             */
+            if (this.previousPolicyDetailsSubscription) {
+              this.previousPolicyDetailsSubscription.unsubscribe();
+            }
 
       /**
        * subscribe to getProposalDetails and navigate after the response
@@ -749,6 +770,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.previousPolicyDetailsSubscription.unsubscribe();
           }
         });
+          }
+        });
+      
     } else if (this.renewalType == 'renewal') {
       let url = `quotes/proposal/${this.transactionId}/review`;
       this.router.navigate([url]);

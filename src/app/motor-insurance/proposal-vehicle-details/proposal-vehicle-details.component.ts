@@ -600,7 +600,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
       '-' +
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
-    if (isValid) {
+     let registrationNumber
+      if(this.proposalVehilceDetailsForm.value.registration_number_last_digit==''){
+        if(this.proposalData?.vehicle_details?.registration_no!=null){
+          registrationNumber=this.proposalData?.vehicle_details?.registration_no
+        }else{
+          registrationNumber=''
+        }
+      }else if(this.proposalVehilceDetailsForm.value.registration_number_last_digit==undefined){
+        registrationNumber=this.proposalData?.vehicle_details?.registration_no
+      }else{
+        registrationNumber=registrationNumberFirst
+      }
+    if (isValid && (this.vehicleType === "new" || this.mmvItem?.policy_expiry === "IDK")) {
       const formValues = this.proposalVehilceDetailsForm.value;
       const proposal_id = sessionStorage.getItem('proposal_Id');
       this.apiservice
@@ -608,9 +620,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           `${
             ApiConstants.renewal_partner_validation
           }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${
-            this.proposalVehilceDetailsForm.value.registration_number_last_digit
-              ? registrationNumberFirst
-              : ''
+            registrationNumber
           }&partner_code=${partnerCode ? partnerCode : ''}`
         )
         .subscribe((res) => {
@@ -675,6 +685,66 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           } else {
             this.failureJSON['modalName'] = FailureDialogComponent;
             this.openFailurePopup(res);
+          }
+        });
+    }else {
+      const formValues = this.proposalVehilceDetailsForm.value;
+      const proposal_id = sessionStorage.getItem('proposal_Id');
+      if (
+        this.mmvItem &&
+        this.proposalVehilceDetailsForm.value
+          .registration_number_last_digit
+      ) {
+        let registrationNumberFirst =
+          this.divideString(
+            this.mmvItem?.registration_city?.rb_rto_code
+          )[0] +
+          '-' +
+          this.divideString(
+            this.mmvItem?.registration_city?.rb_rto_code
+          )[1] +
+          '-' +
+          this.proposalVehilceDetailsForm.value
+            .registration_number_last_digit;
+        this.proposalVehilceDetailsForm.patchValue({
+          registration_number: registrationNumberFirst,
+        });
+      }
+
+      // this.shareData?.getAddressValidation(
+      //   JSON.parse(this.quoteData)['insurer_code']
+      // );
+
+      this.afterVehicleData.emit(formValues);
+      this.shareData.createProposalId(
+        'vehilce_details',
+        this.proposalVehilceDetailsForm
+      );
+
+      /**
+       * Unsubscribe before subscribing to avoid multiple subscriptions
+       */
+      if (this.proposalDetailsSubscription) {
+        this.proposalDetailsSubscription.unsubscribe();
+      }
+
+      /**
+       * subscribe to getProposalDetails and navigate after the response
+       */
+      this.proposalDetailsSubscription =
+        this.shareData.getProposalDetails.subscribe((proposal) => {
+          if (
+            (this.vehicleType === 'new' ||
+              (this.isBreakIn && this.productTypeValue === 'satp') ||
+              this.mmvItem?.policy_expiry === 'IDK') &&
+            proposal.vehicle_details !== null
+          ) {
+            const proposal_id = sessionStorage.getItem('proposal_Id');
+            this.shareData.crossSellRecomendation(proposal_id);
+            this.router.navigate([
+              `quotes/proposal/${this.transactionId}/review`,
+            ]);
+            this.proposalDetailsSubscription.unsubscribe();
           }
         });
     }
