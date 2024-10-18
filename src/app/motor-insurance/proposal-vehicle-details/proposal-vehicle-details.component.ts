@@ -249,11 +249,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         let renewalDataType = sessionStorage.getItem('renewalType');
         if (renewalDataType == 'renewal') {
-          let regFirstDigit = proposal?.vehicle_details?.registration_no.slice(
+          let regFirstDigit = JSON.parse(proposal?.vehicle_details?.registration_no).slice(
             0,
             2
           );
-          let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
+          let regSecondDigit = JSON.parse(proposal?.vehicle_details?.registration_no).slice(
             2,
             4
           );
@@ -283,38 +283,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             manufacture_date: reformattedManufactureDate,
           });
         } else {
-          let regFirstDigit = proposal?.vehicle_details?.registration_no.slice(
-            0,
-            2
-          );
-          let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
-            2,
-            4
-          );
-          let combineRegData = regFirstDigit + regSecondDigit;
-          let regLastDigit =
-            proposal?.vehicle_details?.registration_no.split(combineRegData);
-          if (regLastDigit) {
-            const regParts = regLastDigit[1].match(/^([a-zA-Z]+)([0-9]+)$/);
-            if (regParts) {
-              regLastDigit = regParts.slice(1).join('-');
-            }
-          }
-          const [dayReg, monthReg, yearReg] =
-            proposal?.vehicle_details?.registration_date.split('/').map(Number);
-          const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
-
-          const [day, month, year] = proposal?.vehicle_details?.manufacture_date
-            .split('/')
-            .map(Number);
-          const reformattedManufactureDate = new Date(year, month - 1, day);
           this.proposalVehilceDetailsForm.patchValue({
-            registration_number: proposal?.vehicle_details?.registration_no,
-            registration_number_last_digit: regLastDigit,
-            registration_number_first: regFirstDigit,
-            registration_number_second: regSecondDigit,
-            registration_date: reformattedRegDate,
-            manufacture_date: reformattedManufactureDate,
+            registration_number_last_digit:
+              proposal?.vehicle_details?.registration_no
+                ?.split('-')
+                .slice(2)
+                .join('-'),
           });
         }
         if ('sbi_general' === this.previousInsurerCode) {
