@@ -249,11 +249,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
         let renewalDataType = sessionStorage.getItem('renewalType');
         if (renewalDataType == 'renewal') {
-          let regFirstDigit = JSON.parse(proposal?.vehicle_details?.registration_no).slice(
+          let regFirstDigit = proposal?.vehicle_details?.registration_no.slice(
             0,
             2
           );
-          let regSecondDigit = JSON.parse(proposal?.vehicle_details?.registration_no).slice(
+          let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
             2,
             4
           );
