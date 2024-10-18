@@ -9,7 +9,7 @@ export class SpecialCharcaterExceptAtDirective {
 
   @HostListener('input', ['$event']) onInput(event: InputEvent): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^a-z_A-Z0-9@.]/g, '');
+    input.value = input.value.replace(/[^a-z_A-Z0-9@.-]/g, '');
   }
 
 }
