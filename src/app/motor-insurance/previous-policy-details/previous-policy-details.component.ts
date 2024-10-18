@@ -255,6 +255,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       ) {
         this.isDisableCKyc = false;
         
+      }else{
+        this.isDisableCKyc=true
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
@@ -647,6 +649,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
+        console.log()
         
       } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
@@ -661,6 +664,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.isDisableCKyc = true;
         
       }
+      console.log(this.isDisableCKyc)
     }
 
     this.sharedData?.fetchedCkycData.subscribe((kyc) => {
@@ -674,7 +678,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
-    }    
+    }   
+    console.log(this.isDisableCKyc,"krishna") 
   }
   onTpStartDateSelected(event: any) {
     if (this.mmvData?.policy_expiry === 'comprehensive') {
