@@ -241,6 +241,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           this.isDisableCKyc = false;
           
         }
+      }
+       else if (this.quoteData?.insurer_code == 'digit') {
+        this.isDisableCKyc = false;
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
         this.fetchedKyc?.proposer_type !== undefined &&
@@ -254,6 +257,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
+      }else{
+        this.isDisableCKyc=true
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');

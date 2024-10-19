@@ -374,7 +374,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
         }
-      } else if (
+      }else if (this.quoteData?.insurer_code == 'digit') {
+        this.isDisableCKyc = false;
+      }
+       else if (
         sessionStorage.getItem('proposerType') !== undefined &&
         this.fetchedKyc?.proposer_type !== undefined &&
         this.fetchedKyc.proposer_type !== null &&
@@ -386,6 +389,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
+      }else{
+        this.isDisableCKyc = true;
       }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
