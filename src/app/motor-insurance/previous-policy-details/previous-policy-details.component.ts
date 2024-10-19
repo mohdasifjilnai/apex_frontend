@@ -254,9 +254,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
-        
-      }else{
-        this.isDisableCKyc=true
       }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
