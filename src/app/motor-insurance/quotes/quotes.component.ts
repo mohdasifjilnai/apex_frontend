@@ -398,7 +398,9 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
-          sessionStorage.setItem('registrationNumber', res.registration_no);
+          if(res?.registration_no!=null){
+            sessionStorage.setItem('registrationNumber', res?.registration_no);
+          }
           if (res?.partner_code == null) {
             localStorage.setItem('partner_code', '');
           } else {
