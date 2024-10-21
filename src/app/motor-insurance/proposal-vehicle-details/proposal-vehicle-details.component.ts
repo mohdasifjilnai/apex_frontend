@@ -206,6 +206,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       // }
     });
     this.shareData.getProposalDetails.subscribe((proposal) => {
+      this.proposalData = proposal;
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -374,8 +375,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
         }
-      }else if (this.quoteData?.insurer_code == 'digit') {
-        this.isDisableCKyc = false;
+      }else if (this.proposalData?.insurer_code == 'digit') {
+        if(this.proposalData?.ckyc_details !=null && this.proposalData?.customer_details!=null){
+          this.isDisableCKyc = false;
+        }else{
+          this.isDisableCKyc = true;
+        }
       }
        else if (
         sessionStorage.getItem('proposerType') !== undefined &&
@@ -444,7 +449,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-      } else if (JSON.parse(this.quoteData)['insurer_code'] === 'digit') {
+      } else if (this.proposalData?.insurer_code == 'digit') {
         this.isDisableCKyc = false;
       } else if (
         this.fetchedKyc?.verification_status !== null &&

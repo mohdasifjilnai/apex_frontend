@@ -243,7 +243,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }
       }
        else if (this.quoteData?.insurer_code == 'digit') {
-        this.isDisableCKyc = false;
+        if(this.proposalData?.ckyc_details !=null && this.proposalData?.customer_details!=null){
+          this.isDisableCKyc = false;
+        }else{
+          this.isDisableCKyc = true;
+        }
       } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
         this.fetchedKyc?.proposer_type !== undefined &&

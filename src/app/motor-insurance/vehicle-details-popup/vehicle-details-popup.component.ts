@@ -470,7 +470,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     //     }, 2000);
     //   }
     // }
-
+    this.vehicleDetailsFormControler()
   }
 
   /**
@@ -483,10 +483,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
       vehicle_variant: ['', Validators.required],
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
-      user_car: [''],
+      user_car: [false],
       policy_expiry_date: [''],
       policy_expiry: [''],
-      previous_claimed: [''],
+      previous_claimed: [false],
       ncb_discount: [''],
       manufacture_date: [moment(), Validators.required],
       registration_date: ['', Validators.required],
