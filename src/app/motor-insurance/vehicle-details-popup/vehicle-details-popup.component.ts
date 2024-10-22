@@ -1171,7 +1171,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         let renewalType = sessionStorage.getItem('renewalType');
 
         if (!renewalType) {
-          this.mmvBaseButtonDisable = true;
+          // this.mmvBaseButtonDisable = true;
         }
       }
     } else {
