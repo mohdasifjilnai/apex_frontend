@@ -98,9 +98,9 @@ export class PreviousInsurerComponent implements OnInit {
         previous_insurer: '',
       });
       if (this.disableInsurerField) {
-        this.form.controls['previous_insurer'].disable();
+        this.form.controls['previous_insurer']?.disable();
       } else {
-        this.form.controls['previous_insurer'].enable();
+        this.form.controls['previous_insurer']?.enable();
       }
     });
     if (this.disablePreviousInsurer) {

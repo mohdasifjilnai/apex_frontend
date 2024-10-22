@@ -61,9 +61,9 @@ export class PolicyExpiredDateComponent implements OnInit {
         policy_expiry_date: '',
       });
       if (this.disableExpDateField) {
-        this.form.controls[this.formControlNameData].disable();
+        this.form.controls[this.formControlNameData]?.disable();
       } else {
-        this.form.controls[this.formControlNameData].enable();
+        this.form.controls[this.formControlNameData]?.enable();
       }
     });
     if (this.disablePreviousInsurer) {
