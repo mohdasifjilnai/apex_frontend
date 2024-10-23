@@ -1383,7 +1383,7 @@ export class SharedDataService {
                 const uniqueKey = `${item.insurer_code}_${item.payd?.status}`;
                 this.quotesListData[uniqueKey] = item;
               } else {
-                const uniqueKey = `${item.insurer_code}_false`;
+                const uniqueKey = item.payd?.status?`${item.insurer_code}_true`:`${item.insurer_code}_false`;
                 this.quotesListData[uniqueKey] = item;
               }
             });
