@@ -185,12 +185,20 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         });
       }
       if (this.proposalData.previous_policy_details !== null) {
+        const formatDate = (dateString: string) => {
+          if (!dateString) return null;
+          const [day, month, year] = dateString.split('/');
+          const date = new Date(+year, +month - 1, +day);
+          return this.datePipe.transform(date, 'yyyy-MM-dd');
+        };
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_no,
+          tp_policy_start_date: formatDate(this.proposalData.previous_policy_details?.tp_policy_details?.tp_policy_start_date),
+          tp_policy_end_date: formatDate(this.proposalData.previous_policy_details?.tp_policy_details?.tp_policy_expiry_date)
         });
         if (
           this.proposalData.previous_policy_details?.insurer_code ||
