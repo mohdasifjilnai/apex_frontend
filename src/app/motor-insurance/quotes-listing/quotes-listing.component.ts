@@ -279,7 +279,7 @@ export class QuotesListingComponent implements OnInit {
                   if (
                     item.insurer_code ==
                       this.quotationArray[i]['insurer_code'] &&
-                    item.payd == this.quotationArray[i]['payd']
+                    item.payd?.status == this.quotationArray[i]['payd']['status']
                   ) {
                     return item;
                   }

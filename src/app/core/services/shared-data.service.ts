@@ -1380,10 +1380,10 @@ export class SharedDataService {
             this.quotesListData = {};
             this.quotesValue.forEach((item: any) => {
               if (item.status) {
-                const uniqueKey = `${item.insurer_code}_${item.payd}`;
+                const uniqueKey = `${item.insurer_code}_${item.payd?.status}`;
                 this.quotesListData[uniqueKey] = item;
               } else {
-                const uniqueKey = `${item.insurer_code}_null`;
+                const uniqueKey = `${item.insurer_code}_false`;
                 this.quotesListData[uniqueKey] = item;
               }
             });
