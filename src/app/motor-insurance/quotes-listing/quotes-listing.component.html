@@ -218,7 +218,7 @@
                     >
                   </div>
                 </div>
-                <div *ngIf="quotes?.payd?.status">
+                <div *ngIf="quotes?.payd?.status" class="payd-web">
                   <div class="pay-drive mb-2">
                     <div class="d-flex">
                       <img
@@ -323,6 +323,40 @@
                     </button>
                   </span>
                 </p>
+              </div>
+              <div class="col-12 payd-res">
+                <div *ngIf="quotes?.payd?.status">
+                  <div class="pay-drive mb-2">
+                    <div class="d-flex">
+                      <img
+                        src="/assets/icon/payDrive.svg"
+                        class="drive-img me-2"
+                        alt=""
+                      />
+                      <span class="drive-text">PAY AS YOU DRIVE</span>
+                    </div>
+                    <span class="pay-drive-message mb-2">{{
+                      quotes?.payd?.message
+                    }}</span>
+                    <div
+                      class="km-buttons"
+                      *ngIf="quotes?.payd?.payd_range != null"
+                    >
+                      <div *ngFor="let data of quotes?.payd?.payd_range">
+                        <button
+                          class="km-value"
+                          value="data?.value"
+                          (click)="
+                            selectedKms(data?.value, quotes?.insurer_code)
+                          "
+                          [class.active]="selectedKmsValue == data?.value"
+                        >
+                          {{ data?.label }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

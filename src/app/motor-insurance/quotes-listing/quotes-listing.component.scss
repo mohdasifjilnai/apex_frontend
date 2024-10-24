@@ -180,6 +180,12 @@
     height: 22px;
   }
 }
+.payd-res{
+  display: none;
+}
+.payd-web{
+  display: block;
+}
 .km-value{
   padding: 4px, 8px, 4px, 8px;
   border-radius: 4px;
@@ -521,6 +527,12 @@
   font-size: 11px;
 }
 @media screen and (max-width: 999px) {
+  .payd-res{
+    display: block;
+  }
+  .payd-web{
+    display: none;
+  }
   .toggle-btn {
     ::ng-deep .mat-tab-label {
       padding: 0px 15px !important;
