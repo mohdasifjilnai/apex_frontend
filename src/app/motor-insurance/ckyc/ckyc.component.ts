@@ -187,12 +187,14 @@ export class CkycComponent implements OnInit {
         //     }
         //   }
         // }
-
+        let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
           sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
           proposal?.ckyc_details?.is_verification
         ) {
+          this.isDisableCKyc = true;
+        }else if(previous_insurer==this.proposalData?.insurer_code){
           this.isDisableCKyc = true;
         }
       }

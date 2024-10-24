@@ -237,6 +237,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           });
         }
       }
+      let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
       if (
         kycData?.insurer_code == this.quoteData?.insurer_code &&
         sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -264,7 +265,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       ) {
         this.isDisableCKyc = true;
         
-      } else if (
+      }else if(previous_insurer==this.proposalData?.insurer_code){
+        this.isDisableCKyc = false;
+      }
+       else if (
         this.fetchedKyc?.verification_status !== null &&
         this.fetchedKyc?.verification_status !== undefined
       ) {

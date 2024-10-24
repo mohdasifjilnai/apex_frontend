@@ -365,6 +365,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
       }
+      let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
       if (
         kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
         sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -381,6 +382,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }else{
           this.isDisableCKyc = true;
         }
+      }else if(previous_insurer==this.proposalData?.insurer_code){
+        this.isDisableCKyc = false;
       }
        else if (
         sessionStorage.getItem('proposerType') !== undefined &&
