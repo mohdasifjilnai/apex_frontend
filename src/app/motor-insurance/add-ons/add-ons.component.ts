@@ -67,7 +67,7 @@ export class AddOnsComponent implements OnInit {
   // isPageRefresh = true;
   addMultiCheckboxValue: any = [];
   loader:boolean=false
-  proposalOnInit: boolean=true;
+  proposalOnInit: boolean=false;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -108,6 +108,9 @@ export class AddOnsComponent implements OnInit {
           this.selectedAddOns = '';
         } else {
           this.selectedAddOns = JSON.parse(this.addonsValue);
+          if(this.selectedAddOns){
+            this.clearAllButton=true
+          }
         }
 
         if (this.selectedAddOns) {
@@ -239,29 +242,21 @@ export class AddOnsComponent implements OnInit {
         sessionStorage.removeItem('selectedAddons');
       }
     });
-    this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
-      // if(!this.proposalOnInit){
-      //   this.subCheckBox = [];
-      // this.selectedCheckedArray = [];
-      // this.selectAddOnsOnly = [];
-      // this.checkBoxValueArray = [];
-      // this.inputValues = [];
-      // this.showButtons = false;
-      // this.showUpdateButton = false;
-      // this.clearAllButton = false;
-      // this.selected_addons = {};
-      // this.addonsValue = sessionStorage.getItem('selectedAddons');
-      // if (this.addonsValue == 'undefined') {
-      //   this.selectedAddOns = '';
-      // } else {
-      //   this.selectedAddOns = JSON.parse(this.addonsValue);
-      // }
+    this.proposalOnInit=true
 
-      // if (this.selectedAddOns) {
-      //   sessionStorage.removeItem('selectedAddons');
-      // }
-      // }
-      // this.proposalOnInit=false
+    this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
+      if(!this.proposalOnInit){
+        this.subCheckBox = [];
+      this.selectedCheckedArray = [];
+      this.selectAddOnsOnly = [];
+      this.checkBoxValueArray = [];
+      this.inputValues = [];
+      this.showButtons = false;
+      this.showUpdateButton = false;
+      this.clearAllButton = false;
+      this.selected_addons = {};
+      }
+      this.proposalOnInit=false
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.getAddonList(
