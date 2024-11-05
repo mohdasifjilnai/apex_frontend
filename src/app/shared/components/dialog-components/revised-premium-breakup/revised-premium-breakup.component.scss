@@ -1,0 +1,123 @@
+.premium-breakup-main-dialog {
+  .insurer-logo {
+    width: 100px;
+    height: 50px;
+    border-radius: 4px;
+    object-fit: scale-down;
+  }
+  .cover-text {
+    font-size: 14px;
+    color: #282828;
+    font-weight: 600;
+    opacity: 50%;
+  }
+  .revised-cover-text {
+    font-size: 14px;
+    color: #5384ea;
+    font-weight: 600;
+    // opacity: 50%;
+  }
+  .cover-amount {
+    font-size: 16px;
+    font-weight: 600;
+    color: #282828;
+  }
+  .own-damage-text,
+  .own-damage-amount {
+    font-size: 14px;
+    font-weight: 400;
+    color: #282828;
+  }
+  .addons-value{
+    white-space: pre;
+  }
+  .text-bold {
+    font-weight: 600;
+  }
+  .included{
+    font-size: 8px;
+    font-weight: 600;
+    background-color: blue;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .included-text{
+    font-size: 11px;
+    font-weight: 500;
+    color: #282828;
+  }
+}
+.res-addons-hover-image{
+  display: none;
+}
+.addons-hover-image{
+  display: block;
+}
+.loader {
+  width: 30px;
+  height: 16px;
+  margin-top: -5px;
+}
+@media screen and (max-width: 999px) {
+  
+  .res-addons-hover-image{
+    display: block;
+  }
+  .addons-hover-image{
+    display: none;
+  }
+  .premium-breakup-main-dialog {
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;    
+  }
+}
+.addons-card-popup {
+  position: absolute;
+  // right: 5%;
+  // top: 40%;
+  transform: translate(55%, -50%);
+  width: 20%;
+  z-index: 9999;
+  .card{
+    border: 1px solid #D6D6D6;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+  }
+ 
+}
+.Zero-addons{
+  // right: 2%;
+  // top: 62% !important;
+  transform: translate(0%, -56%);
+  width: 24%;
+  z-index: 9999;
+  .card{
+    border: 1px solid #D6D6D6;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+  }
+}
+.addons-res{
+  display: none;
+}
+  .basic-details-submission {
+    height: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+  }
+// for mobile devices
+@media screen and (max-width: 999px) {
+  .addons-res{
+    display: block;
+  }
+  .Zero-addons{
+    transform: translate(9%, -75%);
+
+  }
+}

@@ -1,0 +1,340 @@
+<div class="premium-breakup-main-dialog" mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+        <img [src]="initiateQuotes.insurer_logo" class="insurer-logo" />
+    </div>
+    <div class="col-3 cover-text">Previous Total Cover (IDV)</div>
+    <div class="col-3 revised-cover-text d-flex justify-content-start">Revised Total Cover (IDV)</div>
+  </div>
+  <div class="d-flex justify-content-between row">
+    <div class="col-6">
+    </div>
+    <div
+      *ngIf="thirdParty != 'bundled_tp'"
+      class="col-3 d-flex justify-content-start"
+    >
+      <div class="cover-amount">
+        &#8377;
+        {{
+          initiateQuotes?.premium_details?.idv != 0
+            ? (initiateQuotes?.premium_details?.idv | number : "2.")
+            : 0
+        }}
+      </div>
+    </div>
+    <div
+      *ngIf="thirdParty != 'bundled_tp'"
+      class="col-3 d-flex justify-content-start"
+    >
+      <div class="cover-amount">&#8377; {{
+        revisedData?.insurer_premium_details?.idv != 0
+          ? (revisedData?.insurer_premium_details?.idv | number : "2.")
+          : 0
+      }}</div>
+    </div>
+
+  </div>
+  <div>
+    <div class="d-flex justify-content-between mt-2 row">
+      <span
+        class="col-6 d-flex justify-content-start own-damage-text text-bold"
+      >
+        Total Own Damage (A)
+      </span>
+      <span
+        class="col-3 d-flex justify-content-start own-damage-amount text-bold"
+      >
+        &#8377;
+        {{
+          initiateQuotes?.premium_details?.od_premium_details?.total_od_premium !=
+          0
+            ? (initiateQuotes?.premium_details?.od_premium_details
+                ?.total_od_premium | number : "2.")
+            : 0
+        }}
+      </span>
+      <span class="col-3 d-flex justify-content-start own-damage-amount text-bold"
+        >&#8377;
+        {{
+          revisedData?.insurer_premium_details?.od_premium_details?.total_od_premium !=
+          0
+            ? (revisedData?.insurer_premium_details?.od_premium_details
+                ?.total_od_premium | number : "2.")
+            : 0
+        }}</span
+      >
+    </div>
+    <div
+      class="d-flex justify-content-between row"
+      *ngIf="!mmvParseData?.previous_claimed"
+    >
+      <span class="own-damage-text col-6"> NCB Discount </span>
+      <span class="own-damage-amount d-flex justify-content-start col-3"
+        ><span
+          *ngIf="
+            initiateQuotes.premium_details.od_premium_details.ncb_discount != 0
+          "
+          >-</span
+        >
+        &#8377;
+        {{
+          initiateQuotes?.premium_details?.od_premium_details?.ncb_discount < 0
+            ? (-initiateQuotes?.premium_details?.od_premium_details?.ncb_discount
+              | number : "2.")
+            : (initiateQuotes?.premium_details?.od_premium_details?.ncb_discount
+              | number : "1.")
+        }}</span
+      >
+      <span class="own-damage-amount d-flex justify-content-start col-3">
+        <span
+          *ngIf="
+            initiateQuotes.premium_details.od_premium_details.ncb_discount != 0
+          "
+          >-</span
+        >&#8377;
+        {{
+          revisedData?.insurer_premium_details?.od_premium_details?.ncb_discount < 0
+            ? (-revisedData?.insurer_premium_details?.od_premium_details?.ncb_discount
+              | number : "2.")
+            : (revisedData?.insurer_premium_details?.od_premium_details?.ncb_discount
+              | number : "1.")
+        }}
+      </span>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-2 row">
+    <span class="own-damage-text text-bold col-6"> Third Party (B)</span>
+    <span
+      class="own-damage-amount text-bold d-flex justify-content-start col-3"
+    >
+      &#8377;
+      {{
+        initiateQuotes?.premium_details?.tp_premium_details?.total_tp_premium != 0
+          ? (initiateQuotes?.premium_details?.tp_premium_details?.total_tp_premium
+            | number : "2.")
+          : 0
+      }}
+    </span>
+    <span class="own-damage-amount text-bold d-flex justify-content-start col-3">
+      &#8377; 
+      {{
+        revisedData?.insurer_premium_details?.tp_premium_details?.total_tp_premium != 0
+          ? (revisedData?.insurer_premium_details?.tp_premium_details?.total_tp_premium
+            | number : "2.")
+          : 0
+      }}
+    </span>
+  </div>
+
+  <div class="d-flex justify-content-between mt-2 row">
+    <span class="own-damage-text text-bold col-6">
+      <div
+        class="d-flex cursor-pointer"
+        (mouseenter)="showCard = true"
+        (mouseleave)="showCard = false"
+      >
+        Total Addons
+        {{ revisedData?.insurer_premium_details?.is_addon_addition ? "(D)" : "" }}
+        <img
+          src="/assets/icon/cpa-hover.svg"
+          alt=""
+          class="addons-hover-image ms-2"
+          *ngIf="
+            initiateQuotes?.premium_details?.addon_premium_details.length != 0
+          "
+        />
+        <img
+          src="/assets/icon/cpa-hover.svg"
+          (click)="showAddonsData()"
+          alt=""
+          class="res-addons-hover-image"
+        />
+      </div>
+      <span class="included-text">(included with OD & TP)</span>
+    </span>
+    <span
+      class="own-damage-amount text-bold d-flex justify-content-start col-3"
+    >
+      &#8377;
+      {{
+        initiateQuotes?.premium_details?.total_addon_premium !== 0
+          ? (initiateQuotes?.premium_details?.total_addon_premium
+            | number : "2.")
+          : 0
+      }}
+    </span>
+    <span class="own-damage-amount text-bold d-flex justify-content-start col-3">
+      &#8377; 
+      {{
+        revisedData?.insurer_premium_details?.total_addon_premium !== 0
+          ? (revisedData?.insurer_premium_details?.total_addon_premium
+            | number : "2.")
+          : 0
+      }}
+    </span>
+  </div>
+  <ng-container
+    *ngIf="
+      showAddons &&
+      revisedData?.Insurer_premium_details?.addon_premium_details.length > 0
+    "
+    class="addons-res"
+  >
+    <div
+      class="d-flex justify-content-between"
+      *ngFor="
+        let addOns of revisedData?.insurer_premium_details?.addon_premium_details
+      "
+    >
+      <span class="own-damage-text"> {{ addOns?.add_on_name }} </span>
+      <span
+        class="own-damage-amount"
+        *ngIf="!(addOns?.is_offered && addOns?.add_on_premium == 0)"
+      >
+        &#8377; {{ addOns?.add_on_premium }}
+      </span>
+      <span
+        *ngIf="addOns?.is_offered && addOns?.add_on_premium == 0"
+        class="included"
+        >Included</span
+      >
+    </div>
+  </ng-container>
+
+  <div
+    class="d-flex justify-content-end"
+    *ngIf="
+      showCard &&
+      revisedData?.insurer_premium_details?.addon_premium_details.length > 0
+    "
+  >
+    <div
+      [ngClass]="
+        revisedData?.insurer_premium_details?.addon_premium_details.length > 5
+          ? 'addons-card-popup'
+          : 'Zero-addons'
+      "
+      class="addons-card-popup"
+    >
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="d-flex justify-content-between mb-2 row">
+              <span class="own-damage-text text-bold col-6">
+                Total Addons
+              </span>
+              <!-- <span
+                class="own-damage-amount text-bold col-3 d-flex justify-content-start"
+              >
+                &#8377;
+                {{
+                  initiateQuotes?.premium_details?.total_addon_premium != 0
+                    ? (initiateQuotes?.premium_details?.total_addon_premium
+                      | number : "2.")
+                    : 0
+                }}
+              </span> -->
+              <span
+                class="own-damage-amount text-bold col-3 d-flex justify-content-end"
+              >
+                &#8377; 
+                {{
+                  revisedData?.insurer_premium_details?.total_addon_premium != 0
+                    ? (revisedData?.insurer_premium_details?.total_addon_premium
+                      | number : "2.")
+                    : 0
+                }}
+              </span>
+            </div>
+            <div
+              class="d-flex justify-content-between"
+              *ngFor="
+                let addOns of revisedData?.insurer_premium_details
+                  ?.addon_premium_details
+              "
+            >
+              <span class="own-damage-text"> {{ addOns?.add_on_name }} </span>
+              <span
+                class="own-damage-amount addons-value"
+                *ngIf="!(addOns?.is_offered && addOns?.add_on_premium == 0)"
+              >
+                &#8377; {{ addOns?.add_on_premium }}
+              </span>
+              <span
+                *ngIf="addOns?.is_offered && addOns?.add_on_premium == 0"
+                class="included"
+                >Included</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between mt-2 row">
+    <span class="own-damage-text text-bold col-6"> GST (18%) (C) </span>
+    <span
+      class="own-damage-amount text-bold col-3 d-flex justify-content-start"
+    >
+      &#8377;
+      {{
+        initiateQuotes?.premium_details?.total_gst != 0
+          ? (initiateQuotes?.premium_details?.total_gst | number : "2.")
+          : 0
+      }}
+    </span>
+    <span class="own-damage-amount text-bold col-3 d-flex justify-content-start">
+      &#8377; 
+      {{
+        revisedData?.insurer_premium_details?.total_gst != 0
+          ? (revisedData?.insurer_premium_details?.total_gst | number : "2.")
+          : 0
+      }}
+    </span>
+  </div>
+
+  <div class="d-flex justify-content-between mt-2 row">
+    <span class="own-damage-text text-bold col-6">
+      Total Premium (A+B+C{{
+        revisedData?.insurer_premium_details?.is_addon_addition ? "+D" : ""
+      }})
+    </span>
+
+    <span
+      class="own-damage-amount text-bold col-3 d-flex justify-content-start"
+    >
+      &#8377;
+      {{
+        initiateQuotes?.premium_details?.gross_premium != 0
+          ? (initiateQuotes?.premium_details?.gross_premium | number : "2.")
+          : 0
+      }}
+    </span>
+    <span class="own-damage-amount text-bold col-3 d-flex justify-content-start">
+      &#8377; 
+      {{
+        revisedData?.insurer_premium_details?.gross_premium != 0
+          ? (revisedData?.insurer_premium_details?.gross_premium | number : "2.")
+          : 0
+      }}
+    </span>
+  </div>
+
+  <div class="mt-4 text-center">
+    <button
+      class="submit-btn basic-details-submission"
+      type="submit"
+      (click)="proceedToPayment()"
+    >
+      <img
+        src="/assets/gif/button-loader.gif"
+        alt="close"
+        class="loader me-1"
+        *ngIf="loader"
+      />
+      Make Payment
+    </button>
+  </div>
+</div>

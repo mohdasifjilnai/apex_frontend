@@ -3,13 +3,16 @@ import {
   ElementRef,
   Inject,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import {
   MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheet,
+  MatBottomSheetConfig,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
@@ -19,6 +22,7 @@ import { FailureDialogComponent } from '../failure-dialog/failure-dialog.compone
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { RevisedPremiumBreakupComponent } from '../revised-premium-breakup/revised-premium-breakup.component';
 
 @Component({
   selector: 'app-otp',
@@ -57,6 +61,21 @@ export class OtpComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'nonPOS-class',
   };
+  initiateQuotesJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: RevisedPremiumBreakupComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: false,
+    classObtained: 'revised-quotes-class',
+  };
   resendDisabled = false;
   countdown = 60;
   btnDisable: boolean = true;
@@ -78,7 +97,10 @@ export class OtpComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    private renderer: Renderer2,
+    public bottomSheet: MatBottomSheet,
+    private matDialogs: MatDialog,
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -142,6 +164,44 @@ export class OtpComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+  openModal(data:any, jsonData: any) {
+    let resWidth;
+    let resTop;
+    
+    if (window.screen.width <= 999) {
+      resWidth = 'auto';
+      resTop = '0';
+    } else {
+      resWidth = 'auto';
+      resTop = '0';
+    }
+  
+    const dialogConfig = {
+      width: jsonData['widthObtained'] || resWidth,
+      height: jsonData['heightObtained'] || 'auto',
+      panelClass: jsonData['classObtained'],
+      disableClose: !jsonData['isOutSideClose'],
+      data: data
+    };
+  
+    this.matDialogs.open(RevisedPremiumBreakupComponent, dialogConfig);
+  }
+  
+  openRevPremiumBreakupModal(data:any): void {
+    
+    const bottomSheetConfig: MatBottomSheetConfig = {
+      data: data
+    };
+  
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(RevisedPremiumBreakupComponent, bottomSheetConfig);
+    } else {
+      this.openModal(data, this.initiateQuotesJSON);
+    }
+  }
+  
+  
+
   verify() {
     this.loader = true;
 
@@ -176,6 +236,7 @@ export class OtpComponent implements OnInit {
                     'proposal_punched',
                     generatedProposal.status
                   );
+                  let generateProposalData = generatedProposal;
                   if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
                     this.loader = false;
                     if (window.innerWidth <= 999) {
@@ -187,7 +248,23 @@ export class OtpComponent implements OnInit {
                       `quotes/proposal/${this.transactionId}/review/inspection`,
                     ]);
                   } else {
-                    this.apiService
+                    // if (
+                    //   JSON.parse(this.quoteData)['insurer_code'] == 'icici' &&
+                    //   is_rb_renewal
+                    // ){
+                    //   let quotesData = JSON.parse(this.quoteData);
+                    //   if (window.innerWidth <= 999) {
+                    //     this.bottomSheetRef.dismiss();
+                    //   } else {
+                    //     this.dialogRef.close();
+                    //   }
+                    //   let data={
+                    //     previous: quotesData,
+                    //     revised: generateProposalData, 
+                    //   }
+                    //   this.openRevPremiumBreakupModal(data);
+                    //   }else{
+                      this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
@@ -241,6 +318,7 @@ export class OtpComponent implements OnInit {
                           }
                         }
                       );
+                    // }
                   }
                 } else {
                   if (

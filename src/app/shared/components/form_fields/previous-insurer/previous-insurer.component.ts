@@ -61,13 +61,15 @@ export class PreviousInsurerComponent implements OnInit {
   insururDataLength: any;
   registrationNumber: any;
   allValue: any;
+  visuallyDisabledFields: any = false;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
     private sharedDataService: SharedDataService,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private shareDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -135,10 +137,12 @@ export class PreviousInsurerComponent implements OnInit {
       }
     });
 
-    let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType == 'renewal') {
-      this.form.get('previous_insurer')?.disable();
-    }
+    // let renewalType = sessionStorage.getItem('renewalType');
+    // if (renewalType == 'renewal' || renewalType == 'rollover') {
+    //   this.form.get('previous_insurer')?.disable();
+    // }
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(['previous_insurer'], this.form);
+
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
@@ -194,6 +198,7 @@ export class PreviousInsurerComponent implements OnInit {
           ]);
           this.sharedDataService.patchInsurer('No result found');
         }
+        this.visuallyDisabledFields = this.shareDataService.disableVisually(['previous_insurer'], this.form);
       });
     this.sendResponse(this.previousInsurerNoData);
   }
@@ -270,5 +275,5 @@ export class PreviousInsurerComponent implements OnInit {
 
   onClosed(): void {
     this.sharedDataService.onClosedAutoComplete();
-  }
+  }  
 }

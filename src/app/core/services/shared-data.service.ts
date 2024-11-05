@@ -126,7 +126,7 @@ export class SharedDataService {
   quotesListData: any;
   uniqueDataList: any;
   isRenewal:any;
-
+  visuallyDisabledFields: { [key: string]: boolean } = {};
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -943,6 +943,7 @@ export class SharedDataService {
         this.proposalDataItem.is_rb_renewal = true;
       }else{
         this.proposalDataItem.is_rb_renewal = false;
+        
       }
     }
     this.apiService
@@ -1457,5 +1458,22 @@ export class SharedDataService {
   }
   sendNotCertifiedData(data: any) {
     this.getIsNotCertifiedData.next(data);
+  }
+
+  disableVisually(fieldsToCheck: string[], formGroup: any) {
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType == 'renewal') {
+      fieldsToCheck.forEach(field => {
+        const control = formGroup.get(field);
+        if (control) {
+          if (control.value === null || control.value === '') {
+            this.visuallyDisabledFields[field] = false;
+          } else if (control.value !== null || control.value !== '') {
+            this.visuallyDisabledFields[field] = true;
+          }
+        }
+      });
+    }
+    return this.visuallyDisabledFields;
   }
 }

@@ -511,6 +511,20 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
+.revised-quotes-class{
+  .mat-dialog-container {
+    border-radius: 30px !important;
+    overflow: unset !important;
+    width: 675px !important;
+    height: 100% !important;
+  }
+  .mat-dialog-content {
+    overflow: unset !important;
+  }
+  .mat-bottom-sheet-container {
+    border-radius: 20px 20px 0px 0px;
+  }
+}
 .selected-share-class {
   // margin-left: 630px !important;
   margin-top: 25% !important;
@@ -821,6 +835,28 @@ textarea.mat-input-element {
   padding-left: 10px;
   font-size: 12px !important;
 }
+
+.visually-disabled {
+  position: relative; 
+  opacity: 0.5;
+}
+
+.visually-disabled::before {
+  content: '';
+  position: absolute;
+  top: 0; 
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: none;
+  border-radius: 15px; 
+  z-index: -1; 
+}
+.readonly-select {
+  pointer-events: none; 
+  opacity: 0.5; 
+}
+
 // for mobile devices
 @media screen and (max-width: 767px) {
   .insurance-details-class {

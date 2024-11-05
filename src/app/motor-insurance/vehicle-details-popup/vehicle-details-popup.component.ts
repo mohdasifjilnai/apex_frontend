@@ -109,6 +109,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   allValue: any;
   renewalMMvList: any;
   rtoDataLength: any;
+  coverageTypeName: any;
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -148,6 +149,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   mmvFromValue: any;
   showErrorMessage: boolean=true;
   showExpiryDateErrorMessage: boolean=false;
+  visuallyDisabledFields: any = false;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupComponent>,
@@ -225,6 +227,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   changeRegNumber: any;
   registrationNumber: any;
   dataWithoutRegistration: any;
+  previousRenewalData:any;
   ngOnInit(): void {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.showSelectedFuelandCapacity = false;
@@ -450,29 +453,44 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     // this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
-    if (this.renewalType == 'rollover' || this.renewalType == 'renewal') {
-      // this.isRenewNotShownField = true;
-      this.vehicleDetailsForm.get('vehicle_make')?.disable();
-      this.vehicleDetailsForm.get('vehicle_model')?.disable();
-      this.vehicleDetailsForm.get('vehicle_variant')?.disable();
-      // this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
-      // this.vehicleDetailsForm.get('registration_city')?.disable();
-      // this.vehicleDetailsForm.get('ncb_discount')?.disable();
-      // this.vehicleDetailsForm.get('policy_expiry')?.disable();
-    }
-   
+    this.previousRenewalData = JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '');
+    // if (this.renewalType == 'rollover' || this.renewalType == 'renewal') {
+    //   // this.isRenewNotShownField = true;
+    //   this.vehicleDetailsForm.get('vehicle_make')?.disable();
+    //   this.vehicleDetailsForm.get('vehicle_model')?.disable();
+    //   this.vehicleDetailsForm.get('vehicle_variant')?.disable();
+    //   // this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
+    //   // this.vehicleDetailsForm.get('registration_city')?.disable();
+    //   // this.vehicleDetailsForm.get('ncb_discount')?.disable();
+    //   // this.vehicleDetailsForm.get('policy_expiry')?.disable();
+    // }
+
     // if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
     //   if(this.editClick == ''){
     //     setTimeout(() => {
     //       if (this.vehicleDetailsForm.valid) {
-    //         this.updateVehicleDetail(); 
+    //         this.updateVehicleDetail();
     //       }
     //     }, 2000);
     //   }
     // }
-    this.vehicleDetailsFormControler()
+    this.vehicleDetailsFormControler();
   }
 
+  disablevisually(){
+    this.visuallyDisabledFields = this.sharedDataService.disableVisually([
+      'vehicle_make',
+      'vehicle_model',
+      'vehicle_variant',
+      'vehicle_fuel',
+      'registration_city',
+      'policy_expiry',
+      'ncb_discount',
+      'user_car',
+      'policy_expiry_date'
+    ], this.vehicleDetailsForm);    
+
+  }
   /**
    * Initialize the form using FormBuilder
    */
@@ -646,7 +664,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     if (this.vehicleDetailsForm.value?.policy_expiry) {
-      for (let i = 0; i <= this.expiryList.length - 1; i++) {
+      for (let i = 0; i <= this.expiryList?.length - 1; i++) {
         if (
           this.expiryList[i]?.rb_expiring_policy_type_code ==
           this.vehicleDetailsForm.value?.policy_expiry
@@ -655,125 +673,134 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.expiryList[i]?.rb_expiring_policy_type_id;
         }
       }
+      if (this.renewalType == 'renewal') {
+        let coverageType = JSON.parse(
+          sessionStorage.getItem('coverageType') || ''
+        );
+        if (coverageType?.coverage_policy_type_id) {
+          this.vehicleDetailsForm.value.policy_expiry_id_data =
+            coverageType?.coverage_policy_type_id;
+        }
+      }
     }
     let vehicleFrom;
-    if (this.renewalType != 'renewal') {
-      this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
-      if (!this.isNewVehicle) {
-        this.vehicleDetailsForm.value.offeredNCBValue = JSON.stringify(
-          this.policyTypeBaseNCB
-        );
-      } else {
-        // this.vehicleDetailsForm.value.policy_expiry = '';
-        this.vehicleDetailsForm.value.offeredNCBValue = '';
-      }
-
-      vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
-
-      sessionStorage.setItem('mmv_data', vehicleFrom);
-    } else {
-      let vehicleMMVFrom = JSON.parse(
-        sessionStorage.getItem('mmv_data') || '{}'
+    // if (this.renewalType != 'renewal') {
+    this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
+    if (!this.isNewVehicle) {
+      this.vehicleDetailsForm.value.offeredNCBValue = JSON.stringify(
+        this.policyTypeBaseNCB
       );
-      this.mmvFromValue;
-      if (vehicleMMVFrom?.vehicle_make) {
-        this.mmvFromValue = {
-          previous_insurer: vehicleMMVFrom.previous_insurer,
-          registration_city: vehicleMMVFrom.registration_city,
-          registration_date: vehicleMMVFrom.registration_date,
-          vehicle_fuel: vehicleMMVFrom.vehicle_fuel,
-          vehicle_make: vehicleMMVFrom.vehicle_make,
-          vehicle_model: vehicleMMVFrom.vehicle_model,
-          vehicle_variant: vehicleMMVFrom.vehicle_variant,
-          policy_expiry_date: vehicleMMVFrom.policy_expiry_date,
-          policy_expiry: vehicleMMVFrom.policy_expiry,
-          manufacture_date: vehicleMMVFrom.manufacture_date,
-          isNewVehicleUpdate: vehicleMMVFrom.isNewVehicleUpdate,
-          hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
-          user_car: this.vehicleDetailsForm.value.user_car,
-          previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-          ncb_discount: 0,
-
-          renewalNCBDiscount: '',
-          addNcbBoth: '',
-        };
-      } else {
-        let renewalMMVValue = JSON.parse(
-          sessionStorage.getItem('renewalmmvData') || '{}'
-        );
-        let renewalRtoCity = JSON.parse(
-          sessionStorage.getItem('renewalRTOData') || '{}'
-        );
-        let renewalPolicyExpiry = JSON.parse(
-          sessionStorage.getItem('renewalPolicyExpiry') || '{}'
-        );
-        let renewalPreviousInsurer = JSON.parse(
-          sessionStorage.getItem('renewalPreviousInsurer') || '{}'
-        );
-
-        this.mmvFromValue = {
-          previous_insurer: renewalPreviousInsurer,
-          registration_city: renewalRtoCity,
-          registration_date: renewalMMVValue.registration_date,
-          vehicle_fuel: renewalMMVValue.vehicle_fuel,
-          vehicle_make: renewalMMVValue.vehicle_make,
-          vehicle_model: renewalMMVValue.vehicle_model,
-          vehicle_variant: renewalMMVValue.vehicle_variant,
-          policy_expiry_date: renewalMMVValue.policy_expiry_date,
-          policy_expiry: renewalPolicyExpiry.policy_expiry,
-          manufacture_date: renewalMMVValue.manufacture_date,
-          isNewVehicleUpdate: this.isNewVehicle,
-          hidePreviousClaimed:
-            this.vehicleDetailsForm.value.hidePreviousClaimed,
-          user_car: this.vehicleDetailsForm.value.user_car,
-          previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-          ncb_discount: this.vehicleDetailsForm.value.ncb_discount,
-          renewalNCBDiscount: '',
-          addNcbBoth: '',
-        };
-        sessionStorage.removeItem('renewalRTOData');
-        sessionStorage.removeItem('renewalmmvData');
-        sessionStorage.removeItem('renewalPolicyExpiry');
-        sessionStorage.removeItem('renewalPreviousInsurer');
-      }
-
-      if (
-        !this.vehicleDetailsForm.value.previous_claimed &&
-        vehicleMMVFrom?.renewalNCBDiscount
-      ) {
-        this.mmvFromValue.ncb_discount = vehicleMMVFrom?.renewalNCBDiscount;
-        this.mmvFromValue.renewalNCBDiscount =
-          vehicleMMVFrom?.renewalNCBDiscount;
-      } else {
-        this.mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
-          .previous_claimed
-          ? vehicleMMVFrom.ncb_discount
-          : 0;
-        this.mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
-          ? vehicleMMVFrom.renewalNCBDiscount
-          : vehicleMMVFrom.ncb_discount;
-      }
-      if (
-        this.mmvFromValue.ncb_discount ||
-        this.mmvFromValue.ncb_discount == 0
-      ) {
-        for (let i = 0; i <= this.expiryListData.length - 1; i++) {
-          if (
-            this.expiryListData[i].old_ncb_value ==
-            this.mmvFromValue.ncb_discount
-          ) {
-            this.ncbAllData = this.expiryListData[i];
-          }
-        }
-        this.mmvFromValue.addNcbBoth = this.ncbAllData;
-      }
-
-      this.vehicleDetailsForm.value.offeredNCBValue = this.policyTypeBaseNCB;
-
-      vehicleFrom = JSON.stringify(this.mmvFromValue);
-
-      sessionStorage.setItem('mmv_data', vehicleFrom);
+    } else {
+      // this.vehicleDetailsForm.value.policy_expiry = '';
+      this.vehicleDetailsForm.value.offeredNCBValue = '';
     }
+
+    vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
+
+    sessionStorage.setItem('mmv_data', vehicleFrom);
+    // } else {
+    //   let vehicleMMVFrom = JSON.parse(
+    //     sessionStorage.getItem('mmv_data') || '{}'
+    //   );
+    //   this.mmvFromValue;
+    //   if (vehicleMMVFrom?.vehicle_make) {
+    //     this.mmvFromValue = {
+    //       previous_insurer: vehicleMMVFrom.previous_insurer,
+    //       registration_city: vehicleMMVFrom.registration_city,
+    //       registration_date: vehicleMMVFrom.registration_date,
+    //       vehicle_fuel: vehicleMMVFrom.vehicle_fuel,
+    //       vehicle_make: vehicleMMVFrom.vehicle_make,
+    //       vehicle_model: vehicleMMVFrom.vehicle_model,
+    //       vehicle_variant: vehicleMMVFrom.vehicle_variant,
+    //       policy_expiry_date: vehicleMMVFrom.policy_expiry_date,
+    //       policy_expiry: vehicleMMVFrom.policy_expiry,
+    //       manufacture_date: vehicleMMVFrom.manufacture_date,
+    //       isNewVehicleUpdate: vehicleMMVFrom.isNewVehicleUpdate,
+    //       hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
+    //       user_car: this.vehicleDetailsForm.value.user_car,
+    //       previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
+    //       ncb_discount: 0,
+
+    //       renewalNCBDiscount: '',
+    //       addNcbBoth: '',
+    //     };
+    //   } else {
+    //     let renewalMMVValue = JSON.parse(
+    //       sessionStorage.getItem('renewalmmvData') || '{}'
+    //     );
+    //     let renewalRtoCity = JSON.parse(
+    //       sessionStorage.getItem('renewalRTOData') || '{}'
+    //     );
+    //     let renewalPolicyExpiry = JSON.parse(
+    //       sessionStorage.getItem('renewalPolicyExpiry') || '{}'
+    //     );
+    //     let renewalPreviousInsurer = JSON.parse(
+    //       sessionStorage.getItem('renewalPreviousInsurer') || '{}'
+    //     );
+
+    //     this.mmvFromValue = {
+    //       previous_insurer: renewalPreviousInsurer,
+    //       registration_city: renewalRtoCity,
+    //       registration_date: renewalMMVValue.registration_date,
+    //       vehicle_fuel: renewalMMVValue.vehicle_fuel,
+    //       vehicle_make: renewalMMVValue.vehicle_make,
+    //       vehicle_model: renewalMMVValue.vehicle_model,
+    //       vehicle_variant: renewalMMVValue.vehicle_variant,
+    //       policy_expiry_date: renewalMMVValue.policy_expiry_date,
+    //       policy_expiry: renewalPolicyExpiry.policy_expiry,
+    //       manufacture_date: renewalMMVValue.manufacture_date,
+    //       isNewVehicleUpdate: this.isNewVehicle,
+    //       hidePreviousClaimed:
+    //         this.vehicleDetailsForm.value.hidePreviousClaimed,
+    //       user_car: this.vehicleDetailsForm.value.user_car,
+    //       previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
+    //       ncb_discount: this.vehicleDetailsForm.value.ncb_discount,
+    //       renewalNCBDiscount: '',
+    //       addNcbBoth: '',
+    //     };
+    //     sessionStorage.removeItem('renewalRTOData');
+    //     sessionStorage.removeItem('renewalmmvData');
+    //     sessionStorage.removeItem('renewalPolicyExpiry');
+    //     sessionStorage.removeItem('renewalPreviousInsurer');
+    //   }
+
+    //   if (
+    //     !this.vehicleDetailsForm.value.previous_claimed &&
+    //     vehicleMMVFrom?.renewalNCBDiscount
+    //   ) {
+    //     this.mmvFromValue.ncb_discount = vehicleMMVFrom?.renewalNCBDiscount;
+    //     this.mmvFromValue.renewalNCBDiscount =
+    //       vehicleMMVFrom?.renewalNCBDiscount;
+    //   } else {
+    //     this.mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
+    //       .previous_claimed
+    //       ? vehicleMMVFrom.ncb_discount
+    //       : 0;
+    //     this.mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
+    //       ? vehicleMMVFrom.renewalNCBDiscount
+    //       : vehicleMMVFrom.ncb_discount;
+    //   }
+    //   if (
+    //     this.mmvFromValue.ncb_discount ||
+    //     this.mmvFromValue.ncb_discount == 0
+    //   ) {
+    //     for (let i = 0; i <= this.expiryListData.length - 1; i++) {
+    //       if (
+    //         this.expiryListData[i].old_ncb_value ==
+    //         this.mmvFromValue.ncb_discount
+    //       ) {
+    //         this.ncbAllData = this.expiryListData[i];
+    //       }
+    //     }
+    //     this.mmvFromValue.addNcbBoth = this.ncbAllData;
+    //   }
+
+    //   this.vehicleDetailsForm.value.offeredNCBValue = this.policyTypeBaseNCB;
+
+    //   vehicleFrom = JSON.stringify(this.mmvFromValue);
+
+    //   sessionStorage.setItem('mmv_data', vehicleFrom);
+    // }
     sessionStorage.removeItem('allNCBDataProposal');
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
@@ -958,6 +985,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
                       this.vehicleDetailsForm.patchValue({
                         registration_city: this.rtoList[i],
                       });
+
                       sessionStorage.setItem(
                         'renewalRTOData',
                         JSON.stringify(this.rtoList[i])
@@ -966,6 +994,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
                   }
                 }
               }
+              this.disablevisually();
             }
           } else {
             this.rtoDataNotAvailable = 'No data available';
@@ -1216,12 +1245,17 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (data) {
       // this.ncbDiscountData = false;
       // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+      if (this.renewalType == 'renewal') {
+        this.vehicleDetailsForm.get('ncb_discount')?.setValue(0);
+      }
     } else {
       // this.ncbDiscountData = true;
       if (this.renewalType == 'renewal') {
-        this.vehicleDetailsForm.patchValue({
-          ncb_discount: this.vehicleAllData?.renewalNCBDiscount,
-        });
+        // this.vehicleDetailsForm.patchValue({
+        //   ncb_discount: this.vehicleAllData?.renewalNCBDiscount,
+        // });
+        let ncb_count = this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+        this.vehicleDetailsForm.get('ncb_discount')?.setValue(ncb_count);
       } else {
         if(allData!=null){
           this.vehicleDetailsForm.patchValue({
@@ -1380,7 +1414,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
       }
     }
-    if (expiringPolicyType != undefined) {
+    if (expiringPolicyType != undefined && this.renewalType != 'renewal') {
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
@@ -1456,20 +1490,14 @@ export class VehicleDetailsPopupComponent implements OnInit {
             }
 
             if (ownershipTransfer == 'ownerTransfer') {
-              let selectedPreviousPolicy =this.vehicleDetailsForm.value?.policy_expiry?this.vehicleDetailsForm.value?.policy_expiry:
-                this.expiryList[0]?.rb_expiring_policy_type_code;
+              let selectedPreviousPolicy = this.vehicleDetailsForm.value
+                ?.policy_expiry
+                ? this.vehicleDetailsForm.value?.policy_expiry
+                : this.expiryList[0]?.rb_expiring_policy_type_code;
               if (selectedPreviousPolicy) {
                 this.hideFieldOnExpiryPolicy(selectedPreviousPolicy);
               }
             }
-            let coverageType = sessionStorage.getItem('coverageType');
-            if(coverageType){
-              this.vehicleDetailsForm.patchValue({
-                policy_expiry: coverageType
-              });
-              this.showErrorMessage = false
-            }
-            
           }
         });
     }
@@ -1486,6 +1514,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
                 ncb_discount: data.name,
               });
             }
+          }
+          let ncb_count = this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+          if (ncb_count != null) {
+            this.vehicleDetailsForm.patchValue({
+              ncb_discount: ncb_count,
+            });
           }
         }
       });
@@ -1542,7 +1576,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * @returns
    */
   onExpiryPolicyChange(event: MatSelectChange): void {
-    this.showErrorMessage=false
+    this.showErrorMessage = false;
     this.hideFieldOnExpiryPolicy(event.value);
     for (let i = 0; i <= this.expiryList.length - 1; i++) {
       if (this.expiryList[i].rb_expiring_policy_type_code == event.value) {
@@ -1591,8 +1625,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm
-      .get('policy_expiry_date')
-      ?.updateValueAndValidity();  
+        .get('policy_expiry_date')
+        ?.updateValueAndValidity();
       this.vehicleDetailsForm
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
@@ -1792,7 +1826,8 @@ Get the expiring policy list based on the given date or the registration details
         : false;
       expiringPolicyType = `?registration_date=${regModifiedDate}&vehicle_type=${vehicleType}&previous_policy_expiry_date=${policyDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
     }
-    if (expiringPolicyType) {
+    let renewal = sessionStorage.getItem('renewalType');
+    if (expiringPolicyType && renewal != 'renewal') {
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
@@ -1954,6 +1989,11 @@ Get the expiring policy list based on the given date or the registration details
               vehicle_MMV: res[0],
             });
           }
+          if (this.renewalType == 'renewal') {
+            this.isNewVehicle = false;
+            this.newVehicleData = 'renewal';
+            sessionStorage.setItem('newVehicleType', this.newVehicleData);
+          }
 
           if (this.registrationNumber && this.editClick == '') {
             const matchingModel = this.modelList.find(
@@ -1995,6 +2035,26 @@ Get the expiring policy list based on the given date or the registration details
                 new Date(registrationDate)
               );
               this.getExpiringPolicy(dateObj);
+              let coverageType = JSON.parse(
+                sessionStorage.getItem('coverageType') || ''
+              );
+              if (coverageType) {
+                this.vehicleDetailsForm.patchValue({
+                  policy_expiry: coverageType.coverage_type_code,
+                });
+
+                this.coverageTypeName = coverageType.coverage_policy_type;
+
+                this.showErrorMessage = false;
+                this.hideFieldOnExpiryPolicy(coverageType?.coverage_type_code);
+                this.getNcbList();
+                this.disablevisually();
+              } else {
+                this.vehicleDetailsForm.patchValue({
+                  policy_expiry: '',
+                });
+                this.coverageTypeName = '';
+              }
             }
             if (
               this.registrationNumber?.manufactured_month &&
@@ -2005,7 +2065,7 @@ Get the expiring policy list based on the given date or the registration details
               let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
               const registrationYear = this.registrationNumber?.registration_year;
               const manufacturedYear = this.registrationNumber?.manufactured_year;
-              
+
               if (manufacturedYear >= (registrationYear - 4) && manufacturedYear <= (registrationYear)) {
                 this.vehicleDetailsForm.patchValue({
                   manufacture_date: new Date(manufactureDate),
@@ -2038,6 +2098,7 @@ Get the expiring policy list based on the given date or the registration details
                 }
               }
             }
+            this.disablevisually();
           } else if (this.registrationNumber && this.editClick == 'edit') {
             this.showSelectedFuelandCapacity = false;
             let registrationDateObject;
@@ -2088,47 +2149,45 @@ Get the expiring policy list based on the given date or the registration details
             );
             this.showSelectedFuelandCapacity = true;
             this.cubicCapacitor = matchingModel?.cubic_capacity;
-            if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
-              this.vehicleDetailsForm.patchValue({
-                vehicle_make: matchingModel,
-                vehicle_model: matchingModel,
-                vehicle_variant: matchingModel,
-                registration_city: this.vehicleAllData.registration_city,
-                vehicle_fuel: this.vehicleAllData.vehicle_fuel,
-                registration_date: registrationDate,
-                manufacture_date: manufactureDateObject,
-                user_car: this.vehicleAllData.user_car,
-                previous_claimed: this.vehicleAllData.previous_claimed,
-                previous_insurer: this.vehicleAllData?.previous_insurer,
-                ncb_discount: this.vehicleAllData?.ncb_discount,
-  
-                policy_expiry_date: new Date(this.policyExpiredDateObject),
-              });
-  
-              this.makeValueSelected = matchingModel.rb_make_name;
-              this.modelValueSelected = matchingModel.rb_model_name;
-              this.variantValueSelected = matchingModel;
-            }else{
-              this.vehicleDetailsForm.patchValue({
-                vehicle_make: this.vehicleAllData.vehicle_make,
-                vehicle_model: this.vehicleAllData.vehicle_model,
-                vehicle_variant: this.vehicleAllData.vehicle_variant,
-                registration_city: this.vehicleAllData.registration_city,
-                vehicle_fuel: this.vehicleAllData.vehicle_fuel,
-                registration_date: registrationDate,
-                manufacture_date: manufactureDateObject,
-                user_car: this.vehicleAllData.user_car,
-                previous_claimed: this.vehicleAllData.previous_claimed,
-                previous_insurer: this.vehicleAllData?.previous_insurer,
-                ncb_discount: this.vehicleAllData?.ncb_discount,
+            this.vehicleDetailsForm.patchValue({
+              vehicle_make: this.vehicleAllData.vehicle_make,
+              vehicle_model: this.vehicleAllData.vehicle_model,
+              vehicle_variant: this.vehicleAllData.vehicle_variant,
+              registration_city: this.vehicleAllData.registration_city,
+              vehicle_fuel: this.vehicleAllData.vehicle_fuel,
+              registration_date: registrationDate,
+              manufacture_date: manufactureDateObject,
+              user_car: this.vehicleAllData.user_car,
+              previous_claimed: this.vehicleAllData.previous_claimed,
+              previous_insurer: this.vehicleAllData?.previous_insurer,
+              ncb_discount: this.vehicleAllData?.ncb_discount,
 
-                policy_expiry_date: new Date(this.policyExpiredDateObject),
+              policy_expiry_date: new Date(this.policyExpiredDateObject),
+            });
+            this.makeValueSelected = this.vehicleAllData.vehicle_make;
+            this.modelValueSelected = this.vehicleAllData.vehicle_model;
+            this.variantValueSelected = this.vehicleAllData.vehicle_variant;
+            let coverageType = JSON.parse(
+              sessionStorage.getItem('coverageType') || ''
+            );
+            if (coverageType) {
+              this.vehicleDetailsForm.patchValue({
+                policy_expiry: coverageType.coverage_type_code,
               });
-              this.makeValueSelected = this.vehicleAllData.vehicle_make;
-              this.modelValueSelected = this.vehicleAllData.vehicle_model;
-              this.variantValueSelected = this.vehicleAllData.vehicle_variant;
+
+              this.coverageTypeName = coverageType.coverage_policy_type;
+
+              this.showErrorMessage = false;
+              this.hideFieldOnExpiryPolicy(coverageType?.coverage_type_code);
+              this.getNcbList();
+              this.disablevisually();
+            } else {
+              this.vehicleDetailsForm.patchValue({
+                policy_expiry: '',
+              });
+              this.coverageTypeName = '';
             }
-            
+            this.disablevisually();
           } else if (type == 'mmvData' && this.editClick == '') {
             this.vehicleMMVValue = JSON.parse(this.vehicleMMVData);
             const matchingModel = this.modelList.find(

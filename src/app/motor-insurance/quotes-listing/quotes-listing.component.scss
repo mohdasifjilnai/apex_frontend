@@ -203,6 +203,12 @@
   width: 100%;
   height: 30px; /* Adjust height as needed */
 }
+.renewal-premium{
+  font-size: 12px;
+  font-weight: 500;
+  color: #282828;
+  margin-top: -20px;
+}
 ::ng-deep .mat-progress-bar-background {
   fill: white !important;
 }

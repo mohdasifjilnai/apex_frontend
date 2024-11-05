@@ -62,6 +62,7 @@ import { CheckVehicleTypeComponent } from './components/dialog-components/check-
 import { AlphanumericWithSlashDirective } from './directives/alphanumeric-with-slash.directive';
 import { RemoveNewlinesDirective } from './directives/remove-newlines.directive';
 import { PayoutInfoComponent } from './components/dialog-components/payout-info/payout-info.component';
+import { RevisedPremiumBreakupComponent } from './components/dialog-components/revised-premium-breakup/revised-premium-breakup.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { PayoutInfoComponent } from './components/dialog-components/payout-info/
     AlphanumericWithSlashDirective,
     RemoveNewlinesDirective,
     PayoutInfoComponent,
+    RevisedPremiumBreakupComponent,
   ],
   imports: [
     CommonModule,

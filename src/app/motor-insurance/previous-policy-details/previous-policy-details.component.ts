@@ -622,6 +622,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         tp_policy_start_date: previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
         tp_policy_end_date: previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
       });   
+      this.apiservice
+        .getRequestedResponse(ApiConstants.get_previous_insurer)
+        .subscribe((response: any) => {
+          for (let insurer of response) {
+            if (
+              insurer?.rb_insurer_code ===
+              this.details?.vehicle_details?.previous_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                previous_insurer: insurer,
+              });
+            }
+            if (
+              insurer?.rb_insurer_code ===
+              this.details.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                tp_insurance_company: insurer,
+              });
+            }
+          }
+        });
     }
     
 
@@ -697,7 +719,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
     }   
-    console.log(this.isDisableCKyc,"krishna") 
   }
   onTpStartDateSelected(event: any) {
     if (this.mmvData?.policy_expiry === 'comprehensive') {

@@ -1,9 +1,7 @@
 <mat-form-field
   appearance="outline"
   [class]="customManufactureDate"
-  [ngClass]="{
-    isManufactureData: isManufactureDateDisbaled
-  }"
+  [ngClass]="visuallyDisabledFields['manufacture_date'] ? 'visually-disabled' : ''"
 >
   <mat-label>Manufacture Date</mat-label>
   <input
@@ -15,16 +13,16 @@
     appMmYyyyformat
     [min]="minDate"
     [max]="registrationDate"
-    [readonly]="true"
-    (click)="manufactureDate.open()"
-    (keyup.enter)="EnterKey($event, manufactureDate)"
-    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
+    (click)="!visuallyDisabledFields['manufacture_date'] && manufactureDate.open()"
+    (keyup.enter)="!visuallyDisabledFields['manufacture_date'] && EnterKey($event, manufactureDate)"
+    [readonly]="visuallyDisabledFields['manufacture_date']"
   />
   <mat-datepicker-toggle
     matSuffix
     [for]="manufactureDate"
     (keydown.enter)="!isManufactureDateDisbaled && $event.preventDefault()"
-    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
+    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null "
+    [disabled]="visuallyDisabledFields['manufacture_date']"
     ><mat-icon matDatepickerToggleIcon>
       <img
         src="/assets/icon/calendar.svg"
@@ -39,6 +37,7 @@
     id-automation="datepicker_manufacture_date"
     (yearSelected)="chosenYearManufacture($event)"
     (monthSelected)="chosenMonthManufacture($event, manufactureDate)"
+    [disabled]="visuallyDisabledFields['manufacture_date']"
   >
   </mat-datepicker>
   <mat-error *ngIf="form.controls['manufacture_date']?.hasError('required')">

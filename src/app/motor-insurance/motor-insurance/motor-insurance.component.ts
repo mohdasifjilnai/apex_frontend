@@ -243,6 +243,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('registrationDetails');
     sessionStorage.removeItem('coverageType');
     sessionStorage.removeItem('alreadyCalled');
+    sessionStorage.removeItem('isRbRenewal');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -565,7 +566,9 @@ export class MotorInsuranceComponent implements OnInit {
           } else if (res?.vehicle_details?.is_four_wheeler) {
             sessionStorage.setItem('vehicleType', 'private_car');
           }
-          sessionStorage.setItem('renewalType', 'rollover');
+          if(res?.is_rb_renewal){
+            sessionStorage.setItem('renewalType', 'renewal');
+          }
           const vehicleDetails = res?.vehicle_details;
           if (vehicleDetails) {
             this.sharedDataService.vehicleDetailsRenewal(vehicleDetails);
@@ -591,8 +594,9 @@ export class MotorInsuranceComponent implements OnInit {
           );
           sessionStorage.setItem(
             'coverageType',
-            res?.previous_policy_details?.previous_policy_details?.coverage_type
+            JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type)
           );
+          sessionStorage.setItem('isRbRenewal',res?.is_rb_renewal);
 
           // if (res.transactional_details && res?.ckyc_status) {
           //   this.transactionDetails = res.transactional_details;

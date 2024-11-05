@@ -712,7 +712,7 @@ export class QuotesListingComponent implements OnInit {
    * Open premium breakup modal
    */
   openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent): void {
-    // this.openPremiumBreakup(initiateQuotes);
+    // this.openPremiumBreakup(initiateQuotes);    
     this.renderer.addClass(document.body, 'premium-breakout-css');
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: initiateQuotes,

@@ -4,6 +4,7 @@
   [ngClass]="{
     isExpiryDate: isExpiryDateDisbaled
   }"
+  [ngClass]="visuallyDisabledFields['policy_expiry_date'] ? 'visually-disabled' : ''"
 >
   <mat-label>Select Policy Expiry Date</mat-label>
   <input
@@ -16,12 +17,14 @@
     [readonly]="true"
     [min]="minDate"
     [max]="maxDate"
-    (click)="expiryDate.open()"
-    (keyup.enter)="EnterKey($event)"
+    (click)="!visuallyDisabledFields['policy_expiry_date'] && expiryDate.open()"
+    (keyup.enter)="!visuallyDisabledFields['policy_expiry_date'] && EnterKey($event)"
     [disabled]="isExpiryDateDisbaled"
     (dateChange)="onExpiryDate($event)"
+    [readonly]="visuallyDisabledFields['policy_expiry_date']"
   />
-  <mat-datepicker-toggle matSuffix [for]="expiryDate">
+  <mat-datepicker-toggle matSuffix [for]="expiryDate" [disabled]="visuallyDisabledFields['policy_expiry_date']"
+  >
     <mat-icon matDatepickerToggleIcon>
       <img
         src="/assets/icon/calendar.svg"
@@ -35,6 +38,7 @@
     (opened)="onOpen()"
     startView="multi-year"
     id-automation="date_picker_expiry_date_id"
+    [disabled]="visuallyDisabledFields['policy_expiry_date']"
   ></mat-datepicker>
   <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
     This is a required field.

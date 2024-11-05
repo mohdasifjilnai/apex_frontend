@@ -38,6 +38,7 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['vehicle_make'] ? 'visually-disabled' : ''"
             >
               <mat-label>Make</mat-label>
               <input
@@ -47,6 +48,7 @@
                 #autoCompleteInput
                 [matAutocomplete]="autoMake"
                 formControlName="vehicle_make"
+                [readonly]="visuallyDisabledFields['vehicle_make']"
               />
               <mat-autocomplete
                 #autoMake="matAutocomplete"
@@ -79,6 +81,7 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['vehicle_model'] ? 'visually-disabled' : ''"
             >
               <mat-label>Model</mat-label>
               <input
@@ -88,6 +91,7 @@
                 #autoCompleteInput
                 [matAutocomplete]="autoModel"
                 formControlName="vehicle_model"
+                [readonly]="visuallyDisabledFields['vehicle_model']"
               />
               <mat-autocomplete
                 #autoModel="matAutocomplete"
@@ -120,6 +124,7 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['vehicle_variant'] ? 'visually-disabled' : ''"
             >
               <mat-label>Variant</mat-label>
               <input
@@ -129,6 +134,7 @@
                 #autoCompleteInput
                 [matAutocomplete]="autoVariant"
                 formControlName="vehicle_variant"
+                [readonly]="visuallyDisabledFields['vehicle_variant']"
               />
               <mat-autocomplete
                 #autoVariant="matAutocomplete"
@@ -167,10 +173,13 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['vehicle_fuel'] ? 'visually-disabled' : ''" 
+              [ngClass]="visuallyDisabledFields['vehicle_fuel'] ? 'readonly-select' : ''"              
             >
               <mat-label>Fuel</mat-label>
-              <mat-select formControlName="vehicle_fuel">
-                <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.fuel">
+              <mat-select formControlName="vehicle_fuel" >
+                <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.fuel"
+                  >
                   {{ fuel?.fuel }}
                 </mat-option>
               </mat-select>
@@ -279,6 +288,7 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['registration_city'] ? 'visually-disabled' : ''"
             >
               <mat-label>Registration City</mat-label>
               <input
@@ -289,7 +299,8 @@
                 #autoCompleteInput
                 [matAutocomplete]="autoRegistrationCity"
                 formControlName="registration_city"
-              />
+                [readonly]="visuallyDisabledFields['registration_city']"
+                />
               <mat-autocomplete
                 #autoRegistrationCity="matAutocomplete"
                 [displayWith]="displayRegistration.bind(this)"
@@ -354,6 +365,8 @@
               <mat-form-field
                 appearance="outline"
                 class="vehicle-details-dropdown"
+                [ngClass]="visuallyDisabledFields['user_car'] ? 'visually-disabled' : ''"
+                [ngClass]="visuallyDisabledFields['user_car'] ? 'readonly-select' : ''"
               >
                 <mat-label
                   >Used
@@ -364,7 +377,7 @@
                 >
                 <mat-select
                   formControlName="user_car"
-                  (selectionChange)="onRCTransferChange($event.value)"
+                  (selectionChange)="onRCTransferChange($event.value)"   
                 >
                   <mat-option *ngFor="let rc of rcList" [value]="rc?.value">
                     {{ rc?.rcName }}
@@ -376,10 +389,13 @@
             <div
               class="col-lg-6 col-md-6 col-12"
               [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+              *ngIf="renewalType != 'renewal'"
             >
               <mat-form-field
                 appearance="outline"
                 class="vehicle-details-dropdown"
+                [ngClass]="visuallyDisabledFields['policy_expiry'] ? 'visually-disabled' : ''" 
+                [ngClass]="visuallyDisabledFields['policy_expiry'] ? 'readonly-select' : ''"   
               >
                 <mat-label>Type of Expiring Policy</mat-label>
                 <mat-select
@@ -408,11 +424,39 @@
                   This is a required field
                 </div>
             </div>
+
+            <div
+            class="col-lg-6 col-md-6 col-12"
+            *ngIf="renewalType == 'renewal'"
+          >
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+              [ngClass]="visuallyDisabledFields['policy_expiry'] ? 'visually-disabled' : ''"
+            >
+              <mat-label>Type of Expiring Policy</mat-label>
+              <input
+                matInput
+                aria-label="policy_expiry"
+                (input)="vehicleDetailsForm.get('policy_expiry')?.setValue(coverageTypeName)"
+                [readonly]="visuallyDisabledFields['policy_expiry']"
+                [value]="coverageTypeName"
+              />
+            </mat-form-field>
+            <div
+              *ngIf="showErrorMessage"
+               class="error ms-4 mb-2"
+              >
+              This is a required field
+            </div>
+          </div>
+
             <!-- Expiry -->
             <ng-container *ngIf="!NoExpiryPolicy">
               <div
                 class="col-lg-6 col-md-6 col-12"
                 [ngClass]="{ isRcClaimDisable: isRenewNotShownField }"
+                [ngClass]="visuallyDisabledFields['policy_expiry_date'] ? 'visually-disabled' : ''"
               >
                 <app-policy-expired-date
                   [required]="true"
@@ -472,6 +516,8 @@
                   <mat-form-field
                     appearance="outline"
                     class="vehicle-details-dropdown"
+                    [ngClass]="visuallyDisabledFields['ncb_discount'] ? 'visually-disabled' : ''"
+                    [ngClass]="visuallyDisabledFields['ncb_discount'] ? 'readonly-select' : ''"
                   >
                     <mat-label>Previous Year NCB Discount</mat-label>
                     <mat-select

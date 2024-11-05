@@ -36,11 +36,13 @@ export class PolicyExpiredDateComponent implements OnInit {
   regDateValue: any;
   renewalType:any;
   @Input() urlDate: any;
+  visuallyDisabledFields: any =  false;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
     private sharedDataService: SharedDataService,
-    private router: Router
+    private router: Router,
+    private shareDataService:SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -101,12 +103,7 @@ export class PolicyExpiredDateComponent implements OnInit {
       this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
     }
 
-    // this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
-
-    let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType == 'renewal') {
-      // this.form.get(this.formControlNameData)?.disable();
-    }
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(['policy_expiry_date'], this.form);    
   }
 
   ngOnDestroy(): void {

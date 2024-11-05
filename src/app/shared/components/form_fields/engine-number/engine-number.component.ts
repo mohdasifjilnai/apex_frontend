@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-engine-number',
@@ -12,8 +13,9 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validator
 export class EngineNumberComponent implements OnInit {
   engineForm!: FormGroup;
   @Input('required') isRequired = false;
+  visuallyDisabledFields: any = false;
 
-  constructor(private ctrlContainer: FormGroupDirective) { }
+  constructor(private ctrlContainer: FormGroupDirective, private shareDataService: SharedDataService) { }
 
   ngOnInit(): void {
      /**
@@ -28,6 +30,7 @@ export class EngineNumberComponent implements OnInit {
      } else {
        this.engineForm.addControl('engine_number', new FormControl());
      }
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(['engine_number'], this.engineForm);
   }
 
   ngOnDestroy(): void {
@@ -36,5 +39,4 @@ export class EngineNumberComponent implements OnInit {
      */
     this.engineForm.removeControl('engine_number');
   }
-
 }

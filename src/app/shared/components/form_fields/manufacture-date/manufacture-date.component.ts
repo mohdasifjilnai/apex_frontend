@@ -64,10 +64,12 @@ export class ManufactureDateComponent implements OnInit {
   registrationDate: any;
   vehicleMMVData: any;
   vehicleMMVItem: any;
+  visuallyDisabledFields: any = false;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private shared: SharedDataService
+    private shared: SharedDataService,
+    private shareDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -93,10 +95,9 @@ export class ManufactureDateComponent implements OnInit {
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     this.manufactureDateValidation();
 
-    let renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType == 'renewal') {
       // this.form.get('manufacture_date')?.disable();
-    }
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(['manufacture_date'], this.form);    
+
   }
 
   /**

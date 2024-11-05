@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-chasis-number',
@@ -12,8 +13,9 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, Validator
 export class ChasisNumberComponent implements OnInit {
   chassisForm!: FormGroup;
   @Input('required') isRequired = false;
-
-  constructor(private ctrlContainer: FormGroupDirective) { }
+  visuallyDisabledFields: any = false;
+  constructor(private ctrlContainer: FormGroupDirective,private shareDataService:SharedDataService
+  ) { }
 
   ngOnInit(): void {
     /**
@@ -28,6 +30,7 @@ export class ChasisNumberComponent implements OnInit {
     } else {
       this.chassisForm.addControl('chassis_number', new FormControl());
     }
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(['chassis_number'], this.chassisForm);
   }
 
   ngOnDestroy(): void {
@@ -36,5 +39,4 @@ export class ChasisNumberComponent implements OnInit {
      */
     this.chassisForm.removeControl('chassis_number');
   }
-
 }

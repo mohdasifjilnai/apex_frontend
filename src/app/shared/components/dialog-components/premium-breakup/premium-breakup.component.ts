@@ -75,7 +75,7 @@ export class PremiumBreakupComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     private apiService: ApiService,
     private router: Router
-  ) {
+  ) {    
     if (data['data'] != null) {
       this.initiateQuotes = data.data;
     } else if (dataToBottomSheet != null) {

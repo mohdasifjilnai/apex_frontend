@@ -1,4 +1,6 @@
-<mat-form-field [class]="previousInsurer" appearance="outline">
+<mat-form-field [class]="previousInsurer" appearance="outline" 
+[ngClass]="visuallyDisabledFields['previous_insurer'] ? 'visually-disabled' : ''" 
+[ngClass]="visuallyDisabledFields['previous_insurer'] ? 'readonly-select' : ''"  >
   <mat-label>{{ label }}</mat-label>
   <input
     matInput
@@ -10,6 +12,7 @@
     [matAutocomplete]="autoInsurer"
     [formControlName]="formControlNameData"
     appAlphabetOnly
+    [readonly]="visuallyDisabledFields['previous_insurer']"
   />
   <mat-autocomplete
     #autoInsurer="matAutocomplete"
