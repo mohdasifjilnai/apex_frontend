@@ -703,7 +703,7 @@ export class SharedDataService {
           : '',
       is_breakin: this.quoteData?.is_breakin,
       insured_idv: this.quoteData?.premium_details?.idv,
-      is_renewal_proposal: false,
+      is_rb_renewal: false,
     };
     if (flag === 'ckyc') {
       this.proposalDataItem['ckyc_details'] = {
@@ -940,9 +940,9 @@ export class SharedDataService {
     if (renewalType == 'renewal' || renewalType == 'rollover') {
       const isRenewal = sessionStorage.getItem('isprevoiusInsurer');
       if(isRenewal == 'true'){
-        this.proposalDataItem.is_renewal_proposal = true;
+        this.proposalDataItem.is_rb_renewal = true;
       }else{
-        this.proposalDataItem.is_renewal_proposal = false;
+        this.proposalDataItem.is_rb_renewal = false;
       }
     }
     this.apiService

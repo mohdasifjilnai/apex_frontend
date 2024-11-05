@@ -255,8 +255,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             2
           );
           let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
-            2,
-            4
+            3,
+            5
           );
           let combineRegData = regFirstDigit + regSecondDigit;
           let regLastDigit =
@@ -521,7 +521,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         let regFirstDigit = regNumbers?.slice(0, 2);
         let regSecondDigit = regNumbers?.slice(3, 5);
         let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
-        let regLastDigit = regNumbers.split(combineRegData);;
+        let regLastDigit = regNumbers.split(combineRegData);
       this.proposalVehilceDetailsForm.patchValue({
             registration_number_first: regFirstDigit,
             registration_number_second: regSecondDigit,
