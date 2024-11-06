@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
+import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 
 @Component({
   selector: 'app-previous-policy-details',
@@ -65,12 +68,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   vehicleTypeSelected: any;
   tpFormattedDate: any;
   partnerCodewithTraceId: any;
-
+  failureJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: ErrorDialogComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
   constructor(
     private router: Router,
     private sharedData: SharedDataService,
     private apiservice: ApiService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private matDialog: WindowRef
+
   ) {
     this.insuranceCompanyList = [
       {
@@ -800,20 +819,23 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             }
 
       /**
-       * subscribe to getProposalDetails and navigate after the response
-       */
-      this.previousPolicyDetailsSubscription =
-        this.sharedData.getProposalDetails.subscribe((proposal) => {
-          if (proposal.vehicle_details !== null) {
-            this.router.navigate([
-              `quotes/proposal/${this.transactionId}/review`,
-            ]);
-            /**
-             * Unsubscribe after navigation to avoid repeated navigation
+             * subscribe to getProposalDetails and navigate after the response
              */
-            this.previousPolicyDetailsSubscription.unsubscribe();
-          }
-        });
+            this.previousPolicyDetailsSubscription =
+              this.sharedData.getProposalDetails.subscribe((proposal) => {
+                if (proposal.vehicle_details !== null) {
+                  this.router.navigate([
+                    `quotes/proposal/${this.transactionId}/review`,
+                  ]);
+                  /**
+                   * Unsubscribe after navigation to avoid repeated navigation
+                   */
+                  this.previousPolicyDetailsSubscription.unsubscribe();
+                }
+              });
+          }else {
+            this.failureJSON['modalName'] = FailureDialogComponent;
+            this.openFailurePopup(res);
           }
         });
       
@@ -837,5 +859,30 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     const result = new Date(date);
     result.setDate(result.getDate() + offset);
     return result;
+  }
+  openFailurePopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 999) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.failureJSON['modalName'],
+      width: this.failureJSON['widthObtained'],
+      height: this.failureJSON['heightObtained'],
+      classNameObtained: this.failureJSON['classObtained'],
+      isOutSideClose: this.failureJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
 }
