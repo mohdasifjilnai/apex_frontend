@@ -209,6 +209,7 @@ export class AddOnsComponent implements OnInit {
       this.showUpdateButton = false;
       this.clearAllButton = false;
       this.selected_addons = {};
+      this.selectedVoluntryValue = '';
       this.addonsValue = sessionStorage.getItem('selectedAddons');
       if (this.addonsValue == 'undefined') {
         this.selectedAddOns = '';
@@ -255,6 +256,7 @@ export class AddOnsComponent implements OnInit {
       this.showUpdateButton = false;
       this.clearAllButton = false;
       this.selected_addons = {};
+      this.selectedVoluntryValue = '';
       }
       this.proposalOnInit=false
       this.vehicleData = cardData;
