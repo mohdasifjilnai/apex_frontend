@@ -23,7 +23,7 @@
     (dateChange)="onExpiryDate($event)"
     [readonly]="visuallyDisabledFields['policy_expiry_date']"
   />
-  <mat-datepicker-toggle matSuffix [for]="expiryDate" [disabled]="visuallyDisabledFields['policy_expiry_date']"
+  <mat-datepicker-toggle matSuffix [for]="expiryDate" [disabled]="visuallyDisabledFields['policy_expiry_date']" [disabled]="isExpiryDateDisbaled"
   >
     <mat-icon matDatepickerToggleIcon>
       <img

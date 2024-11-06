@@ -1303,7 +1303,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         let policyExpiryDateValue;
         let policyDate = '';
         if (!policyExpiryDate) {
-          if (this.registrationNumber?.previous_policy_exp_date) {
+          if (this.registrationNumber?.previous_policy_exp_date !='NA') {
             policyExpiryDateValue = new Date(
               this.registrationNumber?.previous_policy_exp_date
             );
@@ -1312,6 +1312,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.registrationNumber?.previous_policy_exp_date,
               'DD-MM-YYYY'
             ).format('DD/MM/YYYY');
+          }else if(this.registrationNumber?.previous_policy_exp_date=='NA'){
+            policyDate=''
           }
         } else {
           policyDate = moment(policyExpiryDate, 'DD-MM-YYYY').format(
