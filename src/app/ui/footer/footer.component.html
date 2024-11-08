@@ -2,29 +2,37 @@
 <div class="container-fluid">
   <div class="main-footer ps-4 pb-4 pe-2">
     <ng-container *ngIf="payout">
-    <div class="payout" *ngIf="extractedPath=='3'">
-      <div>Terms and Conditions </div>
-      <div>Commission amount shown herein in INR (R) against each quotation is an indicative figure. 
-        Exact amount as per applicable grid would be paid in the monthly payout cycle post all the insta payment adjustments, if any.
-        Please refer monthly payout statement at the end of month for exact amount paid against each transaction as per the grid.
-        Due to uncontrollable parameters, company reserves the right to completely change the amount at any point of time and stage of transaction.
-        The Commission is subject to changes at the discretion of the insurers/Broker. For payout details, please refer to the grid.
+      <div class="payout" *ngIf="extractedPath == '3'">
+        <div>Terms and Conditions</div>
+        <div>
+          Commission amount shown herein in INR (R) against each quotation is an
+          indicative figure. Exact amount as per applicable grid would be paid
+          in the monthly payout cycle post all the insta payment adjustments, if
+          any. Please refer monthly payout statement at the end of month for
+          exact amount paid against each transaction as per the grid. Due to
+          uncontrollable parameters, company reserves the right to completely
+          change the amount at any point of time and stage of transaction. The
+          Commission is subject to changes at the discretion of the
+          insurers/Broker. For payout details, please refer to the grid.
+        </div>
       </div>
-    </div>
-    <div class="payout-res" *ngIf="extractedPath=='3'" (click)="termsCondition()">
-      *Click to view T&C
-    </div>
+      <div
+        class="payout-res"
+        *ngIf="extractedPath == '3'"
+        (click)="termsCondition()"
+      >
+        *Click to view T&C
+      </div>
     </ng-container>
-    
-    <br>
+
+    <br />
     <span>D2C INSURANCE BROKING PVT. LTD (CIN U66030DL2013PTC249265) </span>
     <span>
       Principal Place Of Business: 1st Floor, Plot No 94, Sector- 32, Gurugram
       -122001, Haryana
     </span>
     <span>
-      Registered Office: 3rd Floor, AG-26, Shalimar Bagh, New Delhi-110088,
-      India
+      Registered Office: 3rd Floor, 5B/16, Tilak Nagar, New Delhi-110018, India
     </span>
     <span>
       IRDAI Broking License Code No. DB 571/14, Certificate No. 505, License
@@ -40,8 +48,7 @@
       Concluding A Sale.
     </span>
     <span
-      >D2C INSURANCE BROKING PVT. LTD. © 2024 RenewBuy All Rights
-      Reserved.</span
-    >
+      >D2C INSURANCE BROKING PVT. LTD. © 2024 RenewBuy All Rights Reserved.
+    </span>
   </div>
 </div>
