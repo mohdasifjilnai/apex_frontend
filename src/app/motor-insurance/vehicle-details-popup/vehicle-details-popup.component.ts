@@ -453,7 +453,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     // this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
-    this.previousRenewalData = JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '');
+    this.previousRenewalData = JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '{}');
     // if (this.renewalType == 'rollover' || this.renewalType == 'renewal') {
     //   // this.isRenewNotShownField = true;
     //   this.vehicleDetailsForm.get('vehicle_make')?.disable();
@@ -2038,7 +2038,7 @@ Get the expiring policy list based on the given date or the registration details
               );
               this.getExpiringPolicy(dateObj);
               let coverageType = JSON.parse(
-                sessionStorage.getItem('coverageType') || ''
+                sessionStorage.getItem('coverageType') || '{}'
               );
               if (coverageType) {
                 this.vehicleDetailsForm.patchValue({
@@ -2063,7 +2063,6 @@ Get the expiring policy list based on the given date or the registration details
               this.registrationNumber?.manufactured_year
             ) {
               let manufactureDate = `${this.registrationNumber?.manufactured_month}/01/${this.registrationNumber?.manufactured_year}`;
-
               let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
               const registrationYear = this.registrationNumber?.registration_year;
               const manufacturedYear = this.registrationNumber?.manufactured_year;
