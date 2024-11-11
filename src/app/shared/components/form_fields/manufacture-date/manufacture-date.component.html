@@ -1,9 +1,9 @@
 <mat-form-field
   appearance="outline"
   [class]="customManufactureDate"
-  [ngClass]="visuallyDisabledFields['manufacture_date'] ? 'visually-disabled' : ''"
   [ngClass]="{
-    isManufactureData: isManufactureDateDisbaled
+    'visually-disabled': visuallyDisabledFields['manufacture_date'],
+    'isManufactureData': isManufactureDateDisbaled
   }"
 >
   <mat-label>Manufacture Date</mat-label>
