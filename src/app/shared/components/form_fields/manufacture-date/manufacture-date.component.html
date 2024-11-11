@@ -2,6 +2,9 @@
   appearance="outline"
   [class]="customManufactureDate"
   [ngClass]="visuallyDisabledFields['manufacture_date'] ? 'visually-disabled' : ''"
+  [ngClass]="{
+    isManufactureData: isManufactureDateDisbaled
+  }"
 >
   <mat-label>Manufacture Date</mat-label>
   <input
@@ -16,6 +19,7 @@
     (click)="!visuallyDisabledFields['manufacture_date'] && manufactureDate.open()"
     (keyup.enter)="!visuallyDisabledFields['manufacture_date'] && EnterKey($event, manufactureDate)"
     [readonly]="visuallyDisabledFields['manufacture_date']"
+    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
   />
   <mat-datepicker-toggle
     matSuffix
