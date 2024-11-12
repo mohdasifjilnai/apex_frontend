@@ -123,7 +123,7 @@ export class PreviousInsurerComponent implements OnInit {
         this.registrationNumber = numberData;
         this.getInsurerData(this.registrationNumber?.previous_insurer_code);
       }else {
-        this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '{}');
+        this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '');
         this.getInsurerData(this.registrationNumber?.previous_insurer_code);
 
       }

@@ -400,7 +400,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           sessionStorage.setItem('registrationDetails',JSON.stringify(renewalregistartionnumber))
           this.getRTOData('rto_code', this.registrationNumber.rb_rto_code);
         }else {
-          this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '{}');
+          this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '');
           this.getVehicleDetailsPopup(
             '',
             '',
