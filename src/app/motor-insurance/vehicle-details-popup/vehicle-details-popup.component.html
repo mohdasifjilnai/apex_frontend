@@ -177,7 +177,7 @@
               [ngClass]="visuallyDisabledFields['vehicle_fuel'] ? 'readonly-select' : ''"              
             >
               <mat-label>Fuel</mat-label>
-              <mat-select formControlName="vehicle_fuel" >
+              <mat-select formControlName="vehicle_fuel" [disabled]="visuallyDisabledFields['vehicle_fuel']">
                 <mat-option *ngFor="let fuel of fuelList" [value]="fuel?.fuel"
                   >
                   {{ fuel?.fuel }}
@@ -378,6 +378,7 @@
                 <mat-select
                   formControlName="user_car"
                   (selectionChange)="onRCTransferChange($event.value)"   
+                  [disabled]="visuallyDisabledFields['user_car']"
                 >
                   <mat-option *ngFor="let rc of rcList" [value]="rc?.value">
                     {{ rc?.rcName }}
@@ -523,6 +524,7 @@
                     <mat-select
                       formControlName="ncb_discount"
                       [(value)]="ncbDiscount"
+                      [disabled]="visuallyDisabledFields['ncb_discount']"
                     >
                       <mat-option
                         *ngFor="let ncb of expiryListData"

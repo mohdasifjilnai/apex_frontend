@@ -753,18 +753,18 @@ export class MotorInsuranceComponent implements OnInit {
         this.motorInsurance.get('policy_number')?.setValidators([]);
         this.motorInsurance.get('policy_number')?.clearValidators();
         this.motorInsurance.get('policy_number')?.updateValueAndValidity();
-        this.motorInsurance
-          .get('vehicle')
-          ?.setValidators([Validators.required]);
-        this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-        this.motorInsurance
-          .get('rto_city')
-          ?.setValidators([Validators.required]);
-        this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-        this.motorInsurance
-          .get('registration_date')
-          ?.setValidators([Validators.required]);
-        this.motorInsurance.get('registration_date')?.updateValueAndValidity();
+        // this.motorInsurance
+        //   .get('vehicle')
+        //   ?.setValidators([Validators.required]);
+        // this.motorInsurance.get('vehicle')?.updateValueAndValidity();
+        // this.motorInsurance
+        //   .get('rto_city')
+        //   ?.setValidators([Validators.required]);
+        // this.motorInsurance.get('rto_city')?.updateValueAndValidity();
+        // this.motorInsurance
+        //   .get('registration_date')
+        //   ?.setValidators([Validators.required]);
+        // this.motorInsurance.get('registration_date')?.updateValueAndValidity();
       }, 0);
     }
   }
