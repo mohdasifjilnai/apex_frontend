@@ -1473,6 +1473,10 @@ export class SharedDataService {
           }
         }
       });
+    }else{
+      fieldsToCheck.forEach(field => {
+      this.visuallyDisabledFields[field] = false;
+      });
     }
     return this.visuallyDisabledFields;
   }

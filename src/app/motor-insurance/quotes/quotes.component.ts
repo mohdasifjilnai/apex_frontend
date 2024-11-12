@@ -395,6 +395,9 @@ export class QuotesComponent implements OnInit {
           this.shareDataService.partnerCode(res.partner_code);
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('vehiclePopup', 'true');
+          if(res?.is_rb_renewal){
+            sessionStorage.setItem('renewalType','renewal')
+          }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
