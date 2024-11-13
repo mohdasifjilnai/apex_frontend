@@ -464,7 +464,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     //   // this.vehicleDetailsForm.get('ncb_discount')?.disable();
     //   // this.vehicleDetailsForm.get('policy_expiry')?.disable();
     // }
-
     // if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
     //   if(this.editClick == ''){
     //     setTimeout(() => {
@@ -2084,7 +2083,7 @@ Get the expiring policy list based on the given date or the registration details
               let futureDate = new Date();
               this.renewalType = sessionStorage.getItem('renewalType');
               const previousInsurer = sessionStorage.getItem('previousInsurer');
-              if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && previousInsurer == 'digit'){
+              if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')){
                 futureDate.setDate(currentDate.getDate() + 91);
               }else{
                 futureDate.setDate(currentDate.getDate() + 60);
@@ -2323,6 +2322,7 @@ Get the expiring policy list based on the given date or the registration details
 
               policy_expiry_date: new Date(this.policyExpiredDateObject),
             });
+            this.disablevisually();
           } else if (type == 'renewal') {
             const matchingModel = this.modelList.find(
               (model: any) => model?.rb_mmv_id === id
