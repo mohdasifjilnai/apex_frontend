@@ -347,6 +347,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (currentUrl) {
       sessionStorage.removeItem('current_url');
     }
+    sessionStorage.removeItem('isPayment')
 
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');
