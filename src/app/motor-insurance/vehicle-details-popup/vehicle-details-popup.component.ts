@@ -486,6 +486,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
       'policy_expiry',
       'ncb_discount',
       'user_car',
+      'manufacture_date',
+      'registration_date',
       'policy_expiry_date'
     ], this.vehicleDetailsForm);    
 
@@ -2267,6 +2269,7 @@ Get the expiring policy list based on the given date or the registration details
             this.makeValueSelected = matchingModel.rb_make_name;
             this.modelValueSelected = matchingModel.rb_model_name;
             this.variantValueSelected = matchingModel;
+            this.disablevisually();
           } else if (type == 'mmvData' && this.editClick == 'edit') {
             let registrationDateObject;
             let manufactureDateObject;
