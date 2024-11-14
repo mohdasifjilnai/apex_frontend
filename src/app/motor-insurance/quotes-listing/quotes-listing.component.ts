@@ -285,7 +285,7 @@ export class QuotesListingComponent implements OnInit {
                   }
                 }
               );
-              console.log(quotesValueList,"555555")
+              // console.log(quotesValueList,"555555")
               if (quotesValueList == -1) {
                 this.quotationData.push(this.quotationArray[i]);
               } else {
@@ -304,7 +304,7 @@ export class QuotesListingComponent implements OnInit {
                   }
                 }
               }
-              console.log(this.quotationData,"666666")
+              // console.log(this.quotationData,"666666")
 
             } else {
               this.errorQuotationArray.push(this.quotationArray[i]);

@@ -109,6 +109,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
           ) {
             this.isWaitingTime = true;
             this.isCustomerDetails = true;
+            this.proposerType=res?.proposer_type
             this.ckycData = res.customer_details;
             this.sharedDataService?.fetchCKycFormData.subscribe((res) => {
               this.sharedDataService?.createProposalId('ckyc', res);

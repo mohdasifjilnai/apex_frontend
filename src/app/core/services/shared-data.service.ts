@@ -1383,14 +1383,14 @@ export class SharedDataService {
               if (item.status) {
                 const uniqueKey = `${item.insurer_code}_${item.payd?.status}`;
                 this.quotesListData[uniqueKey] = item;
-                console.log(uniqueKey,"1111")
+                // console.log(uniqueKey,"1111")
               } else {
                 const uniqueKey = item.payd?.status?`${item.insurer_code}_true`:`${item.insurer_code}_false`;
                 this.quotesListData[uniqueKey] = item;
-                console.log(uniqueKey,"22222")
+                // console.log(uniqueKey,"22222")
               }
             });
-            console.log(this.quotesListData, 'ttttt');
+            console.log(this.quotesListData,);
             this.uniqueDataList = Object.values(this.quotesListData);
             // console.log(this.uniqueDataList, 'fchggcg');
             // this.allQuotes = Object.values(
@@ -1407,11 +1407,11 @@ export class SharedDataService {
             this.allQuotes = this.uniqueDataList;
             this.quotesCount = '';
             this.quotesCount = this.allQuotes;
-            console.log(this.allQuotes,"33333");
+            // console.log(this.allQuotes,"33333");
             setTimeout(() => {
               this.enableQuotesAction.next(this.quotesCount);
             }, 10000);
-            console.log(this.allQuotes,"44444");
+            console.log(this.allQuotes);
             this.quotationListing.next(this.allQuotes);
           }
         },
