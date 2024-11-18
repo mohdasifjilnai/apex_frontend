@@ -300,7 +300,8 @@ export class SharedDataService {
     notTransactionId?: any
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
-
+    const RenewalData=JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '{}')
+    let renewalPolicyNumber =RenewalData?.previous_policy_details?.previous_policy_details?.policy_no
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList;
@@ -438,6 +439,7 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
+        policy_number:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -448,6 +450,9 @@ export class SharedDataService {
         }
       } else {
         quotesData.offered_ncb_value = 0;
+      }
+      if(renewalPolicyNumber!=null){
+        quotesData.policy_number=renewalPolicyNumber
       }
     } else {
       quotesData = {
@@ -486,6 +491,7 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
+        policy_number:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -496,6 +502,9 @@ export class SharedDataService {
         }
       } else {
         quotesData.offered_ncb_value = 0;
+      }
+      if(renewalPolicyNumber!=null){
+        quotesData.policy_number=renewalPolicyNumber
       }
     }
 
