@@ -27,6 +27,8 @@ export class SharedDataService {
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
+  loader = new BehaviorSubject<any>(null);
+
   getProposalReviewDetails = new BehaviorSubject<any>(null);
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
@@ -248,6 +250,8 @@ export class SharedDataService {
           } else {
             this.detailNotFound.next(res?.detail);
           }
+        },(error)=>{
+          this.loader.next('false')
         });
     }
   }

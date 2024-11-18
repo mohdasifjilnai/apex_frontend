@@ -655,6 +655,11 @@ export class MotorInsuranceComponent implements OnInit {
           this.loader = false;
         }
       });
+      this.sharedDataService.loader.subscribe((data)=>{
+        if(data){
+          this.loader=false
+        }
+      })
     }
   }
   /**
@@ -842,6 +847,8 @@ export class MotorInsuranceComponent implements OnInit {
           sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
           this.router.navigate([`quotes/${this.traceId}`]);
         }
+      },(error)=>{
+        this.loader = false;
       });
   }
 }
