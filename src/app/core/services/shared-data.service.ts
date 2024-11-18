@@ -1403,7 +1403,7 @@ export class SharedDataService {
                 // console.log(uniqueKey,"22222")
               }
             });
-            console.log(this.quotesListData,);
+            // console.log(this.quotesListData);
             this.uniqueDataList = Object.values(this.quotesListData);
             // console.log(this.uniqueDataList, 'fchggcg');
             // this.allQuotes = Object.values(

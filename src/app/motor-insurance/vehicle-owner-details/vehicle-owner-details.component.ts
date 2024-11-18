@@ -139,23 +139,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     this.proposerType == 'individual'
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
-    if (
-      
-      sessionStorage.getItem('proposerType') !== 'individual' &&
-      (JSON.parse(this.quoteData)['insurer_code'] === 'united_india' || JSON.parse(this.quoteData)['insurer_code'] === 'national_insurance')
-    ) {
-      this.owenerVehicleDetailsForm
-        .get('owner_gstin')
-        ?.setValidators([Validators.required]);
-      this.owenerVehicleDetailsForm
-        .get('owner_gstin')
-        ?.updateValueAndValidity();
-    } else {
-      this.owenerVehicleDetailsForm.get('owner_gstin')?.clearValidators();
-      this.owenerVehicleDetailsForm
-        .get('owner_gstin')
-        ?.updateValueAndValidity();
-    }
+  
 
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
@@ -239,6 +223,22 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             this.isPancardDisabled = false;
           }
         }
+      }
+      if (
+        sessionStorage.getItem('proposerType') !== 'individual' &&
+        (proposal?.insurer_code === 'united_india' || proposal?.insurer_code === 'national_insurance' || proposal?.insurer_code === 'kotak')
+      ) {
+        this.owenerVehicleDetailsForm
+          .get('owner_gstin')
+          ?.setValidators([Validators.required]);
+        this.owenerVehicleDetailsForm
+          .get('owner_gstin')
+          ?.updateValueAndValidity();
+      } else {
+        this.owenerVehicleDetailsForm.get('owner_gstin')?.clearValidators();
+        this.owenerVehicleDetailsForm
+          .get('owner_gstin')
+          ?.updateValueAndValidity();
       }
     });
     this.sharedDataService.fetchedCkycData.subscribe((ckycData) => {
