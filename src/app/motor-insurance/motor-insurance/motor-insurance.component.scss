@@ -54,6 +54,9 @@
   line-height: 15px;
   color: #282828;
 }
+::ng-deep .mat-form-field{
+  display: block !important;
+}
 @media screen and (max-width: 1020px) {
   .vehicle-submission {
     position: relative;

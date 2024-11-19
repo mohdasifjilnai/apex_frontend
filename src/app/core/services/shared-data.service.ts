@@ -23,6 +23,7 @@ export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
   getRegistrationData: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
+  getSelectedvehicleTypeObject: Subject<any> = new Subject();
   getProgressValue: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
@@ -167,6 +168,9 @@ export class SharedDataService {
   }
   sendCarLoaderMessage(data: any) {
     this.getProgressValue.next(data);
+  }
+  selectedVehicleTypeObject(data:any){
+    this.getSelectedvehicleTypeObject.next(data)
   }
   handleEnterKey(event: Event, MatDatePickerName: any) {
     const keyboardEvent = event as KeyboardEvent;

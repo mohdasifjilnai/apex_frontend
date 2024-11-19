@@ -89,6 +89,7 @@ export class MotorInsuranceComponent implements OnInit {
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
     policy_number: new FormControl(''),
+    cv_vehicle_type:new FormControl('')
   });
   notCertifiedComponentJSON: {
     modalName: any;
@@ -123,6 +124,8 @@ export class MotorInsuranceComponent implements OnInit {
   regNo: any;
   partnerCodeData: any;
   policyNo: any;
+  cvVehicleTypeList: any;
+  selectedvehicleType: any;
 
   constructor(
     private router: Router,
@@ -163,6 +166,11 @@ export class MotorInsuranceComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
+      this.selectedvehicleType=res
+      if(res=='commercial_vehicle'){
+        this.commercialVehicleTypeList();
+        this.motorInsurance.get('cv_vehicle_type')?.setValidators([Validators.required])
+      }
       this.motorInsurance.reset();
     });
     this.sharedDataService.detailNotFound.subscribe((res) => {
@@ -810,15 +818,22 @@ export class MotorInsuranceComponent implements OnInit {
   }
 
   getTraceId() {
+    let isCv=''
+    if(this.vehcileType='commercial_vehicle'){
+      isCv='/cv'
+    }
     let apiUrl;
     this.partner_code = localStorage.getItem('partner_code')
       ? localStorage.getItem('partner_code')
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
-
+    const data={
+      'partner_code':this.partner_code,
+      'quotes_data':this.motorInsurance.value
+    }
     this.apiService
-      .getRequestedResponse(`${ApiConstants.get_trace_Id}${apiUrl}`)
+      .postRequestedResponse(`${isCv}${ApiConstants.get_trace_Id}${apiUrl}`,data)
       .subscribe((res: any) => {
         this.traceId = res.trace_id;
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
@@ -851,4 +866,21 @@ export class MotorInsuranceComponent implements OnInit {
         this.loader = false;
       });
   }
+  /**
+   * Commercial Vehicle Api Integrations
+   */
+
+  commercialVehicleTypeList(){
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.cv_vehicle_type}`)
+      .subscribe((res: any) => {
+        this.cvVehicleTypeList=res
+      });
+  }
+
+  onVehicleTypeSelect(event: any){
+    const selectedVehicle = event.value; 
+    this.sharedDataService.selectedVehicleTypeObject(selectedVehicle)
+  }
+
 }

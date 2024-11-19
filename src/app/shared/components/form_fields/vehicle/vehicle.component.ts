@@ -38,6 +38,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 export class VehicleComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
+  @Input() selectedvehicleType: any;   // Input to receive the vehicle data from parent
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -56,6 +57,7 @@ export class VehicleComponent implements OnInit {
   showSelectedFuelandCapacity: boolean = false;
   vehicleSearchDataLength: any;
   @Output() responseEvent = new EventEmitter<string>();
+  selectedVehicleType: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -76,7 +78,9 @@ export class VehicleComponent implements OnInit {
     } else {
       this.form.addControl('vehicle', new FormControl());
     }
-
+    if(this.selectedvehicleType=='commercial_vehicle'){
+      this.vehcileType=this.selectedvehicleType
+    }
     this.sharedata.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
       // this.getVehicleMMV('', this.vehcileType);
@@ -92,6 +96,9 @@ export class VehicleComponent implements OnInit {
       });
 
     // this.getVehicleMMV('', this.vehcileType);
+    this.sharedata.getSelectedvehicleTypeObject.subscribe((res) => {
+      this.selectedVehicleType=res?.vehicle_type
+    });
   }
   sendResponse(response: string) {
     if (response != null) {
@@ -135,15 +142,25 @@ export class VehicleComponent implements OnInit {
   }
 
   getVehicleMMV(name: any, vehicletype: any) {
-    let vehicleType = sessionStorage.getItem('vehicleType');
-    this.apiservice
-      .getRequestedResponse(
-        `${
-          ApiConstants.get_vehicle_mmv
-        }?product_name=${vehicleType}&search_element=${name
+    let payload
+    let isCv=''
+    if(vehicletype=='commercial_vehicle'){
+      isCv='/cv'
+      payload=`vehicle_type=${this.selectedVehicleType}&search_element=${name
           .replace(/\|/g, '')
           .replace(/\s+/g, ' ')
           .trim()}`
+    }else{
+      payload=`product_name=${vehicletype}&search_element=${name
+          .replace(/\|/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()}`
+    }
+    this.apiservice
+      .getRequestedResponse(
+        `${isCv}${
+          ApiConstants.get_vehicle_mmv                                                                             
+        }?${payload}`
       )
       .subscribe(
         (res) => {

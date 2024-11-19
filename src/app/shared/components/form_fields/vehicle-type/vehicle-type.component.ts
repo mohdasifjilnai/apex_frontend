@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'; // Import HttpClient for fetc
 import vehicleTypeList from '../../json/vehicle-types.json';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-vehicle-type',
@@ -12,12 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 export class VehicleTypeComponent implements OnInit {
   vehicleTypeListData = vehicleTypeList;
   selectedVehicleType: any;
-
+  env=environment
   constructor(private http: HttpClient, private sharedata: SharedDataService,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     sessionStorage.setItem('vehicleType', `private_car`);
-    // Initialize selectedVehicleType to "Private Car" by default
     this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(
       (vehicle) => vehicle.optionName === 'Private Car'
     );
@@ -32,14 +32,26 @@ export class VehicleTypeComponent implements OnInit {
     })
   }
 
-  selectVehicle(vehicle: any) {
-    this.selectedVehicleType = vehicle;
+  selectVehicle(vehicle: any,index: number) {
+    if(this.env.apex!='https://dev-apex.rbstaging.in/' || this.env.apex_local!='http://test.rbstaging.in/' ){
+      if(index!=2){
+        this.selectedVehicleType = vehicle;
 
     sessionStorage.setItem(
       'vehicleType',
       `${this.selectedVehicleType.optionNameValue}`
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
+      }
+    }else{
+      this.selectedVehicleType = vehicle;
+
+      sessionStorage.setItem(
+        'vehicleType',
+        `${this.selectedVehicleType.optionNameValue}`
+      );
+      this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
+    }    
   }
   isLast(index: number): boolean {
     return index === this.vehicleTypeListData.vehicleTypeList.length - 1;

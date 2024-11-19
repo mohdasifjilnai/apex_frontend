@@ -123,4 +123,11 @@ export class ApiConstants {
   public static initiate_insurer_quote = `/api/v1/initiate_insurer_quote/`;
 
   public static renewal_partner_validation = `/api/v1/proposal/renewal_partner_validation`;
+
+  // Commercial Vehicle Api
+
+  public static cv_vehicle_type = `/cv/api/v1/vehicle_type/`;
+
+  public static get_cv_vehicle_mmv: string = `/cv/api/v1/vehicle_search/`;
+
 }

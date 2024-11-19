@@ -2,7 +2,7 @@
   <div
     class="two-wheeler cursor-pointer ms-4"
     *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList; let i = index"
-    (click)="!isLast(i) && selectVehicle(vehicle)"
+    (click)="selectVehicle(vehicle,i)"
   >
     <span
       class="vehicle-card"
@@ -28,7 +28,7 @@
       /><span class="vehicle-name ms-3">{{ vehicle?.optionName }}</span>
     </span>
     <img
-      *ngIf="isLast(i)"
+      *ngIf="env.apex!='https://dev-apex.rbstaging.in/' || this.env.apex_local!='http://test.rbstaging.in/'"
       class="comming-soon-img"
       src="/assets/icon/coming-soon.svg"
     />
