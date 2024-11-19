@@ -522,11 +522,11 @@ export class SharedDataService {
     }
     this.initiate_QuotePayload = quotesData;
     const renewal = sessionStorage.getItem('renewalType');
-    // if (renewal != null) {
-    //   quotesData.is_rb_renewal = true;
-    //   let mmvId = sessionStorage.getItem('mmvId');
-    //   quotesData.rb_mmv_id = Number(mmvId);
-    // }
+    if (renewal != null) {
+      quotesData.is_rb_renewal = true;
+      // let mmvId = sessionStorage.getItem('mmvId');
+      // quotesData.rb_mmv_id = Number(mmvId);
+    }
 
     this.apiService
       .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
