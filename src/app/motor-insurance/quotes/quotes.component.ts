@@ -62,6 +62,7 @@ export class QuotesComponent implements OnInit {
   };
   currentPageUrl: any;
   isPopupClose: any;
+  vehcileType: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -244,6 +245,9 @@ export class QuotesComponent implements OnInit {
         sessionStorage.setItem('vehicleLoginPopup', 'false');
       }
     });
+    this.shareDataService.getSelectedvehicle.subscribe((res) => {
+      this.vehcileType = res;
+    });
     sessionStorage.removeItem('kycData');
   }
   ngOnDestroy(): void {
@@ -294,9 +298,13 @@ export class QuotesComponent implements OnInit {
    * @param insurer_quote_id - The insurer quote id.
    */
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
+    let isCv=''
+    if(this.vehcileType='commercial_vehicle'){
+      isCv='/cv'
+    }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+        `${isCv}${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
       )
       .subscribe((response: any) => {
         if (response) {
@@ -353,12 +361,20 @@ export class QuotesComponent implements OnInit {
    * @param id - The ID of the make, model, or variant to be preselected.
    */
   getVehicleMMVPopup(name: any, id: any, type?: any, allRequestData?: any) {
+    let isCv=''
+    if(this.vehcileType=='commercial_vehicle'){
+      isCv='/cv'
+    }
     let apiData;
     if (id) {
-      apiData = `?product_name=${type}&rb_mmv_id=${id}`;
+      if(this.vehcileType=='commercial_vehicle'){
+        apiData = `?rb_mmv_id=${id}`;
+      }else{
+        apiData = `?product_name=${type}&rb_mmv_id=${id}`;
+      }
     }
     this.apiService
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .getRequestedResponse(`${isCv}${ApiConstants.get_vehicle_mmv}${apiData}`)
       .subscribe((res: any) => {
         if (res) {
           this.vehicleMMVData = res;
@@ -376,11 +392,13 @@ export class QuotesComponent implements OnInit {
   }
 
   traceIdBaseData(traceId: any) {
+    let isCv=''
+    if(this.vehcileType=='commercial_vehicle'){
+      isCv='/cv'
+    }
     this.apiService
-      .getRequestedResponse(`${ApiConstants.fetch_trace_Id}${traceId}`)
+      .getRequestedResponse(`${isCv}${ApiConstants.fetch_trace_Id}${traceId}`)
       .subscribe((res: any) => {
-        // console.log(res);
-
         if (res != null) {
           sessionStorage.setItem('vehicleType', res.vehicle_type);
           sessionStorage.setItem('proposerType', res.customer_type);

@@ -819,7 +819,7 @@ export class MotorInsuranceComponent implements OnInit {
 
   getTraceId() {
     let isCv=''
-    if(this.vehcileType='commercial_vehicle'){
+    if(this.vehcileType=='commercial_vehicle'){
       isCv='/cv'
     }
     let apiUrl;
@@ -833,7 +833,7 @@ export class MotorInsuranceComponent implements OnInit {
       'quotes_data':this.motorInsurance.value
     }
     this.apiService
-      .postRequestedResponse(`${isCv}${ApiConstants.get_trace_Id}${apiUrl}`,data)
+      .getRequestedResponse(`${isCv}${ApiConstants.get_trace_Id}${apiUrl}`)
       .subscribe((res: any) => {
         this.traceId = res.trace_id;
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));

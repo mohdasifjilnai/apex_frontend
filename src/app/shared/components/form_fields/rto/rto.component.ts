@@ -50,6 +50,7 @@ export class RTOComponent implements OnInit {
   private debounceSubject = new Subject<any>();
   @Output() responseEvent = new EventEmitter<string>();
   rtoDataLength: any;
+  vehcileType: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -78,14 +79,21 @@ export class RTOComponent implements OnInit {
           this.getRTOData(data);
         }
       });
+      this.shareData.getSelectedvehicle.subscribe((res) => {
+        this.vehcileType = res;
+      });
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
   }
   getRTOData(name: any) {
+    let isCv=''
+    if(this.vehcileType=='commercial_vehicle'){
+      isCv='/cv'
+    }
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_rto_list}?search_element=${name
+        `${isCv}${ApiConstants.get_rto_list}?search_element=${name
           ?.replace(/[()?/]/g, '')
           .replace(/\s+/g, ' ')
           .trim()}`

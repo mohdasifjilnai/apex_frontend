@@ -454,25 +454,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     // this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
     this.previousRenewalData = JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '{}');
-    // if (this.renewalType == 'rollover' || this.renewalType == 'renewal') {
-    //   // this.isRenewNotShownField = true;
-    //   this.vehicleDetailsForm.get('vehicle_make')?.disable();
-    //   this.vehicleDetailsForm.get('vehicle_model')?.disable();
-    //   this.vehicleDetailsForm.get('vehicle_variant')?.disable();
-    //   // this.vehicleDetailsForm.get('vehicle_fuel')?.disable();
-    //   // this.vehicleDetailsForm.get('registration_city')?.disable();
-    //   // this.vehicleDetailsForm.get('ncb_discount')?.disable();
-    //   // this.vehicleDetailsForm.get('policy_expiry')?.disable();
-    // }
-    // if(this.renewalType == 'rollover' || this.renewalType == 'renewal'){
-    //   if(this.editClick == ''){
-    //     setTimeout(() => {
-    //       if (this.vehicleDetailsForm.valid) {
-    //         this.updateVehicleDetail();
-    //       }
-    //     }, 2000);
-    //   }
-    // }
     this.vehicleDetailsFormControler();
   }
 
@@ -699,109 +680,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
 
     sessionStorage.setItem('mmv_data', vehicleFrom);
-    // } else {
-    //   let vehicleMMVFrom = JSON.parse(
-    //     sessionStorage.getItem('mmv_data') || '{}'
-    //   );
-    //   this.mmvFromValue;
-    //   if (vehicleMMVFrom?.vehicle_make) {
-    //     this.mmvFromValue = {
-    //       previous_insurer: vehicleMMVFrom.previous_insurer,
-    //       registration_city: vehicleMMVFrom.registration_city,
-    //       registration_date: vehicleMMVFrom.registration_date,
-    //       vehicle_fuel: vehicleMMVFrom.vehicle_fuel,
-    //       vehicle_make: vehicleMMVFrom.vehicle_make,
-    //       vehicle_model: vehicleMMVFrom.vehicle_model,
-    //       vehicle_variant: vehicleMMVFrom.vehicle_variant,
-    //       policy_expiry_date: vehicleMMVFrom.policy_expiry_date,
-    //       policy_expiry: vehicleMMVFrom.policy_expiry,
-    //       manufacture_date: vehicleMMVFrom.manufacture_date,
-    //       isNewVehicleUpdate: vehicleMMVFrom.isNewVehicleUpdate,
-    //       hidePreviousClaimed: vehicleMMVFrom.hidePreviousClaimed,
-    //       user_car: this.vehicleDetailsForm.value.user_car,
-    //       previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-    //       ncb_discount: 0,
-
-    //       renewalNCBDiscount: '',
-    //       addNcbBoth: '',
-    //     };
-    //   } else {
-    //     let renewalMMVValue = JSON.parse(
-    //       sessionStorage.getItem('renewalmmvData') || '{}'
-    //     );
-    //     let renewalRtoCity = JSON.parse(
-    //       sessionStorage.getItem('renewalRTOData') || '{}'
-    //     );
-    //     let renewalPolicyExpiry = JSON.parse(
-    //       sessionStorage.getItem('renewalPolicyExpiry') || '{}'
-    //     );
-    //     let renewalPreviousInsurer = JSON.parse(
-    //       sessionStorage.getItem('renewalPreviousInsurer') || '{}'
-    //     );
-
-    //     this.mmvFromValue = {
-    //       previous_insurer: renewalPreviousInsurer,
-    //       registration_city: renewalRtoCity,
-    //       registration_date: renewalMMVValue.registration_date,
-    //       vehicle_fuel: renewalMMVValue.vehicle_fuel,
-    //       vehicle_make: renewalMMVValue.vehicle_make,
-    //       vehicle_model: renewalMMVValue.vehicle_model,
-    //       vehicle_variant: renewalMMVValue.vehicle_variant,
-    //       policy_expiry_date: renewalMMVValue.policy_expiry_date,
-    //       policy_expiry: renewalPolicyExpiry.policy_expiry,
-    //       manufacture_date: renewalMMVValue.manufacture_date,
-    //       isNewVehicleUpdate: this.isNewVehicle,
-    //       hidePreviousClaimed:
-    //         this.vehicleDetailsForm.value.hidePreviousClaimed,
-    //       user_car: this.vehicleDetailsForm.value.user_car,
-    //       previous_claimed: this.vehicleDetailsForm.value.previous_claimed,
-    //       ncb_discount: this.vehicleDetailsForm.value.ncb_discount,
-    //       renewalNCBDiscount: '',
-    //       addNcbBoth: '',
-    //     };
-    //     sessionStorage.removeItem('renewalRTOData');
-    //     sessionStorage.removeItem('renewalmmvData');
-    //     sessionStorage.removeItem('renewalPolicyExpiry');
-    //     sessionStorage.removeItem('renewalPreviousInsurer');
-    //   }
-
-    //   if (
-    //     !this.vehicleDetailsForm.value.previous_claimed &&
-    //     vehicleMMVFrom?.renewalNCBDiscount
-    //   ) {
-    //     this.mmvFromValue.ncb_discount = vehicleMMVFrom?.renewalNCBDiscount;
-    //     this.mmvFromValue.renewalNCBDiscount =
-    //       vehicleMMVFrom?.renewalNCBDiscount;
-    //   } else {
-    //     this.mmvFromValue.ncb_discount = !this.vehicleDetailsForm.value
-    //       .previous_claimed
-    //       ? vehicleMMVFrom.ncb_discount
-    //       : 0;
-    //     this.mmvFromValue.renewalNCBDiscount = vehicleMMVFrom.renewalNCBDiscount
-    //       ? vehicleMMVFrom.renewalNCBDiscount
-    //       : vehicleMMVFrom.ncb_discount;
-    //   }
-    //   if (
-    //     this.mmvFromValue.ncb_discount ||
-    //     this.mmvFromValue.ncb_discount == 0
-    //   ) {
-    //     for (let i = 0; i <= this.expiryListData.length - 1; i++) {
-    //       if (
-    //         this.expiryListData[i].old_ncb_value ==
-    //         this.mmvFromValue.ncb_discount
-    //       ) {
-    //         this.ncbAllData = this.expiryListData[i];
-    //       }
-    //     }
-    //     this.mmvFromValue.addNcbBoth = this.ncbAllData;
-    //   }
-
-    //   this.vehicleDetailsForm.value.offeredNCBValue = this.policyTypeBaseNCB;
-
-    //   vehicleFrom = JSON.stringify(this.mmvFromValue);
-
-    //   sessionStorage.setItem('mmv_data', vehicleFrom);
-    // }
     sessionStorage.removeItem('allNCBDataProposal');
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
