@@ -25,9 +25,9 @@
     }
     .premium-btn {
       text-align: center;
-      margin-top: 7px;
+      // margin-top: 7px;
       display: grid;
-      justify-content: center;
+      justify-content: end;
     }
     .premium-breakup-amount {
       background: linear-gradient(180deg, #ffb171 0%, #ff943d 100%);
@@ -38,6 +38,7 @@
       height: 50px;
       text-align: center;
       font-weight: 600;
+      margin-top: 7px;
     }
     .premium-breakup {
       color: #5384ea;
@@ -602,7 +603,7 @@
     }
     .comprehensive-tab {
       .premium-btn-tp {
-        margin-top: 7px;
+        // margin-top: 7px;
         text-align: center;
         display: flex;
         justify-content: space-between;

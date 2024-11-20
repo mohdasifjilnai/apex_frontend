@@ -470,27 +470,21 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-12">
+              <div class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img">
                 <div class="d-flex justify-content-between">
                   <img
                     [src]="quotes?.insurer_logo"
                     class="insurer-logo"
                     alt=""
                   />
-                  <div *ngIf="addShare" class="responsive-checkbox">
-                    <mat-checkbox
-                      (change)="onCheckboxChange(quotes, $event)"
-                      [checked]="isCheckboxChecked"
-                      >Add to Share</mat-checkbox
-                    >
-                  </div>
+                  
                 </div>
               </div>
 
               <!-- {{quotes.insurer_name}} -->
-              <div class="col-lg-6 col-md-6">
-                <div class="d-flex justify-content-between">
-                  <div *ngIf="quotes?.payd?.status">
+              <div class="col-lg-6 col-md-6 web-checkbox" >
+                <div class="d-flex justify-content-end" *ngIf="addShare">
+                  <!-- <div *ngIf="quotes?.payd?.status">
                     <div class="pay-drive mb-2">
                       <div class="d-flex">
                         <img
@@ -521,8 +515,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="web-checkbox" *ngIf="addShare">
+                  </div> -->
+                  <div class="web-checkbox" >
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
@@ -531,7 +525,14 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-12 premium-btn">
+              <div class="col-lg-3 col-md-3 col-6 premium-btn">
+                <div *ngIf="addShare" class="responsive-checkbox">
+                  <mat-checkbox
+                    (change)="onCheckboxChange(quotes, $event)"
+                    [checked]="isCheckboxChecked"
+                    >Add to Share</mat-checkbox
+                  >
+                </div>
                 <div
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"
