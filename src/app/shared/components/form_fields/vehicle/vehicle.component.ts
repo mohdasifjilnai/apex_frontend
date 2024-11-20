@@ -142,6 +142,7 @@ export class VehicleComponent implements OnInit {
   }
 
   getVehicleMMV(name: any, vehicletype: any) {
+    let vehicleType = sessionStorage.getItem('vehicleType');
     let payload
     let isCv=''
     if(vehicletype=='commercial_vehicle'){
@@ -151,7 +152,7 @@ export class VehicleComponent implements OnInit {
           .replace(/\s+/g, ' ')
           .trim()}`
     }else{
-      payload=`product_name=${vehicletype}&search_element=${name
+      payload=`product_name=${vehicleType}&search_element=${name
           .replace(/\|/g, '')
           .replace(/\s+/g, ' ')
           .trim()}`
