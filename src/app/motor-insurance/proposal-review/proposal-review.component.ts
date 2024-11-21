@@ -523,7 +523,7 @@ export class ProposalReviewComponent implements OnInit {
 
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${policyExpiryDate}`
+          `${ApiConstants.getCoverageType()}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${policyExpiryDate}`
         )
         .subscribe((res: any) => {
           if (res) {

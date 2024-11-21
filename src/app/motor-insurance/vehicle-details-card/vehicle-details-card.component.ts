@@ -393,7 +393,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     apiData = type == 'rto_code' ? `?search_element=${rb_rto_code}` : '';
 
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
       .subscribe((res) => {
         this.parsedVehicleData.registration_city = res[0];
         let vehicleEmailData = {
@@ -470,7 +470,7 @@ export class VehicleDetailsCardComponent implements OnInit {
    */
   getInsurerData(insurer_code: any) {
     this.apiservice
-      .getRequestedResponse(ApiConstants.get_previous_insurer)
+      .getRequestedResponse(ApiConstants.get_previous_insurer())
       .subscribe((res) => {
         if (res) {
           let previousInsurerObject;
@@ -497,7 +497,7 @@ export class VehicleDetailsCardComponent implements OnInit {
    */
   getNcbList(previousYearNCB: any) {
     this.apiservice
-      .getRequestedResponse(ApiConstants.ncb_list)
+      .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
         this.expiryListData = res;
         this.vehicleValueForm = sessionStorage.getItem('mmv_data');

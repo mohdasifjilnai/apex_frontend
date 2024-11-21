@@ -546,7 +546,7 @@ export class AddOnsComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addonsApi}?vehicle_type=${this.vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
+        `${ApiConstants?.addonsApi()}?vehicle_type=${this.vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
       )
       .subscribe((res: any) => {
         this.addonList = res;

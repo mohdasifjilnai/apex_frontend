@@ -945,7 +945,7 @@ export class ProposalComponent implements OnInit {
             sessionStorage.setItem('registrationNumber', regNo);
           }
           this.apiService
-            .getRequestedResponse(ApiConstants.get_previous_insurer)
+            .getRequestedResponse(ApiConstants.get_previous_insurer())
             .subscribe((response: any) => {
               for (let insurer of response) {
                 if (
@@ -959,7 +959,7 @@ export class ProposalComponent implements OnInit {
 
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.getCoverageType}?reg_year=${
+              `${ApiConstants.getCoverageType()}?reg_year=${
                 response?.quote_request?.registration_year
               }&vehicle_type=${
                 response?.quote_request?.vehicle_type
@@ -999,7 +999,7 @@ export class ProposalComponent implements OnInit {
     apiData = type == 'rto_code' ? `?search_element=${rb_rto_code}` : '';
 
     this.apiService
-      .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
       .subscribe((res) => {
         if (res) {
           this.rtoCity = res;
@@ -1018,7 +1018,7 @@ export class ProposalComponent implements OnInit {
       apiData = `?product_name=${type}&rb_mmv_id=${id}`;
     }
     this.apiService
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}${apiData}`)
       .subscribe((res: any) => {
         this.loaderService.hide();
         if (res) {
@@ -1109,7 +1109,7 @@ export class ProposalComponent implements OnInit {
 
   getNcbList(allRequestData: any) {
     this.apiService
-      .getRequestedResponse(ApiConstants.ncb_list)
+      .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
         this.expiryListData = res;
         for (let i = 0; i <= this.expiryListData.length - 1; i++) {

@@ -113,7 +113,7 @@ export class NotCertifiedComponent implements OnInit {
         };
         this.apiService
           .postRequestedResponse(
-            `${ApiConstants.send_communication}`,
+            `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
           .subscribe((res) => {
@@ -143,7 +143,7 @@ export class NotCertifiedComponent implements OnInit {
         };
         this.apiService
           .postRequestedResponse(
-            `${ApiConstants.send_communication}`,
+            `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
           .subscribe((res) => {

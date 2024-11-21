@@ -12,9 +12,7 @@ export class NumberFormatPipe implements PipeTransform {
     // }).format(Number(value));
 
     let formattedValue = new Intl.NumberFormat('en-IN').format(Number(value)); //inplace of en-IN you can mention your country's code
-    console.log('temp is   ', formattedValue);
     formattedValue = formattedValue ? formattedValue.toString() : '';
-    console.log('temp is updated ', formattedValue);
     // this.currency.setValue(temp);
     return formattedValue; // Remove trailing zeros after the decimal point
   }

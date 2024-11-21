@@ -353,7 +353,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (this.regNumber && renewalType != 'renewal') {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
+              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
             )
             .subscribe((res: any) => {
               if (res) {

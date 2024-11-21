@@ -276,7 +276,7 @@ export class InsuranceDetailsComponent implements OnInit {
     let apiData;
     apiData = `?product_name=${productType}&rb_mmv_id=${mmvId}`;
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}${apiData}`)
       .subscribe((res) => {
         this.mmvItem = res;
         sessionStorage.setItem('mmvData', JSON.stringify(res));
@@ -309,26 +309,7 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadUnderwritingUrl() {
     window.open(this.downloadUrl);
   }
-  // onCpaCheckboxChange(data: boolean) {
-  //   if (data) {
-  //     if (
-  //       this.quoteData?.premium_details?.addon_premium_details[0]
-  //         ?.add_on_name === 'Compulsory Personal Accident'
-  //     ) {
-  //       this.addPremiumWithTp =
-  //         this.quoteData?.premium_details?.addon_premium_details[0]
-  //           ?.add_on_premium +
-  //         this.quoteData?.premium_details?.tp_premium_details?.basic_tp_premium;
-  //     }
-  //   } else {
-  //     this.addPremiumWithTp =
-  //       this.quoteData?.premium_details?.tp_premium_details?.basic_tp_premium;
-  //     console.log(this.addPremiumWithTp, 'shivam');
-  //   }
-  // }
-  // onCpaChange(event: any) {
-  //   this.onCpaCheckboxChange(event.checked);
-  // }\
+
 
   /**
    * Downloads the premium breakup for the given quote.

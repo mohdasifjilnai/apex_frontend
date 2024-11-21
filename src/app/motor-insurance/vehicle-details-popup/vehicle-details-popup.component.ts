@@ -694,7 +694,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&search_element=${name}`
         )
         .subscribe(
           (res) => {
@@ -814,7 +814,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
     if (type != 'blank' && apiData) {
       this.apiservice
-        .getRequestedResponse(`${ApiConstants.get_rto_list}${apiData}`)
+        .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
         .subscribe((res) => {
           if (res && res.length > 0 && !res.message) {
             this.rtoList = res;
@@ -918,7 +918,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     // if (typeof name != 'object' && name != '') {
     return this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_rto_list}?search_element=${name
+        `${ApiConstants.get_rto_list()}?search_element=${name
           ?.replace(/[()]/g, '')
           .replace(/\s+/g, ' ')
           .trim()}`
@@ -1298,7 +1298,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (expiringPolicyType != undefined && this.renewalType != 'renewal') {
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
         )
         ?.subscribe((res) => {
           if (res) {
@@ -1385,7 +1385,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   }
   getNcbList() {
     this.apiservice
-      .getRequestedResponse(ApiConstants.ncb_list)
+      .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
         this.expiryListData = res;
         for (let data of this.expiryListData) {
@@ -1711,7 +1711,7 @@ Get the expiring policy list based on the given date or the registration details
     if (expiringPolicyType && renewal != 'renewal') {
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
         )
         ?.subscribe((res) => {
           if (res) {
@@ -1851,14 +1851,18 @@ Get the expiring policy list based on the given date or the registration details
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     if (id) {
-      apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
+      if(this.vehicleTypeValue=='commercial_vehicle'){
+        apiData = `?rb_mmv_id=${id}&vehicle_type=gcv`;
+      }else{
+        apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
+      }
     } else {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       apiData = `?product_name=${this.vehicleTypeValue}&make=${make}&model=${model}&variant=${variant}`;
     }
 
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}${apiData}`)
       .subscribe((res: any) => {
         if (Array.isArray(res)) {
           this.makeList = res;
@@ -2388,7 +2392,7 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${name}&model=&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${name}&model=&variant=`
         )
         .subscribe(
           (res) => {
@@ -2440,7 +2444,7 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${name}&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${name}&variant=`
         )
         .subscribe(
           (res) => {
@@ -2495,7 +2499,7 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${selectedModalValue}&variant=${name}`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${selectedModalValue}&variant=${name}`
         )
         .subscribe(
           (res: any) => {
@@ -2556,7 +2560,7 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv}?product_name=${this.vehicleTypeValue}&make=${this.modelSelected}&model=${name}&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${this.modelSelected}&model=${name}&variant=`
         )
         .subscribe(
           (res) => {

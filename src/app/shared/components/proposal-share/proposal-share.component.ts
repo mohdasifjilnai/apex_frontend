@@ -303,7 +303,7 @@ export class ProposalShareComponent implements OnInit {
         };
         this.apiService
           .postRequestedResponse(
-            `${ApiConstants.send_communication}`,
+            `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
           .subscribe((res) => {
@@ -338,7 +338,7 @@ export class ProposalShareComponent implements OnInit {
         };
         this.apiService
           .postRequestedResponse(
-            `${ApiConstants.send_communication}`,
+            `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
           .subscribe((res) => {
@@ -403,7 +403,6 @@ export class ProposalShareComponent implements OnInit {
       };
       const messageJSON = JSON.stringify(apiUrlObject);
       window.ReactNativeWebView.postMessage(messageJSON);
-      console.log(apiUrlObject);
     }
     this.downloadLoader = true;
 

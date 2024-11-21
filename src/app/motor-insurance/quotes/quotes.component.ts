@@ -62,7 +62,6 @@ export class QuotesComponent implements OnInit {
   };
   currentPageUrl: any;
   isPopupClose: any;
-  vehcileType: any;
   constructor(
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
@@ -245,10 +244,11 @@ export class QuotesComponent implements OnInit {
         sessionStorage.setItem('vehicleLoginPopup', 'false');
       }
     });
-    this.shareDataService.getSelectedvehicle.subscribe((res) => {
-      this.vehcileType = res;
-    });
     sessionStorage.removeItem('kycData');
+    const partnerCodeTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
+    if(partnerCodeTraceId){
+      this.getTraceIdCommercialVehicle(partnerCodeTraceId?.trace_id)
+    }
   }
   ngOnDestroy(): void {
     this.idleService.stopWatching();
@@ -298,13 +298,10 @@ export class QuotesComponent implements OnInit {
    * @param insurer_quote_id - The insurer quote id.
    */
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
-    let isCv=''
-    if(this.vehcileType='commercial_vehicle'){
-      isCv='/cv'
-    }
+   
     this.apiService
       .getRequestedResponse(
-        `${isCv}${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
       )
       .subscribe((response: any) => {
         if (response) {
@@ -361,20 +358,19 @@ export class QuotesComponent implements OnInit {
    * @param id - The ID of the make, model, or variant to be preselected.
    */
   getVehicleMMVPopup(name: any, id: any, type?: any, allRequestData?: any) {
-    let isCv=''
-    if(this.vehcileType=='commercial_vehicle'){
-      isCv='/cv'
-    }
+    const vehicleType=sessionStorage.getItem('vehicleType')
     let apiData;
     if (id) {
-      if(this.vehcileType=='commercial_vehicle'){
-        apiData = `?rb_mmv_id=${id}`;
+      if(vehicleType=='commercial_vehicle'){
+        apiData=`?rb_mmv_id=${id}`
+        console.log(vehicleType)
+
       }else{
         apiData = `?product_name=${type}&rb_mmv_id=${id}`;
       }
     }
     this.apiService
-      .getRequestedResponse(`${isCv}${ApiConstants.get_vehicle_mmv}${apiData}`)
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}${apiData}`)
       .subscribe((res: any) => {
         if (res) {
           this.vehicleMMVData = res;
@@ -392,15 +388,16 @@ export class QuotesComponent implements OnInit {
   }
 
   traceIdBaseData(traceId: any) {
-    let isCv=''
-    if(this.vehcileType=='commercial_vehicle'){
-      isCv='/cv'
-    }
     this.apiService
-      .getRequestedResponse(`${isCv}${ApiConstants.fetch_trace_Id}${traceId}`)
+      .getRequestedResponse(`${ApiConstants.fetch_trace_Id()}${traceId}`)
       .subscribe((res: any) => {
         if (res != null) {
-          sessionStorage.setItem('vehicleType', res.vehicle_type);
+          const vehicleType=sessionStorage.getItem('vehicleType')
+          if(vehicleType!='commercial_vehicle'){
+            sessionStorage.setItem('vehicleType', res.vehicle_type);
+          }else{
+            sessionStorage.setItem('vehicleType', 'commercial_vehicle');
+          }
           sessionStorage.setItem('proposerType', res.customer_type);
           let traceIdValue = {
             trace_id: traceId,
@@ -495,5 +492,15 @@ export class QuotesComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  getTraceIdCommercialVehicle(trace_id:any){
+    let apiUrl;
+    apiUrl = `?trace_id=${trace_id}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .subscribe((res: any) => {
+        this.shareDataService.getTraceIdDetails(res)
+        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+      });
   }
 }

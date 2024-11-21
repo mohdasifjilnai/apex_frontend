@@ -314,7 +314,7 @@ Event handler for when a file is selected.
   getDocumentType(fetchCkycParam: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${
+        `${ApiConstants.document_type()}?insurer_code=${
           fetchCkycParam?.insurer_code
         }&is_individual=${
           fetchCkycParam.isProposerTrue
@@ -345,7 +345,6 @@ handles the form submit for uploading the required documents
     //  this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
     //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
     // }
-    console.log(this.uploadDocumentsForm.value)
     if (valid && !this.loader) {
       this.loader = true;
       let body = {

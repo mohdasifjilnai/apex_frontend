@@ -170,6 +170,9 @@ export class MotorInsuranceComponent implements OnInit {
       if(res=='commercial_vehicle'){
         this.commercialVehicleTypeList();
         this.motorInsurance.get('cv_vehicle_type')?.setValidators([Validators.required])
+      }else{
+        this.motorInsurance.get('cv_vehicle_type')?.setValidators([])
+        this.motorInsurance.get('cv_vehicle_type')?.updateValueAndValidity();
       }
       this.motorInsurance.reset();
     });
@@ -487,7 +490,11 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    this.getTraceId();
+    if(this.vehcileType=='commercial_vehicle'){
+      this.postTraceIdCommercialVehicle()
+    }else{
+      this.getTraceId();
+    }
   }
   getVehicleNumber() {
     this.withoutVehicleNumber = !this.withoutVehicleNumber;
@@ -818,10 +825,7 @@ export class MotorInsuranceComponent implements OnInit {
   }
 
   getTraceId() {
-    let isCv=''
-    if(this.vehcileType=='commercial_vehicle'){
-      isCv='/cv'
-    }
+    
     let apiUrl;
     this.partner_code = localStorage.getItem('partner_code')
       ? localStorage.getItem('partner_code')
@@ -833,7 +837,7 @@ export class MotorInsuranceComponent implements OnInit {
       'quotes_data':this.motorInsurance.value
     }
     this.apiService
-      .getRequestedResponse(`${isCv}${ApiConstants.get_trace_Id}${apiUrl}`)
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
         this.traceId = res.trace_id;
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
@@ -850,6 +854,50 @@ export class MotorInsuranceComponent implements OnInit {
         if (!vehicleTypeValue) {
           sessionStorage.setItem('vehicleType', `private_car`);
         }
+        // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
+        sessionStorage.removeItem('isPayment');
+        if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
+          this.getVehicleDetailsInfo();
+          // this.motorInsurance.reset();
+        } else if (this.isPolicyNumber) {
+          this.getRenewalPolicyData();
+        } else {
+          let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+          sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
+          this.router.navigate([`quotes/${this.traceId}`]);
+        }
+      },(error)=>{
+        this.loader = false;
+      });
+  }
+
+  postTraceIdCommercialVehicle(){
+    let apiUrl;
+    this.partner_code = localStorage.getItem('partner_code')
+      ? localStorage.getItem('partner_code')
+      : '';
+
+    apiUrl = `?partner_code=${this.partner_code}`;
+    const data={
+      'partner_code':this.partner_code,
+      'quotes_data':this.motorInsurance.value
+    }
+    this.apiService
+      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`,data)
+      .subscribe((res: any) => {
+        this.traceId = res.trace_id;
+        this.sharedDataService.getTraceIdDetails(res)
+        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        this.loader = true;
+        if (this.vehicleCheck) {
+          this.vehicleCheck = false;
+        }
+        localStorage.setItem(
+          'withoutVehicleNumber',
+          `${this.withoutVehicleNumber}`
+        );
+        sessionStorage.setItem('quotesUrl', 'true');
+       
         // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
         sessionStorage.removeItem('isPayment');
         if (!this.withoutVehicleNumber && !this.isPolicyNumber) {

@@ -288,15 +288,6 @@ export class ChooseIDVComponent implements OnInit {
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    // if (window.performance.navigation.type === 1) {
-    //   console.log('Page was refreshed');
-    //   this.isPageRefresh = false;
-    //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
-    // } else {
-    //   console.log('Page was not refreshed');
-    //   this.isPageRefresh = true;
-    //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
-    // }
     if (this.registrationNumber) {
       this.sharedDataService.vehicleMMVDetails(
         productTypeValue,

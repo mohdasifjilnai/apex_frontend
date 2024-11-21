@@ -150,7 +150,7 @@ export class PreviousInsurerComponent implements OnInit {
   getInsurerData(name: any) {
     this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.get_previous_insurer}?search_element=${name}`
+        `${ApiConstants.get_previous_insurer()}?search_element=${name}`
       )
       .subscribe((res) => {
         if (res && !res?.message) {

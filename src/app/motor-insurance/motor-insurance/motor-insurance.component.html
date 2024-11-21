@@ -60,7 +60,7 @@
 
               <!-- Fields Without Vehicle Number  -->
               <ng-container *ngIf="!isPolicyNumber">
-                <ng-container *ngIf="vehicleTypeValue=='commercial_vehicle'">
+                <ng-container *ngIf="selectedvehicleType=='commercial_vehicle'">
                   <div
                     class="col-lg-4 col-md-6 col-12 mt-2"
                     *ngIf="withoutVehicleNumber && isResponsive()"

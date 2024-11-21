@@ -130,6 +130,8 @@ export class SharedDataService {
   uniqueDataList: any;
   isRenewal:any;
   visuallyDisabledFields: { [key: string]: boolean } = {};
+  selectedCommercialVehicleType: any;
+  traceIdResponse: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -170,7 +172,9 @@ export class SharedDataService {
     this.getProgressValue.next(data);
   }
   selectedVehicleTypeObject(data:any){
+     this.selectedCommercialVehicleType=data
     this.getSelectedvehicleTypeObject.next(data)
+    
   }
   handleEnterKey(event: Event, MatDatePickerName: any) {
     const keyboardEvent = event as KeyboardEvent;
@@ -198,6 +202,9 @@ export class SharedDataService {
    */
   registrationYearData(data: any) {
     this.registrationMonthSelection.next(data);
+  }
+  getTraceIdDetails(data:any){
+    this.traceIdResponse=data
   }
   /**
    *
@@ -228,7 +235,7 @@ export class SharedDataService {
     ) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.registration_number}?regn_no=${this.regNumber}`
+          `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
         )
         .subscribe((res: any) => {
           if (res?.detail != 'Vehicle details not found.') {
@@ -447,7 +454,8 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
-        policy_number:null
+        policy_number:null,
+        vehicle_name:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -461,6 +469,10 @@ export class SharedDataService {
       }
       if(renewalPolicyNumber!=null){
         quotesData.policy_number=renewalPolicyNumber
+      }
+      if(this.vehicleType=='commercial_vehicle'){
+        quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
+        quotesData.vehicle_name=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name
       }
     } else {
       quotesData = {
@@ -499,7 +511,8 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
-        policy_number:null
+        policy_number:null,
+        vehicle_name:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -513,6 +526,10 @@ export class SharedDataService {
       }
       if(renewalPolicyNumber!=null){
         quotesData.policy_number=renewalPolicyNumber
+      }
+      if(this.vehicleType=='commercial_vehicle'){
+        quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
+        quotesData.vehicle_name=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name
       }
     }
 
@@ -529,7 +546,7 @@ export class SharedDataService {
     }
 
     this.apiService
-      .postRequestedResponse(`${ApiConstants.initiate_quotes}`, quotesData)
+      .postRequestedResponse(`${ApiConstants.initiate_quotes()}`, quotesData)
       .subscribe((res) => {
         if (res?.status) {
           if (renewal != null) {
@@ -1060,7 +1077,7 @@ export class SharedDataService {
       quote_request_id: quotes_data['quote_request_id'],
     };
     return this.apiService.postRequestedResponse(
-      `${ApiConstants.send_communication}`,
+      `${ApiConstants.send_communication()}`,
       data
     );
   }
@@ -1382,7 +1399,7 @@ export class SharedDataService {
     }
     this.sseService
       .getServerSentEvent(
-        `/api/v1/fetch_quotes/${transactionId}/${quotesId}/?is_d2c=${d2c}`
+        `${ApiConstants.fetch_quotes()}${transactionId}/${quotesId}/?is_d2c=${d2c}`
       )
       .subscribe(
         (eventSource) => {
@@ -1394,7 +1411,7 @@ export class SharedDataService {
             this.allQuotes = this.quotesConnectionData;
 
             this.quotesValue = this.quotesConnectionData;
-            console.log(this.allQuotes, '-----');
+            // console.log(this.allQuotes, '-----');
             this.quotesListData = {};
             this.quotesValue.forEach((item: any) => {
               if (item.status) {
@@ -1409,18 +1426,6 @@ export class SharedDataService {
             });
             // console.log(this.quotesListData);
             this.uniqueDataList = Object.values(this.quotesListData);
-            // console.log(this.uniqueDataList, 'fchggcg');
-            // this.allQuotes = Object.values(
-            //   this.quotesValue.reduce(
-            //     (
-            //       data: any,
-            //       obj: {
-            //         insurer_name: any;
-            //       }
-            //     ) => ({ ...data, [obj.insurer_name]: obj }),
-            //     {}
-            //   )
-            // );
             this.allQuotes = this.uniqueDataList;
             this.quotesCount = '';
             this.quotesCount = this.allQuotes;

@@ -79,21 +79,15 @@ export class RTOComponent implements OnInit {
           this.getRTOData(data);
         }
       });
-      this.shareData.getSelectedvehicle.subscribe((res) => {
-        this.vehcileType = res;
-      });
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
   }
   getRTOData(name: any) {
-    let isCv=''
-    if(this.vehcileType=='commercial_vehicle'){
-      isCv='/cv'
-    }
+    
     this.apiservice
       .getRequestedResponse(
-        `${isCv}${ApiConstants.get_rto_list}?search_element=${name
+        `${ApiConstants.get_rto_list()}?search_element=${name
           ?.replace(/[()?/]/g, '')
           .replace(/\s+/g, ' ')
           .trim()}`

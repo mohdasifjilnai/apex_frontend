@@ -463,7 +463,7 @@ export class OtpComponent implements OnInit {
     this.ngOtpInput.setValue('');
     this.apiService
       .postRequestedResponse(
-        `${ApiConstants.send_communication}`,
+        `${ApiConstants.send_communication()}`,
         this.communicationData
       )
       .subscribe((res) => {

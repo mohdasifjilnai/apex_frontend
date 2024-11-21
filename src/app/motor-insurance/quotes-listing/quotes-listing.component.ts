@@ -423,7 +423,7 @@ export class QuotesListingComponent implements OnInit {
   getProposalType() {
     this.proposalTypeValueOninit = false;
     this.apiService
-      .getRequestedResponse(`${ApiConstants.proposal_type}`)
+      .getRequestedResponse(`${ApiConstants.proposal_type()}`)
       .subscribe((res: any) => {
         if (res) {
           this.proposalList = res;
@@ -904,7 +904,7 @@ export class QuotesListingComponent implements OnInit {
       this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
+          `${ApiConstants.getCoverageType()}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
         )
         .subscribe((res: any) => {
           this.tabDataList = res;

@@ -405,7 +405,7 @@ export class CkycComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${
+        `${ApiConstants.document_type()}?insurer_code=${
           this.quoteData?.insurer_code
             ? this.quoteData?.insurer_code
             : this.getInsurerDetails?.quote_response?.insurer_code

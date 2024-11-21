@@ -147,7 +147,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         sixMonthsBackDate.setMonth(sixMonthsBackDate.getMonth() - 6);
 
         this.tpStartminDate = sixMonthsBackDate;
-        console.log(registrationDate);
         // this.tpStartmaxDate = registrationDate;
         const currentDate = new Date();
         const maxDateOffset = 0; //add days to current date
@@ -225,7 +224,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             ?.tp_insurer_code
         ) {
           this.apiservice
-            .getRequestedResponse(ApiConstants.get_previous_insurer)
+            .getRequestedResponse(ApiConstants.get_previous_insurer())
             .subscribe((response: any) => {
               for (let insurer of response) {
                 if (
@@ -468,7 +467,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
-      console.log(this.previousPolicyDetailsForm);
     }
 
     this.sharedData.renewalPreviousPolicyData.subscribe((data: any) => {
@@ -622,7 +620,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.previousPolicyDetailsForm
               .get('policy_expiry_date')
               ?.updateValueAndValidity();
-            console.log(this.previousPolicyDetailsForm);
           }
         }
       }
@@ -642,7 +639,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         tp_policy_end_date: previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
       });   
       this.apiservice
-        .getRequestedResponse(ApiConstants.get_previous_insurer)
+        .getRequestedResponse(ApiConstants.get_previous_insurer())
         .subscribe((response: any) => {
           for (let insurer of response) {
             if (
@@ -708,7 +705,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         kycData.verification_status == true
       ) {
         this.isDisableCKyc = false;
-        console.log()
         
       } else if (this.quoteData?.insurer_code === 'digit') {
         this.isDisableCKyc = false;
@@ -723,7 +719,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.isDisableCKyc = true;
         
       }
-      console.log(this.isDisableCKyc)
     }
 
     this.sharedData?.fetchedCkycData.subscribe((kyc) => {

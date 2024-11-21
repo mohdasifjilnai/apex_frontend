@@ -1,11 +1,20 @@
 export class ApiConstants {
 
+
+
   // Initiate quotes List
-  public static initiate_quotes: string = `/api/v1/initiate_quotes/`;
+  public static initiate_quotes(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/initiate_quotes/` : `/api/v1/initiate_quotes/`
+  };
 
   //fetch_quotes
-  public static fetch_quotes: string = `/api/v1/fetch_quotes/`;
-
+  // public static fetch_quotes: string = `/api/v1/fetch_quotes/`;
+  // Initiate quotes List
+  public static fetch_quotes(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/fetch_quotes/` : `/api/v1/fetch_quotes/`
+  };
   //create proposal
   public static create_proposal: string = `/api/v1/proposal/create_update_proposal/`;
 
@@ -13,54 +22,101 @@ export class ApiConstants {
   public static get_insurer_code: string = `/api/v1/get_insurer_quote`;
 
    //Get expiring policy
-   public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
-
+  //  public static getExpiringPolicy: string = `/api/v1/get_previous_expiry_type/`;
+   public static getExpiringPolicy(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/get_previous_expiry_type/` : `/api/v1/get_previous_expiry_type/`
+  };
    //Get download Premium Breakup
    public static downloadPremiumBreakup: string = `/api/v1/docfetch/download_pdf/`;
 
   //get vehicle
-  public static get_vehicle_mmv: string = `/api/v1/vehicle_search/`;
+  // public static get_vehicle_mmv: string = `/api/v1/vehicle_search/`;
+  public static get_vehicle_mmv(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/vehicle_search/` : `/api/v1/vehicle_search/`
+  };
 
   // getdepending mmv
   public static get_depending_mmv: string = `/api/v1/get_depending_mmv/`;
 
   //With Registration Number
-  public static registration_number = `/api/v1/vaahan/registration_number/`;
-  public static get_rto_list: string = `/api/v1/rto_search/`;
-
-  public static get_previous_insurer: string = `/api/v1/insurer_search/`;
-
+  // public static registration_number = `/api/v1/vaahan/registration_number/`;
+  public static registration_number(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/vaahan/registration_number/` : `/api/v1/vaahan/registration_number/`
+  };
+  // public static get_rto_list: string = `/api/v1/rto_search/`;
+  public static get_rto_list(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/rto_search/` : `/api/v1/rto_search/`
+  };
+  // public static get_previous_insurer: string = `/api/v1/insurer_search/`;
+  public static get_previous_insurer(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/insurer_search/` : `/api/v1/insurer_search/`
+  };
 
   //addons end point
 
-  public static addonsApi: string = `/api/v1/addon/`;
+  // public static addonsApi: string = `/api/v1/addon/`;
+  public static addonsApi(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/addon/` : `/api/v1/addon/`
+  };
 
   // fetch ckyc data
-  public static fetch_ckyc_data: string = `/api/v1/ckyc/fetch_ckyc_data/`;
-
-  public static document_type: string = `/api/v1/document_type/`;
-
+  // public static fetch_ckyc_data: string = `/api/v1/ckyc/fetch_ckyc_data/`;
+  public static fetch_ckyc_data(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/ckyc/fetch_ckyc_data/` : `/api/v1/ckyc/fetch_ckyc_data/`
+  };
+  // public static document_type: string = `/api/v1/document_type/`;
+  public static document_type(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/document_type/` : `/api/v1/document_type/`
+  };
   //proposal type api end point
 
-  public static proposal_type: string = `/api/v1/proposer_type/`;
-
+  // public static proposal_type: string = `/api/v1/proposer_type/`;
+  public static proposal_type(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/proposer_type/` : `/api/v1/proposer_type/`
+  };
   // get expiry policy
   // public static exp_policy_type = `/api/v1/master/exp_policy_type/`;
 
-  public static getCoverageType = `/api/v1/get_coverage_types/`;
+  // public static getCoverageType = `/api/v1/get_coverage_types/`;
+  public static getCoverageType(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/get_coverage_types/` : `/api/v1/get_coverage_types/`
+  };
 
   //get proposal Data
-  public static get_proposal: string = `/api/v1/proposal/get_proposal`;
-
+  // public static get_proposal: string = `/api/v1/proposal/get_proposal`;
+  public static get_proposal(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/proposal/get_proposal` : `/api/v1/proposal/get_proposal`
+  };
   //ncb list
 
-  public static ncb_list: string = `/api/v1/ncb_discount/`;
-
+  // public static ncb_list: string = `/api/v1/ncb_discount/`;
+  public static ncb_list(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/ncb_discount/` : `/api/v1/ncb_discount/`
+  };
   // expiry policy list
-  public static expiry_policy_list: string = `/api/v1/master/exp_policy_type/`;
-
+  // public static expiry_policy_list: string = `/api/v1/master/exp_policy_type/`;
+  public static expiry_policy_list(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/master/exp_policy_type/` : `/api/v1/master/exp_policy_type/`
+  };
   // share opt phone and email
-  public static send_communication: string = `/api/v1/spear/send_communication/`;
+  // public static send_communication: string = `/api/v1/spear/send_communication/`;
+  public static send_communication(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/spear/send_communication/` : `/api/v1/spear/send_communication/`
+  };
   // verify opt by phone or email
   public static verify_otp: string = `/api/v1/spear/verify_otp/`;
 
@@ -113,9 +169,16 @@ export class ApiConstants {
   public static get_usgi_ckyc_details = `/api/v1/ckyc/get_usgi_ckyc_details`;
   public static get_insurer_quote_id = `/api/v1/proposal/get_proposal_quote_id`;
 
-  public static get_trace_Id = `/api/v1/get_trace_id/`;
-
-  public static fetch_trace_Id = `/api/v1/fetch_quote_request/`;
+  // public static get_trace_Id = `/api/v1/get_trace_id/`;
+  public static get_trace_Id(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/get_trace_id/` : `/api/v1/get_trace_id/`
+  };
+  // public static fetch_trace_Id = `/api/v1/fetch_quote_request/`;
+  public static fetch_trace_Id(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/fetch_quote_request/` : `/api/v1/fetch_quote_request/`
+  };
   public static address_validation = `/api/v1/proposal/get_address_length/`;
 
   public static crosssell_recommendation = `/api/v1/proposal/crosssell_recommendation/`;
@@ -127,7 +190,5 @@ export class ApiConstants {
   // Commercial Vehicle Api
 
   public static cv_vehicle_type = `/cv/api/v1/vehicle_type/`;
-
-  public static get_cv_vehicle_mmv: string = `/cv/api/v1/vehicle_search/`;
 
 }

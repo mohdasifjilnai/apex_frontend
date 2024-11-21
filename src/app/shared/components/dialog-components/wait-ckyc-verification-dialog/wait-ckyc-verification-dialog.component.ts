@@ -100,7 +100,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   fetchCkyc(body: any) {
     this.isWaitingTime = false;
     this.apiService
-      .postRequestedResponse(ApiConstants.fetch_ckyc_data, body)
+      .postRequestedResponse(ApiConstants.fetch_ckyc_data(), body)
       .subscribe(
         (res) => {
           if (
@@ -212,7 +212,7 @@ export class WaitCkycVerificationDialogComponent implements OnInit {
   getDocumentType() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.document_type}?insurer_code=${
+        `${ApiConstants.document_type()}?insurer_code=${
           this.ckycBody?.insurer_code
         }&is_individual=${this.isProposerTrue}&is_corporate=${!this
           .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`

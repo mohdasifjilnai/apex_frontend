@@ -59,7 +59,7 @@ export class QuotesDropdownComponent implements OnInit {
   }
   getProposalType() {
     this.apiService
-      .getRequestedResponse(`${ApiConstants.proposal_type}`)
+      .getRequestedResponse(`${ApiConstants.proposal_type()}`)
       .subscribe((res: any) => {
         if (res) {
           this.proposalList = res;

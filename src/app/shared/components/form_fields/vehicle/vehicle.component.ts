@@ -144,9 +144,7 @@ export class VehicleComponent implements OnInit {
   getVehicleMMV(name: any, vehicletype: any) {
     let vehicleType = sessionStorage.getItem('vehicleType');
     let payload
-    let isCv=''
     if(vehicletype=='commercial_vehicle'){
-      isCv='/cv'
       payload=`vehicle_type=${this.selectedVehicleType}&search_element=${name
           .replace(/\|/g, '')
           .replace(/\s+/g, ' ')
@@ -159,8 +157,8 @@ export class VehicleComponent implements OnInit {
     }
     this.apiservice
       .getRequestedResponse(
-        `${isCv}${
-          ApiConstants.get_vehicle_mmv                                                                             
+        `${
+          ApiConstants.get_vehicle_mmv()                                                                         
         }?${payload}`
       )
       .subscribe(
