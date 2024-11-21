@@ -93,11 +93,11 @@ export class ApiConstants {
   };
 
   //get proposal Data
-  // public static get_proposal: string = `/api/v1/proposal/get_proposal`;
-  public static get_proposal(): string {
-    const isCommercial = sessionStorage.getItem('vehicleType');
-    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/proposal/get_proposal` : `/api/v1/proposal/get_proposal`
-  };
+  public static get_proposal: string = `/api/v1/proposal/get_proposal`;
+  // public static get_proposal(): string {
+  //   const isCommercial = sessionStorage.getItem('vehicleType');
+  //   return isCommercial=='commercial_vehicle' ? `/cv/api/v1/proposal/get_proposal` : `/api/v1/proposal/get_proposal`
+  // };
   //ncb list
 
   // public static ncb_list: string = `/api/v1/ncb_discount/`;
