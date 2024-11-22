@@ -290,6 +290,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_communication_addres: ckycData?.customer_details?.address,
           owner_city: ckycData?.customer_details?.rb_city_name,
           owner_state: ckycData?.customer_details?.rb_state_name,
+          owner_gender: ckycData?.customer_details?.gender,
         });
       }
     });
@@ -367,6 +368,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_communication_addres: kycData?.customer_details?.address,
         owner_city: kycData?.customer_details?.rb_city_name,
         owner_state: kycData?.customer_details?.rb_state_name,
+        owner_gender: kycData?.customer_details?.gender,
       });
       if (
         kycData?.customer_details?.pincode
