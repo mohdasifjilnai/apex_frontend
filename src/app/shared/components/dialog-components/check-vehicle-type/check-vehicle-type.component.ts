@@ -46,16 +46,19 @@ export class CheckVehicleTypeComponent implements OnInit {
    * continue with current Journey
    */
   proccedToCurrentJourney(checkWheeler: any) {
-    if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
-      sessionStorage.setItem('vehicleType', 'private_car');
-    }
-    if (!checkWheeler['is_four_wheeler'] && checkWheeler['is_two_wheeler']) {
-      sessionStorage.setItem('vehicleType', 'two_wheeler');
+    if(checkWheeler['is_commercial_vehicle']){
+      sessionStorage.setItem('vehicleType', 'commercial_vehicle');
+    }else{
+      if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
+        sessionStorage.setItem('vehicleType', 'private_car');
+      }
+      if (!checkWheeler['is_four_wheeler'] && checkWheeler['is_two_wheeler']) {
+        sessionStorage.setItem('vehicleType', 'two_wheeler');
+      }
     }
     checkWheeler['is_four_wheeler'] = true;
     checkWheeler['is_two_wheeler'] = true;
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-
     sessionStorage.setItem('checkWheeler', JSON.stringify(checkWheeler));
     this.isCheckWheeler = true;
     this.dialogRef.removePanelClass('warn-details-class');

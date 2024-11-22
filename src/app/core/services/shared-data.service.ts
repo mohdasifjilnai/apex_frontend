@@ -26,6 +26,7 @@ export class SharedDataService {
   getSelectedvehicleTypeObject: Subject<any> = new Subject();
   getProgressValue: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
+  getTraceIdApiResponse: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
   loader = new BehaviorSubject<any>(null);
@@ -205,6 +206,7 @@ export class SharedDataService {
   }
   getTraceIdDetails(data:any){
     this.traceIdResponse=data
+    this.getTraceIdApiResponse.next(data)
   }
   /**
    *
@@ -242,6 +244,7 @@ export class SharedDataService {
             let checkWheeler = {
               is_two_wheeler: res['is_two_wheeler'],
               is_four_wheeler: res['is_four_wheeler'],
+              is_commercial_vehicle: res['is_commercial'],
             };
             sessionStorage.setItem(
               'checkWheeler',
@@ -272,24 +275,34 @@ export class SharedDataService {
       sessionStorage.getItem('checkWheeler') || '{}'
     );
     if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
-      if (
-        (sessionStorage.getItem('vehicleType') == 'private_car' &&
-          this.checkWheeler['is_four_wheeler']) ||
-        (sessionStorage.getItem('vehicleType') == 'two_wheeler' &&
-          this.checkWheeler['is_two_wheeler'])
-      ) {
-        this.isCheckWheeler = true;
-        this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
-        let traceValue = JSON.parse(this.traceIdData);
-        this.router.navigate([`quotes/${traceValue.trace_id}`]);
-        // this.router.navigate(['quotes']);
-      } else {
-        if (this.checkWheeler['is_two_wheeler']) {
-          this.vaahanName = 'bike';
+      if(!this.checkWheeler['is_commercial_vehicle']){
+        if (
+          (sessionStorage.getItem('vehicleType') == 'private_car' &&
+            this.checkWheeler['is_four_wheeler']) ||
+          (sessionStorage.getItem('vehicleType') == 'two_wheeler' &&
+            this.checkWheeler['is_two_wheeler'])
+        ) {
+          this.isCheckWheeler = true;
+          this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+          let traceValue = JSON.parse(this.traceIdData);
+          this.router.navigate([`quotes/${traceValue.trace_id}`]);
+          // this.router.navigate(['quotes']);
+        } else {
+          if (this.checkWheeler['is_two_wheeler']) {
+            this.vaahanName = 'bike';
+          }
+          if (this.checkWheeler['is_four_wheeler']) {
+            this.vaahanName = 'car';
+          }
+          this.isCheckWheeler = false;
+          let vehicledata = {
+            isCheckWheeler: this.isCheckWheeler,
+            vaahanName: this.vaahanName,
+          };
+          this.checkVehicleType.next(vehicledata);
         }
-        if (this.checkWheeler['is_four_wheeler']) {
-          this.vaahanName = 'car';
-        }
+      }else{
+        this.vaahanName = 'Commercial Vehicle';
         this.isCheckWheeler = false;
         let vehicledata = {
           isCheckWheeler: this.isCheckWheeler,

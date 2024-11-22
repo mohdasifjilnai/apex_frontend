@@ -26,6 +26,7 @@
           class="submit-btn btn-text"
           (click)="proccedToCurrentJourney(checkWheeler)"
           type="submit"
+          [disabled]="checkWheeler['is_commercial_vehicle']"
         >
           Proceed to {{ vaahanName }} journey
         </button>

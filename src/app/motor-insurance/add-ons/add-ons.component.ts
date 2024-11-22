@@ -68,6 +68,8 @@ export class AddOnsComponent implements OnInit {
   addMultiCheckboxValue: any = [];
   loader:boolean=false
   proposalOnInit: boolean=false;
+  selectedVehicleType: any;
+  traceIdResponse: any;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -273,6 +275,9 @@ export class AddOnsComponent implements OnInit {
       );
       this.isMobileView = true;
     }
+    this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
+      this.traceIdResponse=res
+    });
   }
 
   /**
@@ -544,9 +549,15 @@ export class AddOnsComponent implements OnInit {
       diesel = false;
     }
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    let vehicleTypeData
+    if(this.vehicleTypeValue=='commercial_vehicle'){
+      vehicleTypeData=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
+    }else{
+      vehicleTypeData=this.vehicleTypeValue
+    }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.addonsApi()}?vehicle_type=${this.vehicleTypeValue}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
+        `${ApiConstants?.addonsApi()}?vehicle_type=${vehicleTypeData}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
       )
       .subscribe((res: any) => {
         this.addonList = res;

@@ -177,6 +177,7 @@ export class QuotesListingComponent implements OnInit {
   selectedKmsValue: any;
   showRenewalQuotes: boolean = false;
   isPrevoiusInsurer: any;
+  traceIdResponse: any;
 
   // isPageRefresh = true;
   constructor(
@@ -358,7 +359,8 @@ export class QuotesListingComponent implements OnInit {
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.tabChangeOninit = true;
       if (!this.storedData) {
-        this.quotesTabData();
+
+        // this.quotesTabData();
       }
     });
 
@@ -370,7 +372,7 @@ export class QuotesListingComponent implements OnInit {
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
       this.storedData = true;
-      this.quotesTabData();
+      // this.quotesTabData();
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
@@ -391,6 +393,10 @@ export class QuotesListingComponent implements OnInit {
       );
       this.insurerCode = insurerName;
     }
+    this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
+      this.traceIdResponse=res
+      this.quotesTabData();
+    });
 
     // let currentPageUrl = this.router.url;
     // if (window.performance.navigation.type === 1) {
@@ -902,9 +908,15 @@ export class QuotesListingComponent implements OnInit {
         expiredDate = '';
       }
       this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
+      let vehicleTypeData
+      if(this.vehicleTypeValue=='commercial_vehicle'){
+        vehicleTypeData=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
+      }else{
+        vehicleTypeData=this.vehicleTypeValue
+      }
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType()}?reg_year=${this.registrationDateYear}&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
+          `${ApiConstants.getCoverageType()}?reg_year=${this.registrationDateYear}&vehicle_type=${vehicleTypeData}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
         )
         .subscribe((res: any) => {
           this.tabDataList = res;
