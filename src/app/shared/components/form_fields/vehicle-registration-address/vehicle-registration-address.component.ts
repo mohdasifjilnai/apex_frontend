@@ -51,7 +51,13 @@ export class VehicleRegistrationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxLength = errData?.max_length;
-        // this.isNotShowErrorMsg = true;
+        if(this.vehilceRegistrationForm
+          .get('vehicle_registration_address')
+          ?.value.length>this.maxLength)  {
+            this.isNotShowErrorMsg = true;
+          }else{
+            this.isNotShowErrorMsg = false;
+          }
         if (this.maxLength) {
           this.vehilceRegistrationForm
             .get('vehicle_registration_address')

@@ -806,6 +806,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
   }
   getRegistrationAddressValue(isChecked?: any) {
+    this.shareData.sendErrorProposalData(this.proposalData?.insurer_code)
     this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
       ? this.registrationAddressToggle?.nativeElement?.checked
       : isChecked;
