@@ -247,7 +247,7 @@ export class QuotesComponent implements OnInit {
     sessionStorage.removeItem('kycData');
     const partnerCodeTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
     if(partnerCodeTraceId){
-      this.getTraceIdCommercialVehicle(partnerCodeTraceId?.trace_id)
+      // this.getTraceIdCommercialVehicle(partnerCodeTraceId?.trace_id)
     }
   }
   ngOnDestroy(): void {
@@ -423,6 +423,9 @@ export class QuotesComponent implements OnInit {
             localStorage.setItem('partner_code', '');
           } else {
             localStorage.setItem('partner_code', res?.partner_code);
+            localStorage.setItem('first_name', res.meta_data.mmv_form_data?.first_name);
+            localStorage.setItem('last_name', res.meta_data.mmv_form_data?.last_name);
+            localStorage.setItem('middle_name', res.meta_data.mmv_form_data?.middle_name);
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);

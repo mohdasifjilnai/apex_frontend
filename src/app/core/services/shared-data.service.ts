@@ -604,8 +604,10 @@ export class SharedDataService {
   ) {
     if (mmvFromData) {
       let mmvData;
-
       mmvData = JSON.parse(mmvFromData);
+      mmvData.first_name=localStorage.getItem('first_name')
+      mmvData.middle_name=localStorage.getItem('middle_name')
+      mmvData.last_name=localStorage.getItem('last_name')
       let policyExpiryDate;
 
       let manufactureValue;

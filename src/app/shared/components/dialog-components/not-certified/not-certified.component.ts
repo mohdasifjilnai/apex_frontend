@@ -45,6 +45,7 @@ export class NotCertifiedComponent implements OnInit {
   partnerCodeTraceId: any;
   isQuotePopUp: any;
   currentPageUrl: any;
+  partner_name: any;
   constructor(
     public dialogRef: MatDialogRef<NotCertifiedComponent>,
     public bottomSheetRef: MatBottomSheetRef<NotCertifiedComponent>,
@@ -74,6 +75,8 @@ export class NotCertifiedComponent implements OnInit {
     this.partnerCodeTraceId = JSON.parse(
       sessionStorage.getItem('partnerCodeTraceId') || '{}'
     );
+    const mmvData=sessionStorage.getItem('mmv_data')
+    this.partner_name=`${localStorage.getItem('first_name')} ${localStorage.getItem('middle_name')} ${localStorage.getItem('last_name')}`
     this.partner_code = this.partnerCodeTraceId?.partner_code;
     if (this.partner_code == null || this.partner_code == '') {
       this.hideLogin = true;
