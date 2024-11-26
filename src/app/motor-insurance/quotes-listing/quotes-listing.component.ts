@@ -388,9 +388,10 @@ export class QuotesListingComponent implements OnInit {
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.showRenewalQuotes = true;
       const insurerName = sessionStorage.getItem('previousInsurerCode');
-      const quotesData: any = JSON.parse(
-        sessionStorage.getItem('renewalPreviousInsurer') || '{}'
+      const RenewalPreviousDetails: any = JSON.parse(
+        sessionStorage.getItem('RenewalPreviousDetails') || '{}'
       );
+      sessionStorage.setItem('proposerType',RenewalPreviousDetails?.vehicle_details?.customer_type)
       this.insurerCode = insurerName;
     }
     this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
