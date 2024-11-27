@@ -837,7 +837,7 @@ export class MotorInsuranceComponent implements OnInit {
       'quotes_data':this.motorInsurance.value
     }
     this.apiService
-      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`,data)
       .subscribe((res: any) => {
         this.traceId = res.trace_id;
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));

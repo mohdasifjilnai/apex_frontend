@@ -360,7 +360,7 @@ export class QuotesListingComponent implements OnInit {
       this.tabChangeOninit = true;
       if (!this.storedData) {
 
-        // this.quotesTabData();
+        this.quotesTabData();
       }
     });
 
@@ -372,7 +372,7 @@ export class QuotesListingComponent implements OnInit {
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
       this.storedData = true;
-      // this.quotesTabData();
+      this.quotesTabData();
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
