@@ -47,8 +47,8 @@ export class BreadcrumbComponent implements OnInit {
     } else {
       this.reviewPageUrl = false;
     }
-    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code = localStorage.getItem('employee_code');
+    this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = sessionStorage.getItem('employee_code');
     this.partnerCodewithTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
     if(this.partnerCodewithTraceId?.partner_code){
       this.partner_code=this.partnerCodewithTraceId?.partner_code
@@ -58,7 +58,7 @@ export class BreadcrumbComponent implements OnInit {
         this.partner_code=res
       }
     });
-    this.partner_code = localStorage.getItem('partner_code');
+    this.partner_code = sessionStorage.getItem('partner_code');
 
   }
 

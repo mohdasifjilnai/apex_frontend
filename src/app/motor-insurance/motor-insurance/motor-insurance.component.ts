@@ -182,12 +182,12 @@ export class MotorInsuranceComponent implements OnInit {
         this.vehicleNotFound = false;
       }, 3000);
     });
-    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code = localStorage.getItem('employee_code');
-    this.partner_code = localStorage.getItem('partner_code');
-    const partner_code = localStorage.getItem('partner_code')?.slice(0, 2);
+    this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = sessionStorage.getItem('employee_code');
+    this.partner_code = sessionStorage.getItem('partner_code');
+    const partner_code = sessionStorage.getItem('partner_code')?.slice(0, 2);
     if (partner_code != 'EM') {
-      const pos_status = localStorage.getItem('pos_status')?.toLowerCase();
+      const pos_status = sessionStorage.getItem('pos_status')?.toLowerCase();
       for (let i = 0; i < environment?.partnerswithoutPOS.length; i++) {
         if (environment?.partnerswithoutPOS[i] === this.partner_code) {
           this.isPartnerPOSStatus = true;
@@ -827,8 +827,8 @@ export class MotorInsuranceComponent implements OnInit {
   getTraceId() {
     
     let apiUrl;
-    this.partner_code = localStorage.getItem('partner_code')
-      ? localStorage.getItem('partner_code')
+    this.partner_code = sessionStorage.getItem('partner_code')
+      ? sessionStorage.getItem('partner_code')
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
@@ -845,7 +845,7 @@ export class MotorInsuranceComponent implements OnInit {
         if (this.vehicleCheck) {
           this.vehicleCheck = false;
         }
-        localStorage.setItem(
+        sessionStorage.setItem(
           'withoutVehicleNumber',
           `${this.withoutVehicleNumber}`
         );
@@ -873,8 +873,8 @@ export class MotorInsuranceComponent implements OnInit {
 
   postTraceIdCommercialVehicle(){
     let apiUrl;
-    this.partner_code = localStorage.getItem('partner_code')
-      ? localStorage.getItem('partner_code')
+    this.partner_code = sessionStorage.getItem('partner_code')
+      ? sessionStorage.getItem('partner_code')
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
@@ -892,7 +892,7 @@ export class MotorInsuranceComponent implements OnInit {
         if (this.vehicleCheck) {
           this.vehicleCheck = false;
         }
-        localStorage.setItem(
+        sessionStorage.setItem(
           'withoutVehicleNumber',
           `${this.withoutVehicleNumber}`
         );

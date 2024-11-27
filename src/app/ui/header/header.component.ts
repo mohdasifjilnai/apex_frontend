@@ -51,7 +51,7 @@ showProfile: any;
     this.id = sessionStorage.getItem('transaction_id');
     this.isLoggedInVal = this.authService.isLoggedIn;
     const userInfo = JSON.parse(
-      localStorage.getItem('userInfo') || '{}'
+      sessionStorage.getItem('userInfo') || '{}'
     )?.executive_code;
     // this.d2dExecutive = userInfo?.split('D2D');
     // if (this.d2dExecutive.length > 1 && this.d2dExecutive[0] == '') {
@@ -114,13 +114,13 @@ showProfile: any;
         }
       }
     });
-    this.tokenData = localStorage.getItem('token');
+    this.tokenData = sessionStorage.getItem('token');
     if(this.tokenData){
-      this.partner_code=localStorage.getItem('partner_code');
-      this.first_name=localStorage.getItem('first_name')
+      this.partner_code=sessionStorage.getItem('partner_code');
+      this.first_name=sessionStorage.getItem('first_name')
       this.first_letter=this.first_name.charAt(0)
-      this.middle_name=localStorage.getItem('middle_name')
-      this.last_name=localStorage.getItem('last_name')
+      this.middle_name=sessionStorage.getItem('middle_name')
+      this.last_name=sessionStorage.getItem('last_name')
       this.partnerCodewithTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
       if(this.partnerCodewithTraceId?.partner_code != undefined && this.partnerCodewithTraceId?.partner_code != null && this.partnerCodewithTraceId?.partner_code != ''){
         if(this.partnerCodewithTraceId?.partner_code != this.partner_code){

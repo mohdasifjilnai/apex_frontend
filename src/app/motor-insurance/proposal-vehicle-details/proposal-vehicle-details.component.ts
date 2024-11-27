@@ -604,7 +604,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
   getProposalVehicleData(isValid: any) {
     const vehcileType = sessionStorage.getItem('vehicleType');
-    let partnerCode = localStorage.getItem('partner_code');
+    let partnerCode = sessionStorage.getItem('partner_code');
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(
         sessionStorage.getItem('partnerCodeTraceId') || '{}'

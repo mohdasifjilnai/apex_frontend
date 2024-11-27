@@ -455,15 +455,15 @@ export class SharedDataService {
         vehicle_idv: idvValue,
         previous_policy_type: previousPolicyType,
         meta_data: data?.meta_data,
-        partner_code: localStorage.getItem('partner_code')
-          ? localStorage.getItem('partner_code')
+        partner_code: sessionStorage.getItem('partner_code')
+          ? sessionStorage.getItem('partner_code')
           : null,
         offered_ncb_value:
           data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
-        is_cse: localStorage.getItem('is_cse')
-          ? localStorage.getItem('is_cse')
+        is_cse: sessionStorage.getItem('is_cse')
+          ? sessionStorage.getItem('is_cse')
           : false,
-        employee_code: localStorage.getItem('employee_code'),
+        employee_code: sessionStorage.getItem('employee_code'),
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
@@ -512,15 +512,15 @@ export class SharedDataService {
         vehicle_idv: idvValue,
         previous_policy_type: previousPolicyType,
         meta_data: data?.meta_data,
-        partner_code: localStorage.getItem('partner_code')
-          ? localStorage.getItem('partner_code')
+        partner_code: sessionStorage.getItem('partner_code')
+          ? sessionStorage.getItem('partner_code')
           : null,
         offered_ncb_value:
           data?.meta_data?.mmv_form_data?.addNcbBoth?.new_ncb_value,
-        is_cse: localStorage.getItem('is_cse')
-          ? localStorage.getItem('is_cse')
+        is_cse: sessionStorage.getItem('is_cse')
+          ? sessionStorage.getItem('is_cse')
           : false,
-        employee_code: localStorage.getItem('employee_code'),
+        employee_code: sessionStorage.getItem('employee_code'),
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
@@ -605,9 +605,9 @@ export class SharedDataService {
     if (mmvFromData) {
       let mmvData;
       mmvData = JSON.parse(mmvFromData);
-      mmvData.first_name=localStorage.getItem('first_name')
-      mmvData.middle_name=localStorage.getItem('middle_name')
-      mmvData.last_name=localStorage.getItem('last_name')
+      mmvData.first_name=sessionStorage.getItem('first_name')
+      mmvData.middle_name=sessionStorage.getItem('middle_name')
+      mmvData.last_name=sessionStorage.getItem('last_name')
       let policyExpiryDate;
 
       let manufactureValue;
@@ -1080,10 +1080,10 @@ export class SharedDataService {
       transaction_id: quotes_data['transaction_id'],
       share_type: share_type,
       partner_name:
-        localStorage.getItem('first_name') != null
-          ? localStorage.getItem('first_name') +
+        sessionStorage.getItem('first_name') != null
+          ? sessionStorage.getItem('first_name') +
             ' ' +
-            localStorage.getItem('last_name')
+            sessionStorage.getItem('last_name')
           : '',
       URL: `${baseURL}${url}`,
       mail_id: mail_id ? mail_id : '',

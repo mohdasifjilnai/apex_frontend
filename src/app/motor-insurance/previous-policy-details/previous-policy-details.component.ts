@@ -780,7 +780,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     const proposal_id=sessionStorage.getItem('proposal_Id')
     this.sharedData.crossSellRecomendation(proposal_id)
     const vehcileType = sessionStorage.getItem('vehicleType');
-    let partnerCode = localStorage.getItem('partner_code');
+    let partnerCode = sessionStorage.getItem('partner_code');
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(
         sessionStorage.getItem('partnerCodeTraceId') || '{}'

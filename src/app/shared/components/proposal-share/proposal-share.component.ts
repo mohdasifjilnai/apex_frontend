@@ -118,7 +118,7 @@ export class ProposalShareComponent implements OnInit {
     } else {
       this.quotesData = this.data?.data;
     }
-    this.partner_name = localStorage.getItem('ta_user_name');
+    this.partner_name = sessionStorage.getItem('ta_user_name');
     for (let value of this.quotesData) {
       this.quotes_id.push(value?.quote_id);
     }

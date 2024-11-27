@@ -130,9 +130,9 @@ export class ProposalReviewComponent implements OnInit {
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.renewalType = sessionStorage.getItem('renewalType');
     let productTypeValue = sessionStorage.getItem('productType');
-    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code = localStorage.getItem('employee_code');
-    this.partner_code = localStorage.getItem('partner_code');
+    this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = sessionStorage.getItem('employee_code');
+    this.partner_code = sessionStorage.getItem('partner_code');
     if (this.partnerCodewithTraceId?.partner_code) {
       this.partner_code = this.partnerCodewithTraceId?.partner_code;
     }

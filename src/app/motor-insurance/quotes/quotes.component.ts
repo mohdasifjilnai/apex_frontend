@@ -101,7 +101,7 @@ export class QuotesComponent implements OnInit {
   ngOnInit(): void {
     this.idleService.startWatching();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    this.withoutVehicleNumber = localStorage.getItem('withoutVehicleNumber');
+    this.withoutVehicleNumber = sessionStorage.getItem('withoutVehicleNumber');
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     const hostParts = url.host.split('.');
@@ -207,9 +207,9 @@ export class QuotesComponent implements OnInit {
         this.openVehicleDetailsPopup(null);
       }
     }
-    this.is_cse = localStorage.getItem('is_cse')?.toLowerCase();
-    this.employee_code = localStorage.getItem('employee_code');
-    this.partner_code = localStorage.getItem('partner_code');
+    this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
+    this.employee_code = sessionStorage.getItem('employee_code');
+    this.partner_code = sessionStorage.getItem('partner_code');
     if (this.partnerCodewithTraceId?.partner_code) {
       this.partner_code = this.partnerCodewithTraceId?.partner_code;
     }
@@ -420,12 +420,12 @@ export class QuotesComponent implements OnInit {
             sessionStorage.setItem('registrationNumber', res?.registration_no);
           }
           if (res?.partner_code == null) {
-            localStorage.setItem('partner_code', '');
+            sessionStorage.setItem('partner_code', '');
           } else {
-            localStorage.setItem('partner_code', res?.partner_code);
-            localStorage.setItem('first_name', res.meta_data.mmv_form_data?.first_name);
-            localStorage.setItem('last_name', res.meta_data.mmv_form_data?.last_name);
-            localStorage.setItem('middle_name', res.meta_data.mmv_form_data?.middle_name);
+            sessionStorage.setItem('partner_code', res?.partner_code);
+            sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.first_name);
+            sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.last_name);
+            sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.middle_name);
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);

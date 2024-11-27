@@ -50,7 +50,7 @@ export class ShareQuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.partner_name = localStorage.getItem('ta_user_name');
+    this.partner_name = sessionStorage.getItem('ta_user_name');
     if (Object.keys(this.bottomSheetdata).length > 0) {
       this.quotesData = this.bottomSheetdata;
     } else {

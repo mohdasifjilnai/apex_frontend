@@ -26,8 +26,8 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
-    const partner_code = localStorage.getItem('partner_code');
+    const token = sessionStorage.getItem('token');
+    const partner_code = sessionStorage.getItem('partner_code');
     if (token != null && partner_code !=null) {
       this.payout = true;
     }
