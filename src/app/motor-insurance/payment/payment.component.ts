@@ -143,8 +143,7 @@ export class PaymentComponent implements OnInit {
       if (sessionStorage.getItem('isPayment')) {
         this.router.navigate(['']);
       } else {
-        sessionStorage.clear();
-      }
+        this.clearSessionStorageExcept(['token','partner_code','first_name','middle_name','last_name','partnerCodeTraceId','is_cse','pos_status','employee_code']);      }
     });
   }
 
@@ -216,5 +215,23 @@ export class PaymentComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+  clearSessionStorageExcept(keysToKeep: string[]): void {
+    const preservedData: { [key: string]: string | null } = {};
+  
+    // Step 1: Store values of keys to keep
+    keysToKeep.forEach((key) => {
+      preservedData[key] = sessionStorage.getItem(key);
+    });
+  
+    // Step 2: Clear the sessionStorage
+    sessionStorage.clear();
+  
+    // Step 3: Restore preserved keys
+    Object.entries(preservedData).forEach(([key, value]) => {
+      if (value !== null) {
+        sessionStorage.setItem(key, value);
+      }
+    });
   }
 }
