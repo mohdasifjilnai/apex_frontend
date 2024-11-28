@@ -22,6 +22,7 @@ export class BreadcrumbService {
   partnerCodeTraceId: any;
 
   constructor(private router: Router) {
+    this.transferLocalStorageToSessionStorage();
     this.router.events
       .pipe(
         // Filter the NavigationEnd events as the breadcrumb is updated only when the route reaches its end
@@ -55,7 +56,7 @@ export class BreadcrumbService {
             const breadcrumbUrl = bc['path']
               ? '/' + bc['path'].join('/')
               : '/' + routeUrl.join('/');
-            // Add this.traceId to the URL if path contains 'quotes'
+                                                                                  // Add this.traceId to the URL if path contains 'quotes'
             const finalUrl = breadcrumbUrl.includes('quotes') && !breadcrumbUrl.includes('proposal')
               ? `${breadcrumbUrl}/${this.traceId}`
               : breadcrumbUrl;
@@ -91,5 +92,18 @@ export class BreadcrumbService {
     return typeof data['breadcrumb'] === 'function'
       ? data['breadcrumb'](data)
       : data['breadcrumb'];
+  }
+  transferLocalStorageToSessionStorage(): void {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i); 
+      if (key) {
+        const value = localStorage.getItem(key); 
+        if (value !== null) {
+          sessionStorage.setItem(key, value);
+          localStorage.removeItem(key)
+        }
+      }
+    }
+    localStorage.clear();
   }
 }
