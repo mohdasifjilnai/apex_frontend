@@ -599,11 +599,13 @@ export class MotorInsuranceComponent implements OnInit {
           const parsedValue = JSON.parse(this.partnerCodeData);
           this.traceId = parsedValue?.trace_id;
           this.router.navigate([`quotes/${this.traceId}`]);
-
-          sessionStorage.setItem(
-            'registrationNumber',
-            res?.previous_policy_details?.vehicle_details?.registration_no
-          );
+          if(res?.previous_policy_details?.vehicle_details?.registration_no!=null){
+            sessionStorage.setItem(
+              'registrationNumber',
+              res?.previous_policy_details?.vehicle_details?.registration_no
+            );
+          }
+          
           sessionStorage.setItem(
             'previousInsurerCode',
             res?.previous_policy_details?.insurer_code
