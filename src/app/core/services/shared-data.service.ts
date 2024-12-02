@@ -133,6 +133,7 @@ export class SharedDataService {
   visuallyDisabledFields: { [key: string]: boolean } = {};
   selectedCommercialVehicleType: any;
   traceIdResponse: any;
+  renewalPolicyNumber: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -328,8 +329,7 @@ export class SharedDataService {
     notTransactionId?: any
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
-    const RenewalData=JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '{}')
-    let renewalPolicyNumber =RenewalData?.previous_policy_details?.previous_policy_details?.policy_no
+    this.renewalPolicyNumber = sessionStorage.getItem('renewalPolicyNumber');
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList;
@@ -480,8 +480,8 @@ export class SharedDataService {
       } else {
         quotesData.offered_ncb_value = 0;
       }
-      if(renewalPolicyNumber!=null){
-        quotesData.policy_number=renewalPolicyNumber
+      if(this.renewalPolicyNumber!=null){
+        quotesData.policy_number=this.renewalPolicyNumber
       }
       if(this.vehicleType=='commercial_vehicle'){
         quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
@@ -537,8 +537,8 @@ export class SharedDataService {
       } else {
         quotesData.offered_ncb_value = 0;
       }
-      if(renewalPolicyNumber!=null){
-        quotesData.policy_number=renewalPolicyNumber
+      if(this.renewalPolicyNumber!=null){
+        quotesData.policy_number=this.renewalPolicyNumber
       }
       if(this.vehicleType=='commercial_vehicle'){
         quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type

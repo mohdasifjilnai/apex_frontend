@@ -276,7 +276,10 @@ export class MotorInsuranceComponent implements OnInit {
     if (newVehicleType) {
       sessionStorage.removeItem('newVehicleType');
     }
-
+    let renewalPolicyNumber = sessionStorage.getItem('renewalPolicyNumber');
+    if (renewalPolicyNumber) {
+      sessionStorage.removeItem('renewalPolicyNumber');
+    }
     let planType = sessionStorage.getItem('planType');
     if (planType) {
       sessionStorage.removeItem('planType');
@@ -591,6 +594,7 @@ export class MotorInsuranceComponent implements OnInit {
           }
           sessionStorage.setItem('mmvId', res?.vehicle_details?.rb_mmv_id);
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          sessionStorage.setItem('renewalPolicyNumber', res?.previous_policy_details?. previous_policy_details?.policy_no);
           sessionStorage.setItem(
             'previousInsurer',
             res?.vehicle_details?.previous_insurer_code

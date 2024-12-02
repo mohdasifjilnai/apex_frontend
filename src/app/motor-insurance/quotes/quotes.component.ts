@@ -412,7 +412,7 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('vehiclePopup', 'true');
           if(res?.is_rb_renewal){
             sessionStorage.setItem('renewalType','renewal')
-            // this.getRenewalData(res.transaction_id)
+            sessionStorage.setItem('renewalPolicyNumber',res?.policy_number)
           }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
