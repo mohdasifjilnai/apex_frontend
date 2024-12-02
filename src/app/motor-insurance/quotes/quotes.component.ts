@@ -423,11 +423,21 @@ export class QuotesComponent implements OnInit {
           if (res?.partner_code == null) {
             sessionStorage.setItem('partner_code', '');
           } else {
-            sessionStorage.setItem('partner_code', res?.partner_code);
-            sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.partner_details?.first_name);
-            sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.partner_details?.last_name);
-            sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.partner_details?.middle_name);
-            sessionStorage.setItem('token', res.meta_data.mmv_form_data?.partner_details?.token);
+            if(res?.partner_code!=null){
+              sessionStorage.setItem('partner_code', res?.partner_code);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.first_name!=null){
+              sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.partner_details?.first_name);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.last_name!=null){
+              sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.partner_details?.last_name);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.middle_name!=null){
+              sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.partner_details?.middle_name);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.token!=null){
+              sessionStorage.setItem('token', res.meta_data.mmv_form_data?.partner_details?.token);
+            }
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);

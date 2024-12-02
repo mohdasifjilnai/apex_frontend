@@ -51,16 +51,20 @@ showProfile: any;
     this.transferLocalStorageToSessionStorage();
     this.isLoggedInVal = this.authService.isLoggedIn;
     this.transactionIDByUrl = this.router.url.split('/')[3];
-    sessionStorage.setItem('transaction_id',this.transactionIDByUrl)
+    // sessionStorage.setItem('transaction_id',this.transactionIDByUrl)
     const userInfo = JSON.parse(
       sessionStorage.getItem('userInfo') || '{}'
     )?.executive_code;
     this.id = sessionStorage.getItem('transaction_id');
-    if (window.innerWidth <= 999) {
+    if (window.innerWidth <= 999 && this.id!=null) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
       this.copiedId = this.id;
-    } else if (this.id) {
+    } else if (window.innerWidth <= 999 && this.id==null) {
+      this.transactionId =
+        this.transactionIDByUrl?.length > 10 ? this.transactionIDByUrl.substring(0, 10) + '...' : this.transactionIDByUrl;
+      this.copiedId = this.id;
+    }else if (this.id) {
       this.transactionId = this.id;
       this.copiedId = this.id;
     } else {
