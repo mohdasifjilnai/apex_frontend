@@ -48,6 +48,7 @@ showProfile: any;
   ) {}
 
   ngOnInit(): void {
+    this.transferLocalStorageToSessionStorage();
     this.id = sessionStorage.getItem('transaction_id');
     this.isLoggedInVal = this.authService.isLoggedIn;
     const userInfo = JSON.parse(
@@ -184,5 +185,18 @@ showProfile: any;
   }
   profile(){
     this.showProfile=!this.showProfile
+  }
+  transferLocalStorageToSessionStorage(): void {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i); 
+      if (key) {
+        const value = localStorage.getItem(key); 
+        if (value !== null) {
+          sessionStorage.setItem(key, value);
+          localStorage.removeItem(key)
+        }
+      }
+    }
+    localStorage.clear();
   }
 }

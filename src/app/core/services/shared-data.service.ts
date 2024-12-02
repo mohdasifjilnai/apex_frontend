@@ -605,9 +605,17 @@ export class SharedDataService {
     if (mmvFromData) {
       let mmvData;
       mmvData = JSON.parse(mmvFromData);
-      mmvData.first_name=sessionStorage.getItem('first_name')
-      mmvData.middle_name=sessionStorage.getItem('middle_name')
-      mmvData.last_name=sessionStorage.getItem('last_name')
+      const partner_details={
+        partner_code:sessionStorage.getItem('partner_code'),
+        first_name:sessionStorage.getItem('first_name'),
+        middle_name:sessionStorage.getItem('middle_name'),
+        last_name:sessionStorage.getItem('last_name'),
+        token:sessionStorage.getItem('token'),
+        employee_code:sessionStorage.getItem('employee_code'),
+        is_cse:sessionStorage.getItem('is_cse'),
+        pos_status:sessionStorage.getItem('pos_status'),
+      }
+      mmvData.partner_details=partner_details
       let policyExpiryDate;
 
       let manufactureValue;

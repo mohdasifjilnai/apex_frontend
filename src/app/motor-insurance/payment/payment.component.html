@@ -1,3 +1,12 @@
+<div class="responsive-data">
+  <div class="d-flex justify-content-end ">
+    <span class="cse "
+      ><span *ngIf="employee_code">CSE ({{ employee_code }})</span
+      ><br /><span *ngIf="partner_code">PC({{ partner_code }})</span></span
+    >
+  </div>
+</div>
+
 <div class="payment-success p-2" *ngIf="paymentSuccess">
   <div class="row">
     <div class="col-lg-6 col-12 text-center mt-2">

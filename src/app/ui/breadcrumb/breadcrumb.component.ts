@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { BreadcrumbService } from './breadcrumb.service';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from './breadcrumb';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { ApiService } from 'src/app/core/services/api.service';
+import { ApiConstants } from 'src/app/api.constant';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -20,11 +22,15 @@ export class BreadcrumbComponent implements OnInit {
   employee_code: any;
   partner_code: any;
   partnerCodewithTraceId: any;
+  transactionId: any;
+  id: any;
 
   constructor(
     private readonly breadcrumbService: BreadcrumbService,
     private router: Router,
-    private sharedData:SharedDataService
+    private sharedData:SharedDataService,
+    private apiService:ApiService,
+    private route: ActivatedRoute,
   ) {
     // get breadcrumb label data
     this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
@@ -32,6 +38,13 @@ export class BreadcrumbComponent implements OnInit {
 
   ngOnInit(): void {
     const currentUrl = this.router.url;
+    const idMatch = currentUrl.match(/\/quotes\/proposal\/([^/]+)\//);
+    const id = idMatch ? idMatch[1] : null;
+    if (window.screen.width >= 999) {
+      if(id!=null){
+        this.getPartnerCode(id)
+      }
+    } 
     this.routerEvents = this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('review')) {
@@ -67,5 +80,15 @@ export class BreadcrumbComponent implements OnInit {
    */
   redirectHome() {
     this.router.navigate(['']);
+  }
+  getPartnerCode(transaction_id:any){
+    let apiUrl;
+    apiUrl = `?transaction_id=${transaction_id}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.fetch_partner_code}${apiUrl}`)
+      .subscribe((res: any) => {
+        this.partner_code=res?.partner_code
+        this.employee_code=res?.employee_code
+    });
   }
 }

@@ -12,6 +12,9 @@ import { FailureDialogComponent } from 'src/app/shared/components/dialog-compone
 })
 export class PaymentComponent implements OnInit {
   paymentSuccess: boolean = true;
+  partner_code: any;
+  is_cse: any;
+  employee_code: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,6 +50,10 @@ export class PaymentComponent implements OnInit {
       }
 
       this.transactionId = params[2]['path'];
+      if (window.screen.width <= 999) {
+        this.getPartnerCode(this.transactionId)
+      }
+     
     });
     this.downloadPolicy();
     this.route.queryParamMap.subscribe((params) => {
@@ -234,4 +241,15 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
+  getPartnerCode(transaction_id:any){
+    let apiUrl;
+    apiUrl = `?transaction_id=${transaction_id}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.fetch_partner_code}${apiUrl}`)
+      .subscribe((res: any) => {
+        this.partner_code=res?.partner_code
+        this.employee_code=res?.employee_code
+        });
+  }
+  
 }

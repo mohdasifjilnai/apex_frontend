@@ -191,4 +191,5 @@ export class ApiConstants {
 
   public static cv_vehicle_type = `/cv/api/v1/vehicle_type/`;
 
+  public static fetch_partner_code=`/api/v1/proposal/fetch_partner_code/`
 }

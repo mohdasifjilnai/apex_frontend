@@ -423,9 +423,10 @@ export class QuotesComponent implements OnInit {
             sessionStorage.setItem('partner_code', '');
           } else {
             sessionStorage.setItem('partner_code', res?.partner_code);
-            sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.first_name);
-            sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.last_name);
-            sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.middle_name);
+            sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.partner_details?.first_name);
+            sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.partner_details?.last_name);
+            sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.partner_details?.middle_name);
+            sessionStorage.setItem('token', res.meta_data.mmv_form_data?.partner_details?.token);
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);

@@ -61,6 +61,16 @@
     cursor: pointer;
   }
 }
+.responsive-data{
+  display: none;
+}
+.cse{
+  font-size: 14px;
+  font-weight: 600;
+  color: #282828;
+  display: flex;
+  align-items: center;
+}
 @media screen and (max-width: 999px) {
   .payment-success {
     background-color: #fff;
@@ -82,5 +92,8 @@
   }
   .homepage-btn {
     width: 100% !important;
+  }
+  .responsive-data{
+    display: block;
   }
 }
