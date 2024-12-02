@@ -89,6 +89,12 @@ export class BreadcrumbComponent implements OnInit {
       .subscribe((res: any) => {
         this.partner_code=res?.partner_code
         this.employee_code=res?.employee_code
+        if(res?.partner_code!=null){
+          sessionStorage.setItem('partner_code',res?.partner_code)
+        }
+        if(res?.employee_code!=null){
+          sessionStorage.setItem('employee_code',res?.employee_code)
+        }
     });
   }
 }

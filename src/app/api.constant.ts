@@ -174,6 +174,11 @@ export class ApiConstants {
     const isCommercial = sessionStorage.getItem('vehicleType');
     return isCommercial=='commercial_vehicle' ? `/cv/api/v1/get_trace_id/` : `/api/v1/get_trace_id/`
   };
+   // public static get_trace_Id = `/api/v1/get_trace_id/`;
+   public static get_renewal_data(): string {
+    const isCommercial = sessionStorage.getItem('vehicleType');
+    return isCommercial=='commercial_vehicle' ? `/cv/api/v1/renewals/get_previous_vehicle_details/` : `/api/v1/renewals/get_previous_vehicle_details/`
+  };
   // public static fetch_trace_Id = `/api/v1/fetch_quote_request/`;
   public static fetch_trace_Id(): string {
     const isCommercial = sessionStorage.getItem('vehicleType');

@@ -411,10 +411,10 @@ export class ProposalReviewComponent implements OnInit {
           }
           if(response?.quote_request?.partner_code!=null){
             sessionStorage.setItem('partner_code', response?.partner_code);
-            sessionStorage.setItem('first_name', response.meta_data.mmv_form_data?.partner_details?.first_name);
-            sessionStorage.setItem('last_name', response.meta_data.mmv_form_data?.partner_details?.last_name);
-            sessionStorage.setItem('middle_name', response.meta_data.mmv_form_data?.partner_details?.middle_name);
-            sessionStorage.setItem('token', response.meta_data.mmv_form_data?.partner_details?.token);
+            sessionStorage.setItem('first_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.first_name);
+            sessionStorage.setItem('last_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.last_name);
+            sessionStorage.setItem('middle_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.middle_name);
+            sessionStorage.setItem('token', response?.quote_request.meta_data.mmv_form_data?.partner_details?.token);
           }
           if (response?.quote_request?.trace_id) {
             let traceId = {

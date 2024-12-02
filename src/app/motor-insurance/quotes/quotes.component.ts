@@ -412,6 +412,7 @@ export class QuotesComponent implements OnInit {
           sessionStorage.setItem('vehiclePopup', 'true');
           if(res?.is_rb_renewal){
             sessionStorage.setItem('renewalType','renewal')
+            // this.getRenewalData(res.transaction_id)
           }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
@@ -507,4 +508,15 @@ export class QuotesComponent implements OnInit {
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
       });
   }
+
+  // getRenewalData(transaction_id:any){
+  //   let apiUrl;
+  //   apiUrl = `?transaction_id=${transaction_id}`;
+  //   this.apiService
+  //     .getRequestedResponse(`${ApiConstants.get_renewal_data()}${apiUrl}`)
+  //     .subscribe((res: any) => {
+  //       console.log(res,"lliuujjj")
+  //     });
+  // }
+
 }
