@@ -49,19 +49,13 @@ showProfile: any;
 
   ngOnInit(): void {
     this.transferLocalStorageToSessionStorage();
-    this.id = sessionStorage.getItem('transaction_id');
     this.isLoggedInVal = this.authService.isLoggedIn;
+    this.transactionIDByUrl = this.router.url.split('/')[3];
+    sessionStorage.setItem('transaction_id',this.transactionIDByUrl)
     const userInfo = JSON.parse(
       sessionStorage.getItem('userInfo') || '{}'
     )?.executive_code;
-    // this.d2dExecutive = userInfo?.split('D2D');
-    // if (this.d2dExecutive.length > 1 && this.d2dExecutive[0] == '') {
-    //   this.d2dFlag = true;
-    // } else {
-    //   this.d2dFlag = false;
-    // }
-    this.transactionIDByUrl = this.router.url.split('/')[3];
-
+    this.id = sessionStorage.getItem('transaction_id');
     if (window.innerWidth <= 999) {
       this.transactionId =
         this.id?.length > 10 ? this.id.substring(0, 10) + '...' : this.id;
