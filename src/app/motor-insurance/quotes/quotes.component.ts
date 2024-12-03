@@ -438,6 +438,15 @@ export class QuotesComponent implements OnInit {
             if(res.meta_data.mmv_form_data?.partner_details?.token!=null){
               sessionStorage.setItem('token', res.meta_data.mmv_form_data?.partner_details?.token);
             }
+            if(res.meta_data.mmv_form_data?.partner_details?.employee_code!=null){
+              sessionStorage.setItem('employee_code', res.meta_data.mmv_form_data?.partner_details?.employee_code);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.is_cse!=null){
+              sessionStorage.setItem('is_cse', res.meta_data.mmv_form_data?.partner_details?.is_cse);
+            }
+            if(res.meta_data.mmv_form_data?.partner_details?.pos_status!=null){
+              sessionStorage.setItem('pos_status', res.meta_data.mmv_form_data?.partner_details?.pos_status);
+            }
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
             let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);
