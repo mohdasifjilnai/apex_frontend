@@ -94,16 +94,16 @@ export class BreadcrumbService {
       : data['breadcrumb'];
   }
   transferLocalStorageToSessionStorage(): void {
-    for (let i = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length+1; i++) {
       const key = localStorage.key(i); 
       if (key) {
         const value = localStorage.getItem(key); 
         if (value !== null) {
           sessionStorage.setItem(key, value);
-          localStorage.removeItem(key)
+          // localStorage.removeItem(key)   
         }
       }
     }
-    localStorage.clear();
+    // localStorage.clear();
   }
 }
