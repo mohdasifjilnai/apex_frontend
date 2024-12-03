@@ -518,16 +518,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.details?.previous_policy_details?.vehicle_details?.registration_no;
       if (regNumbers==null) {
         this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.enable();
-      }
+      }else{
         this.isRegistrationNumber = true;
         let regFirstDigit = regNumbers?.slice(0, 2);
         let regSecondDigit = regNumbers?.slice(3, 5);
         let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
         let regLastDigit = regNumbers.split(combineRegData);
+        this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.disable();
+        this.proposalVehilceDetailsForm.patchValue({
+          registration_number_first: regFirstDigit,
+          registration_number_second: regSecondDigit,
+          registration_number_last_digit: regLastDigit[1],
+        });
+      }
       this.proposalVehilceDetailsForm.patchValue({
-            registration_number_first: regFirstDigit,
-            registration_number_second: regSecondDigit,
-            registration_number_last_digit: regLastDigit[1],
             registration_date: vehicleDetails?.registration_date,
             manufacture_date: vehicleDetails?.manufacture_date,
             engine_number: vehicleDetails?.engine_no,
@@ -541,7 +545,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             is_financed: vehicleDetails?.is_vehicle_financed,
             vehicle_registration_address: vehicleDetails?.registration_address?.address_line,
             is_vehicle_address: vehicleDetails?.is_same_location,
-            
           });
           if (
             vehicleDetails?.registration_address?.pincode
