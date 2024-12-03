@@ -516,7 +516,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.details?.previous_policy_details?.vehicle_details;
       let regNumbers =
         this.details?.previous_policy_details?.vehicle_details?.registration_no;
-      if (regNumbers) {
+      if (regNumbers==null) {
+        this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.enable();
+      }
         this.isRegistrationNumber = true;
         let regFirstDigit = regNumbers?.slice(0, 2);
         let regSecondDigit = regNumbers?.slice(3, 5);
@@ -565,7 +567,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               );
             }
           ;
-        }
         if (vehicleDetails?.financer_details?.financer_id) {
           this.apiservice
             .getRequestedResponse(
