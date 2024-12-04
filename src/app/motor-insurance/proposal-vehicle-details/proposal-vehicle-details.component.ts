@@ -868,7 +868,30 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();
-      // this.updateMaxLengthValidator(this.maxlength);
+        if (
+          this.proposalData?.vehicle_details?.registration_address?.pincode
+        ) {
+          this.apiservice
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${
+                this.proposalData?.vehicle_details?.registration_address?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+            )
+            .subscribe((res) => {
+              this.proposalVehilceDetailsForm.patchValue({
+                vehicle_pincode: res[0],
+                vehilce_city: res[0].rb_city_name,
+                vehicle_state: res[0].rb_state_name,
+              });
+              this.shareData?.sendOwnnerAddres(
+                this.proposalVehilceDetailsForm.valid
+              );
+            });
+            this.shareData?.sendOwnnerAddres(
+              this.proposalVehilceDetailsForm.valid
+            );
+          }     
+           // this.updateMaxLengthValidator(this.maxlength);
     }
   }
   /**
