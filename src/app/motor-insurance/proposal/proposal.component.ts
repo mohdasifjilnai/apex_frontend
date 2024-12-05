@@ -87,6 +87,7 @@ export class ProposalComponent implements OnInit {
   mmvStoreData: any;
   partnerCodeTraceId: any;
   partnerCodewithTraceId: any;
+  isPrevoiusInsurer: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -940,6 +941,12 @@ export class ProposalComponent implements OnInit {
           if (productType) {
             sessionStorage.setItem('productType', productType);
           }
+          let renewalTypeData = response?.quote_request?.is_rb_renewal;
+          if (renewalTypeData) {
+            sessionStorage.setItem('renewalType', 'renewal');
+            this.isPrevoiusInsurer = true;
+            sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+          }
           const regNo = response?.quote_request?.registration_no;
           if (regNo) {
             sessionStorage.setItem('registrationNumber', regNo);
@@ -993,6 +1000,7 @@ export class ProposalComponent implements OnInit {
         }
       });
   }
+
   getRTOData(type?: any, rb_rto_code?: any) {
     let apiData;
 

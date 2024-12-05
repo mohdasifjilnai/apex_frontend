@@ -365,7 +365,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
       }
-      let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
+      let previous_insurer = JSON.parse(
+        sessionStorage.getItem('previous_insurerCode') || ''
+      );
       if (
         kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
         sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -376,16 +378,18 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
         }
-      }else if (this.proposalData?.insurer_code == 'digit') {
-        if(this.proposalData?.ckyc_details !=null && this.proposalData?.customer_details!=null){
+      } else if (this.proposalData?.insurer_code == 'digit') {
+        if (
+          this.proposalData?.ckyc_details != null &&
+          this.proposalData?.customer_details != null
+        ) {
           this.isDisableCKyc = false;
-        }else{
+        } else {
           this.isDisableCKyc = true;
         }
-      }else if(previous_insurer==this.proposalData?.insurer_code){
+      } else if (previous_insurer == this.proposalData?.insurer_code) {
         this.isDisableCKyc = false;
-      }
-       else if (
+      } else if (
         sessionStorage.getItem('proposerType') !== undefined &&
         this.fetchedKyc?.proposer_type !== undefined &&
         this.fetchedKyc.proposer_type !== null &&
@@ -397,7 +401,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.fetchedKyc?.verification_status !== undefined
       ) {
         this.isDisableCKyc = false;
-      }else{
+      } else {
         this.isDisableCKyc = true;
       }
     });
@@ -507,6 +511,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (renewalType == 'renewal') {
       // this.proposalVehilceDetailsForm?.disable();
       // this.isVehicleButton = true;
+
+      let registartionNumber = sessionStorage.getItem('registrationNumber');
+
+      this.renewDataPatch(registartionNumber);
     }
 
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
@@ -516,15 +524,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.details?.previous_policy_details?.vehicle_details;
       let regNumbers =
         this.details?.previous_policy_details?.vehicle_details?.registration_no;
-      if (regNumbers==null) {
-        this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.enable();
-      }else{
+      if (regNumbers == null) {
+        this.proposalVehilceDetailsForm
+          .get('registration_number_last_digit')
+          ?.enable();
+      } else {
         this.isRegistrationNumber = true;
         let regFirstDigit = regNumbers?.slice(0, 2);
         let regSecondDigit = regNumbers?.slice(3, 5);
         let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
         let regLastDigit = regNumbers.split(combineRegData);
-        this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.disable();
+        this.proposalVehilceDetailsForm
+          .get('registration_number_last_digit')
+          ?.disable();
         this.proposalVehilceDetailsForm.patchValue({
           registration_number_first: regFirstDigit,
           registration_number_second: regSecondDigit,
@@ -532,58 +544,53 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         });
       }
       this.proposalVehilceDetailsForm.patchValue({
-            registration_date: vehicleDetails?.registration_date,
-            manufacture_date: vehicleDetails?.manufacture_date,
-            engine_number: vehicleDetails?.engine_no,
-            chassis_number: vehicleDetails?.chassis_no,
-            vehicle_pincode: vehicleDetails?.registration_address?.pincode,
-            vehilce_city: vehicleDetails?.registration_address?.rb_city_name,
-            vehicle_state: vehicleDetails?.registration_address?.rb_state_name,
-            financer: vehicleDetails?.financer_details?.financer_id,
-            agreement_type: vehicleDetails?.financer_details?.agreement_type,
-            financer_city: vehicleDetails?.financer_details?.financer_branch,
-            is_financed: vehicleDetails?.is_vehicle_financed,
-            vehicle_registration_address: vehicleDetails?.registration_address?.address_line,
-            is_vehicle_address: vehicleDetails?.is_same_location,
-          });
-          if (
-            vehicleDetails?.registration_address?.pincode
-          ) {
-            this.apiservice
-              .getRequestedResponse(
-                `${ApiConstants.pincode}?pincode=${
-                  vehicleDetails?.registration_address?.pincode
-                }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-              )
-              .subscribe((res) => {
-                this.proposalVehilceDetailsForm.patchValue({
-                  vehicle_pincode: res[0],
-                  vehilce_city: res[0].rb_city_name,
-                  vehicle_state: res[0].rb_state_name,
-                });
-                this.shareData?.sendOwnnerAddres(
-                  this.proposalVehilceDetailsForm.valid
-                );
-              });
-              this.shareData?.sendOwnnerAddres(
-                this.proposalVehilceDetailsForm.valid
-              );
-            }
-          ;
-        if (vehicleDetails?.financer_details?.financer_id) {
-          this.apiservice
-            .getRequestedResponse(
-              `${ApiConstants.financier_List}?insurer_code=${
-                JSON.parse(this.quoteData)['insurer_code']
-              }&financier_id=${vehicleDetails?.financer_details?.financer_id}`
-            )
-            .subscribe((response) => {
-              this.proposalVehilceDetailsForm.patchValue({
-                financer: response[0],
-              });
+        registration_date: vehicleDetails?.registration_date,
+        manufacture_date: vehicleDetails?.manufacture_date,
+        engine_number: vehicleDetails?.engine_no,
+        chassis_number: vehicleDetails?.chassis_no,
+        vehicle_pincode: vehicleDetails?.registration_address?.pincode,
+        vehilce_city: vehicleDetails?.registration_address?.rb_city_name,
+        vehicle_state: vehicleDetails?.registration_address?.rb_state_name,
+        financer: vehicleDetails?.financer_details?.financer_id,
+        agreement_type: vehicleDetails?.financer_details?.agreement_type,
+        financer_city: vehicleDetails?.financer_details?.financer_branch,
+        is_financed: vehicleDetails?.is_vehicle_financed,
+        vehicle_registration_address:
+          vehicleDetails?.registration_address?.address_line,
+        is_vehicle_address: vehicleDetails?.is_same_location,
+      });
+      if (vehicleDetails?.registration_address?.pincode) {
+        this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.pincode}?pincode=${
+              vehicleDetails?.registration_address?.pincode
+            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+          )
+          .subscribe((res) => {
+            this.proposalVehilceDetailsForm.patchValue({
+              vehicle_pincode: res[0],
+              vehilce_city: res[0].rb_city_name,
+              vehicle_state: res[0].rb_state_name,
             });
-        }
-      
+            this.shareData?.sendOwnnerAddres(
+              this.proposalVehilceDetailsForm.valid
+            );
+          });
+        this.shareData?.sendOwnnerAddres(this.proposalVehilceDetailsForm.valid);
+      }
+      if (vehicleDetails?.financer_details?.financer_id) {
+        this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.financier_List}?insurer_code=${
+              JSON.parse(this.quoteData)['insurer_code']
+            }&financier_id=${vehicleDetails?.financer_details?.financer_id}`
+          )
+          .subscribe((response) => {
+            this.proposalVehilceDetailsForm.patchValue({
+              financer: response[0],
+            });
+          });
+      }
     }
   }
 
@@ -623,28 +630,37 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
       '-' +
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
-     let registrationNumber
-      if(this.proposalVehilceDetailsForm.value.registration_number_last_digit==''){
-        if(this.proposalData?.vehicle_details?.registration_no!=null){
-          registrationNumber=this.proposalData?.vehicle_details?.registration_no
-        }else{
-          registrationNumber=''
-        }
-      }else if(this.proposalVehilceDetailsForm.value.registration_number_last_digit==undefined){
-        registrationNumber=this.proposalData?.vehicle_details?.registration_no
-      }else{
-        registrationNumber=registrationNumberFirst
+    let registrationNumber;
+    if (
+      this.proposalVehilceDetailsForm.value.registration_number_last_digit == ''
+    ) {
+      if (this.proposalData?.vehicle_details?.registration_no != null) {
+        registrationNumber =
+          this.proposalData?.vehicle_details?.registration_no;
+      } else {
+        registrationNumber = '';
       }
-    if (isValid && (this.vehicleType === "new" || this.mmvItem?.policy_expiry === "IDK")) {
+    } else if (
+      this.proposalVehilceDetailsForm.value.registration_number_last_digit ==
+      undefined
+    ) {
+      registrationNumber = this.proposalData?.vehicle_details?.registration_no;
+    } else {
+      registrationNumber = registrationNumberFirst;
+    }
+    if (
+      isValid &&
+      (this.vehicleType === 'new' || this.mmvItem?.policy_expiry === 'IDK')
+    ) {
       const formValues = this.proposalVehilceDetailsForm.value;
       const proposal_id = sessionStorage.getItem('proposal_Id');
       this.apiservice
         .getRequestedResponse(
           `${
             ApiConstants.renewal_partner_validation
-          }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${
-            registrationNumber
-          }&partner_code=${partnerCode ? partnerCode : ''}`
+          }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${registrationNumber}&partner_code=${
+            partnerCode ? partnerCode : ''
+          }`
         )
         .subscribe((res) => {
           if (res?.status) {
@@ -710,25 +726,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             this.openFailurePopup(res);
           }
         });
-    }else {
+    } else {
       const formValues = this.proposalVehilceDetailsForm.value;
       const proposal_id = sessionStorage.getItem('proposal_Id');
       if (
         this.mmvItem &&
-        this.proposalVehilceDetailsForm.value
-          .registration_number_last_digit
+        this.proposalVehilceDetailsForm.value.registration_number_last_digit
       ) {
         let registrationNumberFirst =
-          this.divideString(
-            this.mmvItem?.registration_city?.rb_rto_code
-          )[0] +
+          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
           '-' +
-          this.divideString(
-            this.mmvItem?.registration_city?.rb_rto_code
-          )[1] +
+          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
           '-' +
-          this.proposalVehilceDetailsForm.value
-            .registration_number_last_digit;
+          this.proposalVehilceDetailsForm.value.registration_number_last_digit;
         this.proposalVehilceDetailsForm.patchValue({
           registration_number: registrationNumberFirst,
         });
@@ -810,7 +820,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
   }
   getRegistrationAddressValue(isChecked?: any) {
-    this.shareData.sendErrorProposalData(this.proposalData?.insurer_code)
+    this.shareData.sendErrorProposalData(this.proposalData?.insurer_code);
     this.isChecked = this.registrationAddressToggle?.nativeElement?.checked
       ? this.registrationAddressToggle?.nativeElement?.checked
       : isChecked;
@@ -868,30 +878,26 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();
-        if (
-          this.proposalData?.vehicle_details?.registration_address?.pincode
-        ) {
-          this.apiservice
-            .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                this.proposalData?.vehicle_details?.registration_address?.pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-            )
-            .subscribe((res) => {
-              this.proposalVehilceDetailsForm.patchValue({
-                vehicle_pincode: res[0],
-                vehilce_city: res[0].rb_city_name,
-                vehicle_state: res[0].rb_state_name,
-              });
-              this.shareData?.sendOwnnerAddres(
-                this.proposalVehilceDetailsForm.valid
-              );
+      if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
+        this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.pincode}?pincode=${
+              this.proposalData?.vehicle_details?.registration_address?.pincode
+            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+          )
+          .subscribe((res) => {
+            this.proposalVehilceDetailsForm.patchValue({
+              vehicle_pincode: res[0],
+              vehilce_city: res[0].rb_city_name,
+              vehicle_state: res[0].rb_state_name,
             });
             this.shareData?.sendOwnnerAddres(
               this.proposalVehilceDetailsForm.valid
             );
-          }     
-           // this.updateMaxLengthValidator(this.maxlength);
+          });
+        this.shareData?.sendOwnnerAddres(this.proposalVehilceDetailsForm.valid);
+      }
+      // this.updateMaxLengthValidator(this.maxlength);
     }
   }
   /**
@@ -1190,5 +1196,102 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
+  }
+
+  renewDataPatch(registartionNumber: any) {
+    let apiUrl;
+
+    apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+
+    this.apiservice
+      .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.status) {
+          sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          this.previousDetails = sessionStorage.getItem(
+            'RenewalPreviousDetails'
+          );
+          if (this.previousDetails != null) {
+            this.details = JSON.parse(this.previousDetails);
+            const vehicleDetails =
+              this.details?.previous_policy_details?.vehicle_details;
+            let regNumbers =
+              this.details?.previous_policy_details?.vehicle_details
+                ?.registration_no;
+            if (regNumbers == null) {
+              this.proposalVehilceDetailsForm
+                .get('registration_number_last_digit')
+                ?.enable();
+            } else {
+              this.isRegistrationNumber = true;
+              let regFirstDigit = regNumbers?.slice(0, 2);
+              let regSecondDigit = regNumbers?.slice(3, 5);
+              let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
+              let regLastDigit = regNumbers.split(combineRegData);
+              this.proposalVehilceDetailsForm
+                .get('registration_number_last_digit')
+                ?.disable();
+              this.proposalVehilceDetailsForm.patchValue({
+                registration_number_first: regFirstDigit,
+                registration_number_second: regSecondDigit,
+                registration_number_last_digit: regLastDigit[1],
+              });
+            }
+            this.proposalVehilceDetailsForm.patchValue({
+              registration_date: vehicleDetails?.registration_date,
+              manufacture_date: vehicleDetails?.manufacture_date,
+              engine_number: vehicleDetails?.engine_no,
+              chassis_number: vehicleDetails?.chassis_no,
+              vehicle_pincode: vehicleDetails?.registration_address?.pincode,
+              vehilce_city: vehicleDetails?.registration_address?.rb_city_name,
+              vehicle_state:
+                vehicleDetails?.registration_address?.rb_state_name,
+              financer: vehicleDetails?.financer_details?.financer_id,
+              agreement_type: vehicleDetails?.financer_details?.agreement_type,
+              financer_city: vehicleDetails?.financer_details?.financer_branch,
+              is_financed: vehicleDetails?.is_vehicle_financed,
+              vehicle_registration_address:
+                vehicleDetails?.registration_address?.address_line,
+              is_vehicle_address: vehicleDetails?.is_same_location,
+            });
+            if (vehicleDetails?.registration_address?.pincode) {
+              this.apiservice
+                .getRequestedResponse(
+                  `${ApiConstants.pincode}?pincode=${
+                    vehicleDetails?.registration_address?.pincode
+                  }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+                )
+                .subscribe((res) => {
+                  this.proposalVehilceDetailsForm.patchValue({
+                    vehicle_pincode: res[0],
+                    vehilce_city: res[0].rb_city_name,
+                    vehicle_state: res[0].rb_state_name,
+                  });
+                  this.shareData?.sendOwnnerAddres(
+                    this.proposalVehilceDetailsForm.valid
+                  );
+                });
+              this.shareData?.sendOwnnerAddres(
+                this.proposalVehilceDetailsForm.valid
+              );
+            }
+            if (vehicleDetails?.financer_details?.financer_id) {
+              this.apiservice
+                .getRequestedResponse(
+                  `${ApiConstants.financier_List}?insurer_code=${
+                    JSON.parse(this.quoteData)['insurer_code']
+                  }&financier_id=${
+                    vehicleDetails?.financer_details?.financer_id
+                  }`
+                )
+                .subscribe((response) => {
+                  this.proposalVehilceDetailsForm.patchValue({
+                    financer: response[0],
+                  });
+                });
+            }
+          }
+        }
+      });
   }
 }
