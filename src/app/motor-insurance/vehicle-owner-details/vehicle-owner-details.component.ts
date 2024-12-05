@@ -325,22 +325,25 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     if (this.renewalType === 'renewal' || this.renewalType == 'rollover') {
       const customerDetails =
         this.details?.previous_policy_details?.customer_details;
-      this.owenerVehicleDetailsForm.patchValue({
-        ownner_salutation_type: customerDetails?.salutation,
-        owner_full_Name: customerDetails?.full_name,
-        contact_number: customerDetails?.mobile_number,
-        owner_email: customerDetails?.email_id,
-        ownner_occupation_type: customerDetails?.occupation_type_id,
-        owner_gstin: customerDetails?.gst_no,
-        additional_contact: customerDetails?.additional_mobile_number,
-        owner_gender: customerDetails?.gender,
-        marital_satus: customerDetails?.marital_status,
-        owner_communication_addres:
-          customerDetails?.communication_address?.address_line,
-        owner_pincode: customerDetails?.communication_address?.pincode,
-        owner_city: customerDetails?.communication_address?.rb_city_name,
-        owner_state: customerDetails?.communication_address?.rb_state_name,
-      });
+      if (customerDetails) {
+        this.owenerVehicleDetailsForm.patchValue({
+          ownner_salutation_type: customerDetails?.salutation,
+          owner_full_Name: customerDetails?.full_name,
+          contact_number: customerDetails?.mobile_number,
+          owner_email: customerDetails?.email_id,
+          ownner_occupation_type: customerDetails?.occupation_type_id,
+          owner_gstin: customerDetails?.gst_no,
+          additional_contact: customerDetails?.additional_mobile_number,
+          owner_gender: customerDetails?.gender,
+          marital_satus: customerDetails?.marital_status,
+          owner_communication_addres:
+            customerDetails?.communication_address?.address_line,
+          owner_pincode: customerDetails?.communication_address?.pincode,
+          owner_city: customerDetails?.communication_address?.rb_city_name,
+          owner_state: customerDetails?.communication_address?.rb_state_name,
+        });
+      }
+
       if (customerDetails?.communication_address?.pincode) {
         this.apiService
           .getRequestedResponse(
