@@ -70,9 +70,9 @@ export class CkycComponent implements OnInit {
   documentMaxLength: any;
   getInsurerDetails: any;
   proposalData: any;
-  showFullName: boolean=false;
-  previousDetails:any;
-  details:any;
+  showFullName: boolean = false;
+  previousDetails: any;
+  details: any;
 
   constructor(
     private formBuild: FormBuilder,
@@ -187,39 +187,41 @@ export class CkycComponent implements OnInit {
         //     }
         //   }
         // }
-        let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
+        let previous_insurer = JSON.parse(
+          sessionStorage.getItem('previous_insurerCode') || ''
+        );
         if (
           kycData?.insurer_code == this.quoteData?.insurer_code &&
           sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
           proposal?.ckyc_details?.is_verification
         ) {
           this.isDisableCKyc = true;
-        }else if(previous_insurer==this.proposalData?.insurer_code){
+        } else if (previous_insurer == this.proposalData?.insurer_code) {
           this.isDisableCKyc = true;
         }
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     const renewalType = sessionStorage.getItem('renewalType');
-    if(renewalType != 'rollover' && renewalType != 'renewal') {
-    if (
-      kycData?.insurer_code === this.quoteData['insurer_code'] &&
-      sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-      kycData?.verification_status === true
-    ) {
-      this.isDisableCKyc = true;
-    } else if (
-      kycData?.insurer_code !== this.quoteData['insurer_code'] &&
-      sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
-      kycData?.verification_status === true
-    ) {
-      this.sharedDataService.openSnackBar(
-        'As you have change the insurer company you need to do your ckyc again.',
-        true,
-        10000
-      );
+    if (renewalType != 'rollover' && renewalType != 'renewal') {
+      if (
+        kycData?.insurer_code === this.quoteData['insurer_code'] &&
+        sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+        kycData?.verification_status === true
+      ) {
+        this.isDisableCKyc = true;
+      } else if (
+        kycData?.insurer_code !== this.quoteData['insurer_code'] &&
+        sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
+        kycData?.verification_status === true
+      ) {
+        this.sharedDataService.openSnackBar(
+          'As you have change the insurer company you need to do your ckyc again.',
+          true,
+          10000
+        );
+      }
     }
-  }
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
       if (kyc?.customer_details?.dob) {
         this.ckycFormGroup.patchValue({
@@ -241,16 +243,20 @@ export class CkycComponent implements OnInit {
     }
 
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails)
-    const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
-    this.ckycFormGroup.patchValue({
-      document_type_based_field:ckycDetails?.document_type,
-      document_number_based_field:ckycDetails?.document_number,
-      dob: ckycDetails?.dob,
-      ckyc_full_name: ckycDetails?.full_name,
-      ckyc_gender: ckycDetails?.gender,
-      ckyc_download_data: ckycDetails?.is_verification,
-    });  
+    this.details = JSON.parse(this.previousDetails);
+    if (this.details) {
+      setTimeout(() => {
+        const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
+        this.ckycFormGroup.patchValue({
+          document_type_based_field: ckycDetails?.document_type,
+          document_number_based_field: ckycDetails?.document_number,
+          dob: ckycDetails?.dob,
+          ckyc_full_name: ckycDetails?.full_name,
+          ckyc_gender: ckycDetails?.gender,
+          ckyc_download_data: ckycDetails?.is_verification,
+        });
+      }, 1000);
+    }
   }
 
   /**
@@ -548,14 +554,15 @@ export class CkycComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^[A-Za-z0-9]{21}$/),
       ]);
-    }else if (event == 'gstin_number') {
+    } else if (event == 'gstin_number') {
       this.documentMaxLength = 15;
       documentNumberBasedField?.setValidators([
         Validators.required,
-        Validators.pattern(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/),
+        Validators.pattern(
+          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+        ),
       ]);
-    }
-     else {
+    } else {
       this.documentMaxLength = 30;
       documentNumberBasedField?.setValidators([
         Validators.pattern(/^[A-Za-z0-9]{30}$/),
@@ -582,15 +589,19 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
     }
-    if(this.quoteData['insurer_code'] === 'cholamandalam'){
-      if(this.documentName!='aadhaar_number'){
-        this.showFullName=true
-      this.ckycFormGroup.get('ckyc_full_name')?.setValidators([Validators.required]);
-      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
-      }else{
-        this.showFullName=false
-        this.ckycFormGroup.get('ckyc_full_name')?.removeValidators([Validators.required]);
-      this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+    if (this.quoteData['insurer_code'] === 'cholamandalam') {
+      if (this.documentName != 'aadhaar_number') {
+        this.showFullName = true;
+        this.ckycFormGroup
+          .get('ckyc_full_name')
+          ?.setValidators([Validators.required]);
+        this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
+      } else {
+        this.showFullName = false;
+        this.ckycFormGroup
+          .get('ckyc_full_name')
+          ?.removeValidators([Validators.required]);
+        this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
   }
