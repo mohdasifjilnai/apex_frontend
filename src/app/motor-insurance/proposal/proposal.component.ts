@@ -946,6 +946,29 @@ export class ProposalComponent implements OnInit {
             sessionStorage.setItem('renewalType', 'renewal');
             this.isPrevoiusInsurer = true;
             sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+            let registartionNumber = response?.quote_request?.registration_no;
+
+            let apiUrl;
+
+            apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+
+            this.apiService
+              .getRequestedResponse(
+                `${ApiConstants.get_renewal_policy}${apiUrl}`
+              )
+              .subscribe((res: any) => {
+                if (res?.status) {
+                  sessionStorage.setItem(
+                    'RenewalPreviousDetails',
+                    JSON.stringify(res)
+                  );
+                  this.sharedData?.getAddressValidation(
+                    this.quoteData?.insurer_code
+                  );
+
+                  this.sharedData.createProposalId();
+                }
+              });
           }
           const regNo = response?.quote_request?.registration_no;
           if (regNo) {
@@ -994,9 +1017,11 @@ export class ProposalComponent implements OnInit {
                 }
               }
             });
-          this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+          if (!renewalTypeData) {
+            this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
 
-          this.sharedData.createProposalId();
+            this.sharedData.createProposalId();
+          }
         }
       });
   }
