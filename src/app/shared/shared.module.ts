@@ -63,6 +63,7 @@ import { AlphanumericWithSlashDirective } from './directives/alphanumeric-with-s
 import { RemoveNewlinesDirective } from './directives/remove-newlines.directive';
 import { PayoutInfoComponent } from './components/dialog-components/payout-info/payout-info.component';
 import { RevisedPremiumBreakupComponent } from './components/dialog-components/revised-premium-breakup/revised-premium-breakup.component';
+import { VehicleRegistrationNumberComponent } from './components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { RevisedPremiumBreakupComponent } from './components/dialog-components/r
     RemoveNewlinesDirective,
     PayoutInfoComponent,
     RevisedPremiumBreakupComponent,
+    VehicleRegistrationNumberComponent,
   ],
   imports: [
     CommonModule,

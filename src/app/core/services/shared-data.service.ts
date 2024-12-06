@@ -27,6 +27,7 @@ export class SharedDataService {
   getProgressValue: Subject<any> = new Subject();
   getSelectedVehicleType: Subject<any> = new Subject();
   getTraceIdApiResponse: Subject<any> = new Subject();
+  getVahaanDetails: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
   loader = new BehaviorSubject<any>(null);
@@ -208,6 +209,9 @@ export class SharedDataService {
   getTraceIdDetails(data:any){
     this.traceIdResponse=data
     this.getTraceIdApiResponse.next(data)
+  }
+  vahaanDetails(data:any){
+    this.getVahaanDetails.next(data)
   }
   /**
    *

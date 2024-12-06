@@ -29,6 +29,7 @@ import { SelectedShareComponent } from 'src/app/shared/components/dialog-compone
 import { MatCheckbox } from '@angular/material/checkbox';
 import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
 import { PayoutInfoComponent } from 'src/app/shared/components/dialog-components/payout-info/payout-info.component';
+import { VehicleRegistrationNumberComponent } from 'src/app/shared/components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -103,6 +104,21 @@ export class QuotesListingComponent implements OnInit {
     topObtained: '10%',
     isOutSideClose: true,
     classObtained: 'payout-info-class',
+  };
+  vehicleRegistrationNUmber: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: VehicleRegistrationNumberComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: '10%',
+    isOutSideClose: true,
+    classObtained: 'vehicle-registration',
   };
   selectedShareJSON: {
     modalName: any;
@@ -520,7 +536,19 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   getProposalDetails(quotes_data: any) {
-    this.isPrevoiusInsurer = false;
+    const is_new_vehcile=sessionStorage.getItem('newVehicleType')
+    const vehcileWithoutRegistration=sessionStorage.getItem('withoutVehicleNumber')
+    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true'){
+      if (window.innerWidth <= 999) {
+        const bottomSheetConfig: MatBottomSheetConfig = {
+          data: quotes_data
+        };
+        this.bottomSheet.open(VehicleRegistrationNumberComponent,bottomSheetConfig);
+      } else {
+        this.openModal(quotes_data, this.vehicleRegistrationNUmber);
+      }
+    }else{
+      this.isPrevoiusInsurer = false;
     sessionStorage.setItem('alreadyCalled', 'true');
     if (quotes_data?.is_rb_renewal) {
       this.isPrevoiusInsurer = true;
@@ -538,6 +566,7 @@ export class QuotesListingComponent implements OnInit {
       this.openNonPOSPopup(null);
     } else {
       this.router.navigate([`quotes/proposal/${transactionId}`]);
+    }
     }
   }
   /**

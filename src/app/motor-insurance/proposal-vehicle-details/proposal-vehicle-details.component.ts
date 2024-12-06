@@ -205,6 +205,47 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       //   this.isOwnerAddressValidation = false;
       // }
     });
+    this.shareData.getVahaanDetails.subscribe((res: any) => {
+      let regLastDigit = res?.vehicle_details?.registration_no?.slice(4);
+      this.proposalVehilceDetailsForm.get('registration_number_last_digit')?.disable();
+      this.proposalVehilceDetailsForm.patchValue({
+        registration_number_last_digit: regLastDigit,
+        engine_number: res?.vehicle_details?.engine_no,
+          chassis_number: res?.vehicle_details?.chassis_no,
+          vehicle_pincode:
+            res?.vehicle_details?.registration_address?.pincode,
+          financer: res?.vehicle_details?.financer_details?.financer_id,
+          agreement_type:
+            res?.vehicle_details?.financer_details?.agreement_type,
+          financer_city:
+            res?.vehicle_details?.financer_details?.financer_branch,
+          is_financed: res?.vehicle_details?.is_vehicle_financed,
+          vehicle_registration_address:
+            res?.vehicle_details?.registration_address?.address_line,
+          is_vehicle_address: res?.vehicle_details?.is_same_location,
+      });
+      if (
+        res?.vehicle_details?.registration_address?.pincode
+      ) {
+        this.apiservice
+          .getRequestedResponse(
+            `${ApiConstants.pincode}?pincode=${
+              res?.vehicle_details?.registration_address?.pincode
+            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+          )
+          .subscribe((res) => {
+            console.log("-09876543234567890-")
+            this.proposalVehilceDetailsForm.patchValue({
+              vehicle_pincode: res[0],
+              vehilce_city: res[0].rb_city_name,
+              vehicle_state: res[0].rb_state_name,
+            });
+            this.shareData?.sendOwnnerAddres(
+              this.proposalVehilceDetailsForm.valid
+            );
+          });
+    }
+    });
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (proposal?.vehicle_details !== null) {

@@ -146,6 +146,7 @@ export class ProposalComponent implements OnInit {
       if (Object.keys(this.quoteData).length > 0) {
         this.sharedData.createProposalId();
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+        this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
       } else {
         this.route.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
@@ -334,6 +335,12 @@ export class ProposalComponent implements OnInit {
     //   });
     // }
     // sessionStorage.removeItem('alreadyCalled');
+    const alreadyCalled=sessionStorage.getItem('pageLoad')
+    // console.log()
+    //   if(alreadyCalled=='true'){
+    //     this.getVahaanDetails()
+    // }
+    
   }
 
   loadCkyc(expansionName: string) {
@@ -353,6 +360,17 @@ export class ProposalComponent implements OnInit {
       this.isLoadPreviousPolicyDetails = true;
     }
   }
+  getVahaanDetails(reg_no:any){
+    this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.registration_number()}?regn_no=${reg_no}`
+        )
+        .subscribe((res: any) => {
+          if (res) {
+            this.sharedData.vahaanDetails(res)
+          }
+        });
+      }
 
   // step(stepper: any) {
   //   if (stepper == 'ckyc') {
@@ -907,7 +925,7 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.partner_code
             );
           }
-
+          this.getVahaanDetails(response?.quote_request?.registration_no)
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.sharedData.getInsurerDetail(response);

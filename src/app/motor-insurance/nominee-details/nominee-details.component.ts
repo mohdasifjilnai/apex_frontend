@@ -50,6 +50,13 @@ export class NomineeDetailsComponent implements OnInit {
         age: age,
       });
     }
+    this.sharedData.getVahaanDetails.subscribe((res: any) => {
+      this.nominneForm.patchValue({
+        nominne_full_Name: res?.nominee_details?.name,
+        age: res?.nominee_details?.age,
+        nominne_relation: res?.nominee_details?.relation_id,
+      });
+    });
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.nominee_details !== null) {
         this.nominneForm.patchValue({
@@ -121,6 +128,9 @@ export class NomineeDetailsComponent implements OnInit {
       )
       .subscribe((response) => {
         this.relationshipList = response;
+        if (response.length > 0) {
+          this.nominneForm.get('nominne_relation')?.setValue(response[0].rb_id);
+        }
       });
   }
 }

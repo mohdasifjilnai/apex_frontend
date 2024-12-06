@@ -1,0 +1,92 @@
+.vehicle-registration-number{
+    .car-image{
+        width: 100%;
+        height: 100%;
+    }
+    .title{
+        font-size: 16px;
+        font-weight: 500;
+        color: #282828;
+        line-height: 19px;
+    }
+    .cross-btn{
+        display: flex;
+        align-self: flex-start;
+    }
+    .registration-number-input-wrap {
+        height: 51px;
+        position: relative;
+        top: 6px;
+      }
+      .registration-number-first {
+        width: 60px;
+        border: 1px solid #dee2e6;
+        border-radius: 16px 0px 0px 16px;
+        background-color: #F6F6F6;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 17px;
+      }
+      .registration-number-second {
+        width: 42px;
+        border: 1px solid #dee2e6;
+        background-color: #F6F6F6;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 17px;
+      }
+      .capitalize-text {
+        text-transform: uppercase;
+      }
+      .mat-form-field{
+        width: 100% !important;
+      }
+      .verify{
+        width: 100%;
+        height: 40px;
+      }
+      .note{
+        font-size: 11px;
+        font-weight: 500;
+        color: #282828;
+        line-height: 12px;
+        opacity: 50%;
+      }
+      .registration-number-last-digit{
+        border-radius: 0px 16px 16px 0px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 17px;
+      }
+      .registration-number-last-digit:disabled {
+        color: rgb(0 0 0 / 54%);
+      }
+      .error {
+        color: #f44336;
+        margin-left: 10px;
+        font-size: 12px;
+      }
+      .loader {
+        width: 28px;
+        height: 16px;
+        margin-bottom: 6px;
+      }
+      
+      
+}
+.res{
+  display: none !important;
+}
+.web{
+  display: block !important;
+}
+@media screen and (max-width: 999px) {
+  .web{
+    display: none !important;
+  }
+  .res{
+    display: block !important;
+  }
+}
