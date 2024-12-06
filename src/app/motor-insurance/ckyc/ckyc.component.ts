@@ -47,6 +47,7 @@ export class CkycComponent implements OnInit {
   proposalId: any;
   unitedTokenValue: any;
   decodedString: any;
+  regNo: any;
   waitCkycVerificationJSON: {
     modalName: any;
     widthObtained: string;
@@ -221,6 +222,51 @@ export class CkycComponent implements OnInit {
           10000
         );
       }
+    } else {
+      this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+      this.details = JSON.parse(this.previousDetails);
+      if (this.details == null) {
+        this.regNo = sessionStorage.getItem('registrationNumber');
+
+        let apiUrl;
+
+        apiUrl = `?registration_number=${this.regNo.toUpperCase()}`;
+
+        this.apiService
+          .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
+          .subscribe((res: any) => {
+            if (res?.status) {
+              sessionStorage.setItem(
+                'RenewalPreviousDetails',
+                JSON.stringify(res)
+              );
+              this.previousDetails = sessionStorage.getItem(
+                'RenewalPreviousDetails'
+              );
+              this.details = JSON.parse(this.previousDetails);
+              const ckycDetails =
+                this.details?.previous_policy_details?.ckyc_details;
+              this.ckycFormGroup.patchValue({
+                document_type_based_field: ckycDetails?.document_type,
+                document_number_based_field: ckycDetails?.document_number,
+                dob: ckycDetails?.dob,
+                ckyc_full_name: ckycDetails?.full_name,
+                ckyc_gender: ckycDetails?.gender,
+                ckyc_download_data: ckycDetails?.is_verification,
+              });
+            }
+          });
+      } else {
+        const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
+        this.ckycFormGroup.patchValue({
+          document_type_based_field: ckycDetails?.document_type,
+          document_number_based_field: ckycDetails?.document_number,
+          dob: ckycDetails?.dob,
+          ckyc_full_name: ckycDetails?.full_name,
+          ckyc_gender: ckycDetails?.gender,
+          ckyc_download_data: ckycDetails?.is_verification,
+        });
+      }
     }
     this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
       if (kyc?.customer_details?.dob) {
@@ -242,21 +288,18 @@ export class CkycComponent implements OnInit {
       this.isEnableCKyc = false;
     }
 
-    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails);
-    if (this.details) {
-      setTimeout(() => {
-        const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
-        this.ckycFormGroup.patchValue({
-          document_type_based_field: ckycDetails?.document_type,
-          document_number_based_field: ckycDetails?.document_number,
-          dob: ckycDetails?.dob,
-          ckyc_full_name: ckycDetails?.full_name,
-          ckyc_gender: ckycDetails?.gender,
-          ckyc_download_data: ckycDetails?.is_verification,
-        });
-      }, 1000);
-    }
+    // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    // this.details = JSON.parse(this.previousDetails);
+
+    // const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
+    // this.ckycFormGroup.patchValue({
+    //   document_type_based_field: ckycDetails?.document_type,
+    //   document_number_based_field: ckycDetails?.document_number,
+    //   dob: ckycDetails?.dob,
+    //   ckyc_full_name: ckycDetails?.full_name,
+    //   ckyc_gender: ckycDetails?.gender,
+    //   ckyc_download_data: ckycDetails?.is_verification,
+    // });
   }
 
   /**

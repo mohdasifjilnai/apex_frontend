@@ -17,8 +17,8 @@ export class NomineeDetailsComponent implements OnInit {
   @Input() fetchOwnerVehicleDetails: any;
   @Output() afterNomineeGetData = new EventEmitter<any>();
   quoteData: any;
-  previousDetails:any;
-  details:any;
+  previousDetails: any;
+  details: any;
 
   nominneForm: FormGroup = new FormGroup({
     nominne_full_Name: new FormControl('', Validators.required),
@@ -67,29 +67,32 @@ export class NomineeDetailsComponent implements OnInit {
     // }
 
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails)
-    
-    const nomineeDetails = this.details?.previous_policy_details?.nominee_details;
-    const calculatedAge = this.calculateAge(nomineeDetails.age);
+    this.details = JSON.parse(this.previousDetails);
+
+    const nomineeDetails =
+      this.details?.previous_policy_details?.nominee_details;
+    const calculatedAge = this.calculateAge(nomineeDetails?.age);
     this.nominneForm.patchValue({
       nominne_full_Name: nomineeDetails?.name,
       age: calculatedAge,
       nominne_relation: nomineeDetails?.relation_id,
     });
-
   }
 
-/** function to calculate nominee age from the DOB */  
+  /** function to calculate nominee age from the DOB */
   calculateAge(birthdate: string): number {
     const today = new Date();
     const birthDate = new Date(birthdate);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
-    
+
     return age;
   }
 
