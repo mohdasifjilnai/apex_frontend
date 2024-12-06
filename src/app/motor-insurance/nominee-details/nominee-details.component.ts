@@ -71,12 +71,15 @@ export class NomineeDetailsComponent implements OnInit {
 
     const nomineeDetails =
       this.details?.previous_policy_details?.nominee_details;
-    const calculatedAge = this.calculateAge(nomineeDetails?.age);
-    this.nominneForm.patchValue({
-      nominne_full_Name: nomineeDetails?.name,
-      age: calculatedAge,
-      nominne_relation: nomineeDetails?.relation_id,
-    });
+    const calculatedAge =
+      nomineeDetails?.age != null ? this.calculateAge(nomineeDetails?.age) : '';
+    if (nomineeDetails) {
+      this.nominneForm.patchValue({
+        nominne_full_Name: nomineeDetails?.name,
+        age: calculatedAge,
+        nominne_relation: nomineeDetails?.relation_id,
+      });
+    }
   }
 
   /** function to calculate nominee age from the DOB */
