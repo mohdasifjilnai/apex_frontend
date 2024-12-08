@@ -144,9 +144,9 @@ export class ProposalComponent implements OnInit {
       //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       // }
       if (Object.keys(this.quoteData).length > 0) {
+        this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
         this.sharedData.createProposalId();
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
-        this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
       } else {
         this.route.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
@@ -335,12 +335,6 @@ export class ProposalComponent implements OnInit {
     //   });
     // }
     // sessionStorage.removeItem('alreadyCalled');
-    const alreadyCalled=sessionStorage.getItem('pageLoad')
-    // console.log()
-    //   if(alreadyCalled=='true'){
-    //     this.getVahaanDetails()
-    // }
-    
   }
 
   loadCkyc(expansionName: string) {

@@ -609,6 +609,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }
   }
   getSalutationType() {
+    this.proposerType = sessionStorage.getItem('proposerType');
+    this.proposerType == 'individual'
+      ? (this.isProposerTrue = true)
+      : (this.isProposerTrue = false);
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.salutation}?insurer_code=${
@@ -658,7 +662,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
    * @returns An object containing any validation errors or null if the control is valid.
    */
   pincodeNumberValidator(control: FormControl) {
-    if (typeof control.value != 'object' && control.value.length >= 6) {
+    if (typeof control.value != 'object' && control.value?.length >= 6) {
       return { validPincode: true };
     }
     return null;

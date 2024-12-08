@@ -212,6 +212,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_number_last_digit: regLastDigit,
         engine_number: res?.vehicle_details?.engine_no,
           chassis_number: res?.vehicle_details?.chassis_no,
+          vehicle_colour:res?.vehicle_details?.vehicle_color,
           vehicle_pincode:
             res?.vehicle_details?.registration_address?.pincode,
           financer: res?.vehicle_details?.financer_details?.financer_id,
@@ -1181,7 +1182,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
    * @returns An object containing any validation errors or null if the control is valid.
    */
   pincodeNumberValidator(control: FormControl) {
-    if (typeof control.value != 'object' && control.value.length >= 6) {
+    if (typeof control.value != 'object' && control.value?.length >= 6) {
       return { validPincode: true };
     }
     return null;
