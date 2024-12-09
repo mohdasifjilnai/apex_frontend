@@ -271,7 +271,7 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
-          if(this.generateProposalData?.proposal_punched){
+          if (this.generateProposalData?.proposal_punched) {
             sessionStorage.setItem('proposal_punched', 'true');
             this.shareData.disabledChangeInsurerButton(true);
           }
@@ -342,26 +342,25 @@ export class ProposalReviewComponent implements OnInit {
   }
 
   updateButtonState(): void {
-    if(this.consentSubmitButton){
-      if(this.isAcknowledged && this.isAcknowledgedConsent){
+    if (this.consentSubmitButton) {
+      if (this.isAcknowledged && this.isAcknowledgedConsent) {
         this.isButtonEnabled = true;
       }
       // else if(this.isAcknowledged && !this.preAddons?.is_consent){
       //   this.isButtonEnabled = true;
       // }
-      else if(this.isAcknowledged && !this.isAcknowledgedConsent){
+      else if (this.isAcknowledged && !this.isAcknowledgedConsent) {
+        this.isButtonEnabled = false;
+      } else {
         this.isButtonEnabled = false;
       }
-      else{
-        this.isButtonEnabled = false;
-      }
-    }else{
-      if(this.isAcknowledged){
+    } else {
+      if (this.isAcknowledged) {
         this.isButtonEnabled = true;
-      }else{
+      } else {
         this.isButtonEnabled = false;
       }
-    }  
+    }
     // if (
     //   (this.isAcknowledged && this.isAcknowledgedConsent) ||
     //   (!this.isAcknowledged &&
@@ -395,7 +394,7 @@ export class ProposalReviewComponent implements OnInit {
             'universal_sompo',
             'hdfc_ergo',
             'royal_sundaram',
-            'magma'
+            'magma',
           ];
           if (insurers.includes(response?.quote_response?.insurer_code)) {
             this.consentSubmitButton = true;
@@ -409,29 +408,85 @@ export class ProposalReviewComponent implements OnInit {
               response?.quote_request?.vehicle_type
             );
           }
-          if(response?.quote_request?.partner_code!=null){
-            
-            sessionStorage.setItem('partner_code', response?.quote_request?.partner_code);
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.first_name!=null){
-              sessionStorage.setItem('first_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.first_name);
+          if (response?.quote_request?.registration_no) {
+            let registartionNumber = response?.quote_request?.registration_no;
+            sessionStorage.setItem('registrationNumber', registartionNumber);
+          }
+
+          if (response?.quote_request?.partner_code != null) {
+            sessionStorage.setItem(
+              'partner_code',
+              response?.quote_request?.partner_code
+            );
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.first_name != null
+            ) {
+              sessionStorage.setItem(
+                'first_name',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.first_name
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.last_name!=null){
-              sessionStorage.setItem('last_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.last_name);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.last_name != null
+            ) {
+              sessionStorage.setItem(
+                'last_name',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.last_name
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.middle_name!=null){
-              sessionStorage.setItem('middle_name', response?.quote_request.meta_data.mmv_form_data?.partner_details?.middle_name);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.middle_name != null
+            ) {
+              sessionStorage.setItem(
+                'middle_name',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.middle_name
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.token!=null){
-              sessionStorage.setItem('token', response?.quote_request.meta_data.mmv_form_data?.partner_details?.token);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.token != null
+            ) {
+              sessionStorage.setItem(
+                'token',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.token
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.employee_code!=null){
-              sessionStorage.setItem('employee_code', response?.quote_request.meta_data.mmv_form_data?.partner_details?.employee_code);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.employee_code != null
+            ) {
+              sessionStorage.setItem(
+                'employee_code',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.employee_code
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.is_cse!=null){
-              sessionStorage.setItem('is_cse', response?.quote_request.meta_data.mmv_form_data?.partner_details?.is_cse);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.is_cse != null
+            ) {
+              sessionStorage.setItem(
+                'is_cse',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.is_cse
+              );
             }
-            if(response?.quote_request.meta_data.mmv_form_data?.partner_details?.pos_status!=null){
-              sessionStorage.setItem('pos_status', response?.quote_request.meta_data.mmv_form_data?.partner_details?.pos_status);
+            if (
+              response?.quote_request.meta_data.mmv_form_data?.partner_details
+                ?.pos_status != null
+            ) {
+              sessionStorage.setItem(
+                'pos_status',
+                response?.quote_request.meta_data.mmv_form_data?.partner_details
+                  ?.pos_status
+              );
             }
           }
           if (response?.quote_request?.trace_id) {
@@ -548,7 +603,13 @@ export class ProposalReviewComponent implements OnInit {
 
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType()}?reg_year=${this.proposalData?.quote_request?.registration_year}&vehicle_type=${this.proposalData?.quote_request?.vehicle_type}&previous_policy_type=${previousPolicyType?.policy_expiry}&previous_policy_expiry_date=${policyExpiryDate}`
+          `${ApiConstants.getCoverageType()}?reg_year=${
+            this.proposalData?.quote_request?.registration_year
+          }&vehicle_type=${
+            this.proposalData?.quote_request?.vehicle_type
+          }&previous_policy_type=${
+            previousPolicyType?.policy_expiry
+          }&previous_policy_expiry_date=${policyExpiryDate}`
         )
         .subscribe((res: any) => {
           if (res) {
@@ -575,7 +636,7 @@ export class ProposalReviewComponent implements OnInit {
     }
   }
   getPrevPolicyDetails(getInsurerData: any) {
-    let diesel:any;
+    let diesel: any;
     if (
       getInsurerData?.quote_request?.meta_data?.mmv_form_data?.vehicle_fuel ==
       'DIESEL'
@@ -592,12 +653,12 @@ export class ProposalReviewComponent implements OnInit {
         this.preAddons = res;
         if (this.preAddons?.is_consent) {
           this.isButtonEnabled = false;
-        }else{
-          this.isAcknowledgedConsent=true
-          if(this.isAcknowledged){
+        } else {
+          this.isAcknowledgedConsent = true;
+          if (this.isAcknowledged) {
             this.isButtonEnabled = true;
           }
-        } 
+        }
         this.shareData.sendPrevAddon(res);
       });
   }
