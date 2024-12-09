@@ -408,7 +408,7 @@ export class ProposalReviewComponent implements OnInit {
               response?.quote_request?.vehicle_type
             );
           }
-          if (response?.quote_request?.registration_no) {
+          if (response?.quote_request?.registration_no != null) {
             let registartionNumber = response?.quote_request?.registration_no;
             sessionStorage.setItem('registrationNumber', registartionNumber);
           }

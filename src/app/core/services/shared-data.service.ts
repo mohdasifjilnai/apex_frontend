@@ -130,7 +130,7 @@ export class SharedDataService {
   isRbRenewal: boolean = false;
   quotesListData: any;
   uniqueDataList: any;
-  isRenewal:any;
+  isRenewal: any;
   visuallyDisabledFields: { [key: string]: boolean } = {};
   selectedCommercialVehicleType: any;
   traceIdResponse: any;
@@ -174,10 +174,9 @@ export class SharedDataService {
   sendCarLoaderMessage(data: any) {
     this.getProgressValue.next(data);
   }
-  selectedVehicleTypeObject(data:any){
-     this.selectedCommercialVehicleType=data
-    this.getSelectedvehicleTypeObject.next(data)
-    
+  selectedVehicleTypeObject(data: any) {
+    this.selectedCommercialVehicleType = data;
+    this.getSelectedvehicleTypeObject.next(data);
   }
   handleEnterKey(event: Event, MatDatePickerName: any) {
     const keyboardEvent = event as KeyboardEvent;
@@ -206,12 +205,12 @@ export class SharedDataService {
   registrationYearData(data: any) {
     this.registrationMonthSelection.next(data);
   }
-  getTraceIdDetails(data:any){
-    this.traceIdResponse=data
-    this.getTraceIdApiResponse.next(data)
+  getTraceIdDetails(data: any) {
+    this.traceIdResponse = data;
+    this.getTraceIdApiResponse.next(data);
   }
-  vahaanDetails(data:any){
-    this.getVahaanDetails.next(data)
+  vahaanDetails(data: any) {
+    this.getVahaanDetails.next(data);
   }
   /**
    *
@@ -244,34 +243,37 @@ export class SharedDataService {
         .getRequestedResponse(
           `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
         )
-        .subscribe((res: any) => {
-          if (res?.detail != 'Vehicle details not found.') {
-            let checkWheeler = {
-              is_two_wheeler: res['is_two_wheeler'],
-              is_four_wheeler: res['is_four_wheeler'],
-              is_commercial_vehicle: res['is_commercial'],
-            };
-            sessionStorage.setItem(
-              'checkWheeler',
-              JSON.stringify(checkWheeler)
-            );
-            if (res['is_four_wheeler'] && data == 'reg_no') {
-              sessionStorage.setItem('vehicleType', `private_car`);
-            } else if (data == 'reg_no') {
-              sessionStorage.setItem('vehicleType', `two_wheeler`);
-            }
-            this.checkWheelerType(this.editVehicleDetails);
-            this.regNumberData.next(res);
+        .subscribe(
+          (res: any) => {
+            if (res?.detail != 'Vehicle details not found.') {
+              let checkWheeler = {
+                is_two_wheeler: res['is_two_wheeler'],
+                is_four_wheeler: res['is_four_wheeler'],
+                is_commercial_vehicle: res['is_commercial'],
+              };
+              sessionStorage.setItem(
+                'checkWheeler',
+                JSON.stringify(checkWheeler)
+              );
+              if (res['is_four_wheeler'] && data == 'reg_no') {
+                sessionStorage.setItem('vehicleType', `private_car`);
+              } else if (data == 'reg_no') {
+                sessionStorage.setItem('vehicleType', `two_wheeler`);
+              }
+              this.checkWheelerType(this.editVehicleDetails);
+              this.regNumberData.next(res);
 
-            let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
-            let dateObj = moment(registrationDate, 'MM/YYYY');
-            // this.getRegistrationData.next(dateObj);
-          } else {
-            this.detailNotFound.next(res?.detail);
+              let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
+              let dateObj = moment(registrationDate, 'MM/YYYY');
+              // this.getRegistrationData.next(dateObj);
+            } else {
+              this.detailNotFound.next(res?.detail);
+            }
+          },
+          (error) => {
+            this.loader.next('false');
           }
-        },(error)=>{
-          this.loader.next('false')
-        });
+        );
     }
   }
 
@@ -280,7 +282,7 @@ export class SharedDataService {
       sessionStorage.getItem('checkWheeler') || '{}'
     );
     if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
-      if(!this.checkWheeler['is_commercial_vehicle']){
+      if (!this.checkWheeler['is_commercial_vehicle']) {
         if (
           (sessionStorage.getItem('vehicleType') == 'private_car' &&
             this.checkWheeler['is_four_wheeler']) ||
@@ -306,7 +308,7 @@ export class SharedDataService {
           };
           this.checkVehicleType.next(vehicledata);
         }
-      }else{
+      } else {
         this.vaahanName = 'Commercial Vehicle';
         this.isCheckWheeler = false;
         let vehicledata = {
@@ -471,8 +473,8 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
-        policy_number:null,
-        vehicle_name:null
+        policy_number: null,
+        vehicle_name: null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -484,12 +486,14 @@ export class SharedDataService {
       } else {
         quotesData.offered_ncb_value = 0;
       }
-      if(this.renewalPolicyNumber!=null){
-        quotesData.policy_number=this.renewalPolicyNumber
+      if (this.renewalPolicyNumber != null) {
+        quotesData.policy_number = this.renewalPolicyNumber;
       }
-      if(this.vehicleType=='commercial_vehicle'){
-        quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
-        quotesData.vehicle_name=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name
+      if (this.vehicleType == 'commercial_vehicle') {
+        quotesData.vehicle_type =
+          this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type;
+        quotesData.vehicle_name =
+          this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
       }
     } else {
       quotesData = {
@@ -528,8 +532,8 @@ export class SharedDataService {
         trace_id: traceId,
         is_d2c: false,
         is_rb_renewal: false,
-        policy_number:null,
-        vehicle_name:null
+        policy_number: null,
+        vehicle_name: null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -541,12 +545,14 @@ export class SharedDataService {
       } else {
         quotesData.offered_ncb_value = 0;
       }
-      if(this.renewalPolicyNumber!=null){
-        quotesData.policy_number=this.renewalPolicyNumber
+      if (this.renewalPolicyNumber != null) {
+        quotesData.policy_number = this.renewalPolicyNumber;
       }
-      if(this.vehicleType=='commercial_vehicle'){
-        quotesData.vehicle_type=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
-        quotesData.vehicle_name=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name
+      if (this.vehicleType == 'commercial_vehicle') {
+        quotesData.vehicle_type =
+          this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type;
+        quotesData.vehicle_name =
+          this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
       }
     }
 
@@ -609,19 +615,21 @@ export class SharedDataService {
     if (mmvFromData) {
       let mmvData;
       mmvData = JSON.parse(mmvFromData);
-      const partner_details={
-        partner_code:sessionStorage.getItem('partner_code'),
-        first_name:sessionStorage.getItem('first_name'),
-        middle_name:sessionStorage.getItem('middle_name'),
-        last_name:sessionStorage.getItem('last_name'),
-        token:sessionStorage.getItem('token'),
-        employee_code:sessionStorage.getItem('employee_code'),
-        is_cse:sessionStorage.getItem('is_cse'),
-        pos_status:sessionStorage.getItem('pos_status'),
-      }
-      const withoutVehicleNumber=JSON.parse(sessionStorage.getItem('withoutVehicleNumber') || '{}')
-      mmvData.partner_details=partner_details
-      mmvData.withoutVehicleNumber=withoutVehicleNumber
+      const partner_details = {
+        partner_code: sessionStorage.getItem('partner_code'),
+        first_name: sessionStorage.getItem('first_name'),
+        middle_name: sessionStorage.getItem('middle_name'),
+        last_name: sessionStorage.getItem('last_name'),
+        token: sessionStorage.getItem('token'),
+        employee_code: sessionStorage.getItem('employee_code'),
+        is_cse: sessionStorage.getItem('is_cse'),
+        pos_status: sessionStorage.getItem('pos_status'),
+      };
+      const withoutVehicleNumber = JSON.parse(
+        sessionStorage.getItem('withoutVehicleNumber') || '{}'
+      );
+      mmvData.partner_details = partner_details;
+      mmvData.withoutVehicleNumber = withoutVehicleNumber;
       let policyExpiryDate;
 
       let manufactureValue;
@@ -875,7 +883,7 @@ export class SharedDataService {
             formData?.get('vehicle_registration_address')?.value || '',
         };
       }
-      if (this.financedAddressItem) {
+      if (formData?.get('is_financed')?.value) {
         this.proposalDataItem['vehicle_details'].financer_details = {
           financer_id: formData?.get('financer')?.value?.rb_financier_id || '',
           agreement_type: formData?.get('agreement_type')?.value || '',
@@ -1002,11 +1010,10 @@ export class SharedDataService {
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal' || renewalType == 'rollover') {
       const isRenewal = sessionStorage.getItem('isprevoiusInsurer');
-      if(isRenewal == 'true'){
+      if (isRenewal == 'true') {
         this.proposalDataItem.is_rb_renewal = true;
-      }else{
+      } else {
         this.proposalDataItem.is_rb_renewal = false;
-        
       }
     }
     this.apiService
@@ -1448,7 +1455,9 @@ export class SharedDataService {
                 this.quotesListData[uniqueKey] = item;
                 // console.log(uniqueKey,"1111")
               } else {
-                const uniqueKey = item.payd?.status?`${item.insurer_code}_true`:`${item.insurer_code}_false`;
+                const uniqueKey = item.payd?.status
+                  ? `${item.insurer_code}_true`
+                  : `${item.insurer_code}_false`;
                 this.quotesListData[uniqueKey] = item;
                 // console.log(uniqueKey,"22222")
               }
@@ -1516,7 +1525,7 @@ export class SharedDataService {
   disableVisually(fieldsToCheck: string[], formGroup: any) {
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
-      fieldsToCheck.forEach(field => {
+      fieldsToCheck.forEach((field) => {
         const control = formGroup.get(field);
         if (control) {
           if (control.value === null || control.value === '') {
@@ -1526,9 +1535,9 @@ export class SharedDataService {
           }
         }
       });
-    }else{
-      fieldsToCheck.forEach(field => {
-      this.visuallyDisabledFields[field] = false;
+    } else {
+      fieldsToCheck.forEach((field) => {
+        this.visuallyDisabledFields[field] = false;
       });
     }
     return this.visuallyDisabledFields;

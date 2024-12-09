@@ -142,14 +142,14 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_gstin: res?.customer_details?.gst_no,
         additional_contact: res?.customer_details?.additional_mobile_number,
         owner_gender: res?.customer_details?.gender,
-        owner_communication_addres: res?.customer_details?.communication_address?.address_line,
+        owner_communication_addres:
+          res?.customer_details?.communication_address?.address_line,
         owner_pincode: res?.customer_details?.communication_address?.pincode,
         owner_city: res?.customer_details?.communication_address?.rb_city_name,
-        owner_state: res?.customer_details?.communication_address?.rb_state_name,
+        owner_state:
+          res?.customer_details?.communication_address?.rb_state_name,
       });
-      if (
-        res?.customer_details?.communication_address?.pincode
-      ) {
+      if (res?.customer_details?.communication_address?.pincode) {
         this.apiService
           .getRequestedResponse(
             `${ApiConstants.pincode}?pincode=${
@@ -166,7 +166,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               this.owenerVehicleDetailsForm.valid
             );
           });
-    }
+      }
     });
     this.owenerVehicleDetailsForm
       .get('document_number_based_field')
@@ -328,6 +328,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_city: ckycData?.customer_details?.rb_city_name,
           owner_state: ckycData?.customer_details?.rb_state_name,
           owner_gender: ckycData?.customer_details?.gender,
+          // owner_pincode : ckycData?.customer_details?.pincode
         });
       }
     });
@@ -544,7 +545,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .subscribe((occupation) => {
         this.occupationList = occupation;
         if (occupation.length > 0) {
-          this.owenerVehicleDetailsForm.get('ownner_occupation_type')?.setValue(occupation[0].rb_id);
+          this.owenerVehicleDetailsForm
+            .get('ownner_occupation_type')
+            ?.setValue(occupation[0].rb_id);
         }
         if (this.occupationList && this.proposalData) {
           for (let data of this.occupationList) {
@@ -623,7 +626,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .subscribe((salutation) => {
         this.salutationList = salutation;
         if (salutation.length > 0) {
-          this.owenerVehicleDetailsForm.get('ownner_salutation_type')?.setValue(salutation[0].rb_salutation);
+          this.owenerVehicleDetailsForm
+            .get('ownner_salutation_type')
+            ?.setValue(salutation[0].rb_salutation);
         }
         if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
