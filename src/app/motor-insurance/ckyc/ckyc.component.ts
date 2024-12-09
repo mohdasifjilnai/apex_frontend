@@ -132,12 +132,14 @@ export class CkycComponent implements OnInit {
     if (this.quoteData?.insurer_code) {
       this.getDocumentType();
     }
-    this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-      this.ckycFormGroup.patchValue({
-        document_number_based_field:res?.customer_details?.pan_number,
-        dob: res?.customer_details?.dob,
+    if(sessionStorage.getItem('withoutVehicleNumber')=='true'){
+      this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
+        this.ckycFormGroup.patchValue({
+          document_number_based_field:res?.customer_details?.pan_number,
+          dob: res?.customer_details?.dob,
+        });
       });
-    });
+    }
     let isSubmitCkycFormGroupCalled = false;
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
