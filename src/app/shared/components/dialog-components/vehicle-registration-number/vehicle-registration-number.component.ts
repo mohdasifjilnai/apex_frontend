@@ -88,7 +88,7 @@ getVahaanDetails(isValid:any){
   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
   this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.registration_number()}?regn_no=${regestrationNumber}`
+        `${ApiConstants.registration_number()}?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.data?.quote_request_id}`
       )
       .subscribe((res: any) => {
         this.loader=false
