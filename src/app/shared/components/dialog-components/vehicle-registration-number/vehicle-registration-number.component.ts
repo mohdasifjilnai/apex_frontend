@@ -118,6 +118,8 @@ getVahaanDetails(isValid:any){
         }else{
           this.showErrorMessage=true
         }
+      },(error)=>{
+        this.loader=false
       });
   }
   // * @param event - The input event that triggered this function.

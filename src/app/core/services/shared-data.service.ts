@@ -619,7 +619,9 @@ export class SharedDataService {
         is_cse:sessionStorage.getItem('is_cse'),
         pos_status:sessionStorage.getItem('pos_status'),
       }
+      const withoutVehicleNumber=JSON.parse(sessionStorage.getItem('withoutVehicleNumber') || '{}')
       mmvData.partner_details=partner_details
+      mmvData.withoutVehicleNumber=withoutVehicleNumber
       let policyExpiryDate;
 
       let manufactureValue;

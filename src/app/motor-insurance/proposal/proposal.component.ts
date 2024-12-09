@@ -144,7 +144,9 @@ export class ProposalComponent implements OnInit {
       //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       // }
       if (Object.keys(this.quoteData).length > 0) {
+        if(sessionStorage.getItem('withoutVehicleNumber')=='true'){
         this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
+        }
         this.sharedData.createProposalId();
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       } else {
@@ -906,6 +908,10 @@ export class ProposalComponent implements OnInit {
             'vehicleType',
             response.quote_request.vehicle_type
           );
+          sessionStorage.setItem(
+            'withoutVehicleNumber',
+            response.quote_request?.meta_data?.mmv_form_data?.withoutVehicleNumber
+          );
           if (this.getInsurerData?.quote_request?.trace_id) {
             let traceId = {
               trace_id: this.getInsurerData?.quote_request?.trace_id,
@@ -919,7 +925,9 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.partner_code
             );
           }
-          this.getVahaanDetails(response?.quote_request?.registration_no)
+          if(sessionStorage.getItem('withoutVehicleNumber')=='true'){
+            this.getVahaanDetails(response?.quote_request?.registration_no)
+          }
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.sharedData.getInsurerDetail(response);
