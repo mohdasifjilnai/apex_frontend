@@ -10,6 +10,13 @@ novalidate
             src="/assets/icon/car.svg"
             class="car-image"
             alt="close"
+            *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'"
+            />
+            <img
+            src="/assets/icon/bike.svg"
+            class="car-image"
+            alt="close"
+            *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'"
             />
             <img
                 src="/assets/icon/cross.svg"
@@ -52,8 +59,8 @@ novalidate
               <input
                 type="text"
                 aria-label="Registration number digit"
-                class="form-control registration-number-last-digit capitalize-text"
-                placeholder="Enter Registration NO."
+                class="form-control registration-number-last-digit"
+                placeholder="Enter Registration No."
                 formControlName="registration_number_last_digit"
                 [maxlength]="8"
                 (input)="addHyphen($event)"
@@ -113,6 +120,22 @@ novalidate
       <div *ngIf="showErrorMessage" class="error mt-2">
           Vehicle Not Found
       </div>
+      <div class="d-flex justify-content-between mt-2" *ngIf="twoWheelerJourney">
+        <div  class="error ">
+          <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">This is a Bike Number</span>
+          <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">This is a Car Number</span>
+        </div>
+        <div class="reverify" (click)="loader ? null : getVahaanDetails(vehicleRegistrationNumberForm.valid)">
+          Reverify
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-2" *ngIf="commercialVehicleMessage">
+        <div  class="error ">
+          This ic Commercial Vehicle Number
+        </div>
+       
+      </div>
+
               </div>
               <!-- <div class="col-lg-3">
 
@@ -146,7 +169,7 @@ novalidate
                     />
                   </mat-form-field>
               </div> -->
-              <div class="col-lg-9 col-12 mt-4">
+              <div class="col-lg-9 col-12 mt-4" *ngIf="!twoWheelerJourney">
                 <button
                   class="submit-btn verify"
                   type="submit"
@@ -160,6 +183,23 @@ novalidate
                     *ngIf="loader"
                   />
                   Verify & Proceed
+                </button>
+              </div>
+              <div class="col-lg-9 col-12 mt-4" *ngIf="twoWheelerJourney">
+                <button
+                  class="submit-btn verify"
+                  type="submit"
+                  (click)="loader ? null : goBack()"
+                  [disabled]="vehicleRegistrationNumberForm.invalid"
+                >
+                  <img
+                    src="/assets/gif/button-loader.gif"
+                    alt="close"
+                    class="loader me-2"
+                    *ngIf="loader"
+                  />
+                  <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">Get Bike Quotes</span>
+                  <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">Get Car Quotes</span>
                 </button>
               </div>
               <div class="note">Note:- Premium might change</div>

@@ -538,7 +538,8 @@ export class QuotesListingComponent implements OnInit {
   getProposalDetails(quotes_data: any) {
     const is_new_vehcile=sessionStorage.getItem('newVehicleType')
     const vehcileWithoutRegistration=sessionStorage.getItem('withoutVehicleNumber')
-    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true'){
+    const proposal_id=sessionStorage.getItem('proposal_Id')
+    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true' && proposal_id==undefined){
       if(!quotes_data?.is_rb_renewal){
         if (window.innerWidth <= 999) {
           const bottomSheetConfig: MatBottomSheetConfig = {

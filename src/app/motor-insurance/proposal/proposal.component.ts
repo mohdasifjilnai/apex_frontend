@@ -925,7 +925,7 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.partner_code
             );
           }
-          if(sessionStorage.getItem('withoutVehicleNumber')=='true'){
+          if(sessionStorage.getItem('withoutVehicleNumber')=='true' && response?.quote_request?.registration_no!=null){
             this.getVahaanDetails(response?.quote_request?.registration_no)
           }
           this.getNcbList(response.quote_request);

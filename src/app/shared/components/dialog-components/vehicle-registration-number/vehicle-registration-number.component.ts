@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { NonPosPopupComponent } from 'src/app/motor-insurance/non-pos-popup/non-pos-popup.component';
 
 @Component({
   selector: 'app-vehicle-registration-number',
@@ -18,7 +20,24 @@ export class VehicleRegistrationNumberComponent implements OnInit {
   quotes_data:any;
   isIdvGreaterThan50Lac: boolean=false;
   showErrorMessage: boolean=false;
-loader: boolean=false;
+  loader: boolean=false;
+  nonPOSJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NonPosPopupComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
+  };
+  twoWheelerJourney: boolean=false;
+  commercialVehicleMessage: boolean=false;
   constructor(public dialogRef: MatDialogRef<VehicleRegistrationNumberComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public bottomSheetRef: MatBottomSheetRef<VehicleRegistrationNumberComponent>,
@@ -26,7 +45,9 @@ loader: boolean=false;
     private formBuild: FormBuilder,
     private apiservice:ApiService,
     private router:Router,
-    private sharedDataService:SharedDataService
+    private sharedDataService:SharedDataService,
+    public matDialog: WindowRef,
+
 
   ) {
       this.vehcileRegistrationForm()
@@ -83,8 +104,8 @@ divideString(input: string): [string, string] {
   return [firstPart, secondPart];
 }
 getVahaanDetails(isValid:any){
-  this.loader=true
-  const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+    this.loader=true
+    const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
   this.apiservice
       .getRequestedResponse(
@@ -93,28 +114,32 @@ getVahaanDetails(isValid:any){
       .subscribe((res: any) => {
         this.loader=false
         if (res?.detail!='Vehicle details not found.') {
-          this.sharedDataService.vahaanDetails(res)
-          sessionStorage.setItem('registrationNumber',regestrationNumber)
-          sessionStorage.setItem('alreadyCalled', 'true');
-        if (this.quotes_data?.is_rb_renewal) {
-          sessionStorage.setItem('renewalType', 'renewal');
-        }
-        sessionStorage.setItem('isprevoiusInsurer', 'true');
-        sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data?.data));
-        const transactionId = sessionStorage.getItem('transaction_id');
-        if (this.quotes_data?.premium_details?.idv > 5000000) {
-          this.isIdvGreaterThan50Lac = true;
-        }
-        if (this.isIdvGreaterThan50Lac) {
-          // this.openNonPOSPopup(null);
-        } else {
-          this.router.navigate([`quotes/proposal/${transactionId}`]);
-        }
-        if (window.innerWidth <= 999) {
-          this.bottomSheetRef.dismiss();
-        } else {
-          this.dialogRef.close();
-        }
+          if(!res?.is_commercial){
+            if((this.quotes_data?.data?.vehicle_type=='private_car' && res?.is_four_wheeler) || (this.quotes_data?.data?.vehicle_type=='two_wheeler' && res?.is_two_wheeler)){
+              this.sharedDataService.vahaanDetails(res)
+              sessionStorage.setItem('registrationNumber',regestrationNumber)
+              sessionStorage.setItem('alreadyCalled', 'true');
+            sessionStorage.setItem('isprevoiusInsurer', 'true');
+            sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data?.data));
+            const transactionId = sessionStorage.getItem('transaction_id');
+            if (this.quotes_data?.data?.premium_details?.idv > 5000000) {
+              this.openNonPOSPopup(null);
+            } else {
+              this.router.navigate([`quotes/proposal/${transactionId}`]);
+            }
+            if (window.innerWidth <= 999) {
+              this.bottomSheetRef.dismiss();
+            } else {
+              this.dialogRef.close();
+            }
+            }else{
+              this.twoWheelerJourney=true
+            }
+            
+          }else{
+            this.commercialVehicleMessage=true
+            this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.reset();
+          }
         }else{
           this.showErrorMessage=true
         }
@@ -122,12 +147,21 @@ getVahaanDetails(isValid:any){
         this.loader=false
       });
   }
+  goBack(){
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    } else {
+      this.dialogRef.close();
+    }
+    this.router.navigate([``]);
+  }
   // * @param event - The input event that triggered this function.
   // */
  addHyphen(event: any) {
   this.showErrorMessage=false
+  this.twoWheelerJourney=false
+  this.commercialVehicleMessage=false
    let value = event.target.value;
-   console.log(value)
    value = value.replace(/-/g, '');
    value = value.replace(/\s/g, '');
    value = value.replace(/([A-Za-z])(?=\d)|(\d)(?=[A-Za-z])/g, '$1$2-');
@@ -162,4 +196,29 @@ getVahaanDetails(isValid:any){
    }, 0);
  }
   
+ openNonPOSPopup(objData: any) {
+  let resWidth;
+  let resTop;
+  if (window.screen.width <= 767) {
+    resWidth = 'auto';
+    resTop = '5%';
+  } else {
+    resWidth = 'auto';
+    resTop = '5%';
+  }
+  const obj: any = {
+    modalName: this.nonPOSJSON['modalName'],
+    width: this.nonPOSJSON['widthObtained'],
+    height: this.nonPOSJSON['heightObtained'],
+    classNameObtained: this.nonPOSJSON['classObtained'],
+    isOutSideClose: this.nonPOSJSON['isOutSideClose'],
+    minWidth: resWidth,
+    dataInfo: {
+      data: objData,
+      top: resTop,
+    },
+  };
+
+  this.matDialog.openDialog(obj);
+}
 }
