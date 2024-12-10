@@ -2,15 +2,56 @@ stages:
   - validate
   - build
   - build-d2c
+  - trivy
   - deploy
   - deploy-d2c
   - production
 
+  
 builderrors:
   stage: validate
   allow_failure: true
   image: ${CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX}/gramener/builderrors:3.0.2
-  script: builderrors
+  script: builderrors > "$CI_PROJECT_DIR/build-error.log"
+  artifacts:
+    when: always
+    paths:
+      - build-error.log
+    name: "builderrors.log"
+    expire_in: 1 week
+
+container_scanning:
+  stage: trivy
+  image:
+    name: docker.io/aquasec/trivy:latest
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+    TRIVY_USERNAME: "clone_token"
+    TRIVY_PASSWORD: "$CI_BUILD_TOKEN"
+    TRIVY_AUTH_URL: "$CI_REGISTRY"
+    FULL_IMAGE_NAME: "$CI_REGISTRY_IMAGE:latest"
+  script:
+    - trivy --version
+    - mkdir -p $CI_PROJECT_DIR/reports
+    - time trivy image --exit-code 0 --cache-dir .trivycache/ --no-progress --format template --template "@/contrib/gitlab.tpl" --output "$CI_PROJECT_DIR/reports/gl-container-scanning-report.log" "$FULL_IMAGE_NAME"
+    - time trivy image --exit-code 0 --cache-dir .trivycache/ --severity CRITICAL --no-progress "$FULL_IMAGE_NAME"
+  cache:
+    paths:
+      - .trivycache/
+  artifacts:
+    when: always
+    paths:
+      - reports/gl-container-scanning-report.log
+    reports:
+      container_scanning: reports/gl-container-scanning-report.log
+    expire_in: 1 week
+    name: "trivy.log"
+  only:
+    - master
+
+#include:
+ # - template: Jobs/SAST.gitlab-ci.yml
 
 sast:
   stage: validate
