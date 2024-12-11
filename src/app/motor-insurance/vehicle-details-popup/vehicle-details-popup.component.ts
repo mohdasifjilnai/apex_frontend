@@ -1125,9 +1125,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (data) {
       // this.ncbDiscountData = false;
       // this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
-      if (this.renewalType == 'renewal') {
-        this.vehicleDetailsForm.get('ncb_discount')?.setValue(0);
-      }
     } else {
       // this.ncbDiscountData = true;
       if (this.renewalType == 'renewal') {
