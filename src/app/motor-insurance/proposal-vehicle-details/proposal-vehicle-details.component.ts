@@ -235,7 +235,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
             .subscribe((res) => {
-              console.log('-09876543234567890-');
               this.proposalVehilceDetailsForm.patchValue({
                 vehicle_pincode: res[0],
                 vehilce_city: res[0].rb_city_name,

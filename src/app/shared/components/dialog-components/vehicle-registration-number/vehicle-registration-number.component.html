@@ -120,18 +120,18 @@ novalidate
       <div *ngIf="showErrorMessage" class="error mt-2">
           Vehicle Not Found
       </div>
-      <div class="d-flex justify-content-between mt-2" *ngIf="twoWheelerJourney">
-        <div  class="error ">
+      <div class="d-flex justify-content-between mt-2" >
+        <div  class="error" *ngIf="twoWheelerJourney">
           <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">This is a Bike Number</span>
           <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">This is a Car Number</span>
         </div>
-        <div class="reverify" (click)="loader ? null : getVahaanDetails(vehicleRegistrationNumberForm.valid)">
+        <div class="reverify" *ngIf="twoWheelerJourney" (click)="loader ? null : getVahaanDetails(vehicleRegistrationNumberForm.valid)">
           Reverify
         </div>
       </div>
       <div class="d-flex justify-content-between mt-2" *ngIf="commercialVehicleMessage">
         <div  class="error ">
-          This ic Commercial Vehicle Number
+          This is Commercial Vehicle Number
         </div>
        
       </div>

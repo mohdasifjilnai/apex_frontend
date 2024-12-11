@@ -681,6 +681,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     sessionStorage.setItem('mmv_data', vehicleFrom);
     sessionStorage.removeItem('allNCBDataProposal');
+    sessionStorage.removeItem('proposal_Id')
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
 
