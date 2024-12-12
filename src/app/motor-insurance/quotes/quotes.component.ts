@@ -462,6 +462,7 @@ export class QuotesComponent implements OnInit {
             'mmv_data',
             JSON.stringify(res.meta_data.mmv_form_data)
           );
+          sessionStorage.setItem('withoutVehicleNumber',res.meta_data.mmv_form_data?.withoutVehicleNumber)
           this.shareDataService.getVehicleType(res.vehicle_type);
           this.shareDataService.vehicleCardEmailData(
             JSON.stringify(res.meta_data.mmv_form_data)
