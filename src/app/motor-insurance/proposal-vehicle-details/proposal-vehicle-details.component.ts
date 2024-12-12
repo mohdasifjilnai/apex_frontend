@@ -1306,6 +1306,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 vehicleDetails?.registration_address?.address_line,
               is_vehicle_address: vehicleDetails?.is_same_location,
             });
+            this.proposalVehilceDetailsForm
+                .get('engine_number')
+                ?.disable();
+                this.proposalVehilceDetailsForm
+                .get('chassis_number')
+                ?.disable();
             if (vehicleDetails?.registration_address?.pincode) {
               this.apiservice
                 .getRequestedResponse(

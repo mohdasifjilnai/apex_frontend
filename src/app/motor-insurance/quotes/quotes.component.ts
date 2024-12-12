@@ -413,6 +413,7 @@ export class QuotesComponent implements OnInit {
           if(res?.is_rb_renewal){
             sessionStorage.setItem('renewalType','renewal')
             sessionStorage.setItem('renewalPolicyNumber',res?.policy_number)
+            this.getRenewalData(res?.registration_no)
           }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
@@ -529,14 +530,23 @@ export class QuotesComponent implements OnInit {
       });
   }
 
-  // getRenewalData(transaction_id:any){
-  //   let apiUrl;
-  //   apiUrl = `?transaction_id=${transaction_id}`;
-  //   this.apiService
-  //     .getRequestedResponse(`${ApiConstants.get_renewal_data()}${apiUrl}`)
-  //     .subscribe((res: any) => {
-  //       console.log(res,"lliuujjj")
-  //     });
-  // }
+  getRenewalData(registartionNumber:any){
+            let apiUrl;
+            apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+            this.apiService
+              .getRequestedResponse(
+                `${ApiConstants.get_renewal_policy}${apiUrl}`
+              )
+              .subscribe((res: any) => {
+                if (res?.status) {
+                  sessionStorage.setItem(
+                    'RenewalPreviousDetails',
+                    JSON.stringify(res)
+                  );
+                  this.shareDataService.renewalData(res)
+                }
+              });
+          
+  }
 
 }
