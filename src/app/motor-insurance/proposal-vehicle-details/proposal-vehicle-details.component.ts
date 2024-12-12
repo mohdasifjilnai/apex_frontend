@@ -205,7 +205,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       //   this.isOwnerAddressValidation = false;
       // }
     });
-    if (sessionStorage.getItem('withoutVehicleNumber')) {
+    // if (sessionStorage.getItem('withoutVehicleNumber')) {
       this.shareData.getVahaanDetails.subscribe((res: any) => {
         let regLastDigit = res?.vehicle_details?.registration_no?.slice(4);
         this.proposalVehilceDetailsForm
@@ -222,11 +222,21 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             res?.vehicle_details?.financer_details?.agreement_type,
           financer_city:
             res?.vehicle_details?.financer_details?.financer_branch,
-          is_financed: res?.vehicle_details?.is_vehicle_financed,
           vehicle_registration_address:
             res?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: res?.vehicle_details?.is_same_location,
         });
+        if(res?.vehicle_details?.financer_details !=null){
+          this.proposalVehilceDetailsForm.patchValue({
+            financer: res?.vehicle_details?.financer_details?.financer_id,
+            agreement_type:
+              res?.vehicle_details?.financer_details?.agreement_type,
+            financer_city:
+              res?.vehicle_details?.financer_details?.financer_branch,
+            is_financed: res?.vehicle_details?.is_vehicle_financed,
+          });
+        }
+        
         if (res?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
@@ -246,7 +256,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
       });
-    }
+    // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       if (proposal?.vehicle_details !== null) {

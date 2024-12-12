@@ -121,7 +121,7 @@ novalidate
           Vehicle Not Found
       </div>
       <div class="d-flex justify-content-between mt-2" >
-        <div  class="error" *ngIf="twoWheelerJourney">
+        <div  class="error-message" *ngIf="twoWheelerJourney">
           <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">This is a Bike Number</span>
           <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">This is a Car Number</span>
         </div>

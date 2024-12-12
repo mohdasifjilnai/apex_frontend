@@ -144,7 +144,8 @@ export class ProposalComponent implements OnInit {
       //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       // }
       if (Object.keys(this.quoteData).length > 0) {
-        if(sessionStorage.getItem('withoutVehicleNumber')=='true' && sessionStorage.getItem('newVehicleType')!='new'){
+        const renewalType=sessionStorage.getItem('renewalType')
+        if(sessionStorage.getItem('newVehicleType')!='new' && !renewalType){
         this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
         }
         this.sharedData.createProposalId();

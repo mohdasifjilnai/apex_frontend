@@ -191,11 +191,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             proposal?.customer_details?.additional_mobile_number,
           // ownner_occupation_type:
           //   proposal?.customer_details?.occupation_type_id,
-          owner_communication_addres:
-            proposal?.customer_details?.communication_address?.address_line,
+          // owner_communication_addres:
+          //   proposal?.customer_details?.communication_address?.address_line,
           marital_status: proposal?.customer_details?.marital_status,
           owner_gender: proposal?.customer_details?.gender,
         });
+        if(proposal?.customer_details?.communication_address?.address_line!=null){
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_communication_addres:
+              proposal?.customer_details?.communication_address?.address_line,
+          });
+        }
         if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
             if (
@@ -324,12 +330,18 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_full_Name: ckycData?.customer_details?.full_name,
           owner_email: ckycData?.customer_details?.email,
           contact_number: ckycData?.customer_details?.mobile_number,
-          owner_communication_addres: ckycData?.customer_details?.address,
+          // owner_communication_addres: ckycData?.customer_details?.address,
           owner_city: ckycData?.customer_details?.rb_city_name,
           owner_state: ckycData?.customer_details?.rb_state_name,
           owner_gender: ckycData?.customer_details?.gender,
           // owner_pincode : ckycData?.customer_details?.pincode
         });
+        if(ckycData?.customer_details?.communication_address?.address_line!=null){
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_communication_addres:
+              ckycData?.customer_details?.communication_address?.address_line,
+          });
+        }
       }
     });
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
@@ -370,12 +382,18 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           additional_contact: customerDetails?.additional_mobile_number,
           owner_gender: customerDetails?.gender,
           marital_satus: customerDetails?.marital_status,
-          owner_communication_addres:
-            customerDetails?.communication_address?.address_line,
+          // owner_communication_addres:
+          //   customerDetails?.communication_address?.address_line,
           owner_pincode: customerDetails?.communication_address?.pincode,
           owner_city: customerDetails?.communication_address?.rb_city_name,
           owner_state: customerDetails?.communication_address?.rb_state_name,
         });
+        if(customerDetails?.customer_details?.communication_address?.address_line!=null){
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_communication_addres:
+              customerDetails?.customer_details?.communication_address?.address_line,
+          });
+        }
       }
 
       if (customerDetails?.communication_address?.pincode) {
@@ -404,11 +422,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_full_Name: kycData?.customer_details?.full_name,
         owner_email: kycData?.customer_details?.email,
         contact_number: kycData?.customer_details?.mobile_number,
-        owner_communication_addres: kycData?.customer_details?.address,
+        // owner_communication_addres: kycData?.customer_details?.address,
         owner_city: kycData?.customer_details?.rb_city_name,
         owner_state: kycData?.customer_details?.rb_state_name,
         owner_gender: kycData?.customer_details?.gender,
       });
+      if(kycData?.customer_details?.communication_address?.address_line!=null){
+        this.owenerVehicleDetailsForm.patchValue({
+          owner_communication_addres:
+            kycData?.customer_details?.communication_address?.address_line,
+        });
+      }
       if (kycData?.customer_details?.pincode) {
         this.apiService
           .getRequestedResponse(
