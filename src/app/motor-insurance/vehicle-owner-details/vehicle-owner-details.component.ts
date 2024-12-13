@@ -388,10 +388,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_city: customerDetails?.communication_address?.rb_city_name,
           owner_state: customerDetails?.communication_address?.rb_state_name,
         });
-        if(customerDetails?.customer_details?.communication_address?.address_line!=null){
+        if(customerDetails?.communication_address?.address_line!=null){
           this.owenerVehicleDetailsForm.patchValue({
             owner_communication_addres:
-              customerDetails?.customer_details?.communication_address?.address_line,
+              customerDetails?.communication_address?.address_line,
           });
         }
       }
