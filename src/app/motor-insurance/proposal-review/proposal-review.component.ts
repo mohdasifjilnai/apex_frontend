@@ -275,6 +275,10 @@ export class ProposalReviewComponent implements OnInit {
             sessionStorage.setItem('proposal_punched', 'true');
             this.shareData.disabledChangeInsurerButton(true);
           }
+          sessionStorage.setItem(
+            'previous_insurerCode',
+            JSON.stringify(this.generateProposalData?.insurer_code)
+          );
           let manufactureDateValue =
             this.generateProposalData?.vehicle_details?.manufacture_date;
           let [day, month, year] = manufactureDateValue.split('/');
@@ -401,6 +405,10 @@ export class ProposalReviewComponent implements OnInit {
             this.getPrevPolicyDetails(response);
           } else {
             this.consentSubmitButton = false;
+          }
+          let renewalTypeData = response?.quote_request?.is_rb_renewal;
+          if (renewalTypeData) {
+            sessionStorage.setItem('renewalType', 'renewal');
           }
           if (response?.quote_request?.vehicle_type) {
             sessionStorage.setItem(

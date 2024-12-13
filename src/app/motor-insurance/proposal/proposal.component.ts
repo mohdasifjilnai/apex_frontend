@@ -926,9 +926,7 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.partner_code
             );
           }
-          if(sessionStorage.getItem('withoutVehicleNumber')=='true' && response?.quote_request?.registration_no!=null){
-            this.getVahaanDetails(response?.quote_request?.registration_no)
-          }
+          
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.sharedData.getInsurerDetail(response);
@@ -990,6 +988,9 @@ export class ProposalComponent implements OnInit {
                   this.sharedData.createProposalId();
                 }
               });
+          }
+          if(sessionStorage.getItem('withoutVehicleNumber')=='true' && response?.quote_request?.registration_no!=null && !response?.quote_request?.is_rb_renewal){
+            this.getVahaanDetails(response?.quote_request?.registration_no)
           }
           const regNo = response?.quote_request?.registration_no;
           if (regNo) {
