@@ -774,6 +774,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
     }   
+    if(this.proposalData?.ckyc_details==null || this.proposalData?.customer_details){
+      this.isDisableCKyc=true
+    }
   }
   onTpStartDateSelected(event: any) {
     if (this.mmvData?.policy_expiry === 'comprehensive') {
