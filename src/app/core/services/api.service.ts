@@ -77,8 +77,7 @@ export class ApiService {
             panelClass: 'failure-dialog-class',
           });
           dialogRef.afterClosed().subscribe((result: any) => {});
-        }
-        else if (err.status == 413) {
+        } else if (err.status == 413) {
           const dialogRef = this.dialog.open(FailureDialogComponent, {
             width: 'auto',
             height: 'auto',
@@ -89,18 +88,19 @@ export class ApiService {
             panelClass: 'failure-dialog-class',
           });
           dialogRef.afterClosed().subscribe((result: any) => {});
-        } 
-        else {
-          const dialogRef = this.dialog.open(FailureDialogComponent, {
-            width: 'auto',
-            height: 'auto',
-            data: {
-              errorData: error,
-              statusdata: status,
-            },
-            panelClass: 'failure-dialog-class',
-          });
-          dialogRef.afterClosed().subscribe((result: any) => {});
+        } else {
+          if (err.status != 0) {
+            const dialogRef = this.dialog.open(FailureDialogComponent, {
+              width: 'auto',
+              height: 'auto',
+              data: {
+                errorData: error,
+                statusdata: status,
+              },
+              panelClass: 'failure-dialog-class',
+            });
+            dialogRef.afterClosed().subscribe((result: any) => {});
+          }
         }
       }
     } else if (err.status == 401) {
