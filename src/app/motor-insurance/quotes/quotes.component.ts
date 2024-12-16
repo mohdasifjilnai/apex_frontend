@@ -543,7 +543,7 @@ export class QuotesComponent implements OnInit {
                     'RenewalPreviousDetails',
                     JSON.stringify(res)
                   );
-                  this.shareDataService.renewalData(res)
+                  this.shareDataService.getRenewalData(res)
                 }
               });
           

@@ -1263,6 +1263,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           this.previousDetails = sessionStorage.getItem(
             'RenewalPreviousDetails'
           );
+          this.shareData.getRenewalData(res)
           if (this.previousDetails != null) {
             this.details = JSON.parse(this.previousDetails);
             const vehicleDetails =

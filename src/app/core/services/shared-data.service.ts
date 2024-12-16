@@ -45,6 +45,7 @@ export class SharedDataService {
   fetchKycData: Subject<any> = new Subject();
   quotesData: Subject<any> = new Subject();
   fetchCKycFormData: Subject<any> = new Subject();
+  getRenewalValue: Subject<any> = new Subject();
   registrationAddressData: Subject<any> = new Subject();
   financedAddressData: Subject<any> = new Subject();
   fetchedCkycData: Subject<any> = new Subject();
@@ -1142,6 +1143,9 @@ export class SharedDataService {
     if (data) {
       this.createProposalId('ckyc', this.ckycFormInfo, data);
     }
+  }
+  getRenewalData(data:any){
+    this.getRenewalValue.next(data);
   }
   /**
    * To handel the Autocomplte Dropdown css issue

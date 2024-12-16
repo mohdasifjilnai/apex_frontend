@@ -579,6 +579,7 @@ export class MotorInsuranceComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.status) {
+          this.sharedDataService.getRenewalData(res)
           this.loader = false;
           if (res?.vehicle_details?.is_two_wheeler) {
             sessionStorage.setItem('vehicleType', 'two_wheeler');

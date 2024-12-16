@@ -733,6 +733,42 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         
       }
     });
+    this.sharedData?.getRenewalValue.subscribe((data) => {
+      if (data) {
+        const previousPolicyData=data?.previous_policy_details?.previous_policy_details;
+        this.previousPolicyDetailsForm.patchValue({
+          prev_policy_number: previousPolicyData?.policy_no,
+          previous_insurer: previousPolicyData?.insurer_code,
+          policy_expiry_date: previousPolicyData?.policy_expiry_date,
+          tp_insurance_company: previousPolicyData?.tp_policy_details?.tp_insurer_code,
+          tp_policy_number: previousPolicyData?.tp_policy_details?.tp_policy_no,
+          tp_policy_start_date: previousPolicyData?.tp_policy_details?.tp_policy_start_date,
+          tp_policy_end_date: previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
+        });   
+        this.apiservice
+        .getRequestedResponse(ApiConstants.get_previous_insurer())
+        .subscribe((response: any) => {
+          for (let insurer of response) {
+            if (
+              insurer?.rb_insurer_code ===
+              data?.vehicle_details?.previous_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                previous_insurer: insurer,
+              });
+            }
+            if (
+              insurer?.rb_insurer_code ===
+              data.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                tp_insurance_company: insurer,
+              });
+            }
+          }
+        });
+      }
+    });
 
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {

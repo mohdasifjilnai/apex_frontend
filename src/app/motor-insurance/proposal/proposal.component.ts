@@ -981,6 +981,7 @@ export class ProposalComponent implements OnInit {
                     'RenewalPreviousDetails',
                     JSON.stringify(res)
                   );
+                  this.sharedData.getRenewalData(res)
                   this.sharedData?.getAddressValidation(
                     this.quoteData?.insurer_code
                   );

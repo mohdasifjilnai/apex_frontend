@@ -251,6 +251,7 @@ export class CkycComponent implements OnInit {
               this.previousDetails = sessionStorage.getItem(
                 'RenewalPreviousDetails'
               );
+              this.sharedDataService.getRenewalData(res)
               this.details = JSON.parse(this.previousDetails);
               const ckycDetails =
                 this.details?.previous_policy_details?.ckyc_details;
