@@ -2,7 +2,7 @@ import { Injectable, Optional } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SseService } from './sse.service';
 import moment from 'moment';
 import { LoaderService } from './loader.service';
@@ -136,8 +136,6 @@ export class SharedDataService {
   selectedCommercialVehicleType: any;
   traceIdResponse: any;
   renewalPolicyNumber: any;
-  routerEvents: any;
-  currentPath: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -156,8 +154,6 @@ export class SharedDataService {
     const url = new URL(currentBaseUrl);
     const hostParts = url.host.split('.');
     this.subdomain = hostParts[0];
-    const pathSegments = url.pathname.split('/'); // Split the path by "/"
-     this.currentPath = pathSegments.includes('proposal') ? 'proposal' : 'quotes';
   }
 
   sendVehicleEditData(data: any) {
@@ -765,12 +761,7 @@ export class SharedDataService {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     let transactionId = sessionStorage.getItem('transaction_id');
-    let proposalId:any
-    if(this.currentPath=='quotes'){
-      proposalId = '';
-    }else{
-      proposalId = sessionStorage.getItem('proposal_Id')
-    }
+    const proposalId = sessionStorage.getItem('proposal_Id');
     this.proposalDataItem = {
       transaction_id: transactionId || '',
       insurer_quote_id: this.quoteData?.quote_id || '',
