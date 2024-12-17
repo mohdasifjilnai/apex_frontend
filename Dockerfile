@@ -7,7 +7,7 @@ RUN echo $server
 ADD ./ /ng-kmt
 WORKDIR /ng-kmt
 COPY package.json .
-RUN npm config set registry https://registry.npmmirror.com/ --global
+#RUN npm config set registry https://registry.npmmirror.com/ --global
 RUN npm install --force
 
 COPY . /apex-frontend
