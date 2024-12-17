@@ -260,15 +260,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           });
         }
       }
-      let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
-      if (
-        kycData?.insurer_code == this.quoteData?.insurer_code &&
-        sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-        proposal?.ckyc_details?.is_verification
-      ) {
-        this.isDisableCKyc = false;
+      // let previous_insurer=JSON.parse(sessionStorage.getItem('previous_insurerCode') || '')
+      // if (
+      //   kycData?.insurer_code == this.quoteData?.insurer_code &&
+      //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+      //   proposal?.ckyc_details?.is_verification
+      // ) {
+      //   this.isDisableCKyc = false;
         
-      } else if (this.quoteData?.insurer_code == 'united_india') {
+      // } else 
+      if (this.quoteData?.insurer_code == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
           
@@ -280,25 +281,29 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }else{
           this.isDisableCKyc = true;
         }
-      } else if (
-        sessionStorage.getItem('proposerType') !== undefined &&
-        this.fetchedKyc?.proposer_type !== undefined &&
-        this.fetchedKyc.proposer_type !== null &&
-        sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
-      ) {
-        this.isDisableCKyc = true;
-        
-      }else if(previous_insurer==this.proposalData?.insurer_code){
-        this.isDisableCKyc = false;
-      }
-       else if (
-        this.fetchedKyc?.verification_status !== null &&
-        this.fetchedKyc?.verification_status !== undefined
-      ) {
-        this.isDisableCKyc = false;
-      }else{
+      } 
+      if(this.proposalData?.ckyc_details==null && this.proposalData?.customer_details==null){
         this.isDisableCKyc=true
       }
+      // else if (
+      //   sessionStorage.getItem('proposerType') !== undefined &&
+      //   this.fetchedKyc?.proposer_type !== undefined &&
+      //   this.fetchedKyc.proposer_type !== null &&
+      //   sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
+      // ) {
+      //   this.isDisableCKyc = true;
+        
+      // }else if(previous_insurer==this.proposalData?.insurer_code){
+      //   this.isDisableCKyc = false;
+      // }
+      //  else if (
+      //   this.fetchedKyc?.verification_status !== null &&
+      //   this.fetchedKyc?.verification_status !== undefined
+      // ) {
+      //   this.isDisableCKyc = false;
+      // }else{
+      //   this.isDisableCKyc=true
+      // }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
       if (renewalDataType == 'renewal') {
@@ -774,9 +779,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
     }   
-    // if(this.proposalData?.ckyc_details==null && this.proposalData?.customer_details==null){
-    //   this.isDisableCKyc=true
-    // }
+   
   }
   onTpStartDateSelected(event: any) {
     if (this.mmvData?.policy_expiry === 'comprehensive') {

@@ -149,6 +149,8 @@ export class CkycComponent implements OnInit {
           if (proposal?.ckyc_details?.is_verification) {
             this.isDisableCKyc = true;
           }
+        }if (proposal?.ckyc_details?.is_verification) {
+          this.isDisableCKyc = true;
         }
         this.isCkycDone = true;
         this.ckycData = proposal?.ckyc_details?.document_code;
@@ -196,40 +198,42 @@ export class CkycComponent implements OnInit {
         //     }
         //   }
         // }
-        let previous_insurer = JSON.parse(
-          sessionStorage.getItem('previous_insurerCode') || ''
-        );
-        if (
-          kycData?.insurer_code == this.quoteData?.insurer_code &&
-          sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-          proposal?.ckyc_details?.is_verification
-        ) {
-          this.isDisableCKyc = true;
-        } else if (previous_insurer == this.proposalData?.insurer_code) {
-          this.isDisableCKyc = true;
-        }
+        // let previous_insurer = JSON.parse(
+        //   sessionStorage.getItem('previous_insurerCode') || ''
+        // );
+        // if (
+        //   kycData?.insurer_code == this.quoteData?.insurer_code &&
+        //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+        //   proposal?.ckyc_details?.is_verification
+        // ) {
+        //   this.isDisableCKyc = true;
+        // } else if (previous_insurer == this.proposalData?.insurer_code) {
+        //   this.isDisableCKyc = true;
+        // }
+      }else{
+        this.isDisableCKyc=false
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     const renewalType = sessionStorage.getItem('renewalType');
     if (renewalType != 'rollover' && renewalType != 'renewal') {
-      if (
-        kycData?.insurer_code === this.quoteData['insurer_code'] &&
-        sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-        kycData?.verification_status === true
-      ) {
-        this.isDisableCKyc = true;
-      } else if (
-        kycData?.insurer_code !== this.quoteData['insurer_code'] &&
-        sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
-        kycData?.verification_status === true
-      ) {
-        this.sharedDataService.openSnackBar(
-          'As you have change the insurer company you need to do your ckyc again.',
-          true,
-          10000
-        );
-      }
+      // if (
+      //   kycData?.insurer_code === this.quoteData['insurer_code'] &&
+      //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+      //   kycData?.verification_status === true
+      // ) {
+      //   this.isDisableCKyc = true;
+      // } else if (
+      //   kycData?.insurer_code !== this.quoteData['insurer_code'] &&
+      //   sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
+      //   kycData?.verification_status === true
+      // ) {
+      //   this.sharedDataService.openSnackBar(
+      //     'As you have change the insurer company you need to do your ckyc again.',
+      //     true,
+      //     10000
+      //   );
+      // }
     } else {
       this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
       this.details = JSON.parse(this.previousDetails);
@@ -277,16 +281,16 @@ export class CkycComponent implements OnInit {
         });
       }
     }
-    this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
-      if (kyc?.customer_details?.dob) {
-        this.ckycFormGroup.patchValue({
-          dob: moment(kyc?.customer_details?.dob, 'DD/MM/YYYY').toDate(),
-        });
-      }
-      if (kyc?.verification_status === true) {
-        this.isDisableCKyc = true;
-      }
-    });
+    // this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
+    //   if (kyc?.customer_details?.dob) {
+    //     this.ckycFormGroup.patchValue({
+    //       dob: moment(kyc?.customer_details?.dob, 'DD/MM/YYYY').toDate(),
+    //     });
+    //   }
+    //   if (kyc?.verification_status === true) {
+    //     this.isDisableCKyc = true;
+    //   }
+    // });
     this.renewalDetails = sessionStorage.getItem('renewalDetails');
     const parsedRenewalDetails = JSON.parse(this.renewalDetails);
     if (parsedRenewalDetails?.ckyc_status) {
