@@ -182,26 +182,44 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         this.vehicleOwnerName = true;
       }
       if (proposal?.customer_details !== null) {
-        this.owenerVehicleDetailsForm.patchValue({
-          owner_full_Name: proposal?.customer_details?.full_name,
-          owner_email: proposal?.customer_details?.email_id,
-          contact_number: proposal?.customer_details?.mobile_number,
-          owner_gstin: proposal?.customer_details?.gst_no,
-          additional_contact:
-            proposal?.customer_details?.additional_mobile_number,
-          // ownner_occupation_type:
-          //   proposal?.customer_details?.occupation_type_id,
-          // owner_communication_addres:
-          //   proposal?.customer_details?.communication_address?.address_line,
-          marital_status: proposal?.customer_details?.marital_status,
-          owner_gender: proposal?.customer_details?.gender,
-        });
-        if(proposal?.customer_details?.communication_address?.address_line!=null){
-          this.owenerVehicleDetailsForm.patchValue({
-            owner_communication_addres:
-              proposal?.customer_details?.communication_address?.address_line,
-          });
-        }
+        // this.owenerVehicleDetailsForm.patchValue({
+        //   owner_full_Name: proposal?.customer_details?.full_name,
+        //   owner_email: proposal?.customer_details?.email_id,
+        //   contact_number: proposal?.customer_details?.mobile_number,
+        //   owner_gstin: proposal?.customer_details?.gst_no,
+        //   additional_contact:
+        //     proposal?.customer_details?.additional_mobile_number,
+        //   // ownner_occupation_type:
+        //   //   proposal?.customer_details?.occupation_type_id,
+        //   // owner_communication_addres:
+        //   //   proposal?.customer_details?.communication_address?.address_line,
+        //   marital_status: proposal?.customer_details?.marital_status,
+        //   owner_gender: proposal?.customer_details?.gender,
+        // });
+        const filteredValues = {
+          owner_full_Name: proposal?.customer_details?.full_name ?? undefined,
+          owner_email: proposal?.customer_details?.email_id ?? undefined,
+          contact_number: proposal?.customer_details?.mobile_number ?? undefined,
+          owner_gstin: proposal?.customer_details?.gst_no ?? undefined,
+          additional_contact: proposal?.customer_details?.additional_mobile_number ?? undefined,
+          marital_status: proposal?.customer_details?.marital_status ?? undefined,
+          owner_gender: proposal?.customer_details?.gender ?? undefined,
+          owner_communication_addres: proposal?.customer_details?.communication_address?.address_line ?? undefined
+        };
+        
+        // Remove any keys with undefined values
+        const validValues = Object.fromEntries(
+          Object.entries(filteredValues).filter(([_, value]) => value !== undefined)
+        );
+        
+        // Patch the form only with valid values
+        this.owenerVehicleDetailsForm.patchValue(validValues);
+        // if(proposal?.customer_details?.communication_address?.address_line!=null){
+        //   this.owenerVehicleDetailsForm.patchValue({
+        //     owner_communication_addres:
+        //       proposal?.customer_details?.communication_address?.address_line,
+        //   });
+        // }
         if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
             if (

@@ -539,6 +539,7 @@ export class QuotesListingComponent implements OnInit {
     const is_new_vehcile=sessionStorage.getItem('newVehicleType')
     const vehcileWithoutRegistration=sessionStorage.getItem('withoutVehicleNumber')
     const proposal_id=sessionStorage.getItem('proposal_Id')
+    sessionStorage.setItem('BuyNowClick','true')
     if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true' && proposal_id==undefined){
       if(!quotes_data?.is_rb_renewal){
         if (window.innerWidth <= 999) {

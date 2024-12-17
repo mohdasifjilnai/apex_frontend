@@ -761,7 +761,13 @@ export class SharedDataService {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     let transactionId = sessionStorage.getItem('transaction_id');
-    const proposalId = sessionStorage.getItem('proposal_Id');
+    let proposalId:any
+    const BuyNowClick=sessionStorage.getItem('BuyNowClick')
+    if(BuyNowClick=='true'){
+      proposalId = '';
+    }else{
+      proposalId = sessionStorage.getItem('proposal_Id')
+    }
     this.proposalDataItem = {
       transaction_id: transactionId || '',
       insurer_quote_id: this.quoteData?.quote_id || '',
@@ -1026,6 +1032,7 @@ export class SharedDataService {
         (res) => {
           if (res) {
             this.createdProposalId = res;
+            sessionStorage.removeItem('BuyNowClick')
             sessionStorage.setItem('proposal_Id', res?.proposal_id);
             this.sendProposalData(res);
             if (flag === 'ckyc') {
