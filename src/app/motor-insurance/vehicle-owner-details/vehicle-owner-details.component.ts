@@ -196,30 +196,36 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         //   marital_status: proposal?.customer_details?.marital_status,
         //   owner_gender: proposal?.customer_details?.gender,
         // });
-        const filteredValues = {
-          owner_full_Name: proposal?.customer_details?.full_name ?? undefined,
-          owner_email: proposal?.customer_details?.email_id ?? undefined,
-          contact_number: proposal?.customer_details?.mobile_number ?? undefined,
-          owner_gstin: proposal?.customer_details?.gst_no ?? undefined,
-          additional_contact: proposal?.customer_details?.additional_mobile_number ?? undefined,
-          marital_status: proposal?.customer_details?.marital_status ?? undefined,
-          owner_gender: proposal?.customer_details?.gender ?? undefined,
-          owner_communication_addres: proposal?.customer_details?.communication_address?.address_line ?? undefined
+        const customerDetails = proposal?.customer_details || {};
+        Object.keys(customerDetails).forEach(key => {
+          if (customerDetails[key] !== null && customerDetails[key] !== undefined) {
+            let patchValue:any = {};
+            patchValue[key] = customerDetails[key];
+            this.owenerVehicleDetailsForm.patchValue(patchValue);
+          }
+        });
+        const fieldMapping:any = {
+          owner_full_Name: 'full_name',
+          owner_email: 'email_id',
+          contact_number: 'mobile_number',
+          owner_gstin: 'gst_no',
+          additional_contact: 'additional_mobile_number',
+          marital_status: 'marital_status',
+          owner_gender: 'gender',
         };
         
-        // Remove any keys with undefined values
-        const validValues = Object.fromEntries(
-          Object.entries(filteredValues).filter(([_, value]) => value !== undefined)
-        );
-        
-        // Patch the form only with valid values
-        this.owenerVehicleDetailsForm.patchValue(validValues);
-        // if(proposal?.customer_details?.communication_address?.address_line!=null){
-        //   this.owenerVehicleDetailsForm.patchValue({
-        //     owner_communication_addres:
-        //       proposal?.customer_details?.communication_address?.address_line,
-        //   });
-        // }
+        Object.keys(fieldMapping).forEach(formField => {
+          let dataField:any = fieldMapping[formField];
+          if (customerDetails[dataField] !== null && customerDetails[dataField] !== undefined) {
+            this.owenerVehicleDetailsForm.patchValue({ [formField]: customerDetails[dataField] });
+          }
+        });
+        if(customerDetails?.communication_address?.address_line!=null){
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_communication_addres:
+              customerDetails?.communication_address?.address_line,
+          });
+        }
         if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
             if (
