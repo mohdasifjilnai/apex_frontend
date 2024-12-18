@@ -259,11 +259,21 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
+      const is_new_vehcile=sessionStorage.getItem('newVehicleType')
       if(this.quoteData?.insurer_code != 'digit'){
-        if (proposal?.ckyc_details?.is_verification) {
-          this.isDisableCKyc = true;
+        if(is_new_vehcile=='new'){
+          if (proposal?.ckyc_details?.is_verification) {
+            this.isDisableCKyc = false;
+          }else{
+            this.isDisableCKyc=true
+          }
+        }else{
+          this.isDisableCKyc = false;
         }
+      }else{
+        this.isDisableCKyc=false
       }
+      
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
