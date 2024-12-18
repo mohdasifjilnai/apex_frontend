@@ -272,16 +272,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       if (this.quoteData?.insurer_code == 'united_india') {
         if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = false;
-          
         }
       }
-       else if (this.quoteData?.insurer_code == 'digit') {
-        if(this.proposalData?.ckyc_details !=null && this.proposalData?.customer_details!=null){
+     if(proposal?.insurer_code != 'digit'){
+          if (proposal?.ckyc_details?.is_verification) {
+            this.isDisableCKyc = false;
+          }else{
+            this.isDisableCKyc=true
+          }
+      }else{
           this.isDisableCKyc = false;
-        }else{
-          this.isDisableCKyc = true;
-        }
-      } 
+      }
       if(this.proposalData?.ckyc_details==null && this.proposalData?.customer_details==null){
         this.isDisableCKyc=true
       }
@@ -708,36 +709,36 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     //     .get('tp_policy_end_date')
     //     ?.updateValueAndValidity();
     // }
-    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    if (Object.keys(kycData).length > 0) {
-      if (
-        kycData.insurer_code == this.quoteData?.insurer_code &&
-        kycData.verification_status == true
-      ) {
-        this.isDisableCKyc = false;
+    // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    // if (Object.keys(kycData).length > 0) {
+    //   if (
+    //     kycData.insurer_code == this.quoteData?.insurer_code &&
+    //     kycData.verification_status == true
+    //   ) {
+    //     this.isDisableCKyc = false;
         
-      } else if (this.quoteData?.insurer_code === 'digit') {
-        this.isDisableCKyc = false;
+    //   } else if (this.quoteData?.insurer_code === 'digit') {
+    //     this.isDisableCKyc = false;
         
-      } else if (
-        this.fetchedKyc?.verification_status !== null &&
-        this.fetchedKyc?.verification_status !== undefined
-      ) {
-        this.isDisableCKyc = false;
+    //   } else if (
+    //     this.fetchedKyc?.verification_status !== null &&
+    //     this.fetchedKyc?.verification_status !== undefined
+    //   ) {
+    //     this.isDisableCKyc = false;
         
-      } else {
-        this.isDisableCKyc = true;
+    //   } else {
+    //     this.isDisableCKyc = true;
         
-      }
-    }
+    //   }
+    // }
 
-    this.sharedData?.fetchedCkycData.subscribe((kyc) => {
-      if (kyc) {
-        this.fetchedKyc = kyc;
-        this.isDisableCKyc = false;
+    // this.sharedData?.fetchedCkycData.subscribe((kyc) => {
+    //   if (kyc) {
+    //     this.fetchedKyc = kyc;
+    //     this.isDisableCKyc = false;
         
-      }
-    });
+    //   }
+    // });
     this.sharedData?.getRenewalValue.subscribe((data) => {
       if (data) {
         const previousPolicyData=data?.previous_policy_details?.previous_policy_details;
