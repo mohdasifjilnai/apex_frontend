@@ -144,10 +144,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         owner_gender: res?.customer_details?.gender,
         owner_communication_addres:
           res?.customer_details?.communication_address?.address_line,
-        owner_pincode: res?.customer_details?.communication_address?.pincode,
-        owner_city: res?.customer_details?.communication_address?.rb_city_name,
-        owner_state:
-          res?.customer_details?.communication_address?.rb_state_name,
       });
       if (res?.customer_details?.communication_address?.pincode) {
         this.apiService
@@ -156,11 +152,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               res?.customer_details?.communication_address?.pincode
             }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
           )
-          .subscribe((res) => {
+          .subscribe((response) => {
             this.owenerVehicleDetailsForm.patchValue({
-              owner_pincode: res[0],
-              owner_city: res[0].rb_city_name,
-              owner_state: res[0].rb_state_name,
+              owner_pincode: response[0],
+              owner_city: response[0].rb_city_name,
+              owner_state: response[0].rb_state_name,
             });
             this.sharedDataService?.sendOwnnerAddres(
               this.owenerVehicleDetailsForm.valid
@@ -269,6 +265,24 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 owner_pincode: res[0],
                 owner_city: res[0].rb_city_name,
                 owner_state: res[0].rb_state_name,
+              });
+              this.sharedDataService?.sendOwnnerAddres(
+                this.owenerVehicleDetailsForm.valid
+              );
+            });
+        }
+        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null) {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${
+                this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+            )
+            .subscribe((response) => {
+              this.owenerVehicleDetailsForm.patchValue({
+                owner_pincode: response[0],
+                owner_city: response[0].rb_city_name,
+                owner_state: response[0].rb_state_name,
               });
               this.sharedDataService?.sendOwnnerAddres(
                 this.owenerVehicleDetailsForm.valid
