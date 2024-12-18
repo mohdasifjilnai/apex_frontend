@@ -64,6 +64,7 @@ import { RemoveNewlinesDirective } from './directives/remove-newlines.directive'
 import { PayoutInfoComponent } from './components/dialog-components/payout-info/payout-info.component';
 import { RevisedPremiumBreakupComponent } from './components/dialog-components/revised-premium-breakup/revised-premium-breakup.component';
 import { VehicleRegistrationNumberComponent } from './components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
+import { RefreshPageComponent } from './components/dialog-components/refresh-page/refresh-page.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { VehicleRegistrationNumberComponent } from './components/dialog-componen
     PayoutInfoComponent,
     RevisedPremiumBreakupComponent,
     VehicleRegistrationNumberComponent,
+    RefreshPageComponent,
   ],
   imports: [
     CommonModule,

@@ -136,6 +136,8 @@ export class NotCertifiedComponent implements OnInit {
                 this.openModal(sendCommunicationObject, this.otpDialog);
               }
             }
+          },(error)=>{
+            this.loader=false
           });
       } else {
         let sendCommunicationObject = {

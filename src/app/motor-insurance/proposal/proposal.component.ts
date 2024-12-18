@@ -148,18 +148,22 @@ export class ProposalComponent implements OnInit {
         if(sessionStorage.getItem('newVehicleType')!='new' && !renewalType){
         this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
         }
-        this.sharedData.createProposalId();
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+        const BuyNowClick=sessionStorage.getItem('BuyNowClick')
+        if(!BuyNowClick){
+          this.getInsurerQuoteId(this.quoteData?.transaction_id);
+        }else{
+          this.sharedData.createProposalId();
+        }
       } else {
         this.route.url.subscribe((segments) => {
           const urlSegments = segments.map((segment) => segment.path);
           const transactionId = urlSegments[urlSegments.length - 1];
-
           this.getInsurerQuoteId(transactionId);
         });
       }
     }
-
+    
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     // if (kycData?.insurer_code === this.quoteData['insurer_code']) {

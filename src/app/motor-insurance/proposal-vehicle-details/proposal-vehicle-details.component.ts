@@ -259,6 +259,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
+      if(this.quoteData?.insurer_code != 'digit'){
+        if (proposal?.ckyc_details?.is_verification) {
+          this.isDisableCKyc = true;
+        }
+      }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -420,42 +425,42 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       let previous_insurer = JSON.parse(
         sessionStorage.getItem('previous_insurerCode') || ''
       );
-      if (
-        kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
-        sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-        proposal?.ckyc_details?.is_verification
-      ) {
-        this.isDisableCKyc = false;
-      } else if (JSON.parse(this.quoteData)['insurer_code'] == 'united_india') {
-        if (proposal?.ckyc_details?.is_verification) {
-          this.isDisableCKyc = false;
-        }
-      } else if (this.proposalData?.insurer_code == 'digit') {
-        if (
-          this.proposalData?.ckyc_details != null &&
-          this.proposalData?.customer_details != null
-        ) {
-          this.isDisableCKyc = false;
-        } else {
-          this.isDisableCKyc = true;
-        }
-      } else if (previous_insurer == this.proposalData?.insurer_code) {
-        this.isDisableCKyc = false;
-      } else if (
-        sessionStorage.getItem('proposerType') !== undefined &&
-        this.fetchedKyc?.proposer_type !== undefined &&
-        this.fetchedKyc.proposer_type !== null &&
-        sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
-      ) {
-        this.isDisableCKyc = true;
-      } else if (
-        this.fetchedKyc?.verification_status !== null &&
-        this.fetchedKyc?.verification_status !== undefined
-      ) {
-        this.isDisableCKyc = false;
-      } else {
-        this.isDisableCKyc = true;
-      }
+      // if (
+      //   kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
+      //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+      //   proposal?.ckyc_details?.is_verification
+      // ) {
+      //   this.isDisableCKyc = false;
+      // } else if (JSON.parse(this.quoteData)['insurer_code'] == 'united_india') {
+      //   if (proposal?.ckyc_details?.is_verification) {
+      //     this.isDisableCKyc = false;
+      //   }
+      // } else if (this.proposalData?.insurer_code == 'digit') {
+      //   if (
+      //     this.proposalData?.ckyc_details != null &&
+      //     this.proposalData?.customer_details != null
+      //   ) {
+      //     this.isDisableCKyc = false;
+      //   } else {
+      //     this.isDisableCKyc = true;
+      //   }
+      // } else if (previous_insurer == this.proposalData?.insurer_code) {
+      //   this.isDisableCKyc = false;
+      // } else if (
+      //   sessionStorage.getItem('proposerType') !== undefined &&
+      //   this.fetchedKyc?.proposer_type !== undefined &&
+      //   this.fetchedKyc.proposer_type !== null &&
+      //   sessionStorage.getItem('proposerType') !== this.fetchedKyc.proposer_type
+      // ) {
+      //   this.isDisableCKyc = true;
+      // } else if (
+      //   this.fetchedKyc?.verification_status !== null &&
+      //   this.fetchedKyc?.verification_status !== undefined
+      // ) {
+      //   this.isDisableCKyc = false;
+      // } else {
+      //   this.isDisableCKyc = true;
+      // }
     });
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.vehicleType = sessionStorage.getItem('newVehicleType');
@@ -501,31 +506,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.shareData?.nomineeData.subscribe((nominee) => {
       this.isNotShowVehicleDetails = nominee;
     });
-    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    if (Object.keys(kycData).length > 0) {
-      if (
-        kycData.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
-        kycData.verification_status == true
-      ) {
-        this.isDisableCKyc = false;
-      } else if (this.proposalData?.insurer_code == 'digit') {
-        this.isDisableCKyc = false;
-      } else if (
-        this.fetchedKyc?.verification_status !== null &&
-        this.fetchedKyc?.verification_status !== undefined
-      ) {
-        this.isDisableCKyc = false;
-      } else {
-        this.isDisableCKyc = true;
-      }
-    }
+    // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    // if (Object.keys(kycData).length > 0) {
+    //   if (
+    //     kycData.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
+    //     kycData.verification_status == true
+    //   ) {
+    //     this.isDisableCKyc = false;
+    //   } else if (this.proposalData?.insurer_code == 'digit') {
+    //     this.isDisableCKyc = false;
+    //   } else if (
+    //     this.fetchedKyc?.verification_status !== null &&
+    //     this.fetchedKyc?.verification_status !== undefined
+    //   ) {
+    //     this.isDisableCKyc = false;
+    //   } else {
+    //     this.isDisableCKyc = true;
+    //   }
+    // }
 
-    this.shareData?.fetchedCkycData.subscribe((kyc) => {
-      if (kyc) {
-        this.fetchedKyc = kyc;
-        this.isDisableCKyc = false;
-      }
-    });
+    // this.shareData?.fetchedCkycData.subscribe((kyc) => {
+    //   if (kyc) {
+    //     this.fetchedKyc = kyc;
+    //     this.isDisableCKyc = false;
+    //   }
+    // });
     /**
      * disableVehicleDetails is use for handel the button enable and disable in case of previous vehicle details and vehicle details both showing
      */

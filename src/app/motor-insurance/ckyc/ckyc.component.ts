@@ -363,6 +363,7 @@ export class CkycComponent implements OnInit {
       if (this.changeSubmitCkycName) {
         this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
       } else {
+        this.changeSubmitCkycName=false
         this.qoutes_data = JSON.parse(
           sessionStorage.getItem('quotes_data') || '{}'
         );

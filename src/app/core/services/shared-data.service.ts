@@ -15,6 +15,7 @@ import { SnackbarComponent } from 'src/app/shared/components/dialog-components/s
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RefreshPageComponent } from 'src/app/shared/components/dialog-components/refresh-page/refresh-page.component';
 
 @Injectable({
   providedIn: 'root',
@@ -1032,6 +1033,13 @@ export class SharedDataService {
         (res) => {
           if (res) {
             this.createdProposalId = res;
+            if(this.quoteData?.insurer_code!=res?.insurer_code){
+              const dialogRef = this.dialog.open(RefreshPageComponent, {
+                width: 'auto',
+                height: 'auto',
+                panelClass: 'failure-dialog-class',
+              });
+            }
             sessionStorage.removeItem('BuyNowClick')
             sessionStorage.setItem('proposal_Id', res?.proposal_id);
             this.sendProposalData(res);
