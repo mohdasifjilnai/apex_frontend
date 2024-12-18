@@ -260,7 +260,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       const is_new_vehcile=sessionStorage.getItem('newVehicleType')
-      if(this.quoteData?.insurer_code != 'digit'){
+      if(proposal?.insurer_code != 'digit'){
         if(is_new_vehcile=='new'){
           if (proposal?.ckyc_details?.is_verification) {
             this.isDisableCKyc = false;
@@ -273,7 +273,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       }else{
         this.isDisableCKyc=false
       }
-      
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -945,6 +944,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();
+        if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
+          this.proposalVehilceDetailsForm.addControl(
+            'vehicle_state',
+            new FormControl(this.proposalVehilceDetailsForm.get('vehicle_pincode')?.value?.rb_state_name)
+          );
+        }
       if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
         this.apiservice
           .getRequestedResponse(
@@ -953,6 +958,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
           )
           .subscribe((res) => {
+            console.log(res[0].rb_state_name)
             this.proposalVehilceDetailsForm.patchValue({
               vehicle_pincode: res[0],
               vehilce_city: res[0].rb_city_name,
