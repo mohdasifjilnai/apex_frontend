@@ -416,7 +416,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
-        if (this.regNumber && renewalType != 'renewal') {
+        const newVehicleType=sessionStorage.getItem('newVehicleType')
+        if (this.regNumber && renewalType != 'renewal' && newVehicleType!='new') {
           this.apiservice
             .getRequestedResponse(
               `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
