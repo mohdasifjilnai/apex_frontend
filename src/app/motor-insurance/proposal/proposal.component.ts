@@ -144,15 +144,19 @@ export class ProposalComponent implements OnInit {
       //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
       // }
       if (Object.keys(this.quoteData).length > 0) {
-        const renewalType=sessionStorage.getItem('renewalType')
-        if(sessionStorage.getItem('newVehicleType')!='new' && !renewalType){
-        this.getVahaanDetails(sessionStorage.getItem('registrationNumber'))
+        const renewalType = sessionStorage.getItem('renewalType');
+        if (renewalType == 'renewal') {
+          this.isPrevoiusInsurer = true;
+          sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+        }
+        if (sessionStorage.getItem('newVehicleType') != 'new' && !renewalType) {
+          this.getVahaanDetails(sessionStorage.getItem('registrationNumber'));
         }
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
-        const BuyNowClick=sessionStorage.getItem('BuyNowClick')
-        if(!BuyNowClick){
+        const BuyNowClick = sessionStorage.getItem('BuyNowClick');
+        if (!BuyNowClick) {
           this.getInsurerQuoteId(this.quoteData?.transaction_id);
-        }else{
+        } else {
           this.sharedData.createProposalId();
         }
       } else {
@@ -163,7 +167,7 @@ export class ProposalComponent implements OnInit {
         });
       }
     }
-    
+
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     // if (kycData?.insurer_code === this.quoteData['insurer_code']) {
@@ -361,17 +365,17 @@ export class ProposalComponent implements OnInit {
       this.isLoadPreviousPolicyDetails = true;
     }
   }
-  getVahaanDetails(reg_no:any){
+  getVahaanDetails(reg_no: any) {
     this.apiService
-        .getRequestedResponse(
-          `${ApiConstants.registration_number()}?regn_no=${reg_no}`
-        )
-        .subscribe((res: any) => {
-          if (res) {
-            this.sharedData.vahaanDetails(res)
-          }
-        });
-      }
+      .getRequestedResponse(
+        `${ApiConstants.registration_number()}?regn_no=${reg_no}`
+      )
+      .subscribe((res: any) => {
+        if (res) {
+          this.sharedData.vahaanDetails(res);
+        }
+      });
+  }
 
   // step(stepper: any) {
   //   if (stepper == 'ckyc') {
@@ -915,7 +919,8 @@ export class ProposalComponent implements OnInit {
           );
           sessionStorage.setItem(
             'withoutVehicleNumber',
-            response.quote_request?.meta_data?.mmv_form_data?.withoutVehicleNumber
+            response.quote_request?.meta_data?.mmv_form_data
+              ?.withoutVehicleNumber
           );
           if (this.getInsurerData?.quote_request?.trace_id) {
             let traceId = {
@@ -930,7 +935,7 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.partner_code
             );
           }
-          
+
           this.getNcbList(response.quote_request);
           this.getRTOData('rto_code', response?.quote_request.rb_rto_code);
           this.sharedData.getInsurerDetail(response);
@@ -985,7 +990,7 @@ export class ProposalComponent implements OnInit {
                     'RenewalPreviousDetails',
                     JSON.stringify(res)
                   );
-                  this.sharedData.getRenewalData(res)
+                  this.sharedData.getRenewalData(res);
                   this.sharedData?.getAddressValidation(
                     this.quoteData?.insurer_code
                   );
@@ -994,8 +999,12 @@ export class ProposalComponent implements OnInit {
                 }
               });
           }
-          if(sessionStorage.getItem('withoutVehicleNumber')=='true' && response?.quote_request?.registration_no!=null && !response?.quote_request?.is_rb_renewal){
-            this.getVahaanDetails(response?.quote_request?.registration_no)
+          if (
+            sessionStorage.getItem('withoutVehicleNumber') == 'true' &&
+            response?.quote_request?.registration_no != null &&
+            !response?.quote_request?.is_rb_renewal
+          ) {
+            this.getVahaanDetails(response?.quote_request?.registration_no);
           }
           const regNo = response?.quote_request?.registration_no;
           if (regNo) {
