@@ -559,7 +559,10 @@ export class QuotesListingComponent implements OnInit {
       sessionStorage.setItem('renewalType', 'renewal');
     }
     sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
-
+    const registrationNumber=sessionStorage.getItem('registrationNumber')
+    if(is_new_vehcile=='new' && registrationNumber){
+      sessionStorage.removeItem('registrationNumber')
+    }
     sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
     const transactionId = sessionStorage.getItem('transaction_id');
 
