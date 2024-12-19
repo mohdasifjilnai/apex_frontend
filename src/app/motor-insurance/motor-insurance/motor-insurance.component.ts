@@ -725,7 +725,8 @@ export class MotorInsuranceComponent implements OnInit {
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
     this.motorInsurance.reset();
-
+    this.vehicleResponse = null;
+    this.rtoResponse = null;
     if (this.isPolicyNumber) {
       setTimeout(() => {
         this.motorInsurance
