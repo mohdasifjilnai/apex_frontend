@@ -461,6 +461,26 @@ export class VehicleDetailsPopupComponent implements OnInit {
       sessionStorage.getItem('RenewalPreviousDetails') || '{}'
     );
     this.vehicleDetailsFormControler();
+    let coverageType = JSON.parse(
+      sessionStorage.getItem('coverageType') || '{}'
+    );
+    if(this.renewalType=='renewal'){
+      if (coverageType ) {
+        this.vehicleDetailsForm.patchValue({
+          policy_expiry: coverageType.coverage_type_code,
+        });
+        this.coverageTypeName = coverageType.coverage_policy_type;
+        this.showErrorMessage = false;
+        this.hideFieldOnExpiryPolicy(coverageType?.coverage_type_code);
+        this.getNcbList();
+        this.disablevisually();
+      } else {
+        this.vehicleDetailsForm.patchValue({
+          policy_expiry: '',
+        });
+        this.coverageTypeName = '';
+      }
+    }
   }
 
   disablevisually() {
@@ -477,6 +497,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         'manufacture_date',
         'registration_date',
         'policy_expiry_date',
+        'previous_insurer'
       ],
       this.vehicleDetailsForm
     );
@@ -1949,9 +1970,7 @@ Get the expiring policy list based on the given date or the registration details
                 this.vehicleDetailsForm.patchValue({
                   policy_expiry: coverageType.coverage_type_code,
                 });
-
                 this.coverageTypeName = coverageType.coverage_policy_type;
-
                 this.showErrorMessage = false;
                 this.hideFieldOnExpiryPolicy(coverageType?.coverage_type_code);
                 this.getNcbList();

@@ -595,6 +595,7 @@ export class MotorInsuranceComponent implements OnInit {
           }
           sessionStorage.setItem('mmvId', res?.vehicle_details?.rb_mmv_id);
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
           sessionStorage.setItem('renewalPolicyNumber', res?.previous_policy_details?. previous_policy_details?.policy_no);
           sessionStorage.setItem(
             'previousInsurer',

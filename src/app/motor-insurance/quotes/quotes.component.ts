@@ -543,6 +543,7 @@ export class QuotesComponent implements OnInit {
                     'RenewalPreviousDetails',
                     JSON.stringify(res)
                   );
+                  sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
                   this.shareDataService.getRenewalData(res)
                 }
               });

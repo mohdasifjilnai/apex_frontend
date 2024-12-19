@@ -1287,6 +1287,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
           this.previousDetails = sessionStorage.getItem(
             'RenewalPreviousDetails'
           );
