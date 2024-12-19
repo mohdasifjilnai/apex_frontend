@@ -424,9 +424,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             )
             .subscribe((res: any) => {
               if (res) {
+                let regFirstDigit = this.regNumber?.slice(0, 2);
+                let regSecondDigit = this.regNumber?.slice(3, 5);
+                let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
+                let regLastDigit = this.regNumber.split(combineRegData);
                 this.proposalVehilceDetailsForm.patchValue({
                   chassis_number: res?.chassis_number,
                   engine_number: res?.engine_number,
+                  registration_number_last_digit: regLastDigit[1],
                 });
               }
             });

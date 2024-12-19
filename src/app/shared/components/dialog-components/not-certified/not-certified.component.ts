@@ -138,6 +138,7 @@ export class NotCertifiedComponent implements OnInit {
             }
           },(error)=>{
             this.loader=false
+            this.dialogRef.close();
           });
       } else {
         let sendCommunicationObject = {
