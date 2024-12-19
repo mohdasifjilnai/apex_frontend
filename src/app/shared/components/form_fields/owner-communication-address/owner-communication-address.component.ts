@@ -48,6 +48,22 @@ export class OwnerCommunicationAddressComponent implements OnInit {
         this.maxLength = errData?.max_length;
         // this.isNotShowErrorMsg = true;
         if (this.maxLength) {
+          if (!this.form.get('owner_communication_addres')) {
+            this.form.addControl(
+              'owner_communication_addres',
+              new FormControl(null, [
+                Validators.required,
+                Validators.minLength(10),
+              ])
+            );
+          }
+
+          let addressValue = this.form.get('owner_communication_addres')?.value;
+          if (addressValue.length > this.maxLength) {
+            this.isNotShowErrorMsg = true;
+          } else {
+            this.isNotShowErrorMsg = false;
+          }
           this.form
             .get('owner_communication_addres')
             ?.valueChanges.subscribe((res) => {

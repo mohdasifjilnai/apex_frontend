@@ -132,10 +132,10 @@ export class CkycComponent implements OnInit {
     if (this.quoteData?.insurer_code) {
       this.getDocumentType();
     }
-    if(sessionStorage.getItem('withoutVehicleNumber')=='true'){
+    if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
       this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
         this.ckycFormGroup.patchValue({
-          document_number_based_field:res?.customer_details?.pan_number,
+          document_number_based_field: res?.customer_details?.pan_number,
           dob: res?.customer_details?.dob,
         });
       });
@@ -149,7 +149,8 @@ export class CkycComponent implements OnInit {
           if (proposal?.ckyc_details?.is_verification) {
             this.isDisableCKyc = true;
           }
-        }if (proposal?.ckyc_details?.is_verification) {
+        }
+        if (proposal?.ckyc_details?.is_verification) {
           this.isDisableCKyc = true;
         }
         this.isCkycDone = true;
@@ -210,8 +211,8 @@ export class CkycComponent implements OnInit {
         // } else if (previous_insurer == this.proposalData?.insurer_code) {
         //   this.isDisableCKyc = true;
         // }
-      }else{
-        this.isDisableCKyc=false
+      } else {
+        this.isDisableCKyc = false;
       }
     });
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
@@ -255,7 +256,7 @@ export class CkycComponent implements OnInit {
               this.previousDetails = sessionStorage.getItem(
                 'RenewalPreviousDetails'
               );
-              this.sharedDataService.getRenewalData(res)
+              this.sharedDataService.getRenewalData(res);
               this.details = JSON.parse(this.previousDetails);
               const ckycDetails =
                 this.details?.previous_policy_details?.ckyc_details;
@@ -363,7 +364,7 @@ export class CkycComponent implements OnInit {
       if (this.changeSubmitCkycName) {
         this.sharedDataService?.createProposalId('ckyc', this.ckycFormGroup);
       } else {
-        this.changeSubmitCkycName=false
+        this.changeSubmitCkycName = false;
         this.qoutes_data = JSON.parse(
           sessionStorage.getItem('quotes_data') || '{}'
         );
@@ -478,7 +479,9 @@ export class CkycComponent implements OnInit {
       .subscribe((res) => {
         this.documentList = res;
         if (this.documentList.length > 0) {
-          this.ckycFormGroup.get('document_type_based_field')?.setValue(this.documentList[0].document_code);
+          this.ckycFormGroup
+            .get('document_type_based_field')
+            ?.setValue(this.documentList[0].document_code);
         }
         if (
           this.documentList &&
@@ -551,10 +554,12 @@ export class CkycComponent implements OnInit {
       if (data == undefined) {
         this.isCkycDone = false;
       }
-      if (!data['error']) {
-        this.isCkycDone = true;
-        this.afterProceedGetData.emit(data);
-        this.sharedDataService.kycFetched(data);
+      if (data != undefined) {
+        if (!data['error']) {
+          this.isCkycDone = true;
+          this.afterProceedGetData.emit(data);
+          this.sharedDataService.kycFetched(data);
+        }
       }
     });
   }
