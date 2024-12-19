@@ -271,7 +271,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               );
             });
         }
-        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null) {
+        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='') {
           this.apiService
             .getRequestedResponse(
               `${ApiConstants.pincode}?pincode=${
