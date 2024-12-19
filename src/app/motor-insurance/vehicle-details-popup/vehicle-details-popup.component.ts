@@ -147,8 +147,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
   policyTypeBaseNCB: any;
   isEditable: any;
   mmvFromValue: any;
-  showErrorMessage: boolean=true;
-  showExpiryDateErrorMessage: boolean=false;
+  showErrorMessage: boolean = true;
+  showExpiryDateErrorMessage: boolean = false;
   visuallyDisabledFields: any = false;
 
   constructor(
@@ -227,7 +227,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   changeRegNumber: any;
   registrationNumber: any;
   dataWithoutRegistration: any;
-  previousRenewalData:any;
+  previousRenewalData: any;
   ngOnInit(): void {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.showSelectedFuelandCapacity = false;
@@ -235,10 +235,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (expiryPolicy === 'bundled_tp') {
       this.hideFieldOnExpiryPolicy('bundled_tp');
     }
-    if(expiryPolicy === ''){
-      this.showErrorMessage=true
-    }else{
-      this.showErrorMessage=false
+    if (expiryPolicy === '') {
+      this.showErrorMessage = true;
+    } else {
+      this.showErrorMessage = false;
     }
     this.sharedDataService.getValueWithoutRegistration.subscribe((res) => {
       this.dataWithoutRegistration = res;
@@ -272,7 +272,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.sharedDataService.changePolicyExpDate.subscribe((res) => {
       if (this.url == 'quotes') {
         let policyExpDateValue = new Date(res.value);
-        this.showExpiryDateErrorMessage=false
+        this.showExpiryDateErrorMessage = false;
         this.getExpiringPolicy(
           this.regDateValue,
           policyExpDateValue,
@@ -397,10 +397,15 @@ export class VehicleDetailsPopupComponent implements OnInit {
             this.registrationNumber.rb_mmv_id,
             ''
           );
-          sessionStorage.setItem('registrationDetails',JSON.stringify(renewalregistartionnumber))
+          sessionStorage.setItem(
+            'registrationDetails',
+            JSON.stringify(renewalregistartionnumber)
+          );
           this.getRTOData('rto_code', this.registrationNumber.rb_rto_code);
-        }else {
-          this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '');
+        } else {
+          this.registrationNumber = JSON.parse(
+            sessionStorage.getItem('registrationDetails') || ''
+          );
           this.getVehicleDetailsPopup(
             '',
             '',
@@ -410,7 +415,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
           );
           this.getRTOData('rto_code', this.registrationNumber.rb_rto_code);
         }
-        
       }
     );
 
@@ -453,25 +457,29 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     // this.getPolicyExpiryList();
     this.renewalType = sessionStorage.getItem('renewalType');
-    this.previousRenewalData = JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') || '{}');
+    this.previousRenewalData = JSON.parse(
+      sessionStorage.getItem('RenewalPreviousDetails') || '{}'
+    );
     this.vehicleDetailsFormControler();
   }
 
-  disablevisually(){
-    this.visuallyDisabledFields = this.sharedDataService.disableVisually([
-      'vehicle_make',
-      'vehicle_model',
-      'vehicle_variant',
-      'vehicle_fuel',
-      'registration_city',
-      'policy_expiry',
-      'ncb_discount',
-      'user_car',
-      'manufacture_date',
-      'registration_date',
-      'policy_expiry_date'
-    ], this.vehicleDetailsForm);    
-
+  disablevisually() {
+    this.visuallyDisabledFields = this.sharedDataService.disableVisually(
+      [
+        'vehicle_make',
+        'vehicle_model',
+        'vehicle_variant',
+        'vehicle_fuel',
+        'registration_city',
+        'policy_expiry',
+        'ncb_discount',
+        'user_car',
+        'manufacture_date',
+        'registration_date',
+        'policy_expiry_date',
+      ],
+      this.vehicleDetailsForm
+    );
   }
   /**
    * Initialize the form using FormBuilder
@@ -681,7 +689,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     sessionStorage.setItem('mmv_data', vehicleFrom);
     sessionStorage.removeItem('allNCBDataProposal');
-    sessionStorage.removeItem('proposal_Id')
+    sessionStorage.removeItem('proposal_Id');
     this.sharedDataService.vehicleCardData(vehicleFrom);
   }
 
@@ -695,7 +703,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&search_element=${name}`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${
+            this.vehicleTypeValue
+          }&search_element=${name}`
         )
         .subscribe(
           (res) => {
@@ -1131,10 +1141,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
         // this.vehicleDetailsForm.patchValue({
         //   ncb_discount: this.vehicleAllData?.renewalNCBDiscount,
         // });
-        let ncb_count = this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+        let ncb_count =
+          this.previousRenewalData?.vehicle_details?.previous_year_ncb;
         this.vehicleDetailsForm.get('ncb_discount')?.setValue(ncb_count);
       } else {
-        if(allData!=null){
+        if (allData != null) {
           this.vehicleDetailsForm.patchValue({
             ncb_discount: allData?.ncb_discount,
           });
@@ -1180,7 +1191,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
         let policyExpiryDateValue;
         let policyDate = '';
         if (!policyExpiryDate) {
-        if (this.registrationNumber?.previous_policy_exp_date !='NA' && this.registrationNumber?.previous_policy_exp_date !='' && this.registrationNumber?.previous_policy_exp_date!=undefined && this.registrationNumber?.previous_policy_exp_date!=null) {
+          if (
+            this.registrationNumber?.previous_policy_exp_date != 'NA' &&
+            this.registrationNumber?.previous_policy_exp_date != '' &&
+            this.registrationNumber?.previous_policy_exp_date != undefined &&
+            this.registrationNumber?.previous_policy_exp_date != null
+          ) {
             policyExpiryDateValue = new Date(
               this.registrationNumber?.previous_policy_exp_date
             );
@@ -1189,8 +1205,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
               this.registrationNumber?.previous_policy_exp_date,
               'DD-MM-YYYY'
             ).format('DD/MM/YYYY');
-          }else if(this.registrationNumber?.previous_policy_exp_date=='NA' || this.registrationNumber?.previous_policy_exp_date=='' || this.registrationNumber?.previous_policy_exp_date==undefined || this.registrationNumber?.previous_policy_exp_date==null){
-            policyDate=''
+          } else if (
+            this.registrationNumber?.previous_policy_exp_date == 'NA' ||
+            this.registrationNumber?.previous_policy_exp_date == '' ||
+            this.registrationNumber?.previous_policy_exp_date == undefined ||
+            this.registrationNumber?.previous_policy_exp_date == null
+          ) {
+            policyDate = '';
           }
         } else {
           policyDate = moment(policyExpiryDate, 'DD-MM-YYYY').format(
@@ -1394,7 +1415,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
               });
             }
           }
-          let ncb_count = this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+          let ncb_count =
+            this.previousRenewalData?.vehicle_details?.previous_year_ncb;
           if (ncb_count != null) {
             this.vehicleDetailsForm.patchValue({
               ncb_discount: ncb_count,
@@ -1448,6 +1470,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.vehicleDetailsForm.value?.policy_expiry
       );
     }
+
+    console.log(this.vehicleDetailsForm);
   }
   /**
    *
@@ -1790,9 +1814,9 @@ Get the expiring policy list based on the given date or the registration details
         this.mmvBaseButtonDisable = false;
       } else {
         let renewalType = sessionStorage.getItem('renewalType');
-        if (!renewalType) {
-          this.mmvBaseButtonDisable = true;
-        }
+        // if (!renewalType) {
+        //   this.mmvBaseButtonDisable = true;
+        // }
       }
     } else {
       this.vehicleModelOninit = false;
@@ -1849,9 +1873,9 @@ Get the expiring policy list based on the given date or the registration details
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     if (id) {
-      if(this.vehicleTypeValue=='commercial_vehicle'){
+      if (this.vehicleTypeValue == 'commercial_vehicle') {
         apiData = `?rb_mmv_id=${id}&vehicle_type=gcv`;
-      }else{
+      } else {
         apiData = `?product_name=${this.vehicleTypeValue}&rb_mmv_id=${id}`;
       }
     } else {
@@ -1945,15 +1969,19 @@ Get the expiring policy list based on the given date or the registration details
             ) {
               let manufactureDate = `${this.registrationNumber?.manufactured_month}/01/${this.registrationNumber?.manufactured_year}`;
               let manufacturedateObj = moment(manufactureDate, 'MM/YYYY');
-              const registrationYear = this.registrationNumber?.registration_year;
-              const manufacturedYear = this.registrationNumber?.manufactured_year;
+              const registrationYear =
+                this.registrationNumber?.registration_year;
+              const manufacturedYear =
+                this.registrationNumber?.manufactured_year;
 
-              if (manufacturedYear >= (registrationYear - 4) && manufacturedYear <= (registrationYear)) {
+              if (
+                manufacturedYear >= registrationYear - 4 &&
+                manufacturedYear <= registrationYear
+              ) {
                 this.vehicleDetailsForm.patchValue({
                   manufacture_date: new Date(manufactureDate),
                 });
               }
-
             }
             if (this.registrationNumber?.previous_policy_exp_date) {
               let inputDate = this.registrationNumber?.previous_policy_exp_date;
@@ -1965,13 +1993,17 @@ Get the expiring policy list based on the given date or the registration details
               let futureDate = new Date();
               this.renewalType = sessionStorage.getItem('renewalType');
               const previousInsurer = sessionStorage.getItem('previousInsurer');
-              if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')){
+              if (
+                (this.renewalType === 'rollover' ||
+                  this.renewalType == 'renewal') &&
+                (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')
+              ) {
                 futureDate.setDate(currentDate.getDate() + 91);
-              }else{
+              } else {
                 futureDate.setDate(currentDate.getDate() + 60);
               }
               if (parsedInputDate > futureDate) {
-                this.showExpiryDateErrorMessage=true
+                this.showExpiryDateErrorMessage = true;
               } else {
                 if (!this.vehiclePopupList) {
                   this.vehicleDetailsForm.patchValue({
@@ -2390,7 +2422,9 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${name}&model=&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${
+            this.vehicleTypeValue
+          }&make=${name}&model=&variant=`
         )
         .subscribe(
           (res) => {
@@ -2442,7 +2476,9 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${name}&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${
+            this.vehicleTypeValue
+          }&make=${selectedMakeValue}&model=${name}&variant=`
         )
         .subscribe(
           (res) => {
@@ -2497,7 +2533,9 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${selectedMakeValue}&model=${selectedModalValue}&variant=${name}`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${
+            this.vehicleTypeValue
+          }&make=${selectedMakeValue}&model=${selectedModalValue}&variant=${name}`
         )
         .subscribe(
           (res: any) => {
@@ -2558,7 +2596,9 @@ Get the expiring policy list based on the given date or the registration details
       this.renderer.removeClass(document.body, 'dropdown-focus');
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.get_vehicle_mmv()}?product_name=${this.vehicleTypeValue}&make=${this.modelSelected}&model=${name}&variant=`
+          `${ApiConstants.get_vehicle_mmv()}?product_name=${
+            this.vehicleTypeValue
+          }&make=${this.modelSelected}&model=${name}&variant=`
         )
         .subscribe(
           (res) => {
