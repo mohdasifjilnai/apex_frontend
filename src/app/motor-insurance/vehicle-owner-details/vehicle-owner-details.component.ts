@@ -271,24 +271,24 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               );
             });
         }
-        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='' && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=undefined) {
-          this.apiService
-            .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-            )
-            .subscribe((response) => {
-              this.owenerVehicleDetailsForm.patchValue({
-                owner_pincode: response[0],
-                owner_city: response[0].rb_city_name,
-                owner_state: response[0].rb_state_name,
-              });
-              this.sharedDataService?.sendOwnnerAddres(
-                this.owenerVehicleDetailsForm.valid
-              );
-            });
-        }
+        // if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='' && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=undefined) {
+        //   this.apiService
+        //     .getRequestedResponse(
+        //       `${ApiConstants.pincode}?pincode=${
+        //         this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
+        //       }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+        //     )
+        //     .subscribe((response) => {
+        //       this.owenerVehicleDetailsForm.patchValue({
+        //         owner_pincode: response[0],
+        //         owner_city: response[0].rb_city_name,
+        //         owner_state: response[0].rb_state_name,
+        //       });
+        //       this.sharedDataService?.sendOwnnerAddres(
+        //         this.owenerVehicleDetailsForm.valid
+        //       );
+        //     });
+        // }
       }
       if (proposal?.ckyc_details !== null) {
         if (proposal?.ckyc_details?.document_type == 'pan_number') {

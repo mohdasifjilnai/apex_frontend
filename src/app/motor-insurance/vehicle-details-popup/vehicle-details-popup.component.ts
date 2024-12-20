@@ -1492,7 +1492,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
       );
     }
 
-    console.log(this.vehicleDetailsForm);
   }
   /**
    *
