@@ -540,16 +540,15 @@ export class QuotesListingComponent implements OnInit {
     const vehcileWithoutRegistration=sessionStorage.getItem('withoutVehicleNumber')
     const proposal_id=sessionStorage.getItem('proposal_Id')
     sessionStorage.setItem('BuyNowClick','true')
-    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true' && proposal_id==undefined){
-      if(!quotes_data?.is_rb_renewal){
-        if (window.innerWidth <= 999) {
-          const bottomSheetConfig: MatBottomSheetConfig = {
-            data: quotes_data
-          };
-          this.bottomSheet.open(VehicleRegistrationNumberComponent,bottomSheetConfig);
-        } else {
-          this.openModal(quotes_data, this.vehicleRegistrationNUmber);
-        }
+    const is_renewal=sessionStorage.getItem('renewalType')
+    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true' && proposal_id==undefined && is_renewal!='renewal'){
+      if (window.innerWidth <= 999) {
+        const bottomSheetConfig: MatBottomSheetConfig = {
+          data: quotes_data
+        };
+        this.bottomSheet.open(VehicleRegistrationNumberComponent,bottomSheetConfig);
+      } else {
+        this.openModal(quotes_data, this.vehicleRegistrationNUmber);
       }
     }else{
       this.isPrevoiusInsurer = false;

@@ -255,6 +255,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('coverageType');
     sessionStorage.removeItem('alreadyCalled');
     sessionStorage.removeItem('isRbRenewal');
+    sessionStorage.removeItem('BuyNowClick');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
