@@ -4,6 +4,8 @@ import { SseService } from './core/services/sse.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
+declare const webengage: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,11 +20,13 @@ export class AppComponent implements OnInit {
   constructor(
     private sseService: SseService,
     private loaderService: LoaderService,
-    private router:Router,
+    private router: Router,
     private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
+    webengage.init('in~~10a5cbbcb');
+    webengage.track('TestEvent', { key: 'value' });
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
       if (!isLoading) {
@@ -32,7 +36,7 @@ export class AppComponent implements OnInit {
     const currentUrl = window.location.href;
     const url = new URL(currentUrl);
     let hostParts = url.pathname.split('/');
-    if(hostParts[5]!='review'){
+    if (hostParts[5] != 'review') {
       if (sessionStorage.getItem('proposal_punched')) {
         this.router.navigate(['']);
       }
@@ -104,7 +108,11 @@ export class AppComponent implements OnInit {
   addGtmNoScriptToBody() {
     const noscript = this.renderer.createElement('noscript');
     const iframe = this.renderer.createElement('iframe');
-    this.renderer.setAttribute(iframe, 'src', 'https://www.googletagmanager.com/ns.html?id=GTM-MGJ88B');
+    this.renderer.setAttribute(
+      iframe,
+      'src',
+      'https://www.googletagmanager.com/ns.html?id=GTM-MGJ88B'
+    );
     this.renderer.setAttribute(iframe, 'height', '0');
     this.renderer.setAttribute(iframe, 'width', '0');
     this.renderer.setStyle(iframe, 'display', 'none');
