@@ -271,7 +271,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               );
             });
         }
-        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='') {
+        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='' && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=undefined) {
           this.apiService
             .getRequestedResponse(
               `${ApiConstants.pincode}?pincode=${
@@ -347,40 +347,40 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           this.vehicleOwnerName = true;
         }
       }
-      if (ckycData) {
-        if (ckycData?.customer_details?.pincode) {
-          this.apiService
-            .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                ckycData?.customer_details?.pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-            )
-            .subscribe((res) => {
-              this.owenerVehicleDetailsForm.patchValue({
-                owner_pincode: res[0],
-                owner_city: res[0].rb_city_name,
-                owner_state: res[0].rb_state_name,
-              });
-            });
-        }
+      // if (ckycData) {
+      //   if (ckycData?.customer_details?.pincode) {
+      //     this.apiService
+      //       .getRequestedResponse(
+      //         `${ApiConstants.pincode}?pincode=${
+      //           ckycData?.customer_details?.pincode
+      //         }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+      //       )
+      //       .subscribe((res) => {
+      //         this.owenerVehicleDetailsForm.patchValue({
+      //           owner_pincode: res[0],
+      //           owner_city: res[0].rb_city_name,
+      //           owner_state: res[0].rb_state_name,
+      //         });
+      //       });
+      //   }
 
-        this.owenerVehicleDetailsForm.patchValue({
-          owner_full_Name: ckycData?.customer_details?.full_name,
-          owner_email: ckycData?.customer_details?.email,
-          contact_number: ckycData?.customer_details?.mobile_number,
-          // owner_communication_addres: ckycData?.customer_details?.address,
-          owner_city: ckycData?.customer_details?.rb_city_name,
-          owner_state: ckycData?.customer_details?.rb_state_name,
-          owner_gender: ckycData?.customer_details?.gender,
-          // owner_pincode : ckycData?.customer_details?.pincode
-        });
-        if(ckycData?.customer_details?.communication_address?.address_line!=null){
-          this.owenerVehicleDetailsForm.patchValue({
-            owner_communication_addres:
-              ckycData?.customer_details?.communication_address?.address_line,
-          });
-        }
-      }
+      //   this.owenerVehicleDetailsForm.patchValue({
+      //     owner_full_Name: ckycData?.customer_details?.full_name,
+      //     owner_email: ckycData?.customer_details?.email,
+      //     contact_number: ckycData?.customer_details?.mobile_number,
+      //     // owner_communication_addres: ckycData?.customer_details?.address,
+      //     owner_city: ckycData?.customer_details?.rb_city_name,
+      //     owner_state: ckycData?.customer_details?.rb_state_name,
+      //     owner_gender: ckycData?.customer_details?.gender,
+      //     // owner_pincode : ckycData?.customer_details?.pincode
+      //   });
+      //   if(ckycData?.customer_details?.communication_address?.address_line!=null){
+      //     this.owenerVehicleDetailsForm.patchValue({
+      //       owner_communication_addres:
+      //         ckycData?.customer_details?.communication_address?.address_line,
+      //     });
+      //   }
+      // }
     });
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
@@ -456,39 +456,39 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
     if (kycData?.customer_details) {
-      this.owenerVehicleDetailsForm.patchValue({
-        owner_full_Name: kycData?.customer_details?.full_name,
-        owner_email: kycData?.customer_details?.email,
-        contact_number: kycData?.customer_details?.mobile_number,
-        // owner_communication_addres: kycData?.customer_details?.address,
-        owner_city: kycData?.customer_details?.rb_city_name,
-        owner_state: kycData?.customer_details?.rb_state_name,
-        owner_gender: kycData?.customer_details?.gender,
-      });
-      if(kycData?.customer_details?.communication_address?.address_line!=null){
-        this.owenerVehicleDetailsForm.patchValue({
-          owner_communication_addres:
-            kycData?.customer_details?.communication_address?.address_line,
-        });
-      }
-      if (kycData?.customer_details?.pincode) {
-        this.apiService
-          .getRequestedResponse(
-            `${ApiConstants.pincode}?pincode=${
-              kycData?.customer_details?.pincode
-            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-          )
-          .subscribe((res) => {
-            this.owenerVehicleDetailsForm.patchValue({
-              owner_pincode: res[0],
-              owner_city: res[0].rb_city_name,
-              owner_state: res[0].rb_state_name,
-            });
-            this.sharedDataService?.sendOwnnerAddres(
-              this.owenerVehicleDetailsForm.valid
-            );
-          });
-      }
+      // this.owenerVehicleDetailsForm.patchValue({
+      //   owner_full_Name: kycData?.customer_details?.full_name,
+      //   owner_email: kycData?.customer_details?.email,
+      //   contact_number: kycData?.customer_details?.mobile_number,
+      //   // owner_communication_addres: kycData?.customer_details?.address,
+      //   owner_city: kycData?.customer_details?.rb_city_name,
+      //   owner_state: kycData?.customer_details?.rb_state_name,
+      //   owner_gender: kycData?.customer_details?.gender,
+      // });
+      // if(kycData?.customer_details?.communication_address?.address_line!=null){
+      //   this.owenerVehicleDetailsForm.patchValue({
+      //     owner_communication_addres:
+      //       kycData?.customer_details?.communication_address?.address_line,
+      //   });
+      // }
+      // if (kycData?.customer_details?.pincode) {
+      //   this.apiService
+      //     .getRequestedResponse(
+      //       `${ApiConstants.pincode}?pincode=${
+      //         kycData?.customer_details?.pincode
+      //       }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+      //     )
+      //     .subscribe((res) => {
+      //       this.owenerVehicleDetailsForm.patchValue({
+      //         owner_pincode: res[0],
+      //         owner_city: res[0].rb_city_name,
+      //         owner_state: res[0].rb_state_name,
+      //       });
+      //       this.sharedDataService?.sendOwnnerAddres(
+      //         this.owenerVehicleDetailsForm.valid
+      //       );
+      //     });
+      // }
       if (this.renewalType === 'renewal') {
         if (kycData?.customer_details?.full_name) {
           this.vehicleOwnerName = true;
