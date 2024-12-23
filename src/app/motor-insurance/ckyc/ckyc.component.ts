@@ -483,7 +483,7 @@ export class CkycComponent implements OnInit {
             .get('document_type_based_field')
             ?.setValue(this.documentList[0].document_code);
         }
-        this.getDocumentTypeValue(this.documentList[0].document_code)
+        // this.getDocumentTypeValue(this.documentList[0].document_code)
         if (
           this.documentList &&
           this.proposalData?.ckyc_details?.document_type
