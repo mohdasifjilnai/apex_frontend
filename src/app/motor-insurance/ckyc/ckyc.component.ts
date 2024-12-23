@@ -74,6 +74,7 @@ export class CkycComponent implements OnInit {
   showFullName: boolean = false;
   previousDetails: any;
   details: any;
+  selectedDocument: any;
 
   constructor(
     private formBuild: FormBuilder,
@@ -483,7 +484,8 @@ export class CkycComponent implements OnInit {
             .get('document_type_based_field')
             ?.setValue(this.documentList[0].document_code);
         }
-        // this.getDocumentTypeValue(this.documentList[0].document_code)
+        this.selectedDocument=this.documentList[0].document_code
+        this.getDocumentTypeValue(this.documentList[0].document_code)
         if (
           this.documentList &&
           this.proposalData?.ckyc_details?.document_type
@@ -634,12 +636,14 @@ export class CkycComponent implements OnInit {
         Validators.pattern(/^[A-Za-z0-9]{30}$/),
       ]);
     }
-    this.ckycFormGroup.patchValue({
+    if(this.selectedDocument!=event){
+      this.ckycFormGroup.patchValue({
       document_number_based_field: '',
       dob: '',
       ckyc_full_name: '',
       ckyc_gender: '',
     });
+    }
     if (this.documentName == 'aadhaar_number') {
       this.ckycFormGroup
         .get('ckyc_full_name')
