@@ -464,8 +464,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     let coverageType = JSON.parse(
       sessionStorage.getItem('coverageType') || '{}'
     );
-    if(this.renewalType=='renewal'){
-      if (coverageType ) {
+    if (this.renewalType == 'renewal') {
+      if (coverageType) {
         this.vehicleDetailsForm.patchValue({
           policy_expiry: coverageType.coverage_type_code,
         });
@@ -497,7 +497,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         'manufacture_date',
         'registration_date',
         'policy_expiry_date',
-        'previous_insurer'
+        'previous_insurer',
       ],
       this.vehicleDetailsForm
     );
@@ -704,6 +704,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     } else {
       // this.vehicleDetailsForm.value.policy_expiry = '';
       this.vehicleDetailsForm.value.offeredNCBValue = '';
+      this.vehicleDetailsForm.value.policy_expiry = '';
     }
 
     vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
@@ -1491,7 +1492,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.vehicleDetailsForm.value?.policy_expiry
       );
     }
-
   }
   /**
    *
