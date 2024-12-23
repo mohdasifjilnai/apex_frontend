@@ -244,11 +244,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 res?.vehicle_details?.registration_address?.pincode
               }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
-            .subscribe((res) => {
+            .subscribe((response) => {
               this.proposalVehilceDetailsForm.patchValue({
-                vehicle_pincode: res[0],
-                vehilce_city: res[0].rb_city_name,
-                vehicle_state: res[0].rb_state_name,
+                vehicle_pincode: response[0],
+                vehilce_city: response[0].rb_city_name,
+                vehicle_state: response[0].rb_state_name,
               });
               this.shareData?.sendOwnnerAddres(
                 this.proposalVehilceDetailsForm.valid
@@ -1348,11 +1348,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                     vehicleDetails?.registration_address?.pincode
                   }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
                 )
-                .subscribe((res) => {
+                .subscribe((response) => {
                   this.proposalVehilceDetailsForm.patchValue({
-                    vehicle_pincode: res[0],
-                    vehilce_city: res[0].rb_city_name,
-                    vehicle_state: res[0].rb_state_name,
+                    vehicle_pincode: response[0],
+                    vehilce_city: response[0].rb_city_name,
+                    vehicle_state: response[0].rb_state_name,
                   });
                   this.shareData?.sendOwnnerAddres(
                     this.proposalVehilceDetailsForm.valid

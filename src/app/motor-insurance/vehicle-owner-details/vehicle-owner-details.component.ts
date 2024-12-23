@@ -272,10 +272,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             });
         }
         if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='' && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=undefined) {
+          let pincodeValue
+          if(typeof(this.owenerVehicleDetailsForm.get('owner_pincode')?.value)=='object'){
+            pincodeValue=this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
+          }else{
+            pincodeValue=this.owenerVehicleDetailsForm.get('owner_pincode')?.value
+          }
           this.apiService
             .getRequestedResponse(
               `${ApiConstants.pincode}?pincode=${
-                this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
+                pincodeValue
               }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
             )
             .subscribe((response) => {
