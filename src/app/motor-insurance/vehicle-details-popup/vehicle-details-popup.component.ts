@@ -602,7 +602,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
       previous_insurer: data?.previous_insurer,
       ncb_discount: data?.ncb_discount ? data?.ncb_discount : 0,
 
-      policy_expiry_date: new Date(this.policyExpiredDateObject),
+      policy_expiry_date: this.policyExpiredDateObject
+        ? new Date(this.policyExpiredDateObject)
+        : '',
     });
     this.renderer.addClass(document.body, 'dropdown-focus');
     this.makeValueSelected = data.vehicle_make;
@@ -1462,13 +1464,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * set from validation
    */
   setUpdateValidetion(isNewVehicle: boolean) {
+    if (!this.vehicleDetailsForm.get('policy_expiry_date')) {
+      this.vehicleDetailsForm.addControl(
+        'policy_expiry_date',
+        new FormControl('')
+      );
+    }
     if (!isNewVehicle) {
-      this.vehicleDetailsForm
-        .get('policy_expiry_date')
-        ?.setValidators([Validators.required]);
-      this.vehicleDetailsForm
-        .get('policy_expiry_date')
-        ?.updateValueAndValidity();
       this.vehicleDetailsForm
         .get('policy_expiry')
         ?.setValidators([Validators.required]);
@@ -1477,6 +1479,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
+
+      this.vehicleDetailsForm
+        .get('policy_expiry_date')
+        ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm
+        .get('policy_expiry_date')
+        ?.updateValueAndValidity();
     } else {
       this.vehicleDetailsForm.get('policy_expiry_date')?.setValidators([]);
       this.vehicleDetailsForm
@@ -1765,6 +1774,7 @@ Get the expiring policy list based on the given date or the registration details
               this.newVehicleData =
                 res?.is_new_vehicle == false ? 'renewal' : 'new';
               sessionStorage.setItem('newVehicleType', this.newVehicleData);
+              this.setUpdateValidetion(this.isNewVehicle);
             }
             this.expiryList = res.expiring_policy_type;
             if (res.expiring_policy_type.length > 0) {
@@ -2253,7 +2263,9 @@ Get the expiring policy list based on the given date or the registration details
                 ? this.vehicleAllData?.ncb_discount
                 : 0,
 
-              policy_expiry_date: new Date(this.policyExpiredDateObject),
+              policy_expiry_date: this.policyExpiredDateObject
+                ? new Date(this.policyExpiredDateObject)
+                : '',
             });
             this.disablevisually();
           } else if (type == 'renewal') {

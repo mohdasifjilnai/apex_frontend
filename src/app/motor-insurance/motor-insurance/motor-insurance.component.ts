@@ -89,7 +89,7 @@ export class MotorInsuranceComponent implements OnInit {
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
     policy_number: new FormControl(''),
-    cv_vehicle_type:new FormControl('')
+    cv_vehicle_type: new FormControl(''),
   });
   notCertifiedComponentJSON: {
     modalName: any;
@@ -166,12 +166,14 @@ export class MotorInsuranceComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
-      this.selectedvehicleType=res
-      if(res=='commercial_vehicle'){
+      this.selectedvehicleType = res;
+      if (res == 'commercial_vehicle') {
         this.commercialVehicleTypeList();
-        this.motorInsurance.get('cv_vehicle_type')?.setValidators([Validators.required])
-      }else{
-        this.motorInsurance.get('cv_vehicle_type')?.setValidators([])
+        this.motorInsurance
+          .get('cv_vehicle_type')
+          ?.setValidators([Validators.required]);
+      } else {
+        this.motorInsurance.get('cv_vehicle_type')?.setValidators([]);
         this.motorInsurance.get('cv_vehicle_type')?.updateValueAndValidity();
       }
       this.motorInsurance.reset();
@@ -362,7 +364,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (currentUrl) {
       sessionStorage.removeItem('current_url');
     }
-    sessionStorage.removeItem('isPayment')
+    sessionStorage.removeItem('isPayment');
 
     sessionStorage?.removeItem('gstValue');
     sessionStorage?.removeItem('renewalType');
@@ -494,9 +496,9 @@ export class MotorInsuranceComponent implements OnInit {
    */
 
   getVehicleDetails() {
-    if(this.vehcileType=='commercial_vehicle'){
-      this.postTraceIdCommercialVehicle()
-    }else{
+    if (this.vehcileType == 'commercial_vehicle') {
+      this.postTraceIdCommercialVehicle();
+    } else {
       this.getTraceId();
     }
   }
@@ -580,14 +582,14 @@ export class MotorInsuranceComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.status) {
-          this.sharedDataService.getRenewalData(res)
+          this.sharedDataService.getRenewalData(res);
           this.loader = false;
           if (res?.vehicle_details?.is_two_wheeler) {
             sessionStorage.setItem('vehicleType', 'two_wheeler');
           } else if (res?.vehicle_details?.is_four_wheeler) {
             sessionStorage.setItem('vehicleType', 'private_car');
           }
-          if(res?.is_rb_renewal){
+          if (res?.is_rb_renewal) {
             sessionStorage.setItem('renewalType', 'renewal');
           }
           const vehicleDetails = res?.vehicle_details;
@@ -596,8 +598,17 @@ export class MotorInsuranceComponent implements OnInit {
           }
           sessionStorage.setItem('mmvId', res?.vehicle_details?.rb_mmv_id);
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
-          sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
-          sessionStorage.setItem('renewalPolicyNumber', res?.previous_policy_details?. previous_policy_details?.policy_no);
+          sessionStorage.setItem(
+            'coverageType',
+            JSON.stringify(
+              res?.previous_policy_details?.previous_policy_details
+                ?.renewal_coverage_type
+            )
+          );
+          sessionStorage.setItem(
+            'renewalPolicyNumber',
+            res?.previous_policy_details?.previous_policy_details?.policy_no
+          );
           sessionStorage.setItem(
             'previousInsurer',
             res?.vehicle_details?.previous_insurer_code
@@ -606,22 +617,28 @@ export class MotorInsuranceComponent implements OnInit {
           const parsedValue = JSON.parse(this.partnerCodeData);
           this.traceId = parsedValue?.trace_id;
           this.router.navigate([`quotes/${this.traceId}`]);
-          if(res?.previous_policy_details?.vehicle_details?.registration_no!=null){
+          if (
+            res?.previous_policy_details?.vehicle_details?.registration_no !=
+            null
+          ) {
             sessionStorage.setItem(
               'registrationNumber',
               res?.previous_policy_details?.vehicle_details?.registration_no
             );
           }
-          
+
           sessionStorage.setItem(
             'previousInsurerCode',
             res?.previous_policy_details?.insurer_code
           );
           sessionStorage.setItem(
             'coverageType',
-            JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type)
+            JSON.stringify(
+              res?.previous_policy_details?.previous_policy_details
+                ?.renewal_coverage_type
+            )
           );
-          sessionStorage.setItem('isRbRenewal',res?.is_rb_renewal);
+          sessionStorage.setItem('isRbRenewal', res?.is_rb_renewal);
 
           // if (res.transactional_details && res?.ckyc_status) {
           //   this.transactionDetails = res.transactional_details;
@@ -679,11 +696,11 @@ export class MotorInsuranceComponent implements OnInit {
           this.loader = false;
         }
       });
-      this.sharedDataService.loader.subscribe((data)=>{
-        if(data){
-          this.loader=false
+      this.sharedDataService.loader.subscribe((data) => {
+        if (data) {
+          this.loader = false;
         }
-      })
+      });
     }
   }
   /**
@@ -835,110 +852,114 @@ export class MotorInsuranceComponent implements OnInit {
   }
 
   getTraceId() {
-    
     let apiUrl;
     this.partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
-    const data={
-      'partner_code':this.partner_code,
-      'quotes_data':this.motorInsurance.value
-    }
+    const data = {
+      partner_code: this.partner_code,
+      quotes_data: this.motorInsurance.value,
+    };
     this.apiService
-      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`,data)
-      .subscribe((res: any) => {
-        this.traceId = res.trace_id;
-        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
-        this.loader = true;
-        if (this.vehicleCheck) {
-          this.vehicleCheck = false;
+      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
+      .subscribe(
+        (res: any) => {
+          this.traceId = res.trace_id;
+          sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+          this.loader = true;
+          if (this.vehicleCheck) {
+            this.vehicleCheck = false;
+          }
+          sessionStorage.setItem(
+            'withoutVehicleNumber',
+            `${this.withoutVehicleNumber}`
+          );
+          sessionStorage.setItem('quotesUrl', 'true');
+          let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+          if (!vehicleTypeValue) {
+            sessionStorage.setItem('vehicleType', `private_car`);
+          }
+          // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
+          sessionStorage.removeItem('isPayment');
+          if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
+            this.getVehicleDetailsInfo();
+            // this.motorInsurance.reset();
+          } else if (this.isPolicyNumber) {
+            this.getRenewalPolicyData();
+          } else {
+            let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+            sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
+            this.router.navigate([`quotes/${this.traceId}`]);
+          }
+        },
+        (error) => {
+          this.loader = false;
         }
-        sessionStorage.setItem(
-          'withoutVehicleNumber',
-          `${this.withoutVehicleNumber}`
-        );
-        sessionStorage.setItem('quotesUrl', 'true');
-        let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-        if (!vehicleTypeValue) {
-          sessionStorage.setItem('vehicleType', `private_car`);
-        }
-        // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
-        sessionStorage.removeItem('isPayment');
-        if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
-          this.getVehicleDetailsInfo();
-          // this.motorInsurance.reset();
-        } else if (this.isPolicyNumber) {
-          this.getRenewalPolicyData();
-        } else {
-          let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
-          sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-          this.router.navigate([`quotes/${this.traceId}`]);
-        }
-      },(error)=>{
-        this.loader = false;
-      });
+      );
   }
 
-  postTraceIdCommercialVehicle(){
+  postTraceIdCommercialVehicle() {
     let apiUrl;
     this.partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
-    const data={
-      'partner_code':this.partner_code,
-      'quotes_data':this.motorInsurance.value
-    }
+    const data = {
+      partner_code: this.partner_code,
+      quotes_data: this.motorInsurance.value,
+    };
     this.apiService
-      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`,data)
-      .subscribe((res: any) => {
-        this.traceId = res.trace_id;
-        this.sharedDataService.getTraceIdDetails(res)
-        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
-        this.loader = true;
-        if (this.vehicleCheck) {
-          this.vehicleCheck = false;
+      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
+      .subscribe(
+        (res: any) => {
+          this.traceId = res.trace_id;
+          this.sharedDataService.getTraceIdDetails(res);
+          sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+          this.loader = true;
+          if (this.vehicleCheck) {
+            this.vehicleCheck = false;
+          }
+          sessionStorage.setItem(
+            'withoutVehicleNumber',
+            `${this.withoutVehicleNumber}`
+          );
+          sessionStorage.setItem('quotesUrl', 'true');
+
+          // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
+          sessionStorage.removeItem('isPayment');
+          if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
+            this.getVehicleDetailsInfo();
+            // this.motorInsurance.reset();
+          } else if (this.isPolicyNumber) {
+            this.getRenewalPolicyData();
+          } else {
+            let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+            sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
+            this.router.navigate([`quotes/${this.traceId}`]);
+          }
+        },
+        (error) => {
+          this.loader = false;
         }
-        sessionStorage.setItem(
-          'withoutVehicleNumber',
-          `${this.withoutVehicleNumber}`
-        );
-        sessionStorage.setItem('quotesUrl', 'true');
-       
-        // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
-        sessionStorage.removeItem('isPayment');
-        if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
-          this.getVehicleDetailsInfo();
-          // this.motorInsurance.reset();
-        } else if (this.isPolicyNumber) {
-          this.getRenewalPolicyData();
-        } else {
-          let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
-          sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-          this.router.navigate([`quotes/${this.traceId}`]);
-        }
-      },(error)=>{
-        this.loader = false;
-      });
+      );
   }
   /**
    * Commercial Vehicle Api Integrations
    */
 
-  commercialVehicleTypeList(){
+  commercialVehicleTypeList() {
     this.apiService
       .getRequestedResponse(`${ApiConstants.cv_vehicle_type}`)
       .subscribe((res: any) => {
-        this.cvVehicleTypeList=res
+        this.cvVehicleTypeList = res;
       });
   }
 
-  onVehicleTypeSelect(event: any){
-    const selectedVehicle = event.value; 
-    this.sharedDataService.selectedVehicleTypeObject(selectedVehicle)
+  onVehicleTypeSelect(event: any) {
+    const selectedVehicle = event.value;
+    this.sharedDataService.selectedVehicleTypeObject(selectedVehicle);
   }
-
 }
