@@ -286,9 +286,9 @@ export class ProposalShareComponent implements OnInit {
       this.dialogRef.close();
     }
     this.loader = true;
-    if(this.subdomain!='d2c'){
-      this.openNotCertifiedPopup('Partner_Mapped');
-    }else{
+    // if(this.subdomain!='d2c'){
+    //   this.openNotCertifiedPopup('Partner_Mapped');
+    // }else{
       if (this.proposalData) {
 
         let sendCommunicationObject = {
@@ -360,7 +360,7 @@ export class ProposalShareComponent implements OnInit {
             }
           });
       }
-    }
+    // }
     
   }
   openModal(sendCommunicationObject: any, jsonData: any) {

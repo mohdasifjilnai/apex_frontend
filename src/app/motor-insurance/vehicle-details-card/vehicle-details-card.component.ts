@@ -296,13 +296,15 @@ export class VehicleDetailsCardComponent implements OnInit {
     
     
     this.isPopUpClose = true;
-    if(this.subdomain=='d2c'){
-      this.openVehicleDetailsPopup(null);
-      this.sharedData.sendVehicleEditData(edit);
-    }else{
-      this.openNotCertifiedPopup('Partner_Mapped');
-      this.sharedData.sendLoginPartner('edit');
-    }
+    // if(this.subdomain=='d2c'){
+    //   this.openVehicleDetailsPopup(null);
+    //   this.sharedData.sendVehicleEditData(edit);
+    // }else{
+    //   this.openNotCertifiedPopup('Partner_Mapped');
+    //   this.sharedData.sendLoginPartner('edit');
+    // }
+    this.openVehicleDetailsPopup(null);
+    this.sharedData.sendVehicleEditData(edit);
   }
 
   /**

@@ -191,22 +191,24 @@ export class QuotesComponent implements OnInit {
         );
       }
     });
-    let popupData = sessionStorage.getItem('vehicleLoginPopup');
-    const vehiclePopup = sessionStorage.getItem('vehiclePopup');
-    if (popupData == 'true') {
-      if (vehiclePopup != 'true') {
-        let quotesUrl = sessionStorage.getItem('quotesUrl');
-        if (quotesUrl) {
-          this.openNotCertifiedPopup('Partner_Mapped');
-          this.shareDataService.sendLoginPartner('quote');
+    // let popupData = sessionStorage.getItem('vehiclePopup');
+    // if (popupData == 'true') {
+    //   // if (vehiclePopup != 'true') {
+    //   //   let quotesUrl = sessionStorage.getItem('quotesUrl');
+    //   //   if (quotesUrl) {
+    //   //     this.openNotCertifiedPopup('Partner_Mapped');
+    //   //     this.shareDataService.sendLoginPartner('quote');
+    //   //   }
+    //   // }
+    // } else {
+      const vehiclePopup = sessionStorage.getItem('vehiclePopup');
+      let quotesUrl = sessionStorage.getItem('quotesUrl');
+      if (quotesUrl) {
+        if (vehiclePopup != 'true') {
+          this.openVehicleDetailsPopup(null);
         }
       }
-    } else {
-      const vehiclePopup = sessionStorage.getItem('vehiclePopup');
-      if (vehiclePopup != 'true') {
-        this.openVehicleDetailsPopup(null);
-      }
-    }
+    // }
     this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = sessionStorage.getItem('employee_code');
     this.partner_code = sessionStorage.getItem('partner_code');
