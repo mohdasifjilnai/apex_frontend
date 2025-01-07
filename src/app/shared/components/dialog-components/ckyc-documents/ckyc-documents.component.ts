@@ -254,11 +254,11 @@ handles the form submit for uploading the required documents
 @param valid - boolean value indicating if the form is valid or not
  */
   submitUploadDocumentsForm(valid: boolean) {
-    if (this.uploadDocumentsForm.get('poa_doc_url_1')?.value.includes('fakepath') || this.uploadDocumentsForm.get('poa_doc_url')?.value.includes('fakepath')) {
-     valid=false
-     this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
-     this.uploadDocumentsForm.get('poa_doc_url')?.reset();
-    }
+    // if (this.uploadDocumentsForm.get('poa_doc_url_1')?.value.includes('fakepath') || this.uploadDocumentsForm.get('poa_doc_url')?.value.includes('fakepath')) {
+    //  valid=false
+    //  this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
+    //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
+    // }
     console.log(this.uploadDocumentsForm.value)
     if (valid && !this.loader) {
       this.loader = true;
