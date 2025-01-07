@@ -261,7 +261,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.regDateValue = new Date(res);
         if (this.editClick == '') {
           setTimeout(() => {
-            this.getExpiringPolicy(this.regDateValue);
+            // this.getExpiringPolicy(this.regDateValue);
           }, 2000);
         } else {
           this.expiryPolicyGetList(this.regDateValue, 'dateChange');
@@ -1589,7 +1589,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (this.regDateValue) {
       this.getExpiringPolicy(this.regDateValue, '', '', 'ownerTransfer');
     } else {
-      this.getExpiringPolicy();
+      // this.getExpiringPolicy();
     }
   }
   /**

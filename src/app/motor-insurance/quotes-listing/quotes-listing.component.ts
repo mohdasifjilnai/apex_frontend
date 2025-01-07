@@ -394,12 +394,12 @@ export class QuotesListingComponent implements OnInit {
     sessionStorage.removeItem('renewalInsurerQuotesId');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     if (!this.registrationNumber) {
-      this.getProposalType();
+      // this.getProposalType();
     }
     this.sharedDataService.regNumberData.subscribe((numberData) => {
       this.registrationNumberData = numberData;
-      this.getProposalType();
     });
+    this.getProposalType();
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.showRenewalQuotes = true;
