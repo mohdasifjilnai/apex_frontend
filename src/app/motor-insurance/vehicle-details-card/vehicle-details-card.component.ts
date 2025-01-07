@@ -303,7 +303,11 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.openNotCertifiedPopup('Partner_Mapped');
     //   this.sharedData.sendLoginPartner('edit');
     // }
-    this.openVehicleDetailsPopup(null);
+    if (window.innerWidth <= 999) {
+      this.bottomSheet.open(VehicleDetailsPopupComponent);
+    } else {
+      this.openVehicleDetailsPopup(null);
+    }
     this.sharedData.sendVehicleEditData(edit);
   }
 

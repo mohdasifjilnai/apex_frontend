@@ -205,7 +205,13 @@ export class QuotesComponent implements OnInit {
       let quotesUrl = sessionStorage.getItem('quotesUrl');
       if (quotesUrl) {
         if (vehiclePopup != 'true') {
-          this.openVehicleDetailsPopup(null);
+          if (window.innerWidth <= 999) {
+            this.bottomSheet.open(VehicleDetailsPopupComponent, {
+              disableClose: true, // Disable closing on outside click
+            });
+          } else {
+            this.openVehicleDetailsPopup(null);
+          }
         }
       }
     // }
