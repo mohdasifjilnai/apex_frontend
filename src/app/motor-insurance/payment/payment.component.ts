@@ -153,7 +153,6 @@ export class PaymentComponent implements OnInit {
         this.clearSessionStorageExcept(['token','partner_code','first_name','middle_name','last_name','partnerCodeTraceId','is_cse','pos_status','employee_code']);      }
     });
   }
-
   /**
    * redirection form payment page to home page
    */

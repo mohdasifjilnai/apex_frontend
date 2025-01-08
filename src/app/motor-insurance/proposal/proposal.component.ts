@@ -975,11 +975,13 @@ export class ProposalComponent implements OnInit {
             this.isPrevoiusInsurer = true;
             sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
             let registartionNumber = response?.quote_request?.registration_no;
-
+            let policy_number=response?.quote_request?.policy_number
             let apiUrl;
-
-            apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-
+            if(registartionNumber!=null && registartionNumber!='' && registartionNumber!=undefined){
+              apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+            }else{
+              apiUrl = `?previous_policy_number=${policy_number}`;
+            }
             this.apiService
               .getRequestedResponse(
                 `${ApiConstants.get_renewal_policy}${apiUrl}`
