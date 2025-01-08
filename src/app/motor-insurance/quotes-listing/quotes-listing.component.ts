@@ -1250,4 +1250,7 @@ export class QuotesListingComponent implements OnInit {
   ngOnDestroy() {
     this.vehicleCardMultipleCall.unsubscribe();
   }
+  renewalRedirection(url:any){
+    window.open(url, '_blank');
+  }
 }

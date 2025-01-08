@@ -174,7 +174,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="quotes?.renewal_url==null">
               <div class="col-lg-3 col-md-3 col-12 insurer-img">
                 <div class="d-flex justify-content-between">
                   <img
@@ -264,11 +264,10 @@
                   >
                     <span class="d-none">{{ quotes?.insurer_name }}</span>
                     &#8377;
-
                     {{
                       defaultGST
-                        ? (quotes.premium_details.gross_premium | number : "2.")
-                        : (quotes.premium_details.net_premium | number : "2.")
+                        ? (quotes.premium_details?.gross_premium | number : "2.")
+                        : (quotes.premium_details?.net_premium | number : "2.")
                     }}
                     <p class="inc">
                       {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
@@ -359,8 +358,46 @@
                 </div>
               </div>
             </div>
+            <div class="row" *ngIf="quotes?.renewal_url!=null">
+              <div class="col-lg-3 col-md-3 col-6 insurer-img">
+                <div class="d-flex justify-content-between mt-2">
+                  <img
+                    [src]="quotes?.insurer_logo"
+                    class="insurer-logo"
+                    alt=""
+                  />
+                </div>
+              </div>             
+              <div class="col-lg-9 col-md-9 col-6 premium-btn">
+                <div
+                  class="renewal-card"
+                  (click)="renewalRedirection(quotes?.renewal_url)"
+                  *ngIf="quotes?.is_rb_renewal"
+                >
+                  <span class="text">Renewal Quote</span>
+                  <button
+                    tabindex="0"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  >
+                    Renew
+                  </button>
+                </div>
+                <p>
+                  <span>
+                    <button
+                      (click)="openPremiumBreakupModal(quotes, $event)"
+                      class="premium-breakup"
+                    >
+                      Renewal Notice
+                    </button>
+                  </span>
+                </p>
+              </div>
+            </div>
           </div>
+          
         </div>
+       
         <!-- comprehensive key feature web view -->
         <div class="comprehensive-key-features">
           <div class="comprehensive-key-features-value">
@@ -389,7 +426,6 @@
             </div>
           </div>
         </div>
-
         <!-- comprehensive key feature mobile view -->
         <div class="row res-comprehensive-key-features">
           <span class="key-features">
@@ -469,7 +505,7 @@
                 <div class="payout-value pb-2">-----* &nbsp; T&C</div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="quotes?.renewal_url==null">
               <div class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img">
                 <div class="d-flex justify-content-between">
                   <img
@@ -603,6 +639,43 @@
                   </span>
                 </p>
               </div>
+            </div>
+            <div class="row" *ngIf="quotes?.renewal_url!=null">
+              <div class="col-lg-3 col-md-3 col-6 insurer-img">
+                <div class="d-flex justify-content-between mt-2">
+                  <img
+                    [src]="quotes?.insurer_logo"
+                    class="insurer-logo"
+                    alt=""
+                  />
+                </div>
+              </div>             
+              <div class="col-lg-9 col-md-9 col-6 premium-btn">
+                <div
+                  class="renewal-card"
+                  (click)="renewalRedirection(quotes?.renewal_url)"
+                  *ngIf="quotes?.is_rb_renewal"
+                >
+                  <span class="text">Renewal Quote</span>
+                  <button
+                    tabindex="0"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                  >
+                    Renew
+                  </button>
+                </div>
+                <p>
+                  <span>
+                    <button
+                      (click)="openPremiumBreakupModal(quotes, $event)"
+                      class="premium-breakup"
+                    >
+                      Renewal Notice
+                    </button>
+                  </span>
+                </p>
+              </div>
+             
             </div>
           </div>
         </div>
