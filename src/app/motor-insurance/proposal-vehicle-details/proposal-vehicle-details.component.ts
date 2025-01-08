@@ -1279,9 +1279,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   renewDataPatch(registartionNumber: any) {
     let apiUrl;
-
-    apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-
+    const previous_policy_details=JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') ||'{}')
+    let policy_number=previous_policy_details?.previous_policy_details?.previous_policy_details?.policy_no   
+    if(registartionNumber!=null && registartionNumber!='' && registartionNumber!=undefined){
+      apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+    }else{
+      apiUrl = `?previous_policy_number=${policy_number}`;
+    }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
