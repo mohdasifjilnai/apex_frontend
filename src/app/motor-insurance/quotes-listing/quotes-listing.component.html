@@ -638,6 +638,9 @@
                   </span>
                 </p>
               </div>
+              <ng-container *ngIf="renewalType == 'renewal'">
+                <span class="renewal-premium" *ngIf="quotes.insurer_code=='icici'">* The updated premium with selected addons will be shown at the time of payment, this is the base premium.</span>
+              </ng-container>
             </div>
             <div class="row" *ngIf="quotes?.renewal_url!=null">
               <div class="col-lg-3 col-md-3 col-6 insurer-img">

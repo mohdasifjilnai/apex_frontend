@@ -1022,6 +1022,7 @@ export class SharedDataService {
         this.proposalDataItem.is_rb_renewal = true;
       } else {
         this.proposalDataItem.is_rb_renewal = false;
+        
       }
     }
     this.apiService
