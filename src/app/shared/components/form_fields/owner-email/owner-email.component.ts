@@ -47,4 +47,11 @@ export class OwnerEmailComponent implements OnInit {
      */
     this.form.removeControl('owner_email');
   }
+  onFieldChange() {
+    const control = this.form.get('owner_email');
+    const value = control?.value;
+    if (value && value.includes('*')) {
+      control?.setValue(null, { emitEvent: false }); // Update the value to null without triggering `valueChanges` again
+    }
+  }
 }

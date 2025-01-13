@@ -16,6 +16,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RefreshPageComponent } from 'src/app/shared/components/dialog-components/refresh-page/refresh-page.component';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -1561,5 +1562,31 @@ export class SharedDataService {
       });
     }
     return this.visuallyDisabledFields;
+  }
+  customFieldValidator(fieldType:any): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+  
+      if (value && value.includes('*')) {
+        return null;
+      }
+  
+      switch (fieldType) {
+        case 'contact':
+          const contactPattern = /^[6-9]\d{9}$/;
+          return contactPattern.test(value) ? null : { invalidContact: true };
+  
+        case 'email':
+          const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          return emailPattern.test(value) ? null : { invalidEmail: true };
+  
+        case 'pan':
+          const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+          return panPattern.test(value) ? null : { invalidPAN: true };
+  
+        default:
+          return null;
+      }
+    };
   }
 }

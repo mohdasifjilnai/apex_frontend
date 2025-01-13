@@ -7,11 +7,13 @@
     appNotAllowDot
     maxlength="80"
     [readonly]="readonly"
+    (input)="onFieldChange()"
+
   />
   <mat-error *ngIf="form.controls['owner_email']?.hasError('required')">
     This is a required field.
   </mat-error>
-  <mat-error *ngIf="form.controls['owner_email']?.hasError('pattern')">
+  <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
     Invalid email
   </mat-error>
 </mat-form-field>

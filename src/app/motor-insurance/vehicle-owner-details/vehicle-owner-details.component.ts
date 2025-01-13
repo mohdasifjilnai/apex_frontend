@@ -66,11 +66,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     owner_full_Name: new FormControl('', Validators.required),
     owner_email: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^.+@.+[.].+$/),
+      this.sharedDataService.customFieldValidator('email'),
     ]),
     contact_number: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^[6-9]\d{9}$/),
+      this.sharedDataService.customFieldValidator('contact'),
     ]),
     document_number_based_field: new FormControl(''),
     owner_gstin: new FormControl('', [
@@ -780,4 +780,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ownerCommunicationAddressControl.updateValueAndValidity();
     }
   }
+
+ 
 }
