@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatBottomSheet,
@@ -12,6 +12,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-components/check-quotes-dialog/check-quotes-dialog.component';
+import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
+import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { OtpComponent } from 'src/app/shared/components/dialog-components/otp/otp.component';
 import { ReviewAddonsComponent } from 'src/app/shared/components/dialog-components/review-addons/review-addons.component';
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
@@ -37,6 +39,22 @@ export class ProposalReviewComponent implements OnInit {
     topObtained: '1%',
     isOutSideClose: true,
     classObtained: 'insurance-details-class',
+  };
+
+  failureJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: ErrorDialogComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'nonPOS-class',
   };
   renewalAddonsJSON: {
     modalName: any;
@@ -83,6 +101,7 @@ export class ProposalReviewComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'check-quotes-class',
   };
+  @ViewChild('myform') myform!: ElementRef;
   quoteData: any;
   generateProposalData: any;
   transactionId: any;
@@ -110,6 +129,9 @@ export class ProposalReviewComponent implements OnInit {
   partner_code: any;
   partnerCodewithTraceId: any;
   consentSubmitButton = false;
+  proposalId: any;
+  paymentObject: any;
+  loader: boolean=false;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -211,19 +233,93 @@ export class ProposalReviewComponent implements OnInit {
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();
     }
-    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
-    if (window.innerWidth <= 999) {
-      const bottomSheetConfig: MatBottomSheetConfig = {
-        data: [this.quoteData],
-      };
-      this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
-      this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
-    } else {
-      this.openModal([this.quoteData], this.insuranceDetailsJSON);
-    }
+    this.loader = true;
+    // this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
+    // if (window.innerWidth <= 999) {
+    //   const bottomSheetConfig: MatBottomSheetConfig = {
+    //     data: [this.quoteData],
+    //   };
+    //   this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
+    //   this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
+    // } else {
+    //   this.openModal([this.quoteData], this.insuranceDetailsJSON);
+    // }
+    console.log(this.generateProposalData,"krishna")
+    this.apiService
+    .getRequestedResponse(
+      `${ApiConstants.generate_proposal}?insurer_code=${
+        this.generateProposalData?.insurer_code
+      }&proposal_id=${this.generateProposalData?.proposal_id}`
+    )
+    .subscribe(
+      (generatedProposal: any) => {
+        if (generatedProposal.status) {
+          sessionStorage.setItem('proposal_punched', 'true');
+          this.shareData.disabledChangeInsurerButton(true);
+          if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
+            this.loader = false;
+            
+            this.route.navigate([
+              `quotes/proposal/${this.transactionId}/review/inspection`,
+            ]);
+          } else {
+            this.loader=false
+            if (window.innerWidth <= 999) {
+                const bottomSheetConfig: MatBottomSheetConfig = {
+                  data: [this.quoteData],
+                };
+                this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
+                this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
+              } else {
+                this.openModal([this.quoteData], this.insuranceDetailsJSON);
+              }
+          }
+        } else {
+          this.loader=false
+          if (
+            this.generateProposalData?.insurer_code == 'digit' &&
+            generatedProposal.ckyc_link
+          ) {
+            this.failureJSON['modalName'] = ErrorDialogComponent;
+            this.openFailurePopup(generatedProposal);
+          } else {
+            this.failureJSON['modalName'] = FailureDialogComponent;
+            this.openFailurePopup(generatedProposal);
+          }
+        }
+      },
+      (error) => {
+        
+      }
+    );
   }
   checkQuotes() {
     this.openModal('renewal', this.checkQuotesJson);
+  }
+  openFailurePopup(objData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+    const obj: any = {
+      modalName: this.failureJSON['modalName'],
+      width: this.failureJSON['widthObtained'],
+      height: this.failureJSON['heightObtained'],
+      classNameObtained: this.failureJSON['classObtained'],
+      isOutSideClose: this.failureJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: objData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
   /**
    * this fucntion use open pop up modal
@@ -271,6 +367,7 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
+          this.proposalId=this.generateProposalData?.proposal_id
           if (this.generateProposalData?.proposal_punched) {
             sessionStorage.setItem('proposal_punched', 'true');
             this.shareData.disabledChangeInsurerButton(true);

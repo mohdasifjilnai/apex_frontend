@@ -280,17 +280,12 @@ export class ProposalShareComponent implements OnInit {
   }
   proceedToPayment() {
     
-    if (window.innerWidth <= 999) {
-      this.bottomSheetRef.dismiss();
-    } else {
-      this.dialogRef.close();
-    }
+   
     this.loader = true;
     // if(this.subdomain!='d2c'){
     //   this.openNotCertifiedPopup('Partner_Mapped');
     // }else{
       if (this.proposalData) {
-
         let sendCommunicationObject = {
           transaction_id: this.proposalData?.quote_response?.transaction_id,
           share_type: 'otp',
@@ -325,7 +320,6 @@ export class ProposalShareComponent implements OnInit {
             }
           });
       } else {
-  
         let sendCommunicationObject = {
           transaction_id: this.quoteData?.transaction_id,
           share_type: 'otp',

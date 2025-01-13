@@ -223,122 +223,42 @@ export class OtpComponent implements OnInit {
         let renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal' || renewalType == 'rollover') {
           this.apiService
-            .getRequestedResponse(
-              `${ApiConstants.generate_proposal}?insurer_code=${
-                JSON.parse(this.quoteData)['insurer_code']
-              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}&is_rb_renewal=true`
-            )
-            .subscribe(
-              (generatedProposal: any) => {
-                if (generatedProposal.status) {
-                  sessionStorage.setItem(
-                    'proposal_punched',
-                    generatedProposal.status
-                  );
-                  let generateProposalData = generatedProposal;
-                  if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
-                    this.loader = false;
-                    if (window.innerWidth <= 999) {
-                      this.bottomSheetRef.dismiss();
-                    } else {
-                      this.dialogRef.close();
-                    }
-                    this.router.navigate([
-                      `quotes/proposal/${this.transactionId}/review/inspection`,
-                    ]);
-                  } else {
-                    // if (
-                    //   JSON.parse(this.quoteData)['insurer_code'] == 'icici' &&
-                    //   is_rb_renewal
-                    // ){
-                    //   let quotesData = JSON.parse(this.quoteData);
-                    //   if (window.innerWidth <= 999) {
-                    //     this.bottomSheetRef.dismiss();
-                    //   } else {
-                    //     this.dialogRef.close();
-                    //   }
-                    //   let data={
-                    //     previous: quotesData,
-                    //     revised: generateProposalData, 
-                    //   }
-                    //   this.openRevPremiumBreakupModal(data);
-                    //   }else{
-                      this.apiService
-                      .getRequestedResponse(
-                        `${
-                          ApiConstants['redirection_payment_getway']
-                        }${this.proposalId.replace(/['"]+/g, '')}`
-                      )
-                      .subscribe(
-                        (payment_getway_response) => {
-                          if (payment_getway_response) {
-                            this.paymentObject = payment_getway_response;
+          .getRequestedResponse(
+            `${
+              ApiConstants['redirection_payment_getway']
+            }${this.proposalId.replace(/['"]+/g, '')}`
+          )
+          .subscribe(
+            (payment_getway_response) => {
+              if (payment_getway_response) {
+                this.paymentObject = payment_getway_response;
 
-                            if (!payment_getway_response.is_html) {
-                              window.location.href =
-                                payment_getway_response.url;
-                            } else {
-                              let paymentObjectValue =
-                                this.paymentObject.form.replace(
-                                  '<html><head></head><body>',
-                                  ''
-                                );
-                              // </body></html>
-                              let paymentObjectValueData =
-                                this.paymentObject.form.replace(
-                                  '</form></body></html>',
-                                  `<input  type='submit'   value=''></form>`
-                                );
-                              this.paymentObject.form = paymentObjectValueData;
-
-                              this.myform.nativeElement.innerHTML =
-                                this.paymentObject.form;
-                              this.myform.nativeElement
-                                .getElementsByTagName('form')[0]
-                                .submit();
-                            }
-                            // this.library = payment_getway_response;
-                            // this.myform.nativeElement.submit();
-                            // window.location.href = payment_getway_response;
-                            this.loader = false;
-                            if (window.innerWidth <= 999) {
-                              this.bottomSheetRef.dismiss();
-                            } else {
-                              this.dialogRef.close();
-                            }
-                          }
-                        },
-                        (error) => {
-                          this.loader = false;
-                          if (window.innerWidth <= 999) {
-                            this.bottomSheetRef.dismiss();
-                          } else {
-                            this.dialogRef.close();
-                          }
-                        }
-                      );
-                    // }
-                  }
+                if (!payment_getway_response.is_html) {
+                  window.location.href =
+                    payment_getway_response.url;
                 } else {
-                  if (
-                    JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
-                    generatedProposal.ckyc_link
-                  ) {
-                    this.failureJSON['modalName'] = ErrorDialogComponent;
-                    this.openFailurePopup(generatedProposal);
-                  } else {
-                    this.failureJSON['modalName'] = FailureDialogComponent;
-                    this.openFailurePopup(generatedProposal);
-                  }
-                  this.loader = false;
-                  if (window.innerWidth <= 999) {
-                    this.bottomSheetRef.dismiss();
-                  } else {
-                    this.dialogRef.close();
-                  }
+                  let paymentObjectValue =
+                    this.paymentObject.form.replace(
+                      '<html><head></head><body>',
+                      ''
+                    );
+                  // </body></html>
+                  let paymentObjectValueData =
+                    this.paymentObject.form.replace(
+                      '</form></body></html>',
+                      `<input  type='submit'   value=''></form>`
+                    );
+                  this.paymentObject.form = paymentObjectValueData;
+
+                  this.myform.nativeElement.innerHTML =
+                    this.paymentObject.form;
+                  this.myform.nativeElement
+                    .getElementsByTagName('form')[0]
+                    .submit();
                 }
-              },
-              (error) => {
+                // this.library = payment_getway_response;
+                // this.myform.nativeElement.submit();
+                // window.location.href = payment_getway_response;
                 this.loader = false;
                 if (window.innerWidth <= 999) {
                   this.bottomSheetRef.dismiss();
@@ -346,31 +266,18 @@ export class OtpComponent implements OnInit {
                   this.dialogRef.close();
                 }
               }
-            );
-        } else {
+            },
+            (error) => {
+              this.loader = false;
+              if (window.innerWidth <= 999) {
+                this.bottomSheetRef.dismiss();
+              } else {
+                this.dialogRef.close();
+              }
+            }
+          );
+        } else{
           this.apiService
-            .getRequestedResponse(
-              `${ApiConstants.generate_proposal}?insurer_code=${
-                JSON.parse(this.quoteData)['insurer_code']
-              }&proposal_id=${this.proposalId.replace(/['"]+/g, '')}`
-            )
-            .subscribe(
-              (generatedProposal: any) => {
-                if (generatedProposal.status) {
-                  sessionStorage.setItem('proposal_punched', 'true');
-                  this.sharedDataService.disabledChangeInsurerButton(true);
-                  if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
-                    this.loader = false;
-                    if (window.innerWidth <= 999) {
-                      this.bottomSheetRef.dismiss();
-                    } else {
-                      this.dialogRef.close();
-                    }
-                    this.router.navigate([
-                      `quotes/proposal/${this.transactionId}/review/inspection`,
-                    ]);
-                  } else {
-                    this.apiService
                       .getRequestedResponse(
                         `${
                           ApiConstants['redirection_payment_getway']
@@ -423,35 +330,6 @@ export class OtpComponent implements OnInit {
                           }
                         }
                       );
-                  }
-                } else {
-                  if (
-                    JSON.parse(this.quoteData)['insurer_code'] == 'digit' &&
-                    generatedProposal.ckyc_link
-                  ) {
-                    this.failureJSON['modalName'] = ErrorDialogComponent;
-                    this.openFailurePopup(generatedProposal);
-                  } else {
-                    this.failureJSON['modalName'] = FailureDialogComponent;
-                    this.openFailurePopup(generatedProposal);
-                  }
-                  this.loader = false;
-                  if (window.innerWidth <= 999) {
-                    this.bottomSheetRef.dismiss();
-                  } else {
-                    this.dialogRef.close();
-                  }
-                }
-              },
-              (error) => {
-                this.loader = false;
-                if (window.innerWidth <= 999) {
-                  this.bottomSheetRef.dismiss();
-                } else {
-                  this.dialogRef.close();
-                }
-              }
-            );
         }
       }
     });

@@ -461,6 +461,12 @@
             (click)="submitReview()"
             [disabled]="!isButtonEnabled"
           >
+          <img
+          src="/assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-2"
+          *ngIf="loader"
+        />
             Submit
           </button>
         </div>
