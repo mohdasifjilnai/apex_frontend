@@ -60,8 +60,9 @@
           id-automation="owner_gstin"
           maxlength="15"
           class="text-uppercase"
-          (ngModelChange)="checkValidGSTIN($event)"
         />
+        <!-- (ngModelChange)="checkValidGSTIN($event)" -->
+
         <mat-error
           *ngIf="
             owenerVehicleDetailsForm.controls['owner_gstin']?.hasError(
