@@ -185,6 +185,7 @@ export class CkycComponent implements OnInit {
                 ckyc_gender: this.proposalData?.ckyc_details?.gender,
               });
             }
+            this.documentNumberValidation()
           }
         }
         // let renewalDataType = sessionStorage.getItem('renewalType');
@@ -806,5 +807,12 @@ export class CkycComponent implements OnInit {
           this.sharedDataService.createProposalId();
         }
       });
+  }
+  documentNumberValidation() {
+    const alternateControl = this.ckycFormGroup.get('document_number_based_field')?.value;
+    if (alternateControl && alternateControl.includes('*')) {
+      this.ckycFormGroup.get('document_number_based_field')?.setValidators([this.sharedDataService.customFieldValidator('pan')]);
+      this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity(); 
+    }
   }
 }

@@ -1575,7 +1575,10 @@ export class SharedDataService {
         case 'contact':
           const contactPattern = /^[6-9]\d{9}$/;
           return contactPattern.test(value) ? null : { invalidContact: true };
-  
+
+        case 'additional_contact':
+          const additionalcontactPattern = /^[6-9]\d{9}$/;
+          return additionalcontactPattern.test(value) ? null : { invalidContact: false };
         case 'email':
           const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           return emailPattern.test(value) ? null : { invalidEmail: true };

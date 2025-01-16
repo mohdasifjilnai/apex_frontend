@@ -79,7 +79,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ),
     ]),
     additional_contact: new FormControl('', [
-      Validators.pattern(/^[6-9]\d{9}$/),
     ]),
     owner_pincode: new FormControl('', [
       Validators.required,
@@ -780,6 +779,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ownerCommunicationAddressControl.updateValueAndValidity();
     }
   }
-
+  addAlternateNumberValidator() {
+    const alternateControl = this.owenerVehicleDetailsForm.get('alternate_number');
+    if (alternateControl) {
+      alternateControl.setValidators([this.sharedDataService.customFieldValidator('additional_contact')]);
+      alternateControl.updateValueAndValidity(); // Re-evaluate the validators
+    }
+  }
  
 }
