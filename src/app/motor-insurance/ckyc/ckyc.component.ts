@@ -135,10 +135,12 @@ export class CkycComponent implements OnInit {
     }
     if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
       this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-        this.ckycFormGroup.patchValue({
-          document_number_based_field: res?.customer_details?.pan_number,
-          dob: res?.customer_details?.dob,
-        });
+        if(res?.customer_details!=null){
+          this.ckycFormGroup.patchValue({
+            document_number_based_field: res?.customer_details?.pan_number,
+            dob: res?.customer_details?.dob,
+          });
+        }
       });
     }
     let isSubmitCkycFormGroupCalled = false;

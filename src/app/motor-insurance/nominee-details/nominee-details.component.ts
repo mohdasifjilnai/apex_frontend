@@ -51,11 +51,13 @@ export class NomineeDetailsComponent implements OnInit {
       });
     }
     this.sharedData.getVahaanDetails.subscribe((res: any) => {
-      this.nominneForm.patchValue({
-        nominne_full_Name: res?.nominee_details?.name,
-        age: res?.nominee_details?.age,
-        nominne_relation: res?.nominee_details?.relation_id,
-      });
+      if(res?.nominee_details!=null){
+        this.nominneForm.patchValue({
+          nominne_full_Name: res?.nominee_details?.name,
+          age: res?.nominee_details?.age,
+          nominne_relation: res?.nominee_details?.relation_id,
+        });
+      }
     });
     this.sharedData.getProposalDetails.subscribe((proposal) => {
       if (proposal?.nominee_details !== null) {

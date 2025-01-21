@@ -134,9 +134,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       }
     }
     this.sharedData.getVahaanDetails.subscribe((res: any) => {
-      this.previousPolicyDetailsForm.patchValue({
-        tp_policy_number:res?.previous_policy_number
-      });
+      if(res?.previous_policy_number!=null){
+        this.previousPolicyDetailsForm.patchValue({
+          tp_policy_number:res?.previous_policy_number
+        });
+      }
     });
 
     this.transactionId = sessionStorage.getItem('transaction_id');

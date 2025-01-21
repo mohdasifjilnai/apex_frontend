@@ -11,6 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   Observable,
+  Subscription,
   debounceTime,
   distinctUntilChanged,
   of,
@@ -94,6 +95,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     owner_gender: new FormControl('', Validators.required),
     ownner_salutation_type: new FormControl('', Validators.required),
   });
+  private vahaanDetailsUnsubscribe!: Subscription;
 
   constructor(
     private sharedDataService: SharedDataService,
@@ -133,17 +135,20 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.getPincodeList();
       this.getSalutationType();
     }
-    this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-      this.owenerVehicleDetailsForm.patchValue({
-        owner_full_Name: res?.customer_details?.full_name,
-        contact_number: res?.customer_details?.mobile_number,
-        owner_email: res?.customer_details?.email_id,
-        owner_gstin: res?.customer_details?.gst_no,
-        additional_contact: res?.customer_details?.additional_mobile_number,
-        owner_gender: res?.customer_details?.gender,
-        owner_communication_addres:
-          res?.customer_details?.communication_address?.address_line,
-      });
+    this.vahaanDetailsUnsubscribe =this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
+      if(res?.customer_details!=null){
+        this.owenerVehicleDetailsForm.patchValue({
+          owner_full_Name: res?.customer_details?.full_name,
+          contact_number: res?.customer_details?.mobile_number,
+          owner_email: res?.customer_details?.email_id,
+          owner_gstin: res?.customer_details?.gst_no,
+          additional_contact: res?.customer_details?.additional_mobile_number,
+          owner_gender: res?.customer_details?.gender,
+          owner_communication_addres:
+            res?.customer_details?.communication_address?.address_line,
+        });
+      }
+      
       if (res?.customer_details?.communication_address?.pincode) {
         this.apiService
           .getRequestedResponse(
@@ -591,6 +596,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       //   JSON.parse(this.quoteData)['insurer_code']
       // );
     }
+  }
+  ngOnDestroy(): void {
+    this.vahaanDetailsUnsubscribe.unsubscribe();
   }
   /**
    * Emits an event indicating that the form group has been submitted.
