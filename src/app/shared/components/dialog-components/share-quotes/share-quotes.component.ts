@@ -286,4 +286,7 @@ export class ShareQuotesComponent implements OnInit {
       }
     }
   }
+  getRemainingInsurerNames(): any {
+    return this.quotesData.slice(2).map((value: { insurer_name: any; }) => value.insurer_name).join(', ');
+  }
 }

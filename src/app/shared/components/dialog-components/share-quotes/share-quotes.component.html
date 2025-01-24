@@ -5,9 +5,24 @@
     <div class="d-flex justify-content-between">
       <div class="plans-name">
         <div class="header-share-text">Share selected quotes</div>
-        <div *ngFor="let value of quotesData">
-          <span class="header-sub-text">{{ value?.insurer_name }} </span>
+        <div *ngFor="let value of quotesData; let i = index" >
+          <span 
+          class="header-sub-text" 
+          
+          [matTooltip]="i >= 2 ? getRemainingInsurerNames() : null" 
+          *ngIf="i < 2"
+        >
+          {{ value?.insurer_name }}
+        </span>
+          
         </div>
+        <span 
+          class="header-sub-text color-primary" 
+          *ngIf="quotesData?.length > 2"
+          [matTooltip]="getRemainingInsurerNames()"
+        >
+          +{{ quotesData.length - 2 }} more
+        </span> 
       </div>
       <div class="cross">
         <img

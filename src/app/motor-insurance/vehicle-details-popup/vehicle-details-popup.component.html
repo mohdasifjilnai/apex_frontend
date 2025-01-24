@@ -1,7 +1,7 @@
 <ng-container *ngIf="isCheckWheeler">
   <form
     [formGroup]="vehicleDetailsForm"
-    (ngSubmit)="updateVehicleDetail()"
+    (ngSubmit)="updateVehicleDetail(vehicleDetailsForm.valid)"
     class="edit-vehicle-details p-1"
   >
     <div>
@@ -28,7 +28,7 @@
         <hr class="line" />
       </div>
       <!-- Dialog content -->
-      <div mat-dialog-content>
+      <div mat-dialog-content class="scroll-details-data">
         <div class="row vehicle-details-form">
           <!-- Make/Model dropdown -->
           <div
@@ -585,21 +585,33 @@
               </ng-container>
             </ng-container>
           </ng-container>
-          <div class="col-lg-6 col-12">
+          <div class="col-lg-6 col-12 web-button">
             <button
               mat-button
-              class="submit-btn mb-4 vehicle-submission"
+              class="submit-btn mb-2 vehicle-submission"
               type="submit"
-              [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
+              [disabled]="mmvBaseButtonDisable"
             >
               {{ editVehicleDetails ? "Above details are correct" : "Save" }}
             </button>
+            
           </div>
-          <span class="mandatory">* Mandatory Fields</span>
+          <span class="mandatory web-button">* Mandatory Fields</span>
+
         </div>
       </div>
+      <div class="col-lg-6 col-12 res-button">
+        <button
+          mat-button
+          class="submit-btn mb-2 vehicle-submission"
+          type="submit"
+          [disabled]="mmvBaseButtonDisable"
+        >
+          {{ editVehicleDetails ? "Above details are correct" : "Save" }}
+        </button>
+        <span class="mandatory">* Mandatory Fields</span>
 
-      <div></div>
+      </div>
     </div>
   </form>
 </ng-container>

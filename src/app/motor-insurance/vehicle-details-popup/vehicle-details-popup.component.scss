@@ -97,6 +97,12 @@
   font-weight: 500;
   line-height: 11px;
 }
+.web-button{
+  display: block;
+}
+.res-button{
+  display: none;
+}
 
 @media screen and (max-width: 999px) {
   .edit-vehicle-details {
@@ -125,6 +131,17 @@
   .res-view {
     padding: 8px 16px;
   }
+  .scroll-details-data{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 555px;
+  }
+  .web-button{
+    display: none;
+  }
+  .res-button{
+    display: block;
+  }
 }
 .custom-modalbox {
   mat-dialog-container {
@@ -139,3 +156,4 @@
 .isRcClaimDisable {
   display: none;
 }
+

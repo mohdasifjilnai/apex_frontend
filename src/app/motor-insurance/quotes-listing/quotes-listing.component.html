@@ -81,13 +81,13 @@
         >
           <button
             mat-button
-            (click)="shareQuotesDropdown()"
+            (click)="selectQuotes('all')"
             [disabled]="enableIdvCard"
           >
             <img src="/assets/icon/share.svg" class="share-icon me-1" alt="" />
-            <span class="share-quotes-text">Share Quotes</span>
+            <span class="share-quotes-text">All Quotes</span>
           </button>
-          <div
+          <!-- <div
             *ngIf="shareQuotesDropdownValue"
             class="quotesDropdownvalue mt-2"
           >
@@ -97,7 +97,7 @@
             <button class="all-btn mt-1" (click)="selectQuotes('all')">
               All Quotes
             </button>
-          </div>
+          </div> -->
         </div>
         <div
           class="col-lg-3 col-md-3 col-4 inc-gst"
@@ -182,13 +182,13 @@
                     class="insurer-logo"
                     alt=""
                   />
-                  <div *ngIf="addShare" class="responsive-checkbox">
+                  <!-- <div *ngIf="addShare" class="responsive-checkbox">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
                       >Add to Share</mat-checkbox
                     >
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -209,14 +209,14 @@
                       {{ quotes?.premium_details?.idv | number : "2." }} </span
                     ><br />
                   </div>
-                  <div *ngIf="addShare" class="web-checkbox">
+                  <!-- <div *ngIf="addShare" class="web-checkbox">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
                       #checkboxRef
                       >Add to Share</mat-checkbox
                     >
-                  </div>
+                  </div> -->
                 </div>
                 <div *ngIf="quotes?.payd?.status" class="payd-web">
                   <div class="pay-drive mb-2">
@@ -551,23 +551,23 @@
                       </div>
                     </div>
                   </div> -->
-                  <div class="web-checkbox" >
+                  <!-- <div class="web-checkbox" >
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
                       >Add to Share</mat-checkbox
                     >
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-6 premium-btn">
-                <div *ngIf="addShare" class="responsive-checkbox">
+                <!-- <div *ngIf="addShare" class="responsive-checkbox">
                   <mat-checkbox
                     (change)="onCheckboxChange(quotes, $event)"
                     [checked]="isCheckboxChecked"
                     >Add to Share</mat-checkbox
                   >
-                </div>
+                </div> -->
                 <div
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"
@@ -802,18 +802,18 @@
       class="d-flex justify-content-between no-quotes-information-card"
       *ngIf="!noQuotesInformation"
     >
-      <div class="col-lg-8 col-8 d-flex">
+      <div class="col-lg-8 col-8 d-flex align-items-center">
         <img
           src="/assets/icon/quotes-warning.svg"
           alt=""
-          class="warning-img mt-1"
+          class="warning-img"
         />
-        <span class="comprehensive-no-quotes-information-text ms-2 my-1">
+        <span class="comprehensive-no-quotes-information-text ms-2 mb-1">
           Some of the Insurance providers didn’t produce quotes for the selected
           category
         </span>
       </div>
-      <div class="col-lg-4 col-4">
+      <div class="col-lg-4 col-4 d-flex align-items-center justify-content-end">
         <p
           class="comprehensive-know-more-text tag-right cursor-pointer"
           (click)="noQuotes(knowMoreText)"

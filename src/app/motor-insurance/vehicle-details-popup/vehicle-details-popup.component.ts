@@ -261,7 +261,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.regDateValue = new Date(res);
         if (this.editClick == '') {
           setTimeout(() => {
-            // this.getExpiringPolicy(this.regDateValue);
+            this.getExpiringPolicy(this.regDateValue);
           }, 2000);
         } else {
           this.expiryPolicyGetList(this.regDateValue, 'dateChange');
@@ -633,7 +633,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * This function is used to update the vehicle details
    * @param data
    */
-  updateVehicleDetail() {
+  updateVehicleDetail(isValid:any) {
+    if(isValid){
+
+    
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.renderer.removeClass(document.body, 'dropdown-focus');
     if (window.innerWidth <= 999) {
@@ -715,6 +718,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     sessionStorage.removeItem('allNCBDataProposal');
     sessionStorage.removeItem('proposal_Id');
     this.sharedDataService.vehicleCardData(vehicleFrom);
+  }
   }
 
   /**

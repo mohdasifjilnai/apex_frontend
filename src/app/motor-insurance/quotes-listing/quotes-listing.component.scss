@@ -452,7 +452,7 @@
 }
 
 .insurer-logo {
-  width: 100%;
+  // width: 100%;
   height: 40px;
   object-fit: scale-down;
 }
@@ -482,7 +482,7 @@
   font-weight: 600;
 }
 .no-quotes-information-card {
-  padding: 12px 12px 0px 12px;
+  padding: 12px;
   background-color: #f5f8fe;
   .warning-img {
     width: 22px;
@@ -490,7 +490,7 @@
   }
 }
 .no-quotes-information-card-white {
-  padding: 12px 12px 0px 12px;
+  padding: 12px;
   background-color: #fff;
   .warning-img {
     width: 22px;
@@ -539,6 +539,11 @@
   }
   .payd-web{
     display: none;
+  }
+  .shareQuotes {
+    .share-quotes-text {
+      font-size: 10px;
+    }
   }
   .toggle-btn {
     ::ng-deep .mat-tab-label {
@@ -683,7 +688,7 @@
     background-color: #fff;
   }
   .insurer-logo {
-    width: 146px;
+    // width: 146px;
     height: 40px;
     object-fit: scale-down;
   }
