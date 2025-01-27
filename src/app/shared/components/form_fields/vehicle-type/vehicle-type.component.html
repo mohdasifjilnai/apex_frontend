@@ -28,7 +28,7 @@
       /><span class="vehicle-name ms-3">{{ vehicle?.optionName }}</span>
     </span>
       <img
-      *ngIf="isLast(i)"
+      *ngIf="env?.baseUrl=='https://apex.renewbuyinsurance.com/' && isLast(i)"
       class="comming-soon-img"
       src="/assets/icon/coming-soon.svg"
     />

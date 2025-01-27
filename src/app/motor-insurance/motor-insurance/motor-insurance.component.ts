@@ -88,8 +88,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_date: new FormControl(''),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
-    policy_number: new FormControl(''),
-    cv_vehicle_type: new FormControl(''),
+    policy_number: new FormControl('')
   });
   notCertifiedComponentJSON: {
     modalName: any;
@@ -168,7 +167,7 @@ export class MotorInsuranceComponent implements OnInit {
       this.vehcileType = res;
       this.selectedvehicleType = res;
       if (res == 'commercial_vehicle') {
-        this.commercialVehicleTypeList();
+        // this.commercialVehicleTypeList();
         this.motorInsurance
           .get('cv_vehicle_type')
           ?.setValidators([Validators.required]);
@@ -950,13 +949,13 @@ export class MotorInsuranceComponent implements OnInit {
    * Commercial Vehicle Api Integrations
    */
 
-  commercialVehicleTypeList() {
-    this.apiService
-      .getRequestedResponse(`${ApiConstants.cv_vehicle_type}`)
-      .subscribe((res: any) => {
-        this.cvVehicleTypeList = res;
-      });
-  }
+  // commercialVehicleTypeList() {
+  //   this.apiService
+  //     .getRequestedResponse(`${ApiConstants.cv_vehicle_type}`)
+  //     .subscribe((res: any) => {
+  //       this.cvVehicleTypeList = res;
+  //     });
+  // }
 
   onVehicleTypeSelect(event: any) {
     const selectedVehicle = event.value;

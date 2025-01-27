@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  baseUrl: 'https://dev.renewbuy.com/',
+  baseUrl: 'https://apex.renewbuyinsurance.in/',
   amsurl: 'https://accounts.rbstaging.in/',
   artivatic_flag: false,
   apex: 'https://preprod-apex.rbstaging.in/',

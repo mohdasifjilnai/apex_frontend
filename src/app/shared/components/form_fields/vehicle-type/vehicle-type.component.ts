@@ -39,8 +39,14 @@ export class VehicleTypeComponent implements OnInit {
       `${this.selectedVehicleType.optionNameValue}`
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
+    if(vehicle?.optionNameValue=='commercial_vehicle' && this.env?.baseUrl!='https://apex.renewbuyinsurance.com/'){
+      const api='https://apex.renewbuyinsurance.in/cv/api/v1/auth/agent_redirection/'
+      window.open(api, '_blank');
+    }
   }
-  isLast(index: number): boolean {
-    return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
+  isLast(index: number): any {
+    if(this.env?.baseUrl=='https://apex.renewbuyinsurance.com/'){
+      return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
+    }
   }
 }
