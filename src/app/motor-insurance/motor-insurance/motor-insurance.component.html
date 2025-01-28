@@ -269,7 +269,7 @@
             </div>
           </div>
 
-          <div class="col-12 text-center">
+          <!-- <div class="col-12 text-center">
             <span>
               <span *ngIf="!isPolicyNumber" class="already-text"
                 >Already insured?</span
@@ -302,9 +302,9 @@
               </span>
               <span *ngIf="!isPolicyNumber" class="already-text">to renew</span>
             </span>
-          </div>
+          </div> -->
           <!-- </div> -->
-          <div class="col-12 text-center mb-5">
+          <!-- <div class="col-12 text-center mb-5">
             <span>
               <span
                 tabindex="0"
@@ -319,6 +319,34 @@
                 }}
               </span>
             </span>
+          </div> -->
+          <div class="quickLInks mt-3">
+            <mat-card>
+              <div class="row">
+                <div
+                  class="quick-actions-text col-lg-4 col-12 d-flex justify-content-center"
+                 >
+                Quick Actions
+                </div>
+                <div
+                  class="continue-vehicle-number col-lg-4 col-12 d-flex justify-content-center" (click)="getVehicleNumber()"
+                >
+                {{
+                  withoutVehicleNumber
+                    ? "Proceed with Vehicle Number"
+                    : "Proceed without Vehicle Number"
+                }}
+                  <img src="/assets/icon/quick_link_icons.svg" alt="" class="icons" />
+                </div>
+                <div class="col-lg-4 col-12">
+                 <div class="renewal-btn " (click)="getPolicyNumber()">
+                  Click Here for Renewal
+                   <img src="/assets/icon/quick_link_icons.svg" alt="" class="icons" />
+                 </div> 
+                </div>
+              </div>
+            </mat-card>
+            
           </div>
         </form>
       </div>

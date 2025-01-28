@@ -57,6 +57,41 @@
 ::ng-deep .mat-form-field{
   display: block !important;
 }
+
+::ng-deep .mat-card{
+  border-radius: 20px !important;
+  border-left: 3px solid #4B94E5;
+  box-shadow: 0px 1px 4px 0px #20294C1A;
+  padding: 0px !important;
+  .quick-actions-text{
+    border-right: 2px solid #20294C1A;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #263238;
+    align-items: center;
+  }
+  .continue-vehicle-number{
+    color: #8D9598;
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    align-items: center;
+  }
+  .renewal-btn{
+    padding: 10px;
+    margin: 8px;
+    background-color: #F5FAFF;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4E7ED2;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+}
 @media screen and (max-width: 1020px) {
   .vehicle-submission {
     position: relative;
@@ -99,6 +134,13 @@
   .policyNumber {
     ::ng-deep .mat-form-field-flex {
       margin-left: 0px !important;
+    }
+  }
+  ::ng-deep .mat-card{
+    padding: 20px !important;
+    .quick-actions-text{
+      border-right: none;
+      border-bottom: 2px solid #20294C1A;
     }
   }
 }
