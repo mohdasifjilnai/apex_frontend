@@ -73,15 +73,26 @@
   }
   .continue-vehicle-number{
     color: #8D9598;
-    padding: 16px;
+    padding: 10px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     align-items: center;
   }
+  .continue-vehicle-number:hover{
+    padding: 10px;
+    // margin: 8px;
+    background-color: #F5FAFF;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4E7ED2;
+    cursor: pointer;
+    align-items: center;
+  }
   .renewal-btn{
     padding: 10px;
-    margin: 8px;
+    // margin: 8px;
     background-color: #F5FAFF;
     border-radius: 20px;
     font-size: 14px;

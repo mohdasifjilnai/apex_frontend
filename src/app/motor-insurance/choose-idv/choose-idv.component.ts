@@ -191,15 +191,18 @@ export class ChooseIDVComponent implements OnInit {
           this.amountShow = chooseIdvAmount?.chooseIdv;
         } else {
           this.amountShow = this.data?.averageIdv;
+          this.investedAmount=JSON.parse(this.data?.averageIdv)
         }
       } else {
         this.minIdv = this.data?.minIdv;
         this.maxIdv = this.data?.maxIdv;
         this.amountShow = this.data?.averageIdv;
+        this.investedAmount=JSON.parse(this.data?.averageIdv)
       }
       this.chooseIdvForm.patchValue({
         chooseIdv: this.amountShow,
       });
+      this.investedAmount=JSON.parse(this.data?.averageIdv)
       this.changeToCurrency();
     }
   }
@@ -249,17 +252,17 @@ export class ChooseIDVComponent implements OnInit {
     setTimeout(() => {
       this.enableIdvCard = false;
     }, 50000);
-    if (this.selectedIDVOption) {
+    // if (this.selectedIDVOption) {
       // this.sharedDataService.sendCarLoaderMessage(0);
       if (window.innerWidth <= 999) {
         this.bottomSheetRef.dismiss();
       }
-      this.currentAmount = this.chooseIdvForm.value.chooseIdv;
-      this.investedAmount = this.currentAmount;
+      // this.currentAmount = this.chooseIdvForm.value.chooseIdv;
+      // this.investedAmount = this.currentAmount;
       let idvObject = {
         minIdv: '',
         maxIdv: '',
-        chooseIdv: this.currentAmount,
+        chooseIdv: this.investedAmount,
       };
       let chooseIdvValue = sessionStorage.setItem(
         'idvData',
@@ -267,10 +270,11 @@ export class ChooseIDVComponent implements OnInit {
       );
       this.updateIdvButton = false;
       this.idvBaseQuotes();
-    }
+    // }
   }
   cancelIdv() {
     // this.sharedDataService.sendCarLoaderMessage(0);
+    this.investedAmount = this.averageIdv;
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     }
@@ -280,9 +284,6 @@ export class ChooseIDVComponent implements OnInit {
       sessionStorage.removeItem('idvData');
       this.idvBaseQuotes();
     }
-
-    this.clearIdvButton = false;
-    this.updateIdvButton = false;
   }
   idvBaseQuotes() {
     let productTypeValue = sessionStorage.getItem('productType');
@@ -377,5 +378,12 @@ export class ChooseIDVComponent implements OnInit {
 
       this.currency.setValue(currencyValue);
     }
+  }
+  onSliderInput(event: any) {
+    this.investedAmount = event.value;
+  }
+
+  onSliderRangeAmount(value: number) {
+    this.investedAmount = value;
   }
 }
