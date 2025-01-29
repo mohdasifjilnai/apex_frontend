@@ -10,7 +10,7 @@
         <div class="range-flex">
           <div class="small-amount-value tag-text">Choose IDV</div>
           <div class="small-amount-value text-orange amount-format-text">
-            {{ investedAmount | amountFormat }}
+            &#8377; {{ investedAmount | number : "2."}}
           </div>
         </div>
         <mat-slider
@@ -20,14 +20,15 @@
           [max]="maxIdv"
           [step]="1000"
           [value]="investedAmount"
+          [disabled]="enableIdvCard"
           aria-readonly="true"
           (input)="onSliderInput($event)"
           (slideend)="onSliderRangeAmount(event.value)"
           (pointerup)="onSliderRangeAmount(event.value)"
         ></mat-slider>
         <div class="range-flex">
-          <div class="small-amount-value">&#8377; {{ minIdv }}</div>
-          <div class="small-amount-value">&#8377; {{ maxIdv }}</div>
+          <div class="small-amount-value">&#8377; {{ minIdv | number : "2."}}</div>
+          <div class="small-amount-value">&#8377; {{ maxIdv | number : "2."}}</div>
         </div>
         <!-- <div class="d-flex justify-content-between">
           <span class="idv">IDV</span>
@@ -103,6 +104,7 @@
               class="submit-btn cancel-btn"
               type="submit"
               (click)="cancelIdv()"
+              [disabled]="enableIdvCard"
             >
               Reset
             </button>
@@ -112,6 +114,7 @@
               class="submit-btn update-btn"
               type="submit"
               (click)="updateIdv()"
+              [disabled]="enableIdvCard"
             >
               Update
             </button>
@@ -246,7 +249,7 @@
           <div class="range-flex">
             <div class="small-amount-value tag-text">Choose IDV</div>
             <div class="small-amount-value text-orange amount-format-text">
-              {{ investedAmount | amountFormat }}
+              &#8377; {{ investedAmount | number : "2."}}
             </div>
           </div>
           <mat-slider
@@ -257,13 +260,14 @@
             [step]="1000"
             [value]="investedAmount"
             aria-readonly="true"
+            [disabled]="enableIdvCard"
             (input)="onSliderInput($event)"
             (slideend)="onSliderRangeAmount(event.value)"
             (pointerup)="onSliderRangeAmount(event.value)"
           ></mat-slider>
           <div class="range-flex">
-            <div class="small-amount-value">&#8377; {{ minIdv }}</div>
-            <div class="small-amount-value">&#8377; {{ maxIdv }}</div>
+            <div class="small-amount-value">&#8377; {{ minIdv | number : "2."}}</div>
+            <div class="small-amount-value">&#8377; {{ maxIdv | number : "2."}}</div>
           </div>
         </div>
       </div>
