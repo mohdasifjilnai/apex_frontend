@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for fetching JSON
 import vehicleTypeList from '../../json/vehicle-types.json';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,7 +14,7 @@ export class VehicleTypeComponent implements OnInit {
   vehicleTypeListData = vehicleTypeList;
   selectedVehicleType: any;
   env=environment
-  constructor(private http: HttpClient, private sharedata: SharedDataService,private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private sharedata: SharedDataService,private route: ActivatedRoute,private router: Router) {}
 
   ngOnInit(): void {
     sessionStorage.setItem('vehicleType', `private_car`);
@@ -40,8 +40,8 @@ export class VehicleTypeComponent implements OnInit {
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
     if(vehicle?.optionNameValue=='commercial_vehicle' && this.env?.baseUrl!='https://apex.renewbuyinsurance.com/'){
-      const api='https://apex.renewbuyinsurance.in/cv/api/v1/auth/agent_redirection/'
-      window.open(api, '_blank');
+      // const api='https://apex.renewbuyinsurance.in/cv/api/v1/auth/agent_redirection/'
+      window.location.href = `${this.env?.baseUrl}cv`;
     }
   }
   isLast(index: number): any {
