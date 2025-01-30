@@ -114,7 +114,7 @@
               class="submit-btn update-btn"
               type="submit"
               (click)="updateIdv()"
-              [disabled]="enableIdvCard"
+              [disabled]="enableIdvCard || updateIdvButton"
             >
               Update
             </button>
@@ -285,6 +285,7 @@
             class="submit-btn update-btn"
             type="submit"
             (click)="updateIdv()"
+            [disabled]="updateIdvButton"
           >
             Update
           </button>

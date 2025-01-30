@@ -27,7 +27,7 @@ export class ChooseIDVComponent implements OnInit {
   chooseIdvValue: any;
   quotesCount: any;
   idvError: any;
-  updateIdvButton = false;
+  updateIdvButton = true;
   showIdv: any;
   isMobileView: boolean = false;
   // isPageRefresh = true;
@@ -268,13 +268,14 @@ export class ChooseIDVComponent implements OnInit {
         'idvData',
         JSON.stringify(idvObject)
       );
-      this.updateIdvButton = false;
+      this.updateIdvButton = true;
       this.idvBaseQuotes();
     // }
   }
   cancelIdv() {
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
+    this.updateIdvButton = true;
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     }
@@ -380,10 +381,12 @@ export class ChooseIDVComponent implements OnInit {
     }
   }
   onSliderInput(event: any) {
+    this.updateIdvButton = false;
     this.investedAmount = event.value;
   }
 
   onSliderRangeAmount(value: number) {
     this.investedAmount = value;
+    this.updateIdvButton = false;
   }
 }
