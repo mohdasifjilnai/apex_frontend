@@ -4,7 +4,7 @@
     <div mat-dialog-title>
       <div class="failure-popup-header d-flex justify-content-end">
         <img
-          src="/assets/icon/cross.svg"
+          src="assets/icon/cross.svg"
           (click)="onClose()"
           class="cursor-pointer"
           alt="close"
@@ -15,7 +15,7 @@
     <div class="row scroll">
       <div class="col-12 text-center">
         <img
-          src="/assets/icon/insurance.svg"
+          src="assets/icon/insurance.svg"
           class="insurance-icon"
           alt="close"
         />
@@ -57,7 +57,7 @@
         >
           <span *ngIf="!quoteData?.is_breakin"
             ><img
-              src="/assets/gif/button-loader.gif"
+              src="assets/gif/button-loader.gif"
               alt="close"
               class="loader me-2"
               *ngIf="loader"
@@ -65,7 +65,7 @@
           >
           <span *ngIf="quoteData?.is_breakin"
             ><img
-              src="/assets/gif/button-loader.gif"
+              src="assets/gif/button-loader.gif"
               alt="close"
               class="loader me-2"
               *ngIf="loader"
@@ -80,7 +80,7 @@
             (click)="share()"
             *ngIf="isCommunicationGroup"
           >
-            <img src="/assets/icon/share.svg" class="share-icon" />
+            <img src="assets/icon/share.svg" class="share-icon" />
             <p class="share-text text-light-blue">Share</p>
           </div>
           <div
@@ -89,7 +89,7 @@
             (click)="downloadPremiumBreakup()"
             *ngIf="!downloadLoader"
           >
-            <img src="/assets/icon/download.svg" class="download-icon" />
+            <img src="assets/icon/download.svg" class="download-icon" />
             <p class="download-text text-light-green">Download</p>
           </div>
           <div
@@ -118,21 +118,21 @@
             [ngClass]="{ 'whatsapp-border': isActiveIcon == 'whatsapp' }"
           >
             <!-- (click)="communication('whatsapp')" -->
-            <img src="/assets/icon/whatsapp.svg" class="whatsapp-icon" />
+            <img src="assets/icon/whatsapp.svg" class="whatsapp-icon" />
           </div>
           <div
             class="sms-group light-blue me-2"
             [ngClass]="{ 'sms-border': isActiveIcon == 'sms' }"
             (click)="communication('sms')"
           >
-            <img src="/assets/icon/sms.svg" class="sms-icon" />
+            <img src="assets/icon/sms.svg" class="sms-icon" />
           </div>
           <div
             class="mail-group light-blue"
             [ngClass]="{ 'mail-border': isActiveIcon == 'mail' }"
             (click)="communication('mail')"
           >
-            <img src="/assets/icon/mail.svg" class="mail-icon" />
+            <img src="assets/icon/mail.svg" class="mail-icon" />
           </div>
         </div>
       </div>
@@ -195,7 +195,7 @@
           </button>
           <img
             class="loader send-loader"
-            src="/assets/gif/button-loader.gif"
+            src="assets/gif/button-loader.gif"
             alt=""
             *ngIf="sendLoader"
           />

@@ -707,7 +707,7 @@ export class CkycComponent implements OnInit {
    */
 
   downloadTerms() {
-    let url = '/assets/file/Download_consent_form_format.docx';
+    let url = 'assets/file/Download_consent_form_format.docx';
     var anchorElement = document.createElement('a');
     anchorElement.href = url;
     anchorElement.download = 'Download consent form format';

@@ -8,12 +8,12 @@
     </div>
     <img
       *ngIf="vehcileType == 'private_car'"
-      src="/assets/icon/private_car_res_bg.svg"
+      src="assets/icon/private_car_res_bg.svg"
       alt=""
     />
     <img
       *ngIf="vehcileType == 'two_wheeler'"
-      src="/assets/icon/two_wheeler_res_bg.svg"
+      src="assets/icon/two_wheeler_res_bg.svg"
       alt=""
     />
   </div>
@@ -196,13 +196,13 @@
             <ng-container *ngIf="isPolicyNumber">
               <div class="d-flex justify-content-center">
                 <img
-                  src="/assets/icon/horizontal-line.svg"
+                  src="assets/icon/horizontal-line.svg"
                   alt="close"
                   class="horizontal-line me-2"
                 />
                 <span class="text-center me-2 or-text">Or</span>
                 <img
-                  src="/assets/icon/horizontal-line.svg"
+                  src="assets/icon/horizontal-line.svg"
                   alt="close"
                   class="horizontal-line me-2"
                 />
@@ -259,7 +259,7 @@
                 (click)="loader ? null : getVehicleDetails()"
               >
                 <img
-                  src="/assets/gif/button-loader.gif"
+                  src="assets/gif/button-loader.gif"
                   alt="close"
                   class="loader me-2"
                   *ngIf="loader"
@@ -337,13 +337,13 @@
                     ? "Proceed with Vehicle Number"
                     : "Proceed without Vehicle Number"
                 }}
-                  <img src="/assets/icon/quick_link_icons.svg" alt="" class="icons" />
+                  <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                 </div>
                 </div>
                 <div class="col-lg-4 col-12">
                  <div class="continue-vehicle-number  m-2" (click)="getPolicyNumber()">
                   Click Here for Renewal
-                   <img src="/assets/icon/quick_link_icons.svg" alt="" class="icons" />
+                   <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                  </div> 
                 </div>
               </div>

@@ -3,13 +3,13 @@
   <span>
     <ul *ngIf="!reviewPageUrl">
       <img
-        src="/assets/icon/home.svg"
+        src="assets/icon/home.svg"
         class="mx-2 cursor-pointer"
         (click)="redirectHome()"
       />
-      <!-- <img src="/assets/icon/right-arrow.svg" class="mx-2" /> -->
+      <!-- <img src="assets/icon/right-arrow.svg" class="mx-2" /> -->
       <li *ngFor="let breadcrumb of breadcrumbs$ | async">
-        <img src="/assets/icon/right-arrow.svg" class="mx-2" />
+        <img src="assets/icon/right-arrow.svg" class="mx-2" />
         <a [routerLink]="breadcrumb.url" class="breadcrumb-title">{{
           breadcrumb.label
         }}</a>

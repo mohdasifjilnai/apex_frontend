@@ -2,7 +2,7 @@
   "vehicleTypeList": [
     {
       "optionName": "Two Wheeler",
-      "imageUrl": "/assets/icon/two-wheeler-icon.svg",
+      "imageUrl": "assets/icon/two-wheeler-icon.svg",
       "imageInformation": "Two Wheeler",
       "backgroundColor": "#FF8C9E1A",
       "backgroundColorActive": "rgba(255, 140, 158, 0.1)",
@@ -11,7 +11,7 @@
     },
     {
       "optionName": "Private Car",
-      "imageUrl": "/assets/icon/private-car-icon.svg",
+      "imageUrl": "assets/icon/private-car-icon.svg",
       "imageInformation": "Private Car",
       "backgroundColor": "#28B8E21A",
       "backgroundColorActive": "rgba(40, 184, 226, 0.1)",
@@ -20,7 +20,7 @@
     },
     {
       "optionName": "Commercial Vehicle",
-      "imageUrl": "/assets/icon/commercial-vehicle-icon.svg",
+      "imageUrl": "assets/icon/commercial-vehicle-icon.svg",
       "imageInformation": "Commercial Vehicle",
       "backgroundColor": "rgba(189, 149, 255, 0.05)",
       "backgroundColorActive": "rgba(189, 149, 255, 0.05)",

@@ -18,7 +18,7 @@
         class="d-flex justify-content-end"
         (click)="cancelBreakupPremium($event)"
       >
-        <img src="/assets/icon/cross.svg" alt="" class="cross-icon me-3" />
+        <img src="assets/icon/cross.svg" alt="" class="cross-icon me-3" />
       </div>
     </div>
   </div>
@@ -112,7 +112,7 @@
         Total Addons
         {{ initiateQuotes.premium_details?.is_addon_addition ? "(D)" : "" }}
         <img
-          src="/assets/icon/cpa-hover.svg"
+          src="assets/icon/cpa-hover.svg"
           
           alt=""
           class="addons-hover-image ms-2"
@@ -121,7 +121,7 @@
           "
         />
         <img
-          src="/assets/icon/cpa-hover.svg"
+          src="assets/icon/cpa-hover.svg"
           (click)="showAddonsData()"
           alt=""
           class="res-addons-hover-image"
@@ -266,12 +266,12 @@
           class="share-group light-blue d-flex justify-content-center"
           (click)="shareQuotes()"
         >
-          <img src="/assets/icon/share.svg" class="share-icon" />
+          <img src="assets/icon/share.svg" class="share-icon" />
           <p class="share-text text-light-blue">Share</p>
         </div>
         <div class="download-group light-green justify-content-center d-flex">
           <img
-            src="/assets/icon/download.svg"
+            src="assets/icon/download.svg"
             class="download-icon"
             *ngIf="!downloadLoader"
           />
@@ -297,7 +297,7 @@
     <div class="row" *ngIf="endPath == 'quotes'">
       <div class="col-3">
         <button mat-button class="light-blue" (click)="shareQuotes()">
-          <img src="/assets/icon/share.svg" class="share-icon" alt="" />
+          <img src="assets/icon/share.svg" class="share-icon" alt="" />
         </button>
       </div>
       <div class="col-3">
@@ -307,7 +307,7 @@
           *ngIf="!downloadLoader"
           (click)="downloadPremiumBreakup(initiateQuotes)"
         >
-          <img src="/assets/icon/download.svg" class="share-icon" alt="" />
+          <img src="assets/icon/download.svg" class="share-icon" alt="" />
         </button>
         <div class="light-green text-center p-2" *ngIf="downloadLoader">
           <img
@@ -334,14 +334,14 @@
             class="share-group col-6 light-blue d-flex justify-content-center"
             (click)="shareQuotes()"
           >
-            <img src="/assets/icon/share.svg" class="share-icon" />
+            <img src="assets/icon/share.svg" class="share-icon" />
             <p class="share-text text-light-blue">Share</p>
           </div>
           <div
             class="download-group col-6 light-green justify-content-center d-flex"
           >
             <img
-              src="/assets/icon/download.svg"
+              src="assets/icon/download.svg"
               class="download-icon"
               *ngIf="!downloadLoader"
             />

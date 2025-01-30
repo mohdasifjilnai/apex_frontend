@@ -57,7 +57,7 @@ export class ProposalComponent implements OnInit {
   productTypeValue: any;
   stepNumber: any = 'Step 1/5';
   stepHeader: any = 'CKYC Details';
-  stepImage: any = '/assets/icon/step-1.svg';
+  stepImage: any = 'assets/icon/step-1.svg';
   mmvData: any;
   isLoadVehicleOwnerDetails: boolean = false;
   isLoadNomineeDetails: boolean = false;
@@ -449,33 +449,33 @@ export class ProposalComponent implements OnInit {
     switch (selectedStep) {
       case 1:
         this.stepHeader = 'CKYC Details';
-        this.stepImage = '/assets/icon/step-1.svg';
+        this.stepImage = 'assets/icon/step-1.svg';
         break;
       case 2:
         this.stepHeader = 'Vehicle Owner Details';
-        this.stepImage = '/assets/icon/step-2.svg';
+        this.stepImage = 'assets/icon/step-2.svg';
         break;
       case 3:
         if (this.isNotShowNomineeDetails) {
           this.stepHeader = 'Nominee Details';
-          this.stepImage = '/assets/icon/step-3.svg';
+          this.stepImage = 'assets/icon/step-3.svg';
         } else {
           this.stepHeader = 'Vehicle Details';
-          this.stepImage = '/assets/icon/step-4.svg';
+          this.stepImage = 'assets/icon/step-4.svg';
         }
         break;
       case 4:
         if (this.isNotShowInNewPolicyDetails) {
           this.stepHeader = 'Previous Policy Details';
-          this.stepImage = '/assets/icon/step-5.svg';
+          this.stepImage = 'assets/icon/step-5.svg';
         } else {
           this.stepHeader = 'Vehicle Details';
-          this.stepImage = '/assets/icon/step-4.svg';
+          this.stepImage = 'assets/icon/step-4.svg';
         }
         break;
       case 5:
         this.stepHeader = 'Previous Policy Details';
-        this.stepImage = '/assets/icon/step-5.svg';
+        this.stepImage = 'assets/icon/step-5.svg';
         break;
       default:
         break;

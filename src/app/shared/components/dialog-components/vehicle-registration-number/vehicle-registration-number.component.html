@@ -7,19 +7,19 @@ novalidate
         <div class="col-lg-4 col-12">
           <div class="d-flex">
             <img
-            src="/assets/icon/car.svg"
+            src="assets/icon/car.svg"
             class="car-image"
             alt="close"
             *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'"
             />
             <img
-            src="/assets/icon/bike.svg"
+            src="assets/icon/bike.svg"
             class="car-image"
             alt="close"
             *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'"
             />
             <img
-                src="/assets/icon/cross.svg"
+                src="assets/icon/cross.svg"
                 (click)="onClose()"
                 class="cursor-pointer ms-3 cross-btn res"
                 alt="close"
@@ -30,7 +30,7 @@ novalidate
             <div class="d-flex">
                 <span class="title">Enter the vehicle Registration Number to get best and exact quotes</span>
                 <img
-                    src="/assets/icon/cross.svg"
+                    src="assets/icon/cross.svg"
                     (click)="onClose()"
                     class="cursor-pointer ms-3 cross-btn web"
                     alt="close"
@@ -177,7 +177,7 @@ novalidate
                   [disabled]="vehicleRegistrationNumberForm.invalid"
                 >
                   <img
-                    src="/assets/gif/button-loader.gif"
+                    src="assets/gif/button-loader.gif"
                     alt="close"
                     class="loader me-2"
                     *ngIf="loader"
@@ -193,7 +193,7 @@ novalidate
                   [disabled]="vehicleRegistrationNumberForm.invalid"
                 >
                   <img
-                    src="/assets/gif/button-loader.gif"
+                    src="assets/gif/button-loader.gif"
                     alt="close"
                     class="loader me-2"
                     *ngIf="loader"

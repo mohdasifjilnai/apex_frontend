@@ -5,7 +5,7 @@
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div *ngIf="showInsurerButton">
         <button type="button" class="edit-button" (click)="changeInsurer()" [disabled]="proposalPunched">
-          <img src="/assets/icon/edit.svg" alt="" class="edit-image" />
+          <img src="assets/icon/edit.svg" alt="" class="edit-image" />
           Change Insurer
         </button>
       </div>
@@ -19,13 +19,13 @@
   >
     <div class="d-flex">
       <img
-        src="/assets/icon/four-wheeler.svg"
+        src="assets/icon/four-wheeler.svg"
         alt=""
         class="vehicle-icon"
         *ngIf="vehicleTypeValue == 'private_car'"
       />
       <img
-        src="/assets/icon/two-wheeler-icon.svg"
+        src="assets/icon/two-wheeler-icon.svg"
         alt=""
         class="vehicle-icon"
         *ngIf="vehicleTypeValue == 'two_wheeler'"
@@ -41,13 +41,13 @@
     </div>
     <!-- <div class="d-flex" *ngIf="mmvItem">
       <img
-        src="/assets/icon/four-wheeler.svg"
+        src="assets/icon/four-wheeler.svg"
         alt=""
         class="vehicle-icon"
         *ngIf="vehicleTypeValue == 'private_car'"
       />
       <img
-        src="/assets/icon/two-wheeler-icon.svg"
+        src="assets/icon/two-wheeler-icon.svg"
         alt=""
         class="vehicle-icon"
         *ngIf="vehicleTypeValue == 'two_wheeler'"
@@ -235,7 +235,7 @@
           <span class="cpa-cover-section"
             >Add CPA cover
             <img
-              src="/assets/icon/cpa-hover.svg"
+              src="assets/icon/cpa-hover.svg"
               (mouseenter)="showCard = true"
               (mouseleave)="showCard = false"
               alt=""
@@ -263,7 +263,7 @@
               </div>
 
               <div class="col-4">
-                <img src="/assets/icon/cpa-cover.svg" class="cpa-cover-image" />
+                <img src="assets/icon/cpa-cover.svg" class="cpa-cover-image" />
               </div>
             </div>
           </div>
@@ -303,7 +303,7 @@
     id-automation="download_underwriting"
     (click)="downloadUnderwritingUrl()"
   >
-    <img src="/assets/icon/download.svg" alt="" class="edit-image" />
+    <img src="assets/icon/download.svg" alt="" class="edit-image" />
     Download Policy Underwriting
   </button>
   <div class="d-flex share-download-btn" *ngIf="reviewURL">
@@ -313,7 +313,7 @@
       id-automation="share_underwriting"
       (click)="openShareModal()"
     >
-      <img src="/assets/icon/share.svg" alt="" class="edit-image" />
+      <img src="assets/icon/share.svg" alt="" class="edit-image" />
       Share
     </button>
     <button
@@ -323,7 +323,7 @@
       (click)="downloadPremiumBreakup()"
       *ngIf="!downloadLoader"
     >
-      <img src="/assets/icon/download.svg" alt="" class="edit-image" />
+      <img src="assets/icon/download.svg" alt="" class="edit-image" />
       Download
     </button>
     <div class="download-button text-center mt-3" *ngIf="downloadLoader">

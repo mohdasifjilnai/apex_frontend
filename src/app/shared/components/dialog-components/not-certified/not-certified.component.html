@@ -3,7 +3,7 @@
   <div class="row" *ngIf="data?.data!='Partner_Mapped'">
     <div class="col-12 text-center not-certified">
       <img
-        src="/assets/icon/not-certified.svg"
+        src="assets/icon/not-certified.svg"
         class="not-certified-image"
         alt="close"
       />
@@ -36,7 +36,7 @@
       <div [ngClass]="hideLogin ? 'col-lg-6':'col-lg-12 d-flex justify-content-center'" >
         <button [ngClass]="hideLogin ? 'btn-procced':'btn-procced-width'"  class="submit-btn  mt-2" type="submit" (click)="loader ? null : procced()">
           <img
-          src="/assets/gif/button-loader.gif"
+          src="assets/gif/button-loader.gif"
           alt="close"
           class="loader me-2"
           *ngIf="loader"
