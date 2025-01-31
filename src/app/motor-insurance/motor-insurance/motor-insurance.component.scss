@@ -57,34 +57,39 @@
 ::ng-deep .mat-form-field{
   display: block !important;
 }
-
+.quickLInks{
+  margin-left: 160px;
+  margin-right: 160px;
+}
 ::ng-deep .mat-card{
   border-radius: 20px !important;
   border-left: 3px solid #4B94E5;
-  box-shadow: 0px 1px 4px 0px #20294C1A;
-  padding: 0px !important;
+  box-shadow: 0 4px 4px #20294c1a !important;
+    padding: 0px !important;
+    border-top: 1px solid rgb(241, 241, 241);;
+  
   .quick-actions-text{
     border-right: 2px solid #20294C1A;
-    padding: 16px;
-    font-size: 16px;
+    // padding: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #263238;
     align-items: center;
   }
   .continue-vehicle-number{
     color: #8D9598;
-    padding: 10px;
-    font-size: 14px;
+    // padding: 10px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     align-items: center;
   }
   .continue-vehicle-number:hover{
-    padding: 10px;
+    // padding: 10px;
     // margin: 8px;
     background-color: #F5FAFF;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #4E7ED2;
     cursor: pointer;
@@ -101,6 +106,9 @@
     cursor: pointer;
     align-items: center;
   }
+  .responsive-line{
+    display: none;
+  }
   
 }
 @media screen and (max-width: 1020px) {
@@ -113,10 +121,20 @@
   .content {
     padding: 0 !important;
   }
+  .quickLInks{
+    display: flex;
+    justify-content: center;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }
 @media screen and (max-width: 999px) {
   .content {
     padding: 1rem !important;
+  }
+  .quickLInks{
+    margin-left: 0px;
+    margin-right: opx;
   }
   .motor-insurance {
     display: none;
@@ -148,11 +166,27 @@
     }
   }
   ::ng-deep .mat-card{
-    padding: 20px !important;
+    padding: 10px !important;
     .quick-actions-text{
       border-right: none;
-      border-bottom: 2px solid #20294C1A;
     }
+  }
+  .continue-vehicle-number{
+    margin-top: 10px !important;
+  }
+  .quick-actions-text{
+    margin: 8px;
+  }
+  .click{
+    margin-top: -4px !important;
+    margin-bottom: -4px !important;
+  }
+  .responsive-line{
+    color: #4546491a;
+    display: block;
+    height: 2px;
+    margin: 0px !important;
+    opacity: 90%;
   }
 }
 
