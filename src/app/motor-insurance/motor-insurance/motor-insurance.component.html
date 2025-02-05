@@ -343,7 +343,21 @@
                 </div>
                 <div class="col-lg-4 col-12">
                  <div class="continue-vehicle-number click   m-2" (click)="getPolicyNumber()">
-                  Click Here for Renewal
+                  <ng-container *ngIf="withoutVehicleNumber">
+                    {{
+                      !isPolicyNumber
+                        ? "Click Here for Renewal"
+                        : "Proceed without Vehicle Number"
+                    }}
+                  </ng-container>
+                  <ng-container *ngIf="!withoutVehicleNumber">
+                    {{
+                      !isPolicyNumber
+                        ? "Click Here for Renewal"
+                        : "Proceed with Vehicle Number"
+                    }}
+                  </ng-container>
+                  
                    <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                  </div> 
                 </div>
