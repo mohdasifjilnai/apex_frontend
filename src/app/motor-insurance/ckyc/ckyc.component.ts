@@ -662,7 +662,7 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
     }
-    if (this.quoteData['insurer_code'] === 'cholamandalam') {
+    if (this.quoteData['insurer_code'] === 'cholamandalam' || this.quoteData['insurer_code'] === 'bajaj') {
       if (this.documentName != 'aadhaar_number') {
         this.showFullName = true;
         this.ckycFormGroup
