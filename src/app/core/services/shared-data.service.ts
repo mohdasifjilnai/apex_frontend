@@ -763,12 +763,12 @@ export class SharedDataService {
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     let transactionId = sessionStorage.getItem('transaction_id');
-    let proposalId:any
-    const BuyNowClick=sessionStorage.getItem('BuyNowClick')
-    if(BuyNowClick=='true'){
+    let proposalId: any;
+    const BuyNowClick = sessionStorage.getItem('BuyNowClick');
+    if (BuyNowClick == 'true') {
       proposalId = '';
-    }else{
-      proposalId = sessionStorage.getItem('proposal_Id')
+    } else {
+      proposalId = sessionStorage.getItem('proposal_Id');
     }
     this.proposalDataItem = {
       transaction_id: transactionId || '',
@@ -1023,7 +1023,6 @@ export class SharedDataService {
         this.proposalDataItem.is_rb_renewal = true;
       } else {
         this.proposalDataItem.is_rb_renewal = false;
-        
       }
     }
     this.apiService
@@ -1035,14 +1034,14 @@ export class SharedDataService {
         (res) => {
           if (res) {
             this.createdProposalId = res;
-            if(this.quoteData?.insurer_code!=res?.insurer_code){
+            if (this.quoteData?.insurer_code != res?.insurer_code) {
               const dialogRef = this.dialog.open(RefreshPageComponent, {
                 width: 'auto',
                 height: 'auto',
                 panelClass: 'failure-dialog-class',
               });
             }
-            sessionStorage.removeItem('BuyNowClick')
+            sessionStorage.removeItem('BuyNowClick');
             sessionStorage.setItem('proposal_Id', res?.proposal_id);
             this.sendProposalData(res);
             if (flag === 'ckyc') {
@@ -1161,7 +1160,7 @@ export class SharedDataService {
       this.createProposalId('ckyc', this.ckycFormInfo, data);
     }
   }
-  getRenewalData(data:any){
+  getRenewalData(data: any) {
     this.getRenewalValue.next(data);
   }
   /**
@@ -1563,14 +1562,14 @@ export class SharedDataService {
     }
     return this.visuallyDisabledFields;
   }
-  customFieldValidator(fieldType:any): ValidatorFn {
+  customFieldValidator(fieldType: any): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
-  
+
       if (value && value.includes('*')) {
         return null;
       }
-  
+
       switch (fieldType) {
         case 'contact':
           const contactPattern = /^[6-9]\d{9}$/;
@@ -1578,15 +1577,18 @@ export class SharedDataService {
 
         case 'additional_contact':
           const additionalcontactPattern = /^[6-9]\d{9}$/;
-          return additionalcontactPattern.test(value) ? null : { invalidContact: false };
+          return additionalcontactPattern.test(value)
+            ? null
+            : { invalidContact: false };
         case 'email':
-          const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          const emailPattern =
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           return emailPattern.test(value) ? null : { invalidEmail: true };
-  
+
         case 'pan':
           const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
           return panPattern.test(value) ? null : { invalidPAN: true };
-  
+
         default:
           return null;
       }

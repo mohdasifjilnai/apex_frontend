@@ -442,9 +442,7 @@ export class MotorInsuranceComponent implements OnInit {
         value = value.replace(/^-|-$/g, '');
         value = value.replace(/--+/g, '-');
         this.regNo = value;
-        if (subdomain != 'd2c') {
-          this.getVehicleDetails();
-        }
+        this.getVehicleDetails();
       } else if (this.policyNo != null) {
         this.motorInsurance.patchValue({
           policy_number: this.policyNo,

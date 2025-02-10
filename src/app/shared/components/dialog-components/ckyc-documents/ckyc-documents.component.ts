@@ -22,6 +22,7 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
+declare const webengage: any;
 
 @Component({
   selector: 'app-ckyc-documents',
@@ -30,6 +31,7 @@ import {
 })
 export class CkycDocumentsComponent implements OnInit {
   fileName: any = 'Upload Document';
+  vehicleTypeValue: any;
   uploadDocumentsForm!: FormGroup;
   isUploadDocment: boolean = false;
   showPOI: boolean = false;
@@ -82,8 +84,9 @@ export class CkycDocumentsComponent implements OnInit {
   documentURlPOI: any;
   documentURlPOA: any;
   documentURlOther: any;
-  otherfileInputError:boolean=false
+  otherfileInputError: boolean = false;
   reUploadFileCOntrolName: any;
+  userType: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -108,6 +111,10 @@ export class CkycDocumentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.uploadDocumentsFormControler();
     const currentDate = new Date();
     this.minDate = new Date(1900, 1, 1);
@@ -126,95 +133,110 @@ export class CkycDocumentsComponent implements OnInit {
 Event handler for when a file is selected.
 @param event - The file selection event.
  */
-onFileSelected(event: any, fileFormControlName: any, isReupload: boolean = false): void {
-  const selectedFile: File = event.target.files[0];
-  const fileInput = event.target as HTMLInputElement; // Reference to the file input element
-  this.fileControlName = fileFormControlName;
-  const fileType = selectedFile.type;
+  onFileSelected(
+    event: any,
+    fileFormControlName: any,
+    isReupload: boolean = false
+  ): void {
+    const selectedFile: File = event.target.files[0];
+    const fileInput = event.target as HTMLInputElement; // Reference to the file input element
+    this.fileControlName = fileFormControlName;
+    const fileType = selectedFile.type;
 
-  // Truncate file name if it's too long
-  this.fileName = selectedFile.name.length > 20 ? selectedFile.name.substring(0, 20) + '...' : selectedFile.name;
+    // Truncate file name if it's too long
+    this.fileName =
+      selectedFile.name.length > 20
+        ? selectedFile.name.substring(0, 20) + '...'
+        : selectedFile.name;
 
-  let isValidFile = false;
-  let doc_type = '';
+    let isValidFile = false;
+    let doc_type = '';
 
-  // Determine file type and valid extensions
-  switch (fileFormControlName) {
-    case 'poa_doc_url':
-    case 'poa_doc_url_1':
-      doc_type = 'poa';
-      isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(fileType);
-      this.docTypeData = 'poa';
-      break;
-    case 'doc_url':
-      doc_type = 'other';
-      isValidFile = ['image/jpeg', 'image/png'].includes(fileType);
-      this.docTypeData = 'other';
-      break;
-    case 'poi_doc_url':
-      doc_type = 'poi';
-      isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(fileType);
-      this.docTypeData = 'poi';
-      break;
-  }
-
-  if (!isValidFile) {
-    fileInput.value = ''; // This clears the file input
-    this.uploadDocumentsForm.get(fileFormControlName)?.reset(); // Reset the form control
-    this.setFileInputError(fileFormControlName, true); // Set error state
-    return;
-  }
-
-  // If file is valid, proceed with the file upload
-  const formData = new FormData();
-  formData.append('file', selectedFile, selectedFile.name);
-
-  this.apiService.postRequestedResponse(
-    `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
-    formData
-  ).subscribe(
-    (res) => {
-      if (res['status']) {
-        if (isReupload) {
-          this.isReUploadDocument = true;
-          this.checkUploadDocment(res['document_url'],fileFormControlName);
-        }
-        this.uploadDocumentsForm.get(fileFormControlName)?.setValue(res['document_url']);
-        this.setFileInputError(fileFormControlName, false);
-      } else {
-        fileInput.value = ''; 
-        this.uploadDocumentsForm.get(fileFormControlName)?.reset();
-        this.setFileInputError(fileFormControlName, true);
-      }
-    },
-    (error) => {
-      fileInput.value = ''; 
-      this.uploadDocumentsForm.get(fileFormControlName)?.reset();
-      this.setFileInputError(fileFormControlName, true);
+    // Determine file type and valid extensions
+    switch (fileFormControlName) {
+      case 'poa_doc_url':
+      case 'poa_doc_url_1':
+        doc_type = 'poa';
+        isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(
+          fileType
+        );
+        this.docTypeData = 'poa';
+        break;
+      case 'doc_url':
+        doc_type = 'other';
+        isValidFile = ['image/jpeg', 'image/png'].includes(fileType);
+        this.docTypeData = 'other';
+        break;
+      case 'poi_doc_url':
+        doc_type = 'poi';
+        isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(
+          fileType
+        );
+        this.docTypeData = 'poi';
+        break;
     }
-  );
-}
 
-setFileInputError(fileFormControlName: string, hasError: boolean) {
-  switch (fileFormControlName) {
-    case 'poa_doc_url':
-      this.POAFileName = hasError ? '' : this.fileName;
-      this.isfileInputError = hasError;
-      break;
-    case 'poi_doc_url':
-      this.POIFileName = hasError ? '' : this.fileName;
-      this.isPoiFileInputError = hasError;
-      break;
-    case 'poa_doc_url_1':
-      this.POAFileName1 = hasError ? '' : this.fileName;
-      this.isfileInputError = hasError;
-      break;
-    case 'doc_url':
-      this.OtherFileName = hasError ? '' : this.fileName;
-      this.isOtherfileInputError = hasError;
-      break;
+    if (!isValidFile) {
+      fileInput.value = ''; // This clears the file input
+      this.uploadDocumentsForm.get(fileFormControlName)?.reset(); // Reset the form control
+      this.setFileInputError(fileFormControlName, true); // Set error state
+      return;
+    }
+
+    // If file is valid, proceed with the file upload
+    const formData = new FormData();
+    formData.append('file', selectedFile, selectedFile.name);
+
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
+        formData
+      )
+      .subscribe(
+        (res) => {
+          if (res['status']) {
+            if (isReupload) {
+              this.isReUploadDocument = true;
+              this.checkUploadDocment(res['document_url'], fileFormControlName);
+            }
+            this.uploadDocumentsForm
+              .get(fileFormControlName)
+              ?.setValue(res['document_url']);
+            this.setFileInputError(fileFormControlName, false);
+          } else {
+            fileInput.value = '';
+            this.uploadDocumentsForm.get(fileFormControlName)?.reset();
+            this.setFileInputError(fileFormControlName, true);
+          }
+        },
+        (error) => {
+          fileInput.value = '';
+          this.uploadDocumentsForm.get(fileFormControlName)?.reset();
+          this.setFileInputError(fileFormControlName, true);
+        }
+      );
   }
-}
+
+  setFileInputError(fileFormControlName: string, hasError: boolean) {
+    switch (fileFormControlName) {
+      case 'poa_doc_url':
+        this.POAFileName = hasError ? '' : this.fileName;
+        this.isfileInputError = hasError;
+        break;
+      case 'poi_doc_url':
+        this.POIFileName = hasError ? '' : this.fileName;
+        this.isPoiFileInputError = hasError;
+        break;
+      case 'poa_doc_url_1':
+        this.POAFileName1 = hasError ? '' : this.fileName;
+        this.isfileInputError = hasError;
+        break;
+      case 'doc_url':
+        this.OtherFileName = hasError ? '' : this.fileName;
+        this.isOtherfileInputError = hasError;
+        break;
+    }
+  }
   /**
    * Event handler for when a file is selected.
    * @param event - The file selection event.
@@ -259,8 +281,16 @@ handles the form submit for uploading the required documents
     //  this.uploadDocumentsForm.get('poa_doc_url_1')?.reset();
     //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
     // }
-    console.log(this.uploadDocumentsForm.value)
+    console.log(this.uploadDocumentsForm.value);
+    webengage.track('Offline_CKYC_details', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     if (valid && !this.loader) {
+      webengage.track('Offline_CKYC_details', {
+        User_Type: this.userType?.partner_code,
+        Motor_Type: this.vehicleTypeValue,
+      });
       this.loader = true;
       let body = {
         proposal_id: this.proposalId,
@@ -321,8 +351,9 @@ handles the form submit for uploading the required documents
           },
         },
       };
-      if(this.uploadDocumentsForm.get('poi_type')?.value !=null){
-        body.poi_document.poi_type=this.uploadDocumentsForm.get('poi_type')?.value
+      if (this.uploadDocumentsForm.get('poi_type')?.value != null) {
+        body.poi_document.poi_type =
+          this.uploadDocumentsForm.get('poi_type')?.value;
       }
       if (
         this.uploadDocumentsForm.get('document_type_based_field')?.value ==
@@ -371,14 +402,14 @@ handles the form submit for uploading the required documents
    * This function is used to check if the uploaded document is valid or not.
    * @param event - The event object that contains the file information.
    */
-  checkUploadDocment(url: string,fileFormControlName:any) {
+  checkUploadDocment(url: string, fileFormControlName: any) {
     this.isUploadDocment = true;
     this.showPOA = false;
     this.showPOI = false;
     this.document_url = '';
-    this.showOther=false;
-    this.isTwoObject=false
-    this.reUploadFileCOntrolName=fileFormControlName
+    this.showOther = false;
+    this.isTwoObject = false;
+    this.reUploadFileCOntrolName = fileFormControlName;
     this.documentHeaderText = 'Please review the uploaded document';
     if (this.isUploadDocment) {
       this.apiService
@@ -506,14 +537,15 @@ handles the form submit for uploading the required documents
           documentNumberBasedField?.setValidators([
             Validators.pattern(/^[A-Za-z][A-Za-z0-9]{6}[0-9]$/),
           ]);
-        }else if (documentTypeValue == 'gstin_number') {
+        } else if (documentTypeValue == 'gstin_number') {
           this.documentMaxLength = 15;
           documentNumberBasedField?.setValidators([
             Validators.required,
-            Validators.pattern(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/),
+            Validators.pattern(
+              /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+            ),
           ]);
-        }
-         else if (documentTypeValue == 'cin') {
+        } else if (documentTypeValue == 'cin') {
           this.documentMaxLength = 21;
           documentNumberBasedField?.setValidators([
             Validators.pattern(/^[A-Za-z0-9]{21}$/),

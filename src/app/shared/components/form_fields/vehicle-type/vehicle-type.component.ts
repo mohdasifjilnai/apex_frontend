@@ -4,7 +4,7 @@ import vehicleTypeList from '../../json/vehicle-types.json';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+declare const webengage: any;
 @Component({
   selector: 'app-vehicle-type',
   templateUrl: './vehicle-type.component.html',
@@ -21,15 +21,24 @@ export class VehicleTypeComponent implements OnInit {
     this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(
       (vehicle) => vehicle.optionName === 'Private Car'
     );
-    this.route.queryParamMap.subscribe(params => {
-      const vehicleTypeFromUrl=params.get('vehicle')
-      if(vehicleTypeFromUrl=='twoWheeler'){
+    this.route.queryParamMap.subscribe((params) => {
+      const vehicleTypeFromUrl = params.get('vehicle');
+      if (vehicleTypeFromUrl == 'twoWheeler') {
         sessionStorage.setItem('vehicleType', `two_wheeler`);
-        this.selectedVehicleType = this.vehicleTypeListData.vehicleTypeList.find(
-          (vehicle) => vehicle.optionName === 'Two Wheeler'
-        );
+        this.selectedVehicleType =
+          this.vehicleTypeListData.vehicleTypeList.find(
+            (vehicle) => vehicle.optionName === 'Two Wheeler'
+          );
       }
-    })
+    });
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Motor_selected', {
+      Option_Selected: vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? sessionStorage.getItem('partner_code')
+        : null,
+      Motor_Type: vehicleTypeValue,
+    });
   }
 
   selectVehicle(vehicle: any) {

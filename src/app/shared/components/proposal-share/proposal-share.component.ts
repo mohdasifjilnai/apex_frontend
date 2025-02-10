@@ -20,7 +20,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../dialog-components/not-certified/not-certified.component';
-
+declare const webengage: any;
 @Component({
   selector: 'app-proposal-share',
   templateUrl: './proposal-share.component.html',
@@ -258,12 +258,12 @@ export class ProposalShareComponent implements OnInit {
             this.sendLoader = false;
             this.sharedDataService.openSnackBar(message, true, 3000);
             this.shareQuotationForm.reset();
-            Object.keys(this.shareQuotationForm.controls).forEach(key => {
+            Object.keys(this.shareQuotationForm.controls).forEach((key) => {
               const control = this.shareQuotationForm.get(key);
               if (control) {
-                  control.setErrors(null);
+                control.setErrors(null);
               }
-          });
+            });
           } else {
             this.failureMessage = true;
             this.message = res?.message;
@@ -304,9 +304,12 @@ export class ProposalShareComponent implements OnInit {
           .subscribe((res) => {
             this.loader=false
             if (window.innerWidth <= 999) {
-              this.bottomSheetRef.dismiss();
+              const bottomSheetConfig: MatBottomSheetConfig = {
+                data: sendCommunicationObject, // Pass your data here
+              };
+              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
             } else {
-              this.dialogRef.close();
+              this.openModal(sendCommunicationObject, this.otpDialog);
             }
             if (res['message'] == 'Success') {
               if (window.innerWidth <= 999) {
@@ -338,24 +341,17 @@ export class ProposalShareComponent implements OnInit {
           .subscribe((res) => {
             this.loader=false
             if (window.innerWidth <= 999) {
-              this.bottomSheetRef.dismiss();
+              const bottomSheetConfig: MatBottomSheetConfig = {
+                data: sendCommunicationObject, // Pass your data here
+              };
+              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
             } else {
-              this.dialogRef.close();
+              this.openModal(sendCommunicationObject, this.otpDialog);
             }
-            if (res['message'] == 'Success') {
-              if (window.innerWidth <= 999) {
-                const bottomSheetConfig: MatBottomSheetConfig = {
-                  data: sendCommunicationObject, // Pass your data here
-                };
-                this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-              } else {
-                this.openModal(sendCommunicationObject, this.otpDialog);
-              }
-            }
-          });
-      }
+          // }
+        });
+    }
     // }
-    
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';

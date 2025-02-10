@@ -9,7 +9,7 @@ import moment from 'moment';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
-
+declare const webengage: any;
 @Component({
   selector: 'app-vehicle-details-card',
   templateUrl: './vehicle-details-card.component.html',
@@ -118,12 +118,14 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.vehicleCardData(this.parsedVehicleData);
-      const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
-        if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
-          this.showZeroNCB = true;
-        } else {
-          this.showZeroNCB = false;
-        }
+      const diffrenceDays = this.daysCountsFromToday(
+        this.parsedVehicleData?.policy_expiry_date
+      );
+      if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
+        this.showZeroNCB = true;
+      } else {
+        this.showZeroNCB = false;
+      }
     });
 
     this.sharedDataService.traceIdVehicleType.subscribe((cardData: any) => {
@@ -131,8 +133,10 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.vehicleData = cardData;
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.vehicleCardData(this.parsedVehicleData);
-        const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
-        if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+        const diffrenceDays = this.daysCountsFromToday(
+          this.parsedVehicleData?.policy_expiry_date
+        );
+        if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
           this.showZeroNCB = true;
         } else {
           this.showZeroNCB = false;
@@ -144,7 +148,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.inspectionValue = cardData;
     });
     this.sharedDataService.vehicleTypeValue.subscribe((vehicleType) => {
-      this.vehicleType=vehicleType
+      this.vehicleType = vehicleType;
     });
     this.subscription = this.sharedData.getIsNotCertifiedData.subscribe(
       (notCertified) => {
@@ -160,7 +164,6 @@ export class VehicleDetailsCardComponent implements OnInit {
                 this.openVehicleDetailsPopup(null);
                 this.sharedData.sendVehicleEditData(notCertified);
               }
-              
             }
           }
 
@@ -179,16 +182,19 @@ export class VehicleDetailsCardComponent implements OnInit {
             quotationArray[i]['is_breakin'] &&
             vehicleCard?.policy_expiry_date != 'Not Sure'
           ) {
-            if(this.parsedVehicleData?.policy_expiry=='satp' || this.parsedVehicleData?.policy_expiry=='bundled_tp'){
+            if (
+              this.parsedVehicleData?.policy_expiry == 'satp' ||
+              this.parsedVehicleData?.policy_expiry == 'bundled_tp'
+            ) {
               this.vehicleInspectionMessage =
-              this.vehicleType == 'private_car'
-                ? 'Vehicle inspection is required as your previous policy is Liability Only.'
-                : 'Attention!! Some insurance company will ask for an inspection as previous policy is Liability Only.';
-            }else{
+                this.vehicleType == 'private_car'
+                  ? 'Vehicle inspection is required as your previous policy is Liability Only.'
+                  : 'Attention!! Some insurance company will ask for an inspection as previous policy is Liability Only.';
+            } else {
               this.vehicleInspectionMessage =
-              this.vehicleType == 'private_car'
-                ? 'Vehicle inspection is required as your previous policy is expired'
-                : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+                this.vehicleType == 'private_car'
+                  ? 'Vehicle inspection is required as your previous policy is expired'
+                  : 'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
             }
             this.breakIn = true;
           } else if (
@@ -223,8 +229,10 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
       let traceValue = JSON.parse(this.traceIdData);
       this.router.navigate([`quotes/${traceValue.trace_id}`]);
-      const diffrenceDays=this.daysCountsFromToday(this.parsedVehicleData?.policy_expiry_date);
-      if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+      const diffrenceDays = this.daysCountsFromToday(
+        this.parsedVehicleData?.policy_expiry_date
+      );
+      if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
         this.showZeroNCB = true;
       } else {
         this.showZeroNCB = false;
@@ -273,28 +281,24 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
     // }
     if (this.parsedVehicleData?.user_car) {
-      if(this.parsedVehicleData?.previous_claimed){
-        this.showZeroNCB=true
+      if (this.parsedVehicleData?.previous_claimed) {
+        this.showZeroNCB = true;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
-      }else{
-        this.showZeroNCB=true
+      } else {
+        this.showZeroNCB = true;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
       }
-    }else{
-      if(this.parsedVehicleData?.previous_claimed){
-        this.showZeroNCB=true
+    } else {
+      if (this.parsedVehicleData?.previous_claimed) {
+        this.showZeroNCB = true;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
-      }else{
+      } else {
         this.newNCB = this.parsedVehicleData?.addNcbBoth?.new_ncb_name;
         this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
       }
     }
-    
   }
   openDialog(edit: string): void {
-    
-    
-    
     this.isPopUpClose = true;
     // if(this.subdomain=='d2c'){
     //   this.openVehicleDetailsPopup(null);
@@ -303,6 +307,12 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.openNotCertifiedPopup('Partner_Mapped');
     //   this.sharedData.sendLoginPartner('edit');
     // }
+    webengage.track('Motor_details_edited', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleType,
+    });
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
@@ -561,12 +571,12 @@ export class VehicleDetailsCardComponent implements OnInit {
       sessionStorage.removeItem('vehicleLoginPopup');
     }
   }
-  daysCountsFromToday(date:any){
-  const policyExpiryDate = new Date(date);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const diffInTime = policyExpiryDate.getTime() - today.getTime();
-  const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
-  return Number(Math.abs(diffInDays));
+  daysCountsFromToday(date: any) {
+    const policyExpiryDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffInTime = policyExpiryDate.getTime() - today.getTime();
+    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+    return Number(Math.abs(diffInDays));
   }
 }

@@ -19,6 +19,7 @@ import { ReviewAddonsComponent } from 'src/app/shared/components/dialog-componen
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
 import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 import { environment } from 'src/environments/environment';
+declare const webengage: any;
 @Component({
   selector: 'app-proposal-review',
   templateUrl: './proposal-review.component.html',
@@ -230,6 +231,13 @@ export class ProposalReviewComponent implements OnInit {
     this.route.navigate([`quotes/proposal/${this.transactionId}`]);
   }
   submitReview() {
+    const vehcileType = sessionStorage.getItem('vehicleType');
+    webengage.track('Motor_Vehicle_details_submitted', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehcileType,
+    });
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();
     }

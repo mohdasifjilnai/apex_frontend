@@ -5,7 +5,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-choose-idv',
   templateUrl: './choose-idv.component.html',
@@ -39,7 +39,8 @@ export class ChooseIDVComponent implements OnInit {
   clearIdvButton: boolean = false;
 
   currency: any;
-
+  userType: any;
+  vehicleTypeValue: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -47,9 +48,13 @@ export class ChooseIDVComponent implements OnInit {
   ) {}
   enableIdvCard = true;
   ngOnInit(): void {
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.sharedDataService.quotationListing.subscribe((idvData) => {
       // this.quotesCount = idvData;
-      this.enableIdvCard=true
+      this.enableIdvCard = true;
       if (this.enableIdvCard) {
         setTimeout(() => {
           this.enableIdvCard = false;
@@ -105,11 +110,11 @@ export class ChooseIDVComponent implements OnInit {
       }
     });
     this.chooseIdvValue = sessionStorage.getItem('idvData');
-      if (window.innerWidth <= 999) {
-        if(this.chooseIdvValue != null){
-          this.clearIdvButton=true
-        }
+    if (window.innerWidth <= 999) {
+      if (this.chooseIdvValue != null) {
+        this.clearIdvButton = true;
       }
+    }
     this.sharedDataService.idvValue.subscribe((idvData) => {
       if (idvData.min_idv != undefined) {
         this.minIdv = idvData.min_idv;
@@ -209,6 +214,11 @@ export class ChooseIDVComponent implements OnInit {
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
+    webengage.track('IDV_filter_Applied', {
+      Option_Selected: option,
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     this.clearIdvButton = true;
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
@@ -248,7 +258,7 @@ export class ChooseIDVComponent implements OnInit {
   }
 
   updateIdv() {
-    this.enableIdvCard=true
+    this.enableIdvCard = true;
     setTimeout(() => {
       this.enableIdvCard = false;
     }, 50000);
@@ -273,6 +283,10 @@ export class ChooseIDVComponent implements OnInit {
     // }
   }
   cancelIdv() {
+    webengage.track('IDV_filter_cleared', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
     this.updateIdvButton = true;
@@ -334,7 +348,7 @@ export class ChooseIDVComponent implements OnInit {
         }
       }
       this.quotesCount = count;
-    }else{
+    } else {
       this.updateIdvButton = true;
       let formControlIdv = this.chooseIdvForm.value.chooseIdv;
       if (parseInt(formControlIdv) < parseInt(this.minIdv)) {

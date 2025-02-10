@@ -25,11 +25,13 @@ import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.comp
 import { ShareQuotesComponent } from '../../shared/components/dialog-components/share-quotes/share-quotes.component';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
+import { DatePipe } from '@angular/common';
 import { SelectedShareComponent } from 'src/app/shared/components/dialog-components/selected-share/selected-share.component';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
 import { PayoutInfoComponent } from 'src/app/shared/components/dialog-components/payout-info/payout-info.component';
 import { VehicleRegistrationNumberComponent } from 'src/app/shared/components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
+declare const webengage: any;
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -203,7 +205,8 @@ export class QuotesListingComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     private sharedDataService: SharedDataService,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef,
+    private datePipe: DatePipe
   ) {
     // this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -250,6 +253,92 @@ export class QuotesListingComponent implements OnInit {
       setTimeout(() => {
         if (this.carLoader) {
           this.carLoader = false;
+          const mmv_data = JSON.parse(
+            sessionStorage.getItem('mmv_data') || '{}'
+          );
+          const addons = JSON.parse(
+            sessionStorage.getItem('selectedAddons') || '{}'
+          );
+          let idvValue = JSON.parse(sessionStorage.getItem('idvData') || '{}');
+          let idvData;
+          if (idvValue?.minIdv) {
+            idvData = idvValue?.minIdv;
+          } else if (idvValue?.maxIdv) {
+            idvData = idvValue?.maxIdv;
+          } else {
+            idvData = idvValue?.chooseIdv;
+          }
+          const sortObjectkey = sessionStorage.getItem('sortObjectkey');
+          const token = sessionStorage.getItem('token');
+          let proposarTypeData = sessionStorage.getItem('proposerType');
+          const transformedDateString = mmv_data?.registration_date
+            ? this.datePipe.transform(
+                mmv_data?.registration_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+
+          let regDate = transformedDateString
+            ? new Date(transformedDateString as string)
+            : '';
+
+          const transformedMgfDate = mmv_data?.manufacture_date
+            ? this.datePipe.transform(
+                mmv_data?.manufacture_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+          let mgfDate = transformedMgfDate
+            ? new Date(transformedMgfDate as string)
+            : '';
+
+          const transformedPolicyExpiry = mmv_data?.policy_expiry_date
+            ? this.datePipe.transform(
+                mmv_data?.policy_expiry_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+          let policyExpDate = transformedPolicyExpiry
+            ? new Date(transformedPolicyExpiry as string)
+            : '';
+          const formData = {
+            Vehicle_Variant:
+              mmv_data?.vehicle_variant?.rb_make_name +
+              ' ' +
+              mmv_data?.vehicle_variant?.rb_model_name +
+              ' ' +
+              mmv_data?.vehicle_variant?.rb_variant_name +
+              ' ' +
+              mmv_data?.vehicle_variant?.cubic_capacity +
+              ' cc',
+            Fuel: mmv_data?.vehicle_variant?.fuel,
+            Registration_City: mmv_data?.registration_city?.display_name,
+            'Mfg._Year': mgfDate,
+            Registration_Date: regDate,
+            Policy_Expiry_Date: policyExpDate,
+            Previous_Insurer: mmv_data?.previous_insurer,
+            Previous_NCB: mmv_data?.ncb_discount,
+            New_NCB: mmv_data?.offeredNCBValue,
+            Trace_ID: sessionStorage.getItem('transaction_id'),
+            IDV: idvData,
+            Add_Ons: addons,
+
+            Customer_sort_by: proposarTypeData,
+            Price_sort_by:
+              sortObjectkey == 'low' ? 'Low to High' : 'High to Low',
+            Plan_Details: this.quotationData,
+            User_Type: token != null ? 'Partner' : 'Customer',
+            Motor_Type: this.vehicleTypeValue,
+          };
+          const filteredData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => {
+              if (value == null || value === '') {
+                return false;
+              }
+              return true;
+            })
+          );
+          webengage.track('Motor_Insurance_Plans_Found', filteredData);
         }
       }, 50000);
     });
@@ -296,7 +385,8 @@ export class QuotesListingComponent implements OnInit {
                   if (
                     item.insurer_code ==
                       this.quotationArray[i]['insurer_code'] &&
-                    item.payd?.status == this.quotationArray[i]['payd']['status']
+                    item.payd?.status ==
+                      this.quotationArray[i]['payd']['status']
                   ) {
                     return item;
                   }
@@ -322,7 +412,6 @@ export class QuotesListingComponent implements OnInit {
                 }
               }
               // console.log(this.quotationData,"666666")
-
             } else {
               this.errorQuotationArray.push(this.quotationArray[i]);
             }
@@ -375,7 +464,6 @@ export class QuotesListingComponent implements OnInit {
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.tabChangeOninit = true;
       if (!this.storedData) {
-
         this.quotesTabData();
       }
     });
@@ -407,11 +495,14 @@ export class QuotesListingComponent implements OnInit {
       const RenewalPreviousDetails: any = JSON.parse(
         sessionStorage.getItem('RenewalPreviousDetails') || '{}'
       );
-      sessionStorage.setItem('proposerType',RenewalPreviousDetails?.vehicle_details?.customer_type)
+      sessionStorage.setItem(
+        'proposerType',
+        RenewalPreviousDetails?.vehicle_details?.customer_type
+      );
       this.insurerCode = insurerName;
     }
     this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
-      this.traceIdResponse=res
+      this.traceIdResponse = res;
       this.quotesTabData();
     });
 
@@ -536,43 +627,86 @@ export class QuotesListingComponent implements OnInit {
     }
   }
   getProposalDetails(quotes_data: any) {
-    const is_new_vehcile=sessionStorage.getItem('newVehicleType')
-    const vehcileWithoutRegistration=sessionStorage.getItem('withoutVehicleNumber')
-    const proposal_id=sessionStorage.getItem('proposal_Id')
-    sessionStorage.setItem('BuyNowClick','true')
-    const is_renewal=sessionStorage.getItem('renewalType')
-    if(is_new_vehcile!='new' && vehcileWithoutRegistration=='true' && proposal_id==undefined && is_renewal!='renewal'){
+    let quotesPremium = {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+      'Total_Own_Damage_(A)':
+        quotes_data.premium_details.od_premium_details.total_od_premium != 0
+          ? quotes_data.premium_details.od_premium_details.total_od_premium
+          : 0,
+      NCB_Discount:
+        quotes_data.premium_details.od_premium_details.ncb_discount < 0
+          ? -quotes_data.premium_details.od_premium_details.ncb_discount
+          : quotes_data.premium_details.od_premium_details.ncb_discount,
+      'Third_Party_(B)':
+        quotes_data.premium_details.tp_premium_details.total_tp_premium != 0
+          ? quotes_data.premium_details.tp_premium_details.total_tp_premium
+          : 0,
+      Total_Addons: quotes_data.premium_details?.is_addon_addition,
+      'GST_(18%)_(C)':
+        quotes_data.premium_details.total_gst != 0
+          ? quotes_data.premium_details.total_gst
+          : 0,
+      'Total_Premium_(A+B+C)':
+        quotes_data.premium_details.gross_premium != 0
+          ? quotes_data.premium_details.gross_premium
+          : 0,
+      IDV:
+        quotes_data.premium_details.idv != 0
+          ? quotes_data.premium_details.idv
+          : 0,
+    };
+    webengage.track('Motor_Policy_details_Viewed', quotesPremium);
+
+    const is_new_vehcile = sessionStorage.getItem('newVehicleType');
+    const vehcileWithoutRegistration = sessionStorage.getItem(
+      'withoutVehicleNumber'
+    );
+    const proposal_id = sessionStorage.getItem('proposal_Id');
+    sessionStorage.setItem('BuyNowClick', 'true');
+    const is_renewal = sessionStorage.getItem('renewalType');
+    if (
+      is_new_vehcile != 'new' &&
+      vehcileWithoutRegistration == 'true' &&
+      proposal_id == undefined &&
+      is_renewal != 'renewal'
+    ) {
       if (window.innerWidth <= 999) {
         const bottomSheetConfig: MatBottomSheetConfig = {
-          data: quotes_data
+          data: quotes_data,
         };
-        this.bottomSheet.open(VehicleRegistrationNumberComponent,bottomSheetConfig);
+        this.bottomSheet.open(
+          VehicleRegistrationNumberComponent,
+          bottomSheetConfig
+        );
       } else {
         this.openModal(quotes_data, this.vehicleRegistrationNUmber);
       }
-    }else{
-      this.isPrevoiusInsurer = false;
-    sessionStorage.setItem('alreadyCalled', 'true');
-    if (quotes_data?.is_rb_renewal) {
-      this.isPrevoiusInsurer = true;
-      sessionStorage.setItem('renewalType', 'renewal');
-    }
-    sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
-    const registrationNumber=sessionStorage.getItem('registrationNumber')
-    if(is_new_vehcile=='new' && registrationNumber){
-      sessionStorage.removeItem('registrationNumber')
-    }
-    sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
-    const transactionId = sessionStorage.getItem('transaction_id');
-
-    if (quotes_data?.premium_details?.idv > 5000000) {
-      this.isIdvGreaterThan50Lac = true;
-    }
-    if (this.isIdvGreaterThan50Lac) {
-      this.openNonPOSPopup(null);
     } else {
-      this.router.navigate([`quotes/proposal/${transactionId}`]);
-    }
+      this.isPrevoiusInsurer = false;
+      sessionStorage.setItem('alreadyCalled', 'true');
+      if (quotes_data?.is_rb_renewal) {
+        this.isPrevoiusInsurer = true;
+        sessionStorage.setItem('renewalType', 'renewal');
+      }
+      sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
+      const registrationNumber = sessionStorage.getItem('registrationNumber');
+      if (is_new_vehcile == 'new' && registrationNumber) {
+        sessionStorage.removeItem('registrationNumber');
+      }
+      sessionStorage.setItem('quotes_data', JSON.stringify(quotes_data));
+      const transactionId = sessionStorage.getItem('transaction_id');
+
+      if (quotes_data?.premium_details?.idv > 5000000) {
+        this.isIdvGreaterThan50Lac = true;
+      }
+      if (this.isIdvGreaterThan50Lac) {
+        this.openNonPOSPopup(null);
+      } else {
+        this.router.navigate([`quotes/proposal/${transactionId}`]);
+      }
     }
   }
   /**
@@ -756,7 +890,7 @@ export class QuotesListingComponent implements OnInit {
    * Open premium breakup modal
    */
   openPremiumBreakupModal(initiateQuotes: any, event: MouseEvent): void {
-    // this.openPremiumBreakup(initiateQuotes);    
+    // this.openPremiumBreakup(initiateQuotes);
     this.renderer.addClass(document.body, 'premium-breakout-css');
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: initiateQuotes,
@@ -766,6 +900,38 @@ export class QuotesListingComponent implements OnInit {
     } else {
       this.openModal(initiateQuotes, this.initiateQuotesJSON);
     }
+    let premiumCardData = {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      'Total_Own_Damage_(A)':
+        initiateQuotes.premium_details.od_premium_details.total_od_premium != 0
+          ? initiateQuotes.premium_details.od_premium_details.total_od_premium
+          : 0,
+      NCB_Discount:
+        initiateQuotes.premium_details.od_premium_details.ncb_discount < 0
+          ? -initiateQuotes.premium_details.od_premium_details.ncb_discount
+          : initiateQuotes.premium_details.od_premium_details.ncb_discount,
+      'Third_Party_(B)':
+        initiateQuotes.premium_details.tp_premium_details.total_tp_premium != 0
+          ? initiateQuotes.premium_details.tp_premium_details.total_tp_premium
+          : 0,
+      Total_Addons: initiateQuotes.premium_details?.is_addon_addition,
+      'GST_(18%)_(C)':
+        initiateQuotes.premium_details.total_gst != 0
+          ? initiateQuotes.premium_details.total_gst
+          : 0,
+      'Total_Premium_(A+B+C)':
+        initiateQuotes.premium_details.gross_premium != 0
+          ? initiateQuotes.premium_details.gross_premium
+          : 0,
+      IDV:
+        initiateQuotes.premium_details.idv != 0
+          ? initiateQuotes.premium_details.idv
+          : 0,
+      Motor_Type: this.vehicleTypeValue,
+    };
+    webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
   }
   // (click)="shareQuotesOpen(null, shareQuotesJSON)"
   shareQuotesOpen(shareData: any, jsonData: any) {
@@ -773,6 +939,13 @@ export class QuotesListingComponent implements OnInit {
   }
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
+    webengage.track('Shared_Quotes_clicked', {
+      Option_Selected: this.vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   @ViewChild('checkboxRef')
   checkboxRef!: MatCheckbox;
@@ -796,6 +969,13 @@ export class QuotesListingComponent implements OnInit {
    * Selected Quotes Count UI Open
    */
   selectQuotes(count: any) {
+    webengage.track('Shared_Quotes_clicked', {
+      Option_Selected: count,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     this.shareType = count;
     this.addShare = true;
     this.shareQuotesDropdownValue = false;
@@ -808,6 +988,13 @@ export class QuotesListingComponent implements OnInit {
           this.selectedQuotes.push(value);
         }
       }
+      webengage.track('Quotes_selected', {
+        Plan_Details: this.selectedQuotes,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+      });
     } else {
       this.isCheckboxChecked = false;
       this.selectedQuotes = [];
@@ -828,6 +1015,13 @@ export class QuotesListingComponent implements OnInit {
     if (event.checked) {
       this.isChecked = true;
       this.selectedQuotes.push(quotes);
+      webengage.track('Quotes_selected', {
+        Plan_Details: this.selectedQuotes,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+      });
     } else {
       const index = this.selectedQuotes.indexOf(quotes);
       if (index !== -1) {
@@ -944,15 +1138,21 @@ export class QuotesListingComponent implements OnInit {
         expiredDate = '';
       }
       this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-      let vehicleTypeData
-      if(this.vehicleTypeValue=='commercial_vehicle'){
-        vehicleTypeData=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
-      }else{
-        vehicleTypeData=this.vehicleTypeValue
+      let vehicleTypeData;
+      if (this.vehicleTypeValue == 'commercial_vehicle') {
+        vehicleTypeData =
+          this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type
+            ?.vehicle_type;
+      } else {
+        vehicleTypeData = this.vehicleTypeValue;
       }
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.getCoverageType()}?reg_year=${this.registrationDateYear}&vehicle_type=${vehicleTypeData}&previous_policy_type=${this.parsedVehicleData?.policy_expiry}&previous_policy_expiry_date=${expiredDate}`
+          `${ApiConstants.getCoverageType()}?reg_year=${
+            this.registrationDateYear
+          }&vehicle_type=${vehicleTypeData}&previous_policy_type=${
+            this.parsedVehicleData?.policy_expiry
+          }&previous_policy_expiry_date=${expiredDate}`
         )
         .subscribe((res: any) => {
           this.tabDataList = res;
@@ -1183,6 +1383,13 @@ export class QuotesListingComponent implements OnInit {
       this.defaultGST = event.checked;
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
+    sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
+    webengage.track('GST_enabled', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {
@@ -1250,7 +1457,7 @@ export class QuotesListingComponent implements OnInit {
   ngOnDestroy() {
     this.vehicleCardMultipleCall.unsubscribe();
   }
-  renewalRedirection(url:any){
+  renewalRedirection(url: any) {
     window.open(url, '_blank');
   }
 }

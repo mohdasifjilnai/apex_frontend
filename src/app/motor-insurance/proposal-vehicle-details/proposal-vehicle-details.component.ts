@@ -32,7 +32,8 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
-
+import { DatePipe } from '@angular/common';
+declare const webengage: any;
 @Component({
   selector: 'app-proposal-vehicle-details',
   templateUrl: './proposal-vehicle-details.component.html',
@@ -105,7 +106,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     private router: Router,
     private formBuild: FormBuilder,
     public dialogRef: MatDialogRef<ProposalVehicleDetailsComponent>,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
+    private datePipe: DatePipe
   ) {
     this.proposalForm();
   }
@@ -258,24 +260,28 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 this.proposalVehilceDetailsForm.valid
               );
             });
-        }
-      });
+          //   this.shareData?.sendOwnnerAddres(
+          //     this.proposalVehilceDetailsForm.valid
+          //   );
+          // });
+      }
+    });
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
-      const is_new_vehcile=sessionStorage.getItem('newVehicleType')
-      if(proposal?.insurer_code != 'digit'){
-        if(is_new_vehcile=='new'){
+      const is_new_vehcile = sessionStorage.getItem('newVehicleType');
+      if (proposal?.insurer_code != 'digit') {
+        if (is_new_vehcile == 'new') {
           if (proposal?.ckyc_details?.is_verification) {
             this.isDisableCKyc = false;
-          }else{
-            this.isDisableCKyc=true
+          } else {
+            this.isDisableCKyc = true;
           }
-        }else{
+        } else {
           this.isDisableCKyc = false;
         }
-      }else{
-        this.isDisableCKyc=false
+      } else {
+        this.isDisableCKyc = false;
       }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
@@ -420,8 +426,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
-        const newVehicleType=sessionStorage.getItem('newVehicleType')
-        if (this.regNumber && renewalType != 'renewal' && newVehicleType!='new') {
+        const newVehicleType = sessionStorage.getItem('newVehicleType');
+        if (
+          this.regNumber &&
+          renewalType != 'renewal' &&
+          newVehicleType != 'new'
+        ) {
           this.apiservice
             .getRequestedResponse(
               `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
@@ -444,6 +454,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       let previous_insurer = JSON.parse(
         sessionStorage.getItem('previous_insurerCode') || ''
       );
+      //
       // if (
       //   kycData?.insurer_code == JSON.parse(this.quoteData)['insurer_code'] &&
       //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
@@ -859,6 +870,55 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           }
         });
     }
+
+    const transformedDateString = this.proposalVehilceDetailsForm.value
+      ?.registration_date
+      ? this.datePipe.transform(
+          this.proposalVehilceDetailsForm.value?.registration_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+
+    let regDate = transformedDateString
+      ? new Date(transformedDateString as string)
+      : '';
+
+    const transformedMgfDate = this.proposalVehilceDetailsForm.value
+      ?.manufacture_date
+      ? this.datePipe.transform(
+          this.proposalVehilceDetailsForm.value?.manufacture_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+    let mgfDate = transformedMgfDate
+      ? new Date(transformedMgfDate as string)
+      : '';
+
+    let vehicleWebengage = {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+
+      Motor_Type: vehcileType,
+      Vehicle_Registration_Number:
+        this.proposalVehilceDetailsForm.value?.registration_number,
+      Engine_Number: this.proposalVehilceDetailsForm.value?.engine_number,
+      Chassis_Number: this.proposalVehilceDetailsForm.value?.chassis_number,
+      Registration_Date: regDate,
+      Manufacture_Date: mgfDate,
+      Vehicle_Color: this.proposalVehilceDetailsForm.value?.vehicle_colour,
+      Vehicle_registration_Address:
+        this.proposalVehilceDetailsForm.value?.vehicle_registration_address,
+    };
+    const filteredData = Object.fromEntries(
+      Object.entries(vehicleWebengage).filter(([key, value]) => {
+        if (value == null || value === '') {
+          return false;
+        }
+        return true;
+      })
+    );
+    webengage.track('Motor_Details_Submitted', filteredData);
   }
   /**
    * we can access the checkbox value using this.financedToggle.nativeElement.checked
@@ -956,12 +1016,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.proposalVehilceDetailsForm
         .get('vehicle_state')
         ?.updateValueAndValidity();
-        if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
-          this.proposalVehilceDetailsForm.addControl(
-            'vehicle_state',
-            new FormControl(this.proposalVehilceDetailsForm.get('vehicle_pincode')?.value?.rb_state_name)
-          );
-        }
+      if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
+        this.proposalVehilceDetailsForm.addControl(
+          'vehicle_state',
+          new FormControl(
+            this.proposalVehilceDetailsForm.get(
+              'vehicle_pincode'
+            )?.value?.rb_state_name
+          )
+        );
+      }
       if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
         this.apiservice
           .getRequestedResponse(
@@ -970,7 +1034,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
           )
           .subscribe((res) => {
-            console.log(res[0].rb_state_name)
+            console.log(res[0].rb_state_name);
             this.proposalVehilceDetailsForm.patchValue({
               vehicle_pincode: res[0],
               vehilce_city: res[0].rb_city_name,
@@ -1285,11 +1349,19 @@ export class ProposalVehicleDetailsComponent implements OnInit {
 
   renewDataPatch(registartionNumber: any) {
     let apiUrl;
-    const previous_policy_details=JSON.parse(sessionStorage.getItem('RenewalPreviousDetails') ||'{}')
-    let policy_number=previous_policy_details?.previous_policy_details?.previous_policy_details?.policy_no   
-    if(registartionNumber!=null && registartionNumber!='' && registartionNumber!=undefined){
+    const previous_policy_details = JSON.parse(
+      sessionStorage.getItem('RenewalPreviousDetails') || '{}'
+    );
+    let policy_number =
+      previous_policy_details?.previous_policy_details?.previous_policy_details
+        ?.policy_no;
+    if (
+      registartionNumber != null &&
+      registartionNumber != '' &&
+      registartionNumber != undefined
+    ) {
       apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-    }else{
+    } else {
       apiUrl = `?previous_policy_number=${policy_number}`;
     }
     this.apiservice
@@ -1297,11 +1369,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.status) {
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
-          sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
+          sessionStorage.setItem(
+            'coverageType',
+            JSON.stringify(
+              res?.previous_policy_details?.previous_policy_details
+                ?.renewal_coverage_type
+            )
+          );
           this.previousDetails = sessionStorage.getItem(
             'RenewalPreviousDetails'
           );
-          this.shareData.getRenewalData(res)
+          this.shareData.getRenewalData(res);
           if (this.previousDetails != null) {
             this.details = JSON.parse(this.previousDetails);
             const vehicleDetails =
@@ -1345,12 +1423,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 vehicleDetails?.registration_address?.address_line,
               is_vehicle_address: vehicleDetails?.is_same_location,
             });
-            this.proposalVehilceDetailsForm
-                .get('engine_number')
-                ?.disable();
-                this.proposalVehilceDetailsForm
-                .get('chassis_number')
-                ?.disable();
+            this.proposalVehilceDetailsForm.get('engine_number')?.disable();
+            this.proposalVehilceDetailsForm.get('chassis_number')?.disable();
             if (vehicleDetails?.registration_address?.pincode) {
               this.apiservice
                 .getRequestedResponse(

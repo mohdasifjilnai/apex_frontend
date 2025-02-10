@@ -13,7 +13,7 @@ import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-com
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
 import { environment } from 'src/environments/environment';
-
+declare const webengage: any;
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -76,6 +76,8 @@ export class InsuranceDetailsComponent implements OnInit {
   mmv_data: any;
   mmvParseData: any;
   proposalPunched: any;
+  userType: any;
+
   constructor(
     public matDialog: WindowRef,
 
@@ -100,6 +102,9 @@ export class InsuranceDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
     this.sharedData.getRenewalMmv.subscribe((mmv_data: any) => {
       this.mmvData = mmv_data;
     });
@@ -151,7 +156,7 @@ export class InsuranceDetailsComponent implements OnInit {
       // }
     }
     this.sharedDataService.disableChangeInsurer.subscribe((res) => {
-      this.proposalPunched=res
+      this.proposalPunched = res;
     });
     this.renewalType = sessionStorage.getItem('renewalType');
     this.route.url.subscribe((segments) => {
@@ -309,7 +314,6 @@ export class InsuranceDetailsComponent implements OnInit {
   downloadUnderwritingUrl() {
     window.open(this.downloadUrl);
   }
-
 
   /**
    * Downloads the premium breakup for the given quote.

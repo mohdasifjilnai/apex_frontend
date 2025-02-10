@@ -12,7 +12,11 @@ import {
   MatBottomSheetConfig,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
@@ -24,6 +28,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { RevisedPremiumBreakupComponent } from '../revised-premium-breakup/revised-premium-breakup.component';
 
+declare const webengage: any;
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.component.html',
@@ -100,7 +105,7 @@ export class OtpComponent implements OnInit {
     private matDialog: WindowRef,
     private renderer: Renderer2,
     public bottomSheet: MatBottomSheet,
-    private matDialogs: MatDialog,
+    private matDialogs: MatDialog
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -164,10 +169,10 @@ export class OtpComponent implements OnInit {
       this.dialogRef.close();
     }
   }
-  openModal(data:any, jsonData: any) {
+  openModal(data: any, jsonData: any) {
     let resWidth;
     let resTop;
-    
+
     if (window.screen.width <= 999) {
       resWidth = 'auto';
       resTop = '0';
@@ -175,34 +180,38 @@ export class OtpComponent implements OnInit {
       resWidth = 'auto';
       resTop = '0';
     }
-  
+
     const dialogConfig = {
       width: jsonData['widthObtained'] || resWidth,
       height: jsonData['heightObtained'] || 'auto',
       panelClass: jsonData['classObtained'],
       disableClose: !jsonData['isOutSideClose'],
-      data: data
+      data: data,
     };
-  
+
     this.matDialogs.open(RevisedPremiumBreakupComponent, dialogConfig);
   }
-  
-  openRevPremiumBreakupModal(data:any): void {
-    
+
+  openRevPremiumBreakupModal(data: any): void {
     const bottomSheetConfig: MatBottomSheetConfig = {
-      data: data
+      data: data,
     };
-  
+
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(RevisedPremiumBreakupComponent, bottomSheetConfig);
     } else {
       this.openModal(data, this.initiateQuotesJSON);
     }
   }
-  
-  
 
   verify() {
+    const vehcileType = sessionStorage.getItem('vehicleType');
+    webengage.track('Payment_OTP_submitted', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehcileType,
+    });
     this.loader = true;
 
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;

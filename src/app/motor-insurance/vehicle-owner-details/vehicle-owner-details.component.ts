@@ -20,7 +20,7 @@ import {
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-vehicle-owner-details',
   templateUrl: './vehicle-owner-details.component.html',
@@ -166,8 +166,27 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               this.owenerVehicleDetailsForm.valid
             );
           });
-      }
-    });
+        }
+
+        if (res?.customer_details?.communication_address?.pincode) {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${
+                res?.customer_details?.communication_address?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+            )
+            .subscribe((response) => {
+              this.owenerVehicleDetailsForm.patchValue({
+                owner_pincode: response[0],
+                owner_city: response[0].rb_city_name,
+                owner_state: response[0].rb_state_name,
+              });
+              this.sharedDataService?.sendOwnnerAddres(
+                this.owenerVehicleDetailsForm.valid
+              );
+            });
+        }
+      });
     this.owenerVehicleDetailsForm
       .get('document_number_based_field')
       ?.updateValueAndValidity();
@@ -197,14 +216,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         //   owner_gender: proposal?.customer_details?.gender,
         // });
         const customerDetails = proposal?.customer_details || {};
-        Object.keys(customerDetails).forEach(key => {
-          if (customerDetails[key] !== null && customerDetails[key] !== undefined) {
-            let patchValue:any = {};
+        Object.keys(customerDetails).forEach((key) => {
+          if (
+            customerDetails[key] !== null &&
+            customerDetails[key] !== undefined
+          ) {
+            let patchValue: any = {};
             patchValue[key] = customerDetails[key];
             this.owenerVehicleDetailsForm.patchValue(patchValue);
           }
         });
-        const fieldMapping:any = {
+        const fieldMapping: any = {
           owner_full_Name: 'full_name',
           owner_email: 'email_id',
           contact_number: 'mobile_number',
@@ -213,14 +235,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           marital_status: 'marital_status',
           owner_gender: 'gender',
         };
-        
-        Object.keys(fieldMapping).forEach(formField => {
-          let dataField:any = fieldMapping[formField];
-          if (customerDetails[dataField] !== null && customerDetails[dataField] !== undefined) {
-            this.owenerVehicleDetailsForm.patchValue({ [formField]: customerDetails[dataField] });
+
+        Object.keys(fieldMapping).forEach((formField) => {
+          let dataField: any = fieldMapping[formField];
+          if (
+            customerDetails[dataField] !== null &&
+            customerDetails[dataField] !== undefined
+          ) {
+            this.owenerVehicleDetailsForm.patchValue({
+              [formField]: customerDetails[dataField],
+            });
           }
         });
-        if(customerDetails?.communication_address?.address_line!=null){
+        if (customerDetails?.communication_address?.address_line != null) {
           this.owenerVehicleDetailsForm.patchValue({
             owner_communication_addres:
               customerDetails?.communication_address?.address_line,
@@ -275,18 +302,28 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               );
             });
         }
-        if (this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=null && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!='' && this.owenerVehicleDetailsForm.get('owner_pincode')?.value!=undefined) {
-          let pincodeValue
-          if(typeof(this.owenerVehicleDetailsForm.get('owner_pincode')?.value)=='object'){
-            pincodeValue=this.owenerVehicleDetailsForm.get('owner_pincode')?.value?.rb_pincode
-          }else{
-            pincodeValue=this.owenerVehicleDetailsForm.get('owner_pincode')?.value
+        if (
+          this.owenerVehicleDetailsForm.get('owner_pincode')?.value != null &&
+          this.owenerVehicleDetailsForm.get('owner_pincode')?.value != '' &&
+          this.owenerVehicleDetailsForm.get('owner_pincode')?.value != undefined
+        ) {
+          let pincodeValue;
+          if (
+            typeof this.owenerVehicleDetailsForm.get('owner_pincode')?.value ==
+            'object'
+          ) {
+            pincodeValue =
+              this.owenerVehicleDetailsForm.get('owner_pincode')?.value
+                ?.rb_pincode;
+          } else {
+            pincodeValue =
+              this.owenerVehicleDetailsForm.get('owner_pincode')?.value;
           }
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                pincodeValue
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+              `${ApiConstants.pincode}?pincode=${pincodeValue}&insurer_code=${
+                JSON.parse(this.quoteData)['insurer_code']
+              }`
             )
             .subscribe((response) => {
               this.owenerVehicleDetailsForm.patchValue({
@@ -436,7 +473,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_city: customerDetails?.communication_address?.rb_city_name,
           owner_state: customerDetails?.communication_address?.rb_state_name,
         });
-        if(customerDetails?.communication_address?.address_line!=null){
+        if (customerDetails?.communication_address?.address_line != null) {
           this.owenerVehicleDetailsForm.patchValue({
             owner_communication_addres:
               customerDetails?.communication_address?.address_line,
@@ -578,8 +615,33 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }, 2000);
   }
   getVehicleDetails(isValid: any) {
+    const vehcileType = sessionStorage.getItem('vehicleType');
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
+      let vehicleOwnerWebengage = {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehcileType,
+        Salutation_type: formValues?.ownner_salutation_type,
+        Owner_Full_Name: 'Yes',
+        Contact_Number: 'Yes',
+        Email: 'Yes',
+        Occupation_type: formValues?.ownner_occupation_type,
+        GSTIN: formValues?.owner_gstin,
+        Additional_contact_number: `+91${formValues?.additional_contact}`,
+        Gender: formValues?.owner_gender,
+        Matrital_Status: formValues?.marital_status,
+      };
+      const filteredData = Object.fromEntries(
+        Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
+          return true;
+        })
+      );
+      webengage.track('Motor_Owner_details_Submitted', filteredData);
       this.afterVehicleOwnerData.emit(formValues);
       setTimeout(() => {
         this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);

@@ -12,7 +12,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { OtpComponent } from '../otp/otp.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { Router } from '@angular/router';
-
+declare const webengage: any;
 @Component({
   selector: 'app-not-certified',
   templateUrl: './not-certified.component.html',
@@ -77,10 +77,10 @@ export class NotCertifiedComponent implements OnInit {
     this.partnerCodeTraceId = JSON.parse(
       sessionStorage.getItem('partnerCodeTraceId') || '{}'
     );
-    const mmvData=sessionStorage.getItem('mmv_data')
-    this.first_name=`${sessionStorage.getItem('first_name')}`
-    this.middle_name=`${sessionStorage.getItem('middle_name')}`
-    this.last_name=`${sessionStorage.getItem('last_name')}`
+    const mmvData = sessionStorage.getItem('mmv_data');
+    this.first_name = `${sessionStorage.getItem('first_name')}`;
+    this.middle_name = `${sessionStorage.getItem('middle_name')}`;
+    this.last_name = `${sessionStorage.getItem('last_name')}`;
     this.partner_code = this.partnerCodeTraceId?.partner_code;
     if (this.partner_code == null || this.partner_code == '') {
       this.hideLogin = true;
@@ -123,23 +123,26 @@ export class NotCertifiedComponent implements OnInit {
             `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
-          .subscribe((res) => {
-            this.dialogRef.close();
-            this.loader = false;
-            if (res['message'] == 'Success') {
-              if (window.innerWidth <= 999) {
-                const bottomSheetConfig: MatBottomSheetConfig = {
-                  data: sendCommunicationObject, // Pass your data here
-                };
-                this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-              } else {
-                this.openModal(sendCommunicationObject, this.otpDialog);
+          .subscribe(
+            (res) => {
+              this.dialogRef.close();
+              this.loader = false;
+              if (res['message'] == 'Success') {
+                if (window.innerWidth <= 999) {
+                  const bottomSheetConfig: MatBottomSheetConfig = {
+                    data: sendCommunicationObject, // Pass your data here
+                  };
+                  this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+                } else {
+                  this.openModal(sendCommunicationObject, this.otpDialog);
+                }
               }
+            },
+            (error) => {
+              this.loader = false;
+              this.dialogRef.close();
             }
-          },(error)=>{
-            this.loader=false
-            this.dialogRef.close();
-          });
+          );
       } else {
         let sendCommunicationObject = {
           transaction_id: this.quoteData?.transaction_id,
@@ -156,24 +159,35 @@ export class NotCertifiedComponent implements OnInit {
             `${ApiConstants.send_communication()}`,
             sendCommunicationObject
           )
-          .subscribe((res) => {
-            this.loader = false;
-            this.dialogRef.close();
-            if (res['message'] == 'Success') {
-              if (window.innerWidth <= 999) {
-                const bottomSheetConfig: MatBottomSheetConfig = {
-                  data: sendCommunicationObject, // Pass your data here
-                };
-                this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-              } else {
-                this.openModal(sendCommunicationObject, this.otpDialog);
+          .subscribe(
+            (res) => {
+              this.loader = false;
+              this.dialogRef.close();
+              if (res['message'] == 'Success') {
+                if (window.innerWidth <= 999) {
+                  const bottomSheetConfig: MatBottomSheetConfig = {
+                    data: sendCommunicationObject, // Pass your data here
+                  };
+                  this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+                } else {
+                  this.openModal(sendCommunicationObject, this.otpDialog);
+                }
               }
+            },
+            (error) => {
+              this.loader = false;
             }
-          },(error)=>{
-            this.loader = false;
-          });
+          );
       }
     }
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Motor_Proceed', {
+      Option_Selected: vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? sessionStorage.getItem('partner_code')
+        : null,
+      Motor_Type: vehicleTypeValue,
+    });
   }
   login() {
     if (window.innerWidth <= 999) {

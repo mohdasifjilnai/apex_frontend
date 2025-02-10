@@ -1,17 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ShareQuotesComponent } from '../share-quotes/share-quotes.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet,
+  MatBottomSheetConfig,
+} from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-selected-share',
   templateUrl: './selected-share.component.html',
-  styleUrls: ['./selected-share.component.scss']
+  styleUrls: ['./selected-share.component.scss'],
 })
 export class SelectedShareComponent implements OnInit {
-  @Input() quotes: any[]=[];
+  @Input() quotes: any[] = [];
   quotesLength: any;
   shareQuotesJSON: {
     modalName: any;
@@ -29,40 +39,46 @@ export class SelectedShareComponent implements OnInit {
     classObtained: 'share-qoutes-class',
   };
   quoteItem: any;
-  constructor(public matDialog: WindowRef,
+  constructor(
+    public matDialog: WindowRef,
     public dialogRef: MatDialogRef<SelectedShareComponent>,
     public bottomSheet: MatBottomSheet,
-    private sharedDataService: SharedDataService,) {
-    
-   }
+    private sharedDataService: SharedDataService
+  ) {}
 
   ngOnInit(): void {
     this.quoteItem = this.sharedDataService.getQuoteItem();
   }
   /**
-     * Share Quotes POP-UP and BottomSheet Open
-  */
-  shareQuotes(quotes:any){
+   * Share Quotes POP-UP and BottomSheet Open
+   */
+  shareQuotes(quotes: any) {
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Shared_Selected_clicked', {
+      Quotes_Selected: quotes.length,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+    });
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: quotes,
     };
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(ShareQuotesComponent, bottomSheetConfig);
-      this.cancel(false)
+      this.cancel(false);
     } else {
-      this.openModal(quotes,this.shareQuotesJSON)
-      this.cancel(false)
+      this.openModal(quotes, this.shareQuotesJSON);
+      this.cancel(false);
     }
-    
-    
   }
-  shareAllQuotes(){
+  shareAllQuotes() {
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: this.quoteItem,
     };
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(ShareQuotesComponent, bottomSheetConfig);
-      this.cancel(false)
+      this.cancel(false);
     }
   }
   @Output() notifyParent: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -71,10 +87,10 @@ export class SelectedShareComponent implements OnInit {
   cancel(condition: boolean) {
     this.notifyParent.emit(condition);
   }
-   /**
+  /**
    * this fucntion use open pop up modal
    */
-   openModal(ObjData: any, jsonData: any) {
+  openModal(ObjData: any, jsonData: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -100,5 +116,4 @@ export class SelectedShareComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+declare const webengage: any;
 
 @Component({
   selector: 'app-nominee-details',
@@ -51,7 +52,7 @@ export class NomineeDetailsComponent implements OnInit {
       });
     }
     this.sharedData.getVahaanDetails.subscribe((res: any) => {
-      if(res?.nominee_details!=null){
+      if (res?.nominee_details != null) {
         this.nominneForm.patchValue({
           nominne_full_Name: res?.nominee_details?.name,
           age: res?.nominee_details?.age,
@@ -115,6 +116,15 @@ export class NomineeDetailsComponent implements OnInit {
   getNomineeDetails(isValid: boolean) {
     if (isValid) {
       const formValues = this.nominneForm.value;
+
+      webengage.track('Motor_Nominee_Details_Submitted', {
+        Nominee_Relation: this.nominneForm.value.nominne_relation,
+        Age: this.nominneForm.value.age,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: sessionStorage.getItem('vehicleType'),
+      });
       this.afterNomineeGetData.emit(formValues);
       this.sharedData?.createProposalId('nominne_details', this.nominneForm);
     }

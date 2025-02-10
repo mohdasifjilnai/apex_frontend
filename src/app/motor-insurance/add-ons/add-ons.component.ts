@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-
+declare const webengage: any;
 export class dropdown {
   value: any;
   viewValue: any;
@@ -66,10 +66,11 @@ export class AddOnsComponent implements OnInit {
   multipCheckboxName: any = [];
   // isPageRefresh = true;
   addMultiCheckboxValue: any = [];
-  loader:boolean=false
-  proposalOnInit: boolean=false;
+  loader: boolean = false;
+  proposalOnInit: boolean = false;
   selectedVehicleType: any;
   traceIdResponse: any;
+  userType: any;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -77,6 +78,10 @@ export class AddOnsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
+
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     // this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
     //   this.vehicleData = cardData;
@@ -110,8 +115,8 @@ export class AddOnsComponent implements OnInit {
           this.selectedAddOns = '';
         } else {
           this.selectedAddOns = JSON.parse(this.addonsValue);
-          if(this.selectedAddOns){
-            this.clearAllButton=true
+          if (this.selectedAddOns) {
+            this.clearAllButton = true;
           }
         }
 
@@ -245,22 +250,22 @@ export class AddOnsComponent implements OnInit {
         sessionStorage.removeItem('selectedAddons');
       }
     });
-    this.proposalOnInit=true
+    this.proposalOnInit = true;
 
     this.sharedDataService.addOnsBaseProposalType.subscribe((cardData) => {
-      if(!this.proposalOnInit){
+      if (!this.proposalOnInit) {
         this.subCheckBox = [];
-      this.selectedCheckedArray = [];
-      this.selectAddOnsOnly = [];
-      this.checkBoxValueArray = [];
-      this.inputValues = [];
-      this.showButtons = false;
-      this.showUpdateButton = false;
-      this.clearAllButton = false;
-      this.selected_addons = {};
-      this.selectedVoluntryValue = '';
+        this.selectedCheckedArray = [];
+        this.selectAddOnsOnly = [];
+        this.checkBoxValueArray = [];
+        this.inputValues = [];
+        this.showButtons = false;
+        this.showUpdateButton = false;
+        this.clearAllButton = false;
+        this.selected_addons = {};
+        this.selectedVoluntryValue = '';
       }
-      this.proposalOnInit=false
+      this.proposalOnInit = false;
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.getAddonList(
@@ -276,7 +281,7 @@ export class AddOnsComponent implements OnInit {
       this.isMobileView = true;
     }
     this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
-      this.traceIdResponse=res
+      this.traceIdResponse = res;
     });
   }
 
@@ -285,6 +290,10 @@ export class AddOnsComponent implements OnInit {
    */
   clearAllChecked() {
     // this.sharedDataService.sendCarLoaderMessage(0);
+    webengage.track('Motor_Filter_Cleared', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
       for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
         this.addOnsArray[i].fe_template[j].checked = false;
@@ -343,7 +352,7 @@ export class AddOnsComponent implements OnInit {
       }
       this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
       this.enableAddOns = true;
-    }else {
+    } else {
       this.sharedDataService.vehicleMMVDetails(
         productTypeValue,
         mmvFormData,
@@ -363,6 +372,8 @@ export class AddOnsComponent implements OnInit {
     tagType: any = null,
     addons?: any
   ) {
+    //
+
     let checkboxValue;
     checkboxValue = event.checked;
     this.addInputValidation(checkboxValue, type, index, tagType);
@@ -476,10 +487,21 @@ export class AddOnsComponent implements OnInit {
         this.clearAllButton = true;
       }
     }
+
+    let addOnValue = this.selectedCheckedArray;
+
+    webengage.track('CPA_filter_Applied', {
+      Option_Selected: addOnValue,
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   update() {
     // this.sharedDataService.sendCarLoaderMessage(0);
-
+    webengage.track('Motor_Filter_Applied', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     this.selected_addons = {};
 
     for (let key of this.selectedCheckedArray) {
@@ -538,7 +560,7 @@ export class AddOnsComponent implements OnInit {
    * This (getAddonList) hit the get api and show the addons list in Quotes page
    */
   getAddonList(vehicleTypeValue: string, policy_expiry: any) {
-    this.loader=true
+    this.loader = true;
     let bussinessType = sessionStorage.getItem('newVehicleType');
     let proposalType = sessionStorage.getItem('proposerType');
     let productType = sessionStorage.getItem('productType');
@@ -549,11 +571,13 @@ export class AddOnsComponent implements OnInit {
       diesel = false;
     }
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    let vehicleTypeData
-    if(this.vehicleTypeValue=='commercial_vehicle'){
-      vehicleTypeData=this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type
-    }else{
-      vehicleTypeData=this.vehicleTypeValue
+    let vehicleTypeData;
+    if (this.vehicleTypeValue == 'commercial_vehicle') {
+      vehicleTypeData =
+        this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type
+          ?.vehicle_type;
+    } else {
+      vehicleTypeData = this.vehicleTypeValue;
     }
     this.apiService
       .getRequestedResponse(
@@ -562,7 +586,7 @@ export class AddOnsComponent implements OnInit {
       .subscribe((res: any) => {
         this.addonList = res;
         this.modifiedMultiCheckArray = [];
-        this.loader=false
+        this.loader = false;
         this.addOnsArray = [];
         for (let value of this.addonList) {
           const checkIndex = this.addOnsArray.findIndex(

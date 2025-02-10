@@ -15,6 +15,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 declare var HyperKYCModule: any;
+declare const webengage: any;
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -75,6 +76,8 @@ export class CkycComponent implements OnInit {
   previousDetails: any;
   details: any;
   selectedDocument: any;
+  userType: any;
+  vehicleTypeValue: any;
 
   constructor(
     private formBuild: FormBuilder,
@@ -113,6 +116,10 @@ export class CkycComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.setCalenderRange();
     this.proposerType = sessionStorage.getItem('proposerType');
     this.proposerType == 'individual'
@@ -362,6 +369,10 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
+    webengage.track('CKYC_details_Submitted', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
     } else {
@@ -487,8 +498,8 @@ export class CkycComponent implements OnInit {
             .get('document_type_based_field')
             ?.setValue(this.documentList[0].document_code);
         }
-        this.selectedDocument=this.documentList[0].document_code
-        this.getDocumentTypeValue(this.documentList[0].document_code)
+        this.selectedDocument = this.documentList[0].document_code;
+        this.getDocumentTypeValue(this.documentList[0].document_code);
         if (
           this.documentList &&
           this.proposalData?.ckyc_details?.document_type
@@ -639,13 +650,13 @@ export class CkycComponent implements OnInit {
         Validators.pattern(/^[A-Za-z0-9]{30}$/),
       ]);
     }
-    if(this.selectedDocument!=event){
+    if (this.selectedDocument != event) {
       this.ckycFormGroup.patchValue({
-      document_number_based_field: '',
-      dob: '',
-      ckyc_full_name: '',
-      ckyc_gender: '',
-    });
+        document_number_based_field: '',
+        dob: '',
+        ckyc_full_name: '',
+        ckyc_gender: '',
+      });
     }
     if (this.documentName == 'aadhaar_number') {
       this.ckycFormGroup
@@ -677,6 +688,10 @@ export class CkycComponent implements OnInit {
         this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
+    webengage.track('CKYC_details_Initiated', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   /**
    *   document validator function

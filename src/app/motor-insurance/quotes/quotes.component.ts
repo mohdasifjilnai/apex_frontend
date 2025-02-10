@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 import { IdleService } from 'src/app/core/services/idle.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
@@ -179,7 +179,7 @@ export class QuotesComponent implements OnInit {
         // }
       }
     });
-
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.shareDataService.renewalQuotes.subscribe((quotesValue: any) => {
       if (
         quotesValue?.transaction_id != null &&
@@ -201,19 +201,19 @@ export class QuotesComponent implements OnInit {
     //   //   }
     //   // }
     // } else {
-      const vehiclePopup = sessionStorage.getItem('vehiclePopup');
-      let quotesUrl = sessionStorage.getItem('quotesUrl');
-      if (quotesUrl) {
-        if (vehiclePopup != 'true') {
-          if (window.innerWidth <= 999) {
-            this.bottomSheet.open(VehicleDetailsPopupComponent, {
-              disableClose: true, // Disable closing on outside click
-            });
-          } else {
-            this.openVehicleDetailsPopup(null);
-          }
+    const vehiclePopup = sessionStorage.getItem('vehiclePopup');
+    let quotesUrl = sessionStorage.getItem('quotesUrl');
+    if (quotesUrl) {
+      if (vehiclePopup != 'true') {
+        if (window.innerWidth <= 999) {
+          this.bottomSheet.open(VehicleDetailsPopupComponent, {
+            disableClose: true, // Disable closing on outside click
+          });
+        } else {
+          this.openVehicleDetailsPopup(null);
         }
       }
+    }
     // }
     this.is_cse = sessionStorage.getItem('is_cse')?.toLowerCase();
     this.employee_code = sessionStorage.getItem('employee_code');
@@ -253,8 +253,10 @@ export class QuotesComponent implements OnInit {
       }
     });
     sessionStorage.removeItem('kycData');
-    const partnerCodeTraceId=JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}')
-    if(partnerCodeTraceId){
+    const partnerCodeTraceId = JSON.parse(
+      sessionStorage.getItem('partnerCodeTraceId') || '{}'
+    );
+    if (partnerCodeTraceId) {
       // this.getTraceIdCommercialVehicle(partnerCodeTraceId?.trace_id)
     }
   }
@@ -306,7 +308,6 @@ export class QuotesComponent implements OnInit {
    * @param insurer_quote_id - The insurer quote id.
    */
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
-   
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
@@ -366,14 +367,13 @@ export class QuotesComponent implements OnInit {
    * @param id - The ID of the make, model, or variant to be preselected.
    */
   getVehicleMMVPopup(name: any, id: any, type?: any, allRequestData?: any) {
-    const vehicleType=sessionStorage.getItem('vehicleType')
+    const vehicleType = sessionStorage.getItem('vehicleType');
     let apiData;
     if (id) {
-      if(vehicleType=='commercial_vehicle'){
-        apiData=`?rb_mmv_id=${id}`
-        console.log(vehicleType)
-
-      }else{
+      if (vehicleType == 'commercial_vehicle') {
+        apiData = `?rb_mmv_id=${id}`;
+        console.log(vehicleType);
+      } else {
         apiData = `?product_name=${type}&rb_mmv_id=${id}`;
       }
     }
@@ -400,10 +400,10 @@ export class QuotesComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.fetch_trace_Id()}${traceId}`)
       .subscribe((res: any) => {
         if (res != null) {
-          const vehicleType=sessionStorage.getItem('vehicleType')
-          if(vehicleType!='commercial_vehicle'){
+          const vehicleType = sessionStorage.getItem('vehicleType');
+          if (vehicleType != 'commercial_vehicle') {
             sessionStorage.setItem('vehicleType', res.vehicle_type);
-          }else{
+          } else {
             sessionStorage.setItem('vehicleType', 'commercial_vehicle');
           }
           sessionStorage.setItem('proposerType', res.customer_type);
@@ -418,43 +418,75 @@ export class QuotesComponent implements OnInit {
           this.shareDataService.partnerCode(res.partner_code);
           sessionStorage.setItem('quotesUrl', 'true');
           sessionStorage.setItem('vehiclePopup', 'true');
-          if(res?.is_rb_renewal){
-            sessionStorage.setItem('renewalType','renewal')
-            sessionStorage.setItem('renewalPolicyNumber',res?.policy_number)
-            this.getRenewalData(res?.registration_no)
+          if (res?.is_rb_renewal) {
+            sessionStorage.setItem('renewalType', 'renewal');
+            sessionStorage.setItem('renewalPolicyNumber', res?.policy_number);
+            this.getRenewalData(res?.registration_no);
           }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
           sessionStorage.setItem('newVehicleType', res.business_type);
-          if(res?.registration_no!=null){
+          if (res?.registration_no != null) {
             sessionStorage.setItem('registrationNumber', res?.registration_no);
           }
           if (res?.partner_code == null) {
             sessionStorage.setItem('partner_code', '');
           } else {
-            if(res?.partner_code!=null){
+            if (res?.partner_code != null) {
               sessionStorage.setItem('partner_code', res?.partner_code);
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.first_name!=null){
-              sessionStorage.setItem('first_name', res.meta_data.mmv_form_data?.partner_details?.first_name);
+            if (
+              res.meta_data.mmv_form_data?.partner_details?.first_name != null
+            ) {
+              sessionStorage.setItem(
+                'first_name',
+                res.meta_data.mmv_form_data?.partner_details?.first_name
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.last_name!=null){
-              sessionStorage.setItem('last_name', res.meta_data.mmv_form_data?.partner_details?.last_name);
+            if (
+              res.meta_data.mmv_form_data?.partner_details?.last_name != null
+            ) {
+              sessionStorage.setItem(
+                'last_name',
+                res.meta_data.mmv_form_data?.partner_details?.last_name
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.middle_name!=null){
-              sessionStorage.setItem('middle_name', res.meta_data.mmv_form_data?.partner_details?.middle_name);
+            if (
+              res.meta_data.mmv_form_data?.partner_details?.middle_name != null
+            ) {
+              sessionStorage.setItem(
+                'middle_name',
+                res.meta_data.mmv_form_data?.partner_details?.middle_name
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.token!=null){
-              sessionStorage.setItem('token', res.meta_data.mmv_form_data?.partner_details?.token);
+            if (res.meta_data.mmv_form_data?.partner_details?.token != null) {
+              sessionStorage.setItem(
+                'token',
+                res.meta_data.mmv_form_data?.partner_details?.token
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.employee_code!=null){
-              sessionStorage.setItem('employee_code', res.meta_data.mmv_form_data?.partner_details?.employee_code);
+            if (
+              res.meta_data.mmv_form_data?.partner_details?.employee_code !=
+              null
+            ) {
+              sessionStorage.setItem(
+                'employee_code',
+                res.meta_data.mmv_form_data?.partner_details?.employee_code
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.is_cse!=null){
-              sessionStorage.setItem('is_cse', res.meta_data.mmv_form_data?.partner_details?.is_cse);
+            if (res.meta_data.mmv_form_data?.partner_details?.is_cse != null) {
+              sessionStorage.setItem(
+                'is_cse',
+                res.meta_data.mmv_form_data?.partner_details?.is_cse
+              );
             }
-            if(res.meta_data.mmv_form_data?.partner_details?.pos_status!=null){
-              sessionStorage.setItem('pos_status', res.meta_data.mmv_form_data?.partner_details?.pos_status);
+            if (
+              res.meta_data.mmv_form_data?.partner_details?.pos_status != null
+            ) {
+              sessionStorage.setItem(
+                'pos_status',
+                res.meta_data.mmv_form_data?.partner_details?.pos_status
+              );
             }
           }
           if (res?.meta_data?.selectedAddons !== 'undefined') {
@@ -471,7 +503,10 @@ export class QuotesComponent implements OnInit {
             'mmv_data',
             JSON.stringify(res.meta_data.mmv_form_data)
           );
-          sessionStorage.setItem('withoutVehicleNumber',res.meta_data.mmv_form_data?.withoutVehicleNumber)
+          sessionStorage.setItem(
+            'withoutVehicleNumber',
+            res.meta_data.mmv_form_data?.withoutVehicleNumber
+          );
           this.shareDataService.getVehicleType(res.vehicle_type);
           this.shareDataService.vehicleCardEmailData(
             JSON.stringify(res.meta_data.mmv_form_data)
@@ -527,35 +562,34 @@ export class QuotesComponent implements OnInit {
 
     this.matDialog.openDialog(obj);
   }
-  getTraceIdCommercialVehicle(trace_id:any){
+  getTraceIdCommercialVehicle(trace_id: any) {
     let apiUrl;
     apiUrl = `?trace_id=${trace_id}`;
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
-        this.shareDataService.getTraceIdDetails(res)
+        this.shareDataService.getTraceIdDetails(res);
         sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
       });
   }
 
-  getRenewalData(registartionNumber:any){
-            let apiUrl;
-            apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-            this.apiService
-              .getRequestedResponse(
-                `${ApiConstants.get_renewal_policy}${apiUrl}`
-              )
-              .subscribe((res: any) => {
-                if (res?.status) {
-                  sessionStorage.setItem(
-                    'RenewalPreviousDetails',
-                    JSON.stringify(res)
-                  );
-                  sessionStorage.setItem('coverageType', JSON.stringify(res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type));
-                  this.shareDataService.getRenewalData(res)
-                }
-              });
-          
+  getRenewalData(registartionNumber: any) {
+    let apiUrl;
+    apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.status) {
+          sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
+          sessionStorage.setItem(
+            'coverageType',
+            JSON.stringify(
+              res?.previous_policy_details?.previous_policy_details
+                ?.renewal_coverage_type
+            )
+          );
+          this.shareDataService.getRenewalData(res);
+        }
+      });
   }
-
 }

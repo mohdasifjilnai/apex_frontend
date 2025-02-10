@@ -2,13 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-check-quotes-dialog',
   templateUrl: './check-quotes-dialog.component.html',
   styleUrls: ['./check-quotes-dialog.component.scss'],
 })
 export class CheckQuotesDialogComponent implements OnInit {
+  vehicleTypeValue: any;
+  userType: any;
   constructor(
     public dialogRef: MatDialogRef<CheckQuotesDialogComponent>,
     private sharedDataService: SharedDataService,
@@ -17,7 +19,12 @@ export class CheckQuotesDialogComponent implements OnInit {
   ) {}
 
   traceIdData: any;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    this.userType = sessionStorage.getItem('partnerCodeTraceId')
+      ? sessionStorage.getItem('partnerCodeTraceId')
+      : null;
+  }
 
   /**
    * this fucntion use for close pop up
@@ -27,6 +34,10 @@ export class CheckQuotesDialogComponent implements OnInit {
   }
 
   quotesChange() {
+    webengage.track('Change_Insurer_Inititaed', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     // sessionStorage.setItem('vehiclePopup', 'true');
     if (this.data == 'renewal') {
       sessionStorage.removeItem('vehiclePopup');
@@ -55,5 +66,12 @@ export class CheckQuotesDialogComponent implements OnInit {
       let traceValue = JSON.parse(this.traceIdData);
       this.route.navigate([`quotes/${traceValue.trace_id}`]);
     }
+    webengage.track('Change_Insurer_Clicked', {
+      Option_Selected: this.vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partnerCodeTraceId')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { JsonPipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import {
   Component,
   Inject,
@@ -38,7 +38,7 @@ import {
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-vehicle-details-popup',
   templateUrl: './vehicle-details-popup.component.html',
@@ -159,7 +159,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     private apiservice: ApiService,
     public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupComponent>,
     private renderer: Renderer2,
-    public router: Router
+    public router: Router,
+    private datePipe: DatePipe
   ) {
     this.vehicleDetailsFormControler();
     // this.getClaimedList();
@@ -633,96 +634,175 @@ export class VehicleDetailsPopupComponent implements OnInit {
    * This function is used to update the vehicle details
    * @param data
    */
-  updateVehicleDetail(isValid:any) {
-    if(isValid){
+  updateVehicleDetail(isValid: any) {
+    if (isValid) {
+      let title;
+      if (this.editVehicleDetails) {
+        title = 'Motor_details_verified';
+      } else {
+        title = 'Motor_details_Updated';
+      }
+      const token = sessionStorage.getItem('token');
+      const transformedDateString = this.vehicleDetailsForm.value
+        ?.registration_date
+        ? this.datePipe.transform(
+            this.vehicleDetailsForm.value?.registration_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
 
-    
-    // this.sharedDataService.sendCarLoaderMessage(0);
-    this.renderer.removeClass(document.body, 'dropdown-focus');
-    if (window.innerWidth <= 999) {
-      this.bottomSheetRef.dismiss();
-    } else {
-      this.dialogRef.close();
-    }
+      let regDate = transformedDateString
+        ? new Date(transformedDateString as string)
+        : '';
 
-    sessionStorage.setItem('vehiclePopup', 'true');
-    if (this.vehicleMMVValue) {
-      sessionStorage.removeItem('vehicleMMVData');
-    }
-    this.vehicleDetailsForm.get('ncb_discount')?.enable();
-    this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
-    this.vehicleDetailsForm.value.hidePreviousClaimed =
-      this.hidePreviousClaimed;
+      const transformedMgfDate = this.vehicleDetailsForm.value?.manufacture_date
+        ? this.datePipe.transform(
+            this.vehicleDetailsForm.value?.manufacture_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let mgfDate = transformedMgfDate
+        ? new Date(transformedMgfDate as string)
+        : '';
 
-    if (
-      this.vehicleDetailsForm.value?.policy_expiry != 'IDK' &&
-      this.vehicleDetailsForm.value?.policy_expiry != '' &&
-      this.vehicleDetailsForm.value?.policy_expiry != 'satp' &&
-      this.vehicleDetailsForm.value?.policy_expiry != 'bundled_tp' &&
-      !this.isNewVehicle
-    ) {
-      if (
-        this.vehicleDetailsForm.value?.ncb_discount ||
-        this.vehicleDetailsForm.value?.ncb_discount == 0
-      ) {
-        for (let i = 0; i <= this.expiryListData.length - 1; i++) {
+      const transformedPolicyExpiry = this.vehicleDetailsForm.value
+        ?.policy_expiry_date
+        ? this.datePipe.transform(
+            this.vehicleDetailsForm.value?.policy_expiry_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let policyExpDate = transformedPolicyExpiry
+        ? new Date(transformedPolicyExpiry as string)
+        : '';
+      const formData = {
+        Motor_Type: this.vehicleTypeValue,
+        Make: this.vehicleDetailsForm.value?.vehicle_variant?.rb_make_name,
+        Model: this.vehicleDetailsForm.value?.vehicle_variant?.rb_model_name,
+        Variant:
+          this.vehicleDetailsForm.value?.vehicle_variant?.rb_variant_name,
+        Fuel: this.vehicleDetailsForm.value?.vehicle_variant?.fuel,
+        Registration_City:
+          this.vehicleDetailsForm.value?.registration_city?.display_name,
+        Registration_Date: regDate,
+        Manufacture_Date: mgfDate,
+        Used_Car_RC_Transfer: this.vehicleDetailsForm.value?.user_car,
+        Type_of_Expiring_Policy: this.vehicleDetailsForm.value?.policy_expiry,
+        Policy_Expiring_Date: policyExpDate,
+        Search_previous_Insurer:
+          this.vehicleDetailsForm.value?.previous_insurer?.rb_insurer_name,
+        Is_previous_Policy_claimed:
+          this.vehicleDetailsForm.value?.previous_claimed,
+        Previous_year_NCB: this.vehicleDetailsForm.value?.ncb_discount,
+        User_Type: token != null ? 'Partner' : 'Customer',
+      };
+      const filteredData = Object.fromEntries(
+        Object.entries(formData).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
           if (
-            this.expiryListData[i].old_ncb_value ==
-            this.vehicleDetailsForm.value.ncb_discount
+            formData.Type_of_Expiring_Policy === 'IDK' &&
+            (key === 'Search_previous_Insurer' ||
+              key === 'Previous_year_NCB' ||
+              key === 'Is_previous_Policy_claimed')
           ) {
-            this.ncbAllData = this.expiryListData[i];
+            return false;
+          }
+          return true;
+        })
+      );
+
+      webengage.track(title, filteredData);
+      // this.sharedDataService.sendCarLoaderMessage(0);
+      this.renderer.removeClass(document.body, 'dropdown-focus');
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss();
+      } else {
+        this.dialogRef.close();
+      }
+
+      sessionStorage.setItem('vehiclePopup', 'true');
+      if (this.vehicleMMVValue) {
+        sessionStorage.removeItem('vehicleMMVData');
+      }
+      this.vehicleDetailsForm.get('ncb_discount')?.enable();
+      this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
+      this.vehicleDetailsForm.value.hidePreviousClaimed =
+        this.hidePreviousClaimed;
+
+      if (
+        this.vehicleDetailsForm.value?.policy_expiry != 'IDK' &&
+        this.vehicleDetailsForm.value?.policy_expiry != '' &&
+        this.vehicleDetailsForm.value?.policy_expiry != 'satp' &&
+        this.vehicleDetailsForm.value?.policy_expiry != 'bundled_tp' &&
+        !this.isNewVehicle
+      ) {
+        if (
+          this.vehicleDetailsForm.value?.ncb_discount ||
+          this.vehicleDetailsForm.value?.ncb_discount == 0
+        ) {
+          for (let i = 0; i <= this.expiryListData.length - 1; i++) {
+            if (
+              this.expiryListData[i].old_ncb_value ==
+              this.vehicleDetailsForm.value.ncb_discount
+            ) {
+              this.ncbAllData = this.expiryListData[i];
+            }
+          }
+          this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
+        }
+      } else {
+        this.vehicleDetailsForm.value.ncb_discount = 0;
+      }
+
+      if (this.vehicleDetailsForm.value?.policy_expiry) {
+        for (let i = 0; i <= this.expiryList?.length - 1; i++) {
+          if (
+            this.expiryList[i]?.rb_expiring_policy_type_code ==
+            this.vehicleDetailsForm.value?.policy_expiry
+          ) {
+            this.vehicleDetailsForm.value.policy_expiry_id_data =
+              this.expiryList[i]?.rb_expiring_policy_type_id;
           }
         }
-        this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
-      }
-    } else {
-      this.vehicleDetailsForm.value.ncb_discount = 0;
-    }
-
-    if (this.vehicleDetailsForm.value?.policy_expiry) {
-      for (let i = 0; i <= this.expiryList?.length - 1; i++) {
-        if (
-          this.expiryList[i]?.rb_expiring_policy_type_code ==
-          this.vehicleDetailsForm.value?.policy_expiry
-        ) {
-          this.vehicleDetailsForm.value.policy_expiry_id_data =
-            this.expiryList[i]?.rb_expiring_policy_type_id;
+        if (this.renewalType == 'renewal') {
+          let coverageType = JSON.parse(
+            sessionStorage.getItem('coverageType') || ''
+          );
+          if (coverageType?.coverage_policy_type_id) {
+            this.vehicleDetailsForm.value.policy_expiry_id_data =
+              coverageType?.coverage_policy_type_id;
+          }
         }
       }
-      if (this.renewalType == 'renewal') {
-        let coverageType = JSON.parse(
-          sessionStorage.getItem('coverageType') || ''
+      let vehicleFrom;
+      // if (this.renewalType != 'renewal') {
+      this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
+      if (!this.isNewVehicle) {
+        this.vehicleDetailsForm.value.offeredNCBValue = JSON.stringify(
+          this.policyTypeBaseNCB
         );
-        if (coverageType?.coverage_policy_type_id) {
-          this.vehicleDetailsForm.value.policy_expiry_id_data =
-            coverageType?.coverage_policy_type_id;
-        }
+      } else {
+        // this.vehicleDetailsForm.value.policy_expiry = '';
+        this.vehicleDetailsForm.value.offeredNCBValue = '';
+        this.vehicleDetailsForm.value.policy_expiry = '';
       }
-    }
-    let vehicleFrom;
-    // if (this.renewalType != 'renewal') {
-    this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
-    if (!this.isNewVehicle) {
-      this.vehicleDetailsForm.value.offeredNCBValue = JSON.stringify(
-        this.policyTypeBaseNCB
-      );
-    } else {
-      // this.vehicleDetailsForm.value.policy_expiry = '';
-      this.vehicleDetailsForm.value.offeredNCBValue = '';
-      this.vehicleDetailsForm.value.policy_expiry = '';
-    }
 
-    vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
+      vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
 
-    sessionStorage.setItem('mmv_data', vehicleFrom);
-    sessionStorage.removeItem('allNCBDataProposal');
-    sessionStorage.removeItem('proposal_Id');
-    const idvData=sessionStorage.getItem('idvData')
-    if (idvData) {
-      sessionStorage.removeItem('idvData');
+      sessionStorage.setItem('mmv_data', vehicleFrom);
+      sessionStorage.removeItem('allNCBDataProposal');
+      sessionStorage.removeItem('proposal_Id');
+      this.sharedDataService.vehicleCardData(vehicleFrom);
+      // webengage.track('Motor_Type', {
+      //   Option_Selected: this.vehicleTypeValue,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? sessionStorage.getItem('partner_code')
+      //     : null,
+      //   Motor_Type: this.vehicleTypeValue,
+      // });
     }
-    this.sharedDataService.vehicleCardData(vehicleFrom);
-  }
   }
 
   /**

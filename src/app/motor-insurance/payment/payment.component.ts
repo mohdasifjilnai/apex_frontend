@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+declare const webengage: any;
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -45,15 +46,20 @@ export class PaymentComponent implements OnInit {
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Successful',
+        });
       } else {
         this.paymentSuccess = false;
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Faliure',
+        });
       }
 
       this.transactionId = params[2]['path'];
       if (window.screen.width <= 999) {
-        this.getPartnerCode(this.transactionId)
+        this.getPartnerCode(this.transactionId);
       }
-     
     });
     this.downloadPolicy();
     this.route.queryParamMap.subscribe((params) => {
@@ -67,6 +73,9 @@ export class PaymentComponent implements OnInit {
       }
       if (this.paymentSuccess && proposalNo) {
         this.paymentPendingCase = true;
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Deducted',
+        });
       }
       // let regnNumberValue = sessionStorage.getItem('isRegistrationNumber');
       // if (regnNumberValue) {
@@ -150,7 +159,18 @@ export class PaymentComponent implements OnInit {
       if (sessionStorage.getItem('isPayment')) {
         this.router.navigate(['']);
       } else {
-        this.clearSessionStorageExcept(['token','partner_code','first_name','middle_name','last_name','partnerCodeTraceId','is_cse','pos_status','employee_code']);      }
+        this.clearSessionStorageExcept([
+          'token',
+          'partner_code',
+          'first_name',
+          'middle_name',
+          'last_name',
+          'partnerCodeTraceId',
+          'is_cse',
+          'pos_status',
+          'employee_code',
+        ]);
+      }
     });
   }
   /**
@@ -224,15 +244,15 @@ export class PaymentComponent implements OnInit {
   }
   clearSessionStorageExcept(keysToKeep: string[]): void {
     const preservedData: { [key: string]: string | null } = {};
-  
+
     // Step 1: Store values of keys to keep
     keysToKeep.forEach((key) => {
       preservedData[key] = sessionStorage.getItem(key);
     });
-  
+
     // Step 2: Clear the sessionStorage
     sessionStorage.clear();
-  
+
     // Step 3: Restore preserved keys
     Object.entries(preservedData).forEach(([key, value]) => {
       if (value !== null) {
@@ -240,21 +260,20 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
-  getPartnerCode(transaction_id:any){
+  getPartnerCode(transaction_id: any) {
     let apiUrl;
     apiUrl = `?transaction_id=${transaction_id}`;
     this.apiService
       .getRequestedResponse(`${ApiConstants.fetch_partner_code}${apiUrl}`)
       .subscribe((res: any) => {
-        this.partner_code=res?.partner_code
-        this.employee_code=res?.employee_code
-        if(res?.partner_code!=null){
-          sessionStorage.setItem('partner_code',res?.partner_code)
+        this.partner_code = res?.partner_code;
+        this.employee_code = res?.employee_code;
+        if (res?.partner_code != null) {
+          sessionStorage.setItem('partner_code', res?.partner_code);
         }
-        if(res?.employee_code!=null){
-          sessionStorage.setItem('employee_code',res?.employee_code)
+        if (res?.employee_code != null) {
+          sessionStorage.setItem('employee_code', res?.employee_code);
         }
-        });
+      });
   }
-  
 }

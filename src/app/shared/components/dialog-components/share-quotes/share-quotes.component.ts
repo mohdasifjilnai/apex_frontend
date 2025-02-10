@@ -9,7 +9,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { environment } from 'src/environments/environment';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-
+declare const webengage: any;
 @Component({
   selector: 'app-share-quotes',
   templateUrl: './share-quotes.component.html',
@@ -104,6 +104,14 @@ export class ShareQuotesComponent implements OnInit {
    * Share Quotes Api Integration
    */
   shareQuotes(shareType: any) {
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Quote_shared_successfully', {
+      Option_Selected: shareType,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+    });
     this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {

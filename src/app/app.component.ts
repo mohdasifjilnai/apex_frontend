@@ -3,7 +3,7 @@ import { LoaderService } from './core/services/loader.service';
 import { SseService } from './core/services/sse.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-
+declare const webengage: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // webengage.init('in~~10a5cbbcb');
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
       if (!isLoading) {
