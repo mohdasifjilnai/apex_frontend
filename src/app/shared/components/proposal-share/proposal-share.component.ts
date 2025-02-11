@@ -303,6 +303,7 @@ export class ProposalShareComponent implements OnInit {
           )
           .subscribe((res) => {
             this.loader=false
+            this.onClose()
             if (window.innerWidth <= 999) {
               const bottomSheetConfig: MatBottomSheetConfig = {
                 data: sendCommunicationObject, // Pass your data here
@@ -340,6 +341,7 @@ export class ProposalShareComponent implements OnInit {
           )
           .subscribe((res) => {
             this.loader=false
+            this.onClose()
             if (window.innerWidth <= 999) {
               const bottomSheetConfig: MatBottomSheetConfig = {
                 data: sendCommunicationObject, // Pass your data here
