@@ -88,7 +88,7 @@ export class MotorInsuranceComponent implements OnInit {
     registration_date: new FormControl(''),
     previous_insurer: new FormControl(''),
     policy_expiry_date: new FormControl(''),
-    policy_number: new FormControl('')
+    policy_number: new FormControl(''),
   });
   notCertifiedComponentJSON: {
     modalName: any;
@@ -156,6 +156,12 @@ export class MotorInsuranceComponent implements OnInit {
     if (this.fullUrl + '/' != 'https://apex.renewbuyinsurance.com/') {
       this.devUrl = true;
     }
+    this.route.queryParams.subscribe((params) => {
+      const policyNumber = params['policy_number'];
+      const source = params['source'];
+
+      sessionStorage.setItem('source', source);
+    });
     //  else if (environment?.apex_local === this.fullUrl + '/') {
     //   this.devUrl = true;
     // } else if (environment?.apexD2C === this.fullUrl + '/') {
@@ -613,6 +619,7 @@ export class MotorInsuranceComponent implements OnInit {
           this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
           const parsedValue = JSON.parse(this.partnerCodeData);
           this.traceId = parsedValue?.trace_id;
+
           this.router.navigate([`quotes/${this.traceId}`]);
           if (
             res?.previous_policy_details?.vehicle_details?.registration_no !=

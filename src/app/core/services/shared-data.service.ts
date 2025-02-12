@@ -138,6 +138,7 @@ export class SharedDataService {
   selectedCommercialVehicleType: any;
   traceIdResponse: any;
   renewalPolicyNumber: any;
+  sourceId: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -339,6 +340,7 @@ export class SharedDataService {
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.renewalPolicyNumber = sessionStorage.getItem('renewalPolicyNumber');
+    this.sourceId = sessionStorage.getItem('source');
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList;
@@ -478,6 +480,9 @@ export class SharedDataService {
         is_rb_renewal: false,
         policy_number: null,
         vehicle_name: null,
+        source: sessionStorage.getItem('source')
+          ? JSON.parse(this.sourceId)
+          : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -537,6 +542,9 @@ export class SharedDataService {
         is_rb_renewal: false,
         policy_number: null,
         vehicle_name: null,
+        source: sessionStorage.getItem('source')
+          ? JSON.parse(this.sourceId)
+          : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
