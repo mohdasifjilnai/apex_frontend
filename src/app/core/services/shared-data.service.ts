@@ -340,7 +340,15 @@ export class SharedDataService {
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.renewalPolicyNumber = sessionStorage.getItem('renewalPolicyNumber');
-    this.sourceId = sessionStorage.getItem('source');
+    let sourceValue;
+    if (sessionStorage.getItem('source') != 'undefined') {
+      this.sourceId = sessionStorage.getItem('source');
+      sourceValue = JSON.parse(this.sourceId);
+    } else {
+      this.sourceId = '';
+      sourceValue = '';
+    }
+
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     let addOnsList;
@@ -480,9 +488,7 @@ export class SharedDataService {
         is_rb_renewal: false,
         policy_number: null,
         vehicle_name: null,
-        source: sessionStorage.getItem('source')
-          ? JSON.parse(this.sourceId)
-          : null,
+        source: this.sourceId ? sourceValue : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -542,9 +548,7 @@ export class SharedDataService {
         is_rb_renewal: false,
         policy_number: null,
         vehicle_name: null,
-        source: sessionStorage.getItem('source')
-          ? JSON.parse(this.sourceId)
-          : null,
+        source: this.sourceId ? sourceValue : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
