@@ -139,6 +139,7 @@ export class SharedDataService {
   traceIdResponse: any;
   renewalPolicyNumber: any;
   sourceId: any;
+  customer_mobile_number: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -351,6 +352,7 @@ export class SharedDataService {
 
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
+    this.customer_mobile_number=sessionStorage.getItem('customer_mobile_number')
     let addOnsList;
     if (this.addonsValue == 'undefined') {
       addOnsList = '';
@@ -489,6 +491,7 @@ export class SharedDataService {
         policy_number: null,
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
+        customer_mobile_number:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -508,6 +511,10 @@ export class SharedDataService {
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type;
         quotesData.vehicle_name =
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
+      }
+      if(this.customer_mobile_number!=null){
+        quotesData.customer_mobile_number=this.customer_mobile_number;
+        quotesData.is_d2c=true
       }
     } else {
       quotesData = {
@@ -549,6 +556,7 @@ export class SharedDataService {
         policy_number: null,
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
+        customer_mobile_number:null
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -568,6 +576,10 @@ export class SharedDataService {
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_type;
         quotesData.vehicle_name =
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
+      }
+      if(this.customer_mobile_number!=null){
+        quotesData.customer_mobile_number=this.customer_mobile_number;
+        quotesData.is_d2c=true
       }
     }
 

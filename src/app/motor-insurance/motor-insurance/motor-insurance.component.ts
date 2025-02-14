@@ -338,6 +338,11 @@ export class MotorInsuranceComponent implements OnInit {
     if (sortObjectkey) {
       sessionStorage.removeItem('sortObjectkey');
     }
+    let customer_mobile_number = sessionStorage.getItem('customer_mobile_number');
+    if (customer_mobile_number) {
+      sessionStorage.removeItem('customer_mobile_number');
+    }
+
     let renewalDetails = sessionStorage.getItem('renewalDetails');
     if (renewalDetails) {
       sessionStorage.removeItem('renewalDetails');
@@ -427,6 +432,10 @@ export class MotorInsuranceComponent implements OnInit {
     }
     this.route.queryParamMap.subscribe((params) => {
       this.regNo = params.get('reg_no');
+      let mobile_number:any=params.get('mobile_no')
+      if(mobile_number!=null){
+        sessionStorage.setItem('customer_mobile_number',mobile_number)
+      }
       this.policyNo = params.get('policy_number');
       if (this.regNo != null) {
         let value = this.regNo;
