@@ -641,8 +641,8 @@ export class CkycComponent implements OnInit {
       documentNumberBasedField?.setValidators([
         Validators.required,
         Validators.pattern(
-          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
-        ),
+          /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i
+        )
       ]);
     } else {
       this.documentMaxLength = 30;

@@ -342,23 +342,24 @@
                 </div>
                 </div>
                 <div class="col-lg-4 col-12">
-                 <div class="continue-vehicle-number click   m-2" (click)="getPolicyNumber()">
+                 <div class="continue-vehicle-number click d-flex justify-content-center  m-2" (click)="getPolicyNumber()">
                   <ng-container *ngIf="withoutVehicleNumber">
                     {{
                       !isPolicyNumber
                         ? "Click Here for Renewal"
                         : "Proceed without Vehicle Number"
                     }}
+                     <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                   </ng-container>
                   <ng-container *ngIf="!withoutVehicleNumber">
                     {{
                       !isPolicyNumber
                         ? "Click Here for Renewal"
                         : "Proceed with Vehicle Number"
-                    }}
+                    }}                  
+                     <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                   </ng-container>
                   
-                   <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
                  </div> 
                 </div>
               </div>
