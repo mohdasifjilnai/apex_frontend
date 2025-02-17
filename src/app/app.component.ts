@@ -24,6 +24,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // webengage.init('in~~10a5cbbcb');
+    if (environment?.dev) {
+      webengage.init('in~~10a5cbbcb');
+    } else {
+      webengage.init('');
+    }
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
       if (!isLoading) {
