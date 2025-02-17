@@ -53,10 +53,7 @@ export class VehicleTypeComponent implements OnInit {
       `${this.selectedVehicleType.optionNameValue}`
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
-    if (
-      vehicle?.optionNameValue == 'commercial_vehicle' &&
-      this.env?.baseUrl != 'https://apex.renewbuyinsurance.com/'
-    ) {
+    if (vehicle?.optionNameValue == 'commercial_vehicle') {
       // const api='https://apex.renewbuyinsurance.in/cv/api/v1/auth/agent_redirection/'
       window.location.href = `${this.env?.baseUrl}cv`;
     }
