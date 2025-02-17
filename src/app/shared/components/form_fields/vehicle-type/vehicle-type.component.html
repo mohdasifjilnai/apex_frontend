@@ -2,7 +2,7 @@
   <div
     class="two-wheeler cursor-pointer ms-4"
     *ngFor="let vehicle of vehicleTypeListData.vehicleTypeList; let i = index"
-    (click)="!isLast(i) && selectVehicle(vehicle)"
+    (click)="selectVehicle(vehicle)"
   >
     <span
       class="vehicle-card"
