@@ -79,8 +79,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')
       ),
     ]),
-    additional_contact: new FormControl('', [
-    ]),
+    additional_contact: new FormControl('', []),
     owner_pincode: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
@@ -135,37 +134,38 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.getPincodeList();
       this.getSalutationType();
     }
-    this.vahaanDetailsUnsubscribe =this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-      if(res?.customer_details!=null){
-        this.owenerVehicleDetailsForm.patchValue({
-          owner_full_Name: res?.customer_details?.full_name,
-          contact_number: res?.customer_details?.mobile_number,
-          owner_email: res?.customer_details?.email_id,
-          owner_gstin: res?.customer_details?.gst_no,
-          additional_contact: res?.customer_details?.additional_mobile_number,
-          owner_gender: res?.customer_details?.gender,
-          owner_communication_addres:
-            res?.customer_details?.communication_address?.address_line,
-        });
-      }
-      
-      if (res?.customer_details?.communication_address?.pincode) {
-        this.apiService
-          .getRequestedResponse(
-            `${ApiConstants.pincode}?pincode=${
-              res?.customer_details?.communication_address?.pincode
-            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-          )
-          .subscribe((response) => {
-            this.owenerVehicleDetailsForm.patchValue({
-              owner_pincode: response[0],
-              owner_city: response[0].rb_city_name,
-              owner_state: response[0].rb_state_name,
-            });
-            this.sharedDataService?.sendOwnnerAddres(
-              this.owenerVehicleDetailsForm.valid
-            );
+    this.vahaanDetailsUnsubscribe =
+      this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
+        if (res?.customer_details != null) {
+          this.owenerVehicleDetailsForm.patchValue({
+            owner_full_Name: res?.customer_details?.full_name,
+            contact_number: res?.customer_details?.mobile_number,
+            owner_email: res?.customer_details?.email_id,
+            owner_gstin: res?.customer_details?.gst_no,
+            additional_contact: res?.customer_details?.additional_mobile_number,
+            owner_gender: res?.customer_details?.gender,
+            owner_communication_addres:
+              res?.customer_details?.communication_address?.address_line,
           });
+        }
+
+        if (res?.customer_details?.communication_address?.pincode) {
+          this.apiService
+            .getRequestedResponse(
+              `${ApiConstants.pincode}?pincode=${
+                res?.customer_details?.communication_address?.pincode
+              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+            )
+            .subscribe((response) => {
+              this.owenerVehicleDetailsForm.patchValue({
+                owner_pincode: response[0],
+                owner_city: response[0].rb_city_name,
+                owner_state: response[0].rb_state_name,
+              });
+              this.sharedDataService?.sendOwnnerAddres(
+                this.owenerVehicleDetailsForm.valid
+              );
+            });
         }
 
         if (res?.customer_details?.communication_address?.pincode) {
@@ -641,7 +641,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           return true;
         })
       );
-      webengage.track('Motor_Owner_details_Submitted', filteredData);
+      // webengage.track('Motor_Owner_details_Submitted', filteredData);
       this.afterVehicleOwnerData.emit(formValues);
       setTimeout(() => {
         this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
@@ -850,11 +850,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }
   }
   addAlternateNumberValidator() {
-    const alternateControl = this.owenerVehicleDetailsForm.get('alternate_number');
+    const alternateControl =
+      this.owenerVehicleDetailsForm.get('alternate_number');
     if (alternateControl) {
-      alternateControl.setValidators([this.sharedDataService.customFieldValidator('additional_contact')]);
+      alternateControl.setValidators([
+        this.sharedDataService.customFieldValidator('additional_contact'),
+      ]);
       alternateControl.updateValueAndValidity(); // Re-evaluate the validators
     }
   }
- 
 }

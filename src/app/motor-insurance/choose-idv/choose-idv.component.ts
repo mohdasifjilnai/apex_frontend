@@ -196,29 +196,29 @@ export class ChooseIDVComponent implements OnInit {
           this.amountShow = chooseIdvAmount?.chooseIdv;
         } else {
           this.amountShow = this.data?.averageIdv;
-          this.investedAmount=JSON.parse(this.data?.averageIdv)
+          this.investedAmount = JSON.parse(this.data?.averageIdv);
         }
       } else {
         this.minIdv = this.data?.minIdv;
         this.maxIdv = this.data?.maxIdv;
         this.amountShow = this.data?.averageIdv;
-        this.investedAmount=JSON.parse(this.data?.averageIdv)
+        this.investedAmount = JSON.parse(this.data?.averageIdv);
       }
       this.chooseIdvForm.patchValue({
         chooseIdv: this.amountShow,
       });
-      this.investedAmount=JSON.parse(this.data?.averageIdv)
+      this.investedAmount = JSON.parse(this.data?.averageIdv);
       this.changeToCurrency();
     }
   }
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
-    webengage.track('IDV_filter_Applied', {
-      Option_Selected: option,
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('IDV_filter_Applied', {
+    //   Option_Selected: option,
+    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     this.clearIdvButton = true;
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
@@ -263,30 +263,30 @@ export class ChooseIDVComponent implements OnInit {
       this.enableIdvCard = false;
     }, 50000);
     // if (this.selectedIDVOption) {
-      // this.sharedDataService.sendCarLoaderMessage(0);
-      if (window.innerWidth <= 999) {
-        this.bottomSheetRef.dismiss();
-      }
-      // this.currentAmount = this.chooseIdvForm.value.chooseIdv;
-      // this.investedAmount = this.currentAmount;
-      let idvObject = {
-        minIdv: '',
-        maxIdv: '',
-        chooseIdv: this.investedAmount,
-      };
-      let chooseIdvValue = sessionStorage.setItem(
-        'idvData',
-        JSON.stringify(idvObject)
-      );
-      this.updateIdvButton = true;
-      this.idvBaseQuotes();
+    // this.sharedDataService.sendCarLoaderMessage(0);
+    if (window.innerWidth <= 999) {
+      this.bottomSheetRef.dismiss();
+    }
+    // this.currentAmount = this.chooseIdvForm.value.chooseIdv;
+    // this.investedAmount = this.currentAmount;
+    let idvObject = {
+      minIdv: '',
+      maxIdv: '',
+      chooseIdv: this.investedAmount,
+    };
+    let chooseIdvValue = sessionStorage.setItem(
+      'idvData',
+      JSON.stringify(idvObject)
+    );
+    this.updateIdvButton = true;
+    this.idvBaseQuotes();
     // }
   }
   cancelIdv() {
-    webengage.track('IDV_filter_cleared', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('IDV_filter_cleared', {
+    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
     this.updateIdvButton = true;

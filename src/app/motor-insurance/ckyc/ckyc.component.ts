@@ -142,7 +142,7 @@ export class CkycComponent implements OnInit {
     }
     if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
       this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-        if(res?.customer_details!=null){
+        if (res?.customer_details != null) {
           this.ckycFormGroup.patchValue({
             document_number_based_field: res?.customer_details?.pan_number,
             dob: res?.customer_details?.dob,
@@ -194,7 +194,7 @@ export class CkycComponent implements OnInit {
                 ckyc_gender: this.proposalData?.ckyc_details?.gender,
               });
             }
-            this.documentNumberValidation()
+            this.documentNumberValidation();
           }
         }
         // let renewalDataType = sessionStorage.getItem('renewalType');
@@ -369,10 +369,10 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
-    webengage.track('CKYC_details_Submitted', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('CKYC_details_Submitted', {
+    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
     } else {
@@ -642,7 +642,7 @@ export class CkycComponent implements OnInit {
         Validators.required,
         Validators.pattern(
           /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i
-        )
+        ),
       ]);
     } else {
       this.documentMaxLength = 30;
@@ -673,7 +673,10 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
     }
-    if (this.quoteData['insurer_code'] === 'cholamandalam' || this.quoteData['insurer_code'] === 'bajaj') {
+    if (
+      this.quoteData['insurer_code'] === 'cholamandalam' ||
+      this.quoteData['insurer_code'] === 'bajaj'
+    ) {
       if (this.documentName != 'aadhaar_number') {
         this.showFullName = true;
         this.ckycFormGroup
@@ -688,10 +691,10 @@ export class CkycComponent implements OnInit {
         this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
-    webengage.track('CKYC_details_Initiated', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('CKYC_details_Initiated', {
+    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
   }
   /**
    *   document validator function
@@ -826,10 +829,16 @@ export class CkycComponent implements OnInit {
       });
   }
   documentNumberValidation() {
-    const alternateControl = this.ckycFormGroup.get('document_number_based_field')?.value;
+    const alternateControl = this.ckycFormGroup.get(
+      'document_number_based_field'
+    )?.value;
     if (alternateControl && alternateControl.includes('*')) {
-      this.ckycFormGroup.get('document_number_based_field')?.setValidators([this.sharedDataService.customFieldValidator('pan')]);
-      this.ckycFormGroup.get('document_number_based_field')?.updateValueAndValidity(); 
+      this.ckycFormGroup
+        .get('document_number_based_field')
+        ?.setValidators([this.sharedDataService.customFieldValidator('pan')]);
+      this.ckycFormGroup
+        .get('document_number_based_field')
+        ?.updateValueAndValidity();
     }
   }
 }

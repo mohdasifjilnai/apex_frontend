@@ -206,12 +206,12 @@ export class OtpComponent implements OnInit {
 
   verify() {
     const vehcileType = sessionStorage.getItem('vehicleType');
-    webengage.track('Payment_OTP_submitted', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehcileType,
-    });
+    // webengage.track('Payment_OTP_submitted', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehcileType,
+    // });
     this.loader = true;
 
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
@@ -232,42 +232,49 @@ export class OtpComponent implements OnInit {
         let renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal' || renewalType == 'rollover') {
           this.apiService
-          .getRequestedResponse(
-            `${
-              ApiConstants['redirection_payment_getway']
-            }${this.proposalId.replace(/['"]+/g, '')}`
-          )
-          .subscribe(
-            (payment_getway_response) => {
-              if (payment_getway_response) {
-                this.paymentObject = payment_getway_response;
+            .getRequestedResponse(
+              `${
+                ApiConstants['redirection_payment_getway']
+              }${this.proposalId.replace(/['"]+/g, '')}`
+            )
+            .subscribe(
+              (payment_getway_response) => {
+                if (payment_getway_response) {
+                  this.paymentObject = payment_getway_response;
 
-                if (!payment_getway_response.is_html) {
-                  window.location.href =
-                    payment_getway_response.url;
-                } else {
-                  let paymentObjectValue =
-                    this.paymentObject.form.replace(
+                  if (!payment_getway_response.is_html) {
+                    window.location.href = payment_getway_response.url;
+                  } else {
+                    let paymentObjectValue = this.paymentObject.form.replace(
                       '<html><head></head><body>',
                       ''
                     );
-                  // </body></html>
-                  let paymentObjectValueData =
-                    this.paymentObject.form.replace(
-                      '</form></body></html>',
-                      `<input  type='submit'   value=''></form>`
-                    );
-                  this.paymentObject.form = paymentObjectValueData;
+                    // </body></html>
+                    let paymentObjectValueData =
+                      this.paymentObject.form.replace(
+                        '</form></body></html>',
+                        `<input  type='submit'   value=''></form>`
+                      );
+                    this.paymentObject.form = paymentObjectValueData;
 
-                  this.myform.nativeElement.innerHTML =
-                    this.paymentObject.form;
-                  this.myform.nativeElement
-                    .getElementsByTagName('form')[0]
-                    .submit();
+                    this.myform.nativeElement.innerHTML =
+                      this.paymentObject.form;
+                    this.myform.nativeElement
+                      .getElementsByTagName('form')[0]
+                      .submit();
+                  }
+                  // this.library = payment_getway_response;
+                  // this.myform.nativeElement.submit();
+                  // window.location.href = payment_getway_response;
+                  this.loader = false;
+                  if (window.innerWidth <= 999) {
+                    this.bottomSheetRef.dismiss();
+                  } else {
+                    this.dialogRef.close();
+                  }
                 }
-                // this.library = payment_getway_response;
-                // this.myform.nativeElement.submit();
-                // window.location.href = payment_getway_response;
+              },
+              (error) => {
                 this.loader = false;
                 if (window.innerWidth <= 999) {
                   this.bottomSheetRef.dismiss();
@@ -275,70 +282,59 @@ export class OtpComponent implements OnInit {
                   this.dialogRef.close();
                 }
               }
-            },
-            (error) => {
-              this.loader = false;
-              if (window.innerWidth <= 999) {
-                this.bottomSheetRef.dismiss();
-              } else {
-                this.dialogRef.close();
-              }
-            }
-          );
-        } else{
+            );
+        } else {
           this.apiService
-                      .getRequestedResponse(
-                        `${
-                          ApiConstants['redirection_payment_getway']
-                        }${this.proposalId.replace(/['"]+/g, '')}`
-                      )
-                      .subscribe(
-                        (payment_getway_response) => {
-                          if (payment_getway_response) {
-                            this.paymentObject = payment_getway_response;
+            .getRequestedResponse(
+              `${
+                ApiConstants['redirection_payment_getway']
+              }${this.proposalId.replace(/['"]+/g, '')}`
+            )
+            .subscribe(
+              (payment_getway_response) => {
+                if (payment_getway_response) {
+                  this.paymentObject = payment_getway_response;
 
-                            // this.library = payment_getway_response;
-                            // window.location.href = payment_getway_response;
-                            if (!payment_getway_response.is_html) {
-                              window.location.href =
-                                payment_getway_response.url;
-                            } else {
-                              let paymentObjectValue =
-                                this.paymentObject.form.replace(
-                                  '<html><head></head><body>',
-                                  ''
-                                );
-                              // </body></html>
-                              let paymentObjectValueData =
-                                this.paymentObject.form.replace(
-                                  '</form></body></html>',
-                                  `<input  type='submit'   value=''></form>`
-                                );
-                              this.paymentObject.form = paymentObjectValueData;
-
-                              this.myform.nativeElement.innerHTML =
-                                this.paymentObject.form;
-                              this.myform.nativeElement
-                                .getElementsByTagName('form')[0]
-                                .submit();
-                            }
-                            this.loader = false;
-                            if (window.innerWidth <= 999) {
-                              this.bottomSheetRef.dismiss();
-                            } else {
-                              this.dialogRef.close();
-                            }
-                          }
-                        },
-                        (error) => {
-                          this.loader = false;
-                          if (window.innerWidth <= 999) {
-                            this.bottomSheetRef.dismiss();
-                          } else {
-                            this.dialogRef.close();
-                          }
-                        }
+                  // this.library = payment_getway_response;
+                  // window.location.href = payment_getway_response;
+                  if (!payment_getway_response.is_html) {
+                    window.location.href = payment_getway_response.url;
+                  } else {
+                    let paymentObjectValue = this.paymentObject.form.replace(
+                      '<html><head></head><body>',
+                      ''
+                    );
+                    // </body></html>
+                    let paymentObjectValueData =
+                      this.paymentObject.form.replace(
+                        '</form></body></html>',
+                        `<input  type='submit'   value=''></form>`
                       );
+                    this.paymentObject.form = paymentObjectValueData;
+
+                    this.myform.nativeElement.innerHTML =
+                      this.paymentObject.form;
+                    this.myform.nativeElement
+                      .getElementsByTagName('form')[0]
+                      .submit();
+                  }
+                  this.loader = false;
+                  if (window.innerWidth <= 999) {
+                    this.bottomSheetRef.dismiss();
+                  } else {
+                    this.dialogRef.close();
+                  }
+                }
+              },
+              (error) => {
+                this.loader = false;
+                if (window.innerWidth <= 999) {
+                  this.bottomSheetRef.dismiss();
+                } else {
+                  this.dialogRef.close();
+                }
+              }
+            );
         }
       }
     });

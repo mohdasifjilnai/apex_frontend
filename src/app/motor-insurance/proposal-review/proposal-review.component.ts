@@ -132,7 +132,7 @@ export class ProposalReviewComponent implements OnInit {
   consentSubmitButton = false;
   proposalId: any;
   paymentObject: any;
-  loader: boolean=false;
+  loader: boolean = false;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -232,12 +232,12 @@ export class ProposalReviewComponent implements OnInit {
   }
   submitReview() {
     const vehcileType = sessionStorage.getItem('vehicleType');
-    webengage.track('Motor_Vehicle_details_submitted', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehcileType,
-    });
+    // webengage.track('Motor_Vehicle_details_submitted', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehcileType,
+    // });
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();
     }
@@ -252,54 +252,53 @@ export class ProposalReviewComponent implements OnInit {
     // } else {
     //   this.openModal([this.quoteData], this.insuranceDetailsJSON);
     // }
-    console.log(this.generateProposalData,"krishna")
+    console.log(this.generateProposalData, 'krishna');
     this.apiService
-    .getRequestedResponse(
-      `${ApiConstants.generate_proposal}?insurer_code=${
-        this.generateProposalData?.insurer_code
-      }&proposal_id=${this.generateProposalData?.proposal_id}`
-    )
-    .subscribe(
-      (generatedProposal: any) => {
-        if (generatedProposal.status) {
-          sessionStorage.setItem('proposal_punched', 'true');
-          this.shareData.disabledChangeInsurerButton(true);
-          if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
-            this.loader = false;
-            
-            this.route.navigate([
-              `quotes/proposal/${this.transactionId}/review/inspection`,
-            ]);
-          } else {
-            this.loader=false
-            if (window.innerWidth <= 999) {
+      .getRequestedResponse(
+        `${ApiConstants.generate_proposal}?insurer_code=${this.generateProposalData?.insurer_code}&proposal_id=${this.generateProposalData?.proposal_id}`
+      )
+      .subscribe(
+        (generatedProposal: any) => {
+          if (generatedProposal.status) {
+            sessionStorage.setItem('proposal_punched', 'true');
+            this.shareData.disabledChangeInsurerButton(true);
+            if (generatedProposal.is_breakin || generatedProposal?.is_payd) {
+              this.loader = false;
+
+              this.route.navigate([
+                `quotes/proposal/${this.transactionId}/review/inspection`,
+              ]);
+            } else {
+              this.loader = false;
+              if (window.innerWidth <= 999) {
                 const bottomSheetConfig: MatBottomSheetConfig = {
                   data: [this.quoteData],
                 };
-                this.bottomSheet.open(ProposalShareComponent, bottomSheetConfig);
+                this.bottomSheet.open(
+                  ProposalShareComponent,
+                  bottomSheetConfig
+                );
                 this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
               } else {
                 this.openModal([this.quoteData], this.insuranceDetailsJSON);
               }
-          }
-        } else {
-          this.loader=false
-          if (
-            this.generateProposalData?.insurer_code == 'digit' &&
-            generatedProposal.ckyc_link
-          ) {
-            this.failureJSON['modalName'] = ErrorDialogComponent;
-            this.openFailurePopup(generatedProposal);
+            }
           } else {
-            this.failureJSON['modalName'] = FailureDialogComponent;
-            this.openFailurePopup(generatedProposal);
+            this.loader = false;
+            if (
+              this.generateProposalData?.insurer_code == 'digit' &&
+              generatedProposal.ckyc_link
+            ) {
+              this.failureJSON['modalName'] = ErrorDialogComponent;
+              this.openFailurePopup(generatedProposal);
+            } else {
+              this.failureJSON['modalName'] = FailureDialogComponent;
+              this.openFailurePopup(generatedProposal);
+            }
           }
-        }
-      },
-      (error) => {
-        
-      }
-    );
+        },
+        (error) => {}
+      );
   }
   checkQuotes() {
     this.openModal('renewal', this.checkQuotesJson);
@@ -375,7 +374,7 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
-          this.proposalId=this.generateProposalData?.proposal_id
+          this.proposalId = this.generateProposalData?.proposal_id;
           if (this.generateProposalData?.proposal_punched) {
             sessionStorage.setItem('proposal_punched', 'true');
             this.shareData.disabledChangeInsurerButton(true);

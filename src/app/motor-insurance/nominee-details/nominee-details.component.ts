@@ -117,14 +117,14 @@ export class NomineeDetailsComponent implements OnInit {
     if (isValid) {
       const formValues = this.nominneForm.value;
 
-      webengage.track('Motor_Nominee_Details_Submitted', {
-        Nominee_Relation: this.nominneForm.value.nominne_relation,
-        Age: this.nominneForm.value.age,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: sessionStorage.getItem('vehicleType'),
-      });
+      // webengage.track('Motor_Nominee_Details_Submitted', {
+      //   Nominee_Relation: this.nominneForm.value.nominne_relation,
+      //   Age: this.nominneForm.value.age,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: sessionStorage.getItem('vehicleType'),
+      // });
       this.afterNomineeGetData.emit(formValues);
       this.sharedData?.createProposalId('nominne_details', this.nominneForm);
     }

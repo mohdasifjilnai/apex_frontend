@@ -282,15 +282,15 @@ handles the form submit for uploading the required documents
     //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
     // }
     console.log(this.uploadDocumentsForm.value);
-    webengage.track('Offline_CKYC_details', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('Offline_CKYC_details', {
+    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     if (valid && !this.loader) {
-      webengage.track('Offline_CKYC_details', {
-        User_Type: this.userType?.partner_code,
-        Motor_Type: this.vehicleTypeValue,
-      });
+      // webengage.track('Offline_CKYC_details', {
+      //   User_Type: this.userType?.partner_code,
+      //   Motor_Type: this.vehicleTypeValue,
+      // });
       this.loader = true;
       let body = {
         proposal_id: this.proposalId,
@@ -543,7 +543,7 @@ handles the form submit for uploading the required documents
             Validators.required,
             Validators.pattern(
               /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i
-            )
+            ),
           ]);
         } else if (documentTypeValue == 'cin') {
           this.documentMaxLength = 21;

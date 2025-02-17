@@ -133,9 +133,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       }
     }
     this.sharedData.getVahaanDetails.subscribe((res: any) => {
-      if(res?.previous_policy_number!=null){
+      if (res?.previous_policy_number != null) {
         this.previousPolicyDetailsForm.patchValue({
-          tp_policy_number:res?.previous_policy_number
+          tp_policy_number: res?.previous_policy_number,
         });
       }
     });
@@ -964,7 +964,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         return true;
       })
     );
-    webengage.track('Previous_Policy_details_Submitted', filteredData);
+    // webengage.track('Previous_Policy_details_Submitted', filteredData);
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedData.handleEnterKey(event, manufacture);

@@ -181,13 +181,13 @@ export class NotCertifiedComponent implements OnInit {
       }
     }
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Motor_Proceed', {
-      Option_Selected: vehicleTypeValue,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? sessionStorage.getItem('partner_code')
-        : null,
-      Motor_Type: vehicleTypeValue,
-    });
+    // webengage.track('Motor_Proceed', {
+    //   Option_Selected: vehicleTypeValue,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? sessionStorage.getItem('partner_code')
+    //     : null,
+    //   Motor_Type: vehicleTypeValue,
+    // });
   }
   login() {
     if (window.innerWidth <= 999) {

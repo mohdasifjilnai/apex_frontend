@@ -210,29 +210,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       // }
     });
     // if (sessionStorage.getItem('withoutVehicleNumber')) {
-      this.vahaanDetailsUnsubscribe =this.shareData.getVahaanDetails.subscribe((res: any) => {
+    this.vahaanDetailsUnsubscribe = this.shareData.getVahaanDetails.subscribe(
+      (res: any) => {
         let regLastDigit = res?.vehicle_details?.registration_no?.slice(4);
         this.proposalVehilceDetailsForm
           .get('registration_number_last_digit')
           ?.disable();
-          if(res?.vehicle_details!=null){
-            this.proposalVehilceDetailsForm.patchValue({
-              registration_number_last_digit: regLastDigit,
-              engine_number: res?.vehicle_details?.engine_no,
-              chassis_number: res?.vehicle_details?.chassis_no,
-              vehicle_colour: res?.vehicle_details?.vehicle_color,
-              vehicle_pincode: res?.vehicle_details?.registration_address?.pincode,
-              financer: res?.vehicle_details?.financer_details?.financer_id,
-              agreement_type:
-                res?.vehicle_details?.financer_details?.agreement_type,
-              financer_city:
-                res?.vehicle_details?.financer_details?.financer_branch,
-              vehicle_registration_address:
-                res?.vehicle_details?.registration_address?.address_line,
-              is_vehicle_address: res?.vehicle_details?.is_same_location,
-            });
-          }
-        if(res?.vehicle_details?.financer_details !=null){
+        if (res?.vehicle_details != null) {
+          this.proposalVehilceDetailsForm.patchValue({
+            registration_number_last_digit: regLastDigit,
+            engine_number: res?.vehicle_details?.engine_no,
+            chassis_number: res?.vehicle_details?.chassis_no,
+            vehicle_colour: res?.vehicle_details?.vehicle_color,
+            vehicle_pincode:
+              res?.vehicle_details?.registration_address?.pincode,
+            financer: res?.vehicle_details?.financer_details?.financer_id,
+            agreement_type:
+              res?.vehicle_details?.financer_details?.agreement_type,
+            financer_city:
+              res?.vehicle_details?.financer_details?.financer_branch,
+            vehicle_registration_address:
+              res?.vehicle_details?.registration_address?.address_line,
+            is_vehicle_address: res?.vehicle_details?.is_same_location,
+          });
+        }
+        if (res?.vehicle_details?.financer_details != null) {
           this.proposalVehilceDetailsForm.patchValue({
             financer: res?.vehicle_details?.financer_details?.financer_id,
             agreement_type:
@@ -242,7 +244,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             is_financed: res?.vehicle_details?.is_vehicle_financed,
           });
         }
-        
+
         if (res?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
@@ -264,8 +266,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           //     this.proposalVehilceDetailsForm.valid
           //   );
           // });
+        }
       }
-    });
+    );
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
@@ -918,7 +921,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         return true;
       })
     );
-    webengage.track('Motor_Details_Submitted', filteredData);
+    // webengage.track('Motor_Details_Submitted', filteredData);
   }
   /**
    * we can access the checkbox value using this.financedToggle.nativeElement.checked

@@ -13,8 +13,13 @@ declare const webengage: any;
 export class VehicleTypeComponent implements OnInit {
   vehicleTypeListData = vehicleTypeList;
   selectedVehicleType: any;
-  env=environment
-  constructor(private http: HttpClient, private sharedata: SharedDataService,private route: ActivatedRoute,private router: Router) {}
+  env = environment;
+  constructor(
+    private http: HttpClient,
+    private sharedata: SharedDataService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     sessionStorage.setItem('vehicleType', `private_car`);
@@ -32,13 +37,13 @@ export class VehicleTypeComponent implements OnInit {
       }
     });
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Motor_selected', {
-      Option_Selected: vehicleTypeValue,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? sessionStorage.getItem('partner_code')
-        : null,
-      Motor_Type: vehicleTypeValue,
-    });
+    // webengage.track('Motor_selected', {
+    //   Option_Selected: vehicleTypeValue,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? sessionStorage.getItem('partner_code')
+    //     : null,
+    //   Motor_Type: vehicleTypeValue,
+    // });
   }
 
   selectVehicle(vehicle: any) {
@@ -48,13 +53,16 @@ export class VehicleTypeComponent implements OnInit {
       `${this.selectedVehicleType.optionNameValue}`
     );
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
-    if(vehicle?.optionNameValue=='commercial_vehicle' && this.env?.baseUrl!='https://apex.renewbuyinsurance.com/'){
+    if (
+      vehicle?.optionNameValue == 'commercial_vehicle' &&
+      this.env?.baseUrl != 'https://apex.renewbuyinsurance.com/'
+    ) {
       // const api='https://apex.renewbuyinsurance.in/cv/api/v1/auth/agent_redirection/'
       window.location.href = `${this.env?.baseUrl}cv`;
     }
   }
   isLast(index: number): any {
-    if(this.env?.baseUrl=='https://apex.renewbuyinsurance.com/'){
+    if (this.env?.baseUrl == 'https://apex.renewbuyinsurance.com/') {
       return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
     }
   }
