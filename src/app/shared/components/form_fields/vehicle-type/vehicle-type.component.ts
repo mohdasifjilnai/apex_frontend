@@ -59,8 +59,6 @@ export class VehicleTypeComponent implements OnInit {
     }
   }
   isLast(index: number): any {
-    if (this.env?.baseUrl == 'https://apex.renewbuyinsurance.com/') {
-      return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
-    }
+    return index === this.vehicleTypeListData.vehicleTypeList.length - 1;
   }
 }
