@@ -641,7 +641,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           return true;
         })
       );
-      // webengage.track('Motor_Owner_details_Submitted', filteredData);
+      webengage.track('Motor_Owner_details_Submitted', filteredData);
       this.afterVehicleOwnerData.emit(formValues);
       setTimeout(() => {
         this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);

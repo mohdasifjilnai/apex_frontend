@@ -206,12 +206,12 @@ export class OtpComponent implements OnInit {
 
   verify() {
     const vehcileType = sessionStorage.getItem('vehicleType');
-    // webengage.track('Payment_OTP_submitted', {
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: vehcileType,
-    // });
+    webengage.track('Payment_OTP_submitted', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehcileType,
+    });
     this.loader = true;
 
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;

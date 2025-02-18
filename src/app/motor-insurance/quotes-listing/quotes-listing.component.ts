@@ -338,7 +338,7 @@ export class QuotesListingComponent implements OnInit {
               return true;
             })
           );
-          // webengage.track('Motor_Insurance_Plans_Found', filteredData);
+          webengage.track('Motor_Insurance_Plans_Found', filteredData);
         }
       }, 50000);
     });
@@ -658,7 +658,7 @@ export class QuotesListingComponent implements OnInit {
           ? quotes_data.premium_details.idv
           : 0,
     };
-    // webengage.track('Motor_Policy_details_Viewed', quotesPremium);
+    webengage.track('Motor_Policy_details_Viewed', quotesPremium);
 
     const is_new_vehcile = sessionStorage.getItem('newVehicleType');
     const vehcileWithoutRegistration = sessionStorage.getItem(
@@ -931,7 +931,7 @@ export class QuotesListingComponent implements OnInit {
           : 0,
       Motor_Type: this.vehicleTypeValue,
     };
-    // webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
+    webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
   }
   // (click)="shareQuotesOpen(null, shareQuotesJSON)"
   shareQuotesOpen(shareData: any, jsonData: any) {
@@ -939,13 +939,13 @@ export class QuotesListingComponent implements OnInit {
   }
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
-    // webengage.track('Shared_Quotes_clicked', {
-    //   Option_Selected: this.vehicleTypeValue,
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('Shared_Quotes_clicked', {
+      Option_Selected: this.vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   @ViewChild('checkboxRef')
   checkboxRef!: MatCheckbox;
@@ -969,13 +969,13 @@ export class QuotesListingComponent implements OnInit {
    * Selected Quotes Count UI Open
    */
   selectQuotes(count: any) {
-    // webengage.track('Shared_Quotes_clicked', {
-    //   Option_Selected: count,
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('Shared_Quotes_clicked', {
+      Option_Selected: count,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     this.shareType = count;
     this.addShare = true;
     this.shareQuotesDropdownValue = false;
@@ -988,13 +988,13 @@ export class QuotesListingComponent implements OnInit {
           this.selectedQuotes.push(value);
         }
       }
-      // webengage.track('Quotes_selected', {
-      //   Plan_Details: this.selectedQuotes,
-      //   User_Type: sessionStorage.getItem('partner_code')
-      //     ? 'Partner'
-      //     : 'Customer',
-      //   Motor_Type: this.vehicleTypeValue,
-      // });
+      webengage.track('Quotes_selected', {
+        Plan_Details: this.selectedQuotes,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+      });
     } else {
       this.isCheckboxChecked = false;
       this.selectedQuotes = [];
@@ -1015,13 +1015,13 @@ export class QuotesListingComponent implements OnInit {
     if (event.checked) {
       this.isChecked = true;
       this.selectedQuotes.push(quotes);
-      // webengage.track('Quotes_selected', {
-      //   Plan_Details: this.selectedQuotes,
-      //   User_Type: sessionStorage.getItem('partner_code')
-      //     ? 'Partner'
-      //     : 'Customer',
-      //   Motor_Type: this.vehicleTypeValue,
-      // });
+      webengage.track('Quotes_selected', {
+        Plan_Details: this.selectedQuotes,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+      });
     } else {
       const index = this.selectedQuotes.indexOf(quotes);
       if (index !== -1) {
@@ -1384,12 +1384,12 @@ export class QuotesListingComponent implements OnInit {
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
-    // webengage.track('GST_enabled', {
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('GST_enabled', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {

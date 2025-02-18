@@ -369,10 +369,10 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
-    // webengage.track('CKYC_details_Submitted', {
-    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('CKYC_details_Submitted', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
     } else {
@@ -691,10 +691,10 @@ export class CkycComponent implements OnInit {
         this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
-    // webengage.track('CKYC_details_Initiated', {
-    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('CKYC_details_Initiated', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
   /**
    *   document validator function

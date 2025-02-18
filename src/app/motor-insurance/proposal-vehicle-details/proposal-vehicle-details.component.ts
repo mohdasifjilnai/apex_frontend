@@ -921,7 +921,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         return true;
       })
     );
-    // webengage.track('Motor_Details_Submitted', filteredData);
+    webengage.track('Motor_Details_Submitted', filteredData);
   }
   /**
    * we can access the checkbox value using this.financedToggle.nativeElement.checked

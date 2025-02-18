@@ -46,14 +46,14 @@ export class PaymentComponent implements OnInit {
     this.route.url.subscribe((params) => {
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
-        // webengage.track('Motor_Payment_Status', {
-        //   Status: 'Payment Successful',
-        // });
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Successful',
+        });
       } else {
         this.paymentSuccess = false;
-        // webengage.track('Motor_Payment_Status', {
-        //   Status: 'Payment Faliure',
-        // });
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Faliure',
+        });
       }
 
       this.transactionId = params[2]['path'];
@@ -73,9 +73,9 @@ export class PaymentComponent implements OnInit {
       }
       if (this.paymentSuccess && proposalNo) {
         this.paymentPendingCase = true;
-        // webengage.track('Motor_Payment_Status', {
-        //   Status: 'Payment Deducted',
-        // });
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Deducted',
+        });
       }
       // let regnNumberValue = sessionStorage.getItem('isRegistrationNumber');
       // if (regnNumberValue) {

@@ -713,7 +713,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         })
       );
 
-      // webengage.track(title, filteredData);
+      webengage.track(title, filteredData);
       // this.sharedDataService.sendCarLoaderMessage(0);
       this.renderer.removeClass(document.body, 'dropdown-focus');
       if (window.innerWidth <= 999) {
@@ -795,13 +795,13 @@ export class VehicleDetailsPopupComponent implements OnInit {
       sessionStorage.removeItem('allNCBDataProposal');
       sessionStorage.removeItem('proposal_Id');
       this.sharedDataService.vehicleCardData(vehicleFrom);
-      // webengage.track('Motor_Type', {
-      //   Option_Selected: this.vehicleTypeValue,
-      //   User_Type: sessionStorage.getItem('partner_code')
-      //     ? sessionStorage.getItem('partner_code')
-      //     : null,
-      //   Motor_Type: this.vehicleTypeValue,
-      // });
+      webengage.track('Motor_Type', {
+        Option_Selected: this.vehicleTypeValue,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? sessionStorage.getItem('partner_code')
+          : null,
+        Motor_Type: this.vehicleTypeValue,
+      });
     }
   }
 

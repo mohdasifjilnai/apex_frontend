@@ -37,13 +37,13 @@ export class VehicleTypeComponent implements OnInit {
       }
     });
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    // webengage.track('Motor_selected', {
-    //   Option_Selected: vehicleTypeValue,
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? sessionStorage.getItem('partner_code')
-    //     : null,
-    //   Motor_Type: vehicleTypeValue,
-    // });
+    webengage.track('Motor_selected', {
+      Option_Selected: vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? sessionStorage.getItem('partner_code')
+        : null,
+      Motor_Type: vehicleTypeValue,
+    });
   }
 
   selectVehicle(vehicle: any) {

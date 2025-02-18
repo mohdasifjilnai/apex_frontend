@@ -307,12 +307,12 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.openNotCertifiedPopup('Partner_Mapped');
     //   this.sharedData.sendLoginPartner('edit');
     // }
-    // webengage.track('Motor_details_edited', {
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: this.vehicleType,
-    // });
+    webengage.track('Motor_details_edited', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleType,
+    });
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {

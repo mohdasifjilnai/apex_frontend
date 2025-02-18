@@ -964,7 +964,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         return true;
       })
     );
-    // webengage.track('Previous_Policy_details_Submitted', filteredData);
+    webengage.track('Previous_Policy_details_Submitted', filteredData);
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.sharedData.handleEnterKey(event, manufacture);

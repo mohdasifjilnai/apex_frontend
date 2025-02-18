@@ -54,13 +54,13 @@ export class SelectedShareComponent implements OnInit {
    */
   shareQuotes(quotes: any) {
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    // webengage.track('Shared_Selected_clicked', {
-    //   Quotes_Selected: quotes.length,
-    //   User_Type: sessionStorage.getItem('partner_code')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: vehicleTypeValue,
-    // });
+    webengage.track('Shared_Selected_clicked', {
+      Quotes_Selected: quotes.length,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+    });
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: quotes,
     };

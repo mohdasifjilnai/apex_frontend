@@ -34,10 +34,10 @@ export class CheckQuotesDialogComponent implements OnInit {
   }
 
   quotesChange() {
-    // webengage.track('Change_Insurer_Inititaed', {
-    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('Change_Insurer_Inititaed', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     // sessionStorage.setItem('vehiclePopup', 'true');
     if (this.data == 'renewal') {
       sessionStorage.removeItem('vehiclePopup');
@@ -66,12 +66,12 @@ export class CheckQuotesDialogComponent implements OnInit {
       let traceValue = JSON.parse(this.traceIdData);
       this.route.navigate([`quotes/${traceValue.trace_id}`]);
     }
-    // webengage.track('Change_Insurer_Clicked', {
-    //   Option_Selected: this.vehicleTypeValue,
-    //   User_Type: sessionStorage.getItem('partnerCodeTraceId')
-    //     ? 'Partner'
-    //     : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('Change_Insurer_Clicked', {
+      Option_Selected: this.vehicleTypeValue,
+      User_Type: sessionStorage.getItem('partnerCodeTraceId')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
   }
 }

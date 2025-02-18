@@ -214,11 +214,11 @@ export class ChooseIDVComponent implements OnInit {
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
-    // webengage.track('IDV_filter_Applied', {
-    //   Option_Selected: option,
-    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('IDV_filter_Applied', {
+      Option_Selected: option,
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     this.clearIdvButton = true;
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
@@ -283,10 +283,10 @@ export class ChooseIDVComponent implements OnInit {
     // }
   }
   cancelIdv() {
-    // webengage.track('IDV_filter_cleared', {
-    //   User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-    //   Motor_Type: this.vehicleTypeValue,
-    // });
+    webengage.track('IDV_filter_cleared', {
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+    });
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
     this.updateIdvButton = true;
