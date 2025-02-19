@@ -373,7 +373,6 @@ export class AddOnsComponent implements OnInit {
     addons?: any
   ) {
     //
-
     let checkboxValue;
     checkboxValue = event.checked;
     this.addInputValidation(checkboxValue, type, index, tagType);

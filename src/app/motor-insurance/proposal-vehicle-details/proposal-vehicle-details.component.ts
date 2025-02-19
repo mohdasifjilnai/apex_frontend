@@ -707,6 +707,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   }
   getProposalVehicleData(isValid: any) {
     const vehcileType = sessionStorage.getItem('vehicleType');
+    // webengage.track('Motor_Details_Submitted', {
+    //   Option_Selected: vehcileType,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? sessionStorage.getItem('partner_code')
+    //     : null,
+    //   Motor_Type: vehcileType,
+    // });
     let partnerCode = sessionStorage.getItem('partner_code');
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(

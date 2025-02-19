@@ -17,6 +17,7 @@ import { FailureDialogComponent } from 'src/app/shared/components/dialog-compone
 import { MatDialog } from '@angular/material/dialog';
 import { RefreshPageComponent } from 'src/app/shared/components/dialog-components/refresh-page/refresh-page.component';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+declare const webengage: any;
 
 @Injectable({
   providedIn: 'root',
@@ -311,6 +312,11 @@ export class SharedDataService {
             isCheckWheeler: this.isCheckWheeler,
             vaahanName: this.vaahanName,
           };
+          webengage.track('Vehicle_Number_Entered_Banner_Popup', {
+            User_Type: sessionStorage.getItem('partner_code')
+              ? 'Partner'
+              : 'Customer',
+          });
           this.checkVehicleType.next(vehicledata);
         }
       } else {

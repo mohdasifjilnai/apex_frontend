@@ -850,6 +850,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.sharedData.crossSellRecomendation(proposal_id);
     const vehcileType = sessionStorage.getItem('vehicleType');
     let partnerCode = sessionStorage.getItem('partner_code');
+    // webengage.track('Previous_Policy_details_Submitted', {
+    //   Option_Selected: vehcileType,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? sessionStorage.getItem('partner_code')
+    //     : null,
+    //   Motor_Type: vehcileType,
+    // });
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(
         sessionStorage.getItem('partnerCodeTraceId') || '{}'

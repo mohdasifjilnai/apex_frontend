@@ -3,6 +3,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+declare const webengage: any;
 
 @Component({
   selector: 'app-check-vehicle-type',
@@ -40,15 +41,30 @@ export class CheckVehicleTypeComponent implements OnInit {
    */
   newNumber() {
     this.dialogRef.close();
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Motor_Quotes_Intiated_ Entered_New_Number', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+    });
   }
 
   /**
    * continue with current Journey
    */
   proccedToCurrentJourney(checkWheeler: any) {
-    if(checkWheeler['is_commercial_vehicle']){
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Proceed_to_Motor_Journey_Clicked', {
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+    });
+
+    if (checkWheeler['is_commercial_vehicle']) {
       sessionStorage.setItem('vehicleType', 'commercial_vehicle');
-    }else{
+    } else {
       if (checkWheeler['is_four_wheeler'] && !checkWheeler['is_two_wheeler']) {
         sessionStorage.setItem('vehicleType', 'private_car');
       }

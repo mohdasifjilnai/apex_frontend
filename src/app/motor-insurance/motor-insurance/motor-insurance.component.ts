@@ -28,7 +28,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CheckVehicleTypeComponent } from 'src/app/shared/components/dialog-components/check-vehicle-type/check-vehicle-type.component';
 import { environment } from 'src/environments/environment';
 import { filter } from 'rxjs';
-
+import { DatePipe } from '@angular/common';
+declare const webengage: any;
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -134,7 +135,8 @@ export class MotorInsuranceComponent implements OnInit {
     private matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datePipe: DatePipe
   ) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // if (window.innerWidth <= 768) {
@@ -521,6 +523,16 @@ export class MotorInsuranceComponent implements OnInit {
     if (!vehicleTypeValue) {
       sessionStorage.setItem('vehicleType', `private_car`);
     }
+    if (this.withoutVehicleNumber) {
+      let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+
+      webengage.track('Proceed_Without_Vehicle_Number_Clicked', {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehicleTypeValue,
+      });
+    }
     this.isPolicyNumber = false;
     this.disableInsurer = true;
     this.motorInsurance.reset();
@@ -589,7 +601,15 @@ export class MotorInsuranceComponent implements OnInit {
     } else {
       apiUrl = `?registration_number=${this.motorInsurance.value.registration_number.toUpperCase()}`;
     }
-
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    webengage.track('Renewal_Process_Initiated', {
+      Registration_Number: this.motorInsurance.value.registration_number,
+      User_Type: sessionStorage.getItem('partner_code')
+        ? 'Partner'
+        : 'Customer',
+      Motor_Type: vehicleTypeValue,
+      Policy_Number: this.motorInsurance.value.policy_number,
+    });
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
@@ -756,6 +776,9 @@ export class MotorInsuranceComponent implements OnInit {
    */
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
+    if (this.isPolicyNumber) {
+      webengage.track('Motor_Renew_Initiated', {});
+    }
     this.motorInsurance.reset();
     this.vehicleResponse = null;
     this.rtoResponse = null;
@@ -871,6 +894,64 @@ export class MotorInsuranceComponent implements OnInit {
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
+    let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    if (this.motorInsurance.value.registration_number) {
+      webengage.track('Motor_Quotes_Inititaed', {
+        Registration_Number: this.motorInsurance.value.registration_number,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehicleTypeValue,
+      });
+    } else if (this.motorInsurance.value.vehicle?.rb_mmv_id) {
+      const transformedRegDate = this.motorInsurance.value?.registration_date
+        ? this.datePipe.transform(
+            this.motorInsurance.value?.registration_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+
+      let regDate = transformedRegDate
+        ? new Date(transformedRegDate as string)
+        : '';
+
+      const transformedPolicyDate = this.motorInsurance.value
+        ?.policy_expiry_date
+        ? this.datePipe.transform(
+            this.motorInsurance.value?.policy_expiry_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+
+      let policyDate = transformedPolicyDate
+        ? new Date(transformedPolicyDate as string)
+        : '';
+      let submitDetails = {
+        Search_Vehicle: this.motorInsurance.value.vehicle,
+        Search_RTO_City: this.motorInsurance.value.rto_city,
+        Select_Registration_Date: regDate,
+        Select_Policy_Expiry_Date: policyDate,
+        Search_Previous_Insurance_Name:
+          this.motorInsurance.value.previous_insurer,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehicleTypeValue,
+      };
+      const filteredSubmitData = Object.fromEntries(
+        Object.entries(submitDetails).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
+          return true;
+        })
+      );
+      webengage.track(
+        'Proceed_Without_Vehicle_Number_Details_Submitted',
+        filteredSubmitData
+      );
+    }
+
     const data = {
       partner_code: this.partner_code,
       quotes_data: this.motorInsurance.value,

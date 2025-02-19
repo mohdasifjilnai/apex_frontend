@@ -174,7 +174,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="quotes?.renewal_url==null">
+            <div class="row" *ngIf="quotes?.renewal_url == null">
               <div class="col-lg-3 col-md-3 col-12 insurer-img">
                 <div class="d-flex justify-content-between">
                   <img
@@ -266,7 +266,8 @@
                     &#8377;
                     {{
                       defaultGST
-                        ? (quotes.premium_details?.gross_premium | number : "2.")
+                        ? (quotes.premium_details?.gross_premium
+                          | number : "2.")
                         : (quotes.premium_details?.net_premium | number : "2.")
                     }}
                     <p class="inc">
@@ -358,7 +359,7 @@
                 </div>
               </div>
             </div>
-            <div class="row" *ngIf="quotes?.renewal_url!=null">
+            <div class="row" *ngIf="quotes?.renewal_url != null">
               <div class="col-lg-3 col-md-3 col-6 insurer-img">
                 <div class="d-flex justify-content-between mt-2">
                   <img
@@ -367,7 +368,7 @@
                     alt=""
                   />
                 </div>
-              </div>             
+              </div>
               <div class="col-lg-9 col-md-9 col-6 premium-btn">
                 <div
                   class="renewal-card"
@@ -394,9 +395,8 @@
               </div>
             </div>
           </div>
-          
         </div>
-       
+
         <!-- comprehensive key feature web view -->
         <div class="comprehensive-key-features">
           <div class="comprehensive-key-features-value">
@@ -504,20 +504,21 @@
                 <div class="payout-value pb-2">-----* &nbsp; T&C</div>
               </div>
             </div>
-            <div class="row" *ngIf="quotes?.renewal_url==null">
-              <div class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img">
+            <div class="row" *ngIf="quotes?.renewal_url == null">
+              <div
+                class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"
+              >
                 <div class="d-flex justify-content-between">
                   <img
                     [src]="quotes?.insurer_logo"
                     class="insurer-logo"
                     alt=""
                   />
-                  
                 </div>
               </div>
 
               <!-- {{quotes.insurer_name}} -->
-              <div class="col-lg-6 col-md-6 web-checkbox" >
+              <div class="col-lg-6 col-md-6 web-checkbox">
                 <div class="d-flex justify-content-end" *ngIf="addShare">
                   <!-- <div *ngIf="quotes?.payd?.status">
                     <div class="pay-drive mb-2">
@@ -639,10 +640,15 @@
                 </p>
               </div>
               <ng-container *ngIf="renewalType == 'renewal'">
-                <span class="renewal-premium" *ngIf="quotes.insurer_code=='icici'">* The updated premium with selected addons will be shown at the time of payment, this is the base premium.</span>
+                <span
+                  class="renewal-premium"
+                  *ngIf="quotes.insurer_code == 'icici'"
+                  >* The updated premium with selected addons will be shown at
+                  the time of payment, this is the base premium.</span
+                >
               </ng-container>
             </div>
-            <div class="row" *ngIf="quotes?.renewal_url!=null">
+            <div class="row" *ngIf="quotes?.renewal_url != null">
               <div class="col-lg-3 col-md-3 col-6 insurer-img">
                 <div class="d-flex justify-content-between mt-2">
                   <img
@@ -651,7 +657,7 @@
                     alt=""
                   />
                 </div>
-              </div>             
+              </div>
               <div class="col-lg-9 col-md-9 col-6 premium-btn">
                 <div
                   class="renewal-card"
@@ -676,7 +682,6 @@
                   </span>
                 </p> -->
               </div>
-             
             </div>
           </div>
         </div>
@@ -803,11 +808,7 @@
       *ngIf="!noQuotesInformation"
     >
       <div class="col-lg-8 col-8 d-flex align-items-center">
-        <img
-          src="assets/icon/quotes-warning.svg"
-          alt=""
-          class="warning-img"
-        />
+        <img src="assets/icon/quotes-warning.svg" alt="" class="warning-img" />
         <span class="comprehensive-no-quotes-information-text ms-2 mb-1">
           Some of the Insurance providers didn’t produce quotes for the selected
           category

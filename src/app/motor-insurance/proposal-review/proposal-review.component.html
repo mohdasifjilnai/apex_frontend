@@ -17,9 +17,10 @@
     <app-insurance-details></app-insurance-details>
   </div>
   <div class="res-proposal-review">
-    <div  class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end">
       <span class="cse"
-        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span><br /><span *ngIf="partner_code">PC({{ partner_code }})</span></span
+        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span
+        ><br /><span *ngIf="partner_code">PC({{ partner_code }})</span></span
       >
     </div>
     <app-vehicle-details-card></app-vehicle-details-card>
@@ -395,8 +396,13 @@
               }}</span>
             </div>
           </ng-container>
-          <hr class="mt-2" *ngIf="generateProposalData?.previous_policy_details!=null" />
-          <ng-container *ngIf="generateProposalData?.previous_policy_details!=null">
+          <hr
+            class="mt-2"
+            *ngIf="generateProposalData?.previous_policy_details != null"
+          />
+          <ng-container
+            *ngIf="generateProposalData?.previous_policy_details != null"
+          >
             <span class="field-value col-lg-12 col-md-12 col-12 mt-1"
               >Third Party (TP) Policy Details</span
             >
@@ -461,12 +467,12 @@
             (click)="submitReview()"
             [disabled]="!isButtonEnabled"
           >
-          <img
-          src="assets/gif/button-loader.gif"
-          alt="close"
-          class="loader me-2"
-          *ngIf="loader"
-        />
+            <img
+              src="assets/gif/button-loader.gif"
+              alt="close"
+              class="loader me-2"
+              *ngIf="loader"
+            />
             Submit
           </button>
         </div>
