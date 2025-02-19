@@ -54,7 +54,7 @@ export class RTOComponent implements OnInit {
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
-    private shareData:SharedDataService
+    private shareData: SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +84,6 @@ export class RTOComponent implements OnInit {
     this.responseEvent.emit(response);
   }
   getRTOData(name: any) {
-    
     this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_rto_list()}?search_element=${name
@@ -158,7 +157,7 @@ export class RTOComponent implements OnInit {
   }
 
   rtoBlankData(data: any) {
-    this.rtoDataLength = data.length;
+    this.rtoDataLength = data?.length;
     this.sendResponse(data);
     // if (typeof data == 'object') {
     //   this.sendResponse(data);

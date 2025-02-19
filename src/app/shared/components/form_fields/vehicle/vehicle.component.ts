@@ -38,7 +38,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 export class VehicleComponent implements OnInit {
   form!: FormGroup;
   @Input('required') isRequired = false;
-  @Input() selectedvehicleType: any;   // Input to receive the vehicle data from parent
+  @Input() selectedvehicleType: any; // Input to receive the vehicle data from parent
   /**
    * MMV is use for (Make Model Variant)
    * filteredMMV used for the filter MMV data
@@ -78,8 +78,8 @@ export class VehicleComponent implements OnInit {
     } else {
       this.form.addControl('vehicle', new FormControl());
     }
-    if(this.selectedvehicleType=='commercial_vehicle'){
-      this.vehcileType=this.selectedvehicleType
+    if (this.selectedvehicleType == 'commercial_vehicle') {
+      this.vehcileType = this.selectedvehicleType;
     }
     this.sharedata.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -97,7 +97,7 @@ export class VehicleComponent implements OnInit {
 
     // this.getVehicleMMV('', this.vehcileType);
     this.sharedata.getSelectedvehicleTypeObject.subscribe((res) => {
-      this.selectedVehicleType=res?.vehicle_type
+      this.selectedVehicleType = res?.vehicle_type;
     });
   }
   sendResponse(response: string) {
@@ -132,7 +132,7 @@ export class VehicleComponent implements OnInit {
   }
   vehcileMMV(data: any) {
     this.sendResponse(data);
-    this.vehicleSearchDataLength = data.length;
+    this.vehicleSearchDataLength = data?.length;
     this.showSelectedFuelandCapacity = false;
     if (data?.fuel) {
       this.showSelectedFuelandCapacity = true;
@@ -143,24 +143,20 @@ export class VehicleComponent implements OnInit {
 
   getVehicleMMV(name: any, vehicletype: any) {
     let vehicleType = sessionStorage.getItem('vehicleType');
-    let payload
-    if(vehicletype=='commercial_vehicle'){
-      payload=`vehicle_type=${this.selectedVehicleType}&search_element=${name
-          .replace(/\|/g, '')
-          .replace(/\s+/g, ' ')
-          .trim()}`
-    }else{
-      payload=`product_name=${vehicleType}&search_element=${name
-          .replace(/\|/g, '')
-          .replace(/\s+/g, ' ')
-          .trim()}`
+    let payload;
+    if (vehicletype == 'commercial_vehicle') {
+      payload = `vehicle_type=${this.selectedVehicleType}&search_element=${name
+        .replace(/\|/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()}`;
+    } else {
+      payload = `product_name=${vehicleType}&search_element=${name
+        .replace(/\|/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()}`;
     }
     this.apiservice
-      .getRequestedResponse(
-        `${
-          ApiConstants.get_vehicle_mmv()                                                                         
-        }?${payload}`
-      )
+      .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}?${payload}`)
       .subscribe(
         (res) => {
           if (res) {
