@@ -122,6 +122,28 @@
   }
   .amount-format-text {
     opacity: 100% !important;
+    width: 50%;
+    ::ng-deep {
+      .mat-form-field-appearance-outline .mat-form-field-wrapper{
+        margin: 0px !important;
+      }
+      .mat-form-field{
+        background-color: #fff;
+      }
+      .mat-form-field-wrapper{
+        padding: 0px !important;
+      }
+      .mat-form-field-appearance-outline .mat-form-field-infix{
+        padding: 0px !important;
+      }
+      .mat-form-field-appearance-outline .mat-form-field-outline-start{
+        border-radius: 5px 0 0 5px !important;
+      }
+      .mat-form-field-appearance-outline .mat-form-field-outline-end{
+        border-radius: 0px 5px 5px 0px !important;
+      }
+
+    }
   }
 }
 .idv-range-res {

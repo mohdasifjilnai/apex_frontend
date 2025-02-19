@@ -324,12 +324,14 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
+    this.investedAmount=this.chooseIdvForm.value.chooseIdv
+    this.onSliderRangeAmount( this.investedAmount)
     if (!this.enableIdvCard) {
       setTimeout(() => {
         this.enableIdvCard = false;
       }, 50000);
       let formControlIdv = this.chooseIdvForm.value.chooseIdv;
-      this.updateIdvButton = true;
+      // this.updateIdvButton = true;
       if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
         this.idvError = true;
       } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
@@ -349,7 +351,7 @@ export class ChooseIDVComponent implements OnInit {
       }
       this.quotesCount = count;
     } else {
-      this.updateIdvButton = true;
+      // this.updateIdvButton = true;
       let formControlIdv = this.chooseIdvForm.value.chooseIdv;
       if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
         this.idvError = true;
@@ -397,6 +399,7 @@ export class ChooseIDVComponent implements OnInit {
   onSliderInput(event: any) {
     this.updateIdvButton = false;
     this.investedAmount = event.value;
+    this.chooseIdvForm.get('chooseIdv')?.setValue(event.value)
   }
 
   onSliderRangeAmount(value: number) {

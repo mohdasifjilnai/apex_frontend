@@ -22,8 +22,8 @@
       "optionName": "Commercial Vehicle",
       "imageUrl": "assets/icon/commercial-vehicle-icon.svg",
       "imageInformation": "Commercial Vehicle",
-      "backgroundColor": "rgba(189, 149, 255, 0.05)",
-      "backgroundColorActive": "rgba(189, 149, 255, 0.05)",
+      "backgroundColor": "rgba(170, 126, 243, 0.11)",
+      "backgroundColorActive": "rgba(189, 149, 255, 0.11)",
       "borderColor": "#BD95FF",
       "optionNameValue": "commercial_vehicle"
     }

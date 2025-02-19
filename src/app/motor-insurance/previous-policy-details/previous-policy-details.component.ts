@@ -265,7 +265,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         if (this.mmvData?.previous_insurer) {
           this.previousPolicyDetailsForm.patchValue({
             previous_insurer: this.mmvData?.previous_insurer,
-            // tp_insurance_company: this.mmvData?.previous_insurer,
+            tp_insurance_company: this.mmvData?.previous_insurer,
           });
         }
       }
