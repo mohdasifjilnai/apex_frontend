@@ -324,54 +324,63 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
-    this.investedAmount=this.chooseIdvForm.value.chooseIdv
-    this.onSliderRangeAmount( this.investedAmount)
-    if (!this.enableIdvCard) {
-      setTimeout(() => {
-        this.enableIdvCard = false;
-      }, 50000);
-      let formControlIdv = this.chooseIdvForm.value.chooseIdv;
-      // this.updateIdvButton = true;
-      if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
-        this.idvError = true;
-      } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
-        this.idvError = true;
-      } else {
-        this.idvError = false;
+    this.investedAmount=JSON.parse(this.chooseIdvForm.value.chooseIdv)
+    // this.onSliderRangeAmount( this.investedAmount)
+    if(!this.enableIdvCard){
+      if(this.investedAmount>=this.minIdv && this.investedAmount<=this.maxIdv){
+        this.updateIdvButton=false
+        this.enableIdvCard=false
+      }else{
+        this.updateIdvButton=true
       }
-      let count = 0;
-
-      for (let i = 0; i <= this.quotationData.length - 1; i++) {
-        if (
-          parseInt(formControlIdv) >= this.minIdv &&
-          parseInt(formControlIdv) <= this.maxIdv
-        ) {
-          count += 1;
-        }
-      }
-      this.quotesCount = count;
-    } else {
-      // this.updateIdvButton = true;
-      let formControlIdv = this.chooseIdvForm.value.chooseIdv;
-      if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
-        this.idvError = true;
-      } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
-        this.idvError = true;
-      } else {
-        this.idvError = false;
-      }
-      let count = 0;
-
-      for (let i = 0; i <= this.quotationData.length - 1; i++) {
-        if (
-          parseInt(formControlIdv) >= this.minIdv &&
-          parseInt(formControlIdv) <= this.maxIdv
-        ) {
-          count += 1;
-        }
-      }
-      this.quotesCount = count;
     }
+    
+    // if (!this.enableIdvCard) {
+    //   setTimeout(() => {
+    //     this.enableIdvCard = false;
+    //   }, 50000);
+    //   let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+    //   // this.updateIdvButton = true;
+    //   if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+    //     this.idvError = true;
+    //   } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+    //     this.idvError = true;
+    //   } else {
+    //     this.idvError = false;
+    //   }
+    //   let count = 0;
+
+    //   for (let i = 0; i <= this.quotationData.length - 1; i++) {
+    //     if (
+    //       parseInt(formControlIdv) >= this.minIdv &&
+    //       parseInt(formControlIdv) <= this.maxIdv
+    //     ) {
+    //       count += 1;
+    //     }
+    //   }
+    //   this.quotesCount = count;
+    // } else {
+    //   // this.updateIdvButton = true;
+    //   let formControlIdv = this.chooseIdvForm.value.chooseIdv;
+    //   if (parseInt(formControlIdv) < parseInt(this.minIdv)) {
+    //     this.idvError = true;
+    //   } else if (parseInt(formControlIdv) > parseInt(this.maxIdv)) {
+    //     this.idvError = true;
+    //   } else {
+    //     this.idvError = false;
+    //   }
+    //   let count = 0;
+
+    //   for (let i = 0; i <= this.quotationData.length - 1; i++) {
+    //     if (
+    //       parseInt(formControlIdv) >= this.minIdv &&
+    //       parseInt(formControlIdv) <= this.maxIdv
+    //     ) {
+    //       count += 1;
+    //     }
+    //   }
+    //   this.quotesCount = count;
+    // }
   }
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
