@@ -38,7 +38,7 @@ export class VehicleTypeComponent implements OnInit {
     });
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     webengage.track('Motor_selected', {
-      Option_Selected: vehicleTypeValue,
+      Vehicle_Type: vehicleTypeValue,
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
@@ -54,7 +54,7 @@ export class VehicleTypeComponent implements OnInit {
     );
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     webengage.track('Motor_selected', {
-      Option_Selected: vehicleTypeValue,
+      Vehicle_Type: vehicleTypeValue,
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',

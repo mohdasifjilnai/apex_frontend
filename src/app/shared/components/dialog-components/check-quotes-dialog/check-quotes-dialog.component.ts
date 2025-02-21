@@ -23,7 +23,7 @@ export class CheckQuotesDialogComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.userType = sessionStorage.getItem('partnerCodeTraceId')
       ? sessionStorage.getItem('partnerCodeTraceId')
-      : null;
+      : sessionStorage.getItem('partner_code');
   }
 
   /**

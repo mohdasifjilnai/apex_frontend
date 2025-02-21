@@ -329,6 +329,7 @@ export class QuotesListingComponent implements OnInit {
             Plan_Details: this.quotationData,
             User_Type: token != null ? 'Partner' : 'Customer',
             Motor_Type: this.vehicleTypeValue,
+            Partner_code: sessionStorage.getItem('partner_code'),
           };
           const filteredData = Object.fromEntries(
             Object.entries(formData).filter(([key, value]) => {
