@@ -146,6 +146,7 @@ export class MotorInsuranceComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
+    webengage.track('Motor_Journey_Initiated', {});
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -340,7 +341,9 @@ export class MotorInsuranceComponent implements OnInit {
     if (sortObjectkey) {
       sessionStorage.removeItem('sortObjectkey');
     }
-    let customer_mobile_number = sessionStorage.getItem('customer_mobile_number');
+    let customer_mobile_number = sessionStorage.getItem(
+      'customer_mobile_number'
+    );
     if (customer_mobile_number) {
       sessionStorage.removeItem('customer_mobile_number');
     }
@@ -434,9 +437,9 @@ export class MotorInsuranceComponent implements OnInit {
     }
     this.route.queryParamMap.subscribe((params) => {
       this.regNo = params.get('reg_no');
-      let mobile_number:any=params.get('mobile_no')
-      if(mobile_number!=null){
-        sessionStorage.setItem('customer_mobile_number',mobile_number)
+      let mobile_number: any = params.get('mobile_no');
+      if (mobile_number != null) {
+        sessionStorage.setItem('customer_mobile_number', mobile_number);
       }
       this.policyNo = params.get('policy_number');
       if (this.regNo != null) {
