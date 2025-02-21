@@ -129,6 +129,7 @@
       }
       .mat-form-field{
         background-color: #fff;
+        width: 100%;
       }
       .mat-form-field-wrapper{
         padding: 0px !important;
@@ -138,6 +139,8 @@
       }
       .mat-form-field-appearance-outline .mat-form-field-outline-start{
         border-radius: 5px 0 0 5px !important;
+        width: 32px !important;
+        background-color: #F2F2F2;
       }
       .mat-form-field-appearance-outline .mat-form-field-outline-end{
         border-radius: 0px 5px 5px 0px !important;

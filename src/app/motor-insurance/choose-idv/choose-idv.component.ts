@@ -289,6 +289,7 @@ export class ChooseIDVComponent implements OnInit {
     });
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
+    this.chooseIdvForm.get('chooseIdv')?.setValue(this.averageIdv)
     this.updateIdvButton = true;
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
@@ -324,8 +325,9 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
-    this.investedAmount=JSON.parse(this.chooseIdvForm.value.chooseIdv)
-    // this.onSliderRangeAmount( this.investedAmount)
+    if(this.chooseIdvForm.value.chooseIdv!=null){
+      this.investedAmount=JSON.parse(this.chooseIdvForm.value.chooseIdv)
+    }
     if(!this.enableIdvCard){
       if(this.investedAmount>=this.minIdv && this.investedAmount<=this.maxIdv){
         this.updateIdvButton=false
