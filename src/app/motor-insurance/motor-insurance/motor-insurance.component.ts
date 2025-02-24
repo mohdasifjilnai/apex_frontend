@@ -930,12 +930,12 @@ export class MotorInsuranceComponent implements OnInit {
         ? new Date(transformedPolicyDate as string)
         : '';
       let submitDetails = {
-        Search_Vehicle: this.motorInsurance.value.vehicle,
-        Search_RTO_City: this.motorInsurance.value.rto_city,
+        Search_Vehicle: this.motorInsurance.value.vehicle?.displayMMV,
+        Search_RTO_City: this.motorInsurance.value.rto_city?.display_name,
         Select_Registration_Date: regDate,
         Select_Policy_Expiry_Date: policyDate,
         Search_Previous_Insurance_Name:
-          this.motorInsurance.value.previous_insurer,
+          this.motorInsurance.value.previous_insurer?.rb_insurer_name,
         User_Type: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
