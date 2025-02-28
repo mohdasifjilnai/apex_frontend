@@ -331,7 +331,7 @@ export class ChooseIDVComponent implements OnInit {
     if(!this.enableIdvCard){
       if(this.investedAmount>=this.minIdv && this.investedAmount<=this.maxIdv){
         this.updateIdvButton=false
-        this.enableIdvCard=false
+        // this.enableIdvCard=false
       }else{
         this.updateIdvButton=true
       }

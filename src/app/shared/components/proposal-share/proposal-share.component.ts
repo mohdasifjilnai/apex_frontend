@@ -310,16 +310,16 @@ export class ProposalShareComponent implements OnInit {
           } else {
             this.openModal(sendCommunicationObject, this.otpDialog);
           }
-          if (res['message'] == 'Success') {
-            if (window.innerWidth <= 999) {
-              const bottomSheetConfig: MatBottomSheetConfig = {
-                data: sendCommunicationObject, // Pass your data here
-              };
-              this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-            } else {
-              this.openModal(sendCommunicationObject, this.otpDialog);
-            }
-          }
+          // if (res['message'] == 'Success') {
+          //   if (window.innerWidth <= 999) {
+          //     const bottomSheetConfig: MatBottomSheetConfig = {
+          //       data: sendCommunicationObject, // Pass your data here
+          //     };
+          //     this.bottomSheet.open(OtpComponent, bottomSheetConfig);
+          //   } else {
+          //     this.openModal(sendCommunicationObject, this.otpDialog);
+          //   }
+          // }
         });
     } else {
       let sendCommunicationObject = {

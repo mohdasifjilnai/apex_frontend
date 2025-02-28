@@ -726,6 +726,10 @@ export class VehicleDetailsPopupComponent implements OnInit {
       if (this.vehicleMMVValue) {
         sessionStorage.removeItem('vehicleMMVData');
       }
+      let idvData = sessionStorage.getItem('idvData');
+      if (idvData) {
+        sessionStorage.removeItem('idvData');
+      }
       this.vehicleDetailsForm.get('ncb_discount')?.enable();
       this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
       this.vehicleDetailsForm.value.hidePreviousClaimed =
