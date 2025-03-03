@@ -266,7 +266,7 @@ export class ProposalReviewComponent implements OnInit {
               this.loader = false;
 
               this.route.navigate([
-                `quotes/proposal/${this.transactionId}/review/inspection`,
+                `quotes/proposal/${this.generateProposalData?.transaction_id}/review/inspection`,
               ]);
             } else {
               this.loader = false;
