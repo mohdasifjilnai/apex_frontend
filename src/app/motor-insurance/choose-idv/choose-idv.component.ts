@@ -214,11 +214,6 @@ export class ChooseIDVComponent implements OnInit {
   selectedIDVOption: string = ''; // Default selected option
 
   onSelectIDVOption(option: string) {
-    webengage.track('IDV_filter_Applied', {
-      Option_Selected: option,
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
     this.clearIdvButton = true;
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (option === '3') {
@@ -280,6 +275,12 @@ export class ChooseIDVComponent implements OnInit {
     );
     this.updateIdvButton = true;
     this.idvBaseQuotes();
+    webengage.track('IDV_filter_Applied', {
+      // Option_Selected: option,
+      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      Motor_Type: this.vehicleTypeValue,
+      IDV_Value: this.investedAmount,
+    });
     // }
   }
   cancelIdv() {
@@ -289,7 +290,7 @@ export class ChooseIDVComponent implements OnInit {
     });
     // this.sharedDataService.sendCarLoaderMessage(0);
     this.investedAmount = this.averageIdv;
-    this.chooseIdvForm.get('chooseIdv')?.setValue(this.averageIdv)
+    this.chooseIdvForm.get('chooseIdv')?.setValue(this.averageIdv);
     this.updateIdvButton = true;
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
@@ -325,18 +326,21 @@ export class ChooseIDVComponent implements OnInit {
    * when user change in idv input field than min idv base handling doing in this function
    */
   chooseIdvData() {
-    if(this.chooseIdvForm.value.chooseIdv!=null){
-      this.investedAmount=JSON.parse(this.chooseIdvForm.value.chooseIdv)
+    if (this.chooseIdvForm.value.chooseIdv != null) {
+      this.investedAmount = JSON.parse(this.chooseIdvForm.value.chooseIdv);
     }
-    if(!this.enableIdvCard){
-      if(this.investedAmount>=this.minIdv && this.investedAmount<=this.maxIdv){
-        this.updateIdvButton=false
+    if (!this.enableIdvCard) {
+      if (
+        this.investedAmount >= this.minIdv &&
+        this.investedAmount <= this.maxIdv
+      ) {
+        this.updateIdvButton = false;
         // this.enableIdvCard=false
-      }else{
-        this.updateIdvButton=true
+      } else {
+        this.updateIdvButton = true;
       }
     }
-    
+
     // if (!this.enableIdvCard) {
     //   setTimeout(() => {
     //     this.enableIdvCard = false;
@@ -410,7 +414,7 @@ export class ChooseIDVComponent implements OnInit {
   onSliderInput(event: any) {
     this.updateIdvButton = false;
     this.investedAmount = event.value;
-    this.chooseIdvForm.get('chooseIdv')?.setValue(event.value)
+    this.chooseIdvForm.get('chooseIdv')?.setValue(event.value);
   }
 
   onSliderRangeAmount(value: number) {

@@ -903,7 +903,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     let mgfDate = transformedMgfDate
       ? new Date(transformedMgfDate as string)
       : '';
-
+    let vehicleProposalDetails = this.quoteData;
     let vehicleWebengage = {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
@@ -919,6 +919,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       Vehicle_Color: this.proposalVehilceDetailsForm.value?.vehicle_colour,
       Vehicle_registration_Address:
         this.proposalVehilceDetailsForm.value?.vehicle_registration_address,
+      Insurer_Name: vehicleProposalDetails?.insurer_name,
+      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
     };
     const filteredData = Object.fromEntries(
       Object.entries(vehicleWebengage).filter(([key, value]) => {

@@ -658,6 +658,10 @@ export class QuotesListingComponent implements OnInit {
         quotes_data.premium_details.idv != 0
           ? quotes_data.premium_details.idv
           : 0,
+      Insurer_Name: quotes_data?.insurer_name,
+      Total_IDV: quotes_data?.premium_details?.idv,
+      Total_Premium: quotes_data?.premium_details?.gross_premium,
+      Insurer_Logo: quotes_data?.insurer_logo,
     };
     webengage.track('Motor_Policy_details_Viewed', quotesPremium);
 
@@ -931,6 +935,13 @@ export class QuotesListingComponent implements OnInit {
           ? initiateQuotes.premium_details.idv
           : 0,
       Motor_Type: this.vehicleTypeValue,
+      Total_IDV:
+        initiateQuotes.premium_details.idv != 0
+          ? initiateQuotes.premium_details.idv
+          : 0,
+      Total_Premium: initiateQuotes?.premium_details?.gross_premium,
+      Insurer_Name: initiateQuotes?.insurer_name,
+      Insurer_Logo: initiateQuotes?.insurer_logo,
     };
     webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
   }

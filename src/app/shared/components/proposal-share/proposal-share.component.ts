@@ -284,6 +284,29 @@ export class ProposalShareComponent implements OnInit {
     //   this.openNotCertifiedPopup('Partner_Mapped');
     // }else{
     if (this.proposalData) {
+      let vehicleProposalDetails = this.quoteData;
+      const vehcileType = sessionStorage.getItem('vehicleType');
+      let vehicleWebengage = {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+
+        Motor_Type: vehcileType,
+
+        Insurer_Name: vehicleProposalDetails?.insurer_name,
+        Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+        Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+        Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      };
+      const filteredData = Object.fromEntries(
+        Object.entries(vehicleWebengage).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
+          return true;
+        })
+      );
+      webengage.track('Motor_Payment_Initiated', filteredData);
       let sendCommunicationObject = {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
         share_type: 'otp',

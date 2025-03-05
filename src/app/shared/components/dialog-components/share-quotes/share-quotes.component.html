@@ -5,24 +5,22 @@
     <div class="d-flex justify-content-between">
       <div class="plans-name">
         <div class="header-share-text">Share selected quotes</div>
-        <div *ngFor="let value of quotesData; let i = index" >
-          <span 
-          class="header-sub-text" 
-          
-          [matTooltip]="i >= 2 ? getRemainingInsurerNames() : null" 
-          *ngIf="i < 2"
-        >
-          {{ value?.insurer_name }}
-        </span>
-          
+        <div *ngFor="let value of quotesData; let i = index">
+          <span
+            class="header-sub-text"
+            [matTooltip]="i >= 2 ? getRemainingInsurerNames() : null"
+            *ngIf="i < 2"
+          >
+            {{ value?.insurer_name }}
+          </span>
         </div>
-        <span 
-          class="header-sub-text color-primary" 
+        <span
+          class="header-sub-text color-primary"
           *ngIf="quotesData?.length > 2"
           [matTooltip]="getRemainingInsurerNames()"
         >
           +{{ quotesData.length - 2 }} more
-        </span> 
+        </span>
       </div>
       <div class="cross">
         <img
@@ -47,7 +45,12 @@
             maxlength="10"
             appNumbersOnly
           />
-          <button class="social-media-image"  *ngIf="!whatsappShareLoader" (click)="shareQuotes('whatsapp')" [disabled]="true">
+          <button
+            class="social-media-image"
+            *ngIf="!whatsappShareLoader"
+            (click)="shareQuotes('whatsapp')"
+            [disabled]="true"
+          >
             <img
               src="assets/icon/whatsapp.svg"
               class="whatsapp-image"
@@ -78,15 +81,10 @@
             [disabled]="shareQuotationForm.invalid"
             *ngIf="!mobileShareLoader"
           >
-            <img
-              src="assets/icon/sms.svg"
-              class="whatsapp-image"
-              alt="close"
-            />
-            
+            <img src="assets/icon/sms.svg" class="whatsapp-image" alt="close" />
           </button>
           <div class="social-media-image" *ngIf="mobileShareLoader">
-            <img class="loader" src="assets/gif/shareLoader.gif" alt=""/>
+            <img class="loader" src="assets/gif/shareLoader.gif" alt="" />
           </div>
         </mat-form-field>
       </div>
@@ -116,7 +114,7 @@
             />
           </button>
           <div class="social-media-image" *ngIf="emailShareLoader">
-            <img class="loader" src="assets/gif/shareLoader.gif" alt=""/>
+            <img class="loader" src="assets/gif/shareLoader.gif" alt="" />
           </div>
         </mat-form-field>
       </div>

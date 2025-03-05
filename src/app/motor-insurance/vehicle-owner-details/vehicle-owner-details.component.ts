@@ -616,6 +616,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
   getVehicleDetails(isValid: any) {
     const vehcileType = sessionStorage.getItem('vehicleType');
+
+    let vehicleDetailsValue = JSON.parse(this.quoteData);
     if (isValid) {
       const formValues = this.owenerVehicleDetailsForm.value;
       let vehicleOwnerWebengage = {
@@ -632,6 +634,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         Additional_contact_number: `+91${formValues?.additional_contact}`,
         Gender: formValues?.owner_gender,
         Matrital_Status: formValues?.marital_status,
+        Insurer_Name: vehicleDetailsValue?.insurer_name,
+        Total_IDV: vehicleDetailsValue?.premium_details?.idv,
+        Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
+        Insurer_Logo: vehicleDetailsValue?.insurer_logo,
       };
       const filteredData = Object.fromEntries(
         Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {

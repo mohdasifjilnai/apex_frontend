@@ -945,7 +945,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     let policyExpDate = transformedPolicyExpiry
       ? new Date(transformedPolicyExpiry as string)
       : '';
-
+    let vehicleProposalDetails = this.quoteData;
     let previousPolicyWebengage = {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
@@ -962,6 +962,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       TP_Policy_Number: this.previousPolicyDetailsForm.value?.tp_policy_number,
       TP_Policy_Start_Date: policyStartDate,
       TP_Policy_End_Date: policyEndDate,
+      Insurer_Name: vehicleProposalDetails?.insurer_name,
+      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
     };
     const filteredData = Object.fromEntries(
       Object.entries(previousPolicyWebengage).filter(([key, value]) => {

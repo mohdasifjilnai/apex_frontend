@@ -372,6 +372,10 @@ export class CkycComponent implements OnInit {
     webengage.track('CKYC_details_Submitted', {
       User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Insurer_Name: this.quoteData?.insurer_name,
+      Total_IDV: this.quoteData?.premium_details?.idv,
+      Total_Premium: this.quoteData?.premium_details?.gross_premium,
+      Insurer_Logo: this.quoteData?.insurer_logo,
     });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
@@ -691,9 +695,14 @@ export class CkycComponent implements OnInit {
         this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
+
     webengage.track('CKYC_details_Initiated', {
       User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Insurer_Name: this.quoteData?.insurer_name,
+      Total_IDV: this.quoteData?.premium_details?.idv,
+      Total_Premium: this.quoteData?.premium_details?.gross_premium,
+      Insurer_Logo: this.quoteData?.insurer_logo,
     });
   }
   /**

@@ -232,11 +232,17 @@ export class ProposalReviewComponent implements OnInit {
   }
   submitReview() {
     const vehcileType = sessionStorage.getItem('vehicleType');
+
+    let vehicleProposalDetails = this.quoteData;
     webengage.track('Motor_Vehicle_details_submitted', {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehcileType,
+      Insurer_Name: vehicleProposalDetails?.insurer_name,
+      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
     });
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();

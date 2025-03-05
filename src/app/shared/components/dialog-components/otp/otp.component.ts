@@ -206,11 +206,16 @@ export class OtpComponent implements OnInit {
 
   verify() {
     const vehcileType = sessionStorage.getItem('vehicleType');
+    let vehicleProposalDetails = this.quoteData;
     webengage.track('Payment_OTP_submitted', {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehcileType,
+      Insurer_Name: vehicleProposalDetails?.insurer_name,
+      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
     });
     this.loader = true;
 

@@ -26,6 +26,7 @@ export class ShareQuotesComponent implements OnInit {
   emailShareLoader: boolean = false;
   mobileShareLoader: boolean = false;
   traceIdData: any;
+  sharePopupData: any;
   constructor(
     public dialogRef: MatDialogRef<ShareQuotesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -53,8 +54,10 @@ export class ShareQuotesComponent implements OnInit {
     this.partner_name = sessionStorage.getItem('ta_user_name');
     if (Object.keys(this.bottomSheetdata).length > 0) {
       this.quotesData = this.bottomSheetdata;
+      this.sharePopupData = this.bottomSheetdata;
     } else {
       this.quotesData = this.data?.data;
+      this.sharePopupData = this.data?.data;
     }
     for (let value of this.quotesData) {
       this.quotes_id.push(value?.quote_id);
@@ -105,14 +108,19 @@ export class ShareQuotesComponent implements OnInit {
    */
   shareQuotes(shareType: any) {
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+
+    this.quoteData = sessionStorage.getItem('quotes_data');
     webengage.track('Quote_shared_successfully', {
       Option_Selected: shareType,
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehicleTypeValue,
+      Insurer_Name: this.sharePopupData[0]?.insurer_name,
+      Total_IDV: this.sharePopupData[0]?.premium_details?.idv,
+      Total_Premium: this.sharePopupData[0]?.premium_details?.gross_premium,
+      Insurer_Logo: this.sharePopupData[0]?.insurer_logo,
     });
-    this.quoteData = sessionStorage.getItem('quotes_data');
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
       if (shareType == 'whatsapp') {
