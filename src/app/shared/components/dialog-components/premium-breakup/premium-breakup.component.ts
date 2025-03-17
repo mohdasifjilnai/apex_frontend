@@ -64,6 +64,7 @@ export class PremiumBreakupComponent implements OnInit {
   downloadLoader: any = false;
   mmv_data: any;
   mmvParseData: any;
+  windowlength=window.innerWidth
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
