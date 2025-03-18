@@ -3,12 +3,8 @@ import { LoaderService } from './core/services/loader.service';
 import { SseService } from './core/services/sse.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-// declare const webengage: any;
-declare global {
-  interface Window {
-    webengage: any;
-  }
-}
+declare const webengage: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,12 +24,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    // webengage.init('in~~10a5cbbcb');
-    // if (environment?.dev) {
-    //   webengage.init('in~~10a5cbbcb');
-    // } else {
-    //   webengage.init('');
-    // }
+    if (environment?.dev) {
+      webengage.init('in~~10a5cbbcb');
+    } else {
+      webengage.init('');
+    }
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
       if (!isLoading) {
