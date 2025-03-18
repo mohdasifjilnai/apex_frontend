@@ -1,15 +1,20 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { LoaderService } from './core/services/loader.service';
 import { SseService } from './core/services/sse.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-declare const webengage: any;
+// declare const webengage: any;
+declare global {
+  interface Window {
+    webengage: any;
+  }
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'apex_frontend';
   connectionData: any;
   eventSource: any;
@@ -24,11 +29,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // webengage.init('in~~10a5cbbcb');
-    if (environment?.dev) {
-      webengage.init('in~~10a5cbbcb');
-    } else {
-      webengage.init('');
-    }
+    // if (environment?.dev) {
+    //   webengage.init('in~~10a5cbbcb');
+    // } else {
+    //   webengage.init('');
+    // }
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
       if (!isLoading) {
@@ -61,6 +66,50 @@ export class AppComponent implements OnInit {
       //   });
     }
   }
+  ngAfterViewInit() {
+    // this.loadWebEngage();
+  }
+
+  // loadWebEngage() {
+  //   if (document.getElementById('_webengage_script_tag')) {
+  //     console.log('⚠️ WebEngage script already exists, skipping...');
+  //     return;
+  //   }
+
+  //   console.log('🚀 Injecting WebEngage script...');
+  //   const script = document.createElement('script');
+  //   script.id = '_webengage_script_tag';
+  //   script.type = 'text/javascript';
+  //   script.async = true;
+  //   script.src = 'https://widgets.in.webengage.com/js/webengage-min-v-6.0.js';
+
+  //   script.onload = () => {
+  //     // console.log('✅ WebEngage script loaded successfully.');
+
+  //     setTimeout(() => {
+  //       const checkWebEngageReady = setInterval(() => {
+  //         if (
+  //           typeof window['webengage'] !== 'undefined' &&
+  //           window['webengage'].onReady
+  //         ) {
+  //           clearInterval(checkWebEngageReady); // Stop checking once ready
+  //           window['webengage'].onReady(() => {
+  //             window['webengage'].init('in~~10a5cbbcb');
+  //             console.log('🎉 WebEngage initialized successfully!');
+  //           });
+  //         } else {
+  //           console.log('🔄 Waiting for WebEngage to load...');
+  //         }
+  //       }, 500);
+  //     }, 2000); // Initial delay of 2s before polling
+  //   };
+
+  //   script.onerror = () => {
+  //     console.error('❌ Failed to load WebEngage script.');
+  //   };
+
+  //   document.head.appendChild(script);
+  // }
 
   loadScript(url: string, isAsync: boolean = false): Promise<void> {
     return new Promise((resolve, reject) => {
