@@ -34,8 +34,10 @@ export class CheckQuotesDialogComponent implements OnInit {
   }
 
   quotesChange() {
+    const token = sessionStorage.getItem('token');
+
     webengage.track('Change_Insurer_Inititaed', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
     // sessionStorage.setItem('vehiclePopup', 'true');

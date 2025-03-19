@@ -290,8 +290,10 @@ export class AddOnsComponent implements OnInit {
    */
   clearAllChecked() {
     // this.sharedDataService.sendCarLoaderMessage(0);
+    const token = sessionStorage.getItem('token');
+
     webengage.track('Motor_Filter_Cleared', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
     for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
@@ -488,17 +490,18 @@ export class AddOnsComponent implements OnInit {
     }
 
     let addOnValue = this.selectedCheckedArray;
-
+    const token = sessionStorage.getItem('token');
     webengage.track('CPA_filter_Applied', {
       Option_Selected: addOnValue,
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
   }
   update() {
+    const token = sessionStorage.getItem('token');
     // this.sharedDataService.sendCarLoaderMessage(0);
     webengage.track('Motor_Filter_Applied', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
     this.selected_addons = {};

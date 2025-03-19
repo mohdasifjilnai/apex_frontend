@@ -369,8 +369,9 @@ export class CkycComponent implements OnInit {
   //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   // }
   submitCkycFormGroup(isValid: boolean) {
+    const token = sessionStorage.getItem('token');
     webengage.track('CKYC_details_Submitted', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       Insurer_Name: this.quoteData?.insurer_name,
       Total_IDV: this.quoteData?.premium_details?.idv,
@@ -695,9 +696,9 @@ export class CkycComponent implements OnInit {
         this.ckycFormGroup.get('ckyc_full_name')?.updateValueAndValidity();
       }
     }
-
+    const token = sessionStorage.getItem('token');
     webengage.track('CKYC_details_Initiated', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       Insurer_Name: this.quoteData?.insurer_name,
       Total_IDV: this.quoteData?.premium_details?.idv,

@@ -282,8 +282,9 @@ handles the form submit for uploading the required documents
     //  this.uploadDocumentsForm.get('poa_doc_url')?.reset();
     // }
     console.log(this.uploadDocumentsForm.value);
+    const token = sessionStorage.getItem('token');
     webengage.track('Offline_CKYC_details', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
     if (valid && !this.loader) {
