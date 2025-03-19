@@ -899,7 +899,7 @@ export class MotorInsuranceComponent implements OnInit {
     apiUrl = `?partner_code=${this.partner_code}`;
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (this.motorInsurance.value.registration_number) {
-      webengage.track('Motor_Quotes_Inititaed', {
+      webengage.track('Motor_Quotes_Initiated', {
         Registration_Number: this.motorInsurance.value.registration_number,
         User_Type: sessionStorage.getItem('partner_code')
           ? 'Partner'
