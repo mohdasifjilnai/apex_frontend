@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
@@ -41,7 +41,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<VehicleRegistrationNumberComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public bottomSheetRef: MatBottomSheetRef<VehicleRegistrationNumberComponent>,
-
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
     private formBuild: FormBuilder,
     private apiservice:ApiService,
     private router:Router,
@@ -54,7 +54,11 @@ export class VehicleRegistrationNumberComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.quotes_data=this.data
+    if (window.innerWidth <= 999) {
+      this.quotes_data=this.bottomSheetdata
+    } else {
+      this.quotes_data=this.data?.data
+    }
     this.mmvItem = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
     this.vehicleRegistrationNumberForm.patchValue({
       registration_number_first: this.divideString(
@@ -109,20 +113,20 @@ getVahaanDetails(isValid:any){
   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
   this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.registration_number()}?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.data?.quote_request_id}`
+        `${ApiConstants.registration_number()}?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}`
       )
       .subscribe((res: any) => {
         this.loader=false
         if (res?.detail!='Vehicle details not found.') {
           if(!res?.is_commercial){
-            if((this.quotes_data?.data?.vehicle_type=='private_car' && res?.is_four_wheeler) || (this.quotes_data?.data?.vehicle_type=='two_wheeler' && res?.is_two_wheeler)){
+            if((this.quotes_data?.vehicle_type=='private_car' && res?.is_four_wheeler) || (this.quotes_data?.vehicle_type=='two_wheeler' && res?.is_two_wheeler)){
               this.sharedDataService.vahaanDetails(res)
               sessionStorage.setItem('registrationNumber',regestrationNumber)
               sessionStorage.setItem('alreadyCalled', 'true');
             sessionStorage.setItem('isprevoiusInsurer', 'true');
-            sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data?.data));
+            sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data));
             const transactionId = sessionStorage.getItem('transaction_id');
-            if (this.quotes_data?.data?.premium_details?.idv > 5000000) {
+            if (this.quotes_data?.premium_details?.idv > 5000000) {
               this.openNonPOSPopup(null);
             } else {
               this.router.navigate([`quotes/proposal/${transactionId}`]);

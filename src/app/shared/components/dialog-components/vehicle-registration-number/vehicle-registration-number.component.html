@@ -10,13 +10,13 @@ novalidate
             src="assets/icon/car.svg"
             class="car-image"
             alt="close"
-            *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'"
+            *ngIf="this.quotes_data?.vehicle_type=='private_car'"
             />
             <img
             src="assets/icon/bike.svg"
             class="car-image"
             alt="close"
-            *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'"
+            *ngIf="this.quotes_data?.vehicle_type=='two_wheeler'"
             />
             <img
                 src="assets/icon/cross.svg"
@@ -122,8 +122,8 @@ novalidate
       </div>
       <div class="d-flex justify-content-between mt-2" >
         <div  class="error-message" *ngIf="twoWheelerJourney">
-          <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">This is a Bike Number</span>
-          <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">This is a Car Number</span>
+          <span *ngIf="this.quotes_data?.vehicle_type=='private_car'">This is a Bike Number</span>
+          <span *ngIf="this.quotes_data?.vehicle_type=='two_wheeler'">This is a Car Number</span>
         </div>
         <div class="reverify" *ngIf="twoWheelerJourney" (click)="loader ? null : getVahaanDetails(vehicleRegistrationNumberForm.valid)">
           Reverify
@@ -198,8 +198,8 @@ novalidate
                     class="loader me-2"
                     *ngIf="loader"
                   />
-                  <span *ngIf="this.quotes_data?.data?.vehicle_type=='private_car'">Get Bike Quotes</span>
-                  <span *ngIf="this.quotes_data?.data?.vehicle_type=='two_wheeler'">Get Car Quotes</span>
+                  <span *ngIf="this.quotes_data?.vehicle_type=='private_car'">Get Bike Quotes</span>
+                  <span *ngIf="this.quotes_data?.vehicle_type=='two_wheeler'">Get Car Quotes</span>
                 </button>
               </div>
               <div class="note">Note:- Premium might change</div>
