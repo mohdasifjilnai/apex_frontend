@@ -4,7 +4,12 @@
     <div class="insurer-title">
       <p class="insurer-header m-0 p-0">{{ quoteData?.insurer_name || "-" }}</p>
       <div *ngIf="showInsurerButton">
-        <button type="button" class="edit-button" (click)="changeInsurer()" [disabled]="proposalPunched">
+        <button
+          type="button"
+          class="edit-button"
+          (click)="changeInsurer(quoteData)"
+          [disabled]="proposalPunched"
+        >
           <img src="assets/icon/edit.svg" alt="" class="edit-image" />
           Change Insurer
         </button>
@@ -195,30 +200,25 @@
     </div>
     <div class="mt-2" *ngFor="let addons of addonsList">
       <ng-container *ngIf="addons.is_offered">
-      <div
-        class="d-flex justify-content-between mt-1 w-100"
-        *ngIf="
-          addons.add_on_code != 'CPA' ||
-          addons.add_on_code != 'CPA3' ||
-          addons.add_on_code != 'CPA5'
-        "
-      >
-        <span class="od-value od-name" >{{
-          addons.add_on_name | titlecase
-        }}</span>
-        <span
-          class="od-value"
-          
-          [hidden]="addons?.add_on_premium == 0"
-          >&#x20B9; {{ addons.add_on_premium }}</span
+        <div
+          class="d-flex justify-content-between mt-1 w-100"
+          *ngIf="
+            addons.add_on_code != 'CPA' ||
+            addons.add_on_code != 'CPA3' ||
+            addons.add_on_code != 'CPA5'
+          "
         >
-        <span
-          *ngIf="addons?.add_on_premium == 0"
-          class="included"
-          >Included</span
-        >
-      </div>
-    </ng-container>
+          <span class="od-value od-name">{{
+            addons.add_on_name | titlecase
+          }}</span>
+          <span class="od-value" [hidden]="addons?.add_on_premium == 0"
+            >&#x20B9; {{ addons.add_on_premium }}</span
+          >
+          <span *ngIf="addons?.add_on_premium == 0" class="included"
+            >Included</span
+          >
+        </div>
+      </ng-container>
     </div>
   </div>
   <!-- <div class="col-12 policy" *ngIf="!reviewURL">
@@ -311,7 +311,7 @@
       type="button"
       class="share-button mt-3 me-2"
       id-automation="share_underwriting"
-      (click)="openShareModal()"
+      (click)="openShareModal(quoteData)"
     >
       <img src="assets/icon/share.svg" alt="" class="edit-image" />
       Share
@@ -367,7 +367,7 @@
       <div class="col-6 text-start">
         <span
           class="d-flex justify-content-between"
-          (click)="proposalPunched?null:changeInsurer()"
+          (click)="proposalPunched ? null : changeInsurer(quoteData)"
           id-automation="change_insurer"
           >Change Insurer
           <div class="pipe">|</div></span

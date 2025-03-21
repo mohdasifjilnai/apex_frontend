@@ -87,6 +87,7 @@ export class CkycDocumentsComponent implements OnInit {
   otherfileInputError: boolean = false;
   reUploadFileCOntrolName: any;
   userType: any;
+  ckycdocumentData: any;
   constructor(
     public dialogRef: MatDialogRef<CkycDocumentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -283,9 +284,15 @@ handles the form submit for uploading the required documents
     // }
     console.log(this.uploadDocumentsForm.value);
     const token = sessionStorage.getItem('token');
+    this.ckycdocumentData = sessionStorage.getItem('quotes_data');
+    let parseCkycData = JSON.parse(this.ckycdocumentData);
     webengage.track('Offline_CKYC_details', {
       User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Total_IDV: parseCkycData.premium_details.idv,
+      Total_Premium: parseCkycData.premium_details.gross_premium,
+      Insurer_Name: parseCkycData.insurer_name,
+      Insurer_Logo: parseCkycData.insurer_logo,
     });
     if (valid && !this.loader) {
       this.loader = true;

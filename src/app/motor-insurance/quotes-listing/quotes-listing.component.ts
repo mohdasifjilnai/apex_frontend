@@ -167,6 +167,7 @@ export class QuotesListingComponent implements OnInit {
   policyExpiryInspection: any = '';
   currentDate: any = '';
   sortObjectkey: any;
+  totalIdvData: any;
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -196,7 +197,9 @@ export class QuotesListingComponent implements OnInit {
   showRenewalQuotes: boolean = false;
   isPrevoiusInsurer: any;
   traceIdResponse: any;
-
+  totalPremiumData: any;
+  insurerLogoData: any;
+  insurerNameData: any;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -993,19 +996,32 @@ export class QuotesListingComponent implements OnInit {
     this.shareQuotesDropdownValue = false;
     if (count == 'all') {
       this.selectedQuotes = [];
+      this.totalIdvData = [];
+      this.totalPremiumData = [];
+      this.insurerLogoData = [];
+      this.insurerNameData = [];
       for (const [key, value] of Object.entries(this.quotationArray)) {
         this.isCheckboxChecked = true;
         this.isChecked = true;
         if (value['status'] == true) {
           this.selectedQuotes.push(value);
+          this.totalIdvData.push(value['premium_details']['idv']);
+          this.totalPremiumData.push(value['premium_details']['gross_premium']);
+          this.insurerLogoData.push(value['insurer_logo']);
+          this.insurerNameData.push(value['insurer_name']);
         }
       }
+
       webengage.track('Quotes_selected', {
         Plan_Details: this.selectedQuotes,
         User_Type: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
         Motor_Type: this.vehicleTypeValue,
+        Total_IDV: this.totalIdvData.join(', '),
+        Total_Premium: this.totalPremiumData.join(', '),
+        Insurer_Logo: this.insurerLogoData.join(', '),
+        Insurer_Name: this.insurerNameData.join(', '),
       });
     } else {
       this.isCheckboxChecked = false;
@@ -1033,6 +1049,10 @@ export class QuotesListingComponent implements OnInit {
           ? 'Partner'
           : 'Customer',
         Motor_Type: this.vehicleTypeValue,
+        Total_IDV: this.totalIdvData.join(', '),
+        Total_Premium: this.totalPremiumData.join(', '),
+        Insurer_Logo: this.insurerLogoData.join(', '),
+        Insurer_Name: this.insurerNameData.join(', '),
       });
     } else {
       const index = this.selectedQuotes.indexOf(quotes);

@@ -222,13 +222,13 @@ export class InsuranceDetailsComponent implements OnInit {
   isString(value: any): boolean {
     return typeof value === 'string';
   }
-  openShareModal() {
-    this.openModal([this.quoteData], this.insuranceDetailsJSON);
+  openShareModal(quoteData: any) {
+    this.openModal([this.quoteData], this.insuranceDetailsJSON, quoteData);
   }
   /**
    * this fucntion use open pop up modal
    */
-  openModal(ObjData: any, jsonData: any) {
+  openModal(ObjData: any, jsonData: any, cardValue: any) {
     let resWidth;
     let resTop;
     if (window.screen.width <= 767) {
@@ -249,16 +249,17 @@ export class InsuranceDetailsComponent implements OnInit {
       dataInfo: {
         data: ObjData,
         top: resTop,
+        cardData: cardValue,
       },
     };
 
     this.matDialog.openDialog(obj);
   }
-  changeInsurer() {
+  changeInsurer(quoteData: any) {
     if (this.renewalType == 'renewal') {
-      this.openModal('renewal', this.changeQuotesJSON);
+      this.openModal('renewal', this.changeQuotesJSON, quoteData);
     } else {
-      this.openModal('new', this.changeQuotesJSON);
+      this.openModal('new', this.changeQuotesJSON, quoteData);
     }
   }
   quotesChange() {

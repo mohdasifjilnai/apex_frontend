@@ -903,7 +903,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     let mgfDate = transformedMgfDate
       ? new Date(transformedMgfDate as string)
       : '';
-    let vehicleProposalDetails = this.quoteData;
+    let vehicleProposalDetails = JSON.parse(this.quoteData);
     let vehicleWebengage = {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'

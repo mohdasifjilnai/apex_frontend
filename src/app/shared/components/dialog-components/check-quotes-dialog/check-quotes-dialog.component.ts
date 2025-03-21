@@ -1,7 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheet,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
 declare const webengage: any;
 @Component({
   selector: 'app-check-quotes-dialog',
@@ -11,12 +17,20 @@ declare const webengage: any;
 export class CheckQuotesDialogComponent implements OnInit {
   vehicleTypeValue: any;
   userType: any;
+  insurerData: any;
   constructor(
     public dialogRef: MatDialogRef<CheckQuotesDialogComponent>,
     private sharedDataService: SharedDataService,
     private route: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+    public matDialog: WindowRef,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any,
+    public bottomSheet: MatBottomSheet,
+    public bottomSheetRef: MatBottomSheetRef<CheckQuotesDialogComponent>
+  ) {
+    console.log(data);
+    this.insurerData = data['cardData'];
+  }
 
   traceIdData: any;
   ngOnInit(): void {
@@ -74,6 +88,10 @@ export class CheckQuotesDialogComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Total_IDV: this.insurerData.premium_details.idv,
+      Total_Premium: this.insurerData.premium_details.gross_premium,
+      Insurer_Name: this.insurerData.insurer_name,
+      Insurer_Logo: this.insurerData.insurer_logo,
     });
   }
 }
