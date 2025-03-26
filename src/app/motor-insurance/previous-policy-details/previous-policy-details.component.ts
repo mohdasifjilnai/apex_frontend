@@ -262,10 +262,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             });
         }
       } else {
-        if (this.mmvData?.previous_insurer) {
+        if (this.mmvData?.previous_insurer && this.renewalType != 'renewal') {
           this.previousPolicyDetailsForm.patchValue({
             previous_insurer: this.mmvData?.previous_insurer,
             tp_insurance_company: this.mmvData?.previous_insurer,
+          });
+        }
+        if (this.mmvData?.previous_insurer && this.renewalType == 'renewal') {
+          this.previousPolicyDetailsForm.patchValue({
+            previous_insurer: this.mmvData?.previous_insurer,
+            // tp_insurance_company: this.mmvData?.previous_insurer,
           });
         }
       }
@@ -844,6 +850,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }
       }
     }
+  }
+   onPolicyNumberChange() {
+    this.previousPolicyDetailsForm
+      .get('tp_insurance_company')
+      ?.setValidators([Validators.required]);
+    this.previousPolicyDetailsForm
+      .get('tp_insurance_company')
+      ?.updateValueAndValidity();
   }
   getPreviousVehicleData(isValid: any) {
     const proposal_id = sessionStorage.getItem('proposal_Id');
