@@ -859,6 +859,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       .get('tp_insurance_company')
       ?.updateValueAndValidity();
   }
+  onOdPolicyNumberChange(){
+    this.previousPolicyDetailsForm
+      .get('previous_insurer')
+      ?.setValidators([Validators.required]);
+    this.previousPolicyDetailsForm
+      .get('previous_insurer')
+      ?.updateValueAndValidity();
+  }
   getPreviousVehicleData(isValid: any) {
     const proposal_id = sessionStorage.getItem('proposal_Id');
     this.sharedData.crossSellRecomendation(proposal_id);

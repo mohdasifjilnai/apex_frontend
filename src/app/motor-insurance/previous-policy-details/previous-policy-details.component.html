@@ -23,6 +23,7 @@
             matInput
             formControlName="prev_policy_number"
             appAlphanumericWithSlash
+            (input)="onOdPolicyNumberChange()"
           />
           <mat-error
             *ngIf="
