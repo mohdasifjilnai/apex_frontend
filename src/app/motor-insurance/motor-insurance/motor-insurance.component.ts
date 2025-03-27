@@ -906,7 +906,7 @@ export class MotorInsuranceComponent implements OnInit {
           : 'Customer',
         Motor_Type: vehicleTypeValue,
       });
-    } else if (this.motorInsurance.value.vehicle?.rb_mmv_id) {
+    } else if (this.motorInsurance.value.vehicle?.rb_mmv_id && this.motorInsurance.value?.policy_expiry_date!='Not Sure') {
       const transformedRegDate = this.motorInsurance.value?.registration_date
         ? this.datePipe.transform(
             this.motorInsurance.value?.registration_date,
@@ -917,18 +917,19 @@ export class MotorInsuranceComponent implements OnInit {
       let regDate = transformedRegDate
         ? new Date(transformedRegDate as string)
         : '';
-
       const transformedPolicyDate = this.motorInsurance.value
-        ?.policy_expiry_date
-        ? this.datePipe.transform(
-            this.motorInsurance.value?.policy_expiry_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
-          )
-        : '';
-
-      let policyDate = transformedPolicyDate
-        ? new Date(transformedPolicyDate as string)
-        : '';
+      ?.policy_expiry_date
+      ? this.datePipe.transform(
+          this.motorInsurance.value?.policy_expiry_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+    
+     
+    let policyDate = transformedPolicyDate
+    ? new Date(transformedPolicyDate as string)
+    : '';
+      
       let submitDetails = {
         Search_Vehicle: this.motorInsurance.value.vehicle?.displayMMV,
         Search_RTO_City: this.motorInsurance.value.rto_city?.display_name,
@@ -959,6 +960,7 @@ export class MotorInsuranceComponent implements OnInit {
       partner_code: this.partner_code,
       quotes_data: this.motorInsurance.value,
     };
+    console.log(data,"09876543")
     this.apiService
       .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
       .subscribe(
