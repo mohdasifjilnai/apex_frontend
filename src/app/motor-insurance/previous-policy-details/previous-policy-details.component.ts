@@ -849,6 +849,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           )!;
         }
       }
+      this.previousPolicyDetailsForm
+      .get('tp_insurance_company')
+      ?.setValidators([Validators.required]);
+    this.previousPolicyDetailsForm
+      .get('tp_insurance_company')
+      ?.updateValueAndValidity();
     }
   }
    onPolicyNumberChange() {
