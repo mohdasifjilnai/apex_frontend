@@ -499,6 +499,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
 
     this.sharedData.renewalPreviousPolicyData.subscribe((data: any) => {
+      this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
+      this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
+      this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
       if (data) {
         this.renewalDetails = sessionStorage.getItem('renewalDetails');
         const parsedRenewalDetails = JSON.parse(this.renewalDetails);

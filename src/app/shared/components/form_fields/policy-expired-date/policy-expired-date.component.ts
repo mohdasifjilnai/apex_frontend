@@ -103,7 +103,7 @@ export class PolicyExpiredDateComponent implements OnInit {
       this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
     }
 
-    this.visuallyDisabledFields = this.shareDataService.disableVisually(['policy_expiry_date'], this.form);    
+    // this.visuallyDisabledFields = this.shareDataService.disableVisually(['policy_expiry_date'], this.form);    
   }
 
   ngOnDestroy(): void {
