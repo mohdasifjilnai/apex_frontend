@@ -497,7 +497,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
         'user_car',
         'manufacture_date',
         'registration_date',
-        'policy_expiry_date',
         'previous_insurer',
       ],
       this.vehicleDetailsForm

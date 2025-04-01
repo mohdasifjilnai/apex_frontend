@@ -2,7 +2,7 @@
   [formGroup]="previousPolicyDetailsForm"
   (ngSubmit)="getPreviousVehicleData(previousPolicyDetailsForm.value)"
 >
-  <div [attr.disabled]="isDisabledPreviousPolicyDetails">
+  <div >
     <div class="row mt-3" *ngIf="isOdPolicyDetails">
       <div class="col-12">
         <label>Own Damage (OD) Policy Details</label>
