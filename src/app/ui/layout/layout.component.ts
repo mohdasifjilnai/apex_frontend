@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  constructor() {}
+  mobileApp: any;
+  constructor(    private route: ActivatedRoute,
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      this.mobileApp = params['mobileApp'];
+    });
+  }
 
   ngOnInit(): void {}
   // refreshPage(){
