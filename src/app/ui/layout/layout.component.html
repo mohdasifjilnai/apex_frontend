@@ -8,7 +8,7 @@
       <app-header></app-header>
     </div>
   </div>
-  <div class="main-content" >
+  <div class="main-content" [ngClass]="mobileApp!='true'?'main-content':'main-content-padding'">
     <app-breadcrumb class="breadcrumb"></app-breadcrumb>
     <div class="main-body p-4" (touchstart)="onTouchStart($event)" 
     (touchend)="onTouchEnd($event)">

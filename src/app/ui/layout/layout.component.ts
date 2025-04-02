@@ -11,7 +11,11 @@ export class LayoutComponent implements OnInit {
   constructor(    private route: ActivatedRoute,
   ) {
     this.route.queryParams.subscribe((params) => {
-      this.mobileApp = params['mobileApp'];
+      const mobileApp = params['mobileApp'];
+      if (!window.location.href.includes('/quotes/')) {
+        sessionStorage.setItem('mobileApp',mobileApp)
+      }
+      this.mobileApp=sessionStorage.getItem('mobileApp')
     });
   }
 
