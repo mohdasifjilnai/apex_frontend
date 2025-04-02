@@ -92,6 +92,27 @@ export class CheckQuotesDialogComponent implements OnInit {
       Total_Premium: this.insurerData.premium_details.gross_premium,
       Insurer_Name: this.insurerData.insurer_name,
       Insurer_Logo: this.insurerData.insurer_logo,
+      Product_id: this.insurerData?.quote_id,
+      'Total_Own_Damage_(A)':
+        this.insurerData?.premium_details.od_premium_details.total_od_premium,
+      NCB_Discount:
+        this.insurerData?.premium_details.od_premium_details.ncb_discount,
+      'Third_Party_(B)':
+        this.insurerData?.premium_details.tp_premium_details.total_tp_premium,
+      // Selected_Addons:
+      Total_Addons: this.insurerData?.premium_details?.is_addon_addition,
+      'GST_(18%)_(C)':
+        this.insurerData?.premium_details.total_gst != 0
+          ? this.insurerData?.premium_details.total_gst
+          : 0,
+      'Total_Premium_(A+B+C)':
+        this.insurerData?.premium_details.gross_premium != 0
+          ? this.insurerData?.premium_details.gross_premium
+          : 0,
+      IDV:
+        this.insurerData?.premium_details.idv != 0
+          ? this.insurerData?.premium_details.idv
+          : 0,
     });
   }
 }

@@ -685,13 +685,17 @@ export class VehicleDetailsPopupComponent implements OnInit {
           this.vehicleDetailsForm.value?.registration_city?.display_name,
         Registration_Date: regDate,
         Manufacture_Date: mgfDate,
-        Used_Car_RC_Transfer: this.vehicleDetailsForm.value?.user_car,
+        Used_Car_RC_Transfer: this.vehicleDetailsForm.value?.user_car
+          ? 'Yes'
+          : 'No',
         Type_of_Expiring_Policy: this.vehicleDetailsForm.value?.policy_expiry,
         Policy_Expiring_Date: policyExpDate,
         Search_previous_Insurer:
           this.vehicleDetailsForm.value?.previous_insurer?.rb_insurer_name,
-        Is_previous_Policy_claimed:
-          this.vehicleDetailsForm.value?.previous_claimed,
+        Is_previous_Policy_claimed: this.vehicleDetailsForm.value
+          ?.previous_claimed
+          ? 'Yes'
+          : 'No',
         Previous_year_NCB: this.vehicleDetailsForm.value?.ncb_discount,
         User_Type: token != null ? 'Partner' : 'Customer',
       };

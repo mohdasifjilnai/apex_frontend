@@ -923,6 +923,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       Total_IDV: vehicleProposalDetails?.premium_details?.idv,
       Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
       Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      Product_id: vehicleProposalDetails?.quote_id,
     };
     const filteredData = Object.fromEntries(
       Object.entries(vehicleWebengage).filter(([key, value]) => {

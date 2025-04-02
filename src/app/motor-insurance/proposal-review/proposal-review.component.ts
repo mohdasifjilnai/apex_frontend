@@ -20,6 +20,7 @@ import { TermsComponent } from 'src/app/shared/components/dialog-components/term
 import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 import { environment } from 'src/environments/environment';
 declare const webengage: any;
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-proposal-review',
   templateUrl: './proposal-review.component.html',
@@ -133,6 +134,7 @@ export class ProposalReviewComponent implements OnInit {
   proposalId: any;
   paymentObject: any;
   loader: boolean = false;
+  quotesRequestData: any;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -141,7 +143,8 @@ export class ProposalReviewComponent implements OnInit {
     public dialog: MatDialog,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private datePipe: DatePipe
   ) {
     window.addEventListener('load', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -234,6 +237,37 @@ export class ProposalReviewComponent implements OnInit {
     const vehcileType = sessionStorage.getItem('vehicleType');
 
     let vehicleProposalDetails = this.quoteData;
+    this.quotesRequestData = sessionStorage.getItem('mmv_data');
+    let requestValue = JSON.parse(this.quotesRequestData);
+    const transformedRegistrationDate = requestValue?.registration_date
+      ? this.datePipe.transform(
+          requestValue?.registration_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+    let regDate = transformedRegistrationDate
+      ? new Date(transformedRegistrationDate as string)
+      : '';
+
+    const transformedMgfDate = requestValue?.manufacture_date
+      ? this.datePipe.transform(
+          requestValue?.manufacture_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+    let mgfDate = transformedMgfDate
+      ? new Date(transformedMgfDate as string)
+      : '';
+
+    const transformedPolicyExpiry = requestValue?.policy_expiry_date
+      ? this.datePipe.transform(
+          requestValue?.policy_expiry_date,
+          'yyyy-MM-ddTHH:mm:ss.SSSZ'
+        )
+      : '';
+    let policyExpDate = transformedPolicyExpiry
+      ? new Date(transformedPolicyExpiry as string)
+      : '';
     webengage.track('Motor_Vehicle_details_submitted', {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
@@ -243,6 +277,20 @@ export class ProposalReviewComponent implements OnInit {
       Total_IDV: vehicleProposalDetails?.premium_details?.idv,
       Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
       Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      Product_id: vehicleProposalDetails?.quote_id,
+      Make: requestValue.vehicle_variant.rb_make_name,
+      Model: requestValue.vehicle_variant.rb_model_name,
+      Variant: requestValue.vehicle_variant.rb_variant_name,
+      Fuel: requestValue.vehicle_variant.fuel,
+      Registration_City: requestValue.registration_city.display_name,
+      Registration_Date: regDate,
+      Manufacture_Date: mgfDate,
+      Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
+      Type_of_Expiring_Policy: requestValue?.policy_expiry,
+      Policy_Expiring_Date: policyExpDate,
+      Search_previous_Insurer: requestValue?.previous_insurer?.rb_insurer_name,
+      Is_previous_Policy_claimed: requestValue?.previous_claimed ? 'Yes' : 'No',
+      Previous_year_NCB: requestValue?.ncb_discount,
     });
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();

@@ -856,14 +856,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         }
       }
       this.previousPolicyDetailsForm
-      .get('tp_insurance_company')
-      ?.setValidators([Validators.required]);
-    this.previousPolicyDetailsForm
-      .get('tp_insurance_company')
-      ?.updateValueAndValidity();
+        .get('tp_insurance_company')
+        ?.setValidators([Validators.required]);
+      this.previousPolicyDetailsForm
+        .get('tp_insurance_company')
+        ?.updateValueAndValidity();
     }
   }
-   onPolicyNumberChange() {
+  onPolicyNumberChange() {
     this.previousPolicyDetailsForm
       .get('tp_insurance_company')
       ?.setValidators([Validators.required]);
@@ -871,7 +871,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       .get('tp_insurance_company')
       ?.updateValueAndValidity();
   }
-  onOdPolicyNumberChange(){
+  onOdPolicyNumberChange() {
     this.previousPolicyDetailsForm
       .get('previous_insurer')
       ?.setValidators([Validators.required]);
@@ -1000,6 +1000,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       Total_IDV: vehicleProposalDetails?.premium_details?.idv,
       Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
       Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      Product_id: vehicleProposalDetails?.quote_id,
     };
     const filteredData = Object.fromEntries(
       Object.entries(previousPolicyWebengage).filter(([key, value]) => {

@@ -293,6 +293,7 @@ handles the form submit for uploading the required documents
       Total_Premium: parseCkycData.premium_details.gross_premium,
       Insurer_Name: parseCkycData.insurer_name,
       Insurer_Logo: parseCkycData.insurer_logo,
+      Document_type: this.uploadDocumentsForm.value.document_type_based_field,
     });
     if (valid && !this.loader) {
       this.loader = true;

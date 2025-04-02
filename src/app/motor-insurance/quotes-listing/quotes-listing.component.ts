@@ -665,6 +665,7 @@ export class QuotesListingComponent implements OnInit {
       Total_IDV: quotes_data?.premium_details?.idv,
       Total_Premium: quotes_data?.premium_details?.gross_premium,
       Insurer_Logo: quotes_data?.insurer_logo,
+      Product_id: quotes_data.quote_id,
     };
     webengage.track('Motor_Policy_details_Viewed', quotesPremium);
 
@@ -912,6 +913,7 @@ export class QuotesListingComponent implements OnInit {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
+      Product_id: initiateQuotes.quote_id,
       'Total_Own_Damage_(A)':
         initiateQuotes.premium_details.od_premium_details.total_od_premium != 0
           ? initiateQuotes.premium_details.od_premium_details.total_od_premium

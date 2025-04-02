@@ -377,6 +377,7 @@ export class CkycComponent implements OnInit {
       Total_IDV: this.quoteData?.premium_details?.idv,
       Total_Premium: this.quoteData?.premium_details?.gross_premium,
       Insurer_Logo: this.quoteData?.insurer_logo,
+      Document_type: this.ckycFormGroup.get('document_type_based_field')?.value,
     });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
@@ -704,6 +705,7 @@ export class CkycComponent implements OnInit {
       Total_IDV: this.quoteData?.premium_details?.idv,
       Total_Premium: this.quoteData?.premium_details?.gross_premium,
       Insurer_Logo: this.quoteData?.insurer_logo,
+      Document_type: this.documentName,
     });
   }
   /**

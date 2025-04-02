@@ -120,6 +120,29 @@ export class ShareQuotesComponent implements OnInit {
       Total_IDV: this.sharePopupData[0]?.premium_details?.idv,
       Total_Premium: this.sharePopupData[0]?.premium_details?.gross_premium,
       Insurer_Logo: this.sharePopupData[0]?.insurer_logo,
+      Product_id: this.sharePopupData[0]?.quote_id,
+      'Total_Own_Damage_(A)':
+        this.sharePopupData[0]?.premium_details.od_premium_details
+          .total_od_premium,
+      NCB_Discount:
+        this.sharePopupData[0]?.premium_details.od_premium_details.ncb_discount,
+      'Third_Party_(B)':
+        this.sharePopupData[0]?.premium_details.tp_premium_details
+          .total_tp_premium,
+      // Selected_Addons:
+      Total_Addons: this.sharePopupData[0]?.premium_details?.is_addon_addition,
+      'GST_(18%)_(C)':
+        this.sharePopupData[0]?.premium_details.total_gst != 0
+          ? this.sharePopupData[0]?.premium_details.total_gst
+          : 0,
+      'Total_Premium_(A+B+C)':
+        this.sharePopupData[0]?.premium_details.gross_premium != 0
+          ? this.sharePopupData[0]?.premium_details.gross_premium
+          : 0,
+      IDV:
+        this.sharePopupData[0]?.premium_details.idv != 0
+          ? this.sharePopupData[0]?.premium_details.idv
+          : 0,
     });
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {

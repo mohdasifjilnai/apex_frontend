@@ -638,6 +638,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         Total_IDV: vehicleDetailsValue?.premium_details?.idv,
         Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
         Insurer_Logo: vehicleDetailsValue?.insurer_logo,
+        Product_id: vehicleDetailsValue?.quote_id,
       };
       const filteredData = Object.fromEntries(
         Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
