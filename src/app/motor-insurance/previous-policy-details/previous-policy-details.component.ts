@@ -326,11 +326,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
       let renewalDataType = sessionStorage.getItem('renewalType');
       if (renewalDataType == 'renewal') {
-        this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
-        this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
-        this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
-        this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
-        this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
+        
         const [day, month, year] =
           proposal?.previous_policy_details?.policy_expiry_date
             .split('/')
@@ -813,6 +809,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
+      this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
+      this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
+      this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
     }
   }
   onTpStartDateSelected(event: any) {
