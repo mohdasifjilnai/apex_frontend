@@ -809,11 +809,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
       this.previousPolicyDetailsForm?.disable();
+      this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
       this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
       this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
       this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
       this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
-      this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
+
     }
   }
   onTpStartDateSelected(event: any) {

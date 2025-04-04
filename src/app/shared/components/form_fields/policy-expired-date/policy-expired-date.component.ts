@@ -91,6 +91,9 @@ export class PolicyExpiredDateComponent implements OnInit {
     });
     this.renewalType = sessionStorage.getItem('renewalType');
     const previousInsurer = sessionStorage.getItem('previousInsurer');
+    if(this.renewalType == 'renewal'){
+      this.isExpiryDateDisbaled=false
+    }
     if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')){
       const currentDate = new Date();
       const minDateOffset = -1; // Subtract 20 years from current date
