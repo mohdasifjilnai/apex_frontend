@@ -250,6 +250,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         this.previousPolicyDetailsForm.patchValue({
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
+          policy_expiry_date: formatDate(this.proposalData.previous_policy_details?.policy_expiry_date),
           tp_policy_number:
             this.proposalData.previous_policy_details?.tp_policy_details
               ?.tp_policy_no,
