@@ -8,6 +8,9 @@ export const environment = {
   profile_redirection: 'https://partners.renewbuy.com/v2/',
   backend_url: 'https://apex.renewbuyinsurance.com',
   partner_v2: 'https://partners.renewbuy.com/v2/',
+  token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IlJCMDA4NTkxOTUiLCJleHAiOjE3NzM4MTQyMDZ9.-PPV2iiv09hZyc4_fi0lyDIo0Jp599TGjbnlMpAhW9E',
+  key_1:'7b574be9-96c2-4afc-934e-a333f9d27e94',
+  key_2:'YiBYbVTAOIT6TD2k8L3S22pou4IVBdR6',
   partnerswithoutPOS: [
     'EI00347646',
     'EI00237385',

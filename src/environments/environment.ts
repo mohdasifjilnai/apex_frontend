@@ -13,6 +13,9 @@ export const environment = {
   profile_redirection: 'https://partners.rbstaging.in/home',
   backend_url: 'https://apex.renewbuyinsurance.in',
   partner_v2: 'https://partners.rbstaging.in/v2/',
+  token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IlJCMDAwMTQ1NzciLCJleHAiOjE3NzA4MDEwMzZ9.m8P-ht00bpMeCJMlWXIYte0pz6rHT0S2onu5TaFBWI8',
+  key_1:'7b574be9-96c2-4afc-934e-a333f9d27e94',
+  key_2:'YiBYbVTAOIT6TD2k8L3S22pou4IVBdR6',
   partnerswithoutPOS: [
     'EI00347646',
     'EI00237385',

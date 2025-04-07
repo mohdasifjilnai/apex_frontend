@@ -139,7 +139,89 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         });
       }
     });
-
+    this.sharedData?.getRenewalValue.subscribe((data) => {
+      if (data) {
+        const previousPolicyData =
+          data?.previous_policy_details?.previous_policy_details;
+        this.previousPolicyDetailsForm.patchValue({
+          prev_policy_number: previousPolicyData?.policy_no,
+          previous_insurer: previousPolicyData?.insurer_code,
+          policy_expiry_date: previousPolicyData?.policy_expiry_date,
+          tp_insurance_company:
+            previousPolicyData?.tp_policy_details?.tp_insurer_code,
+          tp_policy_number: previousPolicyData?.tp_policy_details?.tp_policy_no,
+          tp_policy_start_date:
+            previousPolicyData?.tp_policy_details?.tp_policy_start_date,
+          tp_policy_end_date:
+            previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
+        });
+        this.apiservice
+          .getRequestedResponse(ApiConstants.get_previous_insurer())
+          .subscribe((response: any) => {
+            for (let insurer of response) {
+              if (
+                insurer?.rb_insurer_code ===
+                data?.vehicle_details?.previous_insurer_code
+              ) {
+                this.previousPolicyDetailsForm.patchValue({
+                  previous_insurer: insurer,
+                });
+              }
+              if (
+                insurer?.rb_insurer_code ===
+                data.previous_policy_details?.previous_policy_details
+                  ?.tp_policy_details?.tp_insurer_code
+              ) {
+                this.previousPolicyDetailsForm.patchValue({
+                  tp_insurance_company: insurer,
+                });
+              }
+            }
+          });
+      }
+    });
+    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    if (this.previousDetails != null) {
+      this.details = JSON.parse(this.previousDetails);
+      const previousPolicyDetails =
+        this.details?.previous_policy_details?.previous_policy_details;
+      this.previousPolicyDetailsForm.patchValue({
+        prev_policy_number: previousPolicyDetails?.policy_no,
+        previous_insurer: previousPolicyDetails?.insurer_code,
+        policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
+        tp_insurance_company:
+          previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
+        tp_policy_number:
+          previousPolicyDetails?.tp_policy_details?.tp_policy_no,
+        tp_policy_start_date:
+          previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
+        tp_policy_end_date:
+          previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
+      });
+      this.apiservice
+        .getRequestedResponse(ApiConstants.get_previous_insurer())
+        .subscribe((response: any) => {
+          for (let insurer of response) {
+            if (
+              insurer?.rb_insurer_code ===
+              this.details?.vehicle_details?.previous_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                previous_insurer: insurer,
+              });
+            }
+            if (
+              insurer?.rb_insurer_code ===
+              this.details.previous_policy_details?.previous_policy_details
+                ?.tp_policy_details?.tp_insurer_code
+            ) {
+              this.previousPolicyDetailsForm.patchValue({
+                tp_insurance_company: insurer,
+              });
+            }
+          }
+        });
+    }
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleTypeSelected = sessionStorage.getItem('vehicleType');
@@ -158,6 +240,28 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         const maxDateOffset = 0; //add days to current date
         this.tpStartmaxDate = this.getDateOffset(currentDate, maxDateOffset);
       }
+      if (this.proposalData.previous_policy_details !== null) {
+        const formatDate = (dateString: string) => {
+          if (!dateString) return null;
+          const [day, month, year] = dateString.split('/');
+          const date = new Date(+year, +month - 1, +day);
+          return this.datePipe.transform(date, 'yyyy-MM-dd');
+        };
+        this.previousPolicyDetailsForm.patchValue({
+          prev_policy_number:
+            this.proposalData.previous_policy_details?.policy_no,
+          tp_policy_number:
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_no,
+          tp_policy_start_date: formatDate(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_start_date
+          ),
+          tp_policy_end_date: formatDate(
+            this.proposalData.previous_policy_details?.tp_policy_details
+              ?.tp_policy_expiry_date
+          ),
+        });
 
       if (this.mmvData?.policy_expiry !== 'comprehensive') {
         this.previousPolicyDetailsForm.patchValue({
@@ -210,28 +314,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.previousPolicyDetailsForm.value?.tp_policy_end_date,
         });
       }
-      if (this.proposalData.previous_policy_details !== null) {
-        const formatDate = (dateString: string) => {
-          if (!dateString) return null;
-          const [day, month, year] = dateString.split('/');
-          const date = new Date(+year, +month - 1, +day);
-          return this.datePipe.transform(date, 'yyyy-MM-dd');
-        };
-        this.previousPolicyDetailsForm.patchValue({
-          prev_policy_number:
-            this.proposalData.previous_policy_details?.policy_no,
-          tp_policy_number:
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_no,
-          tp_policy_start_date: formatDate(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_start_date
-          ),
-          tp_policy_end_date: formatDate(
-            this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_expiry_date
-          ),
-        });
+      
         if (
           this.proposalData.previous_policy_details?.insurer_code ||
           this.proposalData.previous_policy_details?.tp_policy_details
@@ -656,48 +739,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       }
     });
 
-    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    if (this.previousDetails != null) {
-      this.details = JSON.parse(this.previousDetails);
-      const previousPolicyDetails =
-        this.details?.previous_policy_details?.previous_policy_details;
-      this.previousPolicyDetailsForm.patchValue({
-        prev_policy_number: previousPolicyDetails?.policy_no,
-        previous_insurer: previousPolicyDetails?.insurer_code,
-        policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
-        tp_insurance_company:
-          previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
-        tp_policy_number:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_no,
-        tp_policy_start_date:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
-        tp_policy_end_date:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
-      });
-      this.apiservice
-        .getRequestedResponse(ApiConstants.get_previous_insurer())
-        .subscribe((response: any) => {
-          for (let insurer of response) {
-            if (
-              insurer?.rb_insurer_code ===
-              this.details?.vehicle_details?.previous_insurer_code
-            ) {
-              this.previousPolicyDetailsForm.patchValue({
-                previous_insurer: insurer,
-              });
-            }
-            if (
-              insurer?.rb_insurer_code ===
-              this.details.previous_policy_details?.previous_policy_details
-                ?.tp_policy_details?.tp_insurer_code
-            ) {
-              this.previousPolicyDetailsForm.patchValue({
-                tp_insurance_company: insurer,
-              });
-            }
-          }
-        });
-    }
+    
 
     // prev_policy_number: new FormControl('', [
     //   Validators.required,
@@ -764,47 +806,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     //   }
     // });
-    this.sharedData?.getRenewalValue.subscribe((data) => {
-      if (data) {
-        const previousPolicyData =
-          data?.previous_policy_details?.previous_policy_details;
-        this.previousPolicyDetailsForm.patchValue({
-          prev_policy_number: previousPolicyData?.policy_no,
-          previous_insurer: previousPolicyData?.insurer_code,
-          policy_expiry_date: previousPolicyData?.policy_expiry_date,
-          tp_insurance_company:
-            previousPolicyData?.tp_policy_details?.tp_insurer_code,
-          tp_policy_number: previousPolicyData?.tp_policy_details?.tp_policy_no,
-          tp_policy_start_date:
-            previousPolicyData?.tp_policy_details?.tp_policy_start_date,
-          tp_policy_end_date:
-            previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
-        });
-        this.apiservice
-          .getRequestedResponse(ApiConstants.get_previous_insurer())
-          .subscribe((response: any) => {
-            for (let insurer of response) {
-              if (
-                insurer?.rb_insurer_code ===
-                data?.vehicle_details?.previous_insurer_code
-              ) {
-                this.previousPolicyDetailsForm.patchValue({
-                  previous_insurer: insurer,
-                });
-              }
-              if (
-                insurer?.rb_insurer_code ===
-                data.previous_policy_details?.previous_policy_details
-                  ?.tp_policy_details?.tp_insurer_code
-              ) {
-                this.previousPolicyDetailsForm.patchValue({
-                  tp_insurance_company: insurer,
-                });
-              }
-            }
-          });
-      }
-    });
+   
 
     this.renewalType = sessionStorage.getItem('renewalType');
     if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {

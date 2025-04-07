@@ -196,5 +196,8 @@ export class ApiConstants {
 
   public static cv_vehicle_type = `/cv/api/v1/vehicle_type/`;
 
-  public static fetch_partner_code=`/api/v1/proposal/fetch_partner_code/`
+  public static fetch_partner_code=`/api/v1/proposal/fetch_partner_code/`;
+
+  public static validate_customer_details=`/api/v2/customer-validation/validate_customer_details/`;
+
 }

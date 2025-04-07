@@ -1,6 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SetHeaderService } from './set-header.service';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -82,5 +84,18 @@ export class HttpService {
   deleteRequestWithToken(url: string, productModules?: string) {
     const productHeaders = productModules ? productModules : '';
     return this.http.delete(url, this.getHeaderAsProductModule(productHeaders));
+  }
+
+  getData(url:any): Observable<any> {
+    // Create custom headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',  // Make sure content type is set correctly
+      'Authorization': environment?.token,  // Use token from localStorage or sessionStorage
+      'key-1': environment?.key_1, // Example of custom headers
+      'key-2': environment?.key_2
+    });
+
+    // Make HTTP GET request with headers
+    return this.http.get<any>(url, { headers });
   }
 }
