@@ -625,82 +625,83 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     const vehcileType = sessionStorage.getItem('vehicleType');
     let vehicleDetailsValue = JSON.parse(this.quoteData);
     if (isValid) {
-      this.httpService
-      .getData(
-        `${ApiConstants.validate_customer_details}?customer_email_id=`+this.owenerVehicleDetailsForm.get('owner_email')?.value+`&contact_number=`+this.owenerVehicleDetailsForm.get('contact_number')?.value+
-        `&exclude_cv=true&limit=5`
-      )
-      .subscribe((response) => {
-        if(response?.valid){
-          const formValues = this.owenerVehicleDetailsForm.value;
-          let vehicleOwnerWebengage = {
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Motor_Type: vehcileType,
-            Salutation_type: formValues?.ownner_salutation_type,
-            Owner_Full_Name: 'Yes',
-            Contact_Number: 'Yes',
-            Email: 'Yes',
-            Occupation_type: formValues?.ownner_occupation_type,
-            GSTIN: formValues?.owner_gstin,
-            Additional_contact_number: `+91${formValues?.additional_contact}`,
-            Gender: formValues?.owner_gender,
-            Matrital_Status: formValues?.marital_status,
-            Insurer_Name: vehicleDetailsValue?.insurer_name,
-            Total_IDV: vehicleDetailsValue?.premium_details?.idv,
-            Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
-            Insurer_Logo: vehicleDetailsValue?.insurer_logo,
-            Product_id: vehicleDetailsValue?.quote_id,
-          };
-          const filteredData = Object.fromEntries(
-            Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
-              if (value == null || value === '') {
-                return false;
-              }
-              return true;
-            })
-          );
-          webengage.track('Motor_Owner_details_Submitted', filteredData);
-          this.afterVehicleOwnerData.emit(formValues);
-          setTimeout(() => {
-            this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
-          }, 2000);
-          this.sharedDataService?.createProposalId(
-            'vehicle_owner_detail',
-            this.owenerVehicleDetailsForm
-          );
-          sessionStorage.setItem('isCKycDOne', 'true');
-          // if (this.maxlength < this.addresLength?.length) {
-          //   this.sharedDataService?.sendOwnnerAddres(this.addresLength);
-          // }
-          // this.sharedDataService?.getAddressValidation(
-          //   JSON.parse(this.quoteData)['insurer_code']
-          // );
-        }else{
-          const dialogRef = this.dialog.open(FailureDialogComponent, {
-            width: 'auto',
-            height: 'auto',
-            data: {
-              errorData: response.error,
-              statusdata: status,
-            },
-            panelClass: 'failure-dialog-class',
-          });
-          dialogRef.afterClosed().subscribe((result: any) => {});
-        }
-      },(error)=>{
-          const dialogRef = this.dialog.open(FailureDialogComponent, {
-            width: 'auto',
-            height: 'auto',
-            data: {
-              errorData: 'Customer Phone number exceeds Permissible Limit.',
-              statusdata: status,
-            },
-            panelClass: 'failure-dialog-class',
-          });
-          dialogRef.afterClosed().subscribe((result: any) => {});
-      });
+      // this.httpService
+      // .getData(
+      //   `${ApiConstants.validate_customer_details}?customer_email_id=`+this.owenerVehicleDetailsForm.get('owner_email')?.value+`&contact_number=`+this.owenerVehicleDetailsForm.get('contact_number')?.value+
+      //   `&exclude_cv=true&limit=5`
+      // )
+      // .subscribe((response) => {
+      //   if(response?.valid){
+         
+      //   }else{
+      //     const dialogRef = this.dialog.open(FailureDialogComponent, {
+      //       width: 'auto',
+      //       height: 'auto',
+      //       data: {
+      //         errorData: response.error,
+      //         statusdata: status,
+      //       },
+      //       panelClass: 'failure-dialog-class',
+      //     });
+      //     dialogRef.afterClosed().subscribe((result: any) => {});
+      //   }
+      // },(error)=>{
+      //     const dialogRef = this.dialog.open(FailureDialogComponent, {
+      //       width: 'auto',
+      //       height: 'auto',
+      //       data: {
+      //         errorData: 'Customer Phone number exceeds Permissible Limit.',
+      //         statusdata: status,
+      //       },
+      //       panelClass: 'failure-dialog-class',
+      //     });
+      //     dialogRef.afterClosed().subscribe((result: any) => {});
+      // });
+      const formValues = this.owenerVehicleDetailsForm.value;
+      let vehicleOwnerWebengage = {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehcileType,
+        Salutation_type: formValues?.ownner_salutation_type,
+        Owner_Full_Name: 'Yes',
+        Contact_Number: 'Yes',
+        Email: 'Yes',
+        Occupation_type: formValues?.ownner_occupation_type,
+        GSTIN: formValues?.owner_gstin,
+        Additional_contact_number: `+91${formValues?.additional_contact}`,
+        Gender: formValues?.owner_gender,
+        Matrital_Status: formValues?.marital_status,
+        Insurer_Name: vehicleDetailsValue?.insurer_name,
+        Total_IDV: vehicleDetailsValue?.premium_details?.idv,
+        Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
+        Insurer_Logo: vehicleDetailsValue?.insurer_logo,
+        Product_id: vehicleDetailsValue?.quote_id,
+      };
+      const filteredData = Object.fromEntries(
+        Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
+          return true;
+        })
+      );
+      webengage.track('Motor_Owner_details_Submitted', filteredData);
+      this.afterVehicleOwnerData.emit(formValues);
+      setTimeout(() => {
+        this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
+      }, 2000);
+      this.sharedDataService?.createProposalId(
+        'vehicle_owner_detail',
+        this.owenerVehicleDetailsForm
+      );
+      sessionStorage.setItem('isCKycDOne', 'true');
+      // if (this.maxlength < this.addresLength?.length) {
+      //   this.sharedDataService?.sendOwnnerAddres(this.addresLength);
+      // }
+      // this.sharedDataService?.getAddressValidation(
+      //   JSON.parse(this.quoteData)['insurer_code']
+      // );
     }
   }
   ngOnDestroy(): void {
