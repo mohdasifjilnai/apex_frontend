@@ -198,6 +198,6 @@ export class ApiConstants {
 
   public static fetch_partner_code=`/api/v1/proposal/fetch_partner_code/`;
 
-  public static validate_customer_details=`/api/v2/customer-validation/validate_customer_details/`;
+  public static validate_customer_details=`/api/v1/auth/validate_customer`;
 
 }
