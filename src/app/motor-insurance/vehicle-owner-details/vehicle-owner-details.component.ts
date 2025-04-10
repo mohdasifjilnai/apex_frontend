@@ -681,7 +681,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             width: 'auto',
             height: 'auto',
             data: {
-              errorData: response.message,
+              errorData: response.error,
               statusdata: status,
             },
             panelClass: 'failure-dialog-class',
