@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       // webengage.init('in~~10a5cbbcb');
       if (
         webengage.util.getWebengageCookie().cuid == undefined &&
-        sessionStorage.getItem('partner_code')
+        sessionStorage.getItem('partner_code') != null
       ) {
         webengage.user.login(sessionStorage.getItem('partner_code'));
       }
