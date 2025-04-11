@@ -1,4 +1,10 @@
-<mat-form-field appearance="outline" class="mat-input-custom" [ngClass]="visuallyDisabledFields['chassis_number'] ? 'visually-disabled' : ''">
+<mat-form-field
+  appearance="outline"
+  class="mat-input-custom"
+  [ngClass]="
+    visuallyDisabledFields['chassis_number'] ? 'visually-disabled' : ''
+  "
+>
   <mat-label>Chassis Number</mat-label>
   <input
     matInput
@@ -6,7 +12,7 @@
     class="text-uppercase"
     id-automation="chassis_number"
     minlength="6"
-    maxlength="25"
+    maxlength="30"
     [readonly]="visuallyDisabledFields['chassis_number']"
   />
   <mat-error
@@ -28,6 +34,6 @@
   <mat-error
     *ngIf="chassisForm.controls['chassis_number']?.hasError('maxlength')"
   >
-    Cannot be more than 25 Characters
+    Cannot be more than 30 Characters
   </mat-error>
 </mat-form-field>
