@@ -26,7 +26,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (environment?.dev) {
       // webengage.init('in~~10a5cbbcb');
-      console.log(webengage.util.getWebengageCookie().cuid);
+
+      if (
+        webengage.util.getWebengageCookie().cuid == undefined &&
+        sessionStorage.getItem('partner_code')
+      ) {
+        webengage.user.login(sessionStorage.getItem('partner_code'));
+      }
     } else {
       // webengage.init('');
     }
