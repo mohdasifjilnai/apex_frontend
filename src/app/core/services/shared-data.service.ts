@@ -358,7 +358,9 @@ export class SharedDataService {
 
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
-    this.customer_mobile_number=sessionStorage.getItem('customer_mobile_number')
+    this.customer_mobile_number = sessionStorage.getItem(
+      'customer_mobile_number'
+    );
     let addOnsList;
     if (this.addonsValue == 'undefined') {
       addOnsList = '';
@@ -497,7 +499,12 @@ export class SharedDataService {
         policy_number: null,
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
-        customer_mobile_number:null
+        customer_mobile_number: null,
+        partner_name: `${sessionStorage.getItem(
+          'first_name'
+        )} ${sessionStorage.getItem('middle_name')} ${sessionStorage.getItem(
+          'last_name'
+        )}`,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -518,9 +525,9 @@ export class SharedDataService {
         quotesData.vehicle_name =
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
       }
-      if(this.customer_mobile_number!=null){
-        quotesData.customer_mobile_number=this.customer_mobile_number;
-        quotesData.is_d2c=true
+      if (this.customer_mobile_number != null) {
+        quotesData.customer_mobile_number = this.customer_mobile_number;
+        quotesData.is_d2c = true;
       }
     } else {
       quotesData = {
@@ -562,7 +569,12 @@ export class SharedDataService {
         policy_number: null,
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
-        customer_mobile_number:null
+        customer_mobile_number: null,
+        partner_name: `${sessionStorage.getItem(
+          'first_name'
+        )} ${sessionStorage.getItem('middle_name')} ${sessionStorage.getItem(
+          'last_name'
+        )}`,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -583,9 +595,9 @@ export class SharedDataService {
         quotesData.vehicle_name =
           this.traceIdResponse?.quote_data?.quotes_data?.cv_vehicle_type?.vehicle_name;
       }
-      if(this.customer_mobile_number!=null){
-        quotesData.customer_mobile_number=this.customer_mobile_number;
-        quotesData.is_d2c=true
+      if (this.customer_mobile_number != null) {
+        quotesData.customer_mobile_number = this.customer_mobile_number;
+        quotesData.is_d2c = true;
       }
     }
 
