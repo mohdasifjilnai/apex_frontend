@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   connectionData: any;
   eventSource: any;
   isLoading: boolean = false;
+  partnerValue: any;
 
   constructor(
     private sseService: SseService,
@@ -26,9 +27,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (environment?.dev) {
       // webengage.init('in~~10a5cbbcb');
+      // console.log('sss', webengage.util.getWebengageCookie().cuid);
+      this.partnerValue = sessionStorage.getItem('partner_code');
+
       if (
         webengage.util.getWebengageCookie().cuid == undefined &&
-        sessionStorage.getItem('partner_code') != null
+        JSON.parse(this.partnerValue) != null
       ) {
         webengage.user.login(sessionStorage.getItem('partner_code'));
       }
