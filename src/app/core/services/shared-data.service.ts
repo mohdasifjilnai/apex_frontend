@@ -500,11 +500,12 @@ export class SharedDataService {
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
         customer_mobile_number: null,
-        partner_name: `${sessionStorage.getItem(
-          'first_name'
-        )} ${sessionStorage.getItem('middle_name')} ${sessionStorage.getItem(
-          'last_name'
-        )}`,
+        partner_name:
+          sessionStorage.getItem('first_name') != null
+            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+                'middle_name'
+              )} ${sessionStorage.getItem('last_name')}`
+            : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
@@ -570,11 +571,12 @@ export class SharedDataService {
         vehicle_name: null,
         source: this.sourceId ? sourceValue : null,
         customer_mobile_number: null,
-        partner_name: `${sessionStorage.getItem(
-          'first_name'
-        )} ${sessionStorage.getItem('middle_name')} ${sessionStorage.getItem(
-          'last_name'
-        )}`,
+        partner_name:
+          sessionStorage.getItem('first_name') != null
+            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+                'middle_name'
+              )} ${sessionStorage.getItem('last_name')}`
+            : null,
       };
       if (!data?.user_car) {
         if (data?.previous_claimed) {
