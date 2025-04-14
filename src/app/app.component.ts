@@ -26,15 +26,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (environment?.dev) {
       // webengage.init('in~~10a5cbbcb');
-      if (
-        webengage.util.getWebengageCookie().cuid == undefined &&
-        sessionStorage.getItem('partner_code') != null
-      ) {
-        webengage.user.login(sessionStorage.getItem('partner_code'));
-      }
-    } else {
-      // webengage.init('');
-    }
+    //   if (
+    //     webengage.util.getWebengageCookie().cuid == undefined &&
+    //     sessionStorage.getItem('partner_code') != null
+    //   ) {
+    //     webengage.user.login(sessionStorage.getItem('partner_code'));
+    //   }
+    // } else {
+    //   // webengage.init('');
+    // }
 
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
