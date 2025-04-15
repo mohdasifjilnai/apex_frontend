@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (environment?.dev) {
-      // webengage.init('in~~10a5cbbcb');
+      webengage.init('in~~10a5cbbcb');
       if (
         webengage.util.getWebengageCookie().cuid == undefined &&
         sessionStorage.getItem('partner_code') != null
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         webengage.user.login(sessionStorage.getItem('partner_code'));
       }
     } else {
-      // webengage.init('');
+      webengage.init('');
     }
 
     this.loaderService.isLoading().subscribe((isLoading: any) => {
