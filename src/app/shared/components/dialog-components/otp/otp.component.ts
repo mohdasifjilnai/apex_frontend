@@ -91,6 +91,7 @@ export class OtpComponent implements OnInit {
   breakIn: any;
   library: any;
   @ViewChild('myform') myform!: ElementRef;
+  vehicleProposalDetails: any;
 
   paymentObject: any;
 
@@ -206,16 +207,17 @@ export class OtpComponent implements OnInit {
 
   verify() {
     const vehcileType = sessionStorage.getItem('vehicleType');
-    let vehicleProposalDetails = this.quoteData;
+    this.vehicleProposalDetails = this.quoteData;
+    let vehicleValue = JSON.parse(this.vehicleProposalDetails);
     webengage.track('Payment_OTP_submitted', {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehcileType,
-      Insurer_Name: vehicleProposalDetails?.insurer_name,
-      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      Insurer_Name: vehicleValue?.insurer_name,
+      Total_IDV: vehicleValue?.premium_details?.idv,
+      Total_Premium: vehicleValue?.premium_details?.gross_premium,
+      Insurer_Logo: vehicleValue?.insurer_logo,
     });
     this.loader = true;
 
