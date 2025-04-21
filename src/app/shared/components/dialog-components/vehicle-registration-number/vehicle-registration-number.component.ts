@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -36,6 +37,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'nonPOS-class',
   };
+  selectedTabIndex = 0;
   twoWheelerJourney: boolean=false;
   commercialVehicleMessage: boolean=false;
   constructor(public dialogRef: MatDialogRef<VehicleRegistrationNumberComponent>,
@@ -111,9 +113,15 @@ getVahaanDetails(isValid:any){
     this.loader=true
     const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+  let queryParams
+  if(this.selectedTabIndex==0){
+    queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}`
+  }else{
+    queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}`
+  }
   this.apiservice
       .getRequestedResponse(
-        `${ApiConstants.registration_number()}?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}`
+        `${ApiConstants.registration_number()}${queryParams}`
       )
       .subscribe((res: any) => {
         this.loader=false
@@ -121,7 +129,7 @@ getVahaanDetails(isValid:any){
           if(!res?.is_commercial){
             if((this.quotes_data?.vehicle_type=='private_car' && res?.is_four_wheeler) || (this.quotes_data?.vehicle_type=='two_wheeler' && res?.is_two_wheeler)){
               this.sharedDataService.vahaanDetails(res)
-              sessionStorage.setItem('registrationNumber',regestrationNumber)
+              sessionStorage.setItem('registrationNumber',res?.registration_number)
               sessionStorage.setItem('alreadyCalled', 'true');
             sessionStorage.setItem('isprevoiusInsurer', 'true');
             sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data));
@@ -225,4 +233,23 @@ getVahaanDetails(isValid:any){
 
   this.matDialog.openDialog(obj);
 }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.selectedTabIndex = event.index;
+    if(this.selectedTabIndex==0){
+      this.vehicleRegistrationNumberForm?.clearValidators();
+      this.vehicleRegistrationNumberForm?.updateValueAndValidity();
+      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.setValidators([Validators.required])
+    }else if(this.selectedTabIndex==1){
+      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.clearValidators();
+      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.updateValueAndValidity();
+      this.vehicleRegistrationNumberForm.setValidators(this.atLeastOneRequiredValidator.bind(this));
+      this.vehicleRegistrationNumberForm.updateValueAndValidity();
+    }
+  }
+    atLeastOneRequiredValidator(form: AbstractControl): ValidationErrors | null {
+      const engine = form.get('engine_number')?.value;
+      const chassis = form.get('chassis_number')?.value;
+      return (!engine && !chassis) ? { atLeastOneRequired: true } : null;
+    }
 }

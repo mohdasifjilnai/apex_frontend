@@ -86,6 +86,37 @@
         margin-left: 10px;
         font-size: 12px;
       }
+     
+      ::ng-deep {
+        .mat-tab-label-active{
+          background-color: #5384EA !important;
+          color:#fff;
+          opacity: 1;
+        }
+        .mat-tab-label{
+          background-color: #F5F8FE;
+          width: 50%;
+          border-radius: 12px;
+        }
+        .mat-tab-header{
+          border-bottom: none !important;
+        }
+        .mat-tab-header:focus{
+          border-bottom: none !important;
+        }
+        .mat-tab-group.mat-primary .mat-ink-bar{
+          display: none;
+        }
+        .mat-tab-labels{
+          border: 1px solid #5384EA;
+          border-radius: 12px;
+          width: 75%;
+        }
+      }
+      .mat-tab-selected-index{
+        background-color: #5384EA !important;
+          color:#fff;
+      }
       
 }
 .res{

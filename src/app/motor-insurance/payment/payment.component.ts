@@ -16,6 +16,7 @@ export class PaymentComponent implements OnInit {
   partner_code: any;
   is_cse: any;
   employee_code: any;
+  premiumDetails: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -44,8 +45,10 @@ export class PaymentComponent implements OnInit {
   };
   ngOnInit(): void {
     this.route.url.subscribe((params) => {
+      this.transactionId = params[2]['path'];
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
+        this.getTransactionPremiumDetails(this.transactionId)
         webengage.track('Motor_Payment_Status', {
           Status: 'Payment Successful',
         });
@@ -56,7 +59,6 @@ export class PaymentComponent implements OnInit {
         });
       }
 
-      this.transactionId = params[2]['path'];
       if (window.screen.width <= 999) {
         this.getPartnerCode(this.transactionId);
       }
@@ -274,6 +276,13 @@ export class PaymentComponent implements OnInit {
         if (res?.employee_code != null) {
           sessionStorage.setItem('employee_code', res?.employee_code);
         }
+      });
+  }
+  getTransactionPremiumDetails(transaction_id: any) {
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.transaction_premium_details}${transaction_id}`)
+      .subscribe((res: any) => {
+        this.premiumDetails=res
       });
   }
 }

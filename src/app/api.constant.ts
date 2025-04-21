@@ -200,4 +200,6 @@ export class ApiConstants {
 
   public static validate_customer_details=`/api/v1/auth/validate_customer`;
 
+  public static transaction_premium_details=`/api/v1/transaction_premium_details/`;
+
 }
