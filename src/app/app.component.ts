@@ -26,12 +26,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (environment?.dev) {
       webengage.init('in~~10a5cbbcb');
-      if (
-        webengage.util.getWebengageCookie().cuid == undefined &&
-        sessionStorage.getItem('partner_code') != null
-      ) {
-        webengage.user.login(sessionStorage.getItem('partner_code'));
-      }
+      // if (
+      //   webengage.util.getWebengageCookie().cuid == undefined &&
+      //   sessionStorage.getItem('partner_code') != null
+      // ) {
+      //   webengage.user.login(sessionStorage.getItem('partner_code'));
+      // }
+
+      // webengage.onReady(function () {
+      //   if (webengage.util?.getWebengageCookie?.().cuid === undefined) {
+      //     webengage.user.login(sessionStorage.getItem('partner_code'));
+      //   }
+      // });
     } else {
       webengage.init('');
     }
@@ -69,7 +75,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    // this.loadWebEngage();
+    if (typeof webengage !== 'undefined' && webengage.onReady) {
+      webengage.onReady(() => {
+        const cookie = webengage.util?.getWebengageCookie?.();
+        if (!cookie?.cuid) {
+          const partnerCode = sessionStorage.getItem('partner_code');
+          if (partnerCode) {
+            webengage.user.login(partnerCode);
+          }
+        }
+      });
+    }
   }
 
   // loadWebEngage() {
