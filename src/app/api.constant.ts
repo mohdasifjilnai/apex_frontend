@@ -202,4 +202,6 @@ export class ApiConstants {
 
   public static transaction_premium_details=`/api/v1/transaction_premium_details/`;
 
+  public static get_or_create_customer: string = `/api/v1/unicorn/customer/events/get_or_create_customer/`;
+
 }

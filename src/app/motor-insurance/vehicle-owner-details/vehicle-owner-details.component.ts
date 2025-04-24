@@ -25,6 +25,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { environment } from 'src/environments/environment';
+
 declare const webengage: any;
 @Component({
   selector: 'app-vehicle-owner-details',
@@ -100,6 +102,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ownner_salutation_type: new FormControl('', Validators.required),
   });
   private vahaanDetailsUnsubscribe!: Subscription;
+  webEngageCustomerDetails: any;
 
   constructor(
     private sharedDataService: SharedDataService,
@@ -632,6 +635,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       )
       .subscribe((response) => {
         if(response?.valid){
+          if(environment?.dev){
+            this.createCustomerForWebengage(this.owenerVehicleDetailsForm.get('contact_number')?.value)
+          }
           const formValues = this.owenerVehicleDetailsForm.value;
           let vehicleOwnerWebengage = {
             User_Type: sessionStorage.getItem('partner_code')
@@ -932,5 +938,16 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ]);
       alternateControl.updateValueAndValidity(); // Re-evaluate the validators
     }
+  }
+
+  createCustomerForWebengage(mobile_number:any) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=Consumer&destination=webengage`
+      )
+      .subscribe((res) => {
+        this.webEngageCustomerDetails = res;
+        
+      });
   }
 }
