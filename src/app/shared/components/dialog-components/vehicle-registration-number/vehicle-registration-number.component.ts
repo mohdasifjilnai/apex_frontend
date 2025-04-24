@@ -237,19 +237,26 @@ getVahaanDetails(isValid:any){
   onTabChange(event: MatTabChangeEvent) {
     this.selectedTabIndex = event.index;
     if(this.selectedTabIndex==0){
-      this.vehicleRegistrationNumberForm?.clearValidators();
-      this.vehicleRegistrationNumberForm?.updateValueAndValidity();
-      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.setValidators([Validators.required])
+     
+      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.setValidators([Validators.required]);
+      this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.updateValueAndValidity();
+      this.showErrorMessage=false
+      this.vehicleRegistrationNumberForm.get('engine_number')?.clearValidators();
+      this.vehicleRegistrationNumberForm.get('engine_number')?.updateValueAndValidity();
+      this.vehicleRegistrationNumberForm.get('chassis_number')?.clearValidators();
+      this.vehicleRegistrationNumberForm.get('chassis_number')?.updateValueAndValidity();
     }else if(this.selectedTabIndex==1){
       this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.clearValidators();
       this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.updateValueAndValidity();
-      this.vehicleRegistrationNumberForm.setValidators(this.atLeastOneRequiredValidator.bind(this));
-      this.vehicleRegistrationNumberForm.updateValueAndValidity();
+      this.vehicleRegistrationNumberForm.get('engine_number')?.setValidators([Validators.required]);
+      this.vehicleRegistrationNumberForm.get('engine_number')?.updateValueAndValidity();
+      this.vehicleRegistrationNumberForm.get('chassis_number')?.setValidators([Validators.required]);
+      this.vehicleRegistrationNumberForm.get('chassis_number')?.updateValueAndValidity();
     }
   }
-    atLeastOneRequiredValidator(form: AbstractControl): ValidationErrors | null {
-      const engine = form.get('engine_number')?.value;
-      const chassis = form.get('chassis_number')?.value;
-      return (!engine && !chassis) ? { atLeastOneRequired: true } : null;
-    }
+    // atLeastOneRequiredValidator(form: AbstractControl): ValidationErrors | null {
+    //   const engine = form.get('engine_number')?.value;
+    //   const chassis = form.get('chassis_number')?.value;
+    //   return (!engine && !chassis) ? { atLeastOneRequired: true } : null;
+    // }
 }
