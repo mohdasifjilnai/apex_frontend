@@ -283,6 +283,7 @@ export class PaymentComponent implements OnInit {
       .getRequestedResponse(`${ApiConstants.transaction_premium_details}${transaction_id}`)
       .subscribe((res: any) => {
         this.premiumDetails=res
+        
       });
   }
 }
