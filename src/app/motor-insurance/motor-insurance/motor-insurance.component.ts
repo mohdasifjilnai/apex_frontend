@@ -437,6 +437,8 @@ export class MotorInsuranceComponent implements OnInit {
     }
     this.route.queryParamMap.subscribe((params) => {
       this.regNo = params.get('reg_no');
+      let userid:any=params.get('userid');
+      sessionStorage.setItem('userid',userid)
       let mobile_number: any = params.get('mobile_no');
       if (mobile_number != null) {
         sessionStorage.setItem('customer_mobile_number', mobile_number);
@@ -960,7 +962,6 @@ export class MotorInsuranceComponent implements OnInit {
       partner_code: this.partner_code,
       quotes_data: this.motorInsurance.value,
     };
-    console.log(data,"09876543")
     this.apiService
       .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
       .subscribe(

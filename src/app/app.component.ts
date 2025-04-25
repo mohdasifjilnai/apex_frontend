@@ -80,8 +80,11 @@ export class AppComponent implements OnInit, AfterViewInit {
         const cookie = webengage.util?.getWebengageCookie?.();
         if (!cookie?.cuid) {
           const partnerCode = sessionStorage.getItem('partner_code');
+          const userid = sessionStorage.getItem('userid');
           if (partnerCode) {
             webengage.user.login(partnerCode);
+          }else if(userid){
+            webengage.user.login(userid);
           }
         }
       });
