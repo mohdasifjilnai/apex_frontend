@@ -110,11 +110,11 @@ divideString(input: string): [string, string] {
   return [firstPart, secondPart];
 }
 getVahaanDetails(isValid:any){
-    this.loader=true
-    const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
-  this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+    this.loader=true 
   let queryParams
   if(this.selectedTabIndex==0){
+    const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+    this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}`
   }else{
     queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}`
@@ -150,7 +150,7 @@ getVahaanDetails(isValid:any){
             
           }else{
             this.commercialVehicleMessage=true
-            this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.reset();
+            this.vehicleRegistrationNumberForm?.reset();
           }
         }else{
           this.showErrorMessage=true
