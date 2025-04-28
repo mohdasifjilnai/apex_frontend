@@ -85,8 +85,8 @@ export class AppComponent implements OnInit, AfterViewInit {
           let userIdValue = JSON.parse(this.useridData);
           if (partnerCode) {
             webengage.user.login(partnerCode);
-          } else if (this.useridData) {
-            webengage.user.login(this.useridData);
+          } else if (userIdValue) {
+            webengage.user.login(userIdValue);
           }
         }
       });
