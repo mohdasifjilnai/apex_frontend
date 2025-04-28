@@ -817,7 +817,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
       this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
       this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
-
+      this.isTpEndDateDisable=false
     }
   }
   onTpStartDateSelected(event: any) {
