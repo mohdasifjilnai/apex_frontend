@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           const userid = sessionStorage.getItem('userid');
           if (partnerCode) {
             webengage.user.login(partnerCode);
-          }else if(userid){
+          } else if (userid) {
             webengage.user.login(userid);
           }
         }
