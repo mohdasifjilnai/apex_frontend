@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   connectionData: any;
   eventSource: any;
   isLoading: boolean = false;
+  useridData: any;
 
   constructor(
     private sseService: SseService,
@@ -80,11 +81,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         const cookie = webengage.util?.getWebengageCookie?.();
         if (!cookie?.cuid) {
           const partnerCode = sessionStorage.getItem('partner_code');
-          const userid = sessionStorage.getItem('userid');
+          this.useridData = sessionStorage.getItem('userid');
+          let userIdValue = JSON.parse(this.useridData);
           if (partnerCode) {
             webengage.user.login(partnerCode);
-          } else if (userid != 'null') {
-            webengage.user.login(userid);
+          } else if (this.useridData) {
+            webengage.user.login(this.useridData);
           }
         }
       });
