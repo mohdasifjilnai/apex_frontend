@@ -439,7 +439,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}&token=${token}`
+              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}`
             )
             .subscribe((res: any) => {
               if (res) {

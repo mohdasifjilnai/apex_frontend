@@ -263,7 +263,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         if (this.editClick == '') {
           setTimeout(() => {
             this.getExpiringPolicy(this.regDateValue);
-          }, 2000);
+          }, 20);
         } else {
           this.expiryPolicyGetList(this.regDateValue, 'dateChange');
         }

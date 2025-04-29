@@ -117,9 +117,9 @@ getVahaanDetails(isValid:any){
   if(this.selectedTabIndex==0){
     const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
-    queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}&token=${token}`
+    queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}`
   }else{
-    queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}&partner_code=${partner_code}&token=${token}`
+    queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}&partner_code=${partner_code}`
   }
   this.apiservice
       .getRequestedResponse(
