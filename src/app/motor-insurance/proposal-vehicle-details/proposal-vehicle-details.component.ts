@@ -430,6 +430,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
         const newVehicleType = sessionStorage.getItem('newVehicleType');
+        const partner_code =sessionStorage.getItem('partner_code');
+    const token = sessionStorage.getItem('token');
         if (
           this.regNumber &&
           renewalType != 'renewal' &&
@@ -437,7 +439,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
+              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}&token=${token}`
             )
             .subscribe((res: any) => {
               if (res) {

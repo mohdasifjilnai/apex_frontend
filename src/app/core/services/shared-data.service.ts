@@ -240,6 +240,8 @@ export class SharedDataService {
   vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
     this.renewalType = sessionStorage.getItem('renewalType');
+    const partner_code =sessionStorage.getItem('partner_code');
+    const token = sessionStorage.getItem('token');
     if (
       this.regNumber != null &&
       this.renewalType != 'renewal' &&
@@ -247,7 +249,7 @@ export class SharedDataService {
     ) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.registration_number()}?regn_no=${this.regNumber}`
+          `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}&token=${token}`
         )
         .subscribe(
           (res: any) => {

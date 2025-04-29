@@ -366,9 +366,11 @@ export class ProposalComponent implements OnInit {
     }
   }
   getVahaanDetails(reg_no: any) {
+    const partner_code =sessionStorage.getItem('partner_code');
+    const token = sessionStorage.getItem('token');
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.registration_number()}?regn_no=${reg_no}`
+        `${ApiConstants.registration_number()}?regn_no=${reg_no}&partner_code=${partner_code}&token=${token}`
       )
       .subscribe((res: any) => {
         if (res) {
