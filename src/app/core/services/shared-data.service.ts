@@ -1466,7 +1466,7 @@ export class SharedDataService {
         this.webEngageCustomerDetails = res;
         sessionStorage.setItem(
           'webengageCustomerId',
-          this.webEngageCustomerDetails
+          JSON.stringify(this.webEngageCustomerDetails)
         );
         this.getCustomerId.next(this.webEngageCustomerDetails);
       });
