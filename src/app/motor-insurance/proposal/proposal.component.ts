@@ -366,7 +366,9 @@ export class ProposalComponent implements OnInit {
     }
   }
   getVahaanDetails(reg_no: any) {
-    const partner_code =sessionStorage.getItem('partner_code');
+    const partner_code =sessionStorage.getItem('partner_code')
+    ? sessionStorage.getItem('partner_code')
+    : '';
     const token = sessionStorage.getItem('token');
     this.apiService
       .getRequestedResponse(

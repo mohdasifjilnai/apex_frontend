@@ -430,7 +430,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
         const newVehicleType = sessionStorage.getItem('newVehicleType');
-        const partner_code =sessionStorage.getItem('partner_code');
+        const partner_code =sessionStorage.getItem('partner_code')
+        ? sessionStorage.getItem('partner_code')
+        : '';
     const token = sessionStorage.getItem('token');
         if (
           this.regNumber &&

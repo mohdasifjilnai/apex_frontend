@@ -240,7 +240,10 @@ export class SharedDataService {
   vehicleDetails(data: any) {
     this.regNumber = sessionStorage.getItem('registrationNumber');
     this.renewalType = sessionStorage.getItem('renewalType');
-    const partner_code =sessionStorage.getItem('partner_code');
+
+    const partner_code =sessionStorage.getItem('partner_code')
+    ? sessionStorage.getItem('partner_code')
+    : '';
     const token = sessionStorage.getItem('token');
     if (
       this.regNumber != null &&
