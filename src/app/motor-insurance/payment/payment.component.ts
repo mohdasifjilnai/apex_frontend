@@ -345,6 +345,8 @@ export class PaymentComponent implements OnInit {
             User_Type: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Policy_No: this.premiumDetails.policy_number,
+            Transaction_id: this.transactionId,
           };
           webengage.track('Motor_Payment_Status', paymentData);
           webengage.track('Motor_Plan_Purchased_Successful', paymentData);
@@ -395,6 +397,8 @@ export class PaymentComponent implements OnInit {
             User_Type: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Policy_No: this.premiumDetails.policy_number,
+            Transaction_id: this.transactionId,
           };
           webengage.track('Motor_Payment_Status', paymentData);
           webengage.track('Motor_Plan_Purchased_Successful', paymentData);
@@ -446,6 +450,8 @@ export class PaymentComponent implements OnInit {
             User_Type: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Policy_No: this.premiumDetails.policy_number,
+            Transaction_id: this.transactionId,
           };
           webengage.track('Motor_Payment_Status', paymentData);
           webengage.track('Motor_Plan_Purchased_Successful', paymentData);
