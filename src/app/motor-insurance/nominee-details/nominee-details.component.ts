@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -26,7 +27,8 @@ export class NomineeDetailsComponent implements OnInit {
     age: new FormControl('', Validators.required),
     nominne_relation: new FormControl('', Validators.required),
   });
-
+  isExistCustomerId: any;
+  private getCustomerIdDetails!: Subscription;
   constructor(
     private sharedData: SharedDataService,
     private apiService: ApiService
@@ -90,6 +92,35 @@ export class NomineeDetailsComponent implements OnInit {
         nominne_relation: nomineeDetails?.relation_id,
       });
     }
+    this.getCustomerIdDetails = this.sharedData.getCustomerId.subscribe(
+      (idValue) => {
+        webengage.track('Motor_Nominee_Details_Submitted', {
+          Nominee_Relation: this.nominneForm.value.nominne_relation,
+          Age: this.nominneForm.value.age,
+          User_Type: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Motor_Type: sessionStorage.getItem('vehicleType'),
+          Customer_id: idValue.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        });
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.getCustomerIdDetails.unsubscribe();
   }
 
   /** function to calculate nominee age from the DOB */
@@ -116,15 +147,39 @@ export class NomineeDetailsComponent implements OnInit {
   getNomineeDetails(isValid: boolean) {
     if (isValid) {
       const formValues = this.nominneForm.value;
+      this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+      let CheckId = JSON.parse(this.isExistCustomerId);
+      if (CheckId) {
+        webengage.track('Motor_Nominee_Details_Submitted', {
+          Nominee_Relation: this.nominneForm.value.nominne_relation,
+          Age: this.nominneForm.value.age,
+          User_Type: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Motor_Type: sessionStorage.getItem('vehicleType'),
+          Customer_id: CheckId.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        });
+      } else {
+        let mobileNumber = sessionStorage.getItem('mobileNumber');
+        this.sharedData.getCustomerIdForwebengae(
+          mobileNumber,
+          '',
+          'Vehicle Details'
+        );
+      }
 
-      webengage.track('Motor_Nominee_Details_Submitted', {
-        Nominee_Relation: this.nominneForm.value.nominne_relation,
-        Age: this.nominneForm.value.age,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: sessionStorage.getItem('vehicleType'),
-      });
       this.afterNomineeGetData.emit(formValues);
       this.sharedData?.createProposalId('nominne_details', this.nominneForm);
     }

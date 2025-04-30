@@ -43,6 +43,7 @@ export class SharedDataService {
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
   getProposalDetails: Subject<any> = new Subject();
+  getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
@@ -141,6 +142,7 @@ export class SharedDataService {
   renewalPolicyNumber: any;
   sourceId: any;
   customer_mobile_number: any;
+  webEngageCustomerDetails: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -241,9 +243,9 @@ export class SharedDataService {
     this.regNumber = sessionStorage.getItem('registrationNumber');
     this.renewalType = sessionStorage.getItem('renewalType');
 
-    const partner_code =sessionStorage.getItem('partner_code')
-    ? sessionStorage.getItem('partner_code')
-    : '';
+    const partner_code = sessionStorage.getItem('partner_code')
+      ? sessionStorage.getItem('partner_code')
+      : '';
     const token = sessionStorage.getItem('token');
     if (
       this.regNumber != null &&
@@ -252,7 +254,9 @@ export class SharedDataService {
     ) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}`
+          `${ApiConstants.registration_number()}?regn_no=${
+            this.regNumber
+          }&partner_code=${partner_code}`
         )
         .subscribe(
           (res: any) => {
@@ -1446,6 +1450,25 @@ export class SharedDataService {
       .subscribe((res) => {
         // this.expiryListData = res;
         this.sendErrorProposalData(res);
+      });
+  }
+
+  getCustomerIdForwebengae(
+    mobile_number?: any,
+    formValues?: any,
+    buttonType?: any
+  ) {
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=Consumer&destination=webengage`
+      )
+      .subscribe((res) => {
+        this.webEngageCustomerDetails = res;
+        sessionStorage.setItem(
+          'webengageCustomerId',
+          this.webEngageCustomerDetails
+        );
+        this.getCustomerId.next(this.webEngageCustomerDetails);
       });
   }
   sendOwnnerAddres(data: any) {

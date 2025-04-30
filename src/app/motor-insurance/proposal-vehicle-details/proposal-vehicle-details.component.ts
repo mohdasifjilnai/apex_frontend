@@ -50,6 +50,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   pinocodeId: any;
   private proposalDetailsSubscription!: Subscription;
   private vahaanDetailsUnsubscribe!: Subscription;
+  isExistCustomerId: any;
 
   @Input() fetchNomineeDetails: any;
   @Output() afterVehicleData = new EventEmitter<any>();
@@ -100,6 +101,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'nonPOS-class',
   };
+  private getCustomerIdDetails!: Subscription;
   constructor(
     private apiservice: ApiService,
     private shareData: SharedDataService,
@@ -430,10 +432,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       } else {
         this.regNumber = sessionStorage.getItem('registrationNumber');
         const newVehicleType = sessionStorage.getItem('newVehicleType');
-        const partner_code =sessionStorage.getItem('partner_code')
-        ? sessionStorage.getItem('partner_code')
-        : '';
-    const token = sessionStorage.getItem('token');
+        const partner_code = sessionStorage.getItem('partner_code')
+          ? sessionStorage.getItem('partner_code')
+          : '';
+        const token = sessionStorage.getItem('token');
         if (
           this.regNumber &&
           renewalType != 'renewal' &&
@@ -441,7 +443,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.registration_number()}?regn_no=${this.regNumber}&partner_code=${partner_code}`
+              `${ApiConstants.registration_number()}?regn_no=${
+                this.regNumber
+              }&partner_code=${partner_code}`
             )
             .subscribe((res: any) => {
               if (res) {
@@ -686,9 +690,82 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           });
       }
     }
+
+    this.getCustomerIdDetails = this.shareData.getCustomerId.subscribe(
+      (idValue) => {
+        const vehcileType = sessionStorage.getItem('vehicleType');
+        const transformedDateString = this.proposalVehilceDetailsForm.value
+          ?.registration_date
+          ? this.datePipe.transform(
+              this.proposalVehilceDetailsForm.value?.registration_date,
+              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            )
+          : '';
+
+        let regDate = transformedDateString
+          ? new Date(transformedDateString as string)
+          : '';
+
+        const transformedMgfDate = this.proposalVehilceDetailsForm.value
+          ?.manufacture_date
+          ? this.datePipe.transform(
+              this.proposalVehilceDetailsForm.value?.manufacture_date,
+              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            )
+          : '';
+        let mgfDate = transformedMgfDate
+          ? new Date(transformedMgfDate as string)
+          : '';
+        let vehicleProposalDetails = JSON.parse(this.quoteData);
+        let vehicleWebengage = {
+          User_Type: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+
+          Motor_Type: vehcileType,
+          Vehicle_Registration_Number:
+            this.proposalVehilceDetailsForm.value?.registration_number,
+          Engine_Number: this.proposalVehilceDetailsForm.value?.engine_number,
+          Chassis_Number: this.proposalVehilceDetailsForm.value?.chassis_number,
+          Registration_Date: regDate,
+          Manufacture_Date: mgfDate,
+          Vehicle_Color: this.proposalVehilceDetailsForm.value?.vehicle_colour,
+          Vehicle_registration_Address:
+            this.proposalVehilceDetailsForm.value?.vehicle_registration_address,
+          Insurer_Name: vehicleProposalDetails?.insurer_name,
+          Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+          Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+          Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+          Product_id: vehicleProposalDetails?.quote_id,
+          Customer_id: idValue.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        };
+        const filteredData = Object.fromEntries(
+          Object.entries(vehicleWebengage).filter(([key, value]) => {
+            if (value == null || value === '') {
+              return false;
+            }
+            return true;
+          })
+        );
+        webengage.track('Motor_Details_Submitted', filteredData);
+      }
+    );
   }
   ngOnDestroy(): void {
     this.vahaanDetailsUnsubscribe.unsubscribe();
+    this.getCustomerIdDetails.unsubscribe();
   }
   filterInsurer(name: string) {}
 
@@ -884,60 +961,81 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           }
         });
     }
+    this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+    let CheckId = JSON.parse(this.isExistCustomerId);
+    if (CheckId) {
+      const transformedDateString = this.proposalVehilceDetailsForm.value
+        ?.registration_date
+        ? this.datePipe.transform(
+            this.proposalVehilceDetailsForm.value?.registration_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
 
-    const transformedDateString = this.proposalVehilceDetailsForm.value
-      ?.registration_date
-      ? this.datePipe.transform(
-          this.proposalVehilceDetailsForm.value?.registration_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
+      let regDate = transformedDateString
+        ? new Date(transformedDateString as string)
+        : '';
 
-    let regDate = transformedDateString
-      ? new Date(transformedDateString as string)
-      : '';
+      const transformedMgfDate = this.proposalVehilceDetailsForm.value
+        ?.manufacture_date
+        ? this.datePipe.transform(
+            this.proposalVehilceDetailsForm.value?.manufacture_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let mgfDate = transformedMgfDate
+        ? new Date(transformedMgfDate as string)
+        : '';
+      let vehicleProposalDetails = JSON.parse(this.quoteData);
+      let vehicleWebengage = {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
 
-    const transformedMgfDate = this.proposalVehilceDetailsForm.value
-      ?.manufacture_date
-      ? this.datePipe.transform(
-          this.proposalVehilceDetailsForm.value?.manufacture_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
-    let mgfDate = transformedMgfDate
-      ? new Date(transformedMgfDate as string)
-      : '';
-    let vehicleProposalDetails = JSON.parse(this.quoteData);
-    let vehicleWebengage = {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-
-      Motor_Type: vehcileType,
-      Vehicle_Registration_Number:
-        this.proposalVehilceDetailsForm.value?.registration_number,
-      Engine_Number: this.proposalVehilceDetailsForm.value?.engine_number,
-      Chassis_Number: this.proposalVehilceDetailsForm.value?.chassis_number,
-      Registration_Date: regDate,
-      Manufacture_Date: mgfDate,
-      Vehicle_Color: this.proposalVehilceDetailsForm.value?.vehicle_colour,
-      Vehicle_registration_Address:
-        this.proposalVehilceDetailsForm.value?.vehicle_registration_address,
-      Insurer_Name: vehicleProposalDetails?.insurer_name,
-      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
-      Product_id: vehicleProposalDetails?.quote_id,
-    };
-    const filteredData = Object.fromEntries(
-      Object.entries(vehicleWebengage).filter(([key, value]) => {
-        if (value == null || value === '') {
-          return false;
-        }
-        return true;
-      })
-    );
-    webengage.track('Motor_Details_Submitted', filteredData);
+        Motor_Type: vehcileType,
+        Vehicle_Registration_Number:
+          this.proposalVehilceDetailsForm.value?.registration_number,
+        Engine_Number: this.proposalVehilceDetailsForm.value?.engine_number,
+        Chassis_Number: this.proposalVehilceDetailsForm.value?.chassis_number,
+        Registration_Date: regDate,
+        Manufacture_Date: mgfDate,
+        Vehicle_Color: this.proposalVehilceDetailsForm.value?.vehicle_colour,
+        Vehicle_registration_Address:
+          this.proposalVehilceDetailsForm.value?.vehicle_registration_address,
+        Insurer_Name: vehicleProposalDetails?.insurer_name,
+        Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+        Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+        Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+        Product_id: vehicleProposalDetails?.quote_id,
+        Customer_id: CheckId.customer_id,
+        Perform_by: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Partner_Name:
+          sessionStorage.getItem('first_name') != null
+            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+                'middle_name'
+              )} ${sessionStorage.getItem('last_name')}`
+            : '',
+        Partner_id: sessionStorage.getItem('partner_code'),
+      };
+      const filteredData = Object.fromEntries(
+        Object.entries(vehicleWebengage).filter(([key, value]) => {
+          if (value == null || value === '') {
+            return false;
+          }
+          return true;
+        })
+      );
+      webengage.track('Motor_Details_Submitted', filteredData);
+    } else {
+      let mobileNumber = sessionStorage.getItem('mobileNumber');
+      this.shareData.getCustomerIdForwebengae(
+        mobileNumber,
+        '',
+        'Vehicle Details'
+      );
+    }
   }
   /**
    * we can access the checkbox value using this.financedToggle.nativeElement.checked

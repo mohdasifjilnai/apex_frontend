@@ -28,6 +28,7 @@ export class PaymentComponent implements OnInit {
   proposalNumber: any;
   transactionId: any;
   paymentPendingCase: any;
+  isExistCustomerId: any;
   failureJSON: {
     modalName: any;
     widthObtained: string;
@@ -48,14 +49,26 @@ export class PaymentComponent implements OnInit {
       this.transactionId = params[2]['path'];
       if (params[4]['path'] == 'payment-success') {
         this.paymentSuccess = true;
-        this.getTransactionPremiumDetails(this.transactionId)
-        webengage.track('Motor_Payment_Status', {
-          Status: 'Payment Successful',
-        });
+        this.getTransactionPremiumDetails(this.transactionId);
       } else {
         this.paymentSuccess = false;
+        this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+        let CheckId = JSON.parse(this.isExistCustomerId);
         webengage.track('Motor_Payment_Status', {
           Status: 'Payment Faliure',
+          Customer_id: CheckId.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
         });
       }
 
@@ -75,8 +88,23 @@ export class PaymentComponent implements OnInit {
       }
       if (this.paymentSuccess && proposalNo) {
         this.paymentPendingCase = true;
+        this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+        let CheckId = JSON.parse(this.isExistCustomerId);
         webengage.track('Motor_Payment_Status', {
           Status: 'Payment Deducted',
+          Customer_id: CheckId.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
         });
       }
       // let regnNumberValue = sessionStorage.getItem('isRegistrationNumber');
@@ -280,10 +308,29 @@ export class PaymentComponent implements OnInit {
   }
   getTransactionPremiumDetails(transaction_id: any) {
     this.apiService
-      .getRequestedResponse(`${ApiConstants.transaction_premium_details}${transaction_id}`)
+      .getRequestedResponse(
+        `${ApiConstants.transaction_premium_details}${transaction_id}`
+      )
       .subscribe((res: any) => {
-        this.premiumDetails=res
-        
+        this.premiumDetails = res;
+        this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+        let CheckId = JSON.parse(this.isExistCustomerId);
+        webengage.track('Motor_Payment_Status', {
+          Status: 'Payment Successful',
+          Customer_id: CheckId.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        });
       });
   }
 }

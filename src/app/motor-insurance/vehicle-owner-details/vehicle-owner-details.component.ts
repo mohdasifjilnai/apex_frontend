@@ -102,6 +102,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     ownner_salutation_type: new FormControl('', Validators.required),
   });
   private vahaanDetailsUnsubscribe!: Subscription;
+  private getCustomerIdDetails!: Subscription;
   webEngageCustomerDetails: any;
 
   constructor(
@@ -157,6 +158,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             owner_communication_addres:
               res?.customer_details?.communication_address?.address_line,
           });
+          sessionStorage.setItem(
+            'mobileNumber',
+            this.owenerVehicleDetailsForm.get('contact_number')?.value
+          );
         }
 
         if (res?.customer_details?.communication_address?.pincode) {
@@ -483,6 +488,11 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           owner_city: customerDetails?.communication_address?.rb_city_name,
           owner_state: customerDetails?.communication_address?.rb_state_name,
         });
+        sessionStorage.setItem(
+          'mobileNumber',
+          this.owenerVehicleDetailsForm.get('contact_number')?.value
+        );
+
         if (customerDetails?.communication_address?.address_line != null) {
           this.owenerVehicleDetailsForm.patchValue({
             owner_communication_addres:
@@ -623,6 +633,57 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     setTimeout(() => {
       this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
     }, 2000);
+
+    this.getCustomerIdDetails = this.sharedDataService.getCustomerId.subscribe(
+      (idValue) => {
+        const vehcileType = sessionStorage.getItem('vehicleType');
+        const proposerType = sessionStorage.getItem('proposerType');
+        let vehicleDetailsValue = JSON.parse(this.quoteData);
+        const formValues = this.owenerVehicleDetailsForm.value;
+        let vehicleOwnerWebengage = {
+          User_Type: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Motor_Type: vehcileType,
+          Salutation_type: formValues?.ownner_salutation_type,
+          Owner_Full_Name: 'Yes',
+          Contact_Number: 'Yes',
+          Email: 'Yes',
+          Occupation_type: formValues?.ownner_occupation_type,
+          GSTIN: formValues?.owner_gstin,
+          Additional_contact_number: `+91${formValues?.additional_contact}`,
+          Gender: formValues?.owner_gender,
+          Matrital_Status: formValues?.marital_status,
+          Insurer_Name: vehicleDetailsValue?.insurer_name,
+          Total_IDV: vehicleDetailsValue?.premium_details?.idv,
+          Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
+          Insurer_Logo: vehicleDetailsValue?.insurer_logo,
+          Product_id: vehicleDetailsValue?.quote_id,
+          Customer_id: idValue.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        };
+        const filteredData = Object.fromEntries(
+          Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
+            if (value == null || value === '') {
+              return false;
+            }
+            return true;
+          })
+        );
+        webengage.track('Motor_Owner_details_Submitted', filteredData);
+      }
+    );
   }
   getVehicleDetails(isValid: any) {
     const vehcileType = sessionStorage.getItem('vehicleType');
@@ -630,9 +691,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     let vehicleDetailsValue = JSON.parse(this.quoteData);
     const formValues = this.owenerVehicleDetailsForm.value;
     if (environment?.dev) {
-      this.createCustomerForWebengage(
+      // this.createCustomerForWebengage(
+      //   this.owenerVehicleDetailsForm.get('contact_number')?.value,
+      //   formValues
+      // );
+      sessionStorage.setItem(
+        'mobileNumber',
+        this.owenerVehicleDetailsForm.get('contact_number')?.value
+      );
+
+      this.sharedDataService.getCustomerIdForwebengae(
         this.owenerVehicleDetailsForm.get('contact_number')?.value,
-        formValues
+        formValues,
+        'Vehicle Owner Details'
       );
     }
     if (isValid && proposerType == 'individual') {
@@ -727,6 +798,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
   ngOnDestroy(): void {
     this.vahaanDetailsUnsubscribe.unsubscribe();
+    this.getCustomerIdDetails.unsubscribe();
   }
   /**
    * Emits an event indicating that the form group has been submitted.
@@ -926,58 +998,58 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     }
   }
 
-  createCustomerForWebengage(mobile_number: any, formValues: any) {
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=Consumer&destination=webengage`
-      )
-      .subscribe((res) => {
-        this.webEngageCustomerDetails = res;
-        const vehcileType = sessionStorage.getItem('vehicleType');
-        const proposerType = sessionStorage.getItem('proposerType');
-        let vehicleDetailsValue = JSON.parse(this.quoteData);
-        let vehicleOwnerWebengage = {
-          User_Type: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Motor_Type: vehcileType,
-          Salutation_type: formValues?.ownner_salutation_type,
-          Owner_Full_Name: 'Yes',
-          Contact_Number: 'Yes',
-          Email: 'Yes',
-          Occupation_type: formValues?.ownner_occupation_type,
-          GSTIN: formValues?.owner_gstin,
-          Additional_contact_number: `+91${formValues?.additional_contact}`,
-          Gender: formValues?.owner_gender,
-          Matrital_Status: formValues?.marital_status,
-          Insurer_Name: vehicleDetailsValue?.insurer_name,
-          Total_IDV: vehicleDetailsValue?.premium_details?.idv,
-          Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
-          Insurer_Logo: vehicleDetailsValue?.insurer_logo,
-          Product_id: vehicleDetailsValue?.quote_id,
-          Customer_id: this.webEngageCustomerDetails.customer_id,
-          Perform_by: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Partner_Name:
-            sessionStorage.getItem('first_name') != null
-              ? `${sessionStorage.getItem(
-                  'first_name'
-                )} ${sessionStorage.getItem(
-                  'middle_name'
-                )} ${sessionStorage.getItem('last_name')}`
-              : '',
-          Partner_id: sessionStorage.getItem('partner_code'),
-        };
-        const filteredData = Object.fromEntries(
-          Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
-            if (value == null || value === '') {
-              return false;
-            }
-            return true;
-          })
-        );
-        webengage.track('Motor_Owner_details_Submitted', filteredData);
-      });
-  }
+  // createCustomerForWebengage(mobile_number: any, formValues: any) {
+  //   this.apiService
+  //     .getRequestedResponse(
+  //       `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=Consumer&destination=webengage`
+  //     )
+  //     .subscribe((res) => {
+  //       this.webEngageCustomerDetails = res;
+  //       const vehcileType = sessionStorage.getItem('vehicleType');
+  //       const proposerType = sessionStorage.getItem('proposerType');
+  //       let vehicleDetailsValue = JSON.parse(this.quoteData);
+  //       let vehicleOwnerWebengage = {
+  //         User_Type: sessionStorage.getItem('partner_code')
+  //           ? 'Partner'
+  //           : 'Customer',
+  //         Motor_Type: vehcileType,
+  //         Salutation_type: formValues?.ownner_salutation_type,
+  //         Owner_Full_Name: 'Yes',
+  //         Contact_Number: 'Yes',
+  //         Email: 'Yes',
+  //         Occupation_type: formValues?.ownner_occupation_type,
+  //         GSTIN: formValues?.owner_gstin,
+  //         Additional_contact_number: `+91${formValues?.additional_contact}`,
+  //         Gender: formValues?.owner_gender,
+  //         Matrital_Status: formValues?.marital_status,
+  //         Insurer_Name: vehicleDetailsValue?.insurer_name,
+  //         Total_IDV: vehicleDetailsValue?.premium_details?.idv,
+  //         Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
+  //         Insurer_Logo: vehicleDetailsValue?.insurer_logo,
+  //         Product_id: vehicleDetailsValue?.quote_id,
+  //         Customer_id: this.webEngageCustomerDetails.customer_id,
+  //         Perform_by: sessionStorage.getItem('partner_code')
+  //           ? 'Partner'
+  //           : 'Customer',
+  //         Partner_Name:
+  //           sessionStorage.getItem('first_name') != null
+  //             ? `${sessionStorage.getItem(
+  //                 'first_name'
+  //               )} ${sessionStorage.getItem(
+  //                 'middle_name'
+  //               )} ${sessionStorage.getItem('last_name')}`
+  //             : '',
+  //         Partner_id: sessionStorage.getItem('partner_code'),
+  //       };
+  //       const filteredData = Object.fromEntries(
+  //         Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
+  //           if (value == null || value === '') {
+  //             return false;
+  //           }
+  //           return true;
+  //         })
+  //       );
+  //       webengage.track('Motor_Owner_details_Submitted', filteredData);
+  //     });
+  // }
 }

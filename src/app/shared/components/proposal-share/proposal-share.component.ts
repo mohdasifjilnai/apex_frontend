@@ -70,6 +70,7 @@ export class ProposalShareComponent implements OnInit {
   loader: boolean = false;
   downloadLoader: boolean = false;
   sendLoader: boolean = false;
+  isExistCustomerId: any;
   notCertifiedComponentJSON: {
     modalName: any;
     widthObtained: string;
@@ -285,6 +286,8 @@ export class ProposalShareComponent implements OnInit {
     // }else{
     if (this.proposalData) {
       let vehicleProposalDetails = this.quoteData;
+      this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+      let CheckId = JSON.parse(this.isExistCustomerId);
       const vehcileType = sessionStorage.getItem('vehicleType');
       let vehicleWebengage = {
         User_Type: sessionStorage.getItem('partner_code')
@@ -297,6 +300,17 @@ export class ProposalShareComponent implements OnInit {
         Total_IDV: vehicleProposalDetails?.premium_details?.idv,
         Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
         Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+        Customer_id: CheckId.customer_id,
+        Perform_by: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Partner_Name:
+          sessionStorage.getItem('first_name') != null
+            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+                'middle_name'
+              )} ${sessionStorage.getItem('last_name')}`
+            : '',
+        Partner_id: sessionStorage.getItem('partner_code'),
       };
       const filteredData = Object.fromEntries(
         Object.entries(vehicleWebengage).filter(([key, value]) => {
@@ -307,6 +321,7 @@ export class ProposalShareComponent implements OnInit {
         })
       );
       webengage.track('Motor_Payment_Initiated', filteredData);
+
       let sendCommunicationObject = {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
         share_type: 'otp',

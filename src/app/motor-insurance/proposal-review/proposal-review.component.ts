@@ -21,6 +21,7 @@ import { ProposalShareComponent } from 'src/app/shared/components/proposal-share
 import { environment } from 'src/environments/environment';
 declare const webengage: any;
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-proposal-review',
   templateUrl: './proposal-review.component.html',
@@ -135,6 +136,8 @@ export class ProposalReviewComponent implements OnInit {
   paymentObject: any;
   loader: boolean = false;
   quotesRequestData: any;
+  isExistCustomerId: any;
+  private getCustomerIdDetails!: Subscription;
   constructor(
     private route: Router,
     private shareData: SharedDataService,
@@ -213,6 +216,84 @@ export class ProposalReviewComponent implements OnInit {
     this.getInsurerDetailsOnRedirection();
 
     this.proposalType = sessionStorage.getItem('proposerType');
+
+    this.getCustomerIdDetails = this.shareData.getCustomerId.subscribe(
+      (idValue) => {
+        const vehcileType = sessionStorage.getItem('vehicleType');
+        let vehicleProposalDetails = this.quoteData;
+        this.quotesRequestData = sessionStorage.getItem('mmv_data');
+        let requestValue = JSON.parse(this.quotesRequestData);
+        const transformedRegistrationDate = requestValue?.registration_date
+          ? this.datePipe.transform(
+              requestValue?.registration_date,
+              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            )
+          : '';
+        let regDate = transformedRegistrationDate
+          ? new Date(transformedRegistrationDate as string)
+          : '';
+
+        const transformedMgfDate = requestValue?.manufacture_date
+          ? this.datePipe.transform(
+              requestValue?.manufacture_date,
+              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            )
+          : '';
+        let mgfDate = transformedMgfDate
+          ? new Date(transformedMgfDate as string)
+          : '';
+
+        const transformedPolicyExpiry = requestValue?.policy_expiry_date
+          ? this.datePipe.transform(
+              requestValue?.policy_expiry_date,
+              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            )
+          : '';
+        let policyExpDate = transformedPolicyExpiry
+          ? new Date(transformedPolicyExpiry as string)
+          : '';
+        webengage.track('Motor_Vehicle_details_submitted', {
+          User_Type: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Motor_Type: vehcileType,
+          Insurer_Name: vehicleProposalDetails?.insurer_name,
+          Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+          Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+          Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+          Product_id: vehicleProposalDetails?.quote_id,
+          Make: requestValue.vehicle_variant.rb_make_name,
+          Model: requestValue.vehicle_variant.rb_model_name,
+          Variant: requestValue.vehicle_variant.rb_variant_name,
+          Fuel: requestValue.vehicle_variant.fuel,
+          Registration_City: requestValue.registration_city.display_name,
+          Registration_Date: regDate,
+          Manufacture_Date: mgfDate,
+          Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
+          Type_of_Expiring_Policy: requestValue?.policy_expiry,
+          Policy_Expiring_Date: policyExpDate,
+          Search_previous_Insurer:
+            requestValue?.previous_insurer?.rb_insurer_name,
+          Is_previous_Policy_claimed: requestValue?.previous_claimed
+            ? 'Yes'
+            : 'No',
+          Previous_year_NCB: requestValue?.ncb_discount,
+          Customer_id: idValue.customer_id,
+          Perform_by: sessionStorage.getItem('partner_code')
+            ? 'Partner'
+            : 'Customer',
+          Partner_Name:
+            sessionStorage.getItem('first_name') != null
+              ? `${sessionStorage.getItem(
+                  'first_name'
+                )} ${sessionStorage.getItem(
+                  'middle_name'
+                )} ${sessionStorage.getItem('last_name')}`
+              : '',
+          Partner_id: sessionStorage.getItem('partner_code'),
+        });
+      }
+    );
   }
   navigateToUrl(titleName: string) {
     let proposal_punched = sessionStorage.getItem('proposal_punched');
@@ -239,59 +320,86 @@ export class ProposalReviewComponent implements OnInit {
     let vehicleProposalDetails = this.quoteData;
     this.quotesRequestData = sessionStorage.getItem('mmv_data');
     let requestValue = JSON.parse(this.quotesRequestData);
-    const transformedRegistrationDate = requestValue?.registration_date
-      ? this.datePipe.transform(
-          requestValue?.registration_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
-    let regDate = transformedRegistrationDate
-      ? new Date(transformedRegistrationDate as string)
-      : '';
 
-    const transformedMgfDate = requestValue?.manufacture_date
-      ? this.datePipe.transform(
-          requestValue?.manufacture_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
-    let mgfDate = transformedMgfDate
-      ? new Date(transformedMgfDate as string)
-      : '';
+    this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+    let CheckId = JSON.parse(this.isExistCustomerId);
+    if (CheckId) {
+      const transformedRegistrationDate = requestValue?.registration_date
+        ? this.datePipe.transform(
+            requestValue?.registration_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let regDate = transformedRegistrationDate
+        ? new Date(transformedRegistrationDate as string)
+        : '';
 
-    const transformedPolicyExpiry = requestValue?.policy_expiry_date
-      ? this.datePipe.transform(
-          requestValue?.policy_expiry_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
-    let policyExpDate = transformedPolicyExpiry
-      ? new Date(transformedPolicyExpiry as string)
-      : '';
-    webengage.track('Motor_Vehicle_details_submitted', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehcileType,
-      Insurer_Name: vehicleProposalDetails?.insurer_name,
-      Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-      Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-      Insurer_Logo: vehicleProposalDetails?.insurer_logo,
-      Product_id: vehicleProposalDetails?.quote_id,
-      Make: requestValue.vehicle_variant.rb_make_name,
-      Model: requestValue.vehicle_variant.rb_model_name,
-      Variant: requestValue.vehicle_variant.rb_variant_name,
-      Fuel: requestValue.vehicle_variant.fuel,
-      Registration_City: requestValue.registration_city.display_name,
-      Registration_Date: regDate,
-      Manufacture_Date: mgfDate,
-      Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
-      Type_of_Expiring_Policy: requestValue?.policy_expiry,
-      Policy_Expiring_Date: policyExpDate,
-      Search_previous_Insurer: requestValue?.previous_insurer?.rb_insurer_name,
-      Is_previous_Policy_claimed: requestValue?.previous_claimed ? 'Yes' : 'No',
-      Previous_year_NCB: requestValue?.ncb_discount,
-    });
+      const transformedMgfDate = requestValue?.manufacture_date
+        ? this.datePipe.transform(
+            requestValue?.manufacture_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let mgfDate = transformedMgfDate
+        ? new Date(transformedMgfDate as string)
+        : '';
+
+      const transformedPolicyExpiry = requestValue?.policy_expiry_date
+        ? this.datePipe.transform(
+            requestValue?.policy_expiry_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+      let policyExpDate = transformedPolicyExpiry
+        ? new Date(transformedPolicyExpiry as string)
+        : '';
+      webengage.track('Motor_Vehicle_details_submitted', {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehcileType,
+        Insurer_Name: vehicleProposalDetails?.insurer_name,
+        Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+        Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+        Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+        Product_id: vehicleProposalDetails?.quote_id,
+        Make: requestValue.vehicle_variant.rb_make_name,
+        Model: requestValue.vehicle_variant.rb_model_name,
+        Variant: requestValue.vehicle_variant.rb_variant_name,
+        Fuel: requestValue.vehicle_variant.fuel,
+        Registration_City: requestValue.registration_city.display_name,
+        Registration_Date: regDate,
+        Manufacture_Date: mgfDate,
+        Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
+        Type_of_Expiring_Policy: requestValue?.policy_expiry,
+        Policy_Expiring_Date: policyExpDate,
+        Search_previous_Insurer:
+          requestValue?.previous_insurer?.rb_insurer_name,
+        Is_previous_Policy_claimed: requestValue?.previous_claimed
+          ? 'Yes'
+          : 'No',
+        Previous_year_NCB: requestValue?.ncb_discount,
+        Customer_id: CheckId.customer_id,
+        Perform_by: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Partner_Name:
+          sessionStorage.getItem('first_name') != null
+            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+                'middle_name'
+              )} ${sessionStorage.getItem('last_name')}`
+            : '',
+        Partner_id: sessionStorage.getItem('partner_code'),
+      });
+    } else {
+      let mobileNumber = sessionStorage.getItem('mobileNumber');
+      this.shareData.getCustomerIdForwebengae(
+        mobileNumber,
+        '',
+        'Previous Policy Details'
+      );
+    }
+
     if (this.preAddons?.is_consent) {
       this.shareData.createProposalId();
     }
@@ -306,7 +414,6 @@ export class ProposalReviewComponent implements OnInit {
     // } else {
     //   this.openModal([this.quoteData], this.insuranceDetailsJSON);
     // }
-    console.log(this.generateProposalData, 'krishna');
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.generate_proposal}?insurer_code=${this.generateProposalData?.insurer_code}&proposal_id=${this.generateProposalData?.proposal_id}`
