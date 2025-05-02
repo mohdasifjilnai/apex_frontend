@@ -1521,28 +1521,63 @@ export class VehicleDetailsPopupComponent implements OnInit {
         });
     }
   }
+  private ncbListFetched = false; // flag
+  private cachedNcbList: any[] = [];
+  // getNcbList() {
+  //   this.apiservice
+  //     .getRequestedResponse(ApiConstants.ncb_list())
+  //     .subscribe((res) => {
+  //       this.expiryListData = res;
+  //       for (let data of this.expiryListData) {
+  //         if (!this.vehiclePopupList) {
+  //           if (data.value === this.ncbDiscount) {
+  //             this.vehicleDetailsForm.patchValue({
+  //               ncb_discount: data.name,
+  //             });
+  //           }
+  //         }
+  //         let ncb_count =
+  //           this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+  //         if (ncb_count != null) {
+  //           this.vehicleDetailsForm.patchValue({
+  //             ncb_discount: ncb_count,
+  //           });
+  //         }
+  //       }
+  //     });
+  // }
   getNcbList() {
-    this.apiservice
-      .getRequestedResponse(ApiConstants.ncb_list())
-      .subscribe((res) => {
-        this.expiryListData = res;
-        for (let data of this.expiryListData) {
-          if (!this.vehiclePopupList) {
-            if (data.value === this.ncbDiscount) {
-              this.vehicleDetailsForm.patchValue({
-                ncb_discount: data.name,
-              });
-            }
-          }
-          let ncb_count =
-            this.previousRenewalData?.vehicle_details?.previous_year_ncb;
-          if (ncb_count != null) {
-            this.vehicleDetailsForm.patchValue({
-              ncb_discount: ncb_count,
-            });
-          }
+    if (this.ncbListFetched) {
+      this.expiryListData = this.cachedNcbList;
+      this.applyNcbData(); // reuse existing data
+      return;
+    }
+  
+    this.apiservice.getRequestedResponse(ApiConstants.ncb_list()).subscribe((res) => {
+      this.ncbListFetched = true;
+      this.cachedNcbList = res;
+      this.expiryListData = res;
+      this.applyNcbData();
+    });
+  }
+  
+  applyNcbData() {
+    for (let data of this.expiryListData) {
+      if (!this.vehiclePopupList) {
+        if (data.value === this.ncbDiscount) {
+          this.vehicleDetailsForm.patchValue({
+            ncb_discount: data.name,
+          });
         }
-      });
+      }
+  
+      let ncb_count = this.previousRenewalData?.vehicle_details?.previous_year_ncb;
+      if (ncb_count != null) {
+        this.vehicleDetailsForm.patchValue({
+          ncb_discount: ncb_count,
+        });
+      }
+    }
   }
   /**
    *   get expiry ploicy list api
