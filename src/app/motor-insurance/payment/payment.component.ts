@@ -479,6 +479,7 @@ export class PaymentComponent implements OnInit {
         this.premiumDetails = res;
         const vehcileType = sessionStorage.getItem('vehicleType');
         this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
+        sessionStorage.setItem('mobileNumber', res.mobile_number);
         let CheckId = JSON.parse(this.isExistCustomerId);
         this.paymentStatusValue = paymentStatus;
         this.payemntDeducted = status;
@@ -646,7 +647,8 @@ export class PaymentComponent implements OnInit {
           this.sharedService.getCustomerIdForwebengae(
             mobileNumber,
             '',
-            'Payment'
+            'Payment',
+            transaction_id
           );
         }
       });

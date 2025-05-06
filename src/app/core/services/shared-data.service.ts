@@ -2,7 +2,7 @@ import { Injectable, Optional } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 import { ApiConstants } from 'src/app/api.constant';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SseService } from './sse.service';
 import moment from 'moment';
 import { LoaderService } from './loader.service';
@@ -155,7 +155,8 @@ export class SharedDataService {
     private datePipe: DatePipe,
     private snackbar: MatSnackBar,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute
   ) {
     // Extract the base URL
     const currentBaseUrl = window.location.href;
@@ -1457,7 +1458,8 @@ export class SharedDataService {
   getCustomerIdForwebengae(
     mobile_number?: any,
     formValues?: any,
-    buttonType?: any
+    buttonType?: any,
+    transaction_id?: any
   ) {
     let maskedCheck;
     let maskedValue;
@@ -1473,6 +1475,9 @@ export class SharedDataService {
     }
 
     let transactionId = sessionStorage.getItem('transaction_id');
+    if (transactionId == null) {
+      transactionId = transaction_id;
+    }
     this.apiService
       .getRequestedResponse(
         `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}`
