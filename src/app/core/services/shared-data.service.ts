@@ -143,6 +143,7 @@ export class SharedDataService {
   sourceId: any;
   customer_mobile_number: any;
   webEngageCustomerDetails: any;
+  mobileNumber: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -1458,12 +1459,28 @@ export class SharedDataService {
     formValues?: any,
     buttonType?: any
   ) {
+    let maskedCheck;
+    let maskedValue;
+
+    if (mobile_number) {
+      maskedCheck = mobile_number.includes('*');
+      maskedValue = maskedCheck ? true : false;
+    } else {
+      this.mobileNumber = sessionStorage.getItem('mobileNumber');
+      let checkNumber = JSON.parse(this.mobileNumber);
+      maskedCheck = checkNumber.includes('*');
+      maskedValue = maskedCheck ? true : false;
+    }
+
+    let transactionId = sessionStorage.getItem('transaction_id');
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=Consumer&destination=webengage`
+        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}`
       )
       .subscribe((res) => {
         this.webEngageCustomerDetails = res;
+        this.webEngageCustomerDetails.buttonType = '';
+        this.webEngageCustomerDetails.buttonType = buttonType;
         sessionStorage.setItem(
           'webengageCustomerId',
           JSON.stringify(this.webEngageCustomerDetails)

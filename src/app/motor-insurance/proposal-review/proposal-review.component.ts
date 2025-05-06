@@ -535,6 +535,10 @@ export class ProposalReviewComponent implements OnInit {
             'proposal_Id',
             JSON.stringify(this.generateProposalData?.proposal_id)
           );
+          sessionStorage.setItem(
+            'mobileNumber',
+            this.generateProposalData?.customer_details?.mobile_number
+          );
           this.proposalId = this.generateProposalData?.proposal_id;
           if (this.generateProposalData?.proposal_punched) {
             sessionStorage.setItem('proposal_punched', 'true');

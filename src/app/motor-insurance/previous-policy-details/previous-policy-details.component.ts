@@ -820,86 +820,89 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
     this.getCustomerIdDetails = this.sharedData.getCustomerId.subscribe(
       (idValue) => {
-        const vehcileType = sessionStorage.getItem('vehicleType');
-        const transforPolicyStart = this.previousPolicyDetailsForm.value
-          ?.tp_policy_start_date
-          ? this.datePipe.transform(
-              this.previousPolicyDetailsForm.value?.tp_policy_start_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
-            )
-          : '';
-        let policyStartDate = transforPolicyStart
-          ? new Date(transforPolicyStart as string)
-          : '';
+        if (idValue == 'Previous Policy Details') {
+          const vehcileType = sessionStorage.getItem('vehicleType');
+          const transforPolicyStart = this.previousPolicyDetailsForm.value
+            ?.tp_policy_start_date
+            ? this.datePipe.transform(
+                this.previousPolicyDetailsForm.value?.tp_policy_start_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+          let policyStartDate = transforPolicyStart
+            ? new Date(transforPolicyStart as string)
+            : '';
 
-        const transforPolicyEnd = this.previousPolicyDetailsForm.value
-          ?.tp_policy_end_date
-          ? this.datePipe.transform(
-              this.previousPolicyDetailsForm.value?.tp_policy_end_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
-            )
-          : '';
-        let policyEndDate = transforPolicyEnd
-          ? new Date(transforPolicyEnd as string)
-          : '';
+          const transforPolicyEnd = this.previousPolicyDetailsForm.value
+            ?.tp_policy_end_date
+            ? this.datePipe.transform(
+                this.previousPolicyDetailsForm.value?.tp_policy_end_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+          let policyEndDate = transforPolicyEnd
+            ? new Date(transforPolicyEnd as string)
+            : '';
 
-        const transformedPolicyExpiry = this.previousPolicyDetailsForm.value
-          ?.policy_expiry_date
-          ? this.datePipe.transform(
-              this.previousPolicyDetailsForm.value?.policy_expiry_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
-            )
-          : '';
-        let policyExpDate = transformedPolicyExpiry
-          ? new Date(transformedPolicyExpiry as string)
-          : '';
-        let vehicleProposalDetails = this.quoteData;
-        let previousPolicyWebengage = {
-          User_Type: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Motor_Type: vehcileType,
-          OD_Insurance_Company:
-            this.previousPolicyDetailsForm.value?.previous_insurer
-              ?.rb_insurer_name,
-          OD_Policy_Number:
-            this.previousPolicyDetailsForm.value?.prev_policy_number,
-          Policy_expiry_date: policyExpDate,
-          TP_Policy_details:
-            this.previousPolicyDetailsForm.value?.tp_insurance_company
-              ?.rb_insurer_name,
-          TP_Policy_Number:
-            this.previousPolicyDetailsForm.value?.tp_policy_number,
-          TP_Policy_Start_Date: policyStartDate,
-          TP_Policy_End_Date: policyEndDate,
-          Insurer_Name: vehicleProposalDetails?.insurer_name,
-          Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-          Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-          Insurer_Logo: vehicleProposalDetails?.insurer_logo,
-          Product_id: vehicleProposalDetails?.quote_id,
-          Customer_id: idValue.customer_id,
-          Perform_by: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Partner_Name:
-            sessionStorage.getItem('first_name') != null
-              ? `${sessionStorage.getItem(
-                  'first_name'
-                )} ${sessionStorage.getItem(
-                  'middle_name'
-                )} ${sessionStorage.getItem('last_name')}`
-              : '',
-          Partner_id: sessionStorage.getItem('partner_code'),
-        };
-        const filteredData = Object.fromEntries(
-          Object.entries(previousPolicyWebengage).filter(([key, value]) => {
-            if (value == null || value === '') {
-              return false;
-            }
-            return true;
-          })
-        );
-        webengage.track('Previous_Policy_details_Submitted', filteredData);
+          const transformedPolicyExpiry = this.previousPolicyDetailsForm.value
+            ?.policy_expiry_date
+            ? this.datePipe.transform(
+                this.previousPolicyDetailsForm.value?.policy_expiry_date,
+                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              )
+            : '';
+          let policyExpDate = transformedPolicyExpiry
+            ? new Date(transformedPolicyExpiry as string)
+            : '';
+          let vehicleProposalDetails = this.quoteData;
+          let previousPolicyWebengage = {
+            User_Type: sessionStorage.getItem('partner_code')
+              ? 'Partner'
+              : 'Customer',
+            Motor_Type: vehcileType,
+            OD_Insurance_Company:
+              this.previousPolicyDetailsForm.value?.previous_insurer
+                ?.rb_insurer_name,
+            OD_Policy_Number:
+              this.previousPolicyDetailsForm.value?.prev_policy_number,
+            Policy_expiry_date: policyExpDate,
+            TP_Policy_details:
+              this.previousPolicyDetailsForm.value?.tp_insurance_company
+                ?.rb_insurer_name,
+            TP_Policy_Number:
+              this.previousPolicyDetailsForm.value?.tp_policy_number,
+            TP_Policy_Start_Date: policyStartDate,
+            TP_Policy_End_Date: policyEndDate,
+            Insurer_Name: vehicleProposalDetails?.insurer_name,
+            Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+            Total_Premium:
+              vehicleProposalDetails?.premium_details?.gross_premium,
+            Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+            Product_id: vehicleProposalDetails?.quote_id,
+            Customer_id: idValue.customer_id,
+            Perform_by: sessionStorage.getItem('partner_code')
+              ? 'Partner'
+              : 'Customer',
+            Partner_Name:
+              sessionStorage.getItem('first_name') != null
+                ? `${sessionStorage.getItem(
+                    'first_name'
+                  )} ${sessionStorage.getItem(
+                    'middle_name'
+                  )} ${sessionStorage.getItem('last_name')}`
+                : '',
+            Partner_id: sessionStorage.getItem('partner_code'),
+          };
+          const filteredData = Object.fromEntries(
+            Object.entries(previousPolicyWebengage).filter(([key, value]) => {
+              if (value == null || value === '') {
+                return false;
+              }
+              return true;
+            })
+          );
+          webengage.track('Previous_Policy_details_Submitted', filteredData);
+        }
       }
     );
   }

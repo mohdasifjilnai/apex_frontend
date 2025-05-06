@@ -94,27 +94,29 @@ export class NomineeDetailsComponent implements OnInit {
     }
     this.getCustomerIdDetails = this.sharedData.getCustomerId.subscribe(
       (idValue) => {
-        webengage.track('Motor_Nominee_Details_Submitted', {
-          Nominee_Relation: this.nominneForm.value.nominne_relation,
-          Age: this.nominneForm.value.age,
-          User_Type: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Motor_Type: sessionStorage.getItem('vehicleType'),
-          Customer_id: idValue.customer_id,
-          Perform_by: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Partner_Name:
-            sessionStorage.getItem('first_name') != null
-              ? `${sessionStorage.getItem(
-                  'first_name'
-                )} ${sessionStorage.getItem(
-                  'middle_name'
-                )} ${sessionStorage.getItem('last_name')}`
-              : '',
-          Partner_id: sessionStorage.getItem('partner_code'),
-        });
+        if (idValue == 'Nominee Details') {
+          webengage.track('Motor_Nominee_Details_Submitted', {
+            Nominee_Relation: this.nominneForm.value.nominne_relation,
+            Age: this.nominneForm.value.age,
+            User_Type: sessionStorage.getItem('partner_code')
+              ? 'Partner'
+              : 'Customer',
+            Motor_Type: sessionStorage.getItem('vehicleType'),
+            Customer_id: idValue.customer_id,
+            Perform_by: sessionStorage.getItem('partner_code')
+              ? 'Partner'
+              : 'Customer',
+            Partner_Name:
+              sessionStorage.getItem('first_name') != null
+                ? `${sessionStorage.getItem(
+                    'first_name'
+                  )} ${sessionStorage.getItem(
+                    'middle_name'
+                  )} ${sessionStorage.getItem('last_name')}`
+                : '',
+            Partner_id: sessionStorage.getItem('partner_code'),
+          });
+        }
       }
     );
   }
@@ -176,7 +178,7 @@ export class NomineeDetailsComponent implements OnInit {
         this.sharedData.getCustomerIdForwebengae(
           mobileNumber,
           '',
-          'Vehicle Details'
+          'Nominee Details'
         );
       }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -17,6 +18,9 @@ export class PaymentComponent implements OnInit {
   is_cse: any;
   employee_code: any;
   premiumDetails: any;
+  private getCustomerIdDetails!: Subscription;
+  payemntDeducted: any;
+  paymentStatusValue: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -47,14 +51,20 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this.route.url.subscribe((params) => {
       this.transactionId = params[2]['path'];
-      if (params[4]['path'] == 'payment-success') {
+
+      let proposalNoValue;
+      this.route.queryParamMap.subscribe((params) => {
+        const policyNo = params?.get('policy_no');
+        proposalNoValue = params?.get('proposal_no');
+      });
+      if (params[4]['path'] == 'payment-success' && !proposalNoValue) {
         this.paymentSuccess = true;
         this.getTransactionPremiumDetails(
           this.transactionId,
           this.paymentSuccess,
           ''
         );
-      } else {
+      } else if (params[4]['path'] != 'payment-success') {
         this.paymentSuccess = false;
         this.getTransactionPremiumDetails(
           this.transactionId,
@@ -62,7 +72,6 @@ export class PaymentComponent implements OnInit {
           ''
         );
       }
-
       if (window.screen.width <= 999) {
         this.getPartnerCode(this.transactionId);
       }
@@ -180,6 +189,179 @@ export class PaymentComponent implements OnInit {
         ]);
       }
     });
+
+    this.getCustomerIdDetails = this.sharedService.getCustomerId.subscribe(
+      (idValue) => {
+        if (idValue.buttonType == 'Payment') {
+          const vehcileType = sessionStorage.getItem('vehicleType');
+          this.isExistCustomerId = sessionStorage.getItem(
+            'webengageCustomerId'
+          );
+          let CheckId = JSON.parse(this.isExistCustomerId);
+
+          if (this.isExistCustomerId != null) {
+            if (this.paymentStatusValue) {
+              let paymentData = {
+                Status: 'Payment Successful',
+                Customer_id: CheckId.customer_id,
+                Perform_by: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Partner_Name:
+                  sessionStorage.getItem('first_name') != null
+                    ? `${sessionStorage.getItem(
+                        'first_name'
+                      )} ${sessionStorage.getItem(
+                        'middle_name'
+                      )} ${sessionStorage.getItem('last_name')}`
+                    : '',
+                Partner_id: sessionStorage.getItem('partner_code'),
+                Total_IDV: this.premiumDetails.idv,
+                Total_Premium: this.premiumDetails.gross_premium,
+                'Total_Own_Damage_(A)':
+                  this.premiumDetails.od_premium_details.total_od_premium != 0
+                    ? this.premiumDetails.od_premium_details.total_od_premium
+                    : 0,
+                NCB_Discount:
+                  this.premiumDetails.od_premium_details.ncb_discount < 0
+                    ? -this.premiumDetails.od_premium_details.ncb_discount
+                    : this.premiumDetails.od_premium_details.ncb_discount,
+                'Third_Party_(B)':
+                  this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                    ? this.premiumDetails.tp_premium_details.total_tp_premium
+                    : 0,
+                // // Selected_Addons
+                Total_Addons: this.premiumDetails?.is_addon_addition,
+                'GST_(18%)_(C)':
+                  this.premiumDetails.total_gst != 0
+                    ? this.premiumDetails.total_gst
+                    : 0,
+                'Total_Premium_(A+B+C)':
+                  this.premiumDetails.gross_premium != 0
+                    ? this.premiumDetails.gross_premium
+                    : 0,
+                IDV: this.premiumDetails.gross_premium,
+                Insurer_Name: this.premiumDetails.insurer_name,
+                Insurer_Logo: this.premiumDetails.insurer_logo,
+                Motor_Type: vehcileType,
+                User_Type: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Policy_No: this.premiumDetails.policy_number,
+                Transaction_id: this.transactionId,
+              };
+              webengage.track('Motor_Payment_Status', paymentData);
+              webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+            } else if (!this.paymentStatusValue) {
+              let paymentData = {
+                Status: 'Payment Faliure',
+                Customer_id: CheckId.customer_id,
+                Perform_by: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Partner_Name:
+                  sessionStorage.getItem('first_name') != null
+                    ? `${sessionStorage.getItem(
+                        'first_name'
+                      )} ${sessionStorage.getItem(
+                        'middle_name'
+                      )} ${sessionStorage.getItem('last_name')}`
+                    : '',
+                Partner_id: sessionStorage.getItem('partner_code'),
+                Total_IDV: this.premiumDetails.idv,
+                Total_Premium: this.premiumDetails.gross_premium,
+                'Total_Own_Damage_(A)':
+                  this.premiumDetails.od_premium_details.total_od_premium != 0
+                    ? this.premiumDetails.od_premium_details.total_od_premium
+                    : 0,
+                NCB_Discount:
+                  this.premiumDetails.od_premium_details.ncb_discount < 0
+                    ? -this.premiumDetails.od_premium_details.ncb_discount
+                    : this.premiumDetails.od_premium_details.ncb_discount,
+                'Third_Party_(B)':
+                  this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                    ? this.premiumDetails.tp_premium_details.total_tp_premium
+                    : 0,
+                // // Selected_Addons
+                Total_Addons: this.premiumDetails?.is_addon_addition,
+                'GST_(18%)_(C)':
+                  this.premiumDetails.total_gst != 0
+                    ? this.premiumDetails.total_gst
+                    : 0,
+                'Total_Premium_(A+B+C)':
+                  this.premiumDetails.gross_premium != 0
+                    ? this.premiumDetails.gross_premium
+                    : 0,
+                IDV: this.premiumDetails.gross_premium,
+                Insurer_Name: this.premiumDetails.insurer_name,
+                Insurer_Logo: this.premiumDetails.insurer_logo,
+                Motor_Type: vehcileType,
+                User_Type: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Policy_No: this.premiumDetails.policy_number,
+                Transaction_id: this.transactionId,
+              };
+              webengage.track('Motor_Payment_Status', paymentData);
+              webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+            }
+            if (this.payemntDeducted == 'Payment Deducted') {
+              let paymentData = {
+                Status: 'Payment Deducted',
+                Customer_id: CheckId.customer_id,
+                Perform_by: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Partner_Name:
+                  sessionStorage.getItem('first_name') != null
+                    ? `${sessionStorage.getItem(
+                        'first_name'
+                      )} ${sessionStorage.getItem(
+                        'middle_name'
+                      )} ${sessionStorage.getItem('last_name')}`
+                    : '',
+                Partner_id: sessionStorage.getItem('partner_code'),
+                Total_IDV: this.premiumDetails.idv,
+                Total_Premium: this.premiumDetails.gross_premium,
+                'Total_Own_Damage_(A)':
+                  this.premiumDetails.od_premium_details.total_od_premium != 0
+                    ? this.premiumDetails.od_premium_details.total_od_premium
+                    : 0,
+                NCB_Discount:
+                  this.premiumDetails.od_premium_details.ncb_discount < 0
+                    ? -this.premiumDetails.od_premium_details.ncb_discount
+                    : this.premiumDetails.od_premium_details.ncb_discount,
+                'Third_Party_(B)':
+                  this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                    ? this.premiumDetails.tp_premium_details.total_tp_premium
+                    : 0,
+                // // Selected_Addons
+                Total_Addons: this.premiumDetails?.is_addon_addition,
+                'GST_(18%)_(C)':
+                  this.premiumDetails.total_gst != 0
+                    ? this.premiumDetails.total_gst
+                    : 0,
+                'Total_Premium_(A+B+C)':
+                  this.premiumDetails.gross_premium != 0
+                    ? this.premiumDetails.gross_premium
+                    : 0,
+                IDV: this.premiumDetails.gross_premium,
+                Insurer_Name: this.premiumDetails.insurer_name,
+                Insurer_Logo: this.premiumDetails.insurer_logo,
+                Motor_Type: vehcileType,
+                User_Type: sessionStorage.getItem('partner_code')
+                  ? 'Partner'
+                  : 'Customer',
+                Policy_No: this.premiumDetails.policy_number,
+                Transaction_id: this.transactionId,
+              };
+              webengage.track('Motor_Payment_Status', paymentData);
+              webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+            }
+          }
+        }
+      }
+    );
   }
   /**
    * redirection form payment page to home page
@@ -298,163 +480,174 @@ export class PaymentComponent implements OnInit {
         const vehcileType = sessionStorage.getItem('vehicleType');
         this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
         let CheckId = JSON.parse(this.isExistCustomerId);
-        if (paymentStatus) {
-          let paymentData = {
-            Status: 'Payment Successful',
-            Customer_id: CheckId.customer_id,
-            Perform_by: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Partner_Name:
-              sessionStorage.getItem('first_name') != null
-                ? `${sessionStorage.getItem(
-                    'first_name'
-                  )} ${sessionStorage.getItem(
-                    'middle_name'
-                  )} ${sessionStorage.getItem('last_name')}`
-                : '',
-            Partner_id: sessionStorage.getItem('partner_code'),
-            Total_IDV: this.premiumDetails.idv,
-            Total_Premium: this.premiumDetails.gross_premium,
-            'Total_Own_Damage_(A)':
-              this.premiumDetails.od_premium_details.total_od_premium != 0
-                ? this.premiumDetails.od_premium_details.total_od_premium
-                : 0,
-            NCB_Discount:
-              this.premiumDetails.od_premium_details.ncb_discount < 0
-                ? -this.premiumDetails.od_premium_details.ncb_discount
-                : this.premiumDetails.od_premium_details.ncb_discount,
-            'Third_Party_(B)':
-              this.premiumDetails.tp_premium_details.total_tp_premium != 0
-                ? this.premiumDetails.tp_premium_details.total_tp_premium
-                : 0,
-            // // Selected_Addons
-            Total_Addons: this.premiumDetails?.is_addon_addition,
-            'GST_(18%)_(C)':
-              this.premiumDetails.total_gst != 0
-                ? this.premiumDetails.total_gst
-                : 0,
-            'Total_Premium_(A+B+C)':
-              this.premiumDetails.gross_premium != 0
-                ? this.premiumDetails.gross_premium
-                : 0,
-            IDV: this.premiumDetails.gross_premium,
-            Insurer_Name: this.premiumDetails.insurer_name,
-            Insurer_Logo: this.premiumDetails.insurer_logo,
-            Motor_Type: vehcileType,
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Policy_No: this.premiumDetails.policy_number,
-            Transaction_id: this.transactionId,
-          };
-          webengage.track('Motor_Payment_Status', paymentData);
-          webengage.track('Motor_Plan_Purchased_Successful', paymentData);
-        } else if (!paymentStatus) {
-          let paymentData = {
-            Status: 'Payment Faliure',
-            Customer_id: CheckId.customer_id,
-            Perform_by: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Partner_Name:
-              sessionStorage.getItem('first_name') != null
-                ? `${sessionStorage.getItem(
-                    'first_name'
-                  )} ${sessionStorage.getItem(
-                    'middle_name'
-                  )} ${sessionStorage.getItem('last_name')}`
-                : '',
-            Partner_id: sessionStorage.getItem('partner_code'),
-            Total_IDV: this.premiumDetails.idv,
-            Total_Premium: this.premiumDetails.gross_premium,
-            'Total_Own_Damage_(A)':
-              this.premiumDetails.od_premium_details.total_od_premium != 0
-                ? this.premiumDetails.od_premium_details.total_od_premium
-                : 0,
-            NCB_Discount:
-              this.premiumDetails.od_premium_details.ncb_discount < 0
-                ? -this.premiumDetails.od_premium_details.ncb_discount
-                : this.premiumDetails.od_premium_details.ncb_discount,
-            'Third_Party_(B)':
-              this.premiumDetails.tp_premium_details.total_tp_premium != 0
-                ? this.premiumDetails.tp_premium_details.total_tp_premium
-                : 0,
-            // // Selected_Addons
-            Total_Addons: this.premiumDetails?.is_addon_addition,
-            'GST_(18%)_(C)':
-              this.premiumDetails.total_gst != 0
-                ? this.premiumDetails.total_gst
-                : 0,
-            'Total_Premium_(A+B+C)':
-              this.premiumDetails.gross_premium != 0
-                ? this.premiumDetails.gross_premium
-                : 0,
-            IDV: this.premiumDetails.gross_premium,
-            Insurer_Name: this.premiumDetails.insurer_name,
-            Insurer_Logo: this.premiumDetails.insurer_logo,
-            Motor_Type: vehcileType,
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Policy_No: this.premiumDetails.policy_number,
-            Transaction_id: this.transactionId,
-          };
-          webengage.track('Motor_Payment_Status', paymentData);
-          webengage.track('Motor_Plan_Purchased_Successful', paymentData);
-        }
-        if (status == 'Payment Deducted') {
-          let paymentData = {
-            Status: 'Payment Deducted',
-            Customer_id: CheckId.customer_id,
-            Perform_by: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Partner_Name:
-              sessionStorage.getItem('first_name') != null
-                ? `${sessionStorage.getItem(
-                    'first_name'
-                  )} ${sessionStorage.getItem(
-                    'middle_name'
-                  )} ${sessionStorage.getItem('last_name')}`
-                : '',
-            Partner_id: sessionStorage.getItem('partner_code'),
-            Total_IDV: this.premiumDetails.idv,
-            Total_Premium: this.premiumDetails.gross_premium,
-            'Total_Own_Damage_(A)':
-              this.premiumDetails.od_premium_details.total_od_premium != 0
-                ? this.premiumDetails.od_premium_details.total_od_premium
-                : 0,
-            NCB_Discount:
-              this.premiumDetails.od_premium_details.ncb_discount < 0
-                ? -this.premiumDetails.od_premium_details.ncb_discount
-                : this.premiumDetails.od_premium_details.ncb_discount,
-            'Third_Party_(B)':
-              this.premiumDetails.tp_premium_details.total_tp_premium != 0
-                ? this.premiumDetails.tp_premium_details.total_tp_premium
-                : 0,
-            // // Selected_Addons
-            Total_Addons: this.premiumDetails?.is_addon_addition,
-            'GST_(18%)_(C)':
-              this.premiumDetails.total_gst != 0
-                ? this.premiumDetails.total_gst
-                : 0,
-            'Total_Premium_(A+B+C)':
-              this.premiumDetails.gross_premium != 0
-                ? this.premiumDetails.gross_premium
-                : 0,
-            IDV: this.premiumDetails.gross_premium,
-            Insurer_Name: this.premiumDetails.insurer_name,
-            Insurer_Logo: this.premiumDetails.insurer_logo,
-            Motor_Type: vehcileType,
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Policy_No: this.premiumDetails.policy_number,
-            Transaction_id: this.transactionId,
-          };
-          webengage.track('Motor_Payment_Status', paymentData);
-          webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+        this.paymentStatusValue = paymentStatus;
+        this.payemntDeducted = status;
+        if (this.isExistCustomerId != null) {
+          if (paymentStatus) {
+            let paymentData = {
+              Status: 'Payment Successful',
+              Customer_id: CheckId.customer_id,
+              Perform_by: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Partner_Name:
+                sessionStorage.getItem('first_name') != null
+                  ? `${sessionStorage.getItem(
+                      'first_name'
+                    )} ${sessionStorage.getItem(
+                      'middle_name'
+                    )} ${sessionStorage.getItem('last_name')}`
+                  : '',
+              Partner_id: sessionStorage.getItem('partner_code'),
+              Total_IDV: this.premiumDetails.idv,
+              Total_Premium: this.premiumDetails.gross_premium,
+              'Total_Own_Damage_(A)':
+                this.premiumDetails.od_premium_details.total_od_premium != 0
+                  ? this.premiumDetails.od_premium_details.total_od_premium
+                  : 0,
+              NCB_Discount:
+                this.premiumDetails.od_premium_details.ncb_discount < 0
+                  ? -this.premiumDetails.od_premium_details.ncb_discount
+                  : this.premiumDetails.od_premium_details.ncb_discount,
+              'Third_Party_(B)':
+                this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                  ? this.premiumDetails.tp_premium_details.total_tp_premium
+                  : 0,
+              // // Selected_Addons
+              Total_Addons: this.premiumDetails?.is_addon_addition,
+              'GST_(18%)_(C)':
+                this.premiumDetails.total_gst != 0
+                  ? this.premiumDetails.total_gst
+                  : 0,
+              'Total_Premium_(A+B+C)':
+                this.premiumDetails.gross_premium != 0
+                  ? this.premiumDetails.gross_premium
+                  : 0,
+              IDV: this.premiumDetails.gross_premium,
+              Insurer_Name: this.premiumDetails.insurer_name,
+              Insurer_Logo: this.premiumDetails.insurer_logo,
+              Motor_Type: vehcileType,
+              User_Type: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Policy_No: this.premiumDetails.policy_number,
+              Transaction_id: this.transactionId,
+            };
+            webengage.track('Motor_Payment_Status', paymentData);
+            webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+          } else if (!paymentStatus) {
+            let paymentData = {
+              Status: 'Payment Faliure',
+              Customer_id: CheckId.customer_id,
+              Perform_by: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Partner_Name:
+                sessionStorage.getItem('first_name') != null
+                  ? `${sessionStorage.getItem(
+                      'first_name'
+                    )} ${sessionStorage.getItem(
+                      'middle_name'
+                    )} ${sessionStorage.getItem('last_name')}`
+                  : '',
+              Partner_id: sessionStorage.getItem('partner_code'),
+              Total_IDV: this.premiumDetails.idv,
+              Total_Premium: this.premiumDetails.gross_premium,
+              'Total_Own_Damage_(A)':
+                this.premiumDetails.od_premium_details.total_od_premium != 0
+                  ? this.premiumDetails.od_premium_details.total_od_premium
+                  : 0,
+              NCB_Discount:
+                this.premiumDetails.od_premium_details.ncb_discount < 0
+                  ? -this.premiumDetails.od_premium_details.ncb_discount
+                  : this.premiumDetails.od_premium_details.ncb_discount,
+              'Third_Party_(B)':
+                this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                  ? this.premiumDetails.tp_premium_details.total_tp_premium
+                  : 0,
+              // // Selected_Addons
+              Total_Addons: this.premiumDetails?.is_addon_addition,
+              'GST_(18%)_(C)':
+                this.premiumDetails.total_gst != 0
+                  ? this.premiumDetails.total_gst
+                  : 0,
+              'Total_Premium_(A+B+C)':
+                this.premiumDetails.gross_premium != 0
+                  ? this.premiumDetails.gross_premium
+                  : 0,
+              IDV: this.premiumDetails.gross_premium,
+              Insurer_Name: this.premiumDetails.insurer_name,
+              Insurer_Logo: this.premiumDetails.insurer_logo,
+              Motor_Type: vehcileType,
+              User_Type: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Policy_No: this.premiumDetails.policy_number,
+              Transaction_id: this.transactionId,
+            };
+            webengage.track('Motor_Payment_Status', paymentData);
+            webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+          }
+          if (status == 'Payment Deducted') {
+            let paymentData = {
+              Status: 'Payment Deducted',
+              Customer_id: CheckId.customer_id,
+              Perform_by: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Partner_Name:
+                sessionStorage.getItem('first_name') != null
+                  ? `${sessionStorage.getItem(
+                      'first_name'
+                    )} ${sessionStorage.getItem(
+                      'middle_name'
+                    )} ${sessionStorage.getItem('last_name')}`
+                  : '',
+              Partner_id: sessionStorage.getItem('partner_code'),
+              Total_IDV: this.premiumDetails.idv,
+              Total_Premium: this.premiumDetails.gross_premium,
+              'Total_Own_Damage_(A)':
+                this.premiumDetails.od_premium_details.total_od_premium != 0
+                  ? this.premiumDetails.od_premium_details.total_od_premium
+                  : 0,
+              NCB_Discount:
+                this.premiumDetails.od_premium_details.ncb_discount < 0
+                  ? -this.premiumDetails.od_premium_details.ncb_discount
+                  : this.premiumDetails.od_premium_details.ncb_discount,
+              'Third_Party_(B)':
+                this.premiumDetails.tp_premium_details.total_tp_premium != 0
+                  ? this.premiumDetails.tp_premium_details.total_tp_premium
+                  : 0,
+              // // Selected_Addons
+              Total_Addons: this.premiumDetails?.is_addon_addition,
+              'GST_(18%)_(C)':
+                this.premiumDetails.total_gst != 0
+                  ? this.premiumDetails.total_gst
+                  : 0,
+              'Total_Premium_(A+B+C)':
+                this.premiumDetails.gross_premium != 0
+                  ? this.premiumDetails.gross_premium
+                  : 0,
+              IDV: this.premiumDetails.gross_premium,
+              Insurer_Name: this.premiumDetails.insurer_name,
+              Insurer_Logo: this.premiumDetails.insurer_logo,
+              Motor_Type: vehcileType,
+              User_Type: sessionStorage.getItem('partner_code')
+                ? 'Partner'
+                : 'Customer',
+              Policy_No: this.premiumDetails.policy_number,
+              Transaction_id: this.transactionId,
+            };
+            webengage.track('Motor_Payment_Status', paymentData);
+            webengage.track('Motor_Plan_Purchased_Successful', paymentData);
+          }
+        } else {
+          let mobileNumber = sessionStorage.getItem('mobileNumber');
+          this.sharedService.getCustomerIdForwebengae(
+            mobileNumber,
+            '',
+            'Payment'
+          );
         }
       });
   }
