@@ -64,7 +64,7 @@ export class PaymentComponent implements OnInit {
           this.paymentSuccess,
           ''
         );
-      } else if (params[4]['path'] != 'payment-success') {
+      } else if (params[4]['path'] != 'payment-success' && !proposalNoValue) {
         this.paymentSuccess = false;
         this.getTransactionPremiumDetails(
           this.transactionId,
