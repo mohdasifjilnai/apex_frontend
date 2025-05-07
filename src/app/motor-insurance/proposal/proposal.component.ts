@@ -88,6 +88,7 @@ export class ProposalComponent implements OnInit {
   partnerCodeTraceId: any;
   partnerCodewithTraceId: any;
   isPrevoiusInsurer: any;
+  renewalPolicyDetailsMessage: boolean=false;
 
   constructor(
     public matDialog: WindowRef,
@@ -146,6 +147,9 @@ export class ProposalComponent implements OnInit {
       if (Object.keys(this.quoteData).length > 0) {
         const renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal') {
+          if(this.quoteData.insurer_code=='cholamandalam'){
+            this.renewalPolicyDetailsMessage=true
+          }
           this.isPrevoiusInsurer = true;
           sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
         }

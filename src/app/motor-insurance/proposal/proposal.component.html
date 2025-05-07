@@ -4,6 +4,9 @@
       vehicleInspectionMessage
     }}</span>
   </div>
+  <div class="inspectionData mb-3" *ngIf="renewalPolicyDetailsMessage">
+    <span class="col-lg-12 inspectionCase details ms-2">The edited information will not be reflected in the renewal policy copy.</span>
+  </div>
   <div class="col-lg-3 col-md-4">
     <app-insurance-details></app-insurance-details>
   </div>
