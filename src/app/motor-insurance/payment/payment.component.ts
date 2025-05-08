@@ -252,7 +252,10 @@ export class PaymentComponent implements OnInit {
               };
               webengage.track('Motor_Payment_Status', paymentData);
               webengage.track('Motor_Plan_Purchased_Successful', paymentData);
-            } else if (!this.paymentStatusValue) {
+            } else if (
+              !this.paymentStatusValue &&
+              this.payemntDeducted != 'Payment Deducted'
+            ) {
               let paymentData = {
                 Status: 'Payment Faliure',
                 Customer_id: CheckId.customer_id,
