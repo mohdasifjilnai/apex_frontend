@@ -102,6 +102,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   variantValueSelected: any;
   fuelArray: any;
   mmvBaseButtonDisable = false;
+  previousPolicyDisabled=false
   vehiclePreviousInsurerOninit = true;
   url = 'quotes';
   renewalType: any;
@@ -258,6 +259,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
+      this.previousPolicyDisabled=true
       if (res) {
         this.regDateValue = new Date(res);
         if (this.editClick == '') {
@@ -428,6 +430,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
           'renewalPreviousInsurer',
           JSON.stringify(renewalInsurer)
         );
+        this.previousPolicyDisabled=false
       } else if (renewalInsurer == 'No result found') {
         this.vehicleDetailsForm.patchValue({
           previous_insurer: renewalInsurer,
@@ -466,6 +469,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       sessionStorage.getItem('coverageType') || '{}'
     );
     if (this.renewalType == 'renewal') {
+      this.previousPolicyDisabled=true
       if (coverageType) {
         this.vehicleDetailsForm.patchValue({
           policy_expiry: coverageType.coverage_type_code,
@@ -1440,6 +1444,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
         )
         ?.subscribe((res) => {
           if (res) {
+            this.previousPolicyDisabled=false
             this.isEditable = res;
             this.isNewVehicle = res?.is_new_vehicle;
             if (!this.isNewVehicle) {

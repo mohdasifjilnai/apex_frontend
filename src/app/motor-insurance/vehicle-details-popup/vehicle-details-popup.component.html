@@ -590,7 +590,7 @@
               mat-button
               class="submit-btn mb-2 vehicle-submission"
               type="submit"
-              [disabled]="mmvBaseButtonDisable"
+              [disabled]="mmvBaseButtonDisable || previousPolicyDisabled"
             >
               {{ editVehicleDetails ? "Above details are correct" : "Save" }}
             </button>
