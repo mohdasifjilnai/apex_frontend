@@ -199,6 +199,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     this.sharedDataService.getVehicleDetails.subscribe((res) => {
       if (res === 'edit' && this.editVehiclePatch) {
         this.editVehicleDetails = false;
+        this.previousPolicyDisabled=false
         this.editClick = res;
         this.vehiclePopupList = sessionStorage.getItem('mmv_data');
         let vehicleCard = JSON.parse(this.vehiclePopupList);
@@ -259,7 +260,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
-      this.previousPolicyDisabled=true
+      // this.previousPolicyDisabled=true
+      console.log(this.previousPolicyDisabled,res)
       if (res) {
         this.regDateValue = new Date(res);
         if (this.editClick == '') {

@@ -116,13 +116,16 @@ getVahaanDetails(isValid:any){
     ? sessionStorage.getItem('partner_code')
     : '';
     const token = sessionStorage.getItem('token');
-  if(this.selectedTabIndex==0){
     const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}`
-  }else{
-    queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}&partner_code=${partner_code}`
-  }
+  // if(this.selectedTabIndex==0){
+  //   const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+  //   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
+  //   queryParams=`?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}`
+  // }else{
+  //   queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}&partner_code=${partner_code}`
+  // }
   this.apiservice
       .getRequestedResponse(
         `${ApiConstants.registration_number()}${queryParams}`
@@ -133,7 +136,7 @@ getVahaanDetails(isValid:any){
           if(!res?.is_commercial){
             if((this.quotes_data?.vehicle_type=='private_car' && res?.is_four_wheeler) || (this.quotes_data?.vehicle_type=='two_wheeler' && res?.is_two_wheeler)){
               this.sharedDataService.vahaanDetails(res)
-              sessionStorage.setItem('registrationNumber',res?.registration_number)
+              sessionStorage.setItem('registrationNumber',regestrationNumber)
               sessionStorage.setItem('alreadyCalled', 'true');
             sessionStorage.setItem('isprevoiusInsurer', 'true');
             sessionStorage.setItem('quotes_data', JSON.stringify(this.quotes_data));
