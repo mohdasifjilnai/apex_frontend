@@ -275,6 +275,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     });
 
     this.sharedDataService.changePolicyExpDate.subscribe((res) => {
+      
       if (this.url == 'quotes') {
         let policyExpDateValue = new Date(res.value);
         this.showExpiryDateErrorMessage = false;
@@ -283,6 +284,12 @@ export class VehicleDetailsPopupComponent implements OnInit {
           policyExpDateValue,
           'regDateChange'
         );
+      }
+      if(res.value==null){
+        this.previousPolicyDisabled=true
+        this.showExpiryDateErrorMessage=true
+      }else{
+        this.previousPolicyDisabled=false
       }
     });
     // this.checkWheelerType(this.editVehicleDetails);
