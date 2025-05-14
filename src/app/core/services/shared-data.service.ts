@@ -518,8 +518,12 @@ export class SharedDataService {
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
+      const mmv_data=JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
+      const diffrenceDays = this.daysCountsFromToday(
+        mmv_data?.policy_expiry_date
+      );
       if (!data?.user_car) {
-        if (data?.previous_claimed) {
+        if (data?.previous_claimed || diffrenceDays) {
           quotesData.offered_ncb_value = 0;
         } else {
           quotesData.offered_ncb_value =
@@ -589,8 +593,12 @@ export class SharedDataService {
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
+      const mmv_data=JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
+      const diffrenceDays = this.daysCountsFromToday(
+        mmv_data?.policy_expiry_date
+      );
       if (!data?.user_car) {
-        if (data?.previous_claimed) {
+        if (data?.previous_claimed|| diffrenceDays) {
           quotesData.offered_ncb_value = 0;
         } else {
           quotesData.offered_ncb_value =
@@ -1687,5 +1695,14 @@ export class SharedDataService {
           return null;
       }
     };
+  }
+
+  daysCountsFromToday(date: any) {
+    const policyExpiryDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffInTime = policyExpiryDate.getTime() - today.getTime();
+    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+    return Number(Math.abs(diffInDays));
   }
 }
