@@ -1328,86 +1328,118 @@ export class QuotesListingComponent implements OnInit {
       }
     }, 40);
   }
+  // getImagePosition(): string {
+  //   if (window.innerWidth <= 999) {
+  //     const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
+  //     if (position >= 630) {
+  //       return `translateX(630%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1000 && window.innerWidth <= 1100) {
+  //     const position = this.progressValue * 14; // Adjust the multiplier based on your desired movement
+  //     if (position >= 1360) {
+  //       return `translateX(1360%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
+  //     const position = this.progressValue * 15;
+  //     if (position >= 1455) {
+  //       return `translateX(1455%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
+  //     const position = this.progressValue * 17;
+  //     if (position >= 1650) {
+  //       return `translateX(1650%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //     // Adjust the multiplier based on your desired movement
+  //   } else if (window.innerWidth > 1400 && window.innerWidth <= 1500) {
+  //     const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
+  //     if (position >= 1840) {
+  //       return `translateX(1840%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
+  //     const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
+  //     if (position >= 1940) {
+  //       return `translateX(1940%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
+  //     const position = this.progressValue * 21; // Adjust the multiplier based on your desired movement
+  //     if (position >= 2030) {
+  //       return `translateX(2030%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
+  //     const position = this.progressValue * 23; // Adjust the multiplier based on your desired movement
+  //     if (position >= 2230) {
+  //       return `translateX(2230%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
+  //     const position = this.progressValue * 25; // Adjust the multiplier based on your desired movement
+  //     if (position >= 2425) {
+  //       return `translateX(2425%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
+  //     const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
+  //     if (position >= 2660) {
+  //       return `translateX(2660%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   } else {
+  //     const position = this.progressValue * 33; // Adjust the multiplier based on your desired movement
+  //     if (position >= 3201) {
+  //       return `translateX(3201%)`;
+  //     } else {
+  //       return `translateX(${position}%)`;
+  //     }
+  //   }
+  // }
+
   getImagePosition(): string {
-    if (window.innerWidth <= 999) {
-      const position = this.progressValue * 6.5; // Adjust the multiplier based on your desired movement
-      if (position >= 630) {
-        return `translateX(630%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1000 && window.innerWidth <= 1100) {
-      const position = this.progressValue * 14; // Adjust the multiplier based on your desired movement
-      if (position >= 1360) {
-        return `translateX(1360%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1100 && window.innerWidth <= 1200) {
-      const position = this.progressValue * 15;
-      if (position >= 1455) {
-        return `translateX(1455%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1200 && window.innerWidth <= 1400) {
-      const position = this.progressValue * 17;
-      if (position >= 1650) {
-        return `translateX(1650%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-      // Adjust the multiplier based on your desired movement
-    } else if (window.innerWidth > 1400 && window.innerWidth <= 1500) {
-      const position = this.progressValue * 19; // Adjust the multiplier based on your desired movement
-      if (position >= 1840) {
-        return `translateX(1840%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1500 && window.innerWidth <= 1600) {
-      const position = this.progressValue * 20; // Adjust the multiplier based on your desired movement
-      if (position >= 1940) {
-        return `translateX(1940%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1600 && window.innerWidth <= 1700) {
-      const position = this.progressValue * 21; // Adjust the multiplier based on your desired movement
-      if (position >= 2030) {
-        return `translateX(2030%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1700 && window.innerWidth <= 1800) {
-      const position = this.progressValue * 23; // Adjust the multiplier based on your desired movement
-      if (position >= 2230) {
-        return `translateX(2230%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 1800 && window.innerWidth <= 2000) {
-      const position = this.progressValue * 25; // Adjust the multiplier based on your desired movement
-      if (position >= 2425) {
-        return `translateX(2425%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else if (window.innerWidth > 2000 && window.innerWidth <= 2200) {
-      const position = this.progressValue * 27.5; // Adjust the multiplier based on your desired movement
-      if (position >= 2660) {
-        return `translateX(2660%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
-    } else {
-      const position = this.progressValue * 33; // Adjust the multiplier based on your desired movement
-      if (position >= 3201) {
-        return `translateX(3201%)`;
-      } else {
-        return `translateX(${position}%)`;
-      }
+    let maxTranslateX = 3201; // Default max for very large screens
+  
+    const w = window.innerWidth;
+  
+    if (w <= 999) {
+      maxTranslateX = 600;
+    } else if (w <= 1100) {
+      maxTranslateX = 1330;
+    } else if (w <= 1200) {
+      maxTranslateX = 1425;
+    } else if (w <= 1400) {
+      maxTranslateX = 1620;
+    } else if (w <= 1500) {
+      maxTranslateX = 1820;
+    } else if (w <= 1600) {
+      maxTranslateX = 1910;
+    } else if (w <= 1700) {
+      maxTranslateX = 2000;
+    } else if (w <= 1800) {
+      maxTranslateX = 2200;
+    } else if (w <= 2000) {
+      maxTranslateX = 2405;
+    } else if (w <= 2200) {
+      maxTranslateX = 2630;
     }
+  
+    const position = (this.progressValue / 100) * maxTranslateX;
+  
+    return `translateX(${position}%)`;
   }
 
   gstToggle(event: any) {

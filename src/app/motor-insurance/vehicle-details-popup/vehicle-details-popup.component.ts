@@ -478,7 +478,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       sessionStorage.getItem('coverageType') || '{}'
     );
     if (this.renewalType == 'renewal') {
-      this.previousPolicyDisabled=true
+      // this.previousPolicyDisabled=true
       if (coverageType) {
         this.vehicleDetailsForm.patchValue({
           policy_expiry: coverageType.coverage_type_code,
