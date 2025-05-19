@@ -523,7 +523,7 @@ export class SharedDataService {
         mmv_data?.policy_expiry_date
       );
       if (!data?.user_car) {
-        if (data?.previous_claimed || diffrenceDays) {
+        if (data?.previous_claimed || diffrenceDays > 90) {
           quotesData.offered_ncb_value = 0;
         } else {
           quotesData.offered_ncb_value =
@@ -598,7 +598,7 @@ export class SharedDataService {
         mmv_data?.policy_expiry_date
       );
       if (!data?.user_car) {
-        if (data?.previous_claimed|| diffrenceDays) {
+        if (data?.previous_claimed|| diffrenceDays > 90) {
           quotesData.offered_ncb_value = 0;
         } else {
           quotesData.offered_ncb_value =

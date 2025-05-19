@@ -157,8 +157,8 @@ getVahaanDetails(isValid:any){
             
           }else{
             this.commercialVehicleMessage=true
-            this.vehicleRegistrationNumberForm?.reset();
-          }
+            this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.reset();
+           }
         }else{
           this.showErrorMessage=true
         }
