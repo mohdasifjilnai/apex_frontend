@@ -453,6 +453,9 @@
                     {{ expiry?.rb_expiring_policy_type }}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="vehicleDetailsForm.get('policy_expiry')?.hasError('required')">
+                  This is a required field.
+                </mat-error>
               </mat-form-field>
               <div *ngIf="showErrorMessage" class="error ms-4 mb-2">
                 This is a required field

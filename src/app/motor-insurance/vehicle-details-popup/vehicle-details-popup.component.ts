@@ -823,6 +823,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
           : null,
         Motor_Type: this.vehicleTypeValue,
       });
+    }else{
+      this.showExpiryDateErrorMessage = false;
     }
   }
 
