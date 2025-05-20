@@ -172,7 +172,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     );
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
-      if (this.enableIdvCard) {
+      // if (this.enableIdvCard) {
         this.enableIdvCard = false;
         let quotationArray = idvData;
         this.breakIn = false;
@@ -209,7 +209,7 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.breakIn = true;
           }
         }
-      }
+      // }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;

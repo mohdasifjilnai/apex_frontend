@@ -478,7 +478,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
       sessionStorage.getItem('coverageType') || '{}'
     );
     if (this.renewalType == 'renewal') {
-      // this.previousPolicyDisabled=true
+      this.previousPolicyDisabled=true
       if (coverageType) {
         this.vehicleDetailsForm.patchValue({
           policy_expiry: coverageType.coverage_type_code,
@@ -650,6 +650,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (isValid) {
       let title;
       if (this.editVehicleDetails) {
+      this.previousPolicyDisabled=false
         title = 'Motor_details_verified';
       } else {
         title = 'Motor_details_Updated';
@@ -2355,6 +2356,7 @@ Get the expiring policy list based on the given date or the registration details
             this.variantValueSelected = matchingModel;
             this.disablevisually();
           } else if (type == 'mmvData' && this.editClick == 'edit') {
+            this.previousPolicyDisabled=false
             let registrationDateObject;
             let manufactureDateObject;
             let registrationDate;
