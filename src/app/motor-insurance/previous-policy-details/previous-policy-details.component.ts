@@ -1045,7 +1045,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     }
 
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-    let CheckId = JSON.parse(this.isExistCustomerId);
+    let CheckId = JSON.parse(this.isExistCustomerId || '{}');
     if (CheckId) {
       const transforPolicyStart = this.previousPolicyDetailsForm.value
         ?.tp_policy_start_date

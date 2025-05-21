@@ -322,7 +322,7 @@ export class ProposalReviewComponent implements OnInit {
     let requestValue = JSON.parse(this.quotesRequestData);
 
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-    let CheckId = JSON.parse(this.isExistCustomerId);
+    let CheckId = JSON.parse(this.isExistCustomerId || '{}');
     if (CheckId) {
       const transformedRegistrationDate = requestValue?.registration_date
         ? this.datePipe.transform(

@@ -287,7 +287,7 @@ export class ProposalShareComponent implements OnInit {
     if (this.proposalData) {
       let vehicleProposalDetails = this.quoteData;
       this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-      let CheckId = JSON.parse(this.isExistCustomerId);
+      let CheckId = JSON.parse(this.isExistCustomerId || '{}');
       const vehcileType = sessionStorage.getItem('vehicleType');
       let vehicleWebengage = {
         User_Type: sessionStorage.getItem('partner_code')

@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  dev: true,
+  dev: false,
 
   baseUrl: 'https://apex.renewbuyinsurance.in/',
   amsurl: 'https://accounts.rbstaging.in/',

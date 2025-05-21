@@ -150,7 +150,7 @@ export class NomineeDetailsComponent implements OnInit {
     if (isValid) {
       const formValues = this.nominneForm.value;
       this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-      let CheckId = JSON.parse(this.isExistCustomerId);
+      let CheckId = JSON.parse(this.isExistCustomerId || '{}');
       if (CheckId) {
         webengage.track('Motor_Nominee_Details_Submitted', {
           Nominee_Relation: this.nominneForm.value.nominne_relation,

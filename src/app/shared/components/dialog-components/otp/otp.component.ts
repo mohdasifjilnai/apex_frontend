@@ -210,7 +210,7 @@ export class OtpComponent implements OnInit {
     this.vehicleProposalDetails = this.quoteData;
     let vehicleValue = JSON.parse(this.vehicleProposalDetails);
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-    let CheckId = JSON.parse(this.isExistCustomerId);
+    let CheckId = JSON.parse(this.isExistCustomerId || '{}');
     webengage.track('Payment_OTP_submitted', {
       User_Type: sessionStorage.getItem('partner_code')
         ? 'Partner'

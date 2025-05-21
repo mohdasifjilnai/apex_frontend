@@ -969,7 +969,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         });
     }
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
-    let CheckId = JSON.parse(this.isExistCustomerId);
+    let CheckId = JSON.parse(this.isExistCustomerId || '{}');
     if (CheckId) {
       const transformedDateString = this.proposalVehilceDetailsForm.value
         ?.registration_date

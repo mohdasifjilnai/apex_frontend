@@ -199,7 +199,7 @@ export class PaymentComponent implements OnInit {
           this.isExistCustomerId = sessionStorage.getItem(
             'webengageCustomerId'
           );
-          let CheckId = JSON.parse(this.isExistCustomerId);
+          let CheckId = JSON.parse(this.isExistCustomerId || '{}');
 
           if (this.isExistCustomerId != null) {
             if (this.paymentStatusValue) {
@@ -509,7 +509,7 @@ export class PaymentComponent implements OnInit {
         const vehcileType = sessionStorage.getItem('vehicleType');
         this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
         sessionStorage.setItem('mobileNumber', res.mobile_number);
-        let CheckId = JSON.parse(this.isExistCustomerId);
+        let CheckId = JSON.parse(this.isExistCustomerId || '{}');
         this.paymentStatusValue = paymentStatus;
         this.payemntDeducted = status;
         if (this.isExistCustomerId != null) {
