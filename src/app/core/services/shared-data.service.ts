@@ -1469,37 +1469,39 @@ export class SharedDataService {
     buttonType?: any,
     transaction_id?: any
   ) {
-    let maskedCheck;
-    let maskedValue;
+    if(environment.dev){
+      let maskedCheck;
+      let maskedValue;
 
-    if (mobile_number) {
-      maskedCheck = mobile_number.includes('*');
-      maskedValue = maskedCheck ? true : false;
-    } else {
-      this.mobileNumber = sessionStorage.getItem('mobileNumber');
-      let checkNumber = JSON.parse(this.mobileNumber);
-      maskedCheck = checkNumber.includes('*');
-      maskedValue = maskedCheck ? true : false;
-    }
+      if (mobile_number) {
+        maskedCheck = mobile_number.includes('*');
+        maskedValue = maskedCheck ? true : false;
+      } else {
+        this.mobileNumber = sessionStorage.getItem('mobileNumber');
+        let checkNumber = JSON.parse(this.mobileNumber || '{}');
+        maskedCheck = checkNumber.includes('*');
+        maskedValue = maskedCheck ? true : false;
+      }
 
-    let transactionId = sessionStorage.getItem('transaction_id');
-    if (transactionId == null) {
-      transactionId = transaction_id;
+      let transactionId = sessionStorage.getItem('transaction_id');
+      if (transactionId == null) {
+        transactionId = transaction_id;
+      }
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}`
+        )
+        .subscribe((res) => {
+          this.webEngageCustomerDetails = res;
+          this.webEngageCustomerDetails.buttonType = '';
+          this.webEngageCustomerDetails.buttonType = buttonType;
+          sessionStorage.setItem(
+            'webengageCustomerId',
+            JSON.stringify(this.webEngageCustomerDetails)
+          );
+          this.getCustomerId.next(this.webEngageCustomerDetails);
+        });
     }
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}`
-      )
-      .subscribe((res) => {
-        this.webEngageCustomerDetails = res;
-        this.webEngageCustomerDetails.buttonType = '';
-        this.webEngageCustomerDetails.buttonType = buttonType;
-        sessionStorage.setItem(
-          'webengageCustomerId',
-          JSON.stringify(this.webEngageCustomerDetails)
-        );
-        this.getCustomerId.next(this.webEngageCustomerDetails);
-      });
   }
   sendOwnnerAddres(data: any) {
     this.getOwnnerAddres.next(data);
