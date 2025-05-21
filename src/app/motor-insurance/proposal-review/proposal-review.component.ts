@@ -392,12 +392,14 @@ export class ProposalReviewComponent implements OnInit {
         Partner_id: sessionStorage.getItem('partner_code'),
       });
     } else {
+      if (environment?.dev) {
       let mobileNumber = sessionStorage.getItem('mobileNumber');
       this.shareData.getCustomerIdForwebengae(
         mobileNumber,
         '',
         'Previous Policy Details'
       );
+      }
     }
 
     if (this.preAddons?.is_consent) {

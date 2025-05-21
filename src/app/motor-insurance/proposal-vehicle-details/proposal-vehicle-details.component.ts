@@ -33,6 +33,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 @Component({
   selector: 'app-proposal-vehicle-details',
@@ -1035,12 +1036,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       );
       webengage.track('Motor_Details_Submitted', filteredData);
     } else {
+    if (environment?.dev) {
       let mobileNumber = sessionStorage.getItem('mobileNumber');
       this.shareData.getCustomerIdForwebengae(
         mobileNumber,
         '',
         'Vehicle Details'
       );
+    }
     }
   }
   /**

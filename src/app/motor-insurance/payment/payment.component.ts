@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 @Component({
   selector: 'app-payment',
@@ -695,6 +696,7 @@ export class PaymentComponent implements OnInit {
             webengage.track('Motor_Plan_Purchased_Successful', filteredData);
           }
         } else {
+          if (environment?.dev) {
           let mobileNumber = sessionStorage.getItem('mobileNumber');
           this.sharedService.getCustomerIdForwebengae(
             mobileNumber,
@@ -702,6 +704,7 @@ export class PaymentComponent implements OnInit {
             'Payment',
             transaction_id
           );
+        }
         }
       });
   }

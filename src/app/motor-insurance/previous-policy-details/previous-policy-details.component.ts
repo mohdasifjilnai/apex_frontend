@@ -16,6 +16,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 @Component({
   selector: 'app-previous-policy-details',
@@ -1124,12 +1125,14 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       );
       webengage.track('Previous_Policy_details_Submitted', filteredData);
     } else {
+    if (environment?.dev) {
       let mobileNumber = sessionStorage.getItem('mobileNumber');
       this.sharedData.getCustomerIdForwebengae(
         mobileNumber,
         '',
         'Previous Policy Details'
       );
+      }
     }
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
