@@ -6,7 +6,7 @@
     matInput
     formControlName="vehicle_registration_address"
     appNoSpace
-    minlength="10"
+    minlength={{minLenth}}
     appRemoveNewlines
   ></textarea>
   <mat-error
@@ -25,7 +25,7 @@
       ]?.hasError('minlength')
     "
   >
-    Cannot be less than 10 Characters
+    Cannot be less than {{minLenth}} Characters
   </mat-error>
   <mat-error
     [hidden]="isNotShowErrorMsg"

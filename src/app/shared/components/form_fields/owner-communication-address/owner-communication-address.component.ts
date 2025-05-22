@@ -22,6 +22,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
   proposalErrorMsg: any;
   isNotShowErrorMsg: boolean = true;
   maxLength: any;
+  minLength: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -46,14 +47,16 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxLength = errData?.max_length;
+        this.minLength=errData?.min_length
+
         // this.isNotShowErrorMsg = true;
-        if (this.maxLength) {
+        if (this.maxLength || this.minLength) {
           if (!this.form.get('owner_communication_addres')) {
             this.form.addControl(
               'owner_communication_addres',
               new FormControl(null, [
                 Validators.required,
-                Validators.minLength(10),
+                Validators.minLength(this.minLength),
               ])
             );
           }

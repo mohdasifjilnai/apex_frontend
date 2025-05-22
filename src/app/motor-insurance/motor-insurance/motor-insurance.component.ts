@@ -893,6 +893,7 @@ export class MotorInsuranceComponent implements OnInit {
   }
 
   getTraceId() {
+    this.loader=true
     let apiUrl;
     this.partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')

@@ -447,7 +447,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxlength = errData?.max_length;
-        this.updateMaxLengthValidator(this.maxlength);
+        this.updateMaxLengthValidator(this.maxlength,errData?.min_length);
         this.owenerVehicleDetailsForm
           ?.get('owner_communication_addres')
           ?.valueChanges.subscribe((addressLength) => {
@@ -971,7 +971,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       }
     }
   }
-  updateMaxLengthValidator(maxLength: number) {
+  updateMaxLengthValidator(maxLength: number,minLength:number) {
     const ownerCommunicationAddressControl = this.owenerVehicleDetailsForm.get(
       'owner_communication_addres'
     );
@@ -979,7 +979,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     if (ownerCommunicationAddressControl) {
       ownerCommunicationAddressControl.setValidators([
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(minLength),
         Validators.maxLength(maxLength),
       ]);
 

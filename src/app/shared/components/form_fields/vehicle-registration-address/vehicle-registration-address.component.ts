@@ -22,6 +22,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
   proposalErrorMsg: any;
   isNotShowErrorMsg: boolean = true;
   maxLength: any;
+  minLenth: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -51,6 +52,7 @@ export class VehicleRegistrationAddressComponent implements OnInit {
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxLength = errData?.max_length;
+        this.minLenth=errData?.min_length
         if(this.vehilceRegistrationForm
           .get('vehicle_registration_address')
           ?.value.length>this.maxLength)  {
