@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 
 @Component({
@@ -174,12 +175,14 @@ export class NomineeDetailsComponent implements OnInit {
           Partner_id: sessionStorage.getItem('partner_code'),
         });
       } else {
+        if (environment?.dev) {
         let mobileNumber = sessionStorage.getItem('mobileNumber');
         this.sharedData.getCustomerIdForwebengae(
           mobileNumber,
           '',
           'Nominee Details'
         );
+        }
       }
 
       this.afterNomineeGetData.emit(formValues);
