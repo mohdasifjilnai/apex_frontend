@@ -107,6 +107,7 @@ export class NomineeDetailsComponent implements OnInit {
             Perform_by: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Perform_for: 'Customer',
             Partner_Name:
               sessionStorage.getItem('first_name') != null
                 ? `${sessionStorage.getItem(
@@ -164,6 +165,7 @@ export class NomineeDetailsComponent implements OnInit {
           Perform_by: sessionStorage.getItem('partner_code')
             ? 'Partner'
             : 'Customer',
+          Perform_for: 'Customer',
           Partner_Name:
             sessionStorage.getItem('first_name') != null
               ? `${sessionStorage.getItem(
@@ -176,12 +178,12 @@ export class NomineeDetailsComponent implements OnInit {
         });
       } else {
         if (environment?.dev) {
-        let mobileNumber = sessionStorage.getItem('mobileNumber');
-        this.sharedData.getCustomerIdForwebengae(
-          mobileNumber,
-          '',
-          'Nominee Details'
-        );
+          let mobileNumber = sessionStorage.getItem('mobileNumber');
+          this.sharedData.getCustomerIdForwebengae(
+            mobileNumber,
+            '',
+            'Nominee Details'
+          );
         }
       }
 

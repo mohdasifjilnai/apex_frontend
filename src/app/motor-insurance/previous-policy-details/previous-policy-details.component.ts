@@ -884,6 +884,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             Perform_by: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Perform_for: 'Customer',
             Partner_Name:
               sessionStorage.getItem('first_name') != null
                 ? `${sessionStorage.getItem(
@@ -1107,6 +1108,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
+        Perform_for: 'Customer',
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
@@ -1125,13 +1127,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       );
       webengage.track('Previous_Policy_details_Submitted', filteredData);
     } else {
-    if (environment?.dev) {
-      let mobileNumber = sessionStorage.getItem('mobileNumber');
-      this.sharedData.getCustomerIdForwebengae(
-        mobileNumber,
-        '',
-        'Previous Policy Details'
-      );
+      if (environment?.dev) {
+        let mobileNumber = sessionStorage.getItem('mobileNumber');
+        this.sharedData.getCustomerIdForwebengae(
+          mobileNumber,
+          '',
+          'Previous Policy Details'
+        );
       }
     }
   }

@@ -304,6 +304,7 @@ export class ProposalShareComponent implements OnInit {
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
+        Perform_for: 'Customer',
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(

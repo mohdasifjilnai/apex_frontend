@@ -593,7 +593,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.shareData.getErrorProposalDetails.subscribe((errData) => {
       if (errData) {
         this.maxlength = errData?.max_length;
-        this.updateMaxLengthValidator(this.maxlength,errData?.min_length);
+        this.updateMaxLengthValidator(this.maxlength, errData?.min_length);
         // this.owenerVehicleDetailsForm
         //   ?.get('owner_communication_addres')
         //   ?.valueChanges.subscribe((addressLength) => {
@@ -747,6 +747,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             Perform_by: sessionStorage.getItem('partner_code')
               ? 'Partner'
               : 'Customer',
+            Perform_for: 'Customer',
             Partner_Name:
               sessionStorage.getItem('first_name') != null
                 ? `${sessionStorage.getItem(
@@ -1018,6 +1019,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
+        Perform_for: 'Customer',
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
@@ -1036,14 +1038,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       );
       webengage.track('Motor_Details_Submitted', filteredData);
     } else {
-    if (environment?.dev) {
-      let mobileNumber = sessionStorage.getItem('mobileNumber');
-      this.shareData.getCustomerIdForwebengae(
-        mobileNumber,
-        '',
-        'Vehicle Details'
-      );
-    }
+      if (environment?.dev) {
+        let mobileNumber = sessionStorage.getItem('mobileNumber');
+        this.shareData.getCustomerIdForwebengae(
+          mobileNumber,
+          '',
+          'Vehicle Details'
+        );
+      }
     }
   }
   /**
@@ -1431,7 +1433,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.vehicleColor = vehicleColor;
       });
   }
-  updateMaxLengthValidator(maxLength: number,minLength:number) {
+  updateMaxLengthValidator(maxLength: number, minLength: number) {
     const ownerCommunicationAddressControl =
       this.proposalVehilceDetailsForm.get('vehicle_registration_address');
 

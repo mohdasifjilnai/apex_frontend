@@ -65,8 +65,7 @@ export class PaymentComponent implements OnInit {
           this.paymentSuccess,
           ''
         );
-      }
-       else if (params[4]['path'] == 'payment-failure') {
+      } else if (params[4]['path'] == 'payment-failure') {
         this.paymentSuccess = false;
         this.getTransactionPremiumDetails(
           this.transactionId,
@@ -209,6 +208,7 @@ export class PaymentComponent implements OnInit {
                 Perform_by: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
+                Perform_for: 'Customer',
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
@@ -272,6 +272,7 @@ export class PaymentComponent implements OnInit {
                 Perform_by: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
+                Perform_for: 'Customer',
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
@@ -333,6 +334,7 @@ export class PaymentComponent implements OnInit {
                 Perform_by: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
+                Perform_for: 'Customer',
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
@@ -520,6 +522,7 @@ export class PaymentComponent implements OnInit {
               Perform_by: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
+              Perform_for: 'Customer',
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
@@ -580,6 +583,7 @@ export class PaymentComponent implements OnInit {
               Perform_by: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
+              Perform_for: 'Customer',
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
@@ -641,6 +645,7 @@ export class PaymentComponent implements OnInit {
               Perform_by: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
+              Perform_for: 'Customer',
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
@@ -697,14 +702,14 @@ export class PaymentComponent implements OnInit {
           }
         } else {
           if (environment?.dev) {
-          let mobileNumber = sessionStorage.getItem('mobileNumber');
-          this.sharedService.getCustomerIdForwebengae(
-            mobileNumber,
-            '',
-            'Payment',
-            transaction_id
-          );
-        }
+            let mobileNumber = sessionStorage.getItem('mobileNumber');
+            this.sharedService.getCustomerIdForwebengae(
+              mobileNumber,
+              '',
+              'Payment',
+              transaction_id
+            );
+          }
         }
       });
   }

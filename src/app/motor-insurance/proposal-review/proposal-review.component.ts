@@ -282,6 +282,7 @@ export class ProposalReviewComponent implements OnInit {
           Perform_by: sessionStorage.getItem('partner_code')
             ? 'Partner'
             : 'Customer',
+          Perform_for: 'Customer',
           Partner_Name:
             sessionStorage.getItem('first_name') != null
               ? `${sessionStorage.getItem(
@@ -383,6 +384,7 @@ export class ProposalReviewComponent implements OnInit {
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
+        Perform_for: 'Customer',
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
@@ -393,12 +395,12 @@ export class ProposalReviewComponent implements OnInit {
       });
     } else {
       if (environment?.dev) {
-      let mobileNumber = sessionStorage.getItem('mobileNumber');
-      this.shareData.getCustomerIdForwebengae(
-        mobileNumber,
-        '',
-        'Previous Policy Details'
-      );
+        let mobileNumber = sessionStorage.getItem('mobileNumber');
+        this.shareData.getCustomerIdForwebengae(
+          mobileNumber,
+          '',
+          'Previous Policy Details'
+        );
       }
     }
 
