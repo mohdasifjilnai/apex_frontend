@@ -986,13 +986,6 @@ export class QuotesListingComponent implements OnInit {
    * Selected Quotes Count UI Open
    */
   selectQuotes(count: any) {
-    webengage.track('Shared_Quotes_clicked', {
-      Option_Selected: count,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
     this.shareType = count;
     this.addShare = true;
     this.shareQuotesDropdownValue = false;
@@ -1013,7 +1006,16 @@ export class QuotesListingComponent implements OnInit {
           this.insurerNameData.push(value['insurer_name']);
         }
       }
-
+      webengage.track('Shared_Quotes_clicked', {
+        Option_Selected: count,
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+        Total_IDV: this.totalIdvData.join(', '),
+        Total_Premium: this.totalPremiumData.join(', '),
+        Insurer_Logo: this.insurerLogoData.join(', '),
+      });
       webengage.track('Quotes_selected', {
         Plan_Details: this.selectedQuotes,
         User_Type: sessionStorage.getItem('partner_code')
@@ -1412,9 +1414,9 @@ export class QuotesListingComponent implements OnInit {
 
   getImagePosition(): string {
     let maxTranslateX = 3201; // Default max for very large screens
-  
+
     const w = window.innerWidth;
-  
+
     if (w <= 999) {
       maxTranslateX = 600;
     } else if (w <= 1100) {
@@ -1436,9 +1438,9 @@ export class QuotesListingComponent implements OnInit {
     } else if (w <= 2200) {
       maxTranslateX = 2630;
     }
-  
+
     const position = (this.progressValue / 100) * maxTranslateX;
-  
+
     return `translateX(${position}%)`;
   }
 

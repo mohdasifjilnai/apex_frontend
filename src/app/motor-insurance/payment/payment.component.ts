@@ -514,6 +514,9 @@ export class PaymentComponent implements OnInit {
         let CheckId = JSON.parse(this.isExistCustomerId || '{}');
         this.paymentStatusValue = paymentStatus;
         this.payemntDeducted = status;
+        let vehicleValue = vehcileType
+          ? vehcileType
+          : this.premiumDetails?.vehicle_type;
         if (this.isExistCustomerId != null) {
           if (paymentStatus) {
             let paymentData = {
@@ -559,7 +562,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehcileType,
+              Motor_Type: vehicleValue,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
@@ -620,7 +623,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehcileType,
+              Motor_Type: vehicleValue,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
@@ -682,7 +685,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehcileType,
+              Motor_Type: vehicleValue,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
