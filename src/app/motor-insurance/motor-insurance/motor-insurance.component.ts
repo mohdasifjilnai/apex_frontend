@@ -437,8 +437,8 @@ export class MotorInsuranceComponent implements OnInit {
     }
     this.route.queryParamMap.subscribe((params) => {
       this.regNo = params.get('reg_no');
-      let userid:any=params.get('userid');
-      sessionStorage.setItem('userid',userid)
+      let userid: any = params.get('userid');
+      sessionStorage.setItem('userid', userid);
       let mobile_number: any = params.get('mobile_no');
       if (mobile_number != null) {
         sessionStorage.setItem('customer_mobile_number', mobile_number);
@@ -782,7 +782,11 @@ export class MotorInsuranceComponent implements OnInit {
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
     if (this.isPolicyNumber) {
-      webengage.track('Motor_Renew_Initiated', {});
+      webengage.track('Motor_Renew_Initiated', {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+      });
     }
     this.motorInsurance.reset();
     this.vehicleResponse = null;
@@ -893,7 +897,7 @@ export class MotorInsuranceComponent implements OnInit {
   }
 
   getTraceId() {
-    this.loader=true
+    this.loader = true;
     let apiUrl;
     this.partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')
@@ -909,7 +913,10 @@ export class MotorInsuranceComponent implements OnInit {
           : 'Customer',
         Motor_Type: vehicleTypeValue,
       });
-    } else if (this.motorInsurance.value.vehicle?.rb_mmv_id && this.motorInsurance.value?.policy_expiry_date!='Not Sure') {
+    } else if (
+      this.motorInsurance.value.vehicle?.rb_mmv_id &&
+      this.motorInsurance.value?.policy_expiry_date != 'Not Sure'
+    ) {
       const transformedRegDate = this.motorInsurance.value?.registration_date
         ? this.datePipe.transform(
             this.motorInsurance.value?.registration_date,
@@ -921,18 +928,17 @@ export class MotorInsuranceComponent implements OnInit {
         ? new Date(transformedRegDate as string)
         : '';
       const transformedPolicyDate = this.motorInsurance.value
-      ?.policy_expiry_date
-      ? this.datePipe.transform(
-          this.motorInsurance.value?.policy_expiry_date,
-          'yyyy-MM-ddTHH:mm:ss.SSSZ'
-        )
-      : '';
-    
-     
-    let policyDate = transformedPolicyDate
-    ? new Date(transformedPolicyDate as string)
-    : '';
-      
+        ?.policy_expiry_date
+        ? this.datePipe.transform(
+            this.motorInsurance.value?.policy_expiry_date,
+            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+          )
+        : '';
+
+      let policyDate = transformedPolicyDate
+        ? new Date(transformedPolicyDate as string)
+        : '';
+
       let submitDetails = {
         Search_Vehicle: this.motorInsurance.value.vehicle?.displayMMV,
         Search_RTO_City: this.motorInsurance.value.rto_city?.display_name,
