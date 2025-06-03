@@ -144,33 +144,69 @@
       <div *ngFor="let quotes of quotationData">
         <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
-            <div class="payout" *ngIf="payout">
-              <ng-container
-                *ngIf="
-                  quotes?.payout_response && quotes?.payout_response != 'NA'
-                "
-              >
-                <div class="payout-inside" *ngIf="quotes?.payout_response != 0">
+            <div
+              [ngClass]="
+                payout
+                  ? 'd-flex justify-content-between'
+                  : 'd-flex justify-content-end'
+              "
+            >
+              <div class="payout" *ngIf="payout">
+                <ng-container
+                  *ngIf="
+                    quotes?.payout_response && quotes?.payout_response != 'NA'
+                  "
+                >
+                  <div
+                    class="payout-inside"
+                    *ngIf="quotes?.payout_response != 0"
+                  >
+                    <div class="payout-value pb-2">
+                      {{ quotes?.payout_response }}* &nbsp; T&C
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="payout-inside" *ngIf="quotes?.payout_response == 0">
+                  <div class="payout-value pb-2">-----* &nbsp; T&C</div>
+                </div>
+
+                <div
+                  class="payout-inside cursor-pointer"
+                  *ngIf="quotes?.payout_response == 'NA'"
+                  (click)="info()"
+                >
                   <div class="payout-value pb-2">
-                    {{ quotes?.payout_response }}* &nbsp; T&C
+                    <img
+                      src="assets/icon/info.svg"
+                      width="16"
+                      height="16"
+                      alt="info"
+                    /><span class="info">Info</span> &nbsp; *T&C
                   </div>
                 </div>
-              </ng-container>
-              <div class="payout-inside" *ngIf="quotes?.payout_response == 0">
-                <div class="payout-value pb-2">-----* &nbsp; T&C</div>
               </div>
-              <div
-                class="payout-inside cursor-pointer"
-                *ngIf="quotes?.payout_response == 'NA'"
-                (click)="info()"
-              >
+
+              <!-- break in case banner-->
+              <div class="d-flex justify-content-end">
+                <div class="break-in me-3" *ngIf="quotes?.is_breakin">
+                  <ng-container>
+                    <div class="break-inside">
+                      <div class="break-value pb-2">Inspection Reqd.</div>
+                    </div>
+                  </ng-container>
+
+                  <!-- <div class="payout-inside cursor-pointer">
                 <div class="payout-value pb-2">
                   <img
                     src="assets/icon/info.svg"
                     width="16"
                     height="16"
                     alt="info"
-                  /><span class="info">Info</span> &nbsp; *T&C
+                  />
+                  <span class="info">Info</span> &nbsp; 
+                  *T&C
+                </div>
+              </div> -->
                 </div>
               </div>
             </div>
@@ -504,6 +540,29 @@
                 <div class="payout-value pb-2">-----* &nbsp; T&C</div>
               </div>
             </div>
+
+            <!-- break in case banner-->
+            <div class="break-in" *ngIf="quotes?.is_breakin">
+              <ng-container>
+                <div class="break-inside">
+                  <div class="break-value pb-2">Inspection Reqd.</div>
+                </div>
+              </ng-container>
+
+              <!-- <div class="payout-inside cursor-pointer">
+                <div class="payout-value pb-2">
+                  <img
+                    src="assets/icon/info.svg"
+                    width="16"
+                    height="16"
+                    alt="info"
+                  />
+                  <span class="info">Info</span> &nbsp; 
+                  *T&C
+                </div>
+              </div> -->
+            </div>
+
             <div class="row" *ngIf="quotes?.renewal_url == null">
               <div
                 class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"

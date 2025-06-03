@@ -88,7 +88,7 @@ export class ProposalComponent implements OnInit {
   partnerCodeTraceId: any;
   partnerCodewithTraceId: any;
   isPrevoiusInsurer: any;
-  renewalPolicyDetailsMessage: boolean=false;
+  renewalPolicyDetailsMessage: boolean = false;
 
   constructor(
     public matDialog: WindowRef,
@@ -147,8 +147,8 @@ export class ProposalComponent implements OnInit {
       if (Object.keys(this.quoteData).length > 0) {
         const renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal') {
-          if(this.quoteData.insurer_code=='cholamandalam'){
-            this.renewalPolicyDetailsMessage=true
+          if (this.quoteData.insurer_code == 'cholamandalam') {
+            this.renewalPolicyDetailsMessage = true;
           }
           this.isPrevoiusInsurer = true;
           sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
@@ -221,24 +221,29 @@ export class ProposalComponent implements OnInit {
     } else {
       this.stepNumber = 'Step 1/3';
     }
-
-    if (
-      this.quoteData['status'] &&
-      this.quoteData['is_breakin'] &&
-      this.vehicleCardData?.policy_expiry_date != 'Not Sure'
-    ) {
+    if (this.quoteData['is_breakin']) {
       this.vehicleInspectionMessage =
-        'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
-      this.breakIn = true;
-    } else if (
-      this.quoteData['status'] &&
-      this.quoteData['is_breakin'] &&
-      this.vehicleCardData?.policy_expiry_date == 'Not Sure'
-    ) {
-      this.vehicleInspectionMessage =
-        'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+        'Vehicle Inspection is required for this policy type';
       this.breakIn = true;
     }
+    // if (
+    //   this.quoteData['status'] &&
+    //   this.quoteData['is_breakin'] &&
+    //   this.vehicleCardData?.policy_expiry_date != 'Not Sure'
+    // ) {
+    //   this.vehicleInspectionMessage =
+    //     'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
+    //   this.breakIn = true;
+    // } else if (
+    //   this.quoteData['status'] &&
+    //   this.quoteData['is_breakin'] &&
+    //   this.vehicleCardData?.policy_expiry_date == 'Not Sure'
+    // ) {
+    //   this.vehicleInspectionMessage =
+    //     'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
+    //   this.breakIn = true;
+    // }
+
     // if (this.quoteData?.insurer_code == 'united_india') {
     //   this.sharedData.getProposalDetails.subscribe((proposal) => {
     //     if (proposal) {
@@ -370,9 +375,9 @@ export class ProposalComponent implements OnInit {
     }
   }
   getVahaanDetails(reg_no: any) {
-    const partner_code =sessionStorage.getItem('partner_code')
-    ? sessionStorage.getItem('partner_code')
-    : '';
+    const partner_code = sessionStorage.getItem('partner_code')
+      ? sessionStorage.getItem('partner_code')
+      : '';
     const token = sessionStorage.getItem('token');
     this.apiService
       .getRequestedResponse(
@@ -983,11 +988,15 @@ export class ProposalComponent implements OnInit {
             this.isPrevoiusInsurer = true;
             sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
             let registartionNumber = response?.quote_request?.registration_no;
-            let policy_number=response?.quote_request?.policy_number
+            let policy_number = response?.quote_request?.policy_number;
             let apiUrl;
-            if(registartionNumber!=null && registartionNumber!='' && registartionNumber!=undefined){
+            if (
+              registartionNumber != null &&
+              registartionNumber != '' &&
+              registartionNumber != undefined
+            ) {
               apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-            }else{
+            } else {
               apiUrl = `?previous_policy_number=${policy_number}`;
             }
             this.apiService
