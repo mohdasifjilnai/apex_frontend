@@ -372,7 +372,6 @@ export class QuotesComponent implements OnInit {
     if (id) {
       if (vehicleType == 'commercial_vehicle') {
         apiData = `?rb_mmv_id=${id}`;
-        console.log(vehicleType);
       } else {
         apiData = `?product_name=${type}&rb_mmv_id=${id}`;
       }
@@ -421,7 +420,18 @@ export class QuotesComponent implements OnInit {
           if (res?.is_rb_renewal) {
             sessionStorage.setItem('renewalType', 'renewal');
             sessionStorage.setItem('renewalPolicyNumber', res?.policy_number);
-            this.getRenewalData(res?.registration_no);
+            let apiUrl
+            if (
+              res?.registration_no != null &&
+              res?.registration_no != '' &&
+              res?.registration_no != undefined
+            ) {
+              apiUrl = `?registration_number=${res?.registration_no.toUpperCase()}`;
+              this.getRenewalData(apiUrl);
+            } else {
+              apiUrl = `?previous_policy_number=${res?.policy_number}`;
+              this.getRenewalData(apiUrl);
+            }
           }
           sessionStorage.setItem('productType', res.product_type);
           sessionStorage.setItem('transaction_id', res.transaction_id);
@@ -573,9 +583,9 @@ export class QuotesComponent implements OnInit {
       });
   }
 
-  getRenewalData(registartionNumber: any) {
-    let apiUrl;
-    apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+  getRenewalData(apiUrl: any) {
+    // let apiUrl;
+    // apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {

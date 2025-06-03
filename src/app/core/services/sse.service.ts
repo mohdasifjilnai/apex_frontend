@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -43,10 +44,18 @@ export class SseService {
           } else if (this.currentPageUrl.includes('/proposal')) {
             eventSource.close();
           }
-          setTimeout(() => {
-            console.log('Connection Drop', event);
-            eventSource.close();
-          }, 50000);
+          if(environment.dev){
+            setTimeout(() => {
+              console.log('Connection Drop', event);
+              eventSource.close();
+            }, 50000);
+          }else{
+            setTimeout(() => {
+              console.log('Connection Drop', event);
+              eventSource.close();
+            }, 20000);
+          }
+          
         });
       });
     });
