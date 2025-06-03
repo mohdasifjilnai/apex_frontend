@@ -22,6 +22,7 @@ export class PaymentComponent implements OnInit {
   private getCustomerIdDetails!: Subscription;
   payemntDeducted: any;
   paymentStatusValue: any;
+  policyRenewalDate: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -199,7 +200,10 @@ export class PaymentComponent implements OnInit {
             'webengageCustomerId'
           );
           let CheckId = JSON.parse(this.isExistCustomerId || '{}');
-
+          this.policyRenewalDate = sessionStorage.getItem(
+            'webengageInformation'
+          );
+          let webPolicyRenewalDate = JSON.parse(this.policyRenewalDate || {});
           if (this.isExistCustomerId != null) {
             if (this.paymentStatusValue) {
               let paymentData = {
@@ -251,6 +255,9 @@ export class PaymentComponent implements OnInit {
                   : 'Customer',
                 Policy_No: this.premiumDetails.policy_number,
                 Transaction_id: this.transactionId,
+
+                Renew_Date: '',
+                Tenure: '',
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -260,8 +267,19 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Tenure = webPolicyRenewalDate.tenure;
+
+              const planPurchased = Object.fromEntries(
+                Object.entries(paymentData).filter(([key, value]) => {
+                  if (value == null || value === '') {
+                    return false;
+                  }
+                  return true;
+                })
+              );
               webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             } else if (
               !this.paymentStatusValue &&
               this.payemntDeducted != 'Payment Deducted'
@@ -315,6 +333,8 @@ export class PaymentComponent implements OnInit {
                   : 'Customer',
                 Policy_No: this.premiumDetails.policy_number,
                 Transaction_id: this.transactionId,
+                Renew_Date: '',
+                Tenure: '',
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -324,8 +344,20 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+
+              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Tenure = webPolicyRenewalDate.tenure;
+
+              const planPurchased = Object.fromEntries(
+                Object.entries(paymentData).filter(([key, value]) => {
+                  if (value == null || value === '') {
+                    return false;
+                  }
+                  return true;
+                })
+              );
               webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
             if (this.payemntDeducted == 'Payment Deducted') {
               let paymentData = {
@@ -377,6 +409,8 @@ export class PaymentComponent implements OnInit {
                   : 'Customer',
                 Policy_No: this.premiumDetails.policy_number,
                 Transaction_id: this.transactionId,
+                Renew_Date: '',
+                Tenure: '',
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -386,8 +420,20 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+
+              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Tenure = webPolicyRenewalDate.tenure;
+
+              const planPurchased = Object.fromEntries(
+                Object.entries(paymentData).filter(([key, value]) => {
+                  if (value == null || value === '') {
+                    return false;
+                  }
+                  return true;
+                })
+              );
               webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
           }
         }
@@ -511,6 +557,10 @@ export class PaymentComponent implements OnInit {
         const vehcileType = sessionStorage.getItem('vehicleType');
         this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
         sessionStorage.setItem('mobileNumber', res.mobile_number);
+        sessionStorage.setItem(
+          'webengageInformation',
+          JSON.stringify(this.premiumDetails)
+        );
         let CheckId = JSON.parse(this.isExistCustomerId || '{}');
         this.paymentStatusValue = paymentStatus;
         this.payemntDeducted = status;
@@ -568,6 +618,8 @@ export class PaymentComponent implements OnInit {
                 : 'Customer',
               Policy_No: this.premiumDetails.policy_number,
               Transaction_id: this.transactionId,
+              Renew_Date: '',
+              Tenure: '',
             };
             const filteredData = Object.fromEntries(
               Object.entries(paymentData).filter(([key, value]) => {
@@ -577,8 +629,20 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+
+            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Tenure = res.tenure;
+
+            const planPurchased = Object.fromEntries(
+              Object.entries(paymentData).filter(([key, value]) => {
+                if (value == null || value === '') {
+                  return false;
+                }
+                return true;
+              })
+            );
             webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           } else if (!paymentStatus) {
             let paymentData = {
               Status: 'Payment Faliure',
@@ -629,6 +693,8 @@ export class PaymentComponent implements OnInit {
                 : 'Customer',
               Policy_No: this.premiumDetails.policy_number,
               Transaction_id: this.transactionId,
+              Renew_Date: '',
+              Tenure: '',
             };
             const filteredData = Object.fromEntries(
               Object.entries(paymentData).filter(([key, value]) => {
@@ -638,8 +704,20 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+
+            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Tenure = res.tenure;
+
+            const planPurchased = Object.fromEntries(
+              Object.entries(paymentData).filter(([key, value]) => {
+                if (value == null || value === '') {
+                  return false;
+                }
+                return true;
+              })
+            );
             webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }
           if (status == 'Payment Deducted') {
             let paymentData = {
@@ -691,7 +769,10 @@ export class PaymentComponent implements OnInit {
                 : 'Customer',
               Policy_No: this.premiumDetails.policy_number,
               Transaction_id: this.transactionId,
+              Renew_Date: '',
+              Tenure: '',
             };
+
             const filteredData = Object.fromEntries(
               Object.entries(paymentData).filter(([key, value]) => {
                 if (value == null || value === '') {
@@ -700,8 +781,20 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+
+            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Tenure = res.tenure;
+
+            const planPurchased = Object.fromEntries(
+              Object.entries(paymentData).filter(([key, value]) => {
+                if (value == null || value === '') {
+                  return false;
+                }
+                return true;
+              })
+            );
             webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', filteredData);
+            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }
         } else {
           if (environment?.dev) {
