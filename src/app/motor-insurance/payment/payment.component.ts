@@ -220,7 +220,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : '',
+                    : webPolicyRenewalDate.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -298,7 +298,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : '',
+                    : webPolicyRenewalDate.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -374,7 +374,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : '',
+                    : webPolicyRenewalDate.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -583,7 +583,7 @@ export class PaymentComponent implements OnInit {
                     )} ${sessionStorage.getItem(
                       'middle_name'
                     )} ${sessionStorage.getItem('last_name')}`
-                  : '',
+                  : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
               Total_IDV: this.premiumDetails.idv,
               Total_Premium: this.premiumDetails.gross_premium,
@@ -658,7 +658,7 @@ export class PaymentComponent implements OnInit {
                     )} ${sessionStorage.getItem(
                       'middle_name'
                     )} ${sessionStorage.getItem('last_name')}`
-                  : '',
+                  : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
               Total_IDV: this.premiumDetails.idv,
               Total_Premium: this.premiumDetails.gross_premium,
@@ -734,7 +734,7 @@ export class PaymentComponent implements OnInit {
                     )} ${sessionStorage.getItem(
                       'middle_name'
                     )} ${sessionStorage.getItem('last_name')}`
-                  : '',
+                  : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
               Total_IDV: this.premiumDetails.idv,
               Total_Premium: this.premiumDetails.gross_premium,
