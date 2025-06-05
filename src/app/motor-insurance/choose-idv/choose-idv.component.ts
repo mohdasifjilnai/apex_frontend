@@ -5,6 +5,7 @@ import {
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 @Component({
   selector: 'app-choose-idv',
@@ -56,9 +57,15 @@ export class ChooseIDVComponent implements OnInit {
       // this.quotesCount = idvData;
       this.enableIdvCard = true;
       if (this.enableIdvCard) {
-        setTimeout(() => {
-          this.enableIdvCard = false;
-        }, 50000);
+        if(environment.dev){
+          setTimeout(() => {
+            this.enableIdvCard = false;
+          }, 50000);      
+          }else{
+          setTimeout(() => {
+            this.enableIdvCard = false;
+          }, 10000);        }
+       
         this.quotationData = [];
         if (idvData?.length > 0) {
           for (let i = 0; i <= idvData.length - 1; i++) {
@@ -158,9 +165,16 @@ export class ChooseIDVComponent implements OnInit {
     });
 
     this.sharedDataService.quotesEnableForMobile.subscribe((data) => {
-      setTimeout(() => {
-        this.enableIdvCard = false;
-      }, 50000);
+      
+      if(environment.dev){
+        setTimeout(() => {
+          this.enableIdvCard = false;
+        }, 50000);
+      }else{
+        setTimeout(() => {
+          this.enableIdvCard = false;
+        }, 10000);
+      }
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
@@ -254,9 +268,15 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     this.enableIdvCard = true;
-    setTimeout(() => {
-      this.enableIdvCard = false;
-    }, 50000);
+    if(environment.dev){
+      setTimeout(() => {
+        this.enableIdvCard = false;
+      }, 50000);
+    }else{
+      setTimeout(() => {
+        this.enableIdvCard = false;
+      }, 10000);
+    }
     // if (this.selectedIDVOption) {
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (window.innerWidth <= 999) {

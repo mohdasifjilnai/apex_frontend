@@ -53,7 +53,7 @@ export class SseService {
             setTimeout(() => {
               console.log('Connection Drop', event);
               eventSource.close();
-            }, 20000);
+            }, 10000);
           }
           
         });

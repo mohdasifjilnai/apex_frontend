@@ -31,6 +31,7 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
 import { PayoutInfoComponent } from 'src/app/shared/components/dialog-components/payout-info/payout-info.component';
 import { VehicleRegistrationNumberComponent } from 'src/app/shared/components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
+import { environment } from 'src/environments/environment';
 declare const webengage: any;
 @Component({
   selector: 'app-quotes-listing',
@@ -253,6 +254,12 @@ export class QuotesListingComponent implements OnInit {
     });
     this.sharedDataService.enableCarLoader.subscribe((idvData) => {
       this.carLoader = true;
+      let timeout :any
+      if(environment.dev){
+        timeout=50000
+      }else{
+        timeout=10000
+      }
       setTimeout(() => {
         if (this.carLoader) {
           this.carLoader = false;
@@ -344,7 +351,7 @@ export class QuotesListingComponent implements OnInit {
           );
           webengage.track('Motor_Insurance_Plans_Found', filteredData);
         }
-      }, 50000);
+      }, timeout);
     });
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
@@ -1321,7 +1328,11 @@ export class QuotesListingComponent implements OnInit {
     // }
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      this.progressValue += 0.08;
+      if(environment.dev){
+        this.progressValue += 0.08;
+      }else{
+        this.progressValue += 0.4;
+      }
       if (this.progressValue >= 100) {
         clearInterval(this.intervalId);
       } else {
