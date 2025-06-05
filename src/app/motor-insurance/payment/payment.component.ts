@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -23,12 +24,14 @@ export class PaymentComponent implements OnInit {
   payemntDeducted: any;
   paymentStatusValue: any;
   policyRenewalDate: any;
+  renewDateValue: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
     private matDialog: WindowRef,
-    private sharedService: SharedDataService
+    private sharedService: SharedDataService,
+    private datePipe: DatePipe
   ) {}
   policyNumber: any;
   proposalNumber: any;
@@ -204,6 +207,24 @@ export class PaymentComponent implements OnInit {
             'webengageInformation'
           );
           let webPolicyRenewalDate = JSON.parse(this.policyRenewalDate || {});
+          const inputDateStr = this.premiumDetails?.renewal_date;
+
+          let transformedDateString = '';
+          if (inputDateStr) {
+            // Manually parse dd/MM/yyyy to Date object
+            const [day, month, year] = inputDateStr.split('/');
+            const parsedDate = new Date(+year, +month - 1, +day); // Note: month is 0-indexed
+
+            // Then transform to ISO format using DatePipe
+            transformedDateString =
+              this.datePipe.transform(parsedDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') ||
+              '';
+          }
+
+          this.renewDateValue = transformedDateString
+            ? new Date(transformedDateString)
+            : '';
+
           if (this.isExistCustomerId != null) {
             if (this.paymentStatusValue) {
               let paymentData = {
@@ -249,7 +270,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: vehcileType,
+                Motor_Type: webPolicyRenewalDate.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -267,7 +288,7 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
-              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Renew_Date = this.renewDateValue;
               paymentData.Tenure = webPolicyRenewalDate.tenure;
 
               const planPurchased = Object.fromEntries(
@@ -327,7 +348,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: vehcileType,
+                Motor_Type: webPolicyRenewalDate.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -345,7 +366,7 @@ export class PaymentComponent implements OnInit {
                 })
               );
 
-              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Renew_Date = this.renewDateValue;
               paymentData.Tenure = webPolicyRenewalDate.tenure;
 
               const planPurchased = Object.fromEntries(
@@ -403,7 +424,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: vehcileType,
+                Motor_Type: webPolicyRenewalDate.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -421,7 +442,7 @@ export class PaymentComponent implements OnInit {
                 })
               );
 
-              paymentData.Renew_Date = webPolicyRenewalDate.renewal_date;
+              paymentData.Renew_Date = this.renewDateValue;
               paymentData.Tenure = webPolicyRenewalDate.tenure;
 
               const planPurchased = Object.fromEntries(
@@ -564,9 +585,27 @@ export class PaymentComponent implements OnInit {
         let CheckId = JSON.parse(this.isExistCustomerId || '{}');
         this.paymentStatusValue = paymentStatus;
         this.payemntDeducted = status;
-        let vehicleValue = vehcileType
-          ? vehcileType
-          : this.premiumDetails?.vehicle_type;
+        const inputDateStr = this.premiumDetails?.renewal_date;
+
+        let transformedDateString = '';
+        if (inputDateStr) {
+          // Manually parse dd/MM/yyyy to Date object
+          const [day, month, year] = inputDateStr.split('/');
+          const parsedDate = new Date(+year, +month - 1, +day); // Note: month is 0-indexed
+
+          // Then transform to ISO format using DatePipe
+          transformedDateString =
+            this.datePipe.transform(parsedDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ') ||
+            '';
+        }
+
+        this.renewDateValue = transformedDateString
+          ? new Date(transformedDateString)
+          : '';
+
+        // let vehicleValue = vehcileType
+        //   ? vehcileType
+        //   : this.premiumDetails?.vehicle_type;
         if (this.isExistCustomerId != null) {
           if (paymentStatus) {
             let paymentData = {
@@ -612,7 +651,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehicleValue,
+              Motor_Type: this.premiumDetails?.vehicle_type,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
@@ -630,7 +669,7 @@ export class PaymentComponent implements OnInit {
               })
             );
 
-            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Renew_Date = this.renewDateValue;
             paymentData.Tenure = res.tenure;
 
             const planPurchased = Object.fromEntries(
@@ -687,7 +726,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehicleValue,
+              Motor_Type: this.premiumDetails?.vehicle_type,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
@@ -705,7 +744,7 @@ export class PaymentComponent implements OnInit {
               })
             );
 
-            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Renew_Date = this.renewDateValue;
             paymentData.Tenure = res.tenure;
 
             const planPurchased = Object.fromEntries(
@@ -763,7 +802,7 @@ export class PaymentComponent implements OnInit {
               IDV: this.premiumDetails.gross_premium,
               Insurer_Name: this.premiumDetails.insurer_name,
               Insurer_Logo: this.premiumDetails.insurer_logo,
-              Motor_Type: vehicleValue,
+              Motor_Type: this.premiumDetails?.vehicle_type,
               User_Type: sessionStorage.getItem('partner_code')
                 ? 'Partner'
                 : 'Customer',
@@ -782,7 +821,7 @@ export class PaymentComponent implements OnInit {
               })
             );
 
-            paymentData.Renew_Date = res.renewal_date;
+            paymentData.Renew_Date = this.renewDateValue;
             paymentData.Tenure = res.tenure;
 
             const planPurchased = Object.fromEntries(
