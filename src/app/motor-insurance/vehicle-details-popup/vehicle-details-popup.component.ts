@@ -34,6 +34,7 @@ import {
   of,
   startWith,
   switchMap,
+  take,
 } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -495,6 +496,11 @@ export class VehicleDetailsPopupComponent implements OnInit {
         this.coverageTypeName = '';
       }
     }
+    this.vehicleDetailsForm.get('registration_city')?.valueChanges
+    .pipe(take(1)) // Only take the first value change
+    .subscribe(value => {
+      this.getRTOData('rto_code', value); // Make sure to pass 'value' instead of 'data'
+    });
   }
 
   disablevisually() {
