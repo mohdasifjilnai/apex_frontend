@@ -28,8 +28,10 @@ import { Router, RouterState } from '@angular/router';
 import moment from 'moment';
 import {
   Observable,
+  Subject,
   catchError,
   debounceTime,
+  filter,
   map,
   of,
   startWith,
@@ -124,6 +126,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
   filteredPopupMake!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocompleteVariant!: MatAutocompleteTrigger;
+  private debounceSubject = new Subject<any>();
 
   vehicleTypeValue: any;
 
@@ -497,10 +500,22 @@ export class VehicleDetailsPopupComponent implements OnInit {
       }
     }
     this.vehicleDetailsForm.get('registration_city')?.valueChanges
-    .pipe(take(1)) // Only take the first value change
-    .subscribe(value => {
-      this.getRTOData('rto_code', value); // Make sure to pass 'value' instead of 'data'
-    });
+  .pipe(
+    filter(value => typeof value === 'string' && value.length >= 2),
+    take(1)
+  )
+  .subscribe(value => {
+    this.getRTOData('rto_code', value);
+  });
+  this.debounceSubject
+      .pipe(
+        debounceTime(300) // Adjust the debounce time as needed (in milliseconds)
+      )
+      .subscribe((data: any) => {
+        if (data?.length >= 2) {
+          this.getRTOData('rto_code', data);
+        }
+      });
   }
 
   disablevisually() {
@@ -953,7 +968,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
     let apiData;
     if (this.rto_id) {
       apiData = `?rb_rto_id=${this.rto_id}`;
-    } else if (type == 'rto_code' && rto_code) {
+    } else if (type == 'rto_code' && rto_code && rto_code.length>=2) {
       this.renderer.removeClass(document.body, 'dropdown-focus');
       if (type == 'rto_code') {
         apiData = `?search_element=${rto_code}`;
@@ -976,8 +991,8 @@ export class VehicleDetailsPopupComponent implements OnInit {
               'registration_city'
             ].valueChanges.pipe(
               debounceTime(500),
-              startWith(''),
-              switchMap((name) => (name ? this.filterRTO(name) : '')),
+              startWith((name)),
+              switchMap((name) => this.filterRTO(name,res)),
               catchError((error) => {
                 this.rtoDataNotAvailable = 'Error fetching data';
                 return of(['No result found']);
@@ -1066,37 +1081,33 @@ export class VehicleDetailsPopupComponent implements OnInit {
   //     );
   // }
 
-  filterRTO(name: string): Observable<any[]> {
-    // if (typeof name != 'object' && name != '') {
-    return this.apiservice
-      .getRequestedResponse(
-        `${ApiConstants.get_rto_list()}?search_element=${name
-          ?.replace(/[()]/g, '')
-          .replace(/\s+/g, ' ')
-          .trim()}`
-      )
-      .pipe(
-        map((rtoResponse) => {
-          if (rtoResponse && !rtoResponse?.message) {
-            if (Array.isArray(rtoResponse)) {
-              this.rtoList = rtoResponse;
-            } else if (typeof rtoResponse === 'object') {
-              this.rtoList = [rtoResponse];
-            }
+  filterRTO(name: string, rtoResponse: any): Observable<any[]> {
+    if (typeof name != 'object') {
+      // return this.apiservice
+      //   .getRequestedResponse(
+      //     `${ApiConstants.get_rto_list}?search_element=${name}`
+      //   )
+      //   .pipe(
+      //     map((res) => {
+      if (rtoResponse && !rtoResponse?.message) {
+        if (Array.isArray(rtoResponse)) {
+          this.rtoList = rtoResponse;
+        } else if (typeof rtoResponse === 'object') {
+          this.rtoList = [rtoResponse];
+        }
+        this.rtoDataNotAvailable =
+          this.rtoList.length === 0 ? 'No result found' : '';
 
-            this.rtoDataNotAvailable =
-              this.rtoList.length === 0 ? 'No result found' : '';
-            // this.getRTODataSearch(name);
-            return this.rtoList;
-          } else {
-            this.rtoDataNotAvailable = 'No data available';
-            // this.filteredRtoList = of(['No result found']);
-            return of([this.rtoDataNotAvailable]);
-          }
-        })
-      );
-    // }
-    // return of([]);
+        return of(this.rtoList);
+      } else {
+        this.rtoDataNotAvailable = 'No data available';
+        return of([this.rtoDataNotAvailable]);
+        // this.filteredRtoList = of(['No data']);
+      }
+      //   })
+      // );
+    }
+    return of([]);
   }
   /**
    *
@@ -1215,11 +1226,9 @@ export class VehicleDetailsPopupComponent implements OnInit {
     if (data?.length) {
       this.rtoDataLength = data.length;
     }
+    this.debounceSubject.next(data);
 
     if (!this.vehicleRegistrationCityOninit) {
-      // if (data == '') {
-      //   this.getRTOData('blank');
-      // }
       if (
         typeof this.vehicleDetailsForm.value.vehicle_make == 'object' &&
         typeof this.vehicleDetailsForm.value.vehicle_model == 'object' &&
