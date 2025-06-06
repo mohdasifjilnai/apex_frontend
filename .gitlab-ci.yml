@@ -94,7 +94,7 @@ build-d2c:
     - docker push $CI_REGISTRY_IMAGE:latest-d2c
 
   only:
-    - renewaljourney
+    - dev_master
 
 deploy:
   stage: deploy
@@ -115,7 +115,7 @@ deploy-d2c:
     - scp -o StrictHostKeyChecking=no -i ${DEV_SERVER_KEY} deploy.sh docker-compose.yml ubuntu@${DEV_SERVER_IP}://home/ubuntu/repos/apex-frontend
     - ssh -o stricthostkeychecking=no -i ${DEV_SERVER_KEY} ubuntu@${DEV_SERVER_IP} "sudo su - ubuntu; cd repos/swarm/apex-fe-d2c; sh deploy.sh"
   only:
-    - renewaljourney
+    - dev_master
 production:
   stage: production
   variables:
@@ -131,7 +131,7 @@ production:
     - docker push $CI_REGISTRY_IMAGE:latest-production
     - chmod 400 -v ${PROD_SERVER_KEY}
     - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/apex-frontend; sh deploy.sh"
-    - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/d2c_fe; sh deploy.sh"
+    # - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/d2c_fe; sh deploy.sh"
     - ssh -o stricthostkeychecking=no -i ${PROD_SERVER_KEY} ubuntu@${PROD_SERVER_IP_1} "sudo su - ubuntu; docker login -u clone_token -p "${DOCKER_PASSWORD}" registry.gitlab.renewbuy.in; cd repos/apex-frontend; sh deploy.sh"
   only:
     - tags
