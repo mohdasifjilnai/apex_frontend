@@ -144,6 +144,7 @@ export class SharedDataService {
   customer_mobile_number: any;
   webEngageCustomerDetails: any;
   mobileNumber: any;
+  customerId: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -518,7 +519,7 @@ export class SharedDataService {
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
-      const mmv_data=JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
+      const mmv_data = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
       const diffrenceDays = this.daysCountsFromToday(
         mmv_data?.policy_expiry_date
       );
@@ -593,12 +594,12 @@ export class SharedDataService {
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
-      const mmv_data=JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
+      const mmv_data = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
       const diffrenceDays = this.daysCountsFromToday(
         mmv_data?.policy_expiry_date
       );
       if (!data?.user_car) {
-        if (data?.previous_claimed|| diffrenceDays > 90) {
+        if (data?.previous_claimed || diffrenceDays > 90) {
           quotesData.offered_ncb_value = 0;
         } else {
           quotesData.offered_ncb_value =
@@ -828,6 +829,8 @@ export class SharedDataService {
     let transactionId = sessionStorage.getItem('transaction_id');
     let proposalId: any;
     const BuyNowClick = sessionStorage.getItem('BuyNowClick');
+    this.customerId = sessionStorage.getItem('webengageCustomerId');
+    let customerValue = JSON.parse(this.customerId);
     if (BuyNowClick == 'true') {
       proposalId = '';
     } else {
@@ -847,6 +850,9 @@ export class SharedDataService {
       is_breakin: this.quoteData?.is_breakin,
       insured_idv: this.quoteData?.premium_details?.idv,
       is_rb_renewal: false,
+      customer_id: customerValue?.customer_id
+        ? customerValue?.customer_id
+        : null,
     };
     if (flag === 'ckyc') {
       this.proposalDataItem['ckyc_details'] = {
@@ -1469,7 +1475,7 @@ export class SharedDataService {
     buttonType?: any,
     transaction_id?: any
   ) {
-    if(environment.dev){
+    if (environment.dev) {
       let maskedCheck;
       let maskedValue;
 
