@@ -166,7 +166,10 @@ export class PreviousInsurerComponent implements OnInit {
         if (res && !res?.message) {
           this.insurerList = res;
           this.previousInsurerNoData = '';
-          // this.sharedDataService.patchInsurer(this.insurerList[0]);
+          const renwalType=sessionStorage.getItem('renewalType')
+          if(renwalType=='renewal'){
+            this.sharedDataService.patchInsurer(this.insurerList[0]);
+          }
           // if (this.form.controls['previous_insurer']) {
           this.filteredInsurerList = this.form.controls[
             'previous_insurer'

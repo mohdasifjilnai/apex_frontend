@@ -389,7 +389,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
         if(res?.is_rb_renewal){
           this.isNewVehicle=false
-          this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
+          // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
         }
         if(res?.vehicle_details?.rb_mmv_id){
           this.vehicleMMV(res?.vehicle_details?.rb_mmv_id)
