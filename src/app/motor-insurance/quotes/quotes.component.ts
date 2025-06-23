@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 import { IdleService } from 'src/app/core/services/idle.service';
+import { VehicleDetailsPopupNewComponent } from '../vehicle-details-popup-new/vehicle-details-popup-new.component';
 declare const webengage: any;
 @Component({
   selector: 'app-quotes',
@@ -28,7 +29,7 @@ export class QuotesComponent implements OnInit {
     isOutSideClose: boolean;
     classObtained: string;
   } = {
-    modalName: VehicleDetailsPopupComponent,
+    modalName: VehicleDetailsPopupNewComponent,
     widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: '5%',
@@ -111,6 +112,7 @@ export class QuotesComponent implements OnInit {
     } else {
       sessionStorage.setItem('vehicleLoginPopup', 'true');
     }
+
     this.route.queryParamMap.subscribe((params) => {
       const shareTransaction = params?.get('transaction_id_share');
       const insurer_quote_id = params?.get('insurer_quote_id');
@@ -170,6 +172,8 @@ export class QuotesComponent implements OnInit {
             let alreadyCalledData = sessionStorage.getItem('alreadyCalled');
             if (alreadyCalledData != 'true') {
               this.traceIdBaseData(this.traceIdUrl);
+              //           const initiate_quotes_payload=sessionStorage.getItem('mmv_data')
+              // this.shareDataService.initiate_Quotes_APi(initiate_quotes_payload)
             }
           }
         });
@@ -179,6 +183,7 @@ export class QuotesComponent implements OnInit {
         // }
       }
     });
+
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.shareDataService.renewalQuotes.subscribe((quotesValue: any) => {
       if (
@@ -401,7 +406,7 @@ export class QuotesComponent implements OnInit {
         if (res != null) {
           const vehicleType = sessionStorage.getItem('vehicleType');
           if (vehicleType != 'commercial_vehicle') {
-            sessionStorage.setItem('vehicleType', res.vehicle_type);
+            sessionStorage.setItem('vehicleType', res?.vehicle_type);
           } else {
             sessionStorage.setItem('vehicleType', 'commercial_vehicle');
           }
@@ -420,17 +425,15 @@ export class QuotesComponent implements OnInit {
           if (res?.is_rb_renewal) {
             sessionStorage.setItem('renewalType', 'renewal');
             sessionStorage.setItem('renewalPolicyNumber', res?.policy_number);
-            let apiUrl
+            let apiUrl;
             if (
               res?.registration_no != null &&
               res?.registration_no != '' &&
               res?.registration_no != undefined
             ) {
-              apiUrl = `?registration_number=${res?.registration_no.toUpperCase()}`;
-              this.getRenewalData(apiUrl);
+              this.getRenewalData(res?.registration_no);
             } else {
-              apiUrl = `?previous_policy_number=${res?.policy_number}`;
-              this.getRenewalData(apiUrl);
+              this.getRenewalData(res?.policy_number);
             }
           }
           sessionStorage.setItem('productType', res.product_type);
@@ -499,9 +502,11 @@ export class QuotesComponent implements OnInit {
               );
             }
           }
-          if (res?.meta_data?.selectedAddons !== 'undefined') {
-            let addonsValue = JSON.parse(res?.meta_data?.selectedAddons);
-
+          if (
+            res?.meta_data?.selectedAddons !== 'undefined' &&
+            res?.meta_data?.selectedAddons != null
+          ) {
+            let addonsValue = res?.meta_data?.selectedAddons || 'undefined';
             sessionStorage.setItem(
               'selectedAddons',
               JSON.stringify(addonsValue)
@@ -511,11 +516,11 @@ export class QuotesComponent implements OnInit {
           }
           sessionStorage.setItem(
             'mmv_data',
-            JSON.stringify(res.meta_data.mmv_form_data)
+            JSON.stringify(res?.meta_data?.mmv_form_data)
           );
           sessionStorage.setItem(
             'withoutVehicleNumber',
-            res.meta_data.mmv_form_data?.withoutVehicleNumber
+            res.meta_data.mmv_form_data?.form_value?.withoutVehicleNumber
           );
           this.shareDataService.getVehicleType(res.vehicle_type);
           this.shareDataService.vehicleCardEmailData(
@@ -571,16 +576,6 @@ export class QuotesComponent implements OnInit {
     };
 
     this.matDialog.openDialog(obj);
-  }
-  getTraceIdCommercialVehicle(trace_id: any) {
-    let apiUrl;
-    apiUrl = `?trace_id=${trace_id}`;
-    this.apiService
-      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
-      .subscribe((res: any) => {
-        this.shareDataService.getTraceIdDetails(res);
-        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
-      });
   }
 
   getRenewalData(apiUrl: any) {

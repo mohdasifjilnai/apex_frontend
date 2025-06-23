@@ -172,4 +172,16 @@ export class RTOComponent implements OnInit {
   onClosed(): void {
     this.shareData.onClosedAutoComplete();
   }
+  onKeyDown(event: KeyboardEvent) {
+    const control = this.form.get('rto_city');
+    const value = control?.value;
+    if (
+      (event.key === 'Backspace' || event.key === 'Delete') &&
+      value &&
+      typeof value === 'object'
+    ) {
+      control?.reset(); 
+      event.preventDefault();
+    }
+  }
 }

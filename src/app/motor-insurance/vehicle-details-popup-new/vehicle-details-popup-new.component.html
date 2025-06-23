@@ -1,0 +1,331 @@
+<form
+  class="edit-vehicle-details p-1"
+  [formGroup]="vehicleDetailsForm"
+  (ngSubmit)="updateVehicleDetail(vehicleDetailsForm.valid)"
+>
+  <div>
+    <!-- Dialog title -->
+    <div mat-dialog-title class="row">
+      <div class="vehicle-details-popup-header d-flex justify-content-between">
+        <span>
+          {{
+            !editVehicleDetails
+              ? "Please verify your vehicle details."
+              : "Edit Vehicle Details"
+          }}</span
+        >
+        <img
+          src="assets/icon/cross.svg"
+          class="cursor-pointer"
+          alt="close"
+          *ngIf="editVehicleDetails"
+          (click)="onClose()"
+        />
+      </div>
+      <hr class="line" />
+    </div>
+    <!-- Dialog content -->
+    <div mat-dialog-content class="scroll-details-data">
+      <div class="row vehicle-details-form">
+        <!-- Make/Model dropdown -->
+        <div class="col-lg-6 col-md-6 col-12">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+            <mat-label>Make</mat-label>
+            <input
+              matInput
+              aria-label="vehicle_make"
+              #autoCompleteInput
+              [matAutocomplete]="autoMake"
+              formControlName="vehicle_make"
+              (input)="vehicleMake($event.target)"
+            />
+            <mat-autocomplete
+              #autoMake="matAutocomplete"
+              (optionSelected)="vehicleMake($event.option)"
+            >
+              <span *ngIf="!makeDataNotAvailable">
+                <mat-option
+                  *ngFor="let data of makeList"
+                  [value]="data?.rb_make_name"
+                >
+                  <span>{{ data?.rb_make_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="makeDataNotAvailable">
+                <mat-option> No Data Available </mat-option>
+              </span>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown"
+          [ngClass]="is_renewal? 'visually-disabled': ''"
+          >
+            <mat-label>Model</mat-label>
+            <input
+              matInput
+              aria-label="vehicle_make"
+              #autoCompleteInput
+              [matAutocomplete]="autoModel"
+              formControlName="vehicle_model"
+              (input)="vehicleModel($event.target)"
+            />
+            <mat-autocomplete
+              #autoModel="matAutocomplete"
+              (optionSelected)="vehicleModel($event.option)"
+            >
+              <span *ngIf="!modelDataNotAvailable">
+                <mat-option
+                  *ngFor="let data of modelList"
+                  [value]="data?.rb_model_name"
+                >
+                  <span>{{ data?.rb_model_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="modelDataNotAvailable">
+                <mat-option> No Data Available </mat-option>
+              </span>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown" 
+          [ngClass]="is_renewal? 'visually-disabled': ''
+        "
+          >
+            <mat-label>Varient</mat-label>
+            <input
+              matInput
+              aria-label="vehicle_make"
+              #autoCompleteInput
+              [matAutocomplete]="autoVariant"
+              formControlName="vehicle_variant"
+              (input)="vehicleVariant($event.target, false)"
+            />
+            <mat-autocomplete
+              #autoVariant="matAutocomplete"
+              (optionSelected)="vehicleVariant($event.option, false)"
+            >
+              <span *ngIf="!variantDataNotAvailable">
+                <mat-option
+                  *ngFor="let data of variantList"
+                  [value]="data?.rb_variant_name"
+                >
+                  <span>{{ data?.rb_variant_name }}</span>
+                </mat-option>
+              </span>
+              <span *ngIf="variantDataNotAvailable">
+                <mat-option> No Data Available </mat-option>
+              </span>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div class="d-flex justify-content-end">
+            <span class="fuel-capacitor">{{ cubicCapacitor }} cc</span>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+            <mat-label>Fuel</mat-label>
+            <mat-select formControlName="vehicle_fuel">
+              <mat-option *ngFor="let fuel of fuelList" [value]="fuel">
+                {{ fuel?.fuel }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+            <mat-label>Registration City</mat-label>
+            <input
+              matInput
+              aria-label="registration_city"
+              #autoCompleteInput
+              appAlphaNumeric
+              [matAutocomplete]="autoRegistrationCity"
+              formControlName="registration_city"
+              (ngModelChange)="vehcileRegistration($event)"
+              (keydown)="onKeyDown($event)"
+            />
+            <mat-autocomplete
+              #autoRegistrationCity="matAutocomplete"
+              [displayWith]="displayRTOName"
+            >
+              <ng-container>
+                <span>
+                  <mat-option *ngFor="let rtoData of rtoList" [value]="rtoData">
+                    <span>{{ rtoData?.display_name }}</span>
+                  </mat-option>
+                </span>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <!-- Registration Date -->
+        <div class="col-lg-6 col-md-6 col-12">
+          <app-registration-year [urlDate]="url"></app-registration-year>
+        </div>
+        <!-- Manufacture Date  -->
+        <div class="col-lg-6 col-md-6 col-12">
+          <app-manufacture-date
+            [customManufactureDate]="'manufacture-date'"
+          ></app-manufacture-date>
+        </div>
+        <ng-container *ngIf="!isNewVehicle">
+          <!-- Used Car/ RC Transfer dropdown -->
+          <div class="col-lg-6 col-md-6 col-12">
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+              [ngClass]="is_renewal? 'visually-disabled': ''"
+            >
+              <mat-label
+                >Used
+                <span>{{
+                  vehicleTypeValue == "private_car" ? "Car" : "Bike"
+                }}</span
+                >/ RC Transfer</mat-label
+              >
+              <mat-select
+                formControlName="user_car"
+                (selectionChange)="onRCTransferChange($event.value)"
+              >
+                <mat-option *ngFor="let rc of rcList" [value]="rc?.value">
+                  {{ rc?.rcName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Type of Expiring Policy dropdown -->
+          <div class="col-lg-6 col-md-6 col-12" >
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown"
+              [ngClass]="is_renewal? 'visually-disabled': ''"
+            >
+              <mat-label>Type of Expiring Policy</mat-label>
+              <mat-select
+                formControlName="policy_expiry"
+                [(value)]="expiring_policy_type"
+                (selectionChange)="onExpiryPolicyChange($event.value)"
+              >
+                <mat-option
+                  *ngFor="let expiry of expiryList"
+                  [value]="expiry?.rb_expiring_policy_type_code"
+                  [matTooltip]="
+                    (expiry?.rb_expiring_policy_type).length > 36
+                      ? expiry?.rb_expiring_policy_type!
+                      : ''
+                  "
+                  matTooltipPosition="right"
+                >
+                  {{ expiry?.rb_expiring_policy_type }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  vehicleDetailsForm.get('policy_expiry')?.hasError('required')
+                "
+                [hidden]="showErrorMessage"
+              >
+                This is a required field.
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="showErrorMessage" class="error ms-4 mb-2">
+              This is a required field
+            </div>
+          </div>
+
+          <!-- Expiry -->
+          <ng-container *ngIf="!iDKSelected">
+            <div class="col-lg-6 col-md-6 col-12">
+              <app-policy-expired-date
+                [required]="true"
+                [policyExpiryDate]="'expiry-date'"
+                [formControlNameData]="'policy_expiry_date'"
+                [urlDate]="url"
+              ></app-policy-expired-date>
+
+              <div *ngIf="showExpiryDateErrorMessage" class="error ms-4 mb-2">
+                This is a required field
+              </div>
+            </div>
+            <!-- Previous Insurer dropdown -->
+            <div class="col-lg-6 col-md-6 col-12">
+              <app-previous-insurer
+                [required]="true"
+                [previousInsurer]="'previous-insurer'"
+                [formControlNameData]="'previous_insurer'"
+                [label]="'Search Previous Insurer'"
+                (keydown.enter)="handlePreviousInsurerKeyPress($event)"
+              ></app-previous-insurer>
+            </div>
+            <!-- Is Previous Policy Claimed dropdown -->
+          
+          <ng-container *ngIf="!hidePreviousClaimed">
+            <div class="col-lg-6 col-md-6 col-12">
+              <mat-form-field
+                appearance="outline"
+                class="vehicle-details-dropdown"
+              >
+                <mat-label>Is Previous Policy Claimed?</mat-label>
+                <mat-select
+                  formControlName="previous_claimed"
+                  (selectionChange)="claimedPolicy($event.value)"
+                >
+                  <mat-option
+                    *ngFor="let claimed of claimedList"
+                    [value]="claimed?.value"
+                  >
+                    {{ claimed?.claimedName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- Previous Year NCB Discount dropdown -->
+            <ng-container>
+              <div class="col-lg-6 col-md-6 col-12">
+                <mat-form-field
+                  appearance="outline"
+                  class="vehicle-details-dropdown"
+                  [ngClass]="is_renewal? 'visually-disabled': ''"
+                >
+                  <mat-label>Previous Year NCB Discount</mat-label>
+                  <mat-select
+                    formControlName="ncb_discount"
+                    [(value)]="ncbDiscount"
+                  >
+                    <mat-option *ngFor="let ncb of ncbListData" [value]="ncb">
+                      {{ ncb?.old_ncb_name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        </ng-container>
+        <div class="col-lg-6 col-12 web-button">
+          <button
+            mat-button
+            class="submit-btn mb-2 vehicle-submission"
+            type="submit"
+            [disabled]="mmvBaseButtonDisable"
+          >
+            {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
+          </button>
+        </div>
+        <span class="mandatory web-button">* Mandatory Fields</span>
+      </div>
+    </div>
+    <div class="col-lg-6 col-12 res-button">
+      <button
+        mat-button
+        class="submit-btn mb-2 vehicle-submission"
+        type="submit"
+      >
+        {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
+      </button>
+      <span class="mandatory">* Mandatory Fields</span>
+    </div>
+  </div>
+</form>

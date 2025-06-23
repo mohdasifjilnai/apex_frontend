@@ -63,6 +63,7 @@ export class QuotesListingComponent implements OnInit {
   refreshPageApiHandling = false;
   proposalTypeValueOninit = true;
   vehicleCardMultipleCall: any;
+  traceIdTab: any;
   initiateQuotesJSON: {
     modalName: any;
     widthObtained: string;
@@ -254,11 +255,11 @@ export class QuotesListingComponent implements OnInit {
     });
     this.sharedDataService.enableCarLoader.subscribe((idvData) => {
       this.carLoader = true;
-      let timeout :any
-      if(environment.dev){
-        timeout=50000
-      }else{
-        timeout=10000
+      let timeout: any;
+      if (environment.dev) {
+        timeout = 50000;
+      } else {
+        timeout = 10000;
       }
       setTimeout(() => {
         if (this.carLoader) {
@@ -454,25 +455,27 @@ export class QuotesListingComponent implements OnInit {
           if (b.insurer_priority === null) return -1;
           return a.insurer_priority - b.insurer_priority;
         });
-        console.log(this.quotationData);
+        // console.log(this.quotationData);
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }
+        // console.log(this.quotationData);
       }
     });
 
     this.vehicleCardMultipleCall =
       this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
         this.vehicleData = cardData;
-
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.tabChangeOninit = true;
-        this.quotesTabData('notSendTransactionId');
+        // this.quotesTabData('notSendTransactionId');
       });
     this.sharedDataService.vehicleCardEmailValue.subscribe((cardData) => {
       this.vehicleData = cardData;
 
-      this.parsedVehicleData = JSON.parse(this.vehicleData);
+      this.parsedVehicleData = this.vehicleData
+        ? JSON.parse(this.vehicleData)
+        : '';
       this.tabChangeOninit = true;
       if (!this.storedData) {
         this.quotesTabData();
@@ -487,7 +490,7 @@ export class QuotesListingComponent implements OnInit {
     if (mmvFromData) {
       this.parsedVehicleData = JSON.parse(mmvFromData);
       this.storedData = true;
-      this.quotesTabData();
+      // this.quotesTabData();
     }
 
     sessionStorage.removeItem('renewalInsurerQuotesId');
@@ -514,8 +517,19 @@ export class QuotesListingComponent implements OnInit {
     }
     this.sharedDataService.getTraceIdApiResponse.subscribe((res: any) => {
       this.traceIdResponse = res;
-      this.quotesTabData();
+      // this.quotesTabData();
     });
+
+    this.traceIdTab = this.sharedDataService.traceIdVehicleType.subscribe(
+      (cardData: any) => {
+        if (cardData) {
+          this.vehicleData = cardData;
+          this.parsedVehicleData = JSON.parse(this.vehicleData);
+
+          this.quotesTabData();
+        }
+      }
+    );
 
     // let currentPageUrl = this.router.url;
     // if (window.performance.navigation.type === 1) {
@@ -680,13 +694,12 @@ export class QuotesListingComponent implements OnInit {
     const vehcileWithoutRegistration = sessionStorage.getItem(
       'withoutVehicleNumber'
     );
-    const proposal_id = sessionStorage.getItem('proposal_Id');
+    const registration_number = sessionStorage.getItem('registrationNumber');
     sessionStorage.setItem('BuyNowClick', 'true');
     const is_renewal = sessionStorage.getItem('renewalType');
     if (
       is_new_vehcile != 'new' &&
-      vehcileWithoutRegistration == 'true' &&
-      proposal_id == undefined &&
+      !registration_number &&
       is_renewal != 'renewal'
     ) {
       if (window.innerWidth <= 999) {
@@ -830,6 +843,13 @@ export class QuotesListingComponent implements OnInit {
     }
     this.selectedProductType = event.tab.textLabel;
     sessionStorage.setItem('productType', this.selectedProductType);
+    this.sharedDataService.chooseIdvHide(this.selectedProductType);
+    if (
+      this.selectedProductType == 'bundled_tp' ||
+      this.selectedProductType == 'satp'
+    ) {
+      sessionStorage.removeItem('idvData');
+    }
     if (!this.tabChangeOninit) {
       sessionStorage.setItem(
         'lastSelectedTabIndex',
@@ -846,23 +866,24 @@ export class QuotesListingComponent implements OnInit {
       this.registrationNumber = sessionStorage.getItem('registrationNumber');
       this.quotationData = [];
       this.errorQuotationArray = [];
-      if (!this.parsedVehicleData?.policy_expiry_date_email) {
-        if (this.registrationNumber) {
-          this.sharedDataService.vehicleMMVDetails(
-            productTypeValue,
-            this.mmvFormData,
-            'registrationNumber'
-          );
-        } else {
-          this.sharedDataService.vehicleMMVDetails(
-            productTypeValue,
-            this.mmvFormData,
-            'mmvQuotes'
-          );
-        }
-      }
+      // if (!this.parsedVehicleData?.policy_expiry_date_email) {
+      //   if (this.registrationNumber) {
+      //     this.sharedDataService.vehicleMMVDetails(
+      //       productTypeValue,
+      //       this.mmvFormData,
+      //       'registrationNumber'
+      //     );
+      //   } else {
+      //     this.sharedDataService.vehicleMMVDetails(
+      //       productTypeValue,
+      //       this.mmvFormData,
+      //       'mmvQuotes'
+      //     );
+      //   }
+      // }
 
       this.sharedDataService.addOnsChange(this.mmvFormData);
+      this.sharedDataService.initiate_Quotes_APi(JSON.parse(this.mmvFormData));
       // if (event.index === 1) {
       //   this.showComprehensiveDiv = false;
       // } else {
@@ -1127,11 +1148,11 @@ export class QuotesListingComponent implements OnInit {
     this.errorQuotationArray = [];
     this.chooseIdvArray = [];
     if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber'
-      );
+      // this.sharedDataService.vehicleMMVDetails(
+      //   productTypeValue,
+      //   mmvFormData,
+      //   'registrationNumber'
+      // );
     } else {
       let mmvIdData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
       let objectValue = Object.keys(mmvIdData);
@@ -1143,15 +1164,17 @@ export class QuotesListingComponent implements OnInit {
         }
       }
       if (this.renewalDataList && !this.refreshPageApiHandling) {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'mmvQuotes'
-        );
+        // this.sharedDataService.vehicleMMVDetails(
+        //   productTypeValue,
+        //   mmvFormData,
+        //   'mmvQuotes'
+        // );
       }
       this.refreshPageApiHandling = false;
     }
     this.sharedDataService.addOnsChange(mmvFormData);
+    // console.log(mmvFormData, '00000');
+    this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
     // } else {
     //   this.proposalTypeOninit = false;
@@ -1160,6 +1183,7 @@ export class QuotesListingComponent implements OnInit {
 
   quotesTabData(notSendTransactionId?: any) {
     if (this.parsedVehicleData != undefined) {
+      this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
       let registrationDate = new Date(
         this.parsedVehicleData?.registration_date
       );
@@ -1180,7 +1204,6 @@ export class QuotesListingComponent implements OnInit {
       } else {
         expiredDate = '';
       }
-      this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
       let vehicleTypeData;
       if (this.vehicleTypeValue == 'commercial_vehicle') {
         vehicleTypeData =
@@ -1189,136 +1212,151 @@ export class QuotesListingComponent implements OnInit {
       } else {
         vehicleTypeData = this.vehicleTypeValue;
       }
-      this.apiService
-        .getRequestedResponse(
-          `${ApiConstants.getCoverageType()}?reg_year=${
-            this.registrationDateYear
-          }&vehicle_type=${vehicleTypeData}&previous_policy_type=${
-            this.parsedVehicleData?.policy_expiry
-          }&previous_policy_expiry_date=${expiredDate}`
-        )
-        .subscribe((res: any) => {
-          this.tabDataList = res;
-          this.selectedProductType = this.tabDataList[0].code;
-          this.renewalType = sessionStorage.getItem('renewalType');
-          if (this.renewalType == 'renewal' || this.renewalType == 'rollover') {
-            sessionStorage.setItem(
-              'productType',
+      if (
+        this.registrationDateYear != 'NaN' &&
+        this.parsedVehicleData?.policy_expiry != undefined 
+      ) {
+        this.apiService
+          .getRequestedResponse(
+            `${ApiConstants.getCoverageType()}?reg_year=${
+              this.registrationDateYear
+            }&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${
               this.parsedVehicleData?.policy_expiry
-            );
-          }
-          let productTypeValue = sessionStorage.getItem('productType');
-          let tabData = this.tabDataList.findIndex(
-            (item: any) => item.code === productTypeValue
-          );
-          if (tabData !== -1) {
-            this.selectedTabIndex = tabData;
-          } else {
-            this.selectedTabIndex = 0;
-          }
-
-          if (tabData == -1) {
-            sessionStorage.setItem('productType', this.selectedProductType);
-          }
-          if (!productTypeValue) {
-            sessionStorage.setItem('productType', this.selectedProductType);
-          }
-          let getProductTypeName = sessionStorage.getItem('productType');
-          this.mmvFormData = sessionStorage.getItem('mmv_data');
-          let mmvFormValue = JSON.parse(this.mmvFormData);
-
-          if (
-            productTypeValue == 'comprehensive' &&
-            this.parsedVehicleData?.policy_expiry == 'satp'
-          ) {
-            this.inspectionCase = 'Inspection';
-          } else if (mmvFormValue?.policy_expiry_date) {
-            this.policyExpiryInspection = new Date(
-              mmvFormValue?.policy_expiry_date
-            );
-
-            this.currentDate = new Date();
-            this.currentDate.setHours(0, 0, 0, 0); // Set time part to midnight
-
-            this.policyExpiryInspection.setHours(0, 0, 0, 0); // Set time part to midnight
-            this.inspectionCase = '';
-            if (this.policyExpiryInspection < this.currentDate) {
-              if (productTypeValue == 'saod') {
-                this.inspectionCase = 'Inspection';
-              }
-            }
-          } else {
-            this.inspectionCase = '';
-          }
-          this.sharedDataService.inspectionCaseData(this.inspectionCase);
-          this.registrationNumber =
-            sessionStorage.getItem('registrationNumber');
-          this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-          if (this.registrationNumber) {
-            this.sharedDataService.vehicleMMVDetails(
-              getProductTypeName,
-              this.mmvFormData,
-              'registrationNumber',
-              '',
-              notSendTransactionId
-            );
-          } else if (
-            this.parsedVehicleData?.policy_expiry_date_email &&
-            this.parsedVehicleData?.allQuotesRequest
-          ) {
-            this.renewalDetails = sessionStorage.getItem('renewalDetails');
-            if (!this.renewalDetails) {
-              this.sharedDataService.getQuotesOnTransactionId(
-                this.parsedVehicleData?.allQuotesRequest
+            }&previous_policy_expiry_date=${expiredDate}`
+          )
+          .subscribe((res: any) => {
+            this.tabDataList = res;
+            this.selectedProductType = this.tabDataList[0].code;
+            this.renewalType = sessionStorage.getItem('renewalType');
+            if (
+              this.renewalType == 'renewal' ||
+              this.renewalType == 'rollover'
+            ) {
+              sessionStorage.setItem(
+                'productType',
+                this.parsedVehicleData?.policy_expiry
               );
             }
-
-            let inputDate =
-              this.parsedVehicleData.allQuotesRequest?.previous_policy_exp_date;
-            let [day, month, year] = inputDate.split('/');
-            let reformattedDate = `${month}/${day}/${year}`;
-
-            this.parsedVehicleData.policy_expiry_date = new Date(
-              reformattedDate
+            let productTypeValue = sessionStorage.getItem('productType');
+            let tabData = this.tabDataList.findIndex(
+              (item: any) => item.code === productTypeValue
             );
-
-            this.emailInsurer = sessionStorage.getItem('mmv_data_email');
-            if (this.emailInsurer) {
-              let insurerData = JSON.parse(this.emailInsurer);
-              this.parsedVehicleData.previous_insurer = insurerData;
-              sessionStorage.removeItem('mmv_data_email');
+            if (tabData !== -1) {
+              this.selectedTabIndex = tabData;
+            } else {
+              this.selectedTabIndex = 0;
             }
 
-            let vehicleForm = JSON.stringify(this.parsedVehicleData);
+            if (tabData == -1) {
+              sessionStorage.setItem('productType', this.selectedProductType);
+            }
+            if (!productTypeValue) {
+              sessionStorage.setItem('productType', this.selectedProductType);
+            }
+            let getProductTypeName = sessionStorage.getItem('productType');
+            this.mmvFormData = sessionStorage.getItem('mmv_data');
 
-            sessionStorage.setItem('mmv_data', vehicleForm);
-          } else {
-            let mmvIdData = JSON.parse(
-              sessionStorage.getItem('mmv_data') || '{}'
-            );
-            let objectValue = Object.keys(mmvIdData);
+            let mmvFormValue = JSON.parse(this.mmvFormData);
+            if (mmvFormValue) {
+              this.sharedDataService.initiate_Quotes_APi(mmvFormValue);
+            }
 
-            this.renewalDataList = false;
+            if (
+              productTypeValue == 'comprehensive' &&
+              this.parsedVehicleData?.policy_expiry == 'satp'
+            ) {
+              this.inspectionCase = 'Inspection';
+            } else if (mmvFormValue?.policy_expiry_date) {
+              this.policyExpiryInspection = new Date(
+                mmvFormValue?.policy_expiry_date
+              );
 
-            for (let i = 0; i <= objectValue.length - 1; i++) {
-              if (objectValue[i] == 'vehicle_make') {
-                this.renewalDataList = true;
+              this.currentDate = new Date();
+              this.currentDate.setHours(0, 0, 0, 0); // Set time part to midnight
+
+              this.policyExpiryInspection.setHours(0, 0, 0, 0); // Set time part to midnight
+              this.inspectionCase = '';
+              if (this.policyExpiryInspection < this.currentDate) {
+                if (productTypeValue == 'saod') {
+                  this.inspectionCase = 'Inspection';
+                }
               }
+            } else {
+              this.inspectionCase = '';
             }
-            if (this.renewalDataList) {
+            this.sharedDataService.inspectionCaseData(this.inspectionCase);
+            this.registrationNumber =
+              sessionStorage.getItem('registrationNumber');
+            this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
+            if (this.registrationNumber) {
               this.sharedDataService.vehicleMMVDetails(
                 getProductTypeName,
                 this.mmvFormData,
-                'mmvQuotes',
+                'registrationNumber',
                 '',
                 notSendTransactionId
               );
-              this.refreshPageApiHandling = true;
+            } else if (
+              this.parsedVehicleData?.policy_expiry_date_email &&
+              this.parsedVehicleData?.allQuotesRequest
+            ) {
+              this.renewalDetails = sessionStorage.getItem('renewalDetails');
+              if (!this.renewalDetails) {
+                this.sharedDataService.getQuotesOnTransactionId(
+                  this.parsedVehicleData?.allQuotesRequest
+                );
+              }
+
+              let inputDate =
+                this.parsedVehicleData.allQuotesRequest
+                  ?.previous_policy_exp_date;
+              let [day, month, year] = inputDate.split('/');
+              let reformattedDate = `${month}/${day}/${year}`;
+
+              this.parsedVehicleData.policy_expiry_date = new Date(
+                reformattedDate
+              );
+
+              this.emailInsurer = sessionStorage.getItem('mmv_data_email');
+              if (this.emailInsurer) {
+                let insurerData = JSON.parse(this.emailInsurer);
+                this.parsedVehicleData.previous_insurer = insurerData;
+                sessionStorage.removeItem('mmv_data_email');
+              }
+
+              let vehicleForm = JSON.stringify(this.parsedVehicleData);
+
+              sessionStorage.setItem('mmv_data', vehicleForm);
+            } else {
+              let mmvIdData = JSON.parse(
+                sessionStorage.getItem('mmv_data') || '{}'
+              );
+              let objectValue = Object.keys(mmvIdData);
+
+              this.renewalDataList = false;
+
+              for (let i = 0; i <= objectValue.length - 1; i++) {
+                if (objectValue[i] == 'vehicle_make') {
+                  this.renewalDataList = true;
+                }
+              }
+              if (this.renewalDataList) {
+                this.sharedDataService.vehicleMMVDetails(
+                  getProductTypeName,
+                  this.mmvFormData,
+                  'mmvQuotes',
+                  '',
+                  notSendTransactionId
+                );
+                this.refreshPageApiHandling = true;
+              }
             }
-          }
-          this.sharedDataService.addOnsChange(this.mmvFormData);
-          this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
-        });
+            this.sharedDataService.addOnsChange(this.mmvFormData);
+            this.sharedDataService.disableInitiatesQuotesBase(
+              this.enableIdvCard
+            );
+          });
+      }
     }
   }
   intervalId: any = null;
@@ -1328,9 +1366,9 @@ export class QuotesListingComponent implements OnInit {
     // }
     this.progressValue = progressValue;
     this.intervalId = setInterval(() => {
-      if(environment.dev){
+      if (environment.dev) {
         this.progressValue += 0.08;
-      }else{
+      } else {
         this.progressValue += 0.4;
       }
       if (this.progressValue >= 100) {
@@ -1535,6 +1573,7 @@ export class QuotesListingComponent implements OnInit {
 
   ngOnDestroy() {
     this.vehicleCardMultipleCall.unsubscribe();
+    this.traceIdTab.unsubscribe();
   }
   renewalRedirection(url: any) {
     window.open(url, '_blank');

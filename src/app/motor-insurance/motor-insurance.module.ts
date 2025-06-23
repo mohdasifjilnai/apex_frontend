@@ -26,6 +26,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { SkeletonLoadingComponent } from './skeleton-loading/skeleton-loading.component';
 import { SelectedShareComponent } from '../shared/components/dialog-components/selected-share/selected-share.component';
 import { NonPosPopupComponent } from './non-pos-popup/non-pos-popup.component';
+import { VehicleDetailsPopupNewComponent } from './vehicle-details-popup-new/vehicle-details-popup-new.component';
 
 
 
@@ -52,7 +53,8 @@ import { NonPosPopupComponent } from './non-pos-popup/non-pos-popup.component';
     PaymentComponent,
     SkeletonLoadingComponent,
     SelectedShareComponent,
-    NonPosPopupComponent
+    NonPosPopupComponent,
+    VehicleDetailsPopupNewComponent
   ],
   imports: [
     CommonModule,

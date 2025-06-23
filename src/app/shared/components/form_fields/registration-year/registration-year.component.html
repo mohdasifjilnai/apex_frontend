@@ -56,9 +56,12 @@ class="registration-year"
     (keyup.enter)="!visuallyDisabledFields['registration_date'] && EnterKey($event)"
     [matDatepickerFilter]="dateFilter"
     [readonly]="visuallyDisabledFields['registration_date']"
+    [disabled]="disabledRegistrationYear"
+    [ngClass]="disabledRegistrationYear?'visually-disabled':''"
   />
   <mat-datepicker-toggle matSuffix [for]="registrationYear"
-    ><mat-icon matDatepickerToggleIcon disabled="visuallyDisabledFields['registration_date']" >
+    ><mat-icon matDatepickerToggleIcon disabled="disabledRegistrationYear"
+    >
       <img
         src="assets/icon/calendar.svg"
         class="cursor-pointer mb-2"
@@ -70,7 +73,8 @@ class="registration-year"
     #registrationYear
     id-automation="datepicker_registration_year_id"
     startView="multi-year"
-    [disabled]="visuallyDisabledFields['registration_date']"
+    [disabled]="disabledRegistrationYear"
+
   ></mat-datepicker>
   <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
     This is a required field.

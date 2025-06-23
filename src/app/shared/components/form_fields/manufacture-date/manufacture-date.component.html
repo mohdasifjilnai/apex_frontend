@@ -3,10 +3,11 @@
   [class]="customManufactureDate"
   [ngClass]="{
     'visually-disabled': visuallyDisabledFields['manufacture_date'],
-    'isManufactureData': isManufactureDateDisbaled
+    isManufactureData: isManufactureDateDisbaled
   }"
 >
   <mat-label>Manufacture Date</mat-label>
+
   <input
     matInput
     #manufactureInput
@@ -16,8 +17,13 @@
     appMmYyyyformat
     [min]="minDate"
     [max]="registrationDate"
-    (click)="!visuallyDisabledFields['manufacture_date'] && manufactureDate.open()"
-    (keyup.enter)="!visuallyDisabledFields['manufacture_date'] && EnterKey($event, manufactureDate)"
+    (click)="
+      !visuallyDisabledFields['manufacture_date'] && manufactureDate.open()
+    "
+    (keyup.enter)="
+      !visuallyDisabledFields['manufacture_date'] &&
+        EnterKey($event, manufactureDate)
+    "
     [readonly]="visuallyDisabledFields['manufacture_date']"
     [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
   />
@@ -25,7 +31,7 @@
     matSuffix
     [for]="manufactureDate"
     (keydown.enter)="!isManufactureDateDisbaled && $event.preventDefault()"
-    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null "
+    [attr.data-disabled]="isManufactureDateDisbaled ? 'true' : null"
     [disabled]="visuallyDisabledFields['manufacture_date']"
     ><mat-icon matDatepickerToggleIcon>
       <img

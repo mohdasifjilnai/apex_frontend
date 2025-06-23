@@ -1,7 +1,5 @@
 export class ApiConstants {
 
-
-
   // Initiate quotes List
   public static initiate_quotes(): string {
     const isCommercial = sessionStorage.getItem('vehicleType');
@@ -174,6 +172,9 @@ export class ApiConstants {
     const isCommercial = sessionStorage.getItem('vehicleType');
     return isCommercial=='commercial_vehicle' ? `/cv/api/v1/get_trace_id/` : `/api/v1/get_trace_id/`
   };
+
+
+  update_trace_id_data:string=`/api/v1/update_trace_id/`;
    // public static get_trace_Id = `/api/v1/get_trace_id/`;
    public static get_renewal_data(): string {
     const isCommercial = sessionStorage.getItem('vehicleType');
@@ -203,5 +204,8 @@ export class ApiConstants {
   public static transaction_premium_details=`/api/v1/transaction_premium_details/`;
 
   public static get_or_create_customer: string = `/api/v1/unicorn/customer/events/get_or_create_customer/`;
+
+  public static update_trace_id_data:string=`/api/v1/update_trace_id/`;
+
 
 }

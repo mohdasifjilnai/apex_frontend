@@ -65,6 +65,7 @@ export class ManufactureDateComponent implements OnInit {
   vehicleMMVData: any;
   vehicleMMVItem: any;
   visuallyDisabledFields: any = false;
+  manufactureDateReset: any;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -93,11 +94,30 @@ export class ManufactureDateComponent implements OnInit {
       sessionStorage.getItem('mmv_data') || '{}'
     );
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    this.manufactureDateValidation();
+    // this.manufactureDateValidation();
+    this.shared.getRegistrationData.subscribe((data) => {
+      if (data != null && data != '') {
+        this.registrationDate = new Date(data);
+        // this.form.controls['manufacture_date']?.reset();
+        const minDateYear = this.registrationDate.getFullYear() - 4;
+        const minDateMonth = this.registrationDate.getMonth();
+        this.minDate = new Date(minDateYear, minDateMonth);
+      }
+    });
+    this.manufactureDateReset = this.shared.getResetManufactureDate.subscribe(
+      (data) => {
+        if (data != null) {
+          this.form.controls['manufacture_date']?.reset();
+          this.manufactureDateReset.unsubscribe();
+        }
+      }
+    );
 
-      // this.form.get('manufacture_date')?.disable();
-    this.visuallyDisabledFields = this.shareDataService.disableVisually(['manufacture_date'], this.form);    
-
+    // this.form.get('manufacture_date')?.disable();
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(
+      ['manufacture_date'],
+      this.form
+    );
   }
 
   /**
@@ -134,6 +154,8 @@ export class ManufactureDateComponent implements OnInit {
      * remove form control for the Manufacture Date
      */
     this.form.removeControl('manufacture_date');
+
+    this.manufactureDateReset.unsubscribe();
   }
   EnterKey(event: Event, manufacture: MatDatepicker<Date>) {
     this.shared.handleEnterKey(event, manufacture);
@@ -155,27 +177,6 @@ export class ManufactureDateComponent implements OnInit {
       const minDateYear = this.registrationDate.getFullYear() - 4;
       const minDateMonth = this.registrationDate.getMonth();
       this.minDate = new Date(minDateYear, minDateMonth);
-      // if (this.registrationNumber === null) {
-      //   const minDateYear = this.registrationDate.getFullYear() - 14;
-      //   const minDateMonth = this.registrationDate.getMonth();
-      //   const minDateDay = this.registrationDate.getDate();
-      //   this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
-      //   this.form.controls['manufacture_date']?.reset();
-      //   // this.setMinMaxDates(15);
-      // } else if (/^[A-Za-z]/.test(this.registrationNumber)) {
-      //   const minDateYear = this.registrationDate.getFullYear() - 2;
-      //   const minDateMonth = this.registrationDate.getMonth();
-      //   const minDateDay = this.registrationDate.getDate();
-      //   this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
-      //   this.form.controls['manufacture_date']?.reset();
-      //   // this.setMinMaxDates(15);
-      // } else if (/^[0-9]/.test(this.registrationNumber)) {
-      //   const minDateYear = this.registrationDate.getFullYear() - 14;
-      //   const minDateMonth = this.registrationDate.getMonth();
-      //   const minDateDay = this.registrationDate.getDate();
-      //   this.minDate = new Date(minDateYear, minDateMonth, minDateDay);
-      //   this.form.controls['manufacture_date']?.reset();
-      // }
     });
   }
 

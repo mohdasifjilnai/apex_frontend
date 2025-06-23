@@ -74,7 +74,7 @@ export class CheckQuotesDialogComponent implements OnInit {
           let mmvListData = JSON.parse(mmvValueData);
           mmvListData.addNcbBoth = JSON.parse(allNCbValue);
           mmvListData.ncb_discount = mmvListData.addNcbBoth.old_ncb_value;
-          sessionStorage.setItem('mmv_data', JSON.stringify(mmvListData));
+          // sessionStorage.setItem('mmv_data', JSON.stringify(mmvListData));
         }
       }
       sessionStorage.setItem('quotesUrl', 'true');

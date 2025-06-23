@@ -265,7 +265,6 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
       // this.previousPolicyDisabled=true
-      console.log(this.previousPolicyDisabled,res)
       if (res) {
         this.regDateValue = new Date(res);
         if (this.editClick == '') {
@@ -833,7 +832,7 @@ export class VehicleDetailsPopupComponent implements OnInit {
 
       vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
 
-      sessionStorage.setItem('mmv_data', vehicleFrom);
+      // sessionStorage.setItem('mmv_data', vehicleFrom);
       sessionStorage.removeItem('allNCBDataProposal');
       sessionStorage.removeItem('proposal_Id');
       this.sharedDataService.vehicleCardData(vehicleFrom);

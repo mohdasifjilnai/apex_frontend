@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { take } from 'rxjs';
 declare const webengage: any;
 export class dropdown {
   value: any;
@@ -71,6 +72,8 @@ export class AddOnsComponent implements OnInit {
   selectedVehicleType: any;
   traceIdResponse: any;
   userType: any;
+  updateButtonIdv = true;
+  idvAmount: any;
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
@@ -83,14 +86,16 @@ export class AddOnsComponent implements OnInit {
       : null;
 
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    // this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
-    //   this.vehicleData = cardData;
-    //   this.parsedVehicleData = JSON.parse(this.vehicleData);
-    //   this.getAddonList(
-    //     this.vehicleTypeValue,
-    //     this.parsedVehicleData?.policy_expiry
-    //   );
-    // });
+    this.sharedDataService.traceIdVehicleType.subscribe((cardData) => {
+      if (cardData != null) {
+        this.vehicleData = cardData;
+        this.parsedVehicleData = JSON.parse(this.vehicleData);
+        this.getAddonList(
+          this.vehicleTypeValue,
+          this.parsedVehicleData?.policy_expiry
+        );
+      }
+    });
 
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     if (this.addonsValue == 'undefined') {
@@ -206,6 +211,25 @@ export class AddOnsComponent implements OnInit {
       this.enableAddOns = true;
     });
 
+    this.sharedDataService.getIdvValue.subscribe((idvData) => {
+      if (idvData) {
+        this.idvAmount = idvData;
+        let allIdvData = JSON.parse(this.idvAmount);
+        this.updateButtonIdv = allIdvData.buttonData;
+        let idvObject = {
+          minIdv: '',
+          maxIdv: '',
+          chooseIdv: allIdvData.chooseIdv,
+        };
+        // if (!allIdvData.buttonData) {
+        let chooseIdvValue = sessionStorage.setItem(
+          'idvData',
+          JSON.stringify(idvObject)
+        );
+        // }
+      }
+    });
+
     this.sharedDataService.tabChanges.subscribe((data) => {
       this.subCheckBox = [];
       this.selectedCheckedArray = [];
@@ -256,6 +280,7 @@ export class AddOnsComponent implements OnInit {
       if (!this.proposalOnInit) {
         this.subCheckBox = [];
         this.selectedCheckedArray = [];
+        this.multipCheckboxName = [];
         this.selectAddOnsOnly = [];
         this.checkBoxValueArray = [];
         this.inputValues = [];
@@ -264,14 +289,17 @@ export class AddOnsComponent implements OnInit {
         this.clearAllButton = false;
         this.selected_addons = {};
         this.selectedVoluntryValue = '';
+        this.multiCheckboxField = [];
       }
       this.proposalOnInit = false;
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
-      this.getAddonList(
-        this.vehicleTypeValue,
-        this.parsedVehicleData?.policy_expiry
-      );
+      if (this.vehicleData != null) {
+        this.getAddonList(
+          this.vehicleTypeValue,
+          this.parsedVehicleData?.policy_expiry
+        );
+      }
     });
     if (window.innerWidth <= 999) {
       this.getAddonList(
@@ -320,6 +348,7 @@ export class AddOnsComponent implements OnInit {
     }
     this.subCheckBox = [];
     this.selectedCheckedArray = [];
+    this.multipCheckboxName = [];
     this.selectAddOnsOnly = [];
     this.checkBoxValueArray = [];
     this.inputValues = [];
@@ -327,40 +356,53 @@ export class AddOnsComponent implements OnInit {
     this.showUpdateButton = false;
     this.clearAllButton = false;
     this.selected_addons = {};
+    this.multiCheckboxField = [];
+    this.selectedVoluntryValue = '';
 
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     let addOnsValue = sessionStorage.getItem('selectedAddons');
-    if (addOnsValue) {
-      sessionStorage.removeItem('selectedAddons');
-      this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
-    }
-    if (this.updateAddOns) {
-      if (this.registrationNumber) {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'registrationNumber',
-          this.selected_addons
-        );
+    if (addOnsValue != null && addOnsValue != 'null') {
+      if (addOnsValue) {
+        sessionStorage.removeItem('selectedAddons');
+        this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
+      }
+      if (this.updateAddOns) {
+        if (this.registrationNumber) {
+          // this.sharedDataService.vehicleMMVDetails(
+          //   productTypeValue,
+          //   mmvFormData,
+          //   'registrationNumber',
+          //   this.selected_addons
+          // );
+          this.sharedDataService.initiate_Quotes_APi(
+            JSON.parse(mmvFormData || '{}')
+          );
+        } else {
+          // this.sharedDataService.vehicleMMVDetails(
+          //   productTypeValue,
+          //   mmvFormData,
+          //   'mmvQuotes',
+          //   this.selected_addons
+          // );
+          this.sharedDataService.initiate_Quotes_APi(
+            JSON.parse(mmvFormData || '{}')
+          );
+        }
+        this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+        this.enableAddOns = true;
       } else {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'mmvQuotes',
-          this.selected_addons
+        // this.sharedDataService.vehicleMMVDetails(
+        //   productTypeValue,
+        //   mmvFormData,
+        //   'mmvQuotes',
+        //   this.selected_addons
+        // );
+        this.sharedDataService.initiate_Quotes_APi(
+          JSON.parse(mmvFormData || '{}')
         );
       }
-      this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
-      this.enableAddOns = true;
-    } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes',
-        this.selected_addons
-      );
     }
   }
   @Output() checkBoxValue = new EventEmitter<any>();
@@ -465,10 +507,16 @@ export class AddOnsComponent implements OnInit {
           this.showButtons = true;
           this.showUpdateButton = true;
           this.clearAllButton = false;
+          this.multiCheckboxField = [];
+          this.multipCheckboxName = [];
+          this.subCheckBox = [];
         } else {
           this.addonsValue = sessionStorage.getItem('selectedAddons');
-          if (this.addonsValue == 'undefined') {
+          if (this.addonsValue == 'undefined' || this.addonsValue == null) {
             this.selectedAddOns = '';
+            this.multiCheckboxField = [];
+            this.multipCheckboxName = [];
+            this.subCheckBox = [];
           } else {
             this.selectedAddOns = JSON.parse(this.addonsValue);
           }
@@ -486,6 +534,17 @@ export class AddOnsComponent implements OnInit {
         this.showButtons = true;
         this.showUpdateButton = true;
         this.clearAllButton = true;
+        let multiCheckValue = this.selectedCheckedArray.findIndex((i: any) => {
+          if (i.showAddOns == 'Geographical Extension') {
+            return i;
+          }
+        });
+
+        if (multiCheckValue == -1) {
+          this.multiCheckboxField = [];
+          this.multipCheckboxName = [];
+          this.subCheckBox = [];
+        }
       }
     }
 
@@ -515,47 +574,52 @@ export class AddOnsComponent implements OnInit {
       'selectedAddons',
       JSON.stringify(this.selectedCheckedArray)
     );
+    if (this.idvAmount) {
+      webengage.track('IDV_filter_Applied', {
+        User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+        Motor_Type: this.vehicleTypeValue,
+        IDV_Value: this.idvAmount,
+      });
+    }
+
     let productTypeValue = sessionStorage.getItem('productType');
     let mmvFormData = sessionStorage.getItem('mmv_data');
 
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber',
-        this.selected_addons
-      );
-    } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes',
-        this.selected_addons
-      );
-    }
+    const count = Object.keys(this.selected_addons).length;
+    if (count != 0 || this.idvAmount) {
+      if (this.registrationNumber) {
+        this.sharedDataService.initiate_Quotes_APi(
+          JSON.parse(mmvFormData || '{}')
+        );
+      } else {
+        this.sharedDataService.initiate_Quotes_APi(
+          JSON.parse(mmvFormData || '{}')
+        );
+      }
 
-    if (window.innerWidth <= 999) {
-      this.bottomSheetRef.dismiss(this.checkBoxValueArray);
-    }
-    this.selectAddOnsOnly = [];
-    for (let i = 0; i <= this.selectedCheckedArray.length - 1; i++) {
-      this.selectAddOnsOnly.push(this.selectedCheckedArray[i].showAddOns);
-    }
+      if (window.innerWidth <= 999) {
+        this.bottomSheetRef.dismiss(this.checkBoxValueArray);
+      }
+      this.selectAddOnsOnly = [];
+      for (let i = 0; i <= this.selectedCheckedArray.length - 1; i++) {
+        this.selectAddOnsOnly.push(this.selectedCheckedArray[i].showAddOns);
+      }
 
-    this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
-    this.showButtons = false;
-    this.showUpdateButton = true;
-    this.clearAllButton = true;
-    this.enableAddOns = true;
-    this.updateAddOns = true;
+      this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+      this.showButtons = false;
+      this.showUpdateButton = true;
+      this.clearAllButton = true;
+      this.enableAddOns = true;
+      this.updateAddOns = true;
 
-    if (this.checkBoxValueArray.length == 0) {
-      this.showUpdateButton = false;
-      this.clearAllButton = false;
+      if (this.checkBoxValueArray.length == 0) {
+        this.showUpdateButton = false;
+        this.clearAllButton = false;
+      }
+
+      this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
     }
-
-    this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
   }
   /**
    *
@@ -581,127 +645,130 @@ export class AddOnsComponent implements OnInit {
     } else {
       vehicleTypeData = this.vehicleTypeValue;
     }
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants?.addonsApi()}?vehicle_type=${vehicleTypeData}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
-      )
-      .subscribe((res: any) => {
-        this.addonList = res;
-        this.modifiedMultiCheckArray = [];
-        this.loader = false;
-        this.addOnsArray = [];
-        for (let value of this.addonList) {
-          const checkIndex = this.addOnsArray.findIndex(
-            (type: any) => type['rb_type'] === value['rb_type']
-          );
-          if (checkIndex === -1) {
-            value['fe_template'].checked = false;
-            value['fe_template'].addOnsValue = '';
-            value['fe_template'].rb_code = value['rb_code'];
-            const coversData = {
-              rb_type: value['rb_type'],
-              fe_template: [value['fe_template']],
-              displayName: value['display_name'],
-              rb_business_type: value['rb_business_type'],
-              rb_id: value['rb_id'],
-              rb_name: value['rb_name'],
-              rb_product_type: value['rb_product_type'],
-              rb_proposer_type: value['rb_proposer_type'],
-              rb_vehicle_type: value['rb_vehicle_type'],
-            };
-            this.addOnsArray.push(coversData);
-          } else {
-            value['fe_template'].checked = false;
-            value['fe_template'].addOnsValue = '';
-            value['fe_template'].rb_code = value['rb_code'];
-            this.addOnsArray[checkIndex]['fe_template'].push(
-              value['fe_template']
+    if (bussinessType != null) {
+      this.apiService
+        .getRequestedResponse(
+          `${ApiConstants?.addonsApi()}?vehicle_type=${vehicleTypeData}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
+        )
+        .subscribe((res: any) => {
+          this.addonList = res;
+          this.modifiedMultiCheckArray = [];
+          this.loader = false;
+          this.addOnsArray = [];
+          for (let value of this.addonList) {
+            const checkIndex = this.addOnsArray.findIndex(
+              (type: any) => type['rb_type'] === value['rb_type']
             );
-          }
-        }
-        this.addValidation();
-        for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
-          for (
-            let j = 0;
-            j <= this.addOnsArray[i].fe_template.length - 1;
-            j++
-          ) {
-            if (
-              this.addOnsArray[i].fe_template[j].next_type == 'multi_checkbox'
-            ) {
-              for (
-                let k = 0;
-                k <= this.addOnsArray[i].fe_template[j].value.length - 1;
-                k++
-              ) {
-                let modifiedData = {
-                  name: this.addOnsArray[i].fe_template[j].value[k],
-                  multiChecked: false,
-                };
-                this.modifiedMultiCheckArray.push(modifiedData);
-              }
-              this.addOnsArray[i].fe_template[j].modifiedMultiCheckList =
-                this.modifiedMultiCheckArray;
+            if (checkIndex === -1) {
+              value['fe_template'].checked = false;
+              value['fe_template'].addOnsValue = '';
+              value['fe_template'].rb_code = value['rb_code'];
+              const coversData = {
+                rb_type: value['rb_type'],
+                fe_template: [value['fe_template']],
+                displayName: value['display_name'],
+                rb_business_type: value['rb_business_type'],
+                rb_id: value['rb_id'],
+                rb_name: value['rb_name'],
+                rb_product_type: value['rb_product_type'],
+                rb_proposer_type: value['rb_proposer_type'],
+                rb_vehicle_type: value['rb_vehicle_type'],
+              };
+              this.addOnsArray.push(coversData);
+            } else {
+              value['fe_template'].checked = false;
+              value['fe_template'].addOnsValue = '';
+              value['fe_template'].rb_code = value['rb_code'];
+              this.addOnsArray[checkIndex]['fe_template'].push(
+                value['fe_template']
+              );
             }
           }
-        }
-
-        if (window.innerWidth <= 999) {
-          this.addonsValue = sessionStorage.getItem('selectedAddons');
-          if (this.addonsValue == 'undefined') {
-            this.selectedAddOns = '';
-          } else {
-            this.selectedAddOns = JSON.parse(this.addonsValue);
+          this.addValidation();
+          for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+            for (
+              let j = 0;
+              j <= this.addOnsArray[i].fe_template.length - 1;
+              j++
+            ) {
+              if (
+                this.addOnsArray[i].fe_template[j].next_type == 'multi_checkbox'
+              ) {
+                for (
+                  let k = 0;
+                  k <= this.addOnsArray[i].fe_template[j].value.length - 1;
+                  k++
+                ) {
+                  let modifiedData = {
+                    name: this.addOnsArray[i].fe_template[j].value[k],
+                    multiChecked: false,
+                  };
+                  this.modifiedMultiCheckArray.push(modifiedData);
+                }
+                this.addOnsArray[i].fe_template[j].modifiedMultiCheckList =
+                  this.modifiedMultiCheckArray;
+              }
+            }
           }
 
-          if (this.selectedAddOns) {
-            this.selectedCheckedArray = this.selectedAddOns;
+          if (window.innerWidth <= 999) {
+            this.addonsValue = sessionStorage.getItem('selectedAddons');
+            if (this.addonsValue == 'undefined') {
+              this.selectedAddOns = '';
+            } else {
+              this.selectedAddOns = JSON.parse(this.addonsValue);
+            }
 
-            for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
-              for (
-                let k = 0;
-                k <= this.addOnsArray[i].fe_template.length - 1;
-                k++
-              ) {
-                for (let key of this.selectedAddOns) {
-                  const keys = Object.keys(key);
-                  const value = Object.values(key);
-                  if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
-                    this.addOnsArray[i].fe_template[k].checked = true;
-                    this.checkBoxValueArray.push(
-                      this.addOnsArray[i].fe_template[k].name
-                    );
-                    if (
-                      this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
-                      value[0]
-                    ) {
-                      this.addOnsArray[i].fe_template[k].addOnsValue = value[0];
-                    }
-                    if (
-                      this.addOnsArray[i].fe_template[k]?.next_type ==
-                      'int_input'
-                    ) {
-                      this.inputFieldIndex[k] = k;
-                    }
-                    if (
-                      this.addOnsArray[i].fe_template[k]?.next_type == 'tab'
-                    ) {
-                      this.tabIndex[k] = k;
-                      this.selectedVoluntryValue = value[0];
-                    }
-                    if (
-                      this.addOnsArray[i].fe_template[k]?.next_type ==
-                      'dropdown'
-                    ) {
-                      this.dropDownFieldIndex[k] = k;
+            if (this.selectedAddOns) {
+              this.selectedCheckedArray = this.selectedAddOns;
+
+              for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
+                for (
+                  let k = 0;
+                  k <= this.addOnsArray[i].fe_template.length - 1;
+                  k++
+                ) {
+                  for (let key of this.selectedAddOns) {
+                    const keys = Object.keys(key);
+                    const value = Object.values(key);
+                    if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
+                      this.addOnsArray[i].fe_template[k].checked = true;
+                      this.checkBoxValueArray.push(
+                        this.addOnsArray[i].fe_template[k].name
+                      );
+                      if (
+                        this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
+                        value[0]
+                      ) {
+                        this.addOnsArray[i].fe_template[k].addOnsValue =
+                          value[0];
+                      }
+                      if (
+                        this.addOnsArray[i].fe_template[k]?.next_type ==
+                        'int_input'
+                      ) {
+                        this.inputFieldIndex[k] = k;
+                      }
+                      if (
+                        this.addOnsArray[i].fe_template[k]?.next_type == 'tab'
+                      ) {
+                        this.tabIndex[k] = k;
+                        this.selectedVoluntryValue = value[0];
+                      }
+                      if (
+                        this.addOnsArray[i].fe_template[k]?.next_type ==
+                        'dropdown'
+                      ) {
+                        this.dropDownFieldIndex[k] = k;
+                      }
                     }
                   }
                 }
               }
             }
           }
-        }
-      });
+        });
+    }
   }
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
@@ -770,10 +837,13 @@ export class AddOnsComponent implements OnInit {
       /**
        * Find the index of the object that meets the condition
        */
-      const index = this.multipCheckboxName.indexOf(multiCheckbox_name);
-      if (index !== -1) {
-        this.multipCheckboxName.splice(index, 1);
+      if (this.multipCheckboxName.length > 0) {
+        const index = this.multipCheckboxName.indexOf(multiCheckbox_name);
+        if (index !== -1) {
+          this.multipCheckboxName.splice(index, 1);
+        }
       }
+
       const indexMultiCheckoxRemove = this.subCheckBox.findIndex(
         (item: any) => {
           if (item === event?.source?.id) {
@@ -785,6 +855,7 @@ export class AddOnsComponent implements OnInit {
         this.subCheckBox.splice(indexMultiCheckoxRemove, 1);
       }
       if (this.subCheckBox.length == 0) {
+        // if (index != -1) {
         this.multiCheckboxFlagIndex[index] = true;
         this.checkMultiCheckBox(this.multiCheckboxFlagIndex);
         this.multiCheckbox[index] = index;

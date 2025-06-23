@@ -66,6 +66,7 @@ export class RegistrationYearComponent implements OnInit {
   registrationDate: any;
   disableFromDate: any;
   visuallyDisabledFields: any = false;
+  disabledRegistrationYear: boolean = false;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -107,6 +108,10 @@ export class RegistrationYearComponent implements OnInit {
       );
     } else {
       this.form.addControl('registration_date', new FormControl());
+    }
+    const renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType == 'renewal') {
+      this.disabledRegistrationYear = true;
     }
 
     // const currentYear = moment().year();
@@ -219,7 +224,11 @@ export class RegistrationYearComponent implements OnInit {
      * Perform specific action based on the value change
      */
     this.sharedDataService.getRegistrationDate(value);
-    this.visuallyDisabledFields = this.shareDataService.disableVisually(['registration_date'], this.form);
+    this.sharedDataService.resetManufactureDate(value);
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(
+      ['registration_date'],
+      this.form
+    );
   }
   EnterKey(event: Event) {
     this.sharedDataService.handleEnterKey(event, this.registrationYear);
@@ -257,5 +266,4 @@ export class RegistrationYearComponent implements OnInit {
     //   this.onRegistrationDateChange(registrationDate);
     // }
   }
-
 }

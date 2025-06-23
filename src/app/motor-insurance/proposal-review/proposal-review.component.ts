@@ -174,17 +174,19 @@ export class ProposalReviewComponent implements OnInit {
       sessionStorage.getItem('mmv_data') || '{}'
     );
     if (
-      previousPolicyType?.policy_expiry === 'saod' ||
-      previousPolicyType?.policy_expiry === 'bundle'
+      previousPolicyType?.form_value?.policy_expiry === 'saod' ||
+      previousPolicyType?.form_value?.policy_expiry === 'bundle'
     ) {
       this.isTpDetailsDisabled = true;
       this.isOdDetailsShow = true;
-    } else if (previousPolicyType?.policy_expiry === 'comprehensive') {
+    } else if (
+      previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
+    ) {
       this.isTpDetailsDisabled = true;
       this.isOdDetailsShow = false;
     } else if (
-      previousPolicyType?.policy_expiry === 'satp' ||
-      previousPolicyType?.policy_expiry === 'bundled_tp'
+      previousPolicyType?.form_value?.policy_expiry === 'satp' ||
+      previousPolicyType?.form_value?.policy_expiry === 'bundled_tp'
     ) {
       this.isTpDetailsDisabled = true;
     }
@@ -364,14 +366,14 @@ export class ProposalReviewComponent implements OnInit {
         Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
         Insurer_Logo: vehicleProposalDetails?.insurer_logo,
         Product_id: vehicleProposalDetails?.quote_id,
-        Make: requestValue.vehicle_variant.rb_make_name,
-        Model: requestValue.vehicle_variant.rb_model_name,
-        Variant: requestValue.vehicle_variant.rb_variant_name,
-        Fuel: requestValue.vehicle_variant.fuel,
-        Registration_City: requestValue.registration_city.display_name,
+        Make: requestValue.vehicle_variant?.rb_make_name,
+        Model: requestValue.vehicle_variant?.rb_model_name,
+        Variant: requestValue.vehicle_variant?.rb_variant_name,
+        Fuel: requestValue?.vehicle_variant?.fuel,
+        Registration_City: requestValue.registration_city?.display_name,
         Registration_Date: regDate,
         Manufacture_Date: mgfDate,
-        Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
+        Used_Car_RC_Transfer: requestValue?.user_car ? 'Yes' : 'No',
         Type_of_Expiring_Policy: requestValue?.policy_expiry,
         Policy_Expiring_Date: policyExpDate,
         Search_previous_Insurer:
@@ -380,7 +382,7 @@ export class ProposalReviewComponent implements OnInit {
           ? 'Yes'
           : 'No',
         Previous_year_NCB: requestValue?.ncb_discount,
-        Customer_id: CheckId.customer_id,
+        Customer_id: CheckId?.customer_id,
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
           : 'Customer',
@@ -784,10 +786,8 @@ export class ProposalReviewComponent implements OnInit {
           if (
             response?.quote_request?.meta_data?.selectedAddons !== 'undefined'
           ) {
-            let addonsValue = JSON.parse(
-              response?.quote_request?.meta_data?.selectedAddons
-            );
-
+            let addonsValue =
+              response?.quote_request?.meta_data?.selectedAddons;
             sessionStorage.setItem(
               'selectedAddons',
               JSON.stringify(addonsValue)
@@ -860,17 +860,19 @@ export class ProposalReviewComponent implements OnInit {
           sessionStorage.getItem('mmv_data') || '{}'
         );
         if (
-          previousPolicyType?.policy_expiry === 'saod' ||
-          previousPolicyType?.policy_expiry === 'bundle'
+          previousPolicyType?.form_value?.policy_expiry === 'saod' ||
+          previousPolicyType?.form_value?.policy_expiry === 'bundle'
         ) {
           this.isTpDetailsDisabled = true;
           this.isOdDetailsShow = true;
-        } else if (previousPolicyType?.policy_expiry === 'comprehensive') {
+        } else if (
+          previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
+        ) {
           this.isTpDetailsDisabled = true;
           this.isOdDetailsShow = false;
         } else if (
-          previousPolicyType?.policy_expiry === 'satp' ||
-          previousPolicyType?.policy_expiry === 'bundled_tp'
+          previousPolicyType?.form_value?.policy_expiry === 'satp' ||
+          previousPolicyType?.form_value?.policy_expiry === 'bundled_tp'
         ) {
           this.isTpDetailsDisabled = true;
         }

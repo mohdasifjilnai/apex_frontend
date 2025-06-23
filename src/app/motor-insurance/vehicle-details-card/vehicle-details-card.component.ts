@@ -9,6 +9,7 @@ import moment from 'moment';
 import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
+import { VehicleDetailsPopupNewComponent } from '../vehicle-details-popup-new/vehicle-details-popup-new.component';
 declare const webengage: any;
 @Component({
   selector: 'app-vehicle-details-card',
@@ -24,7 +25,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     isOutSideClose: boolean;
     classObtained: string;
   } = {
-    modalName: VehicleDetailsPopupComponent,
+    modalName: VehicleDetailsPopupNewComponent,
     widthObtained: 'auto',
     heightObtained: 'auto',
     topObtained: '5%',
@@ -81,6 +82,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
   currentPageUrl: any;
   subdomain: any;
+  traceIdUrl: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -90,7 +92,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     private route: ActivatedRoute,
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
-    private router: Router
+    private router: Router,
+    private routerData: ActivatedRoute,
+
   ) {}
 
   ngOnInit(): void {
@@ -114,6 +118,15 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (vehicleCard) {
       this.vehicleCardData(vehicleCard);
     }
+    this.routerData.url.subscribe((segments) => {
+      const urlSegments = segments.map((segment) => segment.path);
+      if (urlSegments[1]) {
+        this.traceIdUrl = urlSegments[1];
+        if(this.traceIdUrl !='proposal'){
+          this.getTraceIdData(this.traceIdUrl);
+        }
+      }
+    });
     this.sharedDataService.vehicleCardValue.subscribe((cardData) => {
       this.vehicleData = cardData;
       this.parsedVehicleData = JSON.parse(this.vehicleData);
@@ -121,7 +134,13 @@ export class VehicleDetailsCardComponent implements OnInit {
       const diffrenceDays = this.daysCountsFromToday(
         this.parsedVehicleData?.policy_expiry_date
       );
+      // this.getNcbList(this.parsedVehicleData?.ncb_discount)
       if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
+        this.showZeroNCB = true;
+      } else {
+        this.showZeroNCB = false;
+      }
+      if (this.parsedVehicleData?.policy_expiry == 'satp' || this.parsedVehicleData?.policy_expiry == 'bundled_tp') {
         this.showZeroNCB = true;
       } else {
         this.showZeroNCB = false;
@@ -129,7 +148,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     });
 
     this.sharedDataService.traceIdVehicleType.subscribe((cardData: any) => {
-      if (cardData) {
+      if (cardData?.quote_data) {
         this.vehicleData = cardData;
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.vehicleCardData(this.parsedVehicleData);
@@ -137,6 +156,11 @@ export class VehicleDetailsCardComponent implements OnInit {
           this.parsedVehicleData?.policy_expiry_date
         );
         if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
+          this.showZeroNCB = true;
+        } else {
+          this.showZeroNCB = false;
+        }
+        if (this.parsedVehicleData?.policy_expiry == 'satp' || this.parsedVehicleData?.policy_expiry == 'bundled_tp') {
           this.showZeroNCB = true;
         } else {
           this.showZeroNCB = false;
@@ -223,22 +247,22 @@ export class VehicleDetailsCardComponent implements OnInit {
       }
     });
 
-    this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
-      this.mmvFromDataEmail = sessionStorage.getItem('mmv_data');
-      this.parsedVehicleData = JSON.parse(this.mmvFromDataEmail);
-      this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
-      let traceValue = JSON.parse(this.traceIdData);
-      this.router.navigate([`quotes/${traceValue.trace_id}`]);
-      const diffrenceDays = this.daysCountsFromToday(
-        this.parsedVehicleData?.policy_expiry_date
-      );
-      if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
-        this.showZeroNCB = true;
-      } else {
-        this.showZeroNCB = false;
-      }
-      // this.throughEmail(vehicleData);
-    });
+    // this.sharedDataService.throughEmailVehicle.subscribe((vehicleData) => {
+    //   this.mmvFromDataEmail = sessionStorage.getItem('mmv_data');
+    //   this.parsedVehicleData = JSON.parse(this.mmvFromDataEmail);
+    //   this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
+    //   let traceValue = JSON.parse(this.traceIdData);
+    //   this.router.navigate([`quotes/${traceValue.trace_id}`]);
+    //   const diffrenceDays = this.daysCountsFromToday(
+    //     this.parsedVehicleData?.policy_expiry_date
+    //   );
+    //   if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
+    //     this.showZeroNCB = true;
+    //   } else {
+    //     this.showZeroNCB = false;
+    //   }
+    //   // this.throughEmail(vehicleData);
+    // });
   }
 
   vehicleCardData(data: any) {
@@ -280,25 +304,27 @@ export class VehicleDetailsCardComponent implements OnInit {
     // if (this.parsedVehicleData?.ncb_discount) {
     //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
     // }
-    if (this.parsedVehicleData?.user_car) {
-      if (this.parsedVehicleData?.previous_claimed) {
+    const diffrenceDays = this.daysCountsFromToday(
+      this.parsedVehicleData?.policy_expiry_date
+    );
+    if (!this.parsedVehicleData?.user_car) {
+      this.previousNCB = this.parsedVehicleData?.ncb_discount?.old_ncb_name;
+
+      if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
         this.showZeroNCB = true;
-        this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
       } else {
-        this.showZeroNCB = true;
-        this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
+        this.newNCB = this.parsedVehicleData?.ncb_discount?.new_ncb_name;
       }
     } else {
-      if (this.parsedVehicleData?.previous_claimed) {
-        this.showZeroNCB = true;
-        this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
-      } else {
-        this.newNCB = this.parsedVehicleData?.addNcbBoth?.new_ncb_name;
-        this.previousNCB = this.parsedVehicleData?.addNcbBoth?.old_ncb_name;
-      }
+      this.previousNCB = this.parsedVehicleData?.ncb_discount?.old_ncb_name;
+      this.showZeroNCB = true;
     }
   }
-  openDialog(edit: string): void {
+  openDialog(popData:any): void {
+    const cardData:any={
+      dialog_type:'edit',
+      value:popData
+    }
     this.isPopUpClose = true;
     // if(this.subdomain=='d2c'){
     //   this.openVehicleDetailsPopup(null);
@@ -316,9 +342,9 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheet.open(VehicleDetailsPopupComponent);
     } else {
-      this.openVehicleDetailsPopup(null);
+      this.openVehicleDetailsPopup(cardData);
     }
-    this.sharedData.sendVehicleEditData(edit);
+    this.sharedData.sendVehicleEditData(cardData);
   }
 
   /**
@@ -396,7 +422,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.getInsurerData(data.allQuotesRequest?.previous_insurer_code);
     }
     if (data.allQuotesRequest?.previous_year_ncb) {
-      this.getNcbList(data.allQuotesRequest?.previous_year_ncb);
+      // this.getNcbList(data.allQuotesRequest?.previous_year_ncb);
     }
   }
   /**
@@ -476,7 +502,7 @@ export class VehicleDetailsCardComponent implements OnInit {
           'newVehicleType',
           this.parsedVehicleData?.allQuotesRequest.business_type
         );
-        sessionStorage.setItem('mmv_data', vehicleFrom);
+        // sessionStorage.setItem('mmv_data', vehicleFrom);
         this.sharedDataService.vehicleCardEmailData(vehicleFrom);
       });
   }
@@ -511,25 +537,25 @@ export class VehicleDetailsCardComponent implements OnInit {
   /**
    *  this function use when use come through email to the quotes page
    */
-  getNcbList(previousYearNCB: any) {
-    this.apiservice
-      .getRequestedResponse(ApiConstants.ncb_list())
-      .subscribe((res) => {
-        this.expiryListData = res;
-        this.vehicleValueForm = sessionStorage.getItem('mmv_data');
-        let vehicleFormUpdate = JSON.parse(this.vehicleValueForm);
+  // getNcbList(previousYearNCB: any) {
+    // this.apiservice
+    //   .getRequestedResponse(ApiConstants.ncb_list())
+    //   .subscribe((res) => {
+    //     this.expiryListData = res;
+    //     this.vehicleValueForm = sessionStorage.getItem('mmv_data');
+    //     let vehicleFormUpdate = JSON.parse(this.vehicleValueForm);
 
-        for (let data of this.expiryListData) {
-          if (data.old_ncb_value === previousYearNCB) {
-            this.previousNCB = previousYearNCB;
-            this.newNCB = data.new_ncb_value;
-            vehicleFormUpdate.addNcbBoth = data;
-          }
-        }
+    //     for (let data of this.expiryListData) {
+    //       if (data.old_ncb_value === previousYearNCB) {
+    //         this.previousNCB = data.old_ncb_name;
+    //         this.newNCB = data.new_ncb_name;
+    //         vehicleFormUpdate.addNcbBoth = data;
+    //       }
+    //     }
 
-        sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
-      });
-  }
+    //     // sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
+    //   });
+  // }
   /**
    * this fucntion use open Not Certified Popup modal
    */
@@ -578,5 +604,22 @@ export class VehicleDetailsCardComponent implements OnInit {
     const diffInTime = policyExpiryDate.getTime() - today.getTime();
     const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
     return Number(Math.abs(diffInDays));
+  }
+  getTraceIdData(trace_id: any) {
+    let apiUrl;
+    apiUrl = `?trace_id=${trace_id}`;
+    this.apiservice
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .subscribe((res: any) => {
+        if(res.quote_data?.quotes_data?.vehicle_fuel){
+          this.sharedDataService.getTraceIdDetails(res);
+        this.vehicleCardData(res?.quote_data?.quotes_data);
+        this.sharedDataService.vehicleCardTypeData(
+          JSON.stringify(res.quote_data?.quotes_data)
+        );
+        this.parsedVehicleData=res?.quote_data?.quotes_data
+        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        }
+      });
   }
 }

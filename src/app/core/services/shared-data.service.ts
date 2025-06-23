@@ -16,7 +16,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RefreshPageComponent } from 'src/app/shared/components/dialog-components/refresh-page/refresh-page.component';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  FormControl,
+} from '@angular/forms';
 declare const webengage: any;
 
 @Injectable({
@@ -24,7 +30,8 @@ declare const webengage: any;
 })
 export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
-  getRegistrationData: Subject<any> = new Subject();
+  getRegistrationData = new BehaviorSubject<any>(null);
+  getResetManufactureDate: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getSelectedvehicleTypeObject: Subject<any> = new Subject();
   getProgressValue: Subject<any> = new Subject();
@@ -75,6 +82,7 @@ export class SharedDataService {
   vehicleOwnerForm: Subject<any> = new Subject();
   partnerCodeFromApiRes: Subject<any> = new Subject();
   regNumberDataRenewal = new BehaviorSubject<any>(null);
+  renewalDataResponseValue = new BehaviorSubject<any>(null);
   previousPolicyDetailsSubject = new BehaviorSubject<any>(null);
   renewalInsurer = new BehaviorSubject<any>(null);
   renewalQuotes = new BehaviorSubject<any>(null);
@@ -88,12 +96,13 @@ export class SharedDataService {
   renewalPreviousPolicyData = new BehaviorSubject<any>(null);
   checkVehicleType = new BehaviorSubject<any>(null);
   changePolicyExpDate: Subject<any> = new Subject();
-  traceIdVehicleType = new BehaviorSubject<any>(null);
+  traceIdVehicleType: Subject<any> = new Subject();
   sendQuotesADDOnData = new BehaviorSubject<any>(null);
   sendRegDatePolicyExpiry = new BehaviorSubject<any>(null);
   getLoginPartner = new BehaviorSubject<any>(null);
   getIsNotCertifiedData: Subject<any> = new Subject();
   disableChangeInsurer: Subject<any> = new Subject();
+  getIdvValue: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
@@ -144,6 +153,7 @@ export class SharedDataService {
   customer_mobile_number: any;
   webEngageCustomerDetails: any;
   mobileNumber: any;
+  addOn: any;
   customerId: any;
   // isPageRefresh: boolean = true;
 
@@ -171,6 +181,10 @@ export class SharedDataService {
   }
   disabledChangeInsurerButton(data: any) {
     this.disableChangeInsurer.next(data);
+  }
+
+  sendIdvToAddon(data: any) {
+    this.getIdvValue.next(data);
   }
   /**
    *
@@ -217,8 +231,8 @@ export class SharedDataService {
     this.registrationMonthSelection.next(data);
   }
   getTraceIdDetails(data: any) {
-    this.traceIdResponse = data;
     this.getTraceIdApiResponse.next(data);
+    this.traceIdResponse = data;
   }
   vahaanDetails(data: any) {
     this.getVahaanDetails.next(data);
@@ -349,6 +363,9 @@ export class SharedDataService {
     const parsedValue = JSON.parse(this.partnerCodeData);
     this.traceId = parsedValue?.trace_id;
     // this.router.navigate(['quotes']);
+  }
+  renewalDataResponse(data: any) {
+    this.renewalDataResponseValue.next(data);
   }
 
   getQuotationListing(
@@ -635,38 +652,38 @@ export class SharedDataService {
       // quotesData.rb_mmv_id = Number(mmvId);
     }
 
-    this.apiService
-      .postRequestedResponse(`${ApiConstants.initiate_quotes()}`, quotesData)
-      .subscribe((res) => {
-        if (res?.status) {
-          if (renewal != null) {
-            // sessionStorage.setItem('renewalType', 'renewal');
-          }
-          this.sendCarLoaderMessage(0);
-          this.transactionId = res.transaction_id;
-          this.sendTransactionId(res.transaction_id);
-          sessionStorage.setItem('transaction_id', res.transaction_id);
-          sessionStorage.setItem('quote_request_id', res.quote_request_id);
+    // this.apiService
+    //   .postRequestedResponse(`${ApiConstants.initiate_quotes()}`, quotesData)
+    //   .subscribe((res) => {
+    //     if (res?.status) {
+    //       if (renewal != null) {
+    //         // sessionStorage.setItem('renewalType', 'renewal');
+    //       }
+    //       this.sendCarLoaderMessage(0);
+    //       this.transactionId = res.transaction_id;
+    //       this.sendTransactionId(res.transaction_id);
+    //       sessionStorage.setItem('transaction_id', res.transaction_id);
+    //       sessionStorage.setItem('quote_request_id', res.quote_request_id);
 
-          this.quotesId = res.quote_request_id;
-          this.quotesConnectionData = [];
-          this.enableCarLoader.next(this.quotesCount);
-          this.enableChooseIDV.next(this.quotesCount);
-          // this.longPollingInformation(this.transactionId, this.quotesId);
-          this.quotesThroughSSE(this.transactionId, this.quotesId);
-        } else {
-          const dialogRef = this.dialog.open(FailureDialogComponent, {
-            width: 'auto',
-            height: 'auto',
-            data: {
-              errorData: res?.message,
-              statusdata: status,
-            },
-            panelClass: 'failure-dialog-class',
-          });
-          dialogRef.afterClosed().subscribe((result: any) => {});
-        }
-      });
+    //       this.quotesId = res.quote_request_id;
+    //       this.quotesConnectionData = [];
+    //       this.enableCarLoader.next(this.quotesCount);
+    //       this.enableChooseIDV.next(this.quotesCount);
+    //       // this.longPollingInformation(this.transactionId, this.quotesId);
+    //       this.quotesThroughSSE(this.transactionId, this.quotesId);
+    //     } else {
+    //       const dialogRef = this.dialog.open(FailureDialogComponent, {
+    //         width: 'auto',
+    //         height: 'auto',
+    //         data: {
+    //           errorData: res?.message,
+    //           statusdata: status,
+    //         },
+    //         panelClass: 'failure-dialog-class',
+    //       });
+    //       dialogRef.afterClosed().subscribe((result: any) => {});
+    //     }
+    //   });
   }
 
   /**
@@ -813,6 +830,10 @@ export class SharedDataService {
   }
   getRegistrationDate(data: any) {
     this.getRegistrationData.next(data);
+  }
+
+  resetManufactureDate(data: any) {
+    this.getResetManufactureDate.next(data);
   }
 
   /**
@@ -976,8 +997,8 @@ export class SharedDataService {
     );
     if (
       flag === 'previous_policy_details' &&
-      (previousPolicyType?.policy_expiry === 'saod' ||
-        previousPolicyType?.policy_expiry === 'bundle')
+      (previousPolicyType?.form_value?.policy_expiry === 'saod' ||
+        previousPolicyType?.form_value?.policy_expiry === 'bundle')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
@@ -996,8 +1017,8 @@ export class SharedDataService {
         sessionStorage.getItem('mmv_data') || '{}'
       );
       if (
-        previousPolicyType?.policy_expiry === 'saod' ||
-        previousPolicyType?.policy_expiry === 'bundle'
+        previousPolicyType?.form_value?.policy_expiry === 'saod' ||
+        previousPolicyType?.form_value?.policy_expiry === 'bundle'
       ) {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value
@@ -1019,8 +1040,8 @@ export class SharedDataService {
       }
     } else if (
       flag === 'previous_policy_details' &&
-      (previousPolicyType?.policy_expiry === 'satp' ||
-        previousPolicyType?.policy_expiry === 'bundled_tp')
+      (previousPolicyType?.form_value?.policy_expiry === 'satp' ||
+        previousPolicyType?.form_value?.policy_expiry === 'bundled_tp')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
@@ -1041,7 +1062,7 @@ export class SharedDataService {
       };
     } else if (
       flag === 'previous_policy_details' &&
-      previousPolicyType?.policy_expiry === 'comprehensive'
+      previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
@@ -1060,7 +1081,7 @@ export class SharedDataService {
       let previousPolicyType = JSON.parse(
         sessionStorage.getItem('mmv_data') || '{}'
       );
-      if (previousPolicyType?.policy_expiry === 'comprehensive') {
+      if (previousPolicyType?.form_value?.policy_expiry === 'comprehensive') {
         this.proposalDataItem['previous_policy_details'].tp_policy_details = {
           tp_insurer_code: formData?.get('tp_insurance_company')?.value
             ?.rb_insurer_code,
@@ -1601,7 +1622,7 @@ export class SharedDataService {
             setTimeout(() => {
               this.enableQuotesAction.next(this.quotesCount);
             }, 10000);
-            console.log(this.allQuotes);
+            // console.log(this.allQuotes);
             this.quotationListing.next(this.allQuotes);
           }
         },
@@ -1712,5 +1733,226 @@ export class SharedDataService {
     const diffInTime = policyExpiryDate.getTime() - today.getTime();
     const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
     return Number(Math.abs(diffInDays));
+  }
+
+  initiate_Quotes_APi(mmv_details: any) {
+    const registrationValue = new Date(
+      mmv_details?.form_value?.registration_date
+    );
+    let registrationMonth = registrationValue?.getMonth() + 1;
+    let registrationYear = registrationValue?.getFullYear();
+    let registrationDay = registrationValue.getDate();
+
+    const manufactureValue = new Date(
+      mmv_details?.form_value?.manufacture_date
+    );
+    let manufacture_month = manufactureValue?.getMonth() + 1;
+    let manufacture_year = manufactureValue?.getFullYear();
+
+    const proposer_type = sessionStorage.getItem('proposerType');
+    const product_type = sessionStorage.getItem('productType');
+    const vehcile_type = sessionStorage.getItem('vehicleType');
+    this.addOn = sessionStorage.getItem('selectedAddons');
+
+    let setectedAddons;
+    let addOnsList;
+    this.selected_addons = {};
+    addOnsList = this.addOn != 'undefined' ? JSON.parse(this.addOn) : '';
+    if (addOnsList) {
+      for (let key of addOnsList) {
+        const keys = Object.keys(key);
+        let variableValue = keys[0];
+        this.selected_addons[variableValue] = key[variableValue];
+      }
+      setectedAddons = this.selected_addons;
+    } else {
+      setectedAddons = {};
+    }
+    let idvValue = sessionStorage.getItem('idvData');
+    let idvParseValue = idvValue ? JSON.parse(idvValue) : null;
+    let selectIdv;
+    if (idvParseValue != null) {
+      selectIdv = idvParseValue.chooseIdv;
+    } else {
+      selectIdv = null;
+    }
+    //  let idvValue = null;
+    // if (data?.vehicle_idv) {
+    //   if (/,/.test(data?.vehicle_idv)) {
+    //     idvValue = data?.vehicle_idv.replace(/,/g, '');
+    //   } else {
+    //     idvValue = data?.vehicle_idv;
+    //   }
+    // }
+
+    let meta_data = {
+      selectedAddons: null,
+      mmv_form_data: mmv_details,
+      selectedTabIndex: sessionStorage.getItem('lastSelectedTabIndex'),
+    };
+    let sourceValue;
+    if (sessionStorage.getItem('source') != 'undefined') {
+      this.sourceId = sessionStorage.getItem('source');
+      sourceValue = JSON.parse(this.sourceId);
+    } else {
+      this.sourceId = '';
+      sourceValue = '';
+    }
+    meta_data.selectedAddons = addOnsList;
+    const quotesData = {
+      registration_no: sessionStorage.getItem('registrationNumber')
+        ? sessionStorage.getItem('registrationNumber')
+        : null,
+      customer_type: proposer_type,
+      vehicle_type: vehcile_type,
+      rb_mmv_id: mmv_details?.vehcile_mmv?.rb_mmv_id,
+      rb_rto_code: mmv_details?.form_value?.registration_city?.rb_rto_code,
+      registration_day: registrationDay,
+      registration_month: registrationMonth,
+      registration_year: registrationYear,
+      previous_insurer_code:
+        mmv_details?.form_value?.previous_insurer?.rb_insurer_code,
+      previous_policy_exp_date: this.datePipe.transform(
+        mmv_details?.form_value?.policy_expiry_date,
+        'dd/MM/yyyy'
+      ),
+      previous_year_ncb:
+        mmv_details?.form_value?.ncb_discount != null
+          ? mmv_details?.form_value?.ncb_discount?.old_ncb_value
+          : 0,
+      is_ownership_transfer: mmv_details?.form_value?.user_car,
+      is_claimed: mmv_details?.form_value?.previous_claimed,
+      business_type: mmv_details?.bussiness_type,
+      selected_addons: setectedAddons,
+      product_type: product_type,
+      manufacture_month: manufacture_month,
+      manufacture_year: manufacture_year,
+      vehicle_idv: selectIdv,
+      previous_policy_type: mmv_details?.form_value?.type_of_exp_policy_id
+        ? mmv_details?.form_value?.type_of_exp_policy_id
+        : null,
+      meta_data: meta_data,
+      partner_code: sessionStorage.getItem('partner_code')
+        ? sessionStorage.getItem('partner_code')
+        : null,
+      offered_ncb_value:
+        mmv_details?.form_value?.ncb_discount != null
+          ? mmv_details?.form_value?.ncb_discount?.new_ncb_value
+          : 0,
+      is_cse: sessionStorage.getItem('is_cse')
+        ? sessionStorage.getItem('is_cse')
+        : false,
+      employee_code: sessionStorage.getItem('employee_code'),
+      trace_id: this.traceIdResponse?.trace_id,
+      is_d2c: false,
+      is_rb_renewal: false,
+      policy_number: sessionStorage.getItem('renewalPolicyNumber')
+        ? sessionStorage.getItem('renewalPolicyNumber')
+        : null,
+      vehicle_name: null,
+      source: this.sourceId ? sourceValue : null,
+      customer_mobile_number: null,
+      transaction_id: sessionStorage.getItem('transaction_id')
+        ? sessionStorage.getItem('transaction_id')
+        : null,
+
+      partner_name:
+        sessionStorage.getItem('first_name') != null
+          ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+              'middle_name'
+            )} ${sessionStorage.getItem('last_name')}`
+          : null,
+    };
+    const renewal = sessionStorage.getItem('renewalType');
+    if (renewal != null) {
+      quotesData.is_rb_renewal = true;
+    }
+    this.customer_mobile_number = sessionStorage.getItem(
+      'customer_mobile_number'
+    );
+    if (this.customer_mobile_number != null) {
+      quotesData.customer_mobile_number = this.customer_mobile_number;
+      quotesData.is_d2c = true;
+    }
+
+    const diffrenceDays = this.daysCountsFromToday(
+      mmv_details?.form_value?.policy_expiry_date
+    );
+    if (!mmv_details?.form_value?.user_car) {
+      if (mmv_details?.form_value?.previous_claimed || diffrenceDays > 90) {
+        quotesData.offered_ncb_value = 0;
+      } else {
+        quotesData.offered_ncb_value =
+          mmv_details?.form_value?.ncb_discount?.new_ncb_value;
+      }
+    } else {
+      quotesData.offered_ncb_value = 0;
+    }
+    if (mmv_details?.form_value?.ncb_discount == null) {
+      quotesData.offered_ncb_value = 0;
+      quotesData.previous_year_ncb = 0;
+    }
+    this.apiService
+      .postRequestedResponse(`${ApiConstants.initiate_quotes()}`, quotesData)
+      .subscribe((res) => {
+        if (res?.status) {
+          this.sendCarLoaderMessage(0);
+          this.transactionId = res.transaction_id;
+          this.sendTransactionId(res.transaction_id);
+          sessionStorage.setItem('transaction_id', res.transaction_id);
+          sessionStorage.setItem('quote_request_id', res.quote_request_id);
+
+          this.quotesId = res.quote_request_id;
+          this.quotesConnectionData = [];
+          this.enableCarLoader.next(this.quotesCount);
+          this.enableChooseIDV.next(this.quotesCount);
+          // this.longPollingInformation(this.transactionId, this.quotesId);
+          this.quotesThroughSSE(this.transactionId, this.quotesId);
+        } else {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: res?.message,
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
+        }
+      });
+  }
+
+  // Here’s a reusable function that will loop through your vehicleDetailsForm controls and:
+  // Disable each field if it has a value
+  // Enable the field if it’s empty or null
+
+  disableIfHasValueEnableIfEmpty(form: FormGroup): void {
+    Object.keys(form.controls).forEach((controlName) => {
+      const control: AbstractControl | null = form.get(controlName);
+
+      // Only act on FormControl (not FormGroup or FormArray)
+      if (control instanceof FormControl) {
+        const value = control.value;
+
+        const isEmpty =
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          (typeof value === 'object' && Object.keys(value).length === 0);
+
+        if (isEmpty) {
+          // console.log(
+          //   `Enabling ${controlName} (value: ${JSON.stringify(value)})`
+          // );
+          control.enable({ emitEvent: false });
+        } else {
+          // console.log(
+          //   `Disabling ${controlName} (value: ${JSON.stringify(value)})`
+          // );
+          control.disable({ emitEvent: false });
+        }
+      }
+    });
   }
 }

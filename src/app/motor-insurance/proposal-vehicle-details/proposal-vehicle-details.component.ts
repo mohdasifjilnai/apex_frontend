@@ -171,20 +171,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.mmvData = sessionStorage.getItem('mmv_data');
     this.mmvItem = JSON.parse(this.mmvData);
     if (this.mmvItem) {
-      if (this.mmvItem?.manufacture_date) {
+      if (this.mmvItem?.form_value?.manufacture_date) {
         this.isManufactureDateDisbaled = true;
       }
-      if (this.mmvItem?.registration_date) {
+      if (this.mmvItem?.form_value?.registration_date) {
         this.isRegistrationDateDisbaled = true;
       }
       this.proposalVehilceDetailsForm.patchValue({
-        registration_date: this.mmvItem?.registration_date,
-        manufacture_date: this.mmvItem?.manufacture_date,
+        registration_date: this.mmvItem?.form_value?.registration_date,
+        manufacture_date: this.mmvItem?.form_value?.manufacture_date,
         registration_number_first: this.divideString(
-          this.mmvItem?.registration_city?.rb_rto_code
+          this.mmvItem?.form_value?.registration_city?.rb_rto_code
         )[0],
         registration_number_second: this.divideString(
-          this.mmvItem?.registration_city?.rb_rto_code
+          this.mmvItem?.form_value?.registration_city?.rb_rto_code
         )[1],
       });
       this.proposalVehilceDetailsForm
@@ -464,7 +464,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         }
       }
       let previous_insurer = JSON.parse(
-        sessionStorage.getItem('previous_insurerCode') || ''
+        sessionStorage.getItem('previous_insurerCode') || '{}'
       );
       //
       // if (
@@ -583,7 +583,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.proposalVehilceDetailsForm
       .get('vehicle_pincode')
       ?.valueChanges.subscribe((pincode) => {
-        if (pincode.length === 0) {
+        if (pincode?.length === 0) {
           this.proposalVehilceDetailsForm.patchValue({
             vehilce_city: '',
             vehicle_state: '',
@@ -772,7 +772,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     );
   }
   ngOnDestroy(): void {
-    this.vahaanDetailsUnsubscribe.unsubscribe();
+    // this.vahaanDetailsUnsubscribe.unsubscribe();
     this.getCustomerIdDetails.unsubscribe();
   }
   filterInsurer(name: string) {}

@@ -57,15 +57,16 @@ export class ChooseIDVComponent implements OnInit {
       // this.quotesCount = idvData;
       this.enableIdvCard = true;
       if (this.enableIdvCard) {
-        if(environment.dev){
+        if (environment.dev) {
           setTimeout(() => {
             this.enableIdvCard = false;
-          }, 50000);      
-          }else{
+          }, 50000);
+        } else {
           setTimeout(() => {
             this.enableIdvCard = false;
-          }, 10000);        }
-       
+          }, 10000);
+        }
+
         this.quotationData = [];
         if (idvData?.length > 0) {
           for (let i = 0; i <= idvData.length - 1; i++) {
@@ -165,12 +166,11 @@ export class ChooseIDVComponent implements OnInit {
     });
 
     this.sharedDataService.quotesEnableForMobile.subscribe((data) => {
-      
-      if(environment.dev){
+      if (environment.dev) {
         setTimeout(() => {
           this.enableIdvCard = false;
         }, 50000);
-      }else{
+      } else {
         setTimeout(() => {
           this.enableIdvCard = false;
         }, 10000);
@@ -224,6 +224,10 @@ export class ChooseIDVComponent implements OnInit {
       this.investedAmount = JSON.parse(this.data?.averageIdv);
       this.changeToCurrency();
     }
+
+    this.chooseIdvForm.get('chooseIdv')?.valueChanges.subscribe((value) => {
+      this.chooseIdvData(value);
+    });
   }
   selectedIDVOption: string = ''; // Default selected option
 
@@ -268,11 +272,11 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     this.enableIdvCard = true;
-    if(environment.dev){
+    if (environment.dev) {
       setTimeout(() => {
         this.enableIdvCard = false;
       }, 50000);
-    }else{
+    } else {
       setTimeout(() => {
         this.enableIdvCard = false;
       }, 10000);
@@ -345,9 +349,15 @@ export class ChooseIDVComponent implements OnInit {
   /**
    * when user change in idv input field than min idv base handling doing in this function
    */
-  chooseIdvData() {
-    if (this.chooseIdvForm.value.chooseIdv != null) {
-      this.investedAmount = JSON.parse(this.chooseIdvForm.value.chooseIdv);
+  chooseIdvData(selectedAmount?: any) {
+    if (
+      this.chooseIdvForm.value.chooseIdv != null &&
+      this.chooseIdvForm.value.chooseIdv != undefined &&
+      this.chooseIdvForm.value.chooseIdv != ''
+    ) {
+      this.investedAmount = this.chooseIdvForm.value.chooseIdv
+        ? Number(this.chooseIdvForm.value.chooseIdv)
+        : 0;
     }
     if (!this.enableIdvCard) {
       if (
@@ -355,9 +365,28 @@ export class ChooseIDVComponent implements OnInit {
         this.investedAmount <= this.maxIdv
       ) {
         this.updateIdvButton = false;
-        // this.enableIdvCard=false
+        let idvData = {
+          chooseIdv: this.chooseIdvForm.value.chooseIdv,
+          buttonData: this.updateIdvButton,
+        };
+        this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
       } else {
+        let idvAmountValue = 0;
+        if (selectedAmount == '') {
+          idvAmountValue = this.minIdv;
+        } else if (selectedAmount < this.minIdv) {
+          idvAmountValue = this.minIdv;
+        } else if (selectedAmount > this.maxIdv) {
+          idvAmountValue = this.maxIdv;
+        }
         this.updateIdvButton = true;
+        if (idvAmountValue != 0) {
+          let idvData = {
+            chooseIdv: idvAmountValue,
+            buttonData: this.updateIdvButton,
+          };
+          this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
+        }
       }
     }
 
@@ -408,6 +437,7 @@ export class ChooseIDVComponent implements OnInit {
     //   this.quotesCount = count;
     // }
   }
+
   cancelChangeIDv(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault();
@@ -431,14 +461,27 @@ export class ChooseIDVComponent implements OnInit {
       this.currency.setValue(currencyValue);
     }
   }
-  onSliderInput(event: any) {
-    this.updateIdvButton = false;
-    this.investedAmount = event.value;
-    this.chooseIdvForm.get('chooseIdv')?.setValue(event.value);
-  }
+  // onSliderInput(event: any) {
+  //   this.updateIdvButton = false;
+  //   this.investedAmount = event.value;
+  //   this.chooseIdvForm.get('chooseIdv')?.setValue(event.value);
+  // }
 
   onSliderRangeAmount(value: number) {
     this.investedAmount = value;
     this.updateIdvButton = false;
+    this.chooseIdvData();
+    // this.chooseIdvForm.get('chooseIdv')?.setValue(value);
+    // this.sharedDataService.sendIdvToAddon(this.chooseIdvForm.value.chooseIdv);
+  }
+
+  onSliderInput(event: any) {
+    this.updateIdvButton = false;
+    const value = event.value;
+
+    this.investedAmount = value;
+
+    // This will update the input field bound via formControlName
+    this.chooseIdvForm.get('chooseIdv')?.setValue(value, { emitEvent: false });
   }
 }

@@ -122,10 +122,18 @@ export class PreviousInsurerComponent implements OnInit {
       if (numberData) {
         this.registrationNumber = numberData;
         this.getInsurerData(this.registrationNumber?.previous_insurer_code);
-      }else {
-        this.registrationNumber = JSON.parse(sessionStorage.getItem('registrationDetails') || '');
-        this.getInsurerData(this.registrationNumber?.previous_insurer_code);
+      } else {
+        this.registrationNumber = JSON.parse(
+          sessionStorage.getItem('registrationDetails') || '{}'
+        );
 
+        let insurerCode = this.registrationNumber?.previous_insurer_code
+          ? this.registrationNumber?.previous_insurer_code
+          : (this.registrationNumber.previous_insurer_code =
+              this.registrationNumber?.rb_insurer_code);
+        if(insurerCode!=undefined){
+          this.getInsurerData(insurerCode);
+        }
       }
     });
 
@@ -141,8 +149,10 @@ export class PreviousInsurerComponent implements OnInit {
     // if (renewalType == 'renewal' || renewalType == 'rollover') {
     //   this.form.get('previous_insurer')?.disable();
     // }
-    this.visuallyDisabledFields = this.shareDataService.disableVisually(['previous_insurer'], this.form);
-
+    this.visuallyDisabledFields = this.shareDataService.disableVisually(
+      ['previous_insurer'],
+      this.form
+    );
   }
   sendResponse(response: string) {
     this.responseEvent.emit(response);
@@ -156,6 +166,7 @@ export class PreviousInsurerComponent implements OnInit {
         if (res && !res?.message) {
           this.insurerList = res;
           this.previousInsurerNoData = '';
+          // this.sharedDataService.patchInsurer(this.insurerList[0]);
           // if (this.form.controls['previous_insurer']) {
           this.filteredInsurerList = this.form.controls[
             'previous_insurer'
@@ -198,7 +209,10 @@ export class PreviousInsurerComponent implements OnInit {
           ]);
           this.sharedDataService.patchInsurer('No result found');
         }
-        this.visuallyDisabledFields = this.shareDataService.disableVisually(['previous_insurer'], this.form);
+        this.visuallyDisabledFields = this.shareDataService.disableVisually(
+          ['previous_insurer'],
+          this.form
+        );
       });
     this.sendResponse(this.previousInsurerNoData);
   }
@@ -246,8 +260,7 @@ export class PreviousInsurerComponent implements OnInit {
 
   previousInsurerBlankData(data: any) {
     if (
-      typeof this.form.value[this.formControlNameData] == 'object' ||
-      this.form.value[this.formControlNameData] == ''
+      typeof this.form.value[this.formControlNameData] == 'object' 
     ) {
       this.form.get(this.formControlNameData)?.setErrors(null);
     } else {
@@ -275,5 +288,5 @@ export class PreviousInsurerComponent implements OnInit {
 
   onClosed(): void {
     this.sharedDataService.onClosedAutoComplete();
-  }  
+  }
 }

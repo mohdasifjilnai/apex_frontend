@@ -194,9 +194,9 @@
       </span>
     </mat-expansion-panel>
   </mat-accordion>
-  <div class="bottom-btn p-2" *ngIf="showUpdateButton">
+  <div class="bottom-btn p-2">
     <div class="d-flex justify-content-between mt-2">
-      <div *ngIf="clearAllButton" class="btn-cancel">
+      <div class="btn-cancel">
         <button
           class="cancel-btn"
           (click)="clearAllChecked()"
@@ -206,7 +206,6 @@
         </button>
       </div>
       <button
-        *ngIf="showButtons"
         class="submit-btn"
         (click)="update()"
         [disabled]="ischeckInput || isMultiCheckbox || isTab"
@@ -230,64 +229,140 @@
   </div>
   <hr />
   <div *ngIf="loader" class="text-center">
-    <img src="assets/gif/loading-gif.gif" alt="Loading..."  class="loader">
+    <img src="assets/gif/loading-gif.gif" alt="Loading..." class="loader" />
   </div>
-  
-  <ng-container  *ngIf="!loader">
-  <div class="m-2">
-    <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
-      <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{
-        addOns.displayName
-      }}</span>
-      <section class="my-2 section-value">
-        <span *ngFor="let listValue of addOns.fe_template; index as i">
-          <section class="d-grid">
-            <span *ngIf="listValue.type == 'radio'">
-              <mat-checkbox
-                [(ngModel)]="listValue.checked"
-                (change)="
-                  onCheckboxSelect(
-                    $event,
-                    listValue.name,
-                    listValue?.next_type,
-                    i,
-                    addOns.displayName,
-                    listValue.rb_code,
-                    listValue.type,
-                    addOns
-                  )
-                "
-                >{{ listValue?.name }}
-              </mat-checkbox>
-            </span>
-            <span *ngIf="listValue.type == 'check_box'">
-              <mat-checkbox
-                [(ngModel)]="listValue.checked"
-                (change)="
-                  onCheckboxSelect(
-                    $event,
-                    listValue.name,
-                    listValue?.next_type,
-                    i,
-                    addOns.displayName,
-                    listValue.rb_code,
-                    listValue.type,
-                    addOns
-                  )
-                "
-                >{{ listValue?.name }}
-              </mat-checkbox>
 
-              <span
-                *ngIf="
-                  listValue?.next_type == 'multi_checkbox' &&
-                  i == multiCheckboxField[i]
-                "
-                class="d-grid m-1 ms-4"
-              >
+  <ng-container *ngIf="!loader">
+    <div class="m-2">
+      <div class="card-body p-2" *ngFor="let addOns of addOnsArray">
+        <span class="customise-header ps-3" id="{{ addOns.rb_type }}">{{
+          addOns.displayName
+        }}</span>
+        <section class="my-2 section-value">
+          <span *ngFor="let listValue of addOns.fe_template; index as i">
+            <section class="d-grid">
+              <span *ngIf="listValue.type == 'radio'">
                 <mat-checkbox
-                  *ngFor="let data of listValue.value"
+                  [(ngModel)]="listValue.checked"
                   (change)="
+                    onCheckboxSelect(
+                      $event,
+                      listValue.name,
+                      listValue?.next_type,
+                      i,
+                      addOns.displayName,
+                      listValue.rb_code,
+                      listValue.type,
+                      addOns
+                    )
+                  "
+                  >{{ listValue?.name }}
+                </mat-checkbox>
+              </span>
+              <span *ngIf="listValue.type == 'check_box'">
+                <mat-checkbox
+                  [(ngModel)]="listValue.checked"
+                  (change)="
+                    onCheckboxSelect(
+                      $event,
+                      listValue.name,
+                      listValue?.next_type,
+                      i,
+                      addOns.displayName,
+                      listValue.rb_code,
+                      listValue.type,
+                      addOns
+                    )
+                  "
+                  >{{ listValue?.name }}
+                </mat-checkbox>
+
+                <span
+                  *ngIf="
+                    listValue?.next_type == 'multi_checkbox' &&
+                    i == multiCheckboxField[i]
+                  "
+                  class="d-grid m-1 ms-4"
+                >
+                  <mat-checkbox
+                    *ngFor="let data of listValue.value"
+                    (change)="
+                      onInputChange(
+                        $event,
+                        listValue?.next_type,
+                        i,
+                        listValue?.name,
+                        listValue?.rb_code
+                      )
+                    "
+                    [(ngModel)]="data.multiChecked"
+                    >{{ data }}</mat-checkbox
+                  >
+                  <mat-error *ngIf="i == multiCheckbox[i]">
+                    Please select a country.
+                  </mat-error>
+                </span>
+              </span>
+            </section>
+            <section class="d-grid ms-3">
+              <ng-container
+                *ngIf="listValue?.next_type == 'dropdown' && listValue.checked"
+              >
+                <mat-form-field
+                  appearance="outline"
+                  *ngIf="i == dropDownFieldIndex[i]"
+                  class="ms-2"
+                >
+                  <mat-label>Select Value</mat-label>
+                  <mat-select
+                    (selectionChange)="
+                      onInputChange(
+                        $event.value,
+                        listValue?.next_type,
+                        i,
+                        listValue?.name,
+                        listValue?.rb_code
+                      )
+                    "
+                    (blur)="
+                      onInputChange(
+                        listValue.addOnsValue,
+                        listValue?.next_type,
+                        i,
+                        listValue?.name,
+                        listValue?.rb_code
+                      )
+                    "
+                    [(ngModel)]="listValue.addOnsValue"
+                  >
+                    <mat-option
+                      *ngFor="let items of listValue.value"
+                      [value]="items"
+                      >{{ items | number : "2." }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+                <mat-error *ngIf="i == dropDownIndex[i]">
+                  This is a required field.
+                </mat-error>
+              </ng-container>
+            </section>
+
+            <section
+              class="d-grid ms-3"
+              *ngIf="listValue?.next_type == 'int_input' && listValue.checked"
+            >
+              <mat-form-field
+                appearance="outline"
+                class="mat-input-custom"
+                *ngIf="i == inputFieldIndex[i]"
+              >
+                <mat-label>Enter Value</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="listValue.addOnsValue"
+                  appNumbersOnly
+                  (ngModelChange)="
                     onInputChange(
                       $event,
                       listValue?.next_type,
@@ -296,36 +371,7 @@
                       listValue?.rb_code
                     )
                   "
-                  [(ngModel)]="data.multiChecked"
-                  >{{ data }}</mat-checkbox
-                >
-                <mat-error *ngIf="i == multiCheckbox[i]">
-                  Please select a country.
-                </mat-error>
-              </span>
-            </span>
-          </section>
-          <section class="d-grid ms-3">
-            <ng-container
-              *ngIf="listValue?.next_type == 'dropdown' && listValue.checked"
-            >
-              <mat-form-field
-                appearance="outline"
-                *ngIf="i == dropDownFieldIndex[i]"
-                class="ms-2"
-              >
-                <mat-label>Select Value</mat-label>
-                <mat-select
-                  (selectionChange)="
-                    onInputChange(
-                      $event.value,
-                      listValue?.next_type,
-                      i,
-                      listValue?.name,
-                      listValue?.rb_code
-                    )
-                  "
-                  (blur)="
+                  (click)="
                     onInputChange(
                       listValue.addOnsValue,
                       listValue?.next_type,
@@ -334,108 +380,61 @@
                       listValue?.rb_code
                     )
                   "
-                  [(ngModel)]="listValue.addOnsValue"
-                >
-                  <mat-option
-                    *ngFor="let items of listValue.value"
-                    [value]="items"
-                    >{{ items | number : "2." }}</mat-option
-                  >
-                </mat-select>
+                  maxlength="6"
+                />
               </mat-form-field>
-              <mat-error *ngIf="i == dropDownIndex[i]">
+              <mat-error *ngIf="i == inputTagIndex[i]">
                 This is a required field.
               </mat-error>
-            </ng-container>
-          </section>
+            </section>
 
-          <section
-            class="d-grid ms-3"
-            *ngIf="listValue?.next_type == 'int_input' && listValue.checked"
-          >
-            <mat-form-field
-              appearance="outline"
-              class="mat-input-custom"
-              *ngIf="i == inputFieldIndex[i]"
-            >
-              <mat-label>Enter Value</mat-label>
-              <input
-                matInput
-                [(ngModel)]="listValue.addOnsValue"
-                appNumbersOnly
-                (ngModelChange)="
-                  onInputChange(
-                    $event,
-                    listValue?.next_type,
-                    i,
-                    listValue?.name,
-                    listValue?.rb_code
-                  )
-                "
-                (click)="
-                  onInputChange(
-                    listValue.addOnsValue,
-                    listValue?.next_type,
-                    i,
-                    listValue?.name,
-                    listValue?.rb_code
-                  )
-                "
-                maxlength="6"
-              />
-            </mat-form-field>
-            <mat-error *ngIf="i == inputTagIndex[i]">
-              This is a required field.
-            </mat-error>
-          </section>
-
-          <section class="d-grid ms-3">
-            <ng-container
-              *ngIf="listValue?.next_type == 'tab' && listValue.checked"
-            >
-              <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
-                <div
-                  class="col-lg-6 col-md-6 col-6 mt-1"
-                  *ngFor="let amount of listValue.value"
-                >
-                  <button
-                    class="voluntry"
-                    (click)="
-                      selectVoluntry(
-                        amount,
-                        listValue?.name,
-                        listValue?.rb_code,
-                        i
-                      )
-                    "
-                    [class.active]="selectedVoluntryValue == amount"
+            <section class="d-grid ms-3">
+              <ng-container
+                *ngIf="listValue?.next_type == 'tab' && listValue.checked"
+              >
+                <div class="row p-2 voluntry-btn" *ngIf="i == tabIndex[i]">
+                  <div
+                    class="col-lg-6 col-md-6 col-6 mt-1"
+                    *ngFor="let amount of listValue.value"
                   >
-                    &#8377;{{ amount }}
-                  </button>
+                    <button
+                      class="voluntry"
+                      (click)="
+                        selectVoluntry(
+                          amount,
+                          listValue?.name,
+                          listValue?.rb_code,
+                          i
+                        )
+                      "
+                      [class.active]="selectedVoluntryValue == amount"
+                    >
+                      &#8377;{{ amount }}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </ng-container>
-          </section>
-        </span>
-      </section>
+              </ng-container>
+            </section>
+          </span>
+        </section>
+      </div>
     </div>
-  </div>
-  <div class="d-flex p-2 bottom-btn" *ngIf="showUpdateButton">
-    <button
-      class="cancel-btn col-6"
-      *ngIf="clearAllButton"
-      (click)="clearAllChecked()"
-    >
-      Clear All
-    </button>
-    <button
-      class="submit-btn col-6"
-      *ngIf="showButtons"
-      (click)="update()"
-      [disabled]="ischeckInput || isMultiCheckbox || isTab"
-    >
-      Update
-    </button>
-  </div>
+    <div class="d-flex p-2 bottom-btn" *ngIf="showUpdateButton">
+      <button
+        class="cancel-btn col-6"
+        *ngIf="clearAllButton"
+        (click)="clearAllChecked()"
+      >
+        Clear All
+      </button>
+      <button
+        class="submit-btn col-6"
+        *ngIf="showButtons"
+        (click)="update()"
+        [disabled]="ischeckInput || isMultiCheckbox || isTab"
+      >
+        Update
+      </button>
+    </div>
   </ng-container>
 </div>

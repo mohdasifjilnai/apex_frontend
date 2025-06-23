@@ -174,9 +174,7 @@ export class ProposalComponent implements OnInit {
 
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    // if (kycData?.insurer_code === this.quoteData['insurer_code']) {
-    // this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
-    // }
+
     this.kycPending = kycData;
     this.vehicleType = sessionStorage.getItem('newVehicleType');
     this.insuranceVehicleType = sessionStorage.getItem('vehicleType');
@@ -226,135 +224,6 @@ export class ProposalComponent implements OnInit {
         'Vehicle Inspection is required for this policy type';
       this.breakIn = true;
     }
-    // if (
-    //   this.quoteData['status'] &&
-    //   this.quoteData['is_breakin'] &&
-    //   this.vehicleCardData?.policy_expiry_date != 'Not Sure'
-    // ) {
-    //   this.vehicleInspectionMessage =
-    //     'Attention!! Some insurance company will ask for an inspection as previous policy is expired';
-    //   this.breakIn = true;
-    // } else if (
-    //   this.quoteData['status'] &&
-    //   this.quoteData['is_breakin'] &&
-    //   this.vehicleCardData?.policy_expiry_date == 'Not Sure'
-    // ) {
-    //   this.vehicleInspectionMessage =
-    //     'Attention!! Some insurance company will ask for an inspection as previous policy date is not available.';
-    //   this.breakIn = true;
-    // }
-
-    // if (this.quoteData?.insurer_code == 'united_india') {
-    //   this.sharedData.getProposalDetails.subscribe((proposal) => {
-    //     if (proposal) {
-    //       this.proposalId = proposal?.proposal_id;
-    //       if (!proposal?.ckyc_details?.is_verification) {
-    //         this.getUnitedCkycToken();
-    //       }
-    //       this.isNotShowCkycDetails = false;
-    //       this.showVehicleOwnerDetails = true;
-    //       this.accordianExpanded = 'vehicleOwnerDetails';
-    //       this.openDesiredStep(this.accordianExpanded);
-    //       if (
-    //         proposal.customer_details !== null &&
-    //         !this.isNotShowNomineeDetails
-    //       ) {
-    //         if (this.reviewData === 'vehilceOwnerPanel') {
-    //           this.showVehicleDetails = true;
-    //           this.accordianExpanded = 'vehicleOwnerDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else {
-    //           if (this.kycPending?.redirection_url_via_form) {
-    //             this.sharedData.vehicleOwnerForm.subscribe((res) => {
-    //               if (res) {
-    //                 this.showVehicleDetails = true;
-    //                 this.accordianExpanded = 'vehicleDetails';
-    //                 this.openDesiredStep(this.accordianExpanded);
-    //               }
-    //             });
-    //           } else {
-    //             this.showVehicleDetails = true;
-    //             this.accordianExpanded = 'vehicleDetails';
-    //             this.openDesiredStep(this.accordianExpanded);
-    //           }
-    //         }
-    //       } else if (
-    //         proposal.customer_details !== null &&
-    //         this.isNotShowNomineeDetails
-    //       ) {
-    //         if (this.reviewData === 'vehilceOwnerPanel') {
-    //           this.showNomineeDetails = true;
-    //           this.showVehicleOwnerDetails = true;
-    //           this.accordianExpanded = 'vehicleOwnerDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else {
-    //           if (this.kycPending?.redirection_url_via_form) {
-    //             this.sharedData.vehicleOwnerForm.subscribe((res) => {
-    //               if (res) {
-    //                 this.showNomineeDetails = true;
-    //                 this.showVehicleOwnerDetails = true;
-    //                 this.accordianExpanded = 'nomineeDetails';
-    //                 this.openDesiredStep(this.accordianExpanded);
-    //               }
-    //             });
-    //           } else {
-    //             this.showNomineeDetails = true;
-    //             this.showVehicleOwnerDetails = true;
-    //             this.accordianExpanded = 'nomineeDetails';
-    //             this.openDesiredStep(this.accordianExpanded);
-    //           }
-    //         }
-    //       }
-    //       if (proposal.nominee_details !== null) {
-    //         if (this.reviewData === 'nomineDetailsPanel') {
-    //           this.showVehicleDetails = true;
-    //           this.accordianExpanded = 'nomineeDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else {
-    //           this.showVehicleDetails = true;
-    //           this.accordianExpanded = 'vehicleDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         }
-    //       }
-    //       if (proposal.vehicle_details !== null && this.vehicleType === 'new') {
-    //         if (this.reviewData === 'vehilceOwnerPanel') {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'vehicleOwnerDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else if (this.reviewData === 'nomineDetailsPanel') {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'nomineeDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'vehicleDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         }
-    //       } else if (
-    //         (proposal.vehicle_details !== null && this.vehicleType !== 'new') ||
-    //         (this.quoteData?.is_breakin && this.productTypeValue === 'satp')
-    //       ) {
-    //         if (this.reviewData === 'vehicleDetailPanel') {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'vehicleDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else if (this.reviewData === 'vehilceOwnerPanel') {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'vehicleOwnerDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else if (this.reviewData === 'nomineDetailsPanel') {
-    //           this.showPreviousPolicyDetails = true;
-    //           this.accordianExpanded = 'nomineeDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         } else {
-    //           this.accordianExpanded = 'previousPolicyDetails';
-    //           this.openDesiredStep(this.accordianExpanded);
-    //         }
-    //       }
-    //     }
-    //   });
-    // }
-    // sessionStorage.removeItem('alreadyCalled');
   }
 
   loadCkyc(expansionName: string) {
@@ -1026,6 +895,7 @@ export class ProposalComponent implements OnInit {
             this.getVahaanDetails(response?.quote_request?.registration_no);
           }
           const regNo = response?.quote_request?.registration_no;
+
           if (regNo) {
             sessionStorage.setItem('registrationNumber', regNo);
           }
@@ -1161,9 +1031,8 @@ export class ProposalComponent implements OnInit {
             this.getInsurerData?.quote_request?.meta_data?.selectedAddons !==
             'undefined'
           ) {
-            let addonsValue = JSON.parse(
-              this.getInsurerData?.quote_request?.meta_data?.selectedAddons
-            );
+            let addonsValue =
+              this.getInsurerData?.quote_request?.meta_data?.selectedAddons;
 
             sessionStorage.setItem(
               'selectedAddons',

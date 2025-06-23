@@ -39,23 +39,22 @@ export class SseService {
         this.zone.run(() => {
           observer.next(event);
           if (!this.currentPageUrl.includes('/quotes')) {
-            console.log('Connection Drop', event);
+            // console.log('Connection Drop', event);
             eventSource.close();
           } else if (this.currentPageUrl.includes('/proposal')) {
             eventSource.close();
           }
-          if(environment.dev){
+          if (environment.dev) {
             setTimeout(() => {
-              console.log('Connection Drop', event);
+              // console.log('Connection Drop', event);
               eventSource.close();
             }, 50000);
-          }else{
+          } else {
             setTimeout(() => {
-              console.log('Connection Drop', event);
+              // console.log('Connection Drop', event);
               eventSource.close();
             }, 10000);
           }
-          
         });
       });
     });

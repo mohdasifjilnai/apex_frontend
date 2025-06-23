@@ -77,6 +77,7 @@ export class InsuranceDetailsComponent implements OnInit {
   mmvParseData: any;
   proposalPunched: any;
   userType: any;
+  mmvFOrmData: any;
 
   constructor(
     public matDialog: WindowRef,
@@ -197,6 +198,13 @@ export class InsuranceDetailsComponent implements OnInit {
           // }
         }
       }
+    });
+    let mmv_Data:any =JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
+    if(mmv_Data?.form_value){
+      this.mmvFOrmData=mmv_Data?.form_value
+    }
+    this.sharedDataService?.insurerDetails?.subscribe((getInsurerDetails) => {
+      this.mmvFOrmData = getInsurerDetails?.quote_request?.meta_data?.mmv_form_data?.form_value;
     });
   }
 

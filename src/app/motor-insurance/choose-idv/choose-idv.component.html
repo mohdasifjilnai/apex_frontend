@@ -1,7 +1,7 @@
 <div
   class="idv-range"
   [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
-  [hidden]="showIdv == 'bundled_tp' || showIdv == 'satp'"
+  [hidden]="idvShowHide == 'bundled_tp' || idvShowHide == 'satp'"
   *ngIf="!isMobileView"
 >
   <div class="card my-2">
@@ -30,7 +30,6 @@
                 formControlName="chooseIdv"
                 name="customIDV"
                 [readonly]="enableIdvCard"
-                (ngModelChange)="chooseIdvData()"
                 appRemoveZeroFromStarting
                 (input)="changeToCurrency()"
                 maxlength="13"
@@ -128,7 +127,7 @@
               (input)="changeToCurrency()"
             />
           </mat-form-field> -->
-          <div class="col-lg-6 col-md-12 col-12">
+          <!-- <div class="col-lg-6 col-md-12 col-12">
             <button
               class="submit-btn cancel-btn"
               type="submit"
@@ -147,7 +146,7 @@
             >
               Update
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

@@ -102,12 +102,12 @@ export class PreviousPolicyDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
-    if (this.mmvData?.policy_expiry === 'comprehensive') {
+    if (this.mmvData?.form_value?.policy_expiry === 'comprehensive') {
       this.isTpStartDate = false;
       this.isTpEndDateDisable = true;
-      if (this.mmvData?.policy_expiry_date) {
+      if (this.mmvData?.form_value?.policy_expiry_date) {
         this.previousPolicyDetailsForm.patchValue({
-          tp_policy_end_date: this.mmvData?.policy_expiry_date,
+          tp_policy_end_date: this.mmvData?.form_value?.policy_expiry_date,
         });
       }
       const selectedDateValue =
@@ -128,9 +128,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       });
     } else {
       this.isExpiryDate = true;
-      if (this.mmvData?.policy_expiry_date) {
+      if (this.mmvData?.form_value?.policy_expiry_date) {
         this.previousPolicyDetailsForm.patchValue({
-          policy_expiry_date: new Date(this.mmvData?.policy_expiry_date),
+          policy_expiry_date: new Date(
+            this.mmvData?.form_value?.policy_expiry_date
+          ),
         });
       }
     }
@@ -268,7 +270,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           ),
         });
 
-        if (this.mmvData?.policy_expiry !== 'comprehensive') {
+        if (this.mmvData?.form_value?.policy_expiry !== 'comprehensive') {
           this.previousPolicyDetailsForm.patchValue({
             tp_policy_start_date:
               this.previousPolicyDetailsForm.value?.tp_policy_start_date,
@@ -281,16 +283,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               'tp_policy_start_date'
             )?.value;
             if (selectedDateValue) {
+              const selectedDate = new Date(selectedDateValue);
               const EndMinDate = new Date(
-                selectedDateValue.getFullYear() + 1,
-                selectedDateValue.getMonth(),
-                selectedDateValue.getDate() - 1
+                selectedDate.getFullYear() + 1,
+                selectedDate.getMonth(),
+                selectedDate.getDate() - 1
               );
               this.tpEndminDate = this.datePipe.transform(
                 EndMinDate,
                 'yyyy-MM-dd'
               )!;
-              const selectedDate = new Date(selectedDateValue);
+
               if (this.vehicleTypeSelected == 'private_car') {
                 const fourYearsFromNow = new Date(
                   selectedDate.getFullYear() + 3,
@@ -350,15 +353,21 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             });
         }
       } else {
-        if (this.mmvData?.previous_insurer && this.renewalType != 'renewal') {
+        if (
+          this.mmvData?.form_value?.previous_insurer &&
+          this.renewalType != 'renewal'
+        ) {
           this.previousPolicyDetailsForm.patchValue({
-            previous_insurer: this.mmvData?.previous_insurer,
-            tp_insurance_company: this.mmvData?.previous_insurer,
+            previous_insurer: this.mmvData?.form_value?.previous_insurer,
+            tp_insurance_company: this.mmvData?.form_value?.previous_insurer,
           });
         }
-        if (this.mmvData?.previous_insurer && this.renewalType == 'renewal') {
+        if (
+          this.mmvData?.form_value?.previous_insurer &&
+          this.renewalType == 'renewal'
+        ) {
           this.previousPolicyDetailsForm.patchValue({
-            previous_insurer: this.mmvData?.previous_insurer,
+            previous_insurer: this.mmvData?.form_value?.previous_insurer,
             // tp_insurance_company: this.mmvData?.previous_insurer,
           });
         }
@@ -413,7 +422,10 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       // }
 
       let renewalDataType = sessionStorage.getItem('renewalType');
-      if (renewalDataType == 'renewal') {
+      if (
+        renewalDataType == 'renewal' &&
+        proposal?.previous_policy_details != undefined
+      ) {
         const [day, month, year] =
           proposal?.previous_policy_details?.policy_expiry_date
             .split('/')
@@ -447,8 +459,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     );
 
     if (
-      previousPolicyType?.policy_expiry === 'saod' ||
-      previousPolicyType?.policy_expiry === 'bundle'
+      previousPolicyType?.form_value?.policy_expiry === 'saod' ||
+      previousPolicyType?.form_value?.policy_expiry === 'bundle'
     ) {
       this.isTpPolicyDetails = true;
       this.isOdPolicyDetails = true;
@@ -495,8 +507,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
     } else if (
-      previousPolicyType?.policy_expiry === 'satp' ||
-      previousPolicyType?.policy_expiry === 'bundled_tp'
+      previousPolicyType?.form_value?.policy_expiry === 'satp' ||
+      previousPolicyType?.form_value?.policy_expiry === 'bundled_tp'
     ) {
       this.isTpPolicyDetails = true;
       // this.isOdPolicyDetails = false;
@@ -540,7 +552,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
-    } else if (previousPolicyType?.policy_expiry === 'comprehensive') {
+    } else if (
+      previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
+    ) {
       this.isTpPolicyDetails = true;
       this.isOdPolicyDetails = false;
       this.previousPolicyDetailsForm.get('previous_insurer')?.setValidators([]);
@@ -913,7 +927,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     this.getCustomerIdDetails.unsubscribe();
   }
   onTpStartDateSelected(event: any) {
-    if (this.mmvData?.policy_expiry === 'comprehensive') {
+    if (this.mmvData?.form_value?.policy_expiry === 'comprehensive') {
     } else {
       this.previousPolicyDetailsForm
         .get('tp_policy_end_date')

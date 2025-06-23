@@ -851,6 +851,7 @@ textarea.mat-input-element {
 .visually-disabled {
   position: relative; 
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .visually-disabled::before {
