@@ -1278,6 +1278,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             }
           }
         }
+        if(this.vehicleDetailsForm.value.policy_expiry=='satp'){
+            this.vehicleDetailsForm.get('ncb_discount')?.setValue(null)
+        }
         this.mmvBaseButtonDisable = false;
       });
   }
