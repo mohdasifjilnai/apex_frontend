@@ -379,36 +379,35 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
       });
 
-      // Renewal Details Data Patching 
-    this.sharedDataService.renewalDataResponseValue.subscribe(
-      (res: any) => {
-        this.renewalData = res?.previous_policy_details?.vehicle_details;
-        this.coverageType=res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type
-        if(this.coverageType!=null){
-          this.showErrorMessage=false
-        }
-        if(res?.is_rb_renewal){
-          this.isNewVehicle=false
-          // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
-        }
-        if(res?.vehicle_details?.rb_mmv_id){
-          this.vehicleMMV(res?.vehicle_details?.rb_mmv_id)
-        }
-        if(res?.vehicle_details?.rb_rto_code){
-          this.vehcileRegistration(res?.vehicle_details?.rb_rto_code)
-        }
-        this.vehicleDetailsForm.patchValue({
-          registration_date: this.renewalData?.registration_date,
-          manufacture_date: this.renewalData?.manufacture_date,
-          previous_insurer: res?.vehicle_details?.previous_insurer_code,
-          policy_expiry_date: this.formatDDMMYYYYToDate(
-            res?.vehicle_details?.previous_policy_exp_date
-          ),
-          policy_expiry: this.coverageType.coverage_type_code,
-        });
-        this.getExpiringPolicy();
+    // Renewal Details Data Patching
+    this.sharedDataService.renewalDataResponseValue.subscribe((res: any) => {
+      this.renewalData = res?.previous_policy_details?.vehicle_details;
+      this.coverageType =
+        res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type;
+      if (this.coverageType != null) {
+        this.showErrorMessage = false;
       }
-    );
+      if (res?.is_rb_renewal) {
+        this.isNewVehicle = false;
+        // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
+      }
+      if (res?.vehicle_details?.rb_mmv_id) {
+        this.vehicleMMV(res?.vehicle_details?.rb_mmv_id);
+      }
+      if (res?.vehicle_details?.rb_rto_code) {
+        this.vehcileRegistration(res?.vehicle_details?.rb_rto_code);
+      }
+      this.vehicleDetailsForm.patchValue({
+        registration_date: this.renewalData?.registration_date,
+        manufacture_date: this.renewalData?.manufacture_date,
+        previous_insurer: res?.vehicle_details?.previous_insurer_code,
+        policy_expiry_date: this.formatDDMMYYYYToDate(
+          res?.vehicle_details?.previous_policy_exp_date
+        ),
+        policy_expiry: this.coverageType.coverage_type_code,
+      });
+      this.getExpiringPolicy();
+    });
   }
 
   patchdate(renewalData: any) {
@@ -1106,6 +1105,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.regDateObj != null &&
       this.regDateObj != '' &&
       expiry_date != null &&
+      expiry_date != '' &&
       !regDateChange
     ) {
       this.apiservice
