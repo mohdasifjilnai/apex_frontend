@@ -431,9 +431,11 @@ export class QuotesComponent implements OnInit {
               res?.registration_no != '' &&
               res?.registration_no != undefined
             ) {
-              this.getRenewalData(res?.registration_no);
+              apiUrl = `?registration_number=${res?.registration_no.toUpperCase()}`;
+              this.getRenewalData(apiUrl);
             } else {
-              this.getRenewalData(res?.policy_number);
+              apiUrl = `?previous_policy_number=${res?.policy_number}`;
+              this.getRenewalData(apiUrl);
             }
           }
           sessionStorage.setItem('productType', res.product_type);

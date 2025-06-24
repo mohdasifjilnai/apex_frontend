@@ -220,6 +220,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           .get('registration_number_last_digit')
           ?.disable();
         if (res?.vehicle_details != null) {
+          console.log('6666666')
+
           this.proposalVehilceDetailsForm.patchValue({
             registration_number_last_digit: regLastDigit,
             engine_number: res?.vehicle_details?.engine_no,
@@ -340,11 +342,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             3,
             5
           );
-          let combineRegData = regFirstDigit + regSecondDigit;
+          let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
           let regLastDigit =
             proposal?.vehicle_details?.registration_no.split(combineRegData);
           if (regLastDigit) {
-            const regParts = regLastDigit[1].match(/^([a-zA-Z]+)([0-9]+)$/);
+            const regParts = regLastDigit[1].map((item: string) => item.replace(/,/g, '').match(/^([a-zA-Z]+)([0-9]+)$/));;
             if (regParts) {
               regLastDigit = regParts.slice(1).join('-');
             }
@@ -813,9 +815,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       }
     }
     let registrationNumberFirst =
-      this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
+      this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[0] +
       '-' +
-      this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
+      this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[1] +
       '-' +
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
     let registrationNumber;
@@ -838,7 +840,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
     if (
       isValid &&
-      (this.vehicleType === 'new' || this.mmvItem?.policy_expiry === 'IDK')
+      (this.vehicleType === 'new' || this.mmvItem?.form_value?.policy_expiry === 'IDK')
     ) {
       const formValues = this.proposalVehilceDetailsForm.value;
       const proposal_id = sessionStorage.getItem('proposal_Id');
@@ -859,11 +861,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ) {
               let registrationNumberFirst =
                 this.divideString(
-                  this.mmvItem?.registration_city?.rb_rto_code
+                  this.mmvItem?.form_value?.registration_city?.rb_rto_code
                 )[0] +
                 '-' +
                 this.divideString(
-                  this.mmvItem?.registration_city?.rb_rto_code
+                  this.mmvItem?.form_value?.registration_city?.rb_rto_code
                 )[1] +
                 '-' +
                 this.proposalVehilceDetailsForm.value
@@ -898,7 +900,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 if (
                   (this.vehicleType === 'new' ||
                     (this.isBreakIn && this.productTypeValue === 'satp') ||
-                    this.mmvItem?.policy_expiry === 'IDK') &&
+                    this.mmvItem?.form_value?.policy_expiry === 'IDK') &&
                   proposal.vehicle_details !== null
                 ) {
                   const proposal_id = sessionStorage.getItem('proposal_Id');
@@ -922,9 +924,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.proposalVehilceDetailsForm.value.registration_number_last_digit
       ) {
         let registrationNumberFirst =
-          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[0] +
+          this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[0] +
           '-' +
-          this.divideString(this.mmvItem?.registration_city?.rb_rto_code)[1] +
+          this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[1] +
           '-' +
           this.proposalVehilceDetailsForm.value.registration_number_last_digit;
         this.proposalVehilceDetailsForm.patchValue({
@@ -957,7 +959,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           if (
             (this.vehicleType === 'new' ||
               (this.isBreakIn && this.productTypeValue === 'satp') ||
-              this.mmvItem?.policy_expiry === 'IDK') &&
+              this.mmvItem?.form_value?.policy_expiry === 'IDK') &&
             proposal.vehicle_details !== null
           ) {
             const proposal_id = sessionStorage.getItem('proposal_Id');
