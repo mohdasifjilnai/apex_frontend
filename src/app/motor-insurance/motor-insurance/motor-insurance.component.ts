@@ -266,6 +266,7 @@ export class MotorInsuranceComponent implements OnInit {
     sessionStorage.removeItem('alreadyCalled');
     sessionStorage.removeItem('isRbRenewal');
     sessionStorage.removeItem('BuyNowClick');
+    sessionStorage.removeItem('sliderIdvValue');
     let selectedAddons = sessionStorage.getItem('selectedAddons');
     if (selectedAddons) {
       sessionStorage.removeItem('selectedAddons');
@@ -632,7 +633,7 @@ export class MotorInsuranceComponent implements OnInit {
           const vehicleDetails = res?.vehicle_details;
           if (vehicleDetails) {
             this.sharedDataService.vehicleDetailsRenewal(vehicleDetails);
-            this.sharedDataService.renewalDataResponse(res)
+            this.sharedDataService.renewalDataResponse(res);
           }
           sessionStorage.setItem('mmvId', res?.vehicle_details?.rb_mmv_id);
           sessionStorage.setItem('RenewalPreviousDetails', JSON.stringify(res));
@@ -968,11 +969,14 @@ export class MotorInsuranceComponent implements OnInit {
 
     const data = {
       partner_code: this.partner_code,
-      bussiness_type:this.motorInsurance.value?.policy_expiry_date==null?'new':'renewal',
+      bussiness_type:
+        this.motorInsurance.value?.policy_expiry_date == null
+          ? 'new'
+          : 'renewal',
       quotes_data: this.motorInsurance.value,
     };
-    if(this.motorInsurance.value?.registration_number!=null){
-      data.bussiness_type='renewal'
+    if (this.motorInsurance.value?.registration_number != null) {
+      data.bussiness_type = 'renewal';
     }
     this.apiService
       .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)

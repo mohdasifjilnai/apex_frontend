@@ -480,7 +480,7 @@ export class ChooseIDVComponent implements OnInit {
     const value = event.value;
 
     this.investedAmount = value;
-
+    sessionStorage.setItem('sliderIdvValue', value);
     // This will update the input field bound via formControlName
     this.chooseIdvForm.get('chooseIdv')?.setValue(value, { emitEvent: false });
   }

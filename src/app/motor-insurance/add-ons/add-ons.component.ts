@@ -587,7 +587,20 @@ export class AddOnsComponent implements OnInit {
 
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     const count = Object.keys(this.selected_addons).length;
-    if (count != 0 || this.idvAmount) {
+    let sliderIdv = sessionStorage.getItem('sliderIdvValue');
+    if (sliderIdv && this.idvAmount == undefined) {
+      let idvObject = {
+        minIdv: '',
+        maxIdv: '',
+        chooseIdv: sliderIdv,
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+    }
+
+    if (count != 0 || this.idvAmount || sliderIdv) {
       if (this.registrationNumber) {
         this.sharedDataService.initiate_Quotes_APi(
           JSON.parse(mmvFormData || '{}')
