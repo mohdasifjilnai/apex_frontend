@@ -353,6 +353,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               policy_expiry: this.coverageType?.coverage_type_code,
             })
           : '';
+        if (this.vehicleDetailsForm.value.policy_expiry == 'satp') {
+          this.iDKSelected = false;
+          this.hidePreviousClaimed = true;
+          this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
+          this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
+          this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
+          this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
+          this.vehicleDetailsForm
+            .get('previous_claimed')
+            ?.updateValueAndValidity();
+        }
         this.getExpiringPolicy(true);
         if (res?.is_rb_renewal) {
           this.isNewVehicle = false;
