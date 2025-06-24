@@ -158,12 +158,14 @@ export class PreviousInsurerComponent implements OnInit {
     this.responseEvent.emit(response);
   }
   getInsurerData(name: any) {
+    this.shareDataService.previousInsurerDisabled(true)
     this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_previous_insurer()}?search_element=${name}`
       )
       .subscribe((res) => {
         if (res && !res?.message) {
+          this.shareDataService.previousInsurerDisabled(false)
           this.insurerList = res;
           this.previousInsurerNoData = '';
           const renwalType=sessionStorage.getItem('renewalType')

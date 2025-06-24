@@ -287,19 +287,20 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
         }
         this.getExpiringPolicy(false);
-      }
-    });
-    this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-      if (renewalInsurer != 'No result found' && renewalType=='renewal') {
-        this.vehicleDetailsForm.patchValue({
-          previous_insurer: renewalInsurer,
+        this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
+          if (renewalInsurer != 'No result found') {
+            this.vehicleDetailsForm.patchValue({
+              previous_insurer: renewalInsurer,
+            });
+            sessionStorage.setItem(
+              'renewalPreviousInsurer',
+              JSON.stringify(renewalInsurer)
+            );
+          }
         });
-        sessionStorage.setItem(
-          'renewalPreviousInsurer',
-          JSON.stringify(renewalInsurer)
-        );
       }
     });
+    
 
     // Renewal Details Data Patching
 
@@ -381,7 +382,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           this.getExpiringPolicy(true);
         }
       });
-
+    this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
+      if(res){
+        this.mmvBaseButtonDisable=res
+      }
+    })
     this.vehicleDetailsForm
       .get('policy_expiry_date')
       ?.valueChanges.subscribe((value) => {

@@ -46,6 +46,7 @@ export class SharedDataService {
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
   disableInsurer: Subject<any> = new Subject();
+  buttonDisabledPreviousInsurer: Subject<any> = new Subject();
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
@@ -243,6 +244,9 @@ export class SharedDataService {
    */
   insurerData(data: any) {
     this.disableInsurer?.next(data);
+  }
+  previousInsurerDisabled(data:any){
+    this.buttonDisabledPreviousInsurer?.next(data);
   }
 
   crossSellRecomendation(proposal_number: any) {
