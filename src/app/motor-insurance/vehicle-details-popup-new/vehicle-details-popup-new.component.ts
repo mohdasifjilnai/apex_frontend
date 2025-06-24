@@ -290,7 +290,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       }
     });
     this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-      if (renewalInsurer != 'No result found') {
+      if (renewalInsurer != 'No result found' && renewalType=='renewal') {
         this.vehicleDetailsForm.patchValue({
           previous_insurer: renewalInsurer,
         });
@@ -309,7 +309,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
 
     this.sharedDataService.renewalDataResponseValue.subscribe((res: any) => {
-      if (res) {
+      if (res && renewalType == 'renewal') {
         this.renewalData = res?.previous_policy_details?.vehicle_details;
         this.is_renewal = true;
         this.coverageType =
@@ -327,15 +327,15 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             'rtoByRegistration'
           );
         }
-        // this.vehicleDetailsForm.patchValue({
-        //   registration_date: this.renewalData?.registration_date,
-        //   manufacture_date: this.renewalData?.manufacture_date,
-        //   previous_insurer: res?.vehicle_details?.previous_insurer_code,
-        //   policy_expiry_date: this.formatDDMMYYYYToDate(
-        //     res?.vehicle_details?.previous_policy_exp_date
-        //   ),
-        //   policy_expiry: this.coverageType?.coverage_type_code,
-        // });
+        this.vehicleDetailsForm.patchValue({
+          registration_date: this.renewalData?.registration_date,
+          manufacture_date: this.renewalData?.manufacture_date,
+          previous_insurer: res?.vehicle_details?.previous_insurer_code,
+          policy_expiry_date: this.formatDDMMYYYYToDate(
+            res?.vehicle_details?.previous_policy_exp_date
+          ),
+          policy_expiry: this.coverageType?.coverage_type_code,
+        });
 
         this.sharedDataService.renewalInsurer.subscribe(
           (renewalInsurer: any) => {
@@ -390,35 +390,42 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
       });
 
-    // Renewal Details Data Patching
-    this.sharedDataService.renewalDataResponseValue.subscribe((res: any) => {
-      this.renewalData = res?.previous_policy_details?.vehicle_details;
-      this.coverageType =
-        res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type;
-      if (this.coverageType != null) {
-        this.showErrorMessage = false;
-      }
-      if (res?.is_rb_renewal) {
-        this.isNewVehicle = false;
-        // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
-      }
-      if (res?.vehicle_details?.rb_mmv_id) {
-        this.vehicleMMV(res?.vehicle_details?.rb_mmv_id);
-      }
-      if (res?.vehicle_details?.rb_rto_code) {
-        this.vehcileRegistration(res?.vehicle_details?.rb_rto_code);
-      }
-      this.vehicleDetailsForm.patchValue({
-        registration_date: this.renewalData?.registration_date,
-        manufacture_date: this.renewalData?.manufacture_date,
-        previous_insurer: res?.vehicle_details?.previous_insurer_code,
-        policy_expiry_date: this.formatDDMMYYYYToDate(
-          res?.vehicle_details?.previous_policy_exp_date
-        ),
-        policy_expiry: this.coverageType.coverage_type_code,
-      });
-      this.getExpiringPolicy();
-    });
+      // Renewal Details Data Patching 
+    // this.sharedDataService.renewalDataResponseValue.subscribe(
+    //   (res: any ) => {
+    //     if(res && renewalType=='renewal'){
+
+    //     this.renewalData = res?.previous_policy_details?.vehicle_details;
+    //     this.coverageType=res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type
+    //     if(this.coverageType!=null){
+    //       this.showErrorMessage=false
+    //     }
+    //     if(res?.is_rb_renewal){
+    //       this.isNewVehicle=false
+    //       // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
+    //     }
+    //     if(res?.vehicle_details?.rb_mmv_id){
+    //       this.vehicleMMV(res?.vehicle_details?.rb_mmv_id)
+    //     }
+    //     if (res?.vehicle_details?.rb_rto_code) {
+    //       this.vehcileRegistration(
+    //         res?.vehicle_details?.rb_rto_code,
+    //         'rtoByRegistration'
+    //       );
+    //     }
+    //     this.vehicleDetailsForm.patchValue({
+    //       registration_date: this.renewalData?.registration_date,
+    //       manufacture_date: this.renewalData?.manufacture_date,
+    //       previous_insurer: res?.vehicle_details?.previous_insurer_code,
+    //       policy_expiry_date: this.formatDDMMYYYYToDate(
+    //         res?.vehicle_details?.previous_policy_exp_date
+    //       ),
+    //       policy_expiry: this.coverageType.coverage_type_code,
+    //     });
+    //     this.getExpiringPolicy();
+    //     }
+    //   }
+    // );
   }
 
   patchdate(renewalData: any) {
