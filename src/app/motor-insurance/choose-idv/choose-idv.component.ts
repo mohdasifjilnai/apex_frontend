@@ -298,6 +298,10 @@ export class ChooseIDVComponent implements OnInit {
       JSON.stringify(idvObject)
     );
     this.updateIdvButton = true;
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+    this.sharedDataService.initiate_Quotes_APi(
+      JSON.parse(mmvFormData || '{}')
+    );
     this.idvBaseQuotes();
     webengage.track('IDV_filter_Applied', {
       // Option_Selected: option,
@@ -319,6 +323,7 @@ export class ChooseIDVComponent implements OnInit {
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
     }
+   
     this.selectedIDVOption = '';
     let idvData = sessionStorage.getItem('idvData');
     if (idvData) {
