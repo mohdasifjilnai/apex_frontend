@@ -1003,10 +1003,17 @@ export class MotorInsuranceComponent implements OnInit {
           if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
             this.getVehicleDetailsInfo();
             // this.motorInsurance.reset();
+            sessionStorage.setItem('journeyType','registrationNumber')
           } else if (this.isPolicyNumber) {
             this.getRenewalPolicyData();
+            sessionStorage.setItem('journeyType','renewal')
           } else {
             let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+            if(this.disableInsurer){
+              sessionStorage.setItem('journeyType','new')
+            }else{
+              sessionStorage.setItem('journeyType','Rollover')
+            }
             sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
             this.router.navigate([`quotes/${this.traceId}`]);
           }

@@ -79,6 +79,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   renewalType: any;
   showExpiryDateErrorMessage: boolean = false;
   ExpiryPolicyType: any;
+  journeyType: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -125,6 +126,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.vehicleDetailsFormControler();
     this.trace_id = this.sharedDataService.traceIdResponse?.trace_id;
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
+    this.journeyType=sessionStorage.getItem('journeyType')
   }
 
   ngOnInit(): void {
@@ -230,7 +232,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.sharedDataService.vehicleDetails(registration_number);
     }
     this.sharedDataService.regNumberData.subscribe((numberData) => {
-      if (numberData != null) {
+      if (numberData != null && this.journeyType=='registrationNumber') {
         this.registrationNumberData = numberData;
         this.isNewVehicle = false;
         this.vehicleMMV(this.registrationNumberData?.rb_mmv_id);
