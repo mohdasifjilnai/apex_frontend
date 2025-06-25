@@ -201,6 +201,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             )
           : '',
       });
+      this.patchPreviousInsurer();
       this.ncbDiscount = this.data?.data?.value?.ncb_discount;
       sessionStorage.setItem(
         'registrationDetails',
@@ -287,17 +288,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
         }
         this.getExpiringPolicy(false);
-        this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-          if (renewalInsurer != 'No result found') {
-            this.vehicleDetailsForm.patchValue({
-              previous_insurer: renewalInsurer,
-            });
-            sessionStorage.setItem(
-              'renewalPreviousInsurer',
-              JSON.stringify(renewalInsurer)
-            );
-          }
-        });
+        this.patchPreviousInsurer()
       }
     });
     
@@ -338,15 +329,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           policy_expiry: this.coverageType?.coverage_type_code,
         });
 
-        this.sharedDataService.renewalInsurer.subscribe(
-          (renewalInsurer: any) => {
-            if (renewalInsurer != 'No result found') {
-              this.vehicleDetailsForm.patchValue({
-                previous_insurer: renewalInsurer,
-              });
-            }
-          }
-        );
+        this.patchPreviousInsurer();
         this.renewalData ? this.patchdate(this.renewalData) : '';
         res ? this.patchInsurer(res) : '';
         this.coverageType
@@ -382,11 +365,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           this.getExpiringPolicy(true);
         }
       });
-    this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
-      if(res){
-        this.mmvBaseButtonDisable=res
-      }
-    })
+    // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
+    //   if(res){
+    //     this.mmvBaseButtonDisable=res
+    //   }
+    // })
     this.vehicleDetailsForm
       .get('policy_expiry_date')
       ?.valueChanges.subscribe((value) => {
@@ -499,6 +482,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               )
             : '',
       });
+      this.patchPreviousInsurer();
       sessionStorage.setItem(
         'registrationDetails',
         JSON.stringify(traceIDData?.previous_insurer)
@@ -1102,6 +1086,19 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
   }
 
+  patchPreviousInsurer(){
+    this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
+      if (renewalInsurer != 'No result found') {
+        this.vehicleDetailsForm.patchValue({
+          previous_insurer: renewalInsurer,
+        });
+        sessionStorage.setItem(
+          'renewalPreviousInsurer',
+          JSON.stringify(renewalInsurer)
+        );
+      }
+    });
+  }
   claimedPolicy(data: any, allData?: any) {}
 
   getExpiringPolicy(regDateChange?: any) {
