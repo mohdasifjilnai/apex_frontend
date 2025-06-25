@@ -1238,6 +1238,77 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.getNcbList();
           }
         });
+    }else if(this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.data?.data?.value?.policy_expiry== 'IDK'){
+      this.apiservice
+        .getRequestedResponse(
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
+        )
+        ?.subscribe((res) => {
+          if (res) {
+            this.isNewVehicle = res?.is_new_vehicle;
+            this.expiryList = res.expiring_policy_type;
+            const isRbRenewal = sessionStorage.getItem('isRbRenewal');
+            if (this.data?.data?.dialog_type == 'edit') {
+              for (let i = 0; i <= this.expiryList?.length - 1; i++) {
+                if (
+                  this.expiryList[i]?.rb_expiring_policy_type_id ==
+                  this.vehicleDetailsForm.value?.type_of_exp_policy_id
+                ) {
+                  this.showErrorMessage = false;
+                  this.vehicleDetailsForm.patchValue({
+                    policy_expiry:
+                      this.expiryList[i]?.rb_expiring_policy_type_code,
+                  });
+                  if (
+                    this.expiryList[i]?.rb_expiring_policy_type_code == 'IDK'
+                  ) {
+                    this.iDKSelected = true;
+                  }
+                }
+              }
+            } else if (isRbRenewal == 'true') {
+              this.vehicleDetailsForm.patchValue({
+                policy_expiry: this.coverageType.coverage_type_code,
+              });
+            }
+            if (this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.data?.data?.value?.policy_expiry== 'IDK') {
+              for (let i = 0; i <= this.expiryList?.length - 1; i++) {
+                if (this.expiryList[i]?.rb_expiring_policy_type_code == 'IDK') {
+                  this.showErrorMessage = false;
+                  this.vehicleDetailsForm.patchValue({
+                    policy_expiry:
+                      this.expiryList[i]?.rb_expiring_policy_type_code,
+                  });
+                  this.iDKSelected = true;
+                  this.vehicleDetailsForm
+                    .get('policy_expiry_date')
+                    ?.clearValidators();
+                  this.vehicleDetailsForm
+                    .get('previous_insurer')
+                    ?.clearValidators();
+                  this.vehicleDetailsForm
+                    .get('previous_claimed')
+                    ?.clearValidators();
+                  this.vehicleDetailsForm
+                    .get('ncb_discount')
+                    ?.clearValidators();
+                  this.vehicleDetailsForm
+                    .get('ncb_discount')
+                    ?.updateValueAndValidity();
+                  this.vehicleDetailsForm
+                    .get('previous_claimed')
+                    ?.updateValueAndValidity();
+                  this.vehicleDetailsForm
+                    .get('previous_insurer')
+                    ?.updateValueAndValidity();
+                  this.vehicleDetailsForm
+                    .get('policy_expiry_date')
+                    ?.updateValueAndValidity();
+                }
+              }
+            }
+          }
+        });
     }
   }
   getNcbList() {
