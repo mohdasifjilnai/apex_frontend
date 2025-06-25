@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -80,16 +80,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   showExpiryDateErrorMessage: boolean = false;
   ExpiryPolicyType: any;
   journeyType: any;
+  vehcileFormData: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
     public bottomSheetRef: MatBottomSheetRef<VehicleDetailsPopupNewComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomsheetData: any,
     private renderer: Renderer2,
     public router: Router,
     private FormBuilder: FormBuilder,
-
     private datePipe: DatePipe
   ) {
     /**
@@ -130,6 +131,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.bottomsheetData,"00000000")
+    
+    
     let traceIDData =
       this.sharedDataService.traceIdResponse?.quote_data?.quotes_data;
     this.traceIdAllData = traceIDData;
@@ -160,59 +164,64 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.patchVehicleDetailsForm(traceIDData, this.bussiness_type);
     }
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    if (this.data?.data?.dialog_type == 'edit') {
+    if (window.innerWidth <= 999) {
+      this.vehcileFormData=this.bottomsheetData
+    } else {
+      this.vehcileFormData=this.data?.data
+    }
+    if (this.vehcileFormData?.dialog_type == 'edit') {
       this.editVehicleDetails = true;
-      if (this.data?.data?.value?.type_of_exp_policy_id != null) {
+      if (this.vehcileFormData?.value?.type_of_exp_policy_id != null) {
         this.isNewVehicle = false;
         this.bussiness_type = 'renewal';
       } else {
         this.bussiness_type = 'new';
       }
       this.makeValueSelected =
-        this.data?.data?.value?.vehicle_fuel?.rb_make_name;
+        this.vehcileFormData?.value?.vehicle_fuel?.rb_make_name;
       this.modelValueSelected =
-        this.data?.data?.value?.vehicle_fuel?.rb_model_name;
+        this.vehcileFormData?.value?.vehicle_fuel?.rb_model_name;
       this.variantValueSelected =
-        this.data?.data?.value?.vehicle_fuel?.rb_variant_name;
+        this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name;
       this.vehicleVariant(
-        this.data?.data?.value?.vehicle_fuel?.rb_variant_name,
+        this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name,
         true
       );
 
       this.vehicleDetailsForm.patchValue({
-        vehicle_make: this.data?.data?.value?.vehicle_fuel?.rb_make_name,
-        vehicle_model: this.data?.data?.value?.vehicle_fuel?.rb_model_name,
-        vehicle_variant: this.data?.data?.value?.vehicle_fuel?.rb_variant_name,
-        registration_city: this.data?.data?.value?.registration_city,
-        vehicle_fuel: this.data?.data?.value?.vehicle_fuel,
-        type_of_exp_policy_id: this.data?.data?.value?.type_of_exp_policy_id,
-        ncb_discount: this.data?.data?.value?.ncb_discount,
+        vehicle_make: this.vehcileFormData?.value?.vehicle_fuel?.rb_make_name,
+        vehicle_model: this.vehcileFormData?.value?.vehicle_fuel?.rb_model_name,
+        vehicle_variant: this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name,
+        registration_city: this.vehcileFormData?.value?.registration_city,
+        vehicle_fuel: this.vehcileFormData?.value?.vehicle_fuel,
+        type_of_exp_policy_id: this.vehcileFormData?.value?.type_of_exp_policy_id,
+        ncb_discount: this.vehcileFormData?.value?.ncb_discount,
         registration_date: this.datePipe.transform(
-          this.data?.data?.value?.registration_date,
+          this.vehcileFormData?.value?.registration_date,
           'yyyy-MM-dd'
         ),
-        // manufacture_date: new Date(this.data?.data?.value?.manufacture_date),
-        previous_claimed: this.data?.data?.value?.previous_claimed,
-        user_car: this.data?.data?.value?.user_car,
+        // manufacture_date: new Date(this.vehcileFormData?.value?.manufacture_date),
+        previous_claimed: this.vehcileFormData?.value?.previous_claimed,
+        user_car: this.vehcileFormData?.value?.user_car,
         previous_insurer:
-          this.data?.data?.value?.previous_insurer?.rb_insurer_code,
-        policy_expiry_date: this.data?.data?.value?.policy_expiry_date
+          this.vehcileFormData?.value?.previous_insurer?.rb_insurer_code,
+        policy_expiry_date: this.vehcileFormData?.value?.policy_expiry_date
           ? this.datePipe.transform(
-              this.data?.data?.value?.policy_expiry_date,
+              this.vehcileFormData?.value?.policy_expiry_date,
               'yyyy-MM-dd'
             )
           : '',
       });
       this.patchPreviousInsurer();
-      this.ncbDiscount = this.data?.data?.value?.ncb_discount;
+      this.ncbDiscount = this.vehcileFormData?.value?.ncb_discount;
       sessionStorage.setItem(
         'registrationDetails',
-        JSON.stringify(this.data?.data?.value?.previous_insurer)
+        JSON.stringify(this.vehcileFormData?.value?.previous_insurer)
       );
       this.vehiclePopupList = sessionStorage.getItem('mmv_data');
 
       this.getExpiringPolicy(false);
-      this.onExpiryPolicyChange(this.data?.data?.value?.policy_expiry);
+      this.onExpiryPolicyChange(this.vehcileFormData?.value?.policy_expiry);
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
@@ -278,7 +287,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             futureDate.setDate(currentDate.getDate() + 60);
           }
           if (parsedInputDate > futureDate) {
-            if (this.data?.data?.dialog_type != 'edit') {
+            if (this.vehcileFormData?.dialog_type != 'edit') {
               this.showExpiryDateErrorMessage = true;
             }
           } else {
@@ -1157,7 +1166,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.isNewVehicle = res?.is_new_vehicle;
             this.expiryList = res.expiring_policy_type;
             const isRbRenewal = sessionStorage.getItem('isRbRenewal');
-            if (this.data?.data?.dialog_type == 'edit') {
+            if (this.vehcileFormData?.dialog_type == 'edit') {
               for (let i = 0; i <= this.expiryList?.length - 1; i++) {
                 if (
                   this.expiryList[i]?.rb_expiring_policy_type_id ==
@@ -1237,7 +1246,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.isNewVehicle = res?.is_new_vehicle;
             this.expiryList = res.expiring_policy_type;
             const isRbRenewal = sessionStorage.getItem('isRbRenewal');
-            if (this.data?.data?.dialog_type == 'edit') {
+            if (this.vehcileFormData?.dialog_type == 'edit') {
               for (let i = 0; i <= this.expiryList?.length - 1; i++) {
                 if (
                   this.expiryList[i]?.rb_expiring_policy_type_id ==
@@ -1258,7 +1267,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.getNcbList();
           }
         });
-    }else if(this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.data?.data?.value?.policy_expiry== 'IDK'){
+    }else if(this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.vehcileFormData?.value?.policy_expiry== 'IDK'){
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
@@ -1268,7 +1277,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.isNewVehicle = res?.is_new_vehicle;
             this.expiryList = res.expiring_policy_type;
             const isRbRenewal = sessionStorage.getItem('isRbRenewal');
-            if (this.data?.data?.dialog_type == 'edit') {
+            if (this.vehcileFormData?.dialog_type == 'edit') {
               for (let i = 0; i <= this.expiryList?.length - 1; i++) {
                 if (
                   this.expiryList[i]?.rb_expiring_policy_type_id ==
@@ -1291,7 +1300,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 policy_expiry: this.coverageType.coverage_type_code,
               });
             }
-            if (this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.data?.data?.value?.policy_expiry== 'IDK') {
+            if (this.traceIdAllData?.policy_expiry_date == 'Not Sure' || this.vehcileFormData?.value?.policy_expiry== 'IDK') {
               for (let i = 0; i <= this.expiryList?.length - 1; i++) {
                 if (this.expiryList[i]?.rb_expiring_policy_type_code == 'IDK') {
                   this.showErrorMessage = false;
@@ -1337,7 +1346,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
         this.ncbListData = res;
-        const incomingNCB = this.data.data?.value?.ncb_discount;
+        const incomingNCB = this.vehcileFormData?.value?.ncb_discount;
 
         if (incomingNCB != undefined) {
           const matchedNCB = this.ncbListData.find(

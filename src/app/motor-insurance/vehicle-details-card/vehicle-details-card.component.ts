@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -344,7 +344,10 @@ export class VehicleDetailsCardComponent implements OnInit {
       Motor_Type: this.vehicleType,
     });
     if (window.innerWidth <= 999) {
-      this.bottomSheet.open(VehicleDetailsPopupNewComponent);
+      const bottomSheetConfig: MatBottomSheetConfig = {
+        data: cardData,
+      };
+      this.bottomSheet.open(VehicleDetailsPopupNewComponent,bottomSheetConfig);
     } else {
       this.openVehicleDetailsPopup(cardData);
     }

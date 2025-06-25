@@ -1289,13 +1289,13 @@ export class QuotesListingComponent implements OnInit {
               sessionStorage.getItem('registrationNumber');
             this.vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
             if (this.registrationNumber) {
-              this.sharedDataService.vehicleMMVDetails(
-                getProductTypeName,
-                this.mmvFormData,
-                'registrationNumber',
-                '',
-                notSendTransactionId
-              );
+              // this.sharedDataService.vehicleMMVDetails(
+              //   getProductTypeName,
+              //   this.mmvFormData,
+              //   'registrationNumber',
+              //   '',
+              //   notSendTransactionId
+              // );
             } else if (
               this.parsedVehicleData?.policy_expiry_date_email &&
               this.parsedVehicleData?.allQuotesRequest
@@ -1341,14 +1341,14 @@ export class QuotesListingComponent implements OnInit {
                 }
               }
               if (this.renewalDataList) {
-                this.sharedDataService.vehicleMMVDetails(
-                  getProductTypeName,
-                  this.mmvFormData,
-                  'mmvQuotes',
-                  '',
-                  notSendTransactionId
-                );
-                this.refreshPageApiHandling = true;
+                // this.sharedDataService.vehicleMMVDetails(
+                //   getProductTypeName,
+                //   this.mmvFormData,
+                //   'mmvQuotes',
+                //   '',
+                //   notSendTransactionId
+                // );
+                // this.refreshPageApiHandling = true;
               }
             }
             this.sharedDataService.addOnsChange(this.mmvFormData);
