@@ -365,6 +365,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       .subscribe((res) => {
         if (this.url == 'quotes') {
           this.getExpiringPolicy(true);
+          if(res){
+            this.showExpiryDateErrorMessage=false
+          }
         }
       });
     // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
@@ -1025,6 +1028,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm.get('policy_expiry_date')?.clearValidators();
       this.vehicleDetailsForm.get('previous_insurer')?.clearValidators();
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
+      this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
       this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
       this.vehicleDetailsForm.get('ncb_discount')?.reset();
       this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
@@ -1038,14 +1042,28 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.iDKSelected = false;
       this.hidePreviousClaimed = true;
       this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
+      this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
       this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
       this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
       this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
       this.vehicleDetailsForm.get('previous_claimed')?.updateValueAndValidity();
+      this.vehicleDetailsForm
+        .get('policy_expiry_date')
+        ?.setValidators([Validators.required]);
+        this.vehicleDetailsForm
+        .get('policy_expiry_date')
+        ?.updateValueAndValidity();
+      this.vehicleDetailsForm
+      .get('previous_insurer')
+      ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm.get('previous_insurer')?.updateValueAndValidity();
     } else if (value != '') {
       this.getNcbList();
       this.iDKSelected = false;
       this.hidePreviousClaimed = false;
+      if(!this.vehicleDetailsForm.value?.policy_expiry_date){
+        this.showExpiryDateErrorMessage=true;
+      }
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
