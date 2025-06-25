@@ -322,6 +322,7 @@
         mat-button
         class="submit-btn mb-2 vehicle-submission"
         type="submit"
+        [disabled]="vehicleDetailsForm.invalid"
       >
         {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
       </button>

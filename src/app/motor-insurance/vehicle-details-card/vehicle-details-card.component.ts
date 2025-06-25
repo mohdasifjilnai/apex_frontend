@@ -266,7 +266,11 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
 
   vehicleCardData(data: any) {
-    this.parsedVehicleData = data;
+    if(data?.form_value){
+      this.parsedVehicleData = data?.form_value;
+    }else{
+      this.parsedVehicleData = data;
+    }
     this.policyDate = '';
     this.previousInsurer = '';
     this.previousNCB = '';
