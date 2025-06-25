@@ -181,7 +181,7 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.currentPageUrl = this.router.url;
             if (!this.currentPageUrl.includes('proposal')) {
               if (window.innerWidth <= 999) {
-                this.bottomSheet.open(VehicleDetailsPopupComponent);
+                this.bottomSheet.open(VehicleDetailsPopupNewComponent);
                 this.sharedData.sendVehicleEditData(notCertified);
               } else {
                 // this.openVehicleDetailsPopup(null);
@@ -340,7 +340,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       Motor_Type: this.vehicleType,
     });
     if (window.innerWidth <= 999) {
-      this.bottomSheet.open(VehicleDetailsPopupComponent);
+      this.bottomSheet.open(VehicleDetailsPopupNewComponent);
     } else {
       this.openVehicleDetailsPopup(cardData);
     }

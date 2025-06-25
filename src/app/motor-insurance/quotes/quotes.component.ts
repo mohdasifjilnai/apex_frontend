@@ -211,7 +211,7 @@ export class QuotesComponent implements OnInit {
     if (quotesUrl) {
       if (vehiclePopup != 'true') {
         if (window.innerWidth <= 999) {
-          this.bottomSheet.open(VehicleDetailsPopupComponent, {
+          this.bottomSheet.open(VehicleDetailsPopupNewComponent, {
             disableClose: true, // Disable closing on outside click
           });
         } else {
@@ -245,7 +245,7 @@ export class QuotesComponent implements OnInit {
         ) {
           if (notCertified === 'quote') {
             if (window.innerWidth <= 999) {
-              this.bottomSheet.open(VehicleDetailsPopupComponent, {
+              this.bottomSheet.open(VehicleDetailsPopupNewComponent, {
                 disableClose: true, // Disable closing on outside click
               });
             } else {
