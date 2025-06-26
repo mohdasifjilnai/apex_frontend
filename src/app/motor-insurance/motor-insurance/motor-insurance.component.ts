@@ -126,6 +126,7 @@ export class MotorInsuranceComponent implements OnInit {
   policyNo: any;
   cvVehicleTypeList: any;
   selectedvehicleType: any;
+  vehiclePopup: any;
 
   constructor(
     private router: Router,
@@ -405,20 +406,30 @@ export class MotorInsuranceComponent implements OnInit {
         }
       }
     );
+
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
-        this.checkWheeler = JSON.parse(
-          sessionStorage.getItem('checkWheeler') || '{}'
+        this.vehiclePopup = JSON.parse(
+          sessionStorage.getItem('vehicleCheckPopupOpen') || ''
         );
-        if (
-          this.checkWheeler &&
-          Object.keys(this.checkWheeler).length > 0 &&
-          !this.vehicleCheck
-        ) {
-          this.isCheckWheeler = res.isCheckWheeler;
-          this.vaahanName = res.vaahanName;
-          this.vehicleCheck = true;
-          this.openVehicleDetailsPopup(null);
+        if (this.vehiclePopup == 'Call') {
+          this.checkWheeler = JSON.parse(
+            sessionStorage.getItem('checkWheeler') || '{}'
+          );
+          if (
+            this.checkWheeler &&
+            Object.keys(this.checkWheeler).length > 0 &&
+            !this.vehicleCheck
+          ) {
+            this.isCheckWheeler = res.isCheckWheeler;
+            this.vaahanName = res.vaahanName;
+            this.vehicleCheck = true;
+            this.openVehicleDetailsPopup(null);
+            sessionStorage.setItem(
+              'vehicleCheckPopupOpen',
+              JSON.stringify('Open')
+            );
+          }
         }
       }
     });
@@ -1003,16 +1014,16 @@ export class MotorInsuranceComponent implements OnInit {
           if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
             this.getVehicleDetailsInfo();
             // this.motorInsurance.reset();
-            sessionStorage.setItem('journeyType','registrationNumber')
+            sessionStorage.setItem('journeyType', 'registrationNumber');
           } else if (this.isPolicyNumber) {
             this.getRenewalPolicyData();
-            sessionStorage.setItem('journeyType','renewal')
+            sessionStorage.setItem('journeyType', 'renewal');
           } else {
             let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
-            if(this.disableInsurer){
-              sessionStorage.setItem('journeyType','new')
-            }else{
-              sessionStorage.setItem('journeyType','Rollover')
+            if (this.disableInsurer) {
+              sessionStorage.setItem('journeyType', 'new');
+            } else {
+              sessionStorage.setItem('journeyType', 'Rollover');
             }
             sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
             this.router.navigate([`quotes/${this.traceId}`]);

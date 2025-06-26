@@ -245,7 +245,7 @@ export class SharedDataService {
   insurerData(data: any) {
     this.disableInsurer?.next(data);
   }
-  previousInsurerDisabled(data:any){
+  previousInsurerDisabled(data: any) {
     this.buttonDisabledPreviousInsurer?.next(data);
   }
 
@@ -347,6 +347,10 @@ export class SharedDataService {
               ? 'Partner'
               : 'Customer',
           });
+          sessionStorage.setItem(
+            'vehicleCheckPopupOpen',
+            JSON.stringify('Call')
+          );
           this.checkVehicleType.next(vehicledata);
         }
       } else {

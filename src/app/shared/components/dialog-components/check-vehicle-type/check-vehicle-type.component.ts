@@ -24,14 +24,21 @@ export class CheckVehicleTypeComponent implements OnInit {
   vehicleTypeValue: any;
   checkWheeler: any;
   traceIdData: any;
+  vehiclePopup: any;
   ngOnInit(): void {
+    this.vehiclePopup = JSON.parse(
+      sessionStorage.getItem('vehicleCheckPopupOpen') || ''
+    );
     this.sharedDataService.checkVehicleType.subscribe((res) => {
-      if (res) {
-        this.isCheckWheeler = res.isCheckWheeler;
-        this.vaahanName = res.vaahanName;
-        this.checkWheeler = JSON.parse(
-          sessionStorage.getItem('checkWheeler') || '{}'
-        );
+      if (res && this.vehiclePopup == 'Open') {
+        if (this.dialogRef.componentInstance != null) {
+          this.isCheckWheeler = res.isCheckWheeler;
+          this.vaahanName = res.vaahanName;
+          this.checkWheeler = JSON.parse(
+            sessionStorage.getItem('checkWheeler') || '{}'
+          );
+          sessionStorage.setItem('vehicleCheckPopupOpen', 'true');
+        }
       }
     });
   }
