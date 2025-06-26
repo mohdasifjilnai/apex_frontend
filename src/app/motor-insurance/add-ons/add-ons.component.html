@@ -47,8 +47,8 @@
                 )
               "
               [disabled]="enableAddOns"
-              >{{ listValue?.name }}</mat-checkbox
-            >
+              >{{ listValue?.name }}
+            </mat-checkbox>
 
             <span
               *ngIf="
@@ -228,6 +228,7 @@
     </div>
   </div>
   <hr />
+
   <div *ngIf="loader" class="text-center">
     <img src="assets/gif/loading-gif.gif" alt="Loading..." class="loader" />
   </div>
@@ -285,19 +286,20 @@
                   class="d-grid m-1 ms-4"
                 >
                   <mat-checkbox
-                    *ngFor="let data of listValue.value"
+                    *ngFor="let data of listValue.modifiedMultiCheckList"
                     (change)="
                       onInputChange(
                         $event,
                         listValue?.next_type,
                         i,
                         listValue?.name,
-                        listValue?.rb_code
+                        listValue?.rb_code,
+                        data?.name
                       )
                     "
                     [(ngModel)]="data.multiChecked"
-                    >{{ data }}</mat-checkbox
-                  >
+                    >{{ data.name }}
+                  </mat-checkbox>
                   <mat-error *ngIf="i == multiCheckbox[i]">
                     Please select a country.
                   </mat-error>
