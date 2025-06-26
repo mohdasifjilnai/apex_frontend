@@ -105,6 +105,7 @@
             <mat-autocomplete
               #autoVariant="matAutocomplete"
               (optionSelected)="vehicleVariant($event.option, false)"
+              (optionSelected)="varientSelected($event.option)"
             >
               <span *ngIf="!variantDataNotAvailable">
                 <mat-option
@@ -309,7 +310,7 @@
             mat-button
             class="submit-btn mb-2 vehicle-submission"
             type="submit"
-            [disabled]="vehicleDetailsForm.invalid"
+            [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
           >
             {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
@@ -322,7 +323,7 @@
         mat-button
         class="submit-btn mb-2 vehicle-submission"
         type="submit"
-        [disabled]="vehicleDetailsForm.invalid"
+        [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
       >
         {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
       </button>

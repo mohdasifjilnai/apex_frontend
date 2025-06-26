@@ -210,18 +210,18 @@ export class ChooseIDVComponent implements OnInit {
           this.amountShow = chooseIdvAmount?.chooseIdv;
         } else {
           this.amountShow = this.data?.averageIdv;
-          this.investedAmount = JSON.parse(this.data?.averageIdv);
+          this.investedAmount = JSON.parse(this.data?.averageIdv || '{}');
         }
       } else {
         this.minIdv = this.data?.minIdv;
         this.maxIdv = this.data?.maxIdv;
         this.amountShow = this.data?.averageIdv;
-        this.investedAmount = JSON.parse(this.data?.averageIdv);
+        this.investedAmount = JSON.parse(this.data?.averageIdv || '{}');
       }
       this.chooseIdvForm.patchValue({
         chooseIdv: this.amountShow,
       });
-      this.investedAmount = JSON.parse(this.data?.averageIdv);
+      this.investedAmount = JSON.parse(this.data?.averageIdv || '{}');
       this.changeToCurrency();
     }
 

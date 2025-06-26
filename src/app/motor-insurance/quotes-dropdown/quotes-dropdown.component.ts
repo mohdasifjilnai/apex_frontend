@@ -88,19 +88,23 @@ export class QuotesDropdownComponent implements OnInit {
       this.quotationData = [];
       this.errorQuotationArray = [];
       this.chooseIdvArray = [];
-      if (this.registrationNumber) {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'registrationNumber'
-        );
-      } else {
-        this.sharedDataService.vehicleMMVDetails(
-          productTypeValue,
-          mmvFormData,
-          'mmvQuotes'
-        );
-      }
+      // if (this.registrationNumber) {
+      //   // this.sharedDataService.vehicleMMVDetails(
+      //   //   productTypeValue,
+      //   //   mmvFormData,
+      //   //   'registrationNumber'
+      //   // );
+        
+      // } else {
+      //   this.sharedDataService.vehicleMMVDetails(
+      //     productTypeValue,
+      //     mmvFormData,
+      //     'mmvQuotes'
+      //   );
+      // }
+      this.sharedDataService.initiate_Quotes_APi(
+        JSON.parse(mmvFormData || '{}')
+      );
       this.sharedDataService.addOnsChange(mmvFormData);
       this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
     } else {

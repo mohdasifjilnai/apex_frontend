@@ -131,9 +131,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.bottomsheetData,"00000000")
-    
-    
     let traceIDData =
       this.sharedDataService.traceIdResponse?.quote_data?.quotes_data;
     this.traceIdAllData = traceIDData;
@@ -649,9 +646,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
    */
   vehicleVariant(variant: any, variant_code: any) {
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+    this.mmvBaseButtonDisable=true
     if (
       typeof this.variantValueSelected != 'object' &&
-      this.variantValueSelected != undefined
+      this.modelValueSelected!=undefined
     ) {
       if (variant_code) {
         var apiData = `?product_name=${this.vehicleTypeValue}&make=${this.makeValueSelected}&model=${this.modelValueSelected}&variant=${variant}`;
@@ -668,6 +666,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.variantDataNotAvailable = false;
             this.fuelList = res;
             this.variantList = res;
+            if(this.variantList[0]?.rb_variant_name==variant){
+              this.mmvBaseButtonDisable=false
+            }
           }
           if (this.fuelList?.length == 1) {
             this.vehicleDetailsForm.patchValue({
@@ -682,6 +683,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
         });
     }
+  }
+  varientSelected(option:any){
+    this.mmvBaseButtonDisable=false
   }
 
   /**
@@ -701,6 +705,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             });
           }
         });
+    }
+    if (
+      typeof this.vehicleDetailsForm.value.vehicle_fuel == 'object' &&
+      typeof this.vehicleDetailsForm.value.registration_city == 'object'
+    ) {
+      this.mmvBaseButtonDisable=false;
+    }else{
+      this.mmvBaseButtonDisable=true;
     }
   }
   // Function to display the value in the input box
@@ -1341,7 +1353,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
   }
   getNcbList() {
-    this.mmvBaseButtonDisable = true;
     this.apiservice
       .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
