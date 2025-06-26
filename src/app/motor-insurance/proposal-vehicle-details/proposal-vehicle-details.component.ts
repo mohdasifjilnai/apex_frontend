@@ -345,12 +345,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
           let regLastDigit =
             proposal?.vehicle_details?.registration_no.split(combineRegData);
-          if (regLastDigit) {
-            const regParts = regLastDigit[1].map((item: string) => item.replace(/,/g, '').match(/^([a-zA-Z]+)([0-9]+)$/));;
-            if (regParts) {
-              regLastDigit = regParts.slice(1).join('-');
-            }
-          }
+          // if (regLastDigit) {
+          //   const regParts = regLastDigit[1].map((item: string) => item.replace(/,/g, '').match(/^([a-zA-Z]+)([0-9]+)$/));;
+          //   // if (regParts) {
+          //   //   regLastDigit = regParts.slice(1).join('-');
+          //   // }
+          // }
           const [dayReg, monthReg, yearReg] =
             proposal?.vehicle_details?.registration_date.split('/').map(Number);
           const reformattedRegDate = new Date(yearReg, monthReg - 1, dayReg);
@@ -361,7 +361,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           const reformattedManufactureDate = new Date(year, month - 1, day);
           this.proposalVehilceDetailsForm.patchValue({
             registration_number: proposal?.vehicle_details?.registration_no,
-            registration_number_last_digit: regLastDigit,
+            registration_number_last_digit: regLastDigit[1],
             registration_number_first: regFirstDigit,
             registration_number_second: regSecondDigit,
             registration_date: reformattedRegDate,
