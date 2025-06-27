@@ -1494,6 +1494,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     } else {
       apiUrl = `?previous_policy_number=${policy_number}`;
     }
+    const renewalType=sessionStorage.getItem('renewalType')
+    if(renewalType=='renewal' ){
+      this.proposalVehilceDetailsForm.get('engine_number')?.disable();
+      this.proposalVehilceDetailsForm.get('chassis_number')?.disable();
+    }
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
@@ -1521,6 +1526,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               this.proposalVehilceDetailsForm
                 .get('registration_number_last_digit')
                 ?.enable();
+                this.proposalVehilceDetailsForm.get('engine_number')?.disable();
+            this.proposalVehilceDetailsForm.get('chassis_number')?.disable();
             } else {
               this.isRegistrationNumber = true;
               let regFirstDigit = regNumbers?.slice(0, 2);

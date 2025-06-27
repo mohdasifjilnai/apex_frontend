@@ -254,7 +254,7 @@ export class CkycComponent implements OnInit {
 
         let apiUrl;
 
-        apiUrl = `?registration_number=${this.regNo.toUpperCase()}`;
+        apiUrl = `?registration_number=${this.regNo?.toUpperCase()}`;
 
         this.apiService
           .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
