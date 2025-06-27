@@ -891,7 +891,7 @@ export class ProposalReviewComponent implements OnInit {
           }&vehicle_type=${
             this.proposalData?.quote_request?.vehicle_type
           }&previous_policy_type=${
-            previousPolicyType?.policy_expiry
+            previousPolicyType?.form_value?.policy_expiry
           }&previous_policy_expiry_date=${policyExpiryDate}`
         )
         .subscribe((res: any) => {

@@ -110,7 +110,9 @@ export class InsuranceDetailsComponent implements OnInit {
       this.mmvData = mmv_data;
     });
     this.sharedData.getPlanType.subscribe((planType) => {
-      this.planType = planType;
+      if (planType) {
+        this.planType = planType;
+      }
     });
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
@@ -199,12 +201,13 @@ export class InsuranceDetailsComponent implements OnInit {
         }
       }
     });
-    let mmv_Data:any =JSON.parse(sessionStorage.getItem('mmv_data') || '{}')
-    if(mmv_Data?.form_value){
-      this.mmvFOrmData=mmv_Data?.form_value
+    let mmv_Data: any = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    if (mmv_Data?.form_value) {
+      this.mmvFOrmData = mmv_Data?.form_value;
     }
     this.sharedDataService?.insurerDetails?.subscribe((getInsurerDetails) => {
-      this.mmvFOrmData = getInsurerDetails?.quote_request?.meta_data?.mmv_form_data?.form_value;
+      this.mmvFOrmData =
+        getInsurerDetails?.quote_request?.meta_data?.mmv_form_data?.form_value;
     });
   }
 
