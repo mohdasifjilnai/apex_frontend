@@ -403,7 +403,7 @@ export class ChooseIDVComponent implements OnInit {
         ) {
           this.updateIdvButton = false;
           let idvData = {
-            chooseIdv: this.chooseIdvForm.value.chooseIdv,
+            chooseIdv: this.investedAmount,
             buttonData: this.updateIdvButton,
           };
           this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
