@@ -159,7 +159,8 @@ export class PreviousInsurerComponent implements OnInit {
   }
   getInsurerData(name: any) {
     this.shareDataService.previousInsurerDisabled(true)
-    this.apiservice
+    if(name!=null){
+      this.apiservice
       .getRequestedResponse(
         `${ApiConstants.get_previous_insurer()}?search_element=${name}`
       )
@@ -220,6 +221,7 @@ export class PreviousInsurerComponent implements OnInit {
         );
       });
     this.sendResponse(this.previousInsurerNoData);
+    }
   }
 
   filterInsurer(name: string, insururResponse: any): Observable<any[]> {
