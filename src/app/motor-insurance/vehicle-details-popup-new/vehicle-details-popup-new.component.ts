@@ -1403,7 +1403,8 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             }
           }
         });
-    }if(this.policyExpiryDate!=null && expiry_date==''){
+    }
+    if(this.policyExpiryDate!=null && expiry_date=='' &&this.regDateObj != null && this.regDateObj != ''){
       let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${this.policyExpiryDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
 
       this.apiservice
@@ -1486,90 +1487,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
         });
     }
-    if (this.policyExpiryDate != null && expiry_date == '') {
-      let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${this.policyExpiryDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
 
-      console.log('kjhgfdghjkl');
-      this.apiservice
-        .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
-        )
-        ?.subscribe((res) => {
-          if (res) {
-            this.isNewVehicle = res?.is_new_vehicle;
-            this.expiryList = res.expiring_policy_type;
-            const isRbRenewal = sessionStorage.getItem('isRbRenewal');
-            if (this.vehcileFormData?.dialog_type == 'edit') {
-              for (let i = 0; i <= this.expiryList?.length - 1; i++) {
-                if (
-                  this.expiryList[i]?.rb_expiring_policy_type_id ==
-                  this.vehicleDetailsForm.value?.type_of_exp_policy_id
-                ) {
-                  this.showErrorMessage = false;
-                  this.vehicleDetailsForm.patchValue({
-                    policy_expiry:
-                      this.expiryList[i]?.rb_expiring_policy_type_code,
-                  });
-                  if (
-                    this.expiryList[i]?.rb_expiring_policy_type_code == 'IDK'
-                  ) {
-                    this.iDKSelected = true;
-                  }
-                }
-              }
-            } else if (isRbRenewal == 'true') {
-              this.vehicleDetailsForm.patchValue({
-                policy_expiry: this.coverageType.coverage_type_code,
-              });
-            }
-            if (this.traceIdAllData?.policy_expiry_date == 'Not Sure') {
-              for (let i = 0; i <= this.expiryList?.length - 1; i++) {
-                if (this.expiryList[i]?.rb_expiring_policy_type_code == 'IDK') {
-                  this.showErrorMessage = false;
-                  this.vehicleDetailsForm.patchValue({
-                    policy_expiry:
-                      this.expiryList[i]?.rb_expiring_policy_type_code,
-                  });
-                  this.iDKSelected = true;
-                  this.vehicleDetailsForm
-                    .get('policy_expiry_date')
-                    ?.clearValidators();
-                  this.vehicleDetailsForm
-                    .get('previous_insurer')
-                    ?.clearValidators();
-                  this.vehicleDetailsForm
-                    .get('previous_claimed')
-                    ?.clearValidators();
-                  this.vehicleDetailsForm
-                    .get('ncb_discount')
-                    ?.clearValidators();
-                  this.vehicleDetailsForm
-                    .get('ncb_discount')
-                    ?.updateValueAndValidity();
-                  this.vehicleDetailsForm
-                    .get('previous_claimed')
-                    ?.updateValueAndValidity();
-                  this.vehicleDetailsForm
-                    .get('previous_insurer')
-                    ?.updateValueAndValidity();
-                  this.vehicleDetailsForm
-                    .get('policy_expiry_date')
-                    ?.updateValueAndValidity();
-                }
-              }
-            }
-            if (
-              !(
-                this.ExpiryPolicyType == 'bundled_tp' ||
-                this.ExpiryPolicyType == 'satp'
-              )
-            ) {
-              this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
-              this.getNcbList();
-            }
-          }
-        });
-    }
   }
   getNcbList() {
     this.apiservice
