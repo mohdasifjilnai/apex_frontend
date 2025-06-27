@@ -29,7 +29,11 @@
       <div class="row vehicle-details-form">
         <!-- Make/Model dropdown -->
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown"
+            [ngClass]="is_renewal ? 'visually-disabled' : ''"
+          >
             <mat-label>Make</mat-label>
             <input
               matInput
@@ -58,8 +62,10 @@
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field appearance="outline" class="vehicle-details-dropdown"
-          [ngClass]="is_renewal? 'visually-disabled': ''"
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown"
+            [ngClass]="is_renewal ? 'visually-disabled' : ''"
           >
             <mat-label>Model</mat-label>
             <input
@@ -89,9 +95,10 @@
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field appearance="outline" class="vehicle-details-dropdown" 
-          [ngClass]="is_renewal? 'visually-disabled': ''
-        "
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown"
+            [ngClass]="is_renewal ? 'visually-disabled' : ''"
           >
             <mat-label>Varient</mat-label>
             <input
@@ -125,7 +132,11 @@
           </div>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown"
+            [ngClass]="is_renewal ? 'visually-disabled' : ''"
+          >
             <mat-label>Fuel</mat-label>
             <mat-select formControlName="vehicle_fuel">
               <mat-option *ngFor="let fuel of fuelList" [value]="fuel">
@@ -135,7 +146,11 @@
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field appearance="outline" class="vehicle-details-dropdown" [ngClass]="is_renewal? 'visually-disabled': ''">
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown"
+            [ngClass]="is_renewal ? 'visually-disabled' : ''"
+          >
             <mat-label>Registration City</mat-label>
             <input
               matInput
@@ -177,7 +192,7 @@
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
-              [ngClass]="is_renewal? 'visually-disabled': ''"
+              [ngClass]="is_renewal ? 'visually-disabled' : ''"
             >
               <mat-label
                 >Used
@@ -197,11 +212,11 @@
             </mat-form-field>
           </div>
           <!-- Type of Expiring Policy dropdown -->
-          <div class="col-lg-6 col-md-6 col-12" >
+          <div class="col-lg-6 col-md-6 col-12">
             <mat-form-field
               appearance="outline"
               class="vehicle-details-dropdown"
-              [ngClass]="is_renewal? 'visually-disabled': ''"
+              [ngClass]="is_renewal ? 'visually-disabled' : ''"
             >
               <mat-label>Type of Expiring Policy</mat-label>
               <mat-select
@@ -261,56 +276,58 @@
               ></app-previous-insurer>
             </div>
             <!-- Is Previous Policy Claimed dropdown -->
-          
-          <ng-container *ngIf="!hidePreviousClaimed">
-            <div class="col-lg-6 col-md-6 col-12">
-              <mat-form-field
-                appearance="outline"
-                class="vehicle-details-dropdown"
-              >
-                <mat-label>Is Previous Policy Claimed?</mat-label>
-                <mat-select
-                  formControlName="previous_claimed"
-                  (selectionChange)="claimedPolicy($event.value)"
-                >
-                  <mat-option
-                    *ngFor="let claimed of claimedList"
-                    [value]="claimed?.value"
-                  >
-                    {{ claimed?.claimedName }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <!-- Previous Year NCB Discount dropdown -->
-            <ng-container>
+
+            <ng-container *ngIf="!hidePreviousClaimed">
               <div class="col-lg-6 col-md-6 col-12">
                 <mat-form-field
                   appearance="outline"
                   class="vehicle-details-dropdown"
-                  [ngClass]="is_renewal? 'visually-disabled': ''"
                 >
-                  <mat-label>Previous Year NCB Discount</mat-label>
+                  <mat-label>Is Previous Policy Claimed?</mat-label>
                   <mat-select
-                    formControlName="ncb_discount"
-                    [(value)]="ncbDiscount"
+                    formControlName="previous_claimed"
+                    (selectionChange)="claimedPolicy($event.value)"
                   >
-                    <mat-option *ngFor="let ncb of ncbListData" [value]="ncb">
-                      {{ ncb?.old_ncb_name }}
+                    <mat-option
+                      *ngFor="let claimed of claimedList"
+                      [value]="claimed?.value"
+                    >
+                      {{ claimed?.claimedName }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
+              <!-- Previous Year NCB Discount dropdown -->
+              <ng-container>
+                <div class="col-lg-6 col-md-6 col-12">
+                  <mat-form-field
+                    appearance="outline"
+                    class="vehicle-details-dropdown"
+                    [ngClass]="is_renewal ? 'visually-disabled' : ''"
+                  >
+                    <mat-label>Previous Year NCB Discount</mat-label>
+                    <mat-select
+                      formControlName="ncb_discount"
+                      [(value)]="ncbDiscount"
+                    >
+                      <mat-option *ngFor="let ncb of ncbListData" [value]="ncb">
+                        {{ ncb?.old_ncb_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </ng-container>
             </ng-container>
           </ng-container>
-        </ng-container>
         </ng-container>
         <div class="col-lg-6 col-12 web-button">
           <button
             mat-button
             class="submit-btn mb-2 vehicle-submission"
             type="submit"
-            [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
+            [disabled]="
+              vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
+            "
           >
             {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
@@ -323,7 +340,9 @@
         mat-button
         class="submit-btn mb-2 vehicle-submission"
         type="submit"
-        [disabled]="vehicleDetailsForm.invalid || mmvBaseButtonDisable"
+        [disabled]="
+          vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
+        "
       >
         {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
       </button>

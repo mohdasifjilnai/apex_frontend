@@ -86,6 +86,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   vehcileFormData: any;
   renewalPopup: any;
   policyExpiryDate: any;
+  editButton = false;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -172,6 +173,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehcileFormData = this.data?.data;
     }
     if (this.vehcileFormData?.dialog_type == 'edit') {
+      this.editButton = true;
       this.editVehicleDetails = true;
       if (this.vehcileFormData?.value?.type_of_exp_policy_id != null) {
         this.isNewVehicle = false;
@@ -226,6 +228,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
       this.getExpiringPolicy(false);
       this.onExpiryPolicyChange(this.vehcileFormData?.value?.policy_expiry);
+      setTimeout(() => {
+        this.editButton = false;
+      }, 5000);
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
@@ -271,7 +276,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           let [day, month, year] = inputDate.split('/');
           let reformattedDate = `${month}/${day}/${year}`;
           let parsedInputDate = new Date(reformattedDate);
-          this.policyExpiryDate=this.datePipe.transform(parsedInputDate,'dd/MM/yyyy')
+          this.policyExpiryDate = this.datePipe.transform(
+            parsedInputDate,
+            'dd/MM/yyyy'
+          );
           // Get the current date and add 60 days
           let currentDate = new Date();
           let futureDate = new Date();
@@ -359,6 +367,13 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               ?.updateValueAndValidity();
             this.vehicleDetailsForm
               .get('previous_claimed')
+              ?.updateValueAndValidity();
+          } else {
+            this.vehicleDetailsForm
+              .get('ncb_discount')
+              ?.setValidators([Validators.required]);
+            this.vehicleDetailsForm
+              .get('ncb_discount')
               ?.updateValueAndValidity();
           }
           this.getExpiringPolicy(true);
@@ -1367,10 +1382,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             }
           }
         });
-    }if(this.policyExpiryDate!=null && expiry_date==''){
+    }
+    if (this.policyExpiryDate != null && expiry_date == '') {
       let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${this.policyExpiryDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
 
-      console.log('kjhgfdghjkl')
+      console.log('kjhgfdghjkl');
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
@@ -1460,8 +1476,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         const incomingNCB = this.vehcileFormData?.value?.ncb_discount;
 
         if (incomingNCB != undefined) {
+          let getNcbValue =
+            incomingNCB.old_ncb_value == undefined
+              ? incomingNCB
+              : incomingNCB.old_ncb_value;
           const matchedNCB = this.ncbListData.find(
-            (item: any) => item.old_ncb_value === incomingNCB.old_ncb_value
+            (item: any) => item.old_ncb_value === getNcbValue
           );
 
           if (matchedNCB) {
