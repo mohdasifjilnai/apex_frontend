@@ -153,12 +153,19 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           policy_expiry_date: previousPolicyData?.policy_expiry_date,
           tp_insurance_company:
             previousPolicyData?.tp_policy_details?.tp_insurer_code,
-          tp_policy_number: previousPolicyData?.tp_policy_details?.tp_policy_no,
+
           tp_policy_start_date:
             previousPolicyData?.tp_policy_details?.tp_policy_start_date,
           tp_policy_end_date:
             previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
         });
+        if (previousPolicyData?.tp_policy_details?.tp_policy_no) {
+          this.previousPolicyDetailsForm.patchValue({
+            tp_policy_number:
+              previousPolicyData?.tp_policy_details?.tp_policy_no,
+          });
+        }
+
         this.apiservice
           .getRequestedResponse(ApiConstants.get_previous_insurer())
           .subscribe((response: any) => {
@@ -195,8 +202,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
         tp_insurance_company:
           previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
-        tp_policy_number:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_no,
+        tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no
+          ? previousPolicyDetails?.tp_policy_details?.tp_policy_no
+          : '',
         tp_policy_start_date:
           previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
         tp_policy_end_date:
@@ -426,14 +434,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         renewalDataType == 'renewal' &&
         proposal?.previous_policy_details != undefined
       ) {
-        const [day, month, year] =
-          proposal?.previous_policy_details?.policy_expiry_date
-            .split('/')
-            .map(Number);
-        const reformattedPolicyExpDate = new Date(year, month - 1, day);
-        this.previousPolicyDetailsForm.patchValue({
-          policy_expiry_date: reformattedPolicyExpDate,
-        });
+        if (proposal?.previous_policy_details?.policy_expiry_date) {
+          const [day, month, year] =
+            proposal?.previous_policy_details?.policy_expiry_date
+              .split('/')
+              .map(Number);
+          const reformattedPolicyExpDate = new Date(year, month - 1, day);
+          this.previousPolicyDetailsForm.patchValue({
+            policy_expiry_date: reformattedPolicyExpDate,
+          });
+        }
       }
     });
     this.sharedData?.getOwnnerAddres?.subscribe((ownerAddres) => {
