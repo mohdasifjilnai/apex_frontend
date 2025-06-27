@@ -358,38 +358,74 @@ export class ChooseIDVComponent implements OnInit {
       this.chooseIdvForm.value.chooseIdv != undefined &&
       this.chooseIdvForm.value.chooseIdv != ''
     ) {
-      this.investedAmount = this.chooseIdvForm.value.chooseIdv
-        ? JSON.parse(this.chooseIdvForm.value.chooseIdv)
-        : 0;
-    }
-    if (!this.enableIdvCard) {
-      if (
-        this.investedAmount >= this.minIdv &&
-        this.investedAmount <= this.maxIdv
-      ) {
-        this.updateIdvButton = false;
-        let idvData = {
-          chooseIdv: this.chooseIdvForm.value.chooseIdv,
-          buttonData: this.updateIdvButton,
-        };
-        this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
-      } else {
-        let idvAmountValue = 0;
-        if (selectedAmount == '') {
-          idvAmountValue = this.minIdv;
-        } else if (selectedAmount < this.minIdv) {
-          idvAmountValue = this.minIdv;
-        } else if (selectedAmount > this.maxIdv) {
-          idvAmountValue = this.maxIdv;
+      if (!this.isMobileView) {
+        this.investedAmount = this.chooseIdvForm.value.chooseIdv
+          ? Number(this.chooseIdvForm.value.chooseIdv)
+          : 0;
+        if (!this.enableIdvCard) {
+          if (
+            this.investedAmount >= this.minIdv &&
+            this.investedAmount <= this.maxIdv
+          ) {
+            this.updateIdvButton = false;
+            let idvData = {
+              chooseIdv: this.chooseIdvForm.value.chooseIdv,
+              buttonData: this.updateIdvButton,
+            };
+            this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
+          } else {
+            let idvAmountValue = 0;
+            if (selectedAmount == '') {
+              idvAmountValue = this.minIdv;
+            } else if (selectedAmount < this.minIdv) {
+              idvAmountValue = this.minIdv;
+            } else if (selectedAmount > this.maxIdv) {
+              idvAmountValue = this.maxIdv;
+            }
+            this.updateIdvButton = true;
+            if (idvAmountValue != 0) {
+              let idvData = {
+                chooseIdv: idvAmountValue,
+                buttonData: this.updateIdvButton,
+              };
+              this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
+            }
+          }
         }
-        this.updateIdvButton = true;
-        if (idvAmountValue != 0) {
+      } else {
+        let num = Number(this.chooseIdvForm.value.chooseIdv.replace(/,/g, ''));
+
+        this.investedAmount = num ? num : 0;
+        // if (!this.enableIdvCard) {
+        if (
+          this.investedAmount >= this.minIdv &&
+          this.investedAmount <= this.maxIdv
+        ) {
+          this.updateIdvButton = false;
           let idvData = {
-            chooseIdv: idvAmountValue,
+            chooseIdv: this.chooseIdvForm.value.chooseIdv,
             buttonData: this.updateIdvButton,
           };
           this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
+        } else {
+          let idvAmountValue = 0;
+          if (selectedAmount == '') {
+            idvAmountValue = this.minIdv;
+          } else if (selectedAmount < this.minIdv) {
+            idvAmountValue = this.minIdv;
+          } else if (selectedAmount > this.maxIdv) {
+            idvAmountValue = this.maxIdv;
+          }
+          this.updateIdvButton = true;
+          if (idvAmountValue != 0) {
+            let idvData = {
+              chooseIdv: idvAmountValue,
+              buttonData: this.updateIdvButton,
+            };
+            this.sharedDataService.sendIdvToAddon(JSON.stringify(idvData));
+          }
         }
+        // }
       }
     }
 
