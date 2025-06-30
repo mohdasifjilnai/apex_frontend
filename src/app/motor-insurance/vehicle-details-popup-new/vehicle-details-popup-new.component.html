@@ -329,6 +329,12 @@
               vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
             "
           >
+          <img
+          src="assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-2"
+          *ngIf="editButton"
+        />
             {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
         </div>
@@ -343,7 +349,12 @@
         [disabled]="
           vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
         "
-      >
+      > <img
+      src="assets/gif/button-loader.gif"
+      alt="close"
+      class="loader me-2"
+      *ngIf="editButton"
+    />
         {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
       </button>
       <span class="mandatory">* Mandatory Fields</span>
