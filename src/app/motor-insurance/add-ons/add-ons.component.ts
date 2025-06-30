@@ -212,7 +212,7 @@ export class AddOnsComponent implements OnInit {
     });
 
     this.sharedDataService.getIdvValue.subscribe((idvData) => {
-      if (idvData) {
+      if (idvData && !this.isMobileView) {
         this.idvAmount = idvData;
         let allIdvData = JSON.parse(this.idvAmount);
         this.updateButtonIdv = allIdvData.buttonData;
