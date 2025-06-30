@@ -302,7 +302,7 @@ export class ChooseIDVComponent implements OnInit {
     );
     this.updateIdvButton = true;
     let mmvFormData = sessionStorage.getItem('mmv_data');
-    this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
+    // this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
     this.idvBaseQuotes();
     webengage.track('IDV_filter_Applied', {
       // Option_Selected: option,
@@ -344,11 +344,10 @@ export class ChooseIDVComponent implements OnInit {
         JSON.parse(mmvFormData || '{}')
       );
     } else {
-      if(!this.isMobileView){
         this.sharedDataService.initiate_Quotes_APi(
           JSON.parse(mmvFormData || '{}')
         );
-      }
+      
     }
     this.enableIdvCard = true;
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
