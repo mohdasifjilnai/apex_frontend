@@ -344,9 +344,11 @@ export class ChooseIDVComponent implements OnInit {
         JSON.parse(mmvFormData || '{}')
       );
     } else {
-      this.sharedDataService.initiate_Quotes_APi(
-        JSON.parse(mmvFormData || '{}')
-      );
+      if(!this.isMobileView){
+        this.sharedDataService.initiate_Quotes_APi(
+          JSON.parse(mmvFormData || '{}')
+        );
+      }
     }
     this.enableIdvCard = true;
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
