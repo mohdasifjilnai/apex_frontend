@@ -42,6 +42,7 @@ export class ChooseIDVComponent implements OnInit {
   currency: any;
   userType: any;
   vehicleTypeValue: any;
+  avgIdv: any;
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -158,9 +159,11 @@ export class ChooseIDVComponent implements OnInit {
           this.investedAmount = this.averageIdv;
           this.amountShow = this.averageIdv;
         }
+
         this.chooseIdvForm.patchValue({
           chooseIdv: this.investedAmount,
         });
+        sessionStorage.setItem('averageIdv', this.averageIdv);
         this.changeToCurrency();
       }
     });
@@ -315,8 +318,10 @@ export class ChooseIDVComponent implements OnInit {
       Motor_Type: this.vehicleTypeValue,
     });
     // this.sharedDataService.sendCarLoaderMessage(0);
-    this.investedAmount = this.averageIdv;
-    this.chooseIdvForm.get('chooseIdv')?.setValue(this.averageIdv);
+
+    this.avgIdv = sessionStorage.getItem('averageIdv');
+    this.investedAmount = JSON.parse(this.avgIdv);
+    this.chooseIdvForm.get('chooseIdv')?.setValue(JSON.parse(this.avgIdv));
     this.updateIdvButton = true;
     if (window.innerWidth <= 999) {
       this.bottomSheetRef.dismiss();
@@ -326,6 +331,7 @@ export class ChooseIDVComponent implements OnInit {
     let idvData = sessionStorage.getItem('idvData');
     if (idvData) {
       sessionStorage.removeItem('idvData');
+
       this.idvBaseQuotes();
     }
   }
@@ -334,16 +340,12 @@ export class ChooseIDVComponent implements OnInit {
     let mmvFormData = sessionStorage.getItem('mmv_data');
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     if (this.registrationNumber) {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'registrationNumber'
+      this.sharedDataService.initiate_Quotes_APi(
+        JSON.parse(mmvFormData || '{}')
       );
     } else {
-      this.sharedDataService.vehicleMMVDetails(
-        productTypeValue,
-        mmvFormData,
-        'mmvQuotes'
+      this.sharedDataService.initiate_Quotes_APi(
+        JSON.parse(mmvFormData || '{}')
       );
     }
     this.enableIdvCard = true;
