@@ -126,10 +126,11 @@
         </div>
         </div>
         
-        <div class="res-gst-earning col-lg-3 col-md-3 col-4 ms-2">
+        <div class="res-gst-earning col-lg-3 col-md-3 col-4 ms-2" >
           <div
           class="shareQuotes"
           [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+          *ngIf="payout"
         >
           <button
             mat-button
@@ -141,7 +142,14 @@
 
           </button>
         </div>
-          
+        <div *ngIf="!payout" class="inc-gst">
+          <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
+          <mat-slide-toggle
+            [checked]="defaultGST"
+            [disabled]="enableIdvCard"
+            (change)="gstToggle($event)"
+          >
+          </mat-slide-toggle>
         </div>
         <div *ngIf="gstEarningShow" class="profile inc-gst">
           <div class="show" >
@@ -164,6 +172,7 @@
               </mat-slide-toggle>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>

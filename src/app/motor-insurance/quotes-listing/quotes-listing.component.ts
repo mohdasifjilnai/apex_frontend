@@ -1504,7 +1504,7 @@ export class QuotesListingComponent implements OnInit {
     } else {
       this.defaultGST = event.checked;
     }
-    if(window.innerWidth<=999){
+    if(window.innerWidth<=999 && this.payout){
       this.gstEarningShow=!this.gstEarningShow
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
