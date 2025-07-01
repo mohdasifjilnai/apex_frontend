@@ -155,6 +155,7 @@ export class QuotesListingComponent implements OnInit {
   selectedProductType: any;
   vehicleMMVData: any;
   defaultGST: any;
+  defaultEarning:boolean=true;
   isChecked: boolean = false;
   selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
   selectedShareData: any;
@@ -202,6 +203,7 @@ export class QuotesListingComponent implements OnInit {
   totalPremiumData: any;
   insurerLogoData: any;
   insurerNameData: any;
+  gstEarningShow: boolean=false;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -1502,6 +1504,9 @@ export class QuotesListingComponent implements OnInit {
     } else {
       this.defaultGST = event.checked;
     }
+    if(window.innerWidth<=999){
+      this.gstEarningShow=!this.gstEarningShow
+    }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
     webengage.track('GST_enabled', {
@@ -1510,6 +1515,15 @@ export class QuotesListingComponent implements OnInit {
         : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
+  }
+  earningToggle(event: any) {
+    this.defaultEarning = event.checked;
+    if(window.innerWidth<=999){
+      this.gstEarningShow=!this.gstEarningShow
+    }
+  }
+  viewMoreGST(){
+    this.gstEarningShow=!this.gstEarningShow
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {

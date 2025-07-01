@@ -187,6 +187,24 @@
 .payd-web {
   display: block;
 }
+.res-gst-earning{
+  display: none;
+}
+.web-gst-earning{
+  display: block;
+}
+.payout-new{
+
+  .payout-inside-new{
+    border-radius: 22px;
+    border: 1px solid #FFD15D;
+    padding: 7px 12px;
+    .payout-rupees{
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+}
 .km-value {
   padding: 4px, 8px, 4px, 8px;
   border-radius: 4px;
@@ -233,6 +251,31 @@
     color: #5384ea;
     line-height: 15px;
   }
+}
+.profile{
+  position: absolute;
+  z-index: 9999;
+  width: 120px;
+  padding-top: 30px;
+  right: 15px;
+  .show{
+    padding: 10px;
+    border-radius: 12px;
+  color: rgb(68, 68, 68);
+  display: block;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+  background: rgb(255, 255, 255);
+  }
+}
+.line{
+  border-bottom: 1px solid #D6D6D6;
+}
+.view-more-text{
+  font-size: 12px;
+    font-weight: 600;
+    color: #5384ea;
+    line-height: 15px;
 }
 .selected-share {
   position: fixed;
@@ -695,6 +738,12 @@
   }
   .payout-image {
     margin-top: 12px;
+  }
+  .res-gst-earning{
+    display: block;
+  }
+  .web-gst-earning{
+    display: none;
   }
 }
 @media screen and (max-width: 1321px) {

@@ -99,17 +99,71 @@
             </button>
           </div> -->
         </div>
-        <div
-          class="col-lg-3 col-md-3 col-4 inc-gst"
+        <div class="col-lg-3 col-md-3 col-4 web-gst-earning">
+          <div
+          class=" inc-gst "
           [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
         >
-          <div class="gst me-2 pb-1">Inc. GST</div>
+         <ng-container class="me-2" *ngIf="payout">
+          <div class="gst me-2 pb-1">Earning</div>
+          <mat-slide-toggle
+            [checked]="defaultEarning"
+            [disabled]="enableIdvCard"
+            (change)="earningToggle($event)"
+          >
+          </mat-slide-toggle>
+        </ng-container>
+        <ng-container>
+          <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
           <mat-slide-toggle
             [checked]="defaultGST"
             [disabled]="enableIdvCard"
             (change)="gstToggle($event)"
           >
           </mat-slide-toggle>
+        </ng-container>
+       
+        </div>
+        </div>
+        
+        <div class="res-gst-earning col-lg-3 col-md-3 col-4 ms-2">
+          <div
+          class="shareQuotes"
+          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+        >
+          <button
+            mat-button
+            [disabled]="enableIdvCard"
+            (click)="viewMoreGST()"
+          >
+            <span class="share-quotes-text">View More</span>
+            <img src="assets/icon/dropdown.svg" class="share-icon ms-1" alt="" />
+
+          </button>
+        </div>
+          
+        </div>
+        <div *ngIf="gstEarningShow" class="profile inc-gst">
+          <div class="show" >
+            <div class="d-flex justify-content-between line" *ngIf="payout">
+              <div class="gst me-2 pb-1">Earning</div>
+              <mat-slide-toggle
+                [checked]="defaultEarning"
+                [disabled]="enableIdvCard"
+                (change)="earningToggle($event)"
+              >
+              </mat-slide-toggle>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="gst me-2 pb-1">Inc. GST</div>
+              <mat-slide-toggle
+                [checked]="defaultGST"
+                [disabled]="enableIdvCard"
+                (change)="gstToggle($event)"
+              >
+              </mat-slide-toggle>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -151,7 +205,7 @@
                   : 'd-flex justify-content-end'
               "
             >
-              <div class="payout" *ngIf="payout">
+              <!-- <div class="payout" *ngIf="payout">
                 <ng-container
                   *ngIf="
                     quotes?.payout_response && quotes?.payout_response != 'NA'
@@ -184,7 +238,7 @@
                     /><span class="info">Info</span> &nbsp; *T&C
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- break in case banner-->
               <div class="d-flex justify-content-end">
@@ -226,6 +280,27 @@
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
+                  <div class="payout-new responsive-checkbox" *ngIf="payout && defaultEarning">
+                    <ng-container
+                      *ngIf="
+                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                      "
+                    >
+                      <div
+                        class="payout-inside-new"
+                        *ngIf="quotes?.payout_response != 0"
+                      >
+                        <div class="payout-rupees">
+                          <img
+                            src="assets/icon/rupee-payout.svg"
+                            class="me-2"
+                            alt=""
+                          />
+                          You Earn ₹ {{ quotes?.payout_response }} 
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
                 </div>
               </div>
 
@@ -254,6 +329,27 @@
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
+                  <div class="payout-new web-checkbox" *ngIf="payout && defaultEarning">
+                    <ng-container
+                      *ngIf="
+                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                      "
+                    >
+                      <div
+                        class="payout-inside-new"
+                        *ngIf="quotes?.payout_response != 0"
+                      >
+                        <div class="payout-rupees">
+                          <img
+                            src="assets/icon/rupee-payout.svg"
+                            class="me-2"
+                            alt=""
+                          />
+                          You Earn ₹ {{ quotes?.payout_response }} 
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
                 </div>
                 <div *ngIf="quotes?.payd?.status" class="payd-web">
                   <div class="pay-drive mb-2">
