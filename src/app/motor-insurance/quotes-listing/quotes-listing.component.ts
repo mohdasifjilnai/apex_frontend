@@ -525,7 +525,10 @@ export class QuotesListingComponent implements OnInit {
         if (cardData) {
           this.vehicleData = cardData;
           this.parsedVehicleData = JSON.parse(this.vehicleData);
-
+          let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+          if (!vehicleTypeValue) {
+            sessionStorage.setItem('vehicleType', `private_car`);
+          }
           this.quotesTabData();
         }
       }
