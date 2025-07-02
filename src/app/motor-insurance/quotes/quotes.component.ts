@@ -596,6 +596,7 @@ export class QuotesComponent implements OnInit {
             )
           );
           this.shareDataService.getRenewalData(res);
+          this.shareDataService.renewalDataResponse(res);
         }
       });
   }
