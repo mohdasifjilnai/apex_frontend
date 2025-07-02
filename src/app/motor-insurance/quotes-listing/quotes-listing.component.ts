@@ -227,9 +227,7 @@ export class QuotesListingComponent implements OnInit {
     // sessionStorage.removeItem('gstValue');
     const token = sessionStorage.getItem('token');
     const partner_code = sessionStorage.getItem('partner_code');
-    if (token != null && partner_code != null) {
-      this.payout = true;
-    }
+    
     if (sessionStorage.getItem('sortObjectkey') == null) {
       sessionStorage.setItem('sortObjectkey', 'low');
     }
@@ -457,7 +455,16 @@ export class QuotesListingComponent implements OnInit {
           if (b.insurer_priority === null) return -1;
           return a.insurer_priority - b.insurer_priority;
         });
-        // console.log(this.quotationData);
+        console.log(this.quotationData);
+
+        this.quotationData
+        ?.filter((item: any) => item.payout_response && item.payout_response !== 'NA')
+        .map((item: any) => item.payout_response)
+        .forEach((payout:any) => {
+          if (token != null && partner_code != null) {
+            this.payout = true;
+          }
+        });
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }

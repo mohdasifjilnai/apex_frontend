@@ -87,6 +87,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   renewalPopup: any;
   policyExpiryDate: any;
   editButton = false;
+  renewalVehicleDetails: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -335,6 +336,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.sharedDataService.renewalDataResponseValue.subscribe((res: any) => {
         if (res && renewalType == 'renewal') {
           this.renewalData = res?.previous_policy_details?.vehicle_details;
+          this.renewalVehicleDetails=res?.vehicle_details
           this.is_renewal = true;
           this.coverageType =
             res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type;
@@ -1495,8 +1497,8 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       .subscribe((res) => {
         this.ncbListData = res;
         const incomingNCB = this.vehcileFormData?.value?.ncb_discount;
+        if (incomingNCB != undefined && !this.is_renewal) {
 
-        if (incomingNCB != undefined) {
           let getNcbValue =
             incomingNCB.old_ncb_value == undefined
               ? incomingNCB
@@ -1512,7 +1514,18 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
 
           this.ncbDiscount = matchedNCB;
-        } else {
+        } else if(this.is_renewal){
+          const matchedNCB = this.ncbListData.find(
+            (item: any) => item.old_ncb_value === this.renewalVehicleDetails?.previous_year_ncb
+          );
+          if (matchedNCB) {
+            this.vehicleDetailsForm.patchValue({
+              ncb_discount: matchedNCB,
+            });
+            this.ncbDiscount = matchedNCB;
+          }
+        }
+        else {
           for (let data of this.expiryList) {
             const matchedNCB = this.ncbListData.find(
               (item: any) => item.old_ncb_value === data.offered_ncb_value
