@@ -171,7 +171,9 @@ export class MotorInsuranceComponent implements OnInit {
     // } else if (environment?.apexD2C === this.fullUrl + '/') {
     //   this.devUrl = true;
     // }
-
+    if (window.innerWidth <= 999) {
+      this.partnerValidation()
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -1096,5 +1098,17 @@ export class MotorInsuranceComponent implements OnInit {
   onVehicleTypeSelect(event: any) {
     const selectedVehicle = event.value;
     this.sharedDataService.selectedVehicleTypeObject(selectedVehicle);
+  }
+
+
+  partnerValidation(){
+    const employee_code=sessionStorage.getItem('employee_code');
+    const partner_code=sessionStorage.getItem('partner_code');
+    this.apiService
+      .getRequestedResponse(
+        `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
+      )
+      .subscribe((res: any) => {
+      })
   }
 }

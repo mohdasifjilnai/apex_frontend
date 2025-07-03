@@ -207,5 +207,7 @@ export class ApiConstants {
 
   public static update_trace_id_data:string=`/api/v1/update_trace_id/`;
 
+  public static validate_partner=`/api/v1/auth/validate_partner/`;
+
 
 }
