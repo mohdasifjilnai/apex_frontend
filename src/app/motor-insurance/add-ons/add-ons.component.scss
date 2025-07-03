@@ -186,7 +186,7 @@
       background-color: #fff;
     }
   }
-  .loader{
+  .loader {
     width: 200px;
     height: 200px;
   }
@@ -201,4 +201,8 @@
   .add-ons .cancel-btn {
     width: 150%;
   }
+}
+.disableClear {
+  opacity: 0.5;
+  cursor: none;
 }

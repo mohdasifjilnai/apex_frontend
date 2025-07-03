@@ -201,6 +201,7 @@
           class="cancel-btn"
           (click)="clearAllChecked()"
           [disabled]="enableAddOns"
+          [ngClass]="!clearAllButton ? 'disableClear' : ''"
         >
           Clear All
         </button>
