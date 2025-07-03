@@ -634,7 +634,7 @@
       <div *ngFor="let quotes of quotationData">
         <div class="row comprehensive-card mt-3">
           <div class="comprehensive-tab ps-4 pe-4 pt-4">
-            <div class="payout" *ngIf="payout">
+            <!-- <div class="payout" *ngIf="payout">
               <ng-container *ngIf="quotes?.payout_response">
                 <div class="payout-inside" *ngIf="quotes?.payout_response != 0">
                   <div class="payout-value pb-2">
@@ -645,7 +645,7 @@
               <div class="payout-inside" *ngIf="quotes?.payout_response == 0">
                 <div class="payout-value pb-2">-----* &nbsp; T&C</div>
               </div>
-            </div>
+            </div> -->
 
             <!-- break in case banner-->
             <div class="break-in" *ngIf="quotes?.is_breakin">
@@ -673,6 +673,7 @@
               <div
                 class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"
               >
+              <div class="d-block">
                 <div class="d-flex justify-content-between">
                   <img
                     [src]="quotes?.insurer_logo"
@@ -680,6 +681,29 @@
                     alt=""
                   />
                 </div>
+                <div class="payout-new responsive-checkbox mt-1" *ngIf="payout && defaultEarning">
+                  <ng-container
+                    *ngIf="
+                      quotes?.payout_response && quotes?.payout_response != 'NA'
+                    "
+                  >
+                    <div
+                      class="payout-inside-new"
+                      *ngIf="quotes?.payout_response != 0"
+                    >
+                      <div class="payout-rupees font-tp">
+                        <img
+                          src="assets/icon/rupee-payout.svg"
+                          class="me-2"
+                          alt=""
+                        />
+                        You Earn ₹ {{ quotes?.payout_response }}* 
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+               
               </div>
 
               <!-- {{quotes.insurer_name}} -->
@@ -725,6 +749,31 @@
                     >
                   </div> -->
                 </div>
+                <div class="row">
+                  <div class="col-lg-8">
+                  </div>
+                  <div class="payout-new web-checkbox col-lg-4 col-6" *ngIf="payout && defaultEarning">
+                    <ng-container
+                      *ngIf="
+                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                      "
+                    >
+                      <div
+                        class="payout-inside-new"
+                        *ngIf="quotes?.payout_response != 0"
+                      >
+                        <div class="payout-rupees">
+                          <img
+                            src="assets/icon/rupee-payout.svg"
+                            class="me-2"
+                            alt=""
+                          />
+                          You Earn ₹ {{ quotes?.payout_response }}* 
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
               </div>
               <div class="col-lg-3 col-md-3 col-6 premium-btn">
                 <!-- <div *ngIf="addShare" class="responsive-checkbox">
@@ -734,6 +783,7 @@
                     >Add to Share</mat-checkbox
                   >
                 </div> -->
+                
                 <div
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"
