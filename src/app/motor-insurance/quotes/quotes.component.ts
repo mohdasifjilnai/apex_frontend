@@ -505,10 +505,10 @@ export class QuotesComponent implements OnInit {
             }
           }
           if (
-            res?.meta_data?.selectedAddons !== 'undefined' &&
+            res?.meta_data?.selectedAddons != 'undefined' &&
             res?.meta_data?.selectedAddons != null
           ) {
-            let addonsValue = res?.meta_data?.selectedAddons || 'undefined';
+            let addonsValue = res?.meta_data?.selectedAddons;
             sessionStorage.setItem(
               'selectedAddons',
               JSON.stringify(addonsValue)
