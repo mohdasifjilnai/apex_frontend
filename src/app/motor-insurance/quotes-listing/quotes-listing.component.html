@@ -670,8 +670,18 @@
             </div>
 
             <div class="row" *ngIf="quotes?.renewal_url == null">
-              <div class="d-flex justify-content-center">
-                <div class="payout-new responsive-checkbox " *ngIf="payout && defaultEarning">
+              <div
+                class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"
+              >
+              <div class="d-block">
+                <div class="d-flex justify-content-between">
+                  <img
+                    [src]="quotes?.insurer_logo"
+                    class="insurer-logo"
+                    alt=""
+                  />
+                </div>
+                <div class="payout-new responsive-checkbox mt-2" *ngIf="payout && defaultEarning">
                   <ng-container
                   
   
@@ -694,19 +704,6 @@
                     </div>
                   </ng-container>
                 </div>
-              </div>
-              <div
-                class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"
-              >
-              <div class="d-block">
-                <div class="d-flex justify-content-between">
-                  <img
-                    [src]="quotes?.insurer_logo"
-                    class="insurer-logo"
-                    alt=""
-                  />
-                </div>
-                
               </div>
                
               </div>
