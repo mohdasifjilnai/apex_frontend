@@ -172,7 +172,10 @@ export class MotorInsuranceComponent implements OnInit {
     //   this.devUrl = true;
     // }
     if (window.innerWidth <= 999) {
-      this.partnerValidation()
+      setTimeout(() => {
+        this.partnerValidation()
+      }, 3000);
+     
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
@@ -1104,11 +1107,14 @@ export class MotorInsuranceComponent implements OnInit {
   partnerValidation(){
     const employee_code=sessionStorage.getItem('employee_code');
     const partner_code=sessionStorage.getItem('partner_code');
-    this.apiService
+    if(partner_code){
+      this.apiService
       .getRequestedResponse(
         `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
       )
       .subscribe((res: any) => {
       })
+    }
+    
   }
 }
