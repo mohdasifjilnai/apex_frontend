@@ -1025,17 +1025,19 @@ export class ProposalComponent implements OnInit {
     const customerComplete = !!proposalData.customer_details;
     const vehicleComplete = proposalData.vehicle_details?.is_accordion_completed;
   
-    if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
-      this.openAccordion('vehicle_details');
-      this.accordianExpanded = 'vehicleDetails';
-      return;
-    }
+    // if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
+    //   this.openAccordion('vehicle_details');
+    //   this.accordianExpanded = 'vehicleDetails';
+    //   return;
+    // }
     // Check Nominee Details Accordion
   
     // Check Previous Policy Accordion
     if (!proposalData.previous_policy_details || !proposalData.previous_policy_details.is_accordion_completed) {
+      debugger
       this.openAccordion('previous_policy');
       this.accordianExpanded = 'previousPolicyDetails';
+      this.showPreviousPolicyDetails=true
       return;
     }
     
