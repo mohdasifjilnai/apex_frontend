@@ -105,11 +105,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     if (this.mmvData?.form_value?.policy_expiry === 'comprehensive') {
       this.isTpStartDate = false;
       this.isTpEndDateDisable = true;
-      if (this.mmvData?.form_value?.policy_expiry_date) {
-        this.previousPolicyDetailsForm.patchValue({
-          tp_policy_end_date: this.mmvData?.form_value?.policy_expiry_date,
-        });
-      }
+      // if (this.mmvData?.form_value?.policy_expiry_date) {
+      //   this.previousPolicyDetailsForm.patchValue({
+      //     tp_policy_end_date: this.mmvData?.form_value?.policy_expiry_date,
+      //   });
+      // }
       const selectedDateValue =
         this.previousPolicyDetailsForm.get('tp_policy_end_date')?.value;
       const selectedDateNewValue = new Date(selectedDateValue);
@@ -123,117 +123,117 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         outputDate,
         "EEE MMM dd yyyy HH:mm:ss 'GMT'Z"
       );
-      this.previousPolicyDetailsForm.patchValue({
-        tp_policy_start_date: new Date(this.tpFormattedDate),
-      });
+      // this.previousPolicyDetailsForm.patchValue({
+      //   tp_policy_start_date: new Date(this.tpFormattedDate),
+      // });
     } else {
       this.isExpiryDate = true;
-      if (this.mmvData?.form_value?.policy_expiry_date) {
-        this.previousPolicyDetailsForm.patchValue({
-          policy_expiry_date: new Date(
-            this.mmvData?.form_value?.policy_expiry_date
-          ),
-        });
-      }
+      // if (this.mmvData?.form_value?.policy_expiry_date) {
+      //   this.previousPolicyDetailsForm.patchValue({
+      //     policy_expiry_date: new Date(
+      //       this.mmvData?.form_value?.policy_expiry_date
+      //     ),
+      //   });
+      // }
     }
-    this.sharedData.getVahaanDetails.subscribe((res: any) => {
-      if (res?.previous_policy_number != null) {
-        this.previousPolicyDetailsForm.patchValue({
-          tp_policy_number: res?.previous_policy_number,
-        });
-      }
-    });
-    this.sharedData?.getRenewalValue.subscribe((data) => {
-      if (data) {
-        const previousPolicyData =
-          data?.previous_policy_details?.previous_policy_details;
-        this.previousPolicyDetailsForm.patchValue({
-          prev_policy_number: previousPolicyData?.policy_no,
-          previous_insurer: previousPolicyData?.insurer_code,
-          policy_expiry_date: previousPolicyData?.policy_expiry_date,
-          tp_insurance_company:
-            previousPolicyData?.tp_policy_details?.tp_insurer_code,
+    // this.sharedData.getVahaanDetails.subscribe((res: any) => {
+    //   if (res?.previous_policy_number != null) {
+    //     this.previousPolicyDetailsForm.patchValue({
+    //       tp_policy_number: res?.previous_policy_number,
+    //     });
+    //   }
+    // });
+    // this.sharedData?.getRenewalValue.subscribe((data) => {
+    //   if (data) {
+    //     const previousPolicyData =
+    //       data?.previous_policy_details?.previous_policy_details;
+    //     this.previousPolicyDetailsForm.patchValue({
+    //       prev_policy_number: previousPolicyData?.policy_no,
+    //       previous_insurer: previousPolicyData?.insurer_code,
+    //       policy_expiry_date: previousPolicyData?.policy_expiry_date,
+    //       tp_insurance_company:
+    //         previousPolicyData?.tp_policy_details?.tp_insurer_code,
 
-          tp_policy_start_date:
-            previousPolicyData?.tp_policy_details?.tp_policy_start_date,
-          tp_policy_end_date:
-            previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
-        });
-        if (previousPolicyData?.tp_policy_details?.tp_policy_no) {
-          this.previousPolicyDetailsForm.patchValue({
-            tp_policy_number:
-              previousPolicyData?.tp_policy_details?.tp_policy_no,
-          });
-        }
+    //       tp_policy_start_date:
+    //         previousPolicyData?.tp_policy_details?.tp_policy_start_date,
+    //       tp_policy_end_date:
+    //         previousPolicyData?.tp_policy_details?.tp_policy_expiry_date,
+    //     });
+    //     if (previousPolicyData?.tp_policy_details?.tp_policy_no) {
+    //       this.previousPolicyDetailsForm.patchValue({
+    //         tp_policy_number:
+    //           previousPolicyData?.tp_policy_details?.tp_policy_no,
+    //       });
+    //     }
 
-        this.apiservice
-          .getRequestedResponse(ApiConstants.get_previous_insurer())
-          .subscribe((response: any) => {
-            for (let insurer of response) {
-              if (
-                insurer?.rb_insurer_code ===
-                data?.vehicle_details?.previous_insurer_code
-              ) {
-                this.previousPolicyDetailsForm.patchValue({
-                  previous_insurer: insurer,
-                });
-              }
-              if (
-                insurer?.rb_insurer_code ===
-                data.previous_policy_details?.previous_policy_details
-                  ?.tp_policy_details?.tp_insurer_code
-              ) {
-                this.previousPolicyDetailsForm.patchValue({
-                  tp_insurance_company: insurer,
-                });
-              }
-            }
-          });
-      }
-    });
+    //     this.apiservice
+    //       .getRequestedResponse(ApiConstants.get_previous_insurer())
+    //       .subscribe((response: any) => {
+    //         for (let insurer of response) {
+    //           if (
+    //             insurer?.rb_insurer_code ===
+    //             data?.vehicle_details?.previous_insurer_code
+    //           ) {
+    //             this.previousPolicyDetailsForm.patchValue({
+    //               previous_insurer: insurer,
+    //             });
+    //           }
+    //           if (
+    //             insurer?.rb_insurer_code ===
+    //             data.previous_policy_details?.previous_policy_details
+    //               ?.tp_policy_details?.tp_insurer_code
+    //           ) {
+    //             this.previousPolicyDetailsForm.patchValue({
+    //               tp_insurance_company: insurer,
+    //             });
+    //           }
+    //         }
+    //       });
+    //   }
+    // });
     this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    if (this.previousDetails != null) {
-      this.details = JSON.parse(this.previousDetails);
-      const previousPolicyDetails =
-        this.details?.previous_policy_details?.previous_policy_details;
-      this.previousPolicyDetailsForm.patchValue({
-        prev_policy_number: previousPolicyDetails?.policy_no,
-        previous_insurer: previousPolicyDetails?.insurer_code,
-        policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
-        tp_insurance_company:
-          previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
-        tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no
-          ? previousPolicyDetails?.tp_policy_details?.tp_policy_no
-          : '',
-        tp_policy_start_date:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
-        tp_policy_end_date:
-          previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
-      });
-      this.apiservice
-        .getRequestedResponse(ApiConstants.get_previous_insurer())
-        .subscribe((response: any) => {
-          for (let insurer of response) {
-            if (
-              insurer?.rb_insurer_code ===
-              this.details?.vehicle_details?.previous_insurer_code
-            ) {
-              this.previousPolicyDetailsForm.patchValue({
-                previous_insurer: insurer,
-              });
-            }
-            if (
-              insurer?.rb_insurer_code ===
-              this.details.previous_policy_details?.previous_policy_details
-                ?.tp_policy_details?.tp_insurer_code
-            ) {
-              this.previousPolicyDetailsForm.patchValue({
-                tp_insurance_company: insurer,
-              });
-            }
-          }
-        });
-    }
+    // if (this.previousDetails != null) {
+    //   this.details = JSON.parse(this.previousDetails);
+    //   const previousPolicyDetails =
+    //     this.details?.previous_policy_details?.previous_policy_details;
+    //   this.previousPolicyDetailsForm.patchValue({
+    //     prev_policy_number: previousPolicyDetails?.policy_no,
+    //     previous_insurer: previousPolicyDetails?.insurer_code,
+    //     policy_expiry_date: previousPolicyDetails?.policy_expiry_date,
+    //     tp_insurance_company:
+    //       previousPolicyDetails?.tp_policy_details?.tp_insurer_code,
+    //     tp_policy_number: previousPolicyDetails?.tp_policy_details?.tp_policy_no
+    //       ? previousPolicyDetails?.tp_policy_details?.tp_policy_no
+    //       : '',
+    //     tp_policy_start_date:
+    //       previousPolicyDetails?.tp_policy_details?.tp_policy_start_date,
+    //     tp_policy_end_date:
+    //       previousPolicyDetails?.tp_policy_details?.tp_policy_expiry_date,
+    //   });
+    //   this.apiservice
+    //     .getRequestedResponse(ApiConstants.get_previous_insurer())
+    //     .subscribe((response: any) => {
+    //       for (let insurer of response) {
+    //         if (
+    //           insurer?.rb_insurer_code ===
+    //           this.details?.vehicle_details?.previous_insurer_code
+    //         ) {
+    //           this.previousPolicyDetailsForm.patchValue({
+    //             previous_insurer: insurer,
+    //           });
+    //         }
+    //         if (
+    //           insurer?.rb_insurer_code ===
+    //           this.details.previous_policy_details?.previous_policy_details
+    //             ?.tp_policy_details?.tp_insurer_code
+    //         ) {
+    //           this.previousPolicyDetailsForm.patchValue({
+    //             tp_insurance_company: insurer,
+    //           });
+    //         }
+    //       }
+    //     });
+    // }
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleTypeSelected = sessionStorage.getItem('vehicleType');

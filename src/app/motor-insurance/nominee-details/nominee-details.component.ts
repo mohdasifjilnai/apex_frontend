@@ -74,25 +74,25 @@ export class NomineeDetailsComponent implements OnInit {
     });
     this.getRelationshipsList();
 
-    let renewalType = sessionStorage.getItem('renewalType');
+    // let renewalType = sessionStorage.getItem('renewalType');
     // if (renewalType == 'renewal') {
     //   this.nominneForm?.disable();
     // }
 
-    this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    this.details = JSON.parse(this.previousDetails);
+    // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    // this.details = JSON.parse(this.previousDetails);
 
-    const nomineeDetails =
-      this.details?.previous_policy_details?.nominee_details;
-    const calculatedAge =
-      nomineeDetails?.age != null ? this.calculateAge(nomineeDetails?.age) : '';
-    if (nomineeDetails) {
-      this.nominneForm.patchValue({
-        nominne_full_Name: nomineeDetails?.name,
-        age: calculatedAge,
-        nominne_relation: nomineeDetails?.relation_id,
-      });
-    }
+    // const nomineeDetails =
+    //   this.details?.previous_policy_details?.nominee_details;
+    // const calculatedAge =
+    //   nomineeDetails?.age != null ? this.calculateAge(nomineeDetails?.age) : '';
+    // if (nomineeDetails) {
+    //   this.nominneForm.patchValue({
+    //     nominne_full_Name: nomineeDetails?.name,
+    //     age: calculatedAge,
+    //     nominne_relation: nomineeDetails?.relation_id,
+    //   });
+    // }
     this.getCustomerIdDetails = this.sharedData.getCustomerId.subscribe(
       (idValue) => {
         if (idValue == 'Nominee Details') {

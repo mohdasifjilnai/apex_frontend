@@ -13,7 +13,7 @@
   <div class="col-lg-9 col-md-8">
     <mat-accordion multi="false">
       <mat-expansion-panel
-        (opened)="loadCkyc('ckyc')"
+        (opened)="openAccordion('ckyc')"
         id-automation="ckyc_details"
         [expanded]="accordianExpanded === 'ckyc'"
       >
@@ -26,10 +26,9 @@
         <app-ckyc (afterProceedGetData)="getProceedData($event)"></app-ckyc>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="loadCkyc('Vehicle Owner Details')"
+        (opened)="openAccordion('customer_details')"
         #vehilceOwnerPanel
         id-automation="vehilce_owner"
-        [ngClass]="{ isAccordianDisable: !showVehicleOwnerDetails }"
         [expanded]="accordianExpanded === 'vehicleOwnerDetails'"
       >
         <mat-expansion-panel-header
@@ -44,10 +43,9 @@
         ></app-vehicle-owner-details>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="loadCkyc('Nominee Details')"
+        (opened)="openAccordion('nominee_details')"
         #nomineDetailsPanel
         id-automation="nomine_details"
-        [ngClass]="{ isAccordianDisable: !showNomineeDetails }"
         *ngIf="isNotShowNomineeDetails"
         [expanded]="accordianExpanded === 'nomineeDetails'"
       >
@@ -62,11 +60,11 @@
           (afterNomineeGetData)="getNomineeData($event)"
         ></app-nominee-details>
       </mat-expansion-panel>
+      
       <mat-expansion-panel
-        (opened)="loadCkyc('Vehicle Details')"
+        (opened)="openAccordion('vehicle_details')"
         #vehicleDetailPanel
         id-automation="vehicle_details"
-        [ngClass]="{ isAccordianDisable: !showVehicleDetails }"
         [expanded]="accordianExpanded === 'vehicleDetails'"
       >
         <mat-expansion-panel-header
@@ -81,7 +79,7 @@
         ></app-proposal-vehicle-details>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="loadCkyc('Previous Policy Details')"
+        (opened)="openAccordion('previous_policy')"
         #previousPolicyDetailsPanel
         id-automation="previous_policy_details"
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
@@ -189,193 +187,5 @@
       </div>
     </div>
 
-    <!-- <div class="ckyc" *ngIf="step1">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/icon/step-1.svg" alt="" class="step-icon" />
-        </div>
-        <div class="col-10">
-          <div class="d-grid">
-            <span class="step-text">Step 1/5</span>
-            <span class="step-header-text">CKYC Details</span>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="stepper-1 me-2" (click)="step('ckyc')"></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Vehicle Owner Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Nominee Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Vehicle Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Previous Policy Details')"
-              ></span>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row mb-5">
-        <app-ckyc (afterProceedGetData)="getProceedData($event)"></app-ckyc>
-      </div>
-    </div>
-    <div class="Vehicle-Owner-Details" *ngIf="step2">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/icon/step-2.svg" alt="" class="step-icon" />
-        </div>
-        <div class="col-10">
-          <div class="d-grid">
-            <span class="step-text">Step 2/5</span>
-            <span class="step-header-text">Vehicle Owner Details</span>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span
-                class="stepper-1 me-2"
-                (click)="step('Vehicle Owner Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Nominee Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Vehicle Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Previous Policy Details')"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row mb-5">
-        <app-vehicle-owner-details
-          [fetchCkycData]="proceedData"
-          (afterVehicleOwnerData)="getVehicleOwnerData($event)"
-        ></app-vehicle-owner-details>
-      </div>
-    </div>
-    <div class="Nominee-Details" *ngIf="step3">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/icon/step-3.svg" alt="" class="step-icon" />
-        </div>
-        <div class="col-10">
-          <div class="d-grid">
-            <span class="step-text">Step 3/5</span>
-            <span class="step-header-text">Nominee Details</span>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Vehicle Owner Details')"
-              ></span>
-              <span
-                class="stepper-1 me-2"
-                (click)="step('Nominee Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Vehicle Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Previous Policy Details')"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row mb-5">
-        <app-nominee-details
-          (afterNomineeGetData)="nomineeDetailsData($event)"
-        ></app-nominee-details>
-      </div>
-    </div>
-    <div class="Vehicle-Details" *ngIf="step4">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/icon/step-4.svg" alt="" class="step-icon" />
-        </div>
-        <div class="col-10">
-          <div class="d-grid">
-            <span class="step-text">Step 4/5</span>
-            <span class="step-header-text">Vehicle Details</span>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Vehicle Owner Details')"
-              ></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Nominee Details')"
-              ></span>
-              <span
-                class="stepper-1 me-2"
-                (click)="step('Vehicle Details')"
-              ></span>
-              <span
-                class="stepper-2 me-2"
-                (click)="step('Previous Policy Details')"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row mb-5">
-        <app-proposal-vehicle-details
-          (afterVehicleData)="proposerVehicleDetailsData($event)"
-        ></app-proposal-vehicle-details>
-      </div>
-    </div>
-    <div class="Previous Policy Details" *ngIf="step5">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/icon/step-5.svg" alt="" class="step-icon" />
-        </div>
-        <div class="col-10">
-          <div class="d-grid">
-            <span class="step-text">Step 5/5</span>
-            <span class="step-header-text">Previous Policy Details</span>
-            <div class="d-flex justify-content-between mt-1">
-              <span class="stepper-0 me-2" (click)="step('ckyc')"></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Vehicle Owner Details')"
-              ></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Nominee Details')"
-              ></span>
-              <span
-                class="stepper-0 me-2"
-                (click)="step('Vehicle Details')"
-              ></span>
-              <span
-                class="stepper-1 me-2"
-                (click)="step('Previous Policy Details')"
-              ></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div class="row mb-5">
-        <app-previous-policy-details></app-previous-policy-details>
-      </div>
-    </div> -->
   </div>
 </div>
