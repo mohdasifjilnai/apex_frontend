@@ -897,6 +897,7 @@ export class SharedDataService {
         document_number:
           formData?.get('document_number_based_field')?.value.toUpperCase() ||
           '',
+        is_accordion_completed:true  
       };
     }
     if (flag === 'vehicle_owner_detail') {
@@ -923,6 +924,7 @@ export class SharedDataService {
         },
         customer_type: this.proposerType || '',
         pan_number: formData?.get('document_number_based_field')?.value || null,
+        is_accordion_completed:true 
       };
     }
     if (flag === 'nominne_details') {
@@ -930,6 +932,7 @@ export class SharedDataService {
         name: formData?.get('nominne_full_Name')?.value,
         age: formData?.get('age')?.value,
         relation_id: formData?.get('nominne_relation')?.value,
+        is_accordion_completed:true 
       };
     }
     if (flag === 'vehilce_details') {
@@ -963,6 +966,7 @@ export class SharedDataService {
             ? formData?.get('is_vehicle_address')?.value || ''
             : 'false',
         mmv_id: this.mmvData?.vehicle_variant?.rb_mmv_id,
+        is_accordion_completed:true 
       };
       if (this.registrationAddressItem) {
         this.proposalDataItem['vehicle_details'].registration_address = {
@@ -1018,6 +1022,7 @@ export class SharedDataService {
             formData?.get('policy_expiry_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
+          is_accordion_completed:true 
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
