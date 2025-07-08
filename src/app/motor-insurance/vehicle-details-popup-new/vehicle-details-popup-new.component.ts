@@ -748,11 +748,13 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.apiservice
         .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
         .subscribe((res) => {
-          this.rtoList = res;
-          if (rtoByRegistration) {
-            this.vehicleDetailsForm.patchValue({
-              registration_city: this.rtoList[0],
-            });
+          if (!res?.message) {
+            this.rtoList = res;
+            if (rtoByRegistration) {
+              this.vehicleDetailsForm.patchValue({
+                registration_city: this.rtoList[0],
+              });
+            }
           }
         });
     }
