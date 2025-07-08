@@ -205,7 +205,7 @@ export class ProposalReviewComponent implements OnInit {
     let isFirstCall = true;
 
     this.shareData.getProposalDetails.subscribe((proposal) => {
-      if (proposal?.previous_policy_details !== null && isFirstCall) {
+      if (proposal?.previous_policy_details !== null && proposal?.is_accordion_completed && isFirstCall) {
         proposal.previous_policy_details.is_consent =
           this.isAcknowledgedConsent;
         this.shareData.createProposalId(
