@@ -62,7 +62,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
           }
 
           let addressValue = this.form.get('owner_communication_addres')?.value;
-          if (addressValue.length > this.maxLength) {
+          if (addressValue?.length > this.maxLength) {
             this.isNotShowErrorMsg = true;
           } else {
             this.isNotShowErrorMsg = false;
@@ -70,7 +70,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
           this.form
             .get('owner_communication_addres')
             ?.valueChanges.subscribe((res) => {
-              if (res.length > this.maxLength) {
+              if (res?.length > this.maxLength) {
                 this.isNotShowErrorMsg = true;
               } else {
                 this.isNotShowErrorMsg = false;

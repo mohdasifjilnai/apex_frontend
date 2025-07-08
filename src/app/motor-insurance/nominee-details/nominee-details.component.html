@@ -28,7 +28,7 @@
             *ngFor="let relation of relationshipList"
             [value]="relation?.rb_id"
           >
-            {{ relation?.rb_nominee_relation }}
+            {{ relation?.rb_nominee_relation | titlecase}}
           </mat-option>
         </mat-select>
       </mat-form-field>
