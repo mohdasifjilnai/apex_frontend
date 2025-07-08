@@ -1000,8 +1000,8 @@ export class ProposalComponent implements OnInit {
       this.accordianExpanded = 'vehicleOwnerDetails';
       return;
     }
-  
-    if (!proposalData.nominee_details || !proposalData.nominee_details?.is_accordion_completed) {
+  // Check Nominee Details Accordion
+    if (proposalData.nominee_details!=null && !proposalData.nominee_details?.is_accordion_completed) {
       this.openAccordion('nominee_details');
       this.accordianExpanded = 'nomineeDetails';
       this.showNomineeDetails = true
@@ -1025,16 +1025,22 @@ export class ProposalComponent implements OnInit {
     const customerComplete = !!proposalData.customer_details;
     const vehicleComplete = proposalData.vehicle_details?.is_accordion_completed;
   
-    // if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
-    //   this.openAccordion('vehicle_details');
-    //   this.accordianExpanded = 'vehicleDetails';
-    //   return;
-    // }
-    // Check Nominee Details Accordion
+    if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
+      this.openAccordion('vehicle_details');
+      this.accordianExpanded = 'vehicleDetails';
+      this.showVehicleDetails = true
+      return;
+    }
+    
   
     // Check Previous Policy Accordion
-    if (!proposalData.previous_policy_details || !proposalData.previous_policy_details.is_accordion_completed) {
-      debugger
+    if (proposalData.previous_policy_details!=null && !proposalData.previous_policy_details.is_accordion_completed) {
+      this.openAccordion('previous_policy');
+      this.accordianExpanded = 'previousPolicyDetails';
+      this.showPreviousPolicyDetails=true
+      return;
+    }
+    if (!previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
       this.openAccordion('previous_policy');
       this.accordianExpanded = 'previousPolicyDetails';
       this.showPreviousPolicyDetails=true

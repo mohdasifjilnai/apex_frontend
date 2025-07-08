@@ -1072,6 +1072,7 @@ export class SharedDataService {
             formData?.get('tp_policy_start_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
+          is_accordion_completed:true  
       };
     } else if (
       flag === 'previous_policy_details' &&
@@ -1088,6 +1089,7 @@ export class SharedDataService {
             formData?.get('tp_policy_end_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
+          is_accordion_completed:true  
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
