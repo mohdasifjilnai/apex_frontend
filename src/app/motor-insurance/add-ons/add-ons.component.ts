@@ -616,6 +616,11 @@ export class AddOnsComponent implements OnInit {
         maxIdv: '',
         chooseIdv: sliderIdv,
       };
+      let idvData = {
+        chooseIdv: sliderIdv,
+        buttonData: false,
+      };
+      this.idvAmount = JSON.stringify(idvData);
       let chooseIdvValue = sessionStorage.setItem(
         'idvData',
         JSON.stringify(idvObject)
