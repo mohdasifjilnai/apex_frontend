@@ -344,10 +344,9 @@ export class ChooseIDVComponent implements OnInit {
         JSON.parse(mmvFormData || '{}')
       );
     } else {
-        this.sharedDataService.initiate_Quotes_APi(
-          JSON.parse(mmvFormData || '{}')
-        );
-      
+      this.sharedDataService.initiate_Quotes_APi(
+        JSON.parse(mmvFormData || '{}')
+      );
     }
     this.enableIdvCard = true;
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
@@ -361,6 +360,7 @@ export class ChooseIDVComponent implements OnInit {
       this.chooseIdvForm.value.chooseIdv != undefined &&
       this.chooseIdvForm.value.chooseIdv != ''
     ) {
+      sessionStorage.setItem('throughChange', 'input');
       if (!this.isMobileView) {
         this.investedAmount = this.chooseIdvForm.value.chooseIdv
           ? Number(this.chooseIdvForm.value.chooseIdv)
@@ -523,6 +523,7 @@ export class ChooseIDVComponent implements OnInit {
 
     this.investedAmount = value;
     sessionStorage.setItem('sliderIdvValue', value);
+    sessionStorage.setItem('throughChange', 'slider');
     // This will update the input field bound via formControlName
     this.chooseIdvForm.get('chooseIdv')?.setValue(value, { emitEvent: false });
   }

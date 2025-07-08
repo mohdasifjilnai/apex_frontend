@@ -588,7 +588,29 @@ export class AddOnsComponent implements OnInit {
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     const count = Object.keys(this.selected_addons).length;
     let sliderIdv = sessionStorage.getItem('sliderIdvValue');
+    let getChangesThrough = sessionStorage.getItem('throughChange');
     if (sliderIdv && this.idvAmount == undefined) {
+      let idvObject = {
+        minIdv: '',
+        maxIdv: '',
+        chooseIdv: sliderIdv,
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+    } else if (getChangesThrough == 'input') {
+      let allIdvData = JSON.parse(this.idvAmount);
+      let idvObject = {
+        minIdv: '',
+        maxIdv: '',
+        chooseIdv: allIdvData.chooseIdv,
+      };
+      let chooseIdvValue = sessionStorage.setItem(
+        'idvData',
+        JSON.stringify(idvObject)
+      );
+    } else if (getChangesThrough == 'slider') {
       let idvObject = {
         minIdv: '',
         maxIdv: '',
@@ -601,15 +623,9 @@ export class AddOnsComponent implements OnInit {
     }
 
     if (count != 0 || this.idvAmount || sliderIdv) {
-      if (this.registrationNumber) {
-        this.sharedDataService.initiate_Quotes_APi(
-          JSON.parse(mmvFormData || '{}')
-        );
-      } else {
-        this.sharedDataService.initiate_Quotes_APi(
-          JSON.parse(mmvFormData || '{}')
-        );
-      }
+      this.sharedDataService.initiate_Quotes_APi(
+        JSON.parse(mmvFormData || '{}')
+      );
 
       if (window.innerWidth <= 999) {
         this.bottomSheetRef.dismiss(this.checkBoxValueArray);
