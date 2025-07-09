@@ -18,4 +18,7 @@
   >
     Cannot be less than 6 Characters
   </mat-error>
+  <mat-error *ngIf="engineForm.get('engine_number')?.hasError('invalidEngineNumber')">
+    Please enter a valid engine number
+  </mat-error>
 </mat-form-field>

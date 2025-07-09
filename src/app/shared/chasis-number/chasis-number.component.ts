@@ -31,6 +31,13 @@ export class ChasisNumberComponent implements OnInit {
       this.chassisForm.addControl('chassis_number', new FormControl());
     }
     this.visuallyDisabledFields = this.shareDataService.disableVisually(['chassis_number'], this.chassisForm);
+    this.shareDataService.errorEngineNumberValue.subscribe((res)=>{
+      if (res === 'chassis') {
+        const chassisControl = this.chassisForm.get('chassis_number');
+        chassisControl?.setErrors({ invalidEngineNumber: true });
+        chassisControl?.markAsTouched(); // ensures mat-error displays
+      }
+    })
   }
 
   ngOnDestroy(): void {

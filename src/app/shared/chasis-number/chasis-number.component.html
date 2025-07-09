@@ -36,4 +36,7 @@
   >
     Cannot be more than 30 Characters
   </mat-error>
+  <mat-error *ngIf="chassisForm.get('chassis_number')?.hasError('invalidEngineNumber')">
+    Please enter a valid chassis number
+  </mat-error>
 </mat-form-field>

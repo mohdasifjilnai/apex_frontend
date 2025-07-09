@@ -277,20 +277,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
-      const is_new_vehcile = sessionStorage.getItem('newVehicleType');
-      if (proposal?.insurer_code != 'digit') {
-        if (is_new_vehcile == 'new') {
-          if (proposal?.ckyc_details?.is_verification) {
-            this.isDisableCKyc = false;
-          } else {
-            this.isDisableCKyc = true;
-          }
-        } else {
-          this.isDisableCKyc = false;
-        }
-      } else {
-        this.isDisableCKyc = false;
-      }
+      // const is_new_vehcile = sessionStorage.getItem('newVehicleType');
+      // if (proposal?.insurer_code != 'digit') {
+      //   if (is_new_vehcile == 'new') {
+      //     if (proposal?.ckyc_details?.is_verification) {
+      //       this.isDisableCKyc = false;
+      //     } else {
+      //       this.isDisableCKyc = true;
+      //     }
+      //   } else {
+      //     this.isDisableCKyc = false;
+      //   }
+      // } else {
+      //   this.isDisableCKyc = false;
+      // }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -407,6 +407,14 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
+        const engineControl = this.proposalVehilceDetailsForm.get('engine_number');
+        const chassisControl = this.proposalVehilceDetailsForm.get('chassis_number');
+        if (engineControl?.value?.includes('***')  || engineControl?.value?.includes('XXX')) {
+          this.shareData.errorEngineNumber('engine')
+        }
+        if (chassisControl?.value?.includes('***') || chassisControl?.value?.includes('XXX')) {
+          this.shareData.errorEngineNumber('chassis')
+        }
         this.shareData.isFinancedAddress(
           proposal?.vehicle_details?.is_vehicle_financed
         );
@@ -416,7 +424,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               `${ApiConstants.pincode}?pincode=${
                 this.proposalData?.vehicle_details?.registration_address
                   ?.pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+              }&insurer_code=${proposal?.insurer_code}`
             )
             .subscribe((res) => {
               if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {

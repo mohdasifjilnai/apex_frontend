@@ -140,17 +140,16 @@ export class CkycComponent implements OnInit {
     if (this.quoteData?.insurer_code) {
       this.getDocumentType();
     }
-    if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
-      this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-        if (res?.customer_details != null) {
-          this.ckycFormGroup.patchValue({
-            document_number_based_field: res?.customer_details?.pan_number,
-            dob: res?.customer_details?.dob,
-          });
-        }
-      });
-    }
-    let isSubmitCkycFormGroupCalled = false;
+    // if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
+    //   this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
+    //     if (res?.customer_details != null) {
+    //       this.ckycFormGroup.patchValue({
+    //         document_number_based_field: res?.customer_details?.pan_number,
+    //         dob: res?.customer_details?.dob,
+    //       });
+    //     }
+    //   });
+    // }
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
       this.proposalData = proposal;
@@ -225,74 +224,80 @@ export class CkycComponent implements OnInit {
       } else {
         this.isDisableCKyc = false;
       }
-    });
-    const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    const renewalType = sessionStorage.getItem('renewalType');
-    if (renewalType != 'rollover' && renewalType != 'renewal') {
-      // if (
-      //   kycData?.insurer_code === this.quoteData['insurer_code'] &&
-      //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-      //   kycData?.verification_status === true
-      // ) {
-      //   this.isDisableCKyc = true;
-      // } else if (
-      //   kycData?.insurer_code !== this.quoteData['insurer_code'] &&
-      //   sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
-      //   kycData?.verification_status === true
-      // ) {
-      //   this.sharedDataService.openSnackBar(
-      //     'As you have change the insurer company you need to do your ckyc again.',
-      //     true,
-      //     10000
-      //   );
-      // }
-    } else {
-      this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-      this.details = JSON.parse(this.previousDetails);
-      if (this.details == null) {
-        this.regNo = sessionStorage.getItem('registrationNumber');
-
-        let apiUrl;
-
-        apiUrl = `?registration_number=${this.regNo?.toUpperCase()}`;
-
-        this.apiService
-          .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
-          .subscribe((res: any) => {
-            if (res?.status) {
-              sessionStorage.setItem(
-                'RenewalPreviousDetails',
-                JSON.stringify(res)
-              );
-              this.previousDetails = sessionStorage.getItem(
-                'RenewalPreviousDetails'
-              );
-              this.sharedDataService.getRenewalData(res);
-              this.details = JSON.parse(this.previousDetails);
-              const ckycDetails =
-                this.details?.previous_policy_details?.ckyc_details;
-              this.ckycFormGroup.patchValue({
-                document_type_based_field: ckycDetails?.document_type,
-                document_number_based_field: ckycDetails?.document_number,
-                dob: ckycDetails?.dob,
-                ckyc_full_name: ckycDetails?.full_name,
-                ckyc_gender: ckycDetails?.gender,
-                ckyc_download_data: ckycDetails?.is_verification,
-              });
-            }
-          });
-      } else {
-        const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
-        this.ckycFormGroup.patchValue({
-          document_type_based_field: ckycDetails?.document_type,
-          document_number_based_field: ckycDetails?.document_number,
-          dob: ckycDetails?.dob,
-          ckyc_full_name: ckycDetails?.full_name,
-          ckyc_gender: ckycDetails?.gender,
-          ckyc_download_data: ckycDetails?.is_verification,
-        });
+      if (proposal?.ckyc_status) {
+        this.ckycFormGroup?.disable();
       }
-    }
+      if (proposal?.insurer_code == 'united_india') {
+        this.isEnableCKyc = false;
+      }
+    });
+    // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
+    // const renewalType = sessionStorage.getItem('renewalType');
+    // if (renewalType != 'rollover' && renewalType != 'renewal') {
+    //   // if (
+    //   //   kycData?.insurer_code === this.quoteData['insurer_code'] &&
+    //   //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
+    //   //   kycData?.verification_status === true
+    //   // ) {
+    //   //   this.isDisableCKyc = true;
+    //   // } else if (
+    //   //   kycData?.insurer_code !== this.quoteData['insurer_code'] &&
+    //   //   sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
+    //   //   kycData?.verification_status === true
+    //   // ) {
+    //   //   this.sharedDataService.openSnackBar(
+    //   //     'As you have change the insurer company you need to do your ckyc again.',
+    //   //     true,
+    //   //     10000
+    //   //   );
+    //   // }
+    // } else {
+    //   // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
+    //   // this.details = JSON.parse(this.previousDetails);
+    //   // if (this.details == null) {
+    //   //   this.regNo = sessionStorage.getItem('registrationNumber');
+
+    //   //   let apiUrl;
+
+    //   //   apiUrl = `?registration_number=${this.regNo?.toUpperCase()}`;
+
+    //   //   this.apiService
+    //   //     .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
+    //   //     .subscribe((res: any) => {
+    //   //       if (res?.status) {
+    //   //         sessionStorage.setItem(
+    //   //           'RenewalPreviousDetails',
+    //   //           JSON.stringify(res)
+    //   //         );
+    //   //         this.previousDetails = sessionStorage.getItem(
+    //   //           'RenewalPreviousDetails'
+    //   //         );
+    //   //         this.sharedDataService.getRenewalData(res);
+    //   //         this.details = JSON.parse(this.previousDetails);
+    //   //         const ckycDetails =
+    //   //           this.details?.previous_policy_details?.ckyc_details;
+    //   //         this.ckycFormGroup.patchValue({
+    //   //           document_type_based_field: ckycDetails?.document_type,
+    //   //           document_number_based_field: ckycDetails?.document_number,
+    //   //           dob: ckycDetails?.dob,
+    //   //           ckyc_full_name: ckycDetails?.full_name,
+    //   //           ckyc_gender: ckycDetails?.gender,
+    //   //           ckyc_download_data: ckycDetails?.is_verification,
+    //   //         });
+    //   //       }
+    //   //     });
+    //   // } else {
+    //   //   const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
+    //   //   this.ckycFormGroup.patchValue({
+    //   //     document_type_based_field: ckycDetails?.document_type,
+    //   //     document_number_based_field: ckycDetails?.document_number,
+    //   //     dob: ckycDetails?.dob,
+    //   //     ckyc_full_name: ckycDetails?.full_name,
+    //   //     ckyc_gender: ckycDetails?.gender,
+    //   //     ckyc_download_data: ckycDetails?.is_verification,
+    //   //   });
+    //   // }
+    // }
     // this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
     //   if (kyc?.customer_details?.dob) {
     //     this.ckycFormGroup.patchValue({
@@ -303,15 +308,9 @@ export class CkycComponent implements OnInit {
     //     this.isDisableCKyc = true;
     //   }
     // });
-    this.renewalDetails = sessionStorage.getItem('renewalDetails');
-    const parsedRenewalDetails = JSON.parse(this.renewalDetails);
-    if (parsedRenewalDetails?.ckyc_status) {
-      this.ckycFormGroup?.disable();
-    }
-    if (this.quoteData?.insurer_code == 'united_india') {
-      // this.ckycFormGroup.disable();
-      this.isEnableCKyc = false;
-    }
+    // this.renewalDetails = sessionStorage.getItem('renewalDetails');
+    // const parsedRenewalDetails = JSON.parse(this.renewalDetails);
+    
 
     // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
     // this.details = JSON.parse(this.previousDetails);

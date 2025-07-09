@@ -31,6 +31,13 @@ export class EngineNumberComponent implements OnInit {
        this.engineForm.addControl('engine_number', new FormControl());
      }
     this.visuallyDisabledFields = this.shareDataService.disableVisually(['engine_number'], this.engineForm);
+    this.shareDataService.errorEngineNumberValue.subscribe((res)=>{
+      if (res === 'engine') {
+        const engineControl = this.engineForm.get('engine_number');
+        engineControl?.setErrors({ invalidEngineNumber: true });
+        engineControl?.markAsTouched(); // ensures mat-error displays
+      }
+    })
   }
 
   ngOnDestroy(): void {

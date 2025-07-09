@@ -38,6 +38,7 @@ export class SharedDataService {
   getSelectedVehicleType: Subject<any> = new Subject();
   getTraceIdApiResponse: Subject<any> = new Subject();
   getVahaanDetails: Subject<any> = new Subject();
+  errorEngineNumberValue: Subject<any> = new Subject();
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
   loader = new BehaviorSubject<any>(null);
@@ -237,6 +238,9 @@ export class SharedDataService {
   }
   vahaanDetails(data: any) {
     this.getVahaanDetails.next(data);
+  }
+  errorEngineNumber(data:any){
+    this.errorEngineNumberValue.next(data);
   }
   /**
    *
