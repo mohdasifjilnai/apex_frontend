@@ -991,6 +991,7 @@ export class ProposalComponent implements OnInit {
     if (!proposalData.ckyc_details || !proposalData.ckyc_details.is_accordion_completed) {
       this.openAccordion('ckyc');
       this.accordianExpanded = 'ckyc';
+      this.setAccordionAccess('ckyc');
       return;
     }
   
@@ -998,12 +999,15 @@ export class ProposalComponent implements OnInit {
     if (!proposalData.customer_details || !proposalData.customer_details.is_accordion_completed) {
       this.openAccordion('customer_details');
       this.accordianExpanded = 'vehicleOwnerDetails';
+      this.setAccordionAccess('customer_details');
       return;
     }
   // Check Nominee Details Accordion
     if (proposalData.nominee_details!=null && !proposalData.nominee_details?.is_accordion_completed) {
       this.openAccordion('nominee_details');
       this.accordianExpanded = 'nomineeDetails';
+      this.setAccordionAccess('nominee_details');
+
       this.showNomineeDetails = true
       return;
     }
@@ -1013,6 +1017,7 @@ export class ProposalComponent implements OnInit {
       this.openAccordion('vehicle_details');
       this.accordianExpanded = 'vehicleDetails';
       this.showVehicleDetails = true
+      this.setAccordionAccess('vehicle_details');
       return;
     }
     const nomineeDetails = proposalData.nominee_details;
@@ -1028,6 +1033,7 @@ export class ProposalComponent implements OnInit {
     if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
       this.openAccordion('vehicle_details');
       this.accordianExpanded = 'vehicleDetails';
+      this.setAccordionAccess('vehicle_details');
       this.showVehicleDetails = true
       return;
     }
@@ -1038,17 +1044,40 @@ export class ProposalComponent implements OnInit {
       this.openAccordion('previous_policy');
       this.accordianExpanded = 'previousPolicyDetails';
       this.showPreviousPolicyDetails=true
+      this.setAccordionAccess('previous_policy');
+
       return;
     }
     if (!previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
       this.openAccordion('previous_policy');
       this.accordianExpanded = 'previousPolicyDetails';
       this.showPreviousPolicyDetails=true
+      this.setAccordionAccess('previous_policy');
+
       return;
     }
     
   }
+  accordionStatus:any = {
+    ckyc: false,
+    customer_details: false,
+    nominee_details: false,
+    vehicle_details: false,
+    previous_policy: false
+  };
+  setAccordionAccess(active: string) {
+    let keys = Object.keys(this.accordionStatus);
+    let activeFound = false;
   
+    keys.forEach((key) => {
+      if (key === active) {
+        this.accordionStatus[key] = false; // this one is open
+        activeFound = true;
+      } else {
+        this.accordionStatus[key] = activeFound; // disable only those after
+      }
+    });
+  }
   openAccordion(section: string) {
     console.log(`Open ${section} accordion`);
     // You can write logic to open specific accordion based on section value

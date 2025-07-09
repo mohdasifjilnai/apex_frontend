@@ -600,7 +600,7 @@ export class AddOnsComponent implements OnInit {
         JSON.stringify(idvObject)
       );
     } else if (getChangesThrough == 'input') {
-      let allIdvData = JSON.parse(this.idvAmount);
+      let allIdvData = JSON.parse(this.idvAmount || '{}');
       let idvObject = {
         minIdv: '',
         maxIdv: '',

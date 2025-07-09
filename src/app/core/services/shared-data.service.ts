@@ -317,6 +317,9 @@ export class SharedDataService {
 
               let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
               let dateObj = moment(registrationDate, 'MM/YYYY');
+              if(res?.message){
+                this.openSnackBar(res?.message, false, 3000);
+              }
               // this.getRegistrationData.next(dateObj);
             } else {
               this.detailNotFound.next(res?.message);

@@ -65,6 +65,7 @@ import { PayoutInfoComponent } from './components/dialog-components/payout-info/
 import { RevisedPremiumBreakupComponent } from './components/dialog-components/revised-premium-breakup/revised-premium-breakup.component';
 import { VehicleRegistrationNumberComponent } from './components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
 import { RefreshPageComponent } from './components/dialog-components/refresh-page/refresh-page.component';
+import { NoMaskedValueDirective } from './directives/no-masked-value.directive';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { RefreshPageComponent } from './components/dialog-components/refresh-pag
     RevisedPremiumBreakupComponent,
     VehicleRegistrationNumberComponent,
     RefreshPageComponent,
+    NoMaskedValueDirective,
   ],
   imports: [
     CommonModule,

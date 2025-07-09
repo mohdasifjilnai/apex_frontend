@@ -30,6 +30,7 @@
         #vehilceOwnerPanel
         id-automation="vehilce_owner"
         [expanded]="accordianExpanded === 'vehicleOwnerDetails'"
+        [disabled]="accordionStatus['customer_details']"
       >
         <mat-expansion-panel-header
           tabindex="-1"
@@ -48,6 +49,7 @@
         id-automation="nomine_details"
         *ngIf="isNotShowNomineeDetails"
         [expanded]="accordianExpanded === 'nomineeDetails'"
+        [disabled]="accordionStatus['nominee_details']"
       >
         <mat-expansion-panel-header
           tabindex="-1"
@@ -66,6 +68,7 @@
         #vehicleDetailPanel
         id-automation="vehicle_details"
         [expanded]="accordianExpanded === 'vehicleDetails'"
+        [disabled]="accordionStatus['vehicle_details']"
       >
         <mat-expansion-panel-header
           tabindex="-1"
@@ -85,6 +88,7 @@
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
         [expanded]="accordianExpanded === 'previousPolicyDetails'"
         *ngIf="isNotShowInNewPolicyDetails"
+        [disabled]="accordionStatus['previous_policy']"
       >
         <mat-expansion-panel-header
           tabindex="-1"
