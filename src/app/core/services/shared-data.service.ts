@@ -285,7 +285,19 @@ export class SharedDataService {
         )
         .subscribe(
           (res: any) => {
-            if (res?.detail != 'Vehicle details not found.') {
+            if (res?.message != 'Vehicle details not found.') {
+              if (res?.code == 1019) {
+                let vehicleType = sessionStorage.getItem('vehicleType');
+                if (vehicleType == 'private_car') {
+                  res['is_four_wheeler'] = true;
+                  res['is_two_wheeler'] = false;
+                  res['is_commercial'] = false;
+                } else if (vehicleType == 'two_wheeler') {
+                  res['is_four_wheeler'] = false;
+                  res['is_two_wheeler'] = true;
+                  res['is_commercial'] = false;
+                }
+              }
               let checkWheeler = {
                 is_two_wheeler: res['is_two_wheeler'],
                 is_four_wheeler: res['is_four_wheeler'],
@@ -307,7 +319,7 @@ export class SharedDataService {
               let dateObj = moment(registrationDate, 'MM/YYYY');
               // this.getRegistrationData.next(dateObj);
             } else {
-              this.detailNotFound.next(res?.detail);
+              this.detailNotFound.next(res?.message);
             }
           },
           (error) => {
@@ -901,7 +913,7 @@ export class SharedDataService {
         document_number:
           formData?.get('document_number_based_field')?.value.toUpperCase() ||
           '',
-        is_accordion_completed:true  
+        is_accordion_completed: true,
       };
     }
     if (flag === 'vehicle_owner_detail') {
@@ -928,7 +940,7 @@ export class SharedDataService {
         },
         customer_type: this.proposerType || '',
         pan_number: formData?.get('document_number_based_field')?.value || null,
-        is_accordion_completed:true 
+        is_accordion_completed: true,
       };
     }
     if (flag === 'nominne_details') {
@@ -936,7 +948,7 @@ export class SharedDataService {
         name: formData?.get('nominne_full_Name')?.value,
         age: formData?.get('age')?.value,
         relation_id: formData?.get('nominne_relation')?.value,
-        is_accordion_completed:true 
+        is_accordion_completed: true,
       };
     }
     if (flag === 'vehilce_details') {
@@ -970,7 +982,7 @@ export class SharedDataService {
             ? formData?.get('is_vehicle_address')?.value || ''
             : 'false',
         mmv_id: this.mmvData?.vehicle_variant?.rb_mmv_id,
-        is_accordion_completed:true 
+        is_accordion_completed: true,
       };
       if (this.registrationAddressItem) {
         this.proposalDataItem['vehicle_details'].registration_address = {
@@ -1026,7 +1038,7 @@ export class SharedDataService {
             formData?.get('policy_expiry_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-          is_accordion_completed:true 
+        is_accordion_completed: true,
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
@@ -1076,7 +1088,7 @@ export class SharedDataService {
             formData?.get('tp_policy_start_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-          is_accordion_completed:true  
+        is_accordion_completed: true,
       };
     } else if (
       flag === 'previous_policy_details' &&
@@ -1093,7 +1105,7 @@ export class SharedDataService {
             formData?.get('tp_policy_end_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-          is_accordion_completed:true  
+        is_accordion_completed: true,
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
