@@ -51,7 +51,7 @@ export class SharedDataService {
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
-  getProposalDetails = new BehaviorSubject<any>(null);
+  getProposalDetails : Subject<any> = new Subject();
   getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
@@ -918,6 +918,9 @@ export class SharedDataService {
           '',
         is_accordion_completed: true,
       };
+      if(!fetchCkyc?.verification_status){
+        this.proposalDataItem['ckyc_details'].is_accordion_completed=false
+      }
     }
     if (flag === 'vehicle_owner_detail') {
       this.proposalDataItem['customer_details'] = {
