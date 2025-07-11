@@ -19,6 +19,7 @@ import {
   distinctUntilChanged,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -847,6 +848,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   getSepratedPincodeData(pincodeData: any) {
     if (pincodeData) {
       this.owenerVehicleDetailsForm.patchValue({
+        owner_pincode:pincodeData,
         owner_city: pincodeData.rb_city_name,
         owner_state: pincodeData.rb_state_name,
       });
@@ -882,6 +884,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
              * If less than 3 characters, return an empty array
              */
             return of([]);
+          }
+        })
+        ,
+        tap((response: any[]) => {
+          if (response.length === 1) {
+            this.getSepratedPincodeData(response[0])
           }
         })
       );

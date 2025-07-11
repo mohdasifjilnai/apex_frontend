@@ -918,7 +918,7 @@ export class SharedDataService {
           '',
         is_accordion_completed: true,
       };
-      if(!fetchCkyc?.verification_status){
+      if(fetchCkyc?.verification_status==false){
         this.proposalDataItem['ckyc_details'].is_accordion_completed=false
       }
     }

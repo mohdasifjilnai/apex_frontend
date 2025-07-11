@@ -25,6 +25,7 @@ import {
   distinctUntilChanged,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -213,67 +214,67 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       // }
     });
     // if (sessionStorage.getItem('withoutVehicleNumber')) {
-    this.vahaanDetailsUnsubscribe = this.shareData.getVahaanDetails.subscribe(
-      (res: any) => {
-        let regLastDigit = res?.vehicle_details?.registration_no?.slice(4);
-        this.proposalVehilceDetailsForm
-          .get('registration_number_last_digit')
-          ?.disable();
-        if (res?.vehicle_details != null) {
-          console.log('6666666')
+    // this.vahaanDetailsUnsubscribe = this.shareData.getVahaanDetails.subscribe(
+    //   (res: any) => {
+    //     let regLastDigit = res?.vehicle_details?.registration_no?.slice(4);
+    //     this.proposalVehilceDetailsForm
+    //       .get('registration_number_last_digit')
+    //       ?.disable();
+    //     if (res?.vehicle_details != null) {
+    //       console.log('6666666')
 
-          this.proposalVehilceDetailsForm.patchValue({
-            registration_number_last_digit: regLastDigit,
-            engine_number: res?.vehicle_details?.engine_no,
-            chassis_number: res?.vehicle_details?.chassis_no,
-            vehicle_colour: res?.vehicle_details?.vehicle_color,
-            vehicle_pincode:
-              res?.vehicle_details?.registration_address?.pincode,
-            financer: res?.vehicle_details?.financer_details?.financer_id,
-            agreement_type:
-              res?.vehicle_details?.financer_details?.agreement_type,
-            financer_city:
-              res?.vehicle_details?.financer_details?.financer_branch,
-            vehicle_registration_address:
-              res?.vehicle_details?.registration_address?.address_line,
-            is_vehicle_address: res?.vehicle_details?.is_same_location,
-          });
-        }
-        if (res?.vehicle_details?.financer_details != null) {
-          this.proposalVehilceDetailsForm.patchValue({
-            financer: res?.vehicle_details?.financer_details?.financer_id,
-            agreement_type:
-              res?.vehicle_details?.financer_details?.agreement_type,
-            financer_city:
-              res?.vehicle_details?.financer_details?.financer_branch,
-            is_financed: res?.vehicle_details?.is_vehicle_financed,
-          });
-        }
+    //       this.proposalVehilceDetailsForm.patchValue({
+    //         registration_number_last_digit: regLastDigit,
+    //         engine_number: res?.vehicle_details?.engine_no,
+    //         chassis_number: res?.vehicle_details?.chassis_no,
+    //         vehicle_colour: res?.vehicle_details?.vehicle_color,
+    //         vehicle_pincode:
+    //           res?.vehicle_details?.registration_address?.pincode,
+    //         financer: res?.vehicle_details?.financer_details?.financer_id,
+    //         agreement_type:
+    //           res?.vehicle_details?.financer_details?.agreement_type,
+    //         financer_city:
+    //           res?.vehicle_details?.financer_details?.financer_branch,
+    //         vehicle_registration_address:
+    //           res?.vehicle_details?.registration_address?.address_line,
+    //         is_vehicle_address: res?.vehicle_details?.is_same_location,
+    //       });
+    //     }
+    //     if (res?.vehicle_details?.financer_details != null) {
+    //       this.proposalVehilceDetailsForm.patchValue({
+    //         financer: res?.vehicle_details?.financer_details?.financer_id,
+    //         agreement_type:
+    //           res?.vehicle_details?.financer_details?.agreement_type,
+    //         financer_city:
+    //           res?.vehicle_details?.financer_details?.financer_branch,
+    //         is_financed: res?.vehicle_details?.is_vehicle_financed,
+    //       });
+    //     }
 
-        if (res?.vehicle_details?.registration_address?.pincode) {
-          this.apiservice
-            .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                res?.vehicle_details?.registration_address?.pincode
-              }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-            )
-            .subscribe((response) => {
-              this.proposalVehilceDetailsForm.patchValue({
-                vehicle_pincode: response[0],
-                vehilce_city: response[0].rb_city_name,
-                vehicle_state: response[0].rb_state_name,
-              });
-              this.shareData?.sendOwnnerAddres(
-                this.proposalVehilceDetailsForm.valid
-              );
-            });
-          //   this.shareData?.sendOwnnerAddres(
-          //     this.proposalVehilceDetailsForm.valid
-          //   );
-          // });
-        }
-      }
-    );
+    //     if (res?.vehicle_details?.registration_address?.pincode) {
+    //       this.apiservice
+    //         .getRequestedResponse(
+    //           `${ApiConstants.pincode}?pincode=${
+    //             res?.vehicle_details?.registration_address?.pincode
+    //           }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+    //         )
+    //         .subscribe((response) => {
+    //           this.proposalVehilceDetailsForm.patchValue({
+    //             vehicle_pincode: response[0],
+    //             vehilce_city: response[0].rb_city_name,
+    //             vehicle_state: response[0].rb_state_name,
+    //           });
+    //           this.shareData?.sendOwnnerAddres(
+    //             this.proposalVehilceDetailsForm.valid
+    //           );
+    //         });
+    //       //   this.shareData?.sendOwnnerAddres(
+    //       //     this.proposalVehilceDetailsForm.valid
+    //       //   );
+    //       // });
+    //     }
+    //   }
+    // );
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
@@ -1221,6 +1222,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             return of([]);
           }
         })
+        ,
+        tap((response: any[]) => {
+          if (response.length === 1) {
+            this.getSepratedPincodeData(response[0])
+          }
+        })
       );
     }
   }
@@ -1232,6 +1239,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getSepratedPincodeData(pincodeData: any) {
     if (pincodeData) {
       this.proposalVehilceDetailsForm.patchValue({
+        vehicle_pincode:pincodeData,
         vehilce_city: pincodeData.rb_city_name,
         vehicle_state: pincodeData.rb_state_name,
       });

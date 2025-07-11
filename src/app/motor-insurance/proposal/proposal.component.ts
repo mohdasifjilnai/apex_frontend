@@ -153,9 +153,9 @@ export class ProposalComponent implements OnInit {
           this.isPrevoiusInsurer = true;
           sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
         }
-        if (sessionStorage.getItem('newVehicleType') != 'new' && !renewalType) {
-          this.getVahaanDetails(sessionStorage.getItem('registrationNumber'));
-        }
+        // if (sessionStorage.getItem('newVehicleType') != 'new' && !renewalType) {
+        //   this.getVahaanDetails(sessionStorage.getItem('registrationNumber'));
+        // }
         this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
         const BuyNowClick = sessionStorage.getItem('BuyNowClick');
         if (!BuyNowClick) {
@@ -243,21 +243,21 @@ export class ProposalComponent implements OnInit {
   //     this.isLoadPreviousPolicyDetails = true;
   //   }
   // }
-  getVahaanDetails(reg_no: any) {
-    const partner_code = sessionStorage.getItem('partner_code')
-      ? sessionStorage.getItem('partner_code')
-      : '';
-    const token = sessionStorage.getItem('token');
-    this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.registration_number()}?regn_no=${reg_no}&partner_code=${partner_code}`
-      )
-      .subscribe((res: any) => {
-        if (res) {
-          this.sharedData.vahaanDetails(res);
-        }
-      });
-  }
+  // getVahaanDetails(reg_no: any) {
+  //   const partner_code = sessionStorage.getItem('partner_code')
+  //     ? sessionStorage.getItem('partner_code')
+  //     : '';
+  //   const token = sessionStorage.getItem('token');
+  //   this.apiService
+  //     .getRequestedResponse(
+  //       `${ApiConstants.registration_number()}?regn_no=${reg_no}&partner_code=${partner_code}`
+  //     )
+  //     .subscribe((res: any) => {
+  //       if (res) {
+  //         this.sharedData.vahaanDetails(res);
+  //       }
+  //     });
+  // }
 
 
   /**
@@ -776,7 +776,7 @@ export class ProposalComponent implements OnInit {
             response?.quote_request?.registration_no != null &&
             !response?.quote_request?.is_rb_renewal
           ) {
-            this.getVahaanDetails(response?.quote_request?.registration_no);
+            // this.getVahaanDetails(response?.quote_request?.registration_no);
           }
           const regNo = response?.quote_request?.registration_no;
 
