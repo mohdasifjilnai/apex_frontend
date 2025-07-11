@@ -996,15 +996,16 @@ export class AddOnsComponent implements OnInit {
 
     for (let key of this.selectedCheckedArray) {
       const keys = Object.keys(key);
-      // if (keys[0] == rb_code) {
-      if (typeof event != 'object') {
-        key[keys[0]] = JSON.parse(event);
+      if (keys[0] == rb_code) {
+        if (typeof event != 'object') {
+          key[keys[0]] = JSON.parse(event);
+        }
+        if (type == 'multi_checkbox') {
+          key[keys[0]] = this.multipCheckboxName.join(',');
+        }
       }
-      if (type == 'multi_checkbox') {
-        key[keys[0]] = this.multipCheckboxName.join(',');
-      }
-      // }
     }
+    // console.log(this.selectedCheckedArray);
     // console.log(this.multipCheckboxName);
   }
   /**
