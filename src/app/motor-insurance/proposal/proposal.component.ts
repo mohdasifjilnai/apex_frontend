@@ -189,23 +189,23 @@ export class ProposalComponent implements OnInit {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
-    // if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
-    //   for (let isCpa of this.quoteData?.premium_details
-    //     ?.addon_premium_details) {
-    //     if (
-    //       (isCpa?.add_on_code === 'CPA' ||
-    //         isCpa?.add_on_code === 'CPA3' ||
-    //         isCpa?.add_on_code === 'CPA5') &&
-    //       this.proposerType !== 'corporate'
-    //     ) {
-    //       // this.isNotShowNomineeDetails = true;
-    //     }
-    //   }
-    // } else if (this.proposerType === 'corporate') {
-    //   this.isNotShowNomineeDetails = false;
-    // } else {
-    //   this.isNotShowNomineeDetails = false;
-    // }
+    if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
+      for (let isCpa of this.quoteData?.premium_details
+        ?.addon_premium_details) {
+        if (
+          (isCpa?.add_on_code === 'CPA' ||
+            isCpa?.add_on_code === 'CPA3' ||
+            isCpa?.add_on_code === 'CPA5') &&
+          this.proposerType !== 'corporate'
+        ) {
+          this.isNotShowNomineeDetails = true;
+        }
+      }
+    } else if (this.proposerType === 'corporate') {
+      this.isNotShowNomineeDetails = false;
+    } else {
+      this.isNotShowNomineeDetails = false;
+    }
     this.getProposalDataForPatch();
     if (window.innerWidth <= 999) {
       this.isMobileView = true;
@@ -984,9 +984,9 @@ export class ProposalComponent implements OnInit {
 
   checkAccordionStatus(proposalData: any) {
     if (!proposalData) return;
-    if(proposalData?.nominee_details!=null){
-      this.isNotShowNomineeDetails = true;
-    }
+    // if(proposalData?.nominee_details!=null){
+    //   this.isNotShowNomineeDetails = true;
+    // }
     // Check CKYC Accordion
     if (!proposalData.ckyc_details || !proposalData.ckyc_details.is_accordion_completed) {
       this.openAccordion('ckyc');
