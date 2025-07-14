@@ -171,6 +171,7 @@ export class CkycComponent implements OnInit {
           ckyc_full_name: proposal?.ckyc_details?.full_name,
           ckyc_gender: proposal?.ckyc_details?.gender,
         });
+        this.documentNumberValidation();
         if (
           this.documentList &&
           this.proposalData?.ckyc_details?.document_type
@@ -324,6 +325,14 @@ export class CkycComponent implements OnInit {
     //   ckyc_gender: ckycDetails?.gender,
     //   ckyc_download_data: ckycDetails?.is_verification,
     // });
+    this.sharedDataService.errorEngineNumberValue.subscribe((res)=>{
+      if (res === 'ckyc_document') {
+        debugger
+        const engineControl = this.ckycFormGroup.get('document_number_based_field');
+        engineControl?.setErrors({ invalidDocumentNumber: true });
+        engineControl?.markAsTouched(); // ensures mat-error displays
+      }
+    })
   }
 
   /**
@@ -843,7 +852,9 @@ export class CkycComponent implements OnInit {
     const alternateControl = this.ckycFormGroup.get(
       'document_number_based_field'
     )?.value;
-    if (alternateControl && alternateControl.includes('*')) {
+    if (alternateControl && alternateControl.includes('*') && !this.proposalData?.ckyc_details?.is_accordion_completed) {
+      this.sharedDataService.errorEngineNumber('ckyc_document')
+    }else{
       this.ckycFormGroup
         .get('document_number_based_field')
         ?.setValidators([this.sharedDataService.customFieldValidator('pan')]);

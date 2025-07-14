@@ -742,34 +742,36 @@ export class ProposalComponent implements OnInit {
             sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
             let registartionNumber = response?.quote_request?.registration_no;
             let policy_number = response?.quote_request?.policy_number;
-            let apiUrl;
-            if (
-              registartionNumber != null &&
-              registartionNumber != '' &&
-              registartionNumber != undefined
-            ) {
-              apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-            } else {
-              apiUrl = `?previous_policy_number=${policy_number}`;
-            }
-            this.apiService
-              .getRequestedResponse(
-                `${ApiConstants.get_renewal_policy}${apiUrl}`
-              )
-              .subscribe((res: any) => {
-                if (res?.status) {
-                  sessionStorage.setItem(
-                    'RenewalPreviousDetails',
-                    JSON.stringify(res)
-                  );
-                  this.sharedData.getRenewalData(res);
-                  this.sharedData?.getAddressValidation(
-                    this.quoteData?.insurer_code
-                  );
+            this.sharedData.createProposalId();
 
-                  this.sharedData.createProposalId();
-                }
-              });
+            // let apiUrl;
+            // if (
+            //   registartionNumber != null &&
+            //   registartionNumber != '' &&
+            //   registartionNumber != undefined
+            // ) {
+            //   apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
+            // } else {
+            //   apiUrl = `?previous_policy_number=${policy_number}`;
+            // }
+            // this.apiService
+            //   .getRequestedResponse(
+            //     `${ApiConstants.get_renewal_policy}${apiUrl}`
+            //   )
+            //   .subscribe((res: any) => {
+            //     if (res?.status) {
+            //       sessionStorage.setItem(
+            //         'RenewalPreviousDetails',
+            //         JSON.stringify(res)
+            //       );
+            //       this.sharedData.getRenewalData(res);
+            //       this.sharedData?.getAddressValidation(
+            //         this.quoteData?.insurer_code
+            //       );
+
+            //       this.sharedData.createProposalId();
+            //     }
+            //   });
           }
           if (
             sessionStorage.getItem('withoutVehicleNumber') == 'true' &&

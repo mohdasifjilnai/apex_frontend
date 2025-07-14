@@ -85,15 +85,15 @@
             >
               Invalid Document Number
             </mat-error>
-            <!-- <mat-error
+            <mat-error
               *ngIf="
                 ckycFormGroup
                   .get('document_number_based_field')
-                  ?.hasError('validDOC')
+                  ?.hasError('invalidDocumentNumber')
               "
             >
               Please enter the valid {{ documentName }} number
-            </mat-error> -->
+            </mat-error>
           </mat-form-field>
         </div>
         <ng-container *ngIf="documentName == 'aadhaar_number'">
