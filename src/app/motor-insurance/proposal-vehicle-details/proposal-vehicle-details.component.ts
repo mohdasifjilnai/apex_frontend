@@ -410,10 +410,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         });
         const engineControl = this.proposalVehilceDetailsForm.get('engine_number');
         const chassisControl = this.proposalVehilceDetailsForm.get('chassis_number');
-        if (engineControl?.value?.includes('***')  || engineControl?.value?.includes('XXX')) {
+        if (engineControl?.value?.includes('***')) {
           this.shareData.errorEngineNumber('engine')
         }
-        if (chassisControl?.value?.includes('***') || chassisControl?.value?.includes('XXX')) {
+        if (chassisControl?.value?.includes('***')) {
           this.shareData.errorEngineNumber('chassis')
         }
         // this.shareData.isFinancedAddress(

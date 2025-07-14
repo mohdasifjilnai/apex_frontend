@@ -14,7 +14,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 export class NoMaskedValueDirective implements Validator {
   validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
-    if (typeof value === 'string' && (value.includes('***') || value.includes('XXX'))) {
+    if (typeof value === 'string' && (value.includes('***'))) {
       return { invalidEngineNumber: true };
     }
     return null;
