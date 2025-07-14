@@ -327,7 +327,6 @@ export class CkycComponent implements OnInit {
     // });
     this.sharedDataService.errorEngineNumberValue.subscribe((res)=>{
       if (res === 'ckyc_document') {
-        debugger
         const engineControl = this.ckycFormGroup.get('document_number_based_field');
         engineControl?.setErrors({ invalidDocumentNumber: true });
         engineControl?.markAsTouched(); // ensures mat-error displays
