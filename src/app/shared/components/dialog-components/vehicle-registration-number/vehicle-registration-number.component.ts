@@ -151,8 +151,20 @@ export class VehicleRegistrationNumberComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.loader = false;
-          if (res?.detail != 'Vehicle details not found.') {
+          if (res?.message != 'Vehicle details not found.') {
             if (!res?.is_commercial) {
+              if (res?.code == 1019) {
+                let vehicleType = sessionStorage.getItem('vehicleType');
+                if (vehicleType == 'private_car') {
+                  res['is_four_wheeler'] = true;
+                  res['is_two_wheeler'] = false;
+                  res['is_commercial'] = false;
+                } else if (vehicleType == 'two_wheeler') {
+                  res['is_four_wheeler'] = false;
+                  res['is_two_wheeler'] = true;
+                  res['is_commercial'] = false;
+                }
+              }
               if (
                 (this.quotes_data?.vehicle_type == 'private_car' &&
                   res?.is_four_wheeler) ||
