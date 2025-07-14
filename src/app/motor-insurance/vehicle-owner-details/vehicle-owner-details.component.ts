@@ -310,8 +310,8 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
                 owner_pincode: res[0],
-                owner_city: res[0].rb_city_name,
-                owner_state: res[0].rb_state_name,
+                owner_city: res[0]?.rb_city_name,
+                owner_state: res[0]?.rb_state_name,
               });
               this.sharedDataService?.sendOwnnerAddres(
                 this.owenerVehicleDetailsForm.valid

@@ -546,7 +546,7 @@ export class ProposalComponent implements OnInit {
     });
 
     this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
-    if (this.mmvData?.policy_expiry === 'IDK') {
+    if (this.mmvData?.form_value?.policy_expiry === 'IDK') {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.sharedData.isDisabledVehicleButton(this.isNotShowInNewPolicyDetails);

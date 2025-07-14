@@ -278,20 +278,20 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     // }
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
-      // const is_new_vehcile = sessionStorage.getItem('newVehicleType');
-      // if (proposal?.insurer_code != 'digit') {
-      //   if (is_new_vehcile == 'new') {
-      //     if (proposal?.ckyc_details?.is_verification) {
-      //       this.isDisableCKyc = false;
-      //     } else {
-      //       this.isDisableCKyc = true;
-      //     }
-      //   } else {
-      //     this.isDisableCKyc = false;
-      //   }
-      // } else {
-      //   this.isDisableCKyc = false;
-      // }
+      const is_new_vehcile = sessionStorage.getItem('newVehicleType');
+      if (proposal?.insurer_code != 'digit') {
+        if (is_new_vehcile == 'new') {
+          if (proposal?.ckyc_details?.is_verification) {
+            this.isDisableCKyc = false;
+          } else {
+            this.isDisableCKyc = true;
+          }
+        } else {
+          this.isDisableCKyc = false;
+        }
+      } else {
+        this.isDisableCKyc = false;
+      }
       if (proposal?.vehicle_details !== null) {
         const proposalParam = sessionStorage.getItem('proposal_param');
         if (proposalParam && proposalParam === 'true') {
@@ -416,9 +416,12 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (chassisControl?.value?.includes('***') || chassisControl?.value?.includes('XXX')) {
           this.shareData.errorEngineNumber('chassis')
         }
-        this.shareData.isFinancedAddress(
-          proposal?.vehicle_details?.is_vehicle_financed
-        );
+        // this.shareData.isFinancedAddress(
+        //   proposal?.vehicle_details?.is_vehicle_financed
+        // );
+        if(proposal?.vehicle_details?.is_vehicle_financed==true){
+          this.getFinacedValue()
+        }
         if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
@@ -1065,14 +1068,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getFinacedValue() {
     this.isFinancedChecked =
       this.financedToggle?.nativeElement?.checked ?? this.isFinancedChecked;
-    this.shareData.isFinancedAddress(this.isFinancedChecked);
+    // this.shareData.isFinancedAddress(this.isFinancedChecked);
 
     const financerControl = this.proposalVehilceDetailsForm.get('financer');
     const agreementTypeControl =
       this.proposalVehilceDetailsForm.get('agreement_type');
     const financerCityControl =
       this.proposalVehilceDetailsForm.get('financer_city');
-
     if (this.isFinancedChecked) {
       financerControl?.setValidators([Validators.required]);
       agreementTypeControl?.setValidators([Validators.required]);

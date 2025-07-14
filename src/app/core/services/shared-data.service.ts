@@ -1277,10 +1277,10 @@ export class SharedDataService {
     this.registrationAddressData.next(data);
     this.registrationAddressItem = data;
   }
-  isFinancedAddress(data: any) {
-    this.financedAddressData.next(data);
-    this.financedAddressItem = data;
-  }
+  // isFinancedAddress(data: any) {
+  //   this.financedAddressData.next(data);
+  //   this.financedAddressItem = data;
+  // }
   getFetchedCkycData(data: any) {
     this.fetchedCkycData.next(data);
     if (data) {
