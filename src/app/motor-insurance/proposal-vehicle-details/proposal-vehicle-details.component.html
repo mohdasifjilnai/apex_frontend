@@ -347,12 +347,11 @@
           isNotShowVehicleDetails ||
           isDisableCKyc ||
           isProposalFinancier ||
-          isVehicleButton ||
-          isOwnerAddressValidation
+          isVehicleButton
         "
       >
         {{
-          vehicleType === "new" || mmvItem?.policy_expiry === "IDK"
+          vehicleType === "new" || mmvItem?.form_value?.policy_expiry === "IDK"
             ? "Confirm & Review"
             : "Save & Continue"
         }}

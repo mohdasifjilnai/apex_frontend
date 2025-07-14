@@ -14,6 +14,7 @@
     minlength="6"
     maxlength="30"
     appNoMaskedValue
+    (input)="onFieldChange()"
     [readonly]="visuallyDisabledFields['chassis_number']"
   />
   <mat-error

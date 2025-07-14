@@ -9,6 +9,7 @@
     minlength="6"
     maxlength="25"
     appNoMaskedValue
+    (input)="onFieldChange()"
     [readonly]="visuallyDisabledFields['engine_number']"
   />
   <mat-error *ngIf="engineForm.controls['engine_number']?.hasError('required')">
