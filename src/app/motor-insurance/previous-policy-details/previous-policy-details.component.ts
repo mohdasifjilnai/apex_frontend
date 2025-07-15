@@ -101,46 +101,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
-    if (this.mmvData?.form_value?.policy_expiry === 'comprehensive') {
-      this.isTpStartDate = false;
-      this.isTpEndDateDisable = true;
-
-      if (this.mmvData?.form_value?.policy_expiry_date) {
-        this.previousPolicyDetailsForm.patchValue({
-          tp_policy_end_date: this.mmvData?.form_value?.policy_expiry_date,
-        });
-      }
-      const selectedDateValue =
-        this.previousPolicyDetailsForm.get('tp_policy_end_date')?.value;
-      const selectedDateNewValue = new Date(selectedDateValue);
-      const inputDate = new Date(selectedDateNewValue);
-      const outputDate = new Date(
-        inputDate.getFullYear() - 1,
-        inputDate.getMonth(),
-        inputDate.getDate() + 1
-      ); // Add 1 day
-      this.tpFormattedDate = this.datePipe.transform(
-        outputDate,
-        "EEE MMM dd yyyy HH:mm:ss 'GMT'Z"
-      );
-      this.previousPolicyDetailsForm.patchValue({
-        tp_policy_start_date: new Date(this.tpFormattedDate),
-      });
-      this.previousPolicyDetailsForm.patchValue({
-        policy_expiry_date: new Date(
-          this.mmvData?.form_value?.policy_expiry_date
-        ),
-      });
-    } else {
-      if (this.mmvData?.form_value?.policy_expiry_date) {
-        this.previousPolicyDetailsForm.patchValue({
-          policy_expiry_date: new Date(
-            this.mmvData?.form_value?.policy_expiry_date
-          ),
-        });
-      }
-    }
+    
     // this.sharedData.getVahaanDetails.subscribe((res: any) => {
     //   if (res?.previous_policy_number != null) {
     //     this.previousPolicyDetailsForm.patchValue({
@@ -239,6 +200,48 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     //       }
     //     });
     // }
+    this.mmvData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
+    if (this.mmvData?.form_value?.policy_expiry === 'comprehensive') {
+      this.isTpStartDate = false;
+      this.isTpEndDateDisable = true;
+      this.isTpPolicyDetails = true;
+      this.isOdPolicyDetails = false;
+      if (this.mmvData?.form_value?.policy_expiry_date) {
+        this.previousPolicyDetailsForm.patchValue({
+          tp_policy_end_date: this.mmvData?.form_value?.policy_expiry_date,
+          
+        });
+      }
+      const selectedDateValue =
+        this.previousPolicyDetailsForm.get('tp_policy_end_date')?.value;
+      const selectedDateNewValue = new Date(selectedDateValue);
+      const inputDate = new Date(selectedDateNewValue);
+      const outputDate = new Date(
+        inputDate.getFullYear() - 1,
+        inputDate.getMonth(),
+        inputDate.getDate() + 1
+      ); // Add 1 day
+      this.tpFormattedDate = this.datePipe.transform(
+        outputDate,
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'Z"
+      );
+      this.previousPolicyDetailsForm.patchValue({
+        tp_policy_start_date: new Date(this.tpFormattedDate),
+      });
+      this.previousPolicyDetailsForm.patchValue({
+        policy_expiry_date: new Date(
+          this.mmvData?.form_value?.policy_expiry_date
+        ),
+      });
+    } else {
+      if (this.mmvData?.form_value?.policy_expiry_date) {
+        this.previousPolicyDetailsForm.patchValue({
+          policy_expiry_date: new Date(
+            this.mmvData?.form_value?.policy_expiry_date
+          ),
+        });
+      }
+    }
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     this.vehicleTypeSelected = sessionStorage.getItem('vehicleType');
@@ -365,7 +368,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               }
             });
         }
-      } else {
+      }
+       else {
         if (
           this.mmvData?.form_value?.previous_insurer &&
           this.renewalType != 'renewal'
@@ -382,6 +386,20 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           this.previousPolicyDetailsForm.patchValue({
             previous_insurer: this.mmvData?.form_value?.previous_insurer,
             // tp_insurance_company: this.mmvData?.previous_insurer,
+          });
+        }
+        if(this.proposalData.previous_policy_details?.policy_no!=null && this.proposalData.previous_policy_details?.tp_policy_details==null){
+          this.previousPolicyDetailsForm.patchValue({
+            tp_policy_number:
+              this.proposalData.previous_policy_details?.policy_no,
+          });
+        }else{
+          this.previousPolicyDetailsForm.patchValue({
+            policy_no:
+              this.proposalData.previous_policy_details?.policy_no,
+              tp_policy_number:
+              this.proposalData.previous_policy_details?.tp_policy_details
+                ?.tp_policy_no,
           });
         }
       }
