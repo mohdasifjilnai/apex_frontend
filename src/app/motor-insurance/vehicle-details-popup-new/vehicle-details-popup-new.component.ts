@@ -416,6 +416,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           }
         }
       });
+
+    this.sharedDataService.changeManufactureDate
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (this.url == 'quotes') {
+          this.getExpiringPolicy(true);
+        }
+      });
     // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
     //   if(res){
     //     this.mmvBaseButtonDisable=res

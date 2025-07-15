@@ -147,6 +147,7 @@ export class ManufactureDateComponent implements OnInit {
     manufactureDate?.date(normalizedMonth.date());
     this.form.controls['manufacture_date'].setValue(manufactureDate);
     datepicker.close();
+    this.shared.manufactureDate(manufactureDate);
   }
 
   ngOnDestroy(): void {

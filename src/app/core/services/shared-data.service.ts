@@ -42,7 +42,7 @@ export class SharedDataService {
   getRegistrationValue: Subject<any> = new Subject();
   regNumberData = new BehaviorSubject<any>(null);
   loader = new BehaviorSubject<any>(null);
-
+  changeManufactureDate: Subject<any> = new Subject();
   getProposalReviewDetails = new BehaviorSubject<any>(null);
   quotationListing: Subject<any> = new Subject();
   registrationMonthSelection: Subject<any> = new Subject();
@@ -51,7 +51,7 @@ export class SharedDataService {
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
-  getProposalDetails : Subject<any> = new Subject();
+  getProposalDetails: Subject<any> = new Subject();
   getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
@@ -239,7 +239,7 @@ export class SharedDataService {
   vahaanDetails(data: any) {
     this.getVahaanDetails.next(data);
   }
-  errorEngineNumber(data:any){
+  errorEngineNumber(data: any) {
     this.errorEngineNumberValue.next(data);
   }
   /**
@@ -317,7 +317,7 @@ export class SharedDataService {
 
               let registrationDate = `${res?.registration_month}/${res?.registration_year}`;
               let dateObj = moment(registrationDate, 'MM/YYYY');
-              if(res?.message){
+              if (res?.message) {
                 this.openSnackBar(res?.message, false, 3000);
               }
               // this.getRegistrationData.next(dateObj);
@@ -918,8 +918,8 @@ export class SharedDataService {
           '',
         is_accordion_completed: true,
       };
-      if(fetchCkyc?.verification_status==false){
-        this.proposalDataItem['ckyc_details'].is_accordion_completed=false
+      if (fetchCkyc?.verification_status == false) {
+        this.proposalDataItem['ckyc_details'].is_accordion_completed = false;
       }
     }
     if (flag === 'vehicle_owner_detail') {
@@ -1498,6 +1498,10 @@ export class SharedDataService {
 
   policyExpiryDate(date: any) {
     this.changePolicyExpDate.next(date);
+  }
+
+  manufactureDate(date: any) {
+    this.changeManufactureDate.next(date);
   }
   sendPrevAddon(data: any) {
     this.previousAddons = data;
