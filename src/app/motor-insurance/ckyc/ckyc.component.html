@@ -66,6 +66,7 @@
               formControlName="document_number_based_field"
               class="text-uppercase"
               [maxlength]="documentMaxLength"
+              (input)="onFieldChange()"
             />
             <mat-error
               *ngIf="

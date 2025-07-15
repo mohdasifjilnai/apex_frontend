@@ -385,7 +385,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ) {
           this.previousPolicyDetailsForm.patchValue({
             previous_insurer: this.mmvData?.form_value?.previous_insurer,
-            // tp_insurance_company: this.mmvData?.previous_insurer,
+            tp_insurance_company: this.mmvData?.form_value?.previous_insurer,
           });
         }
         if(this.proposalData.previous_policy_details?.policy_no!=null && this.proposalData.previous_policy_details?.tp_policy_details==null){
@@ -395,11 +395,17 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           });
         }else{
           this.previousPolicyDetailsForm.patchValue({
-            policy_no:
+            prev_policy_number:
               this.proposalData.previous_policy_details?.policy_no,
               tp_policy_number:
               this.proposalData.previous_policy_details?.tp_policy_details
                 ?.tp_policy_no,
+                tp_policy_start_date:this.datePipe.transform(
+                  this.proposalData.previous_policy_details?.tp_policy_start_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                ),
+                tp_policy_end_date:
+                this.datePipe.transform(this.proposalData.previous_policy_details?.tp_policy_expiry_date,'yyyy-MM-ddTHH:mm:ss.SSSZ'),  
           });
         }
       }

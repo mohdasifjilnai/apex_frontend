@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-owner-contact',
@@ -23,7 +24,8 @@ export class OwnerContactComponent implements OnInit {
 
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private shareDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +41,13 @@ export class OwnerContactComponent implements OnInit {
     } else {
       this.form.addControl('contact_number', new FormControl());
     }
+    this.shareDataService.errorEngineNumberValue.subscribe((res)=>{
+      if (res === 'contact_number') {
+        const engineControl = this.form.get('contact_number');
+        engineControl?.setErrors({ invalidContactNumber: true });
+        engineControl?.markAsTouched(); // ensures mat-error displays
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -50,7 +59,7 @@ export class OwnerContactComponent implements OnInit {
   onFieldChange() {
     const control = this.form.get('contact_number');
     const value = control?.value;
-    if (value && value.includes('*')) {
+    if (value && value.includes('***')) {
       control?.setValue(null, { emitEvent: false }); // Update the value to null without triggering `valueChanges` again
     }
   }

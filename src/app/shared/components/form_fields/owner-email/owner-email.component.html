@@ -16,4 +16,7 @@
   <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
     Invalid email
   </mat-error>
+  <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
+    Please enter a valid Email
+  </mat-error>
 </mat-form-field>

@@ -49,7 +49,7 @@ export class EngineNumberComponent implements OnInit {
   onFieldChange() {
     const control = this.engineForm.get('engine_number');
     const value = control?.value;
-    if (value && value.includes('*')) {
+    if (value && value.includes('***')) {
       control?.setValue(null, { emitEvent: false }); // Update the value to null without triggering `valueChanges` again
     }
   }

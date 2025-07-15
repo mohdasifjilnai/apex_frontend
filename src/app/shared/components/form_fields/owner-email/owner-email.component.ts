@@ -7,6 +7,7 @@ import {
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-owner-email',
@@ -23,7 +24,9 @@ export class OwnerEmailComponent implements OnInit {
 
   constructor(
     private ctrlContainer: FormGroupDirective,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private shareDataService: SharedDataService
+
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +42,13 @@ export class OwnerEmailComponent implements OnInit {
     } else {
       this.form.addControl('owner_email', new FormControl());
     }
+    this.shareDataService.errorEngineNumberValue.subscribe((res)=>{
+      if (res === 'email') {
+        const engineControl = this.form.get('owner_email');
+        engineControl?.setErrors({ invalidEmail: true });
+        engineControl?.markAsTouched(); // ensures mat-error displays
+      }
+    })
   }
 
   ngOnDestroy(): void {

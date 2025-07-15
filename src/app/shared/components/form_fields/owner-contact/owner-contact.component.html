@@ -15,4 +15,7 @@
   <mat-error *ngIf="form.controls['contact_number']?.hasError('invalidContact')">
     Invalid Contact Number
   </mat-error>
+  <mat-error *ngIf="form.controls['contact_number']?.hasError('invalidContactNumber')">
+    Please enter a valid Contact number
+  </mat-error>
 </mat-form-field>
