@@ -508,7 +508,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     if (
       this.isTpPolicyDetails==true && this.isOdPolicyDetails==true
     ) {
-      debugger
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
         ?.setValidators([Validators.required]);
@@ -552,8 +551,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
     } else if (
-      this.isTpPolicyDetails=true
+      this.isTpPolicyDetails==true
     ) {
+
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
         ?.setValidators([Validators.required]);
@@ -597,6 +597,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     } else if (
       this.isOdPolicyDetails == true
     ) {
+
       this.previousPolicyDetailsForm
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
