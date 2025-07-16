@@ -334,18 +334,18 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
         let renewalDataType = sessionStorage.getItem('renewalType');
-        if (renewalDataType == 'renewal') {
-          let regFirstDigit = proposal?.vehicle_details?.registration_no.slice(
+        if (renewalDataType == 'renewal' && proposal?.vehicle_details?.registration_no!=null) {
+          let regFirstDigit = proposal?.vehicle_details?.registration_no?.slice(
             0,
             2
           );
-          let regSecondDigit = proposal?.vehicle_details?.registration_no.slice(
+          let regSecondDigit = proposal?.vehicle_details?.registration_no?.slice(
             3,
             5
           );
           let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
           let regLastDigit =
-            proposal?.vehicle_details?.registration_no.split(combineRegData);
+            proposal?.vehicle_details?.registration_no?.split(combineRegData);
           // if (regLastDigit) {
           //   const regParts = regLastDigit[1].map((item: string) => item.replace(/,/g, '').match(/^([a-zA-Z]+)([0-9]+)$/));;
           //   // if (regParts) {
@@ -451,31 +451,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           ? sessionStorage.getItem('partner_code')
           : '';
         const token = sessionStorage.getItem('token');
-        if (
-          this.regNumber &&
-          renewalType != 'renewal' &&
-          newVehicleType != 'new'
-        ) {
-          this.apiservice
-            .getRequestedResponse(
-              `${ApiConstants.registration_number()}?regn_no=${
-                this.regNumber
-              }&partner_code=${partner_code}`
-            )
-            .subscribe((res: any) => {
-              if (res) {
-                let regFirstDigit = this.regNumber?.slice(0, 2);
-                let regSecondDigit = this.regNumber?.slice(3, 5);
-                let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
-                let regLastDigit = this.regNumber.split(combineRegData);
-                this.proposalVehilceDetailsForm.patchValue({
-                  chassis_number: res?.chassis_number,
-                  engine_number: res?.engine_number,
-                  registration_number_last_digit: regLastDigit[1],
-                });
-              }
-            });
-        }
+        // if (
+        //   this.regNumber &&
+        //   renewalType != 'renewal' &&
+        //   newVehicleType != 'new'
+        // ) {
+        //   this.apiservice
+        //     .getRequestedResponse(
+        //       `${ApiConstants.registration_number()}?regn_no=${
+        //         this.regNumber
+        //       }&partner_code=${partner_code}`
+        //     )
+        //     .subscribe((res: any) => {
+        //       if (res) {
+        //         let regFirstDigit = this.regNumber?.slice(0, 2);
+        //         let regSecondDigit = this.regNumber?.slice(3, 5);
+        //         let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
+        //         let regLastDigit = this.regNumber.split(combineRegData);
+        //         this.proposalVehilceDetailsForm.patchValue({
+        //           chassis_number: res?.chassis_number,
+        //           engine_number: res?.engine_number,
+        //           registration_number_last_digit: regLastDigit[1],
+        //         });
+        //       }
+        //     });
+        // }
       }
       let previous_insurer = JSON.parse(
         sessionStorage.getItem('previous_insurerCode') || '{}'

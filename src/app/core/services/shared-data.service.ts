@@ -869,7 +869,7 @@ export class SharedDataService {
    * @param flag - The form field flag indicating which form data to use.
    * @param formData - The form data containing the customer, vehicle, and other details.
    */
-  createProposalId(flag?: any, formData?: any, fetchCkyc?: any) {
+  createProposalId(flag?: any, formData?: any, fetchCkyc?: any,show_tp_details?:any) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = sessionStorage.getItem('vehicleType');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
@@ -1045,6 +1045,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
+        show_tp_details:show_tp_details
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
@@ -1095,6 +1096,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
+        show_tp_details:show_tp_details
       };
     } else if (
       flag === 'previous_policy_details' &&
@@ -1112,6 +1114,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
+        show_tp_details:show_tp_details
       };
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {
         tp_insurer_code: formData?.get('previous_insurer')?.value

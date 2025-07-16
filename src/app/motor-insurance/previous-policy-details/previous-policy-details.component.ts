@@ -1044,7 +1044,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.afterPreviousVehicleDetilsData.emit(formValues);
             this.sharedData.createProposalId(
               'previous_policy_details',
-              this.previousPolicyDetailsForm
+              this.previousPolicyDetailsForm,
+              this.proposalData?.previous_policy_details?.show_tp_details
             );
             /**
              * Unsubscribe before subscribing to avoid multiple subscriptions
