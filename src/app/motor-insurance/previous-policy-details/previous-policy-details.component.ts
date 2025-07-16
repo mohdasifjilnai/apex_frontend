@@ -482,29 +482,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       //     });
       //   }
       // }
-    });
-    this.sharedData?.getOwnnerAddres?.subscribe((ownerAddres) => {
-      if (ownerAddres) {
-        this.isOwnerAddressValidation = false;
-      } else {
-        this.isOwnerAddressValidation = true;
-      }
-      // if (this.maxlength < ownerAddres.length) {
-      //   // this.sharedDataService?.sendOwnnerAddres(this.addresLength);
-      //   this.isOwnerAddressValidation = true;
-      // } else {
-      //   this.isOwnerAddressValidation = false;
-      // }
-    });
-    this.vehicleType = sessionStorage.getItem('newVehicleType');
-    if (this.vehicleType !== 'new') {
-      this.isDisabledPreviousPolicyDetails = true;
-    }
-    // let productTypeValue = sessionStorage.getItem('productType');
-    // let previousPolicyType = JSON.parse(
-    //   sessionStorage.getItem('mmv_data') || '{}'
-    // );
-
     if (
       this.isTpPolicyDetails==true && this.isOdPolicyDetails==true
     ) {
@@ -553,7 +530,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     } else if (
       this.isTpPolicyDetails==true
     ) {
-
+      debugger
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
         ?.setValidators([Validators.required]);
@@ -617,6 +594,29 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
     }
+    });
+    this.sharedData?.getOwnnerAddres?.subscribe((ownerAddres) => {
+      if (ownerAddres) {
+        this.isOwnerAddressValidation = false;
+      } else {
+        this.isOwnerAddressValidation = true;
+      }
+      // if (this.maxlength < ownerAddres.length) {
+      //   // this.sharedDataService?.sendOwnnerAddres(this.addresLength);
+      //   this.isOwnerAddressValidation = true;
+      // } else {
+      //   this.isOwnerAddressValidation = false;
+      // }
+    });
+    this.vehicleType = sessionStorage.getItem('newVehicleType');
+    if (this.vehicleType !== 'new') {
+      this.isDisabledPreviousPolicyDetails = true;
+    }
+    // let productTypeValue = sessionStorage.getItem('productType');
+    // let previousPolicyType = JSON.parse(
+    //   sessionStorage.getItem('mmv_data') || '{}'
+    // );
+    
 
     // this.sharedData.renewalPreviousPolicyData.subscribe((data: any) => {
     //   if (data) {
@@ -1046,6 +1046,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             this.sharedData.createProposalId(
               'previous_policy_details',
               this.previousPolicyDetailsForm,
+              '',
               this.proposalData?.previous_policy_details?.show_tp_details
             );
             /**
