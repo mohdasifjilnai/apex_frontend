@@ -271,14 +271,14 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         }
         const contactNUmberControl = this.owenerVehicleDetailsForm.get('contact_number');
         const emailControl = this.owenerVehicleDetailsForm.get('owner_email');
-        const additional_mobile_number = this.owenerVehicleDetailsForm.get('owner_email');
-        if (contactNUmberControl?.value?.includes('***') && !proposal?.customer_details) {
+        const additional_mobile_number = this.owenerVehicleDetailsForm.get('additional_contact');
+        if (contactNUmberControl?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed) {
           this.sharedDataService.errorEngineNumber('contact_number')
         }
-        if (emailControl?.value?.includes('***') && !proposal?.customer_details) {
+        if (emailControl?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed) {
           this.sharedDataService.errorEngineNumber('email')
         }
-        if(additional_mobile_number?.value?.includes('***') && !proposal?.customer_details){
+        if(additional_mobile_number?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed){
           const additional_mobile_number = this.owenerVehicleDetailsForm.get('additional_contact');
             additional_mobile_number?.setErrors({ invalidAdditionalContactNumber: true });
             additional_mobile_number?.markAsTouched(); // ensures mat-error displays

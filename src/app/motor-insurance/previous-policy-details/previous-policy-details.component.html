@@ -4,7 +4,7 @@
 >
   <div >
     <div class="row mt-3" *ngIf="isOdPolicyDetails">
-      <div class="col-12">
+      <div class="col-12" *ngIf="isTpPolicyDetails">
         <label>Own Damage (OD) Policy Details</label>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
@@ -12,13 +12,13 @@
           [previousInsurer]="'proposal-previous-insurer'"
           [required]="true"
           [formControlNameData]="'previous_insurer'"
-          [label]="'Search OD insurance company'"
+          [label]="isTpPolicyDetails?'Search OD insurance company':'Insurance Company'"
           (responseEvent)="previousInsurerComponentResponse($event)"
         ></app-previous-insurer>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <mat-form-field appearance="outline" class="mat-input-custom">
-          <mat-label>OD policy number</mat-label>
+          <mat-label>{{isTpPolicyDetails?'OD policy number':'Policy Number'}}</mat-label>
           <input
             matInput
             formControlName="prev_policy_number"
@@ -55,9 +55,9 @@
         ></app-policy-expired-date>
       </div>
     </div>
-    <hr *ngIf="isOdPolicyDetails" />
+    <hr *ngIf="isTpPolicyDetails"/>
     <div class="row mt-3" *ngIf="isTpPolicyDetails">
-      <div class="col-12" *ngIf="isTpStartDate">
+      <div class="col-12" >
         <label>Third Party (TP) Policy Details</label>
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
@@ -112,9 +112,7 @@
       </div>
       <div class="col-lg-4 col-md-4 col-12 mt-2">
         <mat-form-field appearance="outline" class="cpa-date">
-          <mat-label>{{
-            isTpStartDate ? "TP Policy End Date" : "Policy End Date"
-          }}</mat-label>
+          <mat-label>TP Policy End Date</mat-label>
           <input
             matInput
             [matDatepicker]="tpPolicyEndDate"

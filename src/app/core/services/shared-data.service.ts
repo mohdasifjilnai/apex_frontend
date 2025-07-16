@@ -1101,48 +1101,62 @@ export class SharedDataService {
       previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
-      this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+     
       this.proposalDataItem['previous_policy_details'] = {
-        insurer_code: formData?.get('tp_insurance_company')?.value
+        insurer_code: formData?.get('previous_insurer')?.value
           ?.rb_insurer_code,
-        policy_no: formData?.get('tp_policy_number')?.value,
+        policy_no: formData?.get('prev_policy_number')?.value,
         policy_expiry_date:
           this.datePipe.transform(
-            formData?.get('tp_policy_end_date')?.value,
+            formData?.get('policy_expiry_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
       };
-
+      this.proposalDataItem['previous_policy_details'].tp_policy_details = {
+        tp_insurer_code: formData?.get('previous_insurer')?.value
+          ?.rb_insurer_code,
+        tp_policy_no: formData?.get('prev_policy_number')?.value,
+        tp_policy_expiry_date:
+          this.datePipe.transform(
+            formData?.get('policy_expiry_date')?.value,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          ) || '',
+        tp_policy_start_date:
+          this.datePipe.transform(
+            formData?.get('policy_expiry_date')?.value,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          ) || '',
+      };
       let productTypeValue = sessionStorage.getItem('productType');
       let previousPolicyType = JSON.parse(
         sessionStorage.getItem('mmv_data') || '{}'
       );
-      if (previousPolicyType?.form_value?.policy_expiry === 'comprehensive') {
-        this.proposalDataItem['previous_policy_details'].tp_policy_details = {
-          tp_insurer_code: formData?.get('tp_insurance_company')?.value
-            ?.rb_insurer_code,
-          tp_policy_no: formData?.get('tp_policy_number')?.value,
-          tp_policy_expiry_date:
-            this.datePipe.transform(
-              formData?.get('tp_policy_end_date')?.value,
-              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-            ) || '',
-          tp_policy_start_date:
-            this.datePipe.transform(
-              formData?.get('tp_policy_start_date')?.value,
-              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-            ) || '',
-        };
-      } else {
-        this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
-      }
+      // if (previousPolicyType?.form_value?.policy_expiry === 'comprehensive') {
+      //   this.proposalDataItem['previous_policy_details'].tp_policy_details = {
+      //     tp_insurer_code: formData?.get('tp_insurance_company')?.value
+      //       ?.rb_insurer_code,
+      //     tp_policy_no: formData?.get('tp_policy_number')?.value,
+      //     tp_policy_expiry_date:
+      //       this.datePipe.transform(
+      //         formData?.get('tp_policy_end_date')?.value,
+      //         'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+      //       ) || '',
+      //     tp_policy_start_date:
+      //       this.datePipe.transform(
+      //         formData?.get('tp_policy_start_date')?.value,
+      //         'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+      //       ) || '',
+      //   };
+      // } else {
+      //   this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+      // }
     }
-    if (flag === 'proposal_review') {
-      this.proposalDataItem['previous_policy_details'] = {
-        ...formData,
-      };
-    }
+    // if (flag === 'proposal_review') {
+    //   this.proposalDataItem['previous_policy_details'] = {
+    //     ...formData,
+    //   };
+    // }
     let renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal' || renewalType == 'rollover') {
       const isRenewal = sessionStorage.getItem('isprevoiusInsurer');

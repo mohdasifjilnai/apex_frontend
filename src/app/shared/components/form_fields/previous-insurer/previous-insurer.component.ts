@@ -145,10 +145,10 @@ export class PreviousInsurerComponent implements OnInit {
       }
     });
 
-    // let renewalType = sessionStorage.getItem('renewalType');
-    // if (renewalType == 'renewal' || renewalType == 'rollover') {
-    //   this.form.get('previous_insurer')?.disable();
-    // }
+    let renewalType = sessionStorage.getItem('renewalType');
+    if (renewalType == 'renewal' || renewalType == 'rollover') {
+      this.form.get('previous_insurer')?.disable();
+    }
     this.visuallyDisabledFields = this.shareDataService.disableVisually(
       ['previous_insurer'],
       this.form
