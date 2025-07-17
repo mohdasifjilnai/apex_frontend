@@ -13,6 +13,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatStepper } from '@angular/material/stepper';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 declare var HyperKYCModule: any;
 @Component({
@@ -40,14 +41,14 @@ export class ProposalComponent implements OnInit {
   proposerType: any;
   isNotShowNomineeDetails: boolean = false;
   @ViewChild(MatStepper) stepper!: MatStepper;
-  @ViewChild('previousPolicyDetailsPanel', { read: ElementRef })
-  previousPolicyDetailsPanel!: ElementRef;
-  @ViewChild('vehilceOwnerPanel', { read: ElementRef })
-  vehilceOwnerPanel!: ElementRef;
+  @ViewChild('previousPolicyDetailsPanel') previousPolicyDetailsPanel!: MatExpansionPanel;
+  // previousPolicyDetailsPanel!: ElementRef;
+  @ViewChild('vehilceOwnerPanel') vehilceOwnerPanel!:MatExpansionPanel
+  // vehilceOwnerPanel!: ElementRef;
   @ViewChild('nomineDetailsPanel', { read: ElementRef })
   nomineDetailsPanel!: ElementRef;
-  @ViewChild('vehicleDetailPanel', { read: ElementRef })
-  vehicleDetailPanel!: ElementRef;
+  @ViewChild('vehicleDetailPanel') vehicleDetailPanel!:MatExpansionPanel
+  // vehicleDetailPanel!: ElementRef;
   fethedCkycData: boolean = false;
   vehicleType: any;
   isNotShowInNewPolicyDetails: boolean = true;
@@ -1020,6 +1021,7 @@ export class ProposalComponent implements OnInit {
       this.accordianExpanded = 'vehicleDetails';
       this.showVehicleDetails = true
       this.setAccordionAccess('vehicle_details');
+      this.vehicleDetailPanel.open();
       return;
     }
     const nomineeDetails = proposalData.nominee_details;
@@ -1037,6 +1039,7 @@ export class ProposalComponent implements OnInit {
       this.accordianExpanded = 'vehicleDetails';
       this.setAccordionAccess('vehicle_details');
       this.showVehicleDetails = true
+      this.vehicleDetailPanel.open();
       return;
     }
     
@@ -1047,6 +1050,7 @@ export class ProposalComponent implements OnInit {
       this.accordianExpanded = 'previousPolicyDetails';
       this.showPreviousPolicyDetails=true
       this.setAccordionAccess('previous_policy');
+      this.previousPolicyDetailsPanel.open();
 
       return;
     }
@@ -1055,7 +1059,7 @@ export class ProposalComponent implements OnInit {
       this.accordianExpanded = 'previousPolicyDetails';
       this.showPreviousPolicyDetails=true
       this.setAccordionAccess('previous_policy');
-
+      this.previousPolicyDetailsPanel.open();
       return;
     }
     
