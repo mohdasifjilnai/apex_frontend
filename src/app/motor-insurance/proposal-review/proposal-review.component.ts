@@ -182,8 +182,8 @@ export class ProposalReviewComponent implements OnInit {
     } else if (
       previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
     ) {
-      this.isTpDetailsDisabled = true;
-      this.isOdDetailsShow = false;
+      this.isTpDetailsDisabled = false;
+      this.isOdDetailsShow = true;
     } else if (
       previousPolicyType?.form_value?.policy_expiry === 'satp' ||
       previousPolicyType?.form_value?.policy_expiry === 'bundled_tp'
@@ -868,13 +868,14 @@ export class ProposalReviewComponent implements OnInit {
         } else if (
           previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
         ) {
-          this.isTpDetailsDisabled = true;
-          this.isOdDetailsShow = false;
+          this.isTpDetailsDisabled = false;
+          this.isOdDetailsShow = true;
         } else if (
           previousPolicyType?.form_value?.policy_expiry === 'satp' ||
           previousPolicyType?.form_value?.policy_expiry === 'bundled_tp'
         ) {
           this.isTpDetailsDisabled = true;
+          this.isOdDetailsShow = false;
         }
       }
       this.shareData.sendRenewalMmv(mmv_data);

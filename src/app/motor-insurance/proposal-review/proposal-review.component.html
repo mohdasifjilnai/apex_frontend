@@ -398,10 +398,10 @@
           </ng-container>
           <hr
             class="mt-2"
-            *ngIf="generateProposalData?.previous_policy_details != null"
+            *ngIf="isTpDetailsDisabled"
           />
           <ng-container
-            *ngIf="generateProposalData?.previous_policy_details != null"
+            *ngIf="isTpDetailsDisabled"
           >
             <span class="field-value col-lg-12 col-md-12 col-12 mt-1"
               >Third Party (TP) Policy Details</span

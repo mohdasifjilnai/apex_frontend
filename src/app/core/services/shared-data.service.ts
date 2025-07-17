@@ -1108,6 +1108,7 @@ export class SharedDataService {
       if (expiryDateStr) {
         const expiryDate = new Date(expiryDateStr);
         expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+        expiryDate.setDate(expiryDate.getDate() + 1);
         tpStartDate = this.datePipe.transform(expiryDate, 'yyyy-MM-dd') || '';
       }
       this.proposalDataItem['previous_policy_details'] = {};
