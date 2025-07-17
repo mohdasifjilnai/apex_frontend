@@ -1080,6 +1080,8 @@ export class SharedDataService {
         previousPolicyType?.form_value?.policy_expiry === 'bundled_tp')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
+      this.proposalDataItem['previous_policy_details'].is_accordion_completed=true,
+      this.proposalDataItem['previous_policy_details'].show_tp_details=show_tp_details,
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {
         tp_insurer_code: formData?.get('tp_insurance_company')?.value
@@ -1095,8 +1097,7 @@ export class SharedDataService {
             formData?.get('tp_policy_start_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-        is_accordion_completed: true,
-        show_tp_details:show_tp_details
+        
       };
     } else if (
       flag === 'previous_policy_details' &&

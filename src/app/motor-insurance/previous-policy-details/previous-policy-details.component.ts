@@ -530,7 +530,6 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     } else if (
       this.isTpPolicyDetails==true
     ) {
-      debugger
       this.previousPolicyDetailsForm
         .get('tp_insurance_company')
         ?.setValidators([Validators.required]);

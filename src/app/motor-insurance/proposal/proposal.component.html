@@ -13,7 +13,6 @@
   <div class="col-lg-9 col-md-8">
     <mat-accordion multi="false">
       <mat-expansion-panel
-        (opened)="openAccordion('ckyc')"
         id-automation="ckyc_details"
         [expanded]="accordianExpanded === 'ckyc'"
       >
@@ -26,7 +25,6 @@
         <app-ckyc (afterProceedGetData)="getProceedData($event)"></app-ckyc>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="openAccordion('customer_details')"
         #vehilceOwnerPanel
         id-automation="vehilce_owner"
         [expanded]="accordianExpanded === 'vehicleOwnerDetails'"
@@ -44,7 +42,6 @@
         ></app-vehicle-owner-details>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="openAccordion('nominee_details')"
         #nomineDetailsPanel
         id-automation="nomine_details"
         *ngIf="isNotShowNomineeDetails"
@@ -64,7 +61,6 @@
       </mat-expansion-panel>
       
       <mat-expansion-panel
-        (opened)="openAccordion('vehicle_details')"
         #vehicleDetailPanel
         id-automation="vehicle_details"
         [expanded]="accordianExpanded === 'vehicleDetails'"
@@ -82,7 +78,6 @@
         ></app-proposal-vehicle-details>
       </mat-expansion-panel>
       <mat-expansion-panel
-        (opened)="openAccordion('previous_policy')"
         #previousPolicyDetailsPanel
         id-automation="previous_policy_details"
         [ngClass]="{ isAccordianDisable: !showPreviousPolicyDetails }"
