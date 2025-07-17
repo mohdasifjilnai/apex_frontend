@@ -660,10 +660,18 @@ export class MotorInsuranceComponent implements OnInit {
                 ?.renewal_coverage_type
             )
           );
-          sessionStorage.setItem(
-            'renewalPolicyNumber',
-            res?.previous_policy_details?.previous_policy_details?.policy_no
-          );
+          if(res?.previous_policy_details?.previous_policy_details?.policy_no!=null){
+            sessionStorage.setItem(
+              'renewalPolicyNumber',
+              res?.previous_policy_details?.previous_policy_details?.policy_no
+            );
+          }else if(res?.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_policy_no){
+            sessionStorage.setItem(
+              'renewalPolicyNumber',
+              res?.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_policy_no
+            );
+          }
+          
           sessionStorage.setItem(
             'previousInsurer',
             res?.vehicle_details?.previous_insurer_code
