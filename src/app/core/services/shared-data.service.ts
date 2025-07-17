@@ -1102,6 +1102,13 @@ export class SharedDataService {
       flag === 'previous_policy_details' &&
       previousPolicyType?.form_value?.policy_expiry === 'comprehensive'
     ) {
+      const expiryDateStr = formData?.get('policy_expiry_date')?.value;
+      let tpStartDate = '';
+      if (expiryDateStr) {
+        const expiryDate = new Date(expiryDateStr);
+        expiryDate.setFullYear(expiryDate.getFullYear() - 1);
+        tpStartDate = this.datePipe.transform(expiryDate, 'yyyy-MM-dd') || '';
+      }
       this.proposalDataItem['previous_policy_details'] = {};
      
       this.proposalDataItem['previous_policy_details'] = {
@@ -1125,11 +1132,10 @@ export class SharedDataService {
             formData?.get('policy_expiry_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-        tp_policy_start_date:
-          this.datePipe.transform(
-            formData?.get('policy_expiry_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-          ) || '',
+        tp_policy_start_date:this.datePipe.transform(
+          tpStartDate,
+          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+        ) || '',
       };
       let productTypeValue = sessionStorage.getItem('productType');
       let previousPolicyType = JSON.parse(

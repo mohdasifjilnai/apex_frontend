@@ -845,11 +845,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
       this.previousPolicyDetailsForm?.disable();
       this.previousPolicyDetailsForm.get('previous_insurer')?.disable();
       this.previousPolicyDetailsForm.get('tp_insurance_company')?.disable();
-
-      // this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
-      // this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
-      // this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
-      // this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
+      this.previousPolicyDetailsForm.get('prev_policy_number')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_start_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_end_date')?.enable();
+      this.previousPolicyDetailsForm.get('tp_policy_number')?.enable();
+      this.previousPolicyDetailsForm.get('policy_expiry_date')?.enable();
       // this.isTpEndDateDisable = false;
     }
 

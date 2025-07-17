@@ -416,6 +416,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (chassisControl?.value?.includes('***')) {
           this.shareData.errorEngineNumber('chassis')
         }
+        const renewalType=sessionStorage.getItem('renewalType')
+        if(renewalType=='renewal' ){
+          this.proposalVehilceDetailsForm.get('engine_number')?.disable();
+          this.proposalVehilceDetailsForm.get('chassis_number')?.disable();
+        }
         // this.shareData.isFinancedAddress(
         //   proposal?.vehicle_details?.is_vehicle_financed
         // );
