@@ -45,9 +45,9 @@ export class OwnerCommunicationAddressComponent implements OnInit {
     }
 
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-      if (errData) {
+      if (errData?.min_length) {
         this.maxLength = errData?.max_length;
-        this.minLength=errData?.min_length
+        this.minLength = errData?.min_length;
 
         // this.isNotShowErrorMsg = true;
         if (this.maxLength || this.minLength) {

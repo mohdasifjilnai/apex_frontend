@@ -279,21 +279,35 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               customerDetails?.communication_address?.address_line,
           });
         }
-        const contactNUmberControl = this.owenerVehicleDetailsForm.get('contact_number');
+        const contactNUmberControl =
+          this.owenerVehicleDetailsForm.get('contact_number');
         const emailControl = this.owenerVehicleDetailsForm.get('owner_email');
-        const additional_mobile_number = this.owenerVehicleDetailsForm.get('additional_contact');
-        if (contactNUmberControl?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed) {
-          this.sharedDataService.errorEngineNumber('contact_number')
+        const additional_mobile_number =
+          this.owenerVehicleDetailsForm.get('additional_contact');
+        if (
+          contactNUmberControl?.value?.includes('***') &&
+          !proposal?.customer_details?.is_accordion_completed
+        ) {
+          this.sharedDataService.errorEngineNumber('contact_number');
         }
-        if (emailControl?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed) {
-          this.sharedDataService.errorEngineNumber('email')
+        if (
+          emailControl?.value?.includes('***') &&
+          !proposal?.customer_details?.is_accordion_completed
+        ) {
+          this.sharedDataService.errorEngineNumber('email');
         }
-        if(additional_mobile_number?.value?.includes('***') && !proposal?.customer_details?.is_accordion_completed){
-          const additional_mobile_number = this.owenerVehicleDetailsForm.get('additional_contact');
-            additional_mobile_number?.setErrors({ invalidAdditionalContactNumber: true });
-            additional_mobile_number?.markAsTouched(); // ensures mat-error displays
+        if (
+          additional_mobile_number?.value?.includes('***') &&
+          !proposal?.customer_details?.is_accordion_completed
+        ) {
+          const additional_mobile_number =
+            this.owenerVehicleDetailsForm.get('additional_contact');
+          additional_mobile_number?.setErrors({
+            invalidAdditionalContactNumber: true,
+          });
+          additional_mobile_number?.markAsTouched(); // ensures mat-error displays
         }
-        
+
         if (this.salutationList && this.proposalData) {
           for (let data of this.salutationList) {
             if (
@@ -468,13 +482,14 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     //   // }
     // });
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
-      if (errData) {
+      if (errData?.min_length) {
         this.maxlength = errData?.max_length;
         this.updateMaxLengthValidator(this.maxlength, errData?.min_length);
         this.owenerVehicleDetailsForm
           ?.get('owner_communication_addres')
           ?.valueChanges.subscribe((addressLength) => {
             this.addresLength = addressLength;
+            console.log(errData?.min_length);
           });
       }
     });

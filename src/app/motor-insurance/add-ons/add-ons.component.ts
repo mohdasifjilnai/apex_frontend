@@ -120,7 +120,7 @@ export class AddOnsComponent implements OnInit {
           this.selectedAddOns = '';
         } else {
           this.selectedAddOns = JSON.parse(this.addonsValue);
-          if (this.selectedAddOns.length > 0) {
+          if (this.selectedAddOns?.length > 0) {
             this.clearAllButton = true;
           }
         }
