@@ -23,6 +23,7 @@ export class OwnerCommunicationAddressComponent implements OnInit {
   isNotShowErrorMsg: boolean = true;
   maxLength: any;
   minLength: any;
+  isNotMinErrorMsg = true;
 
   constructor(
     private ctrlContainer: FormGroupDirective,
@@ -67,6 +68,14 @@ export class OwnerCommunicationAddressComponent implements OnInit {
           } else {
             this.isNotShowErrorMsg = false;
           }
+          if (addressValue?.length != 0) {
+            if (addressValue?.length < this.minLength) {
+              this.isNotMinErrorMsg = true;
+            } else {
+              this.isNotMinErrorMsg = false;
+            }
+          }
+
           this.form
             .get('owner_communication_addres')
             ?.valueChanges.subscribe((res) => {
@@ -75,11 +84,19 @@ export class OwnerCommunicationAddressComponent implements OnInit {
               } else {
                 this.isNotShowErrorMsg = false;
               }
+              if (res?.length != 0) {
+                if (res?.length < this.minLength) {
+                  this.isNotMinErrorMsg = true;
+                } else {
+                  this.isNotMinErrorMsg = false;
+                }
+              }
             });
         }
       }
     });
     this.isNotShowErrorMsg = false;
+    this.isNotMinErrorMsg = false;
   }
 
   ngOnDestroy(): void {

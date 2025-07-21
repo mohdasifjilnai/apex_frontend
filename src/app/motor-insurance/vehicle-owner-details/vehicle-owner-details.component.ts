@@ -489,7 +489,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           ?.get('owner_communication_addres')
           ?.valueChanges.subscribe((addressLength) => {
             this.addresLength = addressLength;
-            console.log(errData?.min_length);
           });
       }
     });

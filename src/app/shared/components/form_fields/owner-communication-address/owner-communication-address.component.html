@@ -5,7 +5,7 @@
     placeholder="Enter your address As per your AAdhar"
     formControlName="owner_communication_addres"
     id-automation="owner_communication_address"
-     minlength={{minLength}}
+    minlength="{{ minLength }}"
     appRemoveNewlines
     appNoSpace
   ></textarea>
@@ -15,9 +15,10 @@
     This is a required field.
   </mat-error>
   <mat-error
+    [hidden]="isNotMinErrorMsg"
     *ngIf="form.controls['owner_communication_addres']?.hasError('minlength')"
   >
-    Cannot be less than {{minLength}} Characters
+    Cannot be less than {{ minLength }} Characters
   </mat-error>
   <mat-error
     [hidden]="isNotShowErrorMsg"
@@ -32,4 +33,12 @@
   [ngClass]="isNotShowErrorMsg ? 'mb-3 ms-3' : ''"
 >
   Cannot be more than {{ maxLength }} Characters
+</div>
+
+<div
+  *ngIf="isNotMinErrorMsg"
+  class="text-danger error"
+  [ngClass]="isNotShowErrorMsg ? 'mb-3 ms-3' : ''"
+>
+  Cannot be less than {{ minLength }} Characters
 </div>
