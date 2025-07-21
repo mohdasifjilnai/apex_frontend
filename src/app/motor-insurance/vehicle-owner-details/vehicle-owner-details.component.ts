@@ -213,7 +213,17 @@ export class VehicleOwnerDetailsComponent implements OnInit {
 
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
-      if (proposal?.customer_details?.full_name) {
+      if (
+        proposal?.customer_details?.full_name &&
+        proposal?.insurer_code != 'digit'
+      ) {
+        this.vehicleOwnerName = true;
+      }
+      if (
+        proposal?.insurer_code == 'digit' &&
+        proposal?.customer_details?.full_name &&
+        proposal?.customer_details?.is_accordion_completed
+      ) {
         this.vehicleOwnerName = true;
       }
       if (proposal?.customer_details !== null) {
@@ -317,10 +327,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         ) {
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                this.proposalData?.customer_details?.communication_address
-                  ?.pincode
-              }&insurer_code=${proposal?.insurer_code}`
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}&insurer_code=${proposal?.insurer_code}`
             )
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
@@ -863,7 +870,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   getSepratedPincodeData(pincodeData: any) {
     if (pincodeData) {
       this.owenerVehicleDetailsForm.patchValue({
-        owner_pincode:pincodeData,
+        owner_pincode: pincodeData,
         owner_city: pincodeData.rb_city_name,
         owner_state: pincodeData.rb_state_name,
       });
@@ -900,11 +907,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
              */
             return of([]);
           }
-        })
-        ,
+        }),
         tap((response: any[]) => {
           if (response.length === 1) {
-            this.getSepratedPincodeData(response[0])
+            this.getSepratedPincodeData(response[0]);
           }
         })
       );
