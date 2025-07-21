@@ -869,7 +869,12 @@ export class SharedDataService {
    * @param flag - The form field flag indicating which form data to use.
    * @param formData - The form data containing the customer, vehicle, and other details.
    */
-  createProposalId(flag?: any, formData?: any, fetchCkyc?: any,show_tp_details?:any) {
+  createProposalId(
+    flag?: any,
+    formData?: any,
+    fetchCkyc?: any,
+    show_tp_details?: any
+  ) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = sessionStorage.getItem('vehicleType');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
@@ -1045,7 +1050,7 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
-        show_tp_details:show_tp_details
+        show_tp_details: show_tp_details,
       };
 
       let productTypeValue = sessionStorage.getItem('productType');
@@ -1080,9 +1085,12 @@ export class SharedDataService {
         previousPolicyType?.form_value?.policy_expiry === 'bundled_tp')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
-      this.proposalDataItem['previous_policy_details'].is_accordion_completed=true,
-      this.proposalDataItem['previous_policy_details'].show_tp_details=show_tp_details,
-      this.proposalDataItem['previous_policy_details'].tp_policy_details = {};
+      (this.proposalDataItem['previous_policy_details'].is_accordion_completed =
+        true),
+        (this.proposalDataItem['previous_policy_details'].show_tp_details =
+          show_tp_details),
+        (this.proposalDataItem['previous_policy_details'].tp_policy_details =
+          {});
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {
         tp_insurer_code: formData?.get('tp_insurance_company')?.value
           ?.rb_insurer_code,
@@ -1097,7 +1105,6 @@ export class SharedDataService {
             formData?.get('tp_policy_start_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-        
       };
     } else if (
       flag === 'previous_policy_details' &&
@@ -1112,10 +1119,9 @@ export class SharedDataService {
         tpStartDate = this.datePipe.transform(expiryDate, 'yyyy-MM-dd') || '';
       }
       this.proposalDataItem['previous_policy_details'] = {};
-     
+
       this.proposalDataItem['previous_policy_details'] = {
-        insurer_code: formData?.get('previous_insurer')?.value
-          ?.rb_insurer_code,
+        insurer_code: formData?.get('previous_insurer')?.value?.rb_insurer_code,
         policy_no: formData?.get('prev_policy_number')?.value,
         policy_expiry_date:
           this.datePipe.transform(
@@ -1123,21 +1129,22 @@ export class SharedDataService {
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
-        show_tp_details:show_tp_details
+        show_tp_details: show_tp_details,
       };
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {
-        tp_insurer_code: formData?.get('previous_insurer')?.value
-          ?.rb_insurer_code,
+        tp_insurer_code:
+          formData?.get('previous_insurer')?.value?.rb_insurer_code,
         tp_policy_no: formData?.get('prev_policy_number')?.value,
         tp_policy_expiry_date:
           this.datePipe.transform(
             formData?.get('policy_expiry_date')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-        tp_policy_start_date:this.datePipe.transform(
-          tpStartDate,
-          'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
-        ) || '',
+        tp_policy_start_date:
+          this.datePipe.transform(
+            tpStartDate,
+            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+          ) || '',
       };
       let productTypeValue = sessionStorage.getItem('productType');
       let previousPolicyType = JSON.parse(
@@ -1784,7 +1791,9 @@ export class SharedDataService {
 
         case 'pan':
           const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
-          return panPattern.test(value) ? null : { invalidPAN: true };
+          return panPattern.test(value.toUpperCase())
+            ? null
+            : { invalidPAN: true };
 
         default:
           return null;
