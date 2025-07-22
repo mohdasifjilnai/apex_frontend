@@ -584,6 +584,66 @@
   font-weight: 600;
   font-size: 11px;
 }
+.flexi-card{
+  border: 1px solid #C5D8FF;
+  border-radius: 10px;
+  width: 100%;
+  background-color: #F6F9FF;
+  padding: 4px;
+
+  .flexi-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5384EA;
+
+  }
+  .custom-sider{
+    background-color: #fff;
+    height: 100%;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6A6A6A;
+
+    ::ng-deep{
+      .mat-slider-horizontal{
+        margin-top: -10px !important;
+      }
+      .mat-slider-track-fill{
+        background: linear-gradient(to right, #5384EA, #FFAE6C);
+      }
+      .mat-slider.mat-accent .mat-slider-thumb{
+        background: linear-gradient(to right, #5384EA, #FFAE6C) !important;
+      }
+    }
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    
+  
+    
+     
+  }
+  .flexi-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .flexi-input{
+    width: 71px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #5B6477;
+    border-radius: 10px;
+  }
+
+}
 @media screen and (max-width: 999px) {
   .payd-res {
     display: block;
@@ -669,7 +729,13 @@
     ::ng-deep .mat-radio-button {
       width: 100% !important;
     }
-
+    .flexi-btn{
+      justify-content: end;
+      margin-top: 10px;
+    }
+    .flexi-input{
+      margin-top: 10px;
+    }
     .res-comprehensive-key-features {
       border: 1px solid #eaeaea;
       border-radius: 0 0 16px 16px;

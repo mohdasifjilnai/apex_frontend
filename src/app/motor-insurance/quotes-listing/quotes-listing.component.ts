@@ -1602,4 +1602,11 @@ export class QuotesListingComponent implements OnInit {
   renewalRedirection(url: any) {
     window.open(url, '_blank');
   }
+  
+  // FLEXI DISCOUNT 
+  sliderValue = 100;
+
+getSliderPercentage(value: number): number {
+  return ((value - this.minIdv) / (this.maxIdv - this.minIdv)) * 100;
+}
 }
