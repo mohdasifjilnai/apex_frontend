@@ -101,59 +101,10 @@
         </div>
         <div class="col-lg-3 col-md-3 col-4 web-gst-earning">
           <div
-          class=" inc-gst "
-          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
-        >
-         <ng-container class="me-2" *ngIf="payout">
-          <div class="gst me-2 pb-1">Earning</div>
-          <mat-slide-toggle
-            [checked]="defaultEarning"
-            [disabled]="enableIdvCard"
-            (change)="earningToggle($event)"
+            class="inc-gst"
+            [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
           >
-          </mat-slide-toggle>
-        </ng-container>
-        <ng-container>
-          <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
-          <mat-slide-toggle
-            [checked]="defaultGST"
-            [disabled]="enableIdvCard"
-            (change)="gstToggle($event)"
-          >
-          </mat-slide-toggle>
-        </ng-container>
-       
-        </div>
-        </div>
-        
-        <div class="res-gst-earning col-lg-3 col-md-3 col-4 ms-2" >
-          <div
-          class="shareQuotes"
-          [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
-          *ngIf="payout"
-        >
-          <button
-            mat-button
-            [disabled]="enableIdvCard"
-            (click)="viewMoreGST()"
-          >
-            <span class="share-quotes-text">View More</span>
-            <img src="assets/icon/dropdown.svg" class="share-icon ms-1" alt="" />
-
-          </button>
-        </div>
-        <div *ngIf="!payout" class="inc-gst">
-          <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
-          <mat-slide-toggle
-            [checked]="defaultGST"
-            [disabled]="enableIdvCard"
-            (change)="gstToggle($event)"
-          >
-          </mat-slide-toggle>
-        </div>
-        <div *ngIf="gstEarningShow" class="profile inc-gst">
-          <div class="show" >
-            <div class="d-flex justify-content-between line" *ngIf="payout">
+            <ng-container class="me-2" *ngIf="payout">
               <div class="gst me-2 pb-1">Earning</div>
               <mat-slide-toggle
                 [checked]="defaultEarning"
@@ -161,18 +112,69 @@
                 (change)="earningToggle($event)"
               >
               </mat-slide-toggle>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="gst me-2 pb-1">Inc. GST</div>
+            </ng-container>
+            <ng-container>
+              <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
               <mat-slide-toggle
                 [checked]="defaultGST"
                 [disabled]="enableIdvCard"
                 (change)="gstToggle($event)"
               >
               </mat-slide-toggle>
-            </div>
+            </ng-container>
           </div>
         </div>
+
+        <div class="res-gst-earning col-lg-3 col-md-3 col-4 ms-2">
+          <div
+            class="shareQuotes"
+            [ngClass]="enableIdvCard ? 'addonBlur' : 'addonShow'"
+            *ngIf="payout"
+          >
+            <button
+              mat-button
+              [disabled]="enableIdvCard"
+              (click)="viewMoreGST()"
+            >
+              <span class="share-quotes-text">View More</span>
+              <img
+                src="assets/icon/dropdown.svg"
+                class="share-icon ms-1"
+                alt=""
+              />
+            </button>
+          </div>
+          <div *ngIf="!payout" class="inc-gst">
+            <div class="gst me-2 pb-1 ms-2">Inc. GST</div>
+            <mat-slide-toggle
+              [checked]="defaultGST"
+              [disabled]="enableIdvCard"
+              (change)="gstToggle($event)"
+            >
+            </mat-slide-toggle>
+          </div>
+          <div *ngIf="gstEarningShow" class="profile inc-gst">
+            <div class="show">
+              <div class="d-flex justify-content-between line" *ngIf="payout">
+                <div class="gst me-2 pb-1">Earning</div>
+                <mat-slide-toggle
+                  [checked]="defaultEarning"
+                  [disabled]="enableIdvCard"
+                  (change)="earningToggle($event)"
+                >
+                </mat-slide-toggle>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="gst me-2 pb-1">Inc. GST</div>
+                <mat-slide-toggle
+                  [checked]="defaultGST"
+                  [disabled]="enableIdvCard"
+                  (change)="gstToggle($event)"
+                >
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -289,10 +291,14 @@
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
-                  <div class="payout-new responsive-checkbox" *ngIf="payout && defaultEarning">
+                  <div
+                    class="payout-new responsive-checkbox"
+                    *ngIf="payout && defaultEarning"
+                  >
                     <ng-container
                       *ngIf="
-                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                        quotes?.payout_response &&
+                        quotes?.payout_response != 'NA'
                       "
                     >
                       <div
@@ -338,10 +344,14 @@
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
-                  <div class="payout-new web-checkbox" *ngIf="payout && defaultEarning">
+                  <div
+                    class="payout-new web-checkbox"
+                    *ngIf="payout && defaultEarning"
+                  >
                     <ng-container
                       *ngIf="
-                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                        quotes?.payout_response &&
+                        quotes?.payout_response != 'NA'
                       "
                     >
                       <div
@@ -354,7 +364,7 @@
                             class="me-2"
                             alt=""
                           />
-                          You Earn ₹ {{ quotes?.payout_response }}* 
+                          You Earn ₹ {{ quotes?.payout_response }}*
                         </div>
                       </div>
                     </ng-container>
@@ -537,69 +547,72 @@
               </div>
             </div>
           </div>
-          <div class="comprehensive-tab ps-4 pe-4 pb-2">
-            <div class="flexi-card">
-              <div class="row ">
+          <div
+            class="comprehensive-tab ps-4 pe-4 pb-2"
+            *ngIf="quotes?.flexi_discounting != null"
+          >
+            <div
+              class="flexi-card"
+              *ngIf="quotes?.flexi_discounting?.is_active"
+            >
+              <div class="row">
                 <div class="col-lg-2 flexi-text">
                   <img
-                      src="assets/icon/discount-flexi.svg"
-                      class="drive-img me-2"
-                      alt=""
-                      />
+                    src="assets/icon/discount-flexi.svg"
+                    class="drive-img me-2"
+                    alt=""
+                  />
                   <span>Flexi Discount</span>
-                  
                 </div>
                 <div class="col-lg-10">
                   <div class="custom-sider">
                     <div class="row">
-                      <span class="col-lg-2 col-12 d-flex align-items-center">Choose your discount! </span> 
+                      <span class="col-lg-2 col-12 d-flex align-items-center"
+                        >Choose your discount!
+                      </span>
                       <div class="col-lg-6 col-12 d-flex">
-                        <span class="me-3 d-flex align-items-center">20%</span>
-                        <div class="slider-wrapper"> 
+                        <span class="me-3 d-flex align-items-center"
+                          >{{ quotes?.flexi_discounting?.min_discount }}%</span
+                        >
+                        <div class="slider-wrapper">
                           <mat-slider
-                        class="custom-slider"
-                        #event
-                        [min]="1"
-                        [max]="100"
-                        [step]="1"
-                        [value]="24"
-                        aria-readonly="true"
-                        ></mat-slider>
+                            class="custom-slider"
+                            #event
+                            [min]="quotes?.flexi_discounting?.min_discount"
+                            [max]="quotes?.flexi_discounting?.max_discount"
+                            [step]="1"
+                            [value]="24"
+                            aria-readonly="true"
+                          ></mat-slider>
                         </div>
-                        
-                        <span class="d-flex align-items-center">80%</span>
+
+                        <span class="d-flex align-items-center"
+                          >{{ quotes?.flexi_discounting?.max_discount }}%</span
+                        >
                       </div>
                       <div class="col-lg-2 col-6">
                         <div class="flexi-input">
                           <input
-                          matInput
-                          type="text"
-                          appNumbersOnly
-                          maxlength="3"
-                        />
+                            matInput
+                            type="text"
+                            appNumbersOnly
+                            maxlength="3"
+                          />
                         </div>
-                        
                       </div>
                       <div class="col-lg-2 col-6 flexi-btn">
-                        <button
-                            class="submit-btn"
-                          >
-                            <span>Apply</span>
-                          </button>
+                        <button class="submit-btn">
+                          <span>Apply</span>
+                        </button>
                       </div>
-
                     </div>
-                   
                   </div>
                 </div>
-               
               </div>
             </div>
-           
-            
           </div>
         </div>
-        
+
         <!-- comprehensive key feature web view -->
         <div class="comprehensive-key-features">
           <div class="comprehensive-key-features-value">
@@ -734,39 +747,40 @@
               <div
                 class="col-lg-3 col-md-3 col-6 d-flex justify-content-center align-center insurer-img"
               >
-              <div class="d-block">
-                <div class="d-flex justify-content-between">
-                  <img
-                    [src]="quotes?.insurer_logo"
-                    class="insurer-logo"
-                    alt=""
-                  />
-                </div>
-                <div class="payout-new responsive-checkbox mt-2" *ngIf="payout && defaultEarning">
-                  <ng-container
-                  
-  
-                    *ngIf="
-                      quotes?.payout_response && quotes?.payout_response != 'NA'
-                    "
+                <div class="d-block">
+                  <div class="d-flex justify-content-between">
+                    <img
+                      [src]="quotes?.insurer_logo"
+                      class="insurer-logo"
+                      alt=""
+                    />
+                  </div>
+                  <div
+                    class="payout-new responsive-checkbox mt-2"
+                    *ngIf="payout && defaultEarning"
                   >
-                    <div
-                      class="payout-inside-new padding-tp"
-                      *ngIf="quotes?.payout_response != 0"
+                    <ng-container
+                      *ngIf="
+                        quotes?.payout_response &&
+                        quotes?.payout_response != 'NA'
+                      "
                     >
-                      <div class="payout-rupees font-tp">
-                        <img
-                          src="assets/icon/rupee-payout.svg"
-                          class="me-2"
-                          alt=""
-                        />
-                        You Earn ₹ {{ quotes?.payout_response }}* 
+                      <div
+                        class="payout-inside-new padding-tp"
+                        *ngIf="quotes?.payout_response != 0"
+                      >
+                        <div class="payout-rupees font-tp">
+                          <img
+                            src="assets/icon/rupee-payout.svg"
+                            class="me-2"
+                            alt=""
+                          />
+                          You Earn ₹ {{ quotes?.payout_response }}*
+                        </div>
                       </div>
-                    </div>
-                  </ng-container>
+                    </ng-container>
+                  </div>
                 </div>
-              </div>
-               
               </div>
 
               <!-- {{quotes.insurer_name}} -->
@@ -813,12 +827,15 @@
                   </div> -->
                 </div>
                 <div class="row">
-                  <div class="col-lg-6">
-                  </div>
-                  <div class="payout-new web-checkbox col-lg-6 col-6" *ngIf="payout && defaultEarning">
+                  <div class="col-lg-6"></div>
+                  <div
+                    class="payout-new web-checkbox col-lg-6 col-6"
+                    *ngIf="payout && defaultEarning"
+                  >
                     <ng-container
                       *ngIf="
-                        quotes?.payout_response && quotes?.payout_response != 'NA'
+                        quotes?.payout_response &&
+                        quotes?.payout_response != 'NA'
                       "
                     >
                       <div
@@ -831,7 +848,7 @@
                             class="me-2"
                             alt=""
                           />
-                          You Earn ₹ {{ quotes?.payout_response }}* 
+                          You Earn ₹ {{ quotes?.payout_response }}*
                         </div>
                       </div>
                     </ng-container>
@@ -846,7 +863,7 @@
                     >Add to Share</mat-checkbox
                   >
                 </div> -->
-                
+
                 <div
                   class="renewal-card"
                   (click)="getProposalDetails(quotes)"

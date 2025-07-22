@@ -155,7 +155,7 @@ export class QuotesListingComponent implements OnInit {
   selectedProductType: any;
   vehicleMMVData: any;
   defaultGST: any;
-  defaultEarning:boolean=true;
+  defaultEarning: boolean = true;
   isChecked: boolean = false;
   selectedQuotes: any[] = []; // You need to define the appropriate type for your quotes
   selectedShareData: any;
@@ -203,7 +203,10 @@ export class QuotesListingComponent implements OnInit {
   totalPremiumData: any;
   insurerLogoData: any;
   insurerNameData: any;
-  gstEarningShow: boolean=false;
+  gstEarningShow: boolean = false;
+  flexiDiscountForm: FormGroup = new FormGroup({
+    flexiDiscount: new FormControl(''),
+  });
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -227,7 +230,7 @@ export class QuotesListingComponent implements OnInit {
     // sessionStorage.removeItem('gstValue');
     const token = sessionStorage.getItem('token');
     const partner_code = sessionStorage.getItem('partner_code');
-    
+
     if (sessionStorage.getItem('sortObjectkey') == null) {
       sessionStorage.setItem('sortObjectkey', 'low');
     }
@@ -458,13 +461,15 @@ export class QuotesListingComponent implements OnInit {
         console.log(this.quotationData);
 
         this.quotationData
-        ?.filter((item: any) => item.payout_response && item.payout_response !== 'NA')
-        .map((item: any) => item.payout_response)
-        .forEach((payout:any) => {
-          if (token != null && partner_code != null) {
-            this.payout = true;
-          }
-        });
+          ?.filter(
+            (item: any) => item.payout_response && item.payout_response !== 'NA'
+          )
+          .map((item: any) => item.payout_response)
+          .forEach((payout: any) => {
+            if (token != null && partner_code != null) {
+              this.payout = true;
+            }
+          });
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }
@@ -1163,7 +1168,7 @@ export class QuotesListingComponent implements OnInit {
       // this.sharedDataService.vehicleMMVDetails(
       //   productTypeValue,
       //   mmvFormData,
-      //   'registrationNumber'
+      //   'registrationNumber'fv
       // );
     } else {
       let mmvIdData = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
@@ -1226,7 +1231,7 @@ export class QuotesListingComponent implements OnInit {
       }
       if (
         this.registrationDateYear != 'NaN' &&
-        this.parsedVehicleData?.policy_expiry != undefined 
+        this.parsedVehicleData?.policy_expiry != undefined
       ) {
         this.apiService
           .getRequestedResponse(
@@ -1511,8 +1516,8 @@ export class QuotesListingComponent implements OnInit {
     } else {
       this.defaultGST = event.checked;
     }
-    if(window.innerWidth<=999 && this.payout){
-      this.gstEarningShow=!this.gstEarningShow
+    if (window.innerWidth <= 999 && this.payout) {
+      this.gstEarningShow = !this.gstEarningShow;
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
@@ -1525,12 +1530,12 @@ export class QuotesListingComponent implements OnInit {
   }
   earningToggle(event: any) {
     this.defaultEarning = event.checked;
-    if(window.innerWidth<=999){
-      this.gstEarningShow=!this.gstEarningShow
+    if (window.innerWidth <= 999) {
+      this.gstEarningShow = !this.gstEarningShow;
     }
   }
-  viewMoreGST(){
-    this.gstEarningShow=!this.gstEarningShow
+  viewMoreGST() {
+    this.gstEarningShow = !this.gstEarningShow;
   }
   sorting(data: any) {
     if (this.quotationData.length > 0) {
@@ -1602,11 +1607,17 @@ export class QuotesListingComponent implements OnInit {
   renewalRedirection(url: any) {
     window.open(url, '_blank');
   }
-  
-  // FLEXI DISCOUNT 
+
+  // FLEXI DISCOUNT
   sliderValue = 100;
 
-getSliderPercentage(value: number): number {
-  return ((value - this.minIdv) / (this.maxIdv - this.minIdv)) * 100;
-}
+  getSliderPercentage(value: number): number {
+    return ((value - this.minIdv) / (this.maxIdv - this.minIdv)) * 100;
+  }
+
+  flexiApply() {
+    let mmvFormData = sessionStorage.getItem('mmv_data');
+
+    this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
+  }
 }
