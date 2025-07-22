@@ -426,7 +426,6 @@ export class QuotesListingComponent implements OnInit {
                   }
                 }
               }
-              // console.log(this.quotationData,"666666")
             } else {
               this.errorQuotationArray.push(this.quotationArray[i]);
             }
@@ -459,6 +458,15 @@ export class QuotesListingComponent implements OnInit {
           return a.insurer_priority - b.insurer_priority;
         });
         console.log(this.quotationData);
+        for (let i = 0; i <= this.quotationData.length - 1; i++) {
+          if (this.quotationData[i]?.flexi_discounting?.is_active) {
+            this.flexiDiscountForm.patchValue({
+              flexiDiscount:
+                this.quotationData[i]?.flexi_discounting?.min_discount,
+            });
+            this.quotationData[i].applyButton = false;
+          }
+        }
 
         this.quotationData
           ?.filter(
@@ -1615,9 +1623,55 @@ export class QuotesListingComponent implements OnInit {
     return ((value - this.minIdv) / (this.maxIdv - this.minIdv)) * 100;
   }
 
-  flexiApply() {
-    let mmvFormData = sessionStorage.getItem('mmv_data');
+  flexiApply(quotes: any) {
+    const transactionId = sessionStorage.getItem('transaction_id');
 
-    this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
+    let flexiObject = {
+      transaction_id: transactionId,
+      discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
+    };
+    this.apiService
+      .postRequestedResponse(
+        `${ApiConstants.flexi_discount_api}?insurer=${quotes?.insurer_code}`,
+        flexiObject
+      )
+      .subscribe((res) => {
+        console.log(res);
+        for (let i = 0; i <= this.quotationData.length - 1; i++) {
+          if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
+            this.quotationData[i] = res;
+          }
+        }
+      });
+  }
+
+  onFlexiSliderInput(event: any) {
+    const value = event.value;
+
+    this.flexiDiscountForm
+      .get('flexiDiscount')
+      ?.setValue(value, { emitEvent: false });
+  }
+
+  onFlexiSliderRangeAmount(value: number) {
+    this.flexiDiscountForm
+      .get('flexiDiscount')
+      ?.setValue(value, { emitEvent: false });
+  }
+
+  flexiAmountValue(quotes: any) {
+    let flexiSliderValue = this.flexiDiscountForm.value.flexiDiscount;
+
+    for (let i = 0; i <= this.quotationData.length - 1; i++) {
+      if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
+        this.quotationData[i].flexi_discounting.discount_percentage =
+          flexiSliderValue;
+        if (flexiSliderValue > quotes?.flexi_discounting?.max_discount) {
+          this.quotationData[i].applyButton = true;
+        } else {
+          this.quotationData[i].applyButton = false;
+        }
+      }
+    }
   }
 }

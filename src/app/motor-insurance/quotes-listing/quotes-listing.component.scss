@@ -187,32 +187,30 @@
 .payd-web {
   display: block;
 }
-.res-gst-earning{
+.res-gst-earning {
   display: none;
 }
-.web-gst-earning{
+.web-gst-earning {
   display: block;
 }
-.payout-new{
-
-  .payout-inside-new{
+.payout-new {
+  .payout-inside-new {
     border-radius: 22px;
-    border: 1px solid #FFD15D;
+    border: 1px solid #ffd15d;
     padding: 7px 12px;
-    .payout-rupees{
+    .payout-rupees {
       font-size: 14px;
       font-weight: 700;
     }
-    .font-tp{
+    .font-tp {
       font-size: 10px;
     }
-    
   }
-  .padding-tp{
+  .padding-tp {
     padding: 3px 8px !important;
     width: 115%;
   }
-  .web-tp-width{
+  .web-tp-width {
     width: 200px;
   }
 }
@@ -263,29 +261,29 @@
     line-height: 15px;
   }
 }
-.profile{
+.profile {
   position: absolute;
   z-index: 9999;
   width: 120px;
   right: 15px;
-  .show{
+  .show {
     padding: 10px;
     border-radius: 12px;
-  color: rgb(68, 68, 68);
-  display: block;
-  width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
-  background: rgb(255, 255, 255);
+    color: rgb(68, 68, 68);
+    display: block;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+    background: rgb(255, 255, 255);
   }
 }
-.line{
-  border-bottom: 1px solid #D6D6D6;
+.line {
+  border-bottom: 1px solid #d6d6d6;
 }
-.view-more-text{
+.view-more-text {
   font-size: 12px;
-    font-weight: 600;
-    color: #5384ea;
-    line-height: 15px;
+  font-weight: 600;
+  color: #5384ea;
+  line-height: 15px;
 }
 .selected-share {
   position: fixed;
@@ -584,65 +582,59 @@
   font-weight: 600;
   font-size: 11px;
 }
-.flexi-card{
-  border: 1px solid #C5D8FF;
+.flexi-card {
+  border: 1px solid #c5d8ff;
   border-radius: 10px;
   width: 100%;
-  background-color: #F6F9FF;
+  background-color: #f6f9ff;
   padding: 4px;
 
-  .flexi-text{
+  .flexi-text {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     font-weight: 600;
-    color: #5384EA;
-
+    color: #5384ea;
   }
-  .custom-sider{
+  .custom-sider {
     background-color: #fff;
     height: 100%;
     padding: 5px;
     font-size: 12px;
     font-weight: 600;
-    color: #6A6A6A;
+    color: #6a6a6a;
 
-    ::ng-deep{
-      .mat-slider-horizontal{
+    ::ng-deep {
+      .mat-slider-horizontal {
         margin-top: -10px !important;
       }
-      .mat-slider-track-fill{
-        background: linear-gradient(to right, #5384EA, #FFAE6C);
+      .mat-slider-track-fill {
+        background: linear-gradient(to right, #5384ea, #ffae6c);
       }
-      .mat-slider.mat-accent .mat-slider-thumb{
-        background: linear-gradient(to right, #5384EA, #FFAE6C) !important;
+      .mat-slider.mat-accent .mat-slider-thumb {
+        background: linear-gradient(to right, #5384ea, #ffae6c) !important;
       }
     }
     .slider-wrapper {
       position: relative;
       width: 100%;
     }
-    
-  
-    
-     
   }
-  .flexi-btn{
+  .flexi-btn {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .flexi-input{
+  .flexi-input {
     width: 71px;
     height: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #5B6477;
+    // border: 1px solid #5B6477;
     border-radius: 10px;
   }
-
 }
 @media screen and (max-width: 999px) {
   .payd-res {
@@ -729,11 +721,11 @@
     ::ng-deep .mat-radio-button {
       width: 100% !important;
     }
-    .flexi-btn{
+    .flexi-btn {
       justify-content: end;
       margin-top: 10px;
     }
-    .flexi-input{
+    .flexi-input {
       margin-top: 10px;
     }
     .res-comprehensive-key-features {
@@ -815,10 +807,10 @@
   .payout-image {
     margin-top: 12px;
   }
-  .res-gst-earning{
+  .res-gst-earning {
     display: block;
   }
-  .web-gst-earning{
+  .web-gst-earning {
     display: none;
   }
 }

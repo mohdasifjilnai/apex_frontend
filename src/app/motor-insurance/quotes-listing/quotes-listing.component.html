@@ -581,7 +581,12 @@
                             [min]="quotes?.flexi_discounting?.min_discount"
                             [max]="quotes?.flexi_discounting?.max_discount"
                             [step]="1"
-                            [value]="24"
+                            [value]="
+                              quotes?.flexi_discounting?.discount_percentage
+                            "
+                            (input)="onFlexiSliderInput($event)"
+                            (slideend)="onFlexiSliderRangeAmount(event.value)"
+                            (pointerup)="onFlexiSliderRangeAmount(event.value)"
                             aria-readonly="true"
                           ></mat-slider>
                         </div>
@@ -590,19 +595,33 @@
                           >{{ quotes?.flexi_discounting?.max_discount }}%</span
                         >
                       </div>
+
                       <div class="col-lg-2 col-6">
                         <div class="flexi-input">
-                          <input
-                            matInput
-                            type="text"
-                            appNumbersOnly
-                            maxlength="3"
-                          />
+                          <mat-form-field
+                            appearance="outline"
+                            [formGroup]="flexiDiscountForm"
+                            class="col-lg-12 mt-2"
+                          >
+                            <input
+                              matInput
+                              type="text"
+                              appNumbersOnly
+                              maxlength="3"
+                              formControlName="flexiDiscount"
+                              (ngModelChange)="flexiAmountValue(quotes)"
+                            />
+                          </mat-form-field>
                         </div>
                       </div>
+
                       <div class="col-lg-2 col-6 flexi-btn">
-                        <button class="submit-btn">
-                          <span>Apply</span>
+                        <button
+                          class="submit-btn"
+                          (click)="flexiApply(quotes)"
+                          [disabled]="quotes.applyButton"
+                        >
+                          <span>Apply </span>
                         </button>
                       </div>
                     </div>
