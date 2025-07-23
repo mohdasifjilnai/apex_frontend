@@ -207,6 +207,8 @@ export class QuotesListingComponent implements OnInit {
   flexiDiscountForm: FormGroup = new FormGroup({
     flexiDiscount: new FormControl(''),
   });
+flexiLoader: boolean=false;
+  loaderOnCardId: any;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -1625,7 +1627,8 @@ export class QuotesListingComponent implements OnInit {
 
   flexiApply(quotes: any) {
     const transactionId = sessionStorage.getItem('transaction_id');
-
+    this.flexiLoader=true
+    this.loaderOnCardId=quotes?.quote_id
     let flexiObject = {
       transaction_id: transactionId,
       discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
@@ -1636,7 +1639,7 @@ export class QuotesListingComponent implements OnInit {
         flexiObject
       )
       .subscribe((res) => {
-        console.log(res);
+        this.flexiLoader=false
         for (let i = 0; i <= this.quotationData.length - 1; i++) {
           if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
             this.quotationData[i] = res;

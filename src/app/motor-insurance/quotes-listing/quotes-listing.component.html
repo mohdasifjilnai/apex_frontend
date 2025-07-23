@@ -564,7 +564,7 @@
                   />
                   <span>Flexi Discount</span>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-10" >
                   <div class="custom-sider">
                     <div class="row">
                       <span class="col-lg-2 col-12 d-flex align-items-center"
@@ -628,6 +628,9 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="flexi-loader-overlay" *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id ">
+            <img class="flexi-loader" src="assets/gif/flexi_loader.gif" alt="" />
           </div>
         </div>
 

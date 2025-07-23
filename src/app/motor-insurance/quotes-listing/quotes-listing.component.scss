@@ -6,6 +6,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
     z-index: 1;
+    position: relative;
     // padding-top: 10px;
   }
   .comprehensive-tab {
@@ -635,6 +636,24 @@
     border: 1px solid #5b6477;
     border-radius: 10px;
   }
+  
+}
+.flexi-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.flexi-loader {
+  width: 100px; /* Or adjust as needed */
+  height: 100px;
 }
 @media screen and (max-width: 999px) {
   .payd-res {
