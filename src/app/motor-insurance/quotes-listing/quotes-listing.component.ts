@@ -1640,9 +1640,11 @@ flexiLoader: boolean=false;
       )
       .subscribe((res) => {
         this.flexiLoader=false
-        for (let i = 0; i <= this.quotationData.length - 1; i++) {
-          if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
-            this.quotationData[i] = res;
+        if(res?.status){
+          for (let i = 0; i <= this.quotationData.length - 1; i++) {
+            if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
+              this.quotationData[i] = res;
+            }
           }
         }
       });
