@@ -564,13 +564,18 @@
                   />
                   <span>Flexi Discount</span>
                 </div>
-                <div class="col-lg-10" >
+                <div class="col-lg-10">
                   <div class="custom-sider">
                     <div class="row">
                       <span class="col-lg-2 col-12 d-flex align-items-center"
                         >Choose your discount!
                       </span>
-                      <div class="col-lg-6 col-12 d-flex">
+                      <div
+                        class="col-lg-6 col-12 d-flex"
+                        [ngClass]="
+                          quotes.applyButton ? 'addonBlur' : 'addonShow'
+                        "
+                      >
                         <span class="me-3 d-flex align-items-center"
                           >{{ quotes?.flexi_discounting?.min_discount }}%</span
                         >
@@ -588,6 +593,7 @@
                             (slideend)="onFlexiSliderRangeAmount(event.value)"
                             (pointerup)="onFlexiSliderRangeAmount(event.value)"
                             aria-readonly="true"
+                            [disabled]="quotes?.applyButton"
                           ></mat-slider>
                         </div>
 
@@ -596,7 +602,12 @@
                         >
                       </div>
 
-                      <div class="col-lg-2 col-6">
+                      <div
+                        class="col-lg-2 col-6"
+                        [ngClass]="
+                          quotes.applyButton ? 'addonBlur' : 'addonShow'
+                        "
+                      >
                         <div class="flexi-input">
                           <form
                             [formGroup]="flexiDiscountForm"
@@ -609,6 +620,7 @@
                               maxlength="3"
                               formControlName="flexiDiscount"
                               (ngModelChange)="flexiAmountValue(quotes)"
+                              [disabled]="quotes?.applyButton"
                             />
                           </form>
                         </div>
@@ -629,8 +641,15 @@
               </div>
             </div>
           </div>
-          <div class="flexi-loader-overlay" *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id ">
-            <img class="flexi-loader" src="assets/gif/flexi_loader.gif" alt="" />
+          <div
+            class="flexi-loader-overlay"
+            *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id"
+          >
+            <img
+              class="flexi-loader"
+              src="assets/gif/flexi_loader.gif"
+              alt=""
+            />
           </div>
         </div>
 
@@ -999,6 +1018,110 @@
                 </p> -->
               </div>
             </div>
+          </div>
+          <div
+            class="comprehensive-tab ps-4 pe-4 pb-2"
+            *ngIf="quotes?.flexi_discounting != null"
+          >
+            <div
+              class="flexi-card"
+              *ngIf="quotes?.flexi_discounting?.is_active"
+            >
+              <div class="row">
+                <div class="col-lg-2 flexi-text">
+                  <img
+                    src="assets/icon/discount-flexi.svg"
+                    class="drive-img me-2"
+                    alt=""
+                  />
+                  <span>Flexi Discount</span>
+                </div>
+                <div class="col-lg-10">
+                  <div class="custom-sider">
+                    <div class="row">
+                      <span class="col-lg-2 col-12 d-flex align-items-center"
+                        >Choose your discount!
+                      </span>
+                      <div
+                        class="col-lg-6 col-12 d-flex"
+                        [ngClass]="
+                          quotes.applyButton ? 'addonBlur' : 'addonShow'
+                        "
+                      >
+                        <span class="me-3 d-flex align-items-center"
+                          >{{ quotes?.flexi_discounting?.min_discount }}%</span
+                        >
+                        <div class="slider-wrapper">
+                          <mat-slider
+                            class="custom-slider"
+                            #event
+                            [min]="quotes?.flexi_discounting?.min_discount"
+                            [max]="quotes?.flexi_discounting?.max_discount"
+                            [step]="1"
+                            [value]="
+                              quotes?.flexi_discounting?.discount_percentage
+                            "
+                            (input)="onFlexiSliderInput($event)"
+                            (slideend)="onFlexiSliderRangeAmount(event.value)"
+                            (pointerup)="onFlexiSliderRangeAmount(event.value)"
+                            aria-readonly="true"
+                            [disabled]="quotes?.applyButton"
+                          ></mat-slider>
+                        </div>
+
+                        <span class="d-flex align-items-center"
+                          >{{ quotes?.flexi_discounting?.max_discount }}%</span
+                        >
+                      </div>
+
+                      <div
+                        class="col-lg-2 col-6"
+                        [ngClass]="
+                          quotes.applyButton ? 'addonBlur' : 'addonShow'
+                        "
+                      >
+                        <div class="flexi-input">
+                          <form
+                            [formGroup]="flexiDiscountForm"
+                            class="col-lg-12 mt-2"
+                          >
+                            <input
+                              matInput
+                              type="text"
+                              appNumbersOnly
+                              maxlength="3"
+                              formControlName="flexiDiscount"
+                              (ngModelChange)="flexiAmountValue(quotes)"
+                              [disabled]="quotes?.applyButton"
+                            />
+                          </form>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-2 col-6 flexi-btn">
+                        <button
+                          class="submit-btn"
+                          (click)="flexiApply(quotes)"
+                          [disabled]="quotes.applyButton"
+                        >
+                          <span>Apply </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flexi-loader-overlay"
+            *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id"
+          >
+            <img
+              class="flexi-loader"
+              src="assets/gif/flexi_loader.gif"
+              alt=""
+            />
           </div>
         </div>
         <!-- comprehensive key feature web view -->

@@ -171,6 +171,8 @@ export class QuotesListingComponent implements OnInit {
   currentDate: any = '';
   sortObjectkey: any;
   totalIdvData: any;
+  flexiButton = false;
+
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -207,7 +209,7 @@ export class QuotesListingComponent implements OnInit {
   flexiDiscountForm: FormGroup = new FormGroup({
     flexiDiscount: new FormControl(''),
   });
-flexiLoader: boolean=false;
+  flexiLoader: boolean = false;
   loaderOnCardId: any;
   // isPageRefresh = true;
   constructor(
@@ -260,6 +262,16 @@ flexiLoader: boolean=false;
     });
     this.sharedDataService.enableCarLoader.subscribe((idvData) => {
       this.carLoader = true;
+      for (let i = 0; i <= this.quotationData.length - 1; i++) {
+        if (this.quotationData[i]?.flexi_discounting?.is_active) {
+          this.quotationData[i].applyButton = true;
+          if (this.quotationData[i].applyButton) {
+            this.flexiDiscountForm.get('flexiDiscount')?.disable();
+          } else {
+            this.flexiDiscountForm.get('flexiDiscount')?.enable();
+          }
+        }
+      }
       let timeout: any;
       if (environment.dev) {
         timeout = 50000;
@@ -268,6 +280,31 @@ flexiLoader: boolean=false;
       }
       setTimeout(() => {
         if (this.carLoader) {
+          for (let i = 0; i <= this.quotationData.length - 1; i++) {
+            if (this.quotationData[i]?.flexi_discounting?.is_active) {
+              this.quotationData[i].applyButton = false;
+              if (this.quotationData[i].applyButton) {
+                this.flexiDiscountForm.get('flexiDiscount')?.disable();
+              } else {
+                this.flexiDiscountForm.get('flexiDiscount')?.enable();
+              }
+              let flexiDetails = sessionStorage.getItem('flexiAmount');
+              if (flexiDetails) {
+                let flexiValues = JSON.parse(flexiDetails);
+                this.flexiDiscountForm.patchValue({
+                  flexiDiscount: flexiValues.discount_percentage,
+                });
+                this.quotationData[i].flexi_discounting.discount_percentage =
+                  flexiValues.discount_percentage;
+              } else {
+                this.flexiDiscountForm.patchValue({
+                  flexiDiscount:
+                    this.quotationData[i]?.flexi_discounting?.min_discount,
+                });
+              }
+            }
+          }
+          this.flexiButton = true;
           this.carLoader = false;
           const mmv_data = JSON.parse(
             sessionStorage.getItem('mmv_data') || '{}'
@@ -459,16 +496,32 @@ flexiLoader: boolean=false;
           if (b.insurer_priority === null) return -1;
           return a.insurer_priority - b.insurer_priority;
         });
-        console.log(this.quotationData);
+
         for (let i = 0; i <= this.quotationData.length - 1; i++) {
           if (this.quotationData[i]?.flexi_discounting?.is_active) {
-            this.flexiDiscountForm.patchValue({
-              flexiDiscount:
-                this.quotationData[i]?.flexi_discounting?.min_discount,
-            });
-            this.quotationData[i].applyButton = false;
+            this.quotationData[i].applyButton = true;
+            if (this.quotationData[i].applyButton) {
+              this.flexiDiscountForm.get('flexiDiscount')?.disable();
+            } else {
+              this.flexiDiscountForm.get('flexiDiscount')?.enable();
+            }
+            let flexiDetails = sessionStorage.getItem('flexiAmount');
+            if (flexiDetails) {
+              let flexiValues = JSON.parse(flexiDetails);
+              this.flexiDiscountForm.patchValue({
+                flexiDiscount: flexiValues.discount_percentage,
+              });
+              this.quotationData[i].flexi_discounting.discount_percentage =
+                flexiValues.discount_percentage;
+            } else {
+              this.flexiDiscountForm.patchValue({
+                flexiDiscount:
+                  this.quotationData[i]?.flexi_discounting?.min_discount,
+              });
+            }
           }
         }
+        console.log(this.quotationData);
 
         this.quotationData
           ?.filter(
@@ -883,6 +936,7 @@ flexiLoader: boolean=false;
         JSON.stringify(event.index)
       );
       sessionStorage.removeItem('selectedAddons');
+      sessionStorage.removeItem('flexiAmount');
       // this.progressValue = 0;
       // this.startProgress(0);
       this.selectedProductType = event.tab.textLabel;
@@ -1627,8 +1681,13 @@ flexiLoader: boolean=false;
 
   flexiApply(quotes: any) {
     const transactionId = sessionStorage.getItem('transaction_id');
-    this.flexiLoader=true
-    this.loaderOnCardId=quotes?.quote_id
+    this.flexiLoader = true;
+    this.loaderOnCardId = quotes?.quote_id;
+    let flexiApplyObject = {
+      insurerCode: quotes?.insurer_code,
+      discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
+    };
+    sessionStorage.setItem('flexiAmount', JSON.stringify(flexiApplyObject));
     let flexiObject = {
       transaction_id: transactionId,
       discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
@@ -1639,10 +1698,10 @@ flexiLoader: boolean=false;
         flexiObject
       )
       .subscribe((res) => {
-        this.flexiLoader=false
-        if(res?.status){
+        this.flexiLoader = false;
+        if (res?.status) {
           for (let i = 0; i <= this.quotationData.length - 1; i++) {
-            if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
+            if (this.quotationData[i]?.quote_id == quotes?.quote_id) {
               this.quotationData[i] = res;
             }
           }
@@ -1665,16 +1724,18 @@ flexiLoader: boolean=false;
   }
 
   flexiAmountValue(quotes: any) {
-    let flexiSliderValue = this.flexiDiscountForm.value.flexiDiscount;
+    if (this.flexiButton) {
+      let flexiSliderValue = this.flexiDiscountForm.value.flexiDiscount;
 
-    for (let i = 0; i <= this.quotationData.length - 1; i++) {
-      if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
-        this.quotationData[i].flexi_discounting.discount_percentage =
-          flexiSliderValue;
-        if (flexiSliderValue > quotes?.flexi_discounting?.max_discount) {
-          this.quotationData[i].applyButton = true;
-        } else {
-          this.quotationData[i].applyButton = false;
+      for (let i = 0; i <= this.quotationData.length - 1; i++) {
+        if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
+          this.quotationData[i].flexi_discounting.discount_percentage =
+            flexiSliderValue;
+          if (flexiSliderValue > quotes?.flexi_discounting?.max_discount) {
+            this.quotationData[i].applyButton = true;
+          } else {
+            this.quotationData[i].applyButton = false;
+          }
         }
       }
     }

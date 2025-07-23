@@ -157,6 +157,8 @@ export class SharedDataService {
   mobileNumber: any;
   addOn: any;
   customerId: any;
+  flexiObject: any;
+  variableValueFlexi: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -1828,7 +1830,23 @@ export class SharedDataService {
     const product_type = sessionStorage.getItem('productType');
     const vehcile_type = sessionStorage.getItem('vehicleType');
     this.addOn = sessionStorage.getItem('selectedAddons');
-
+    let flexiDetails = sessionStorage.getItem('flexiAmount');
+    let flexiValues;
+    this.flexiObject = null;
+    if (flexiDetails) {
+      flexiValues = JSON.parse(flexiDetails);
+      this.flexiObject = {};
+      for (let key in flexiValues) {
+        console.log(flexiValues[key]);
+        if (key == 'insurerCode') {
+          let objectValue = {
+            [flexiValues[key]]: flexiValues.discount_percentage,
+          };
+          this.flexiObject = objectValue;
+        }
+      }
+    }
+    console.log(this.flexiObject);
     let setectedAddons;
     let addOnsList;
     this.selected_addons = {};
@@ -1937,6 +1955,7 @@ export class SharedDataService {
               'middle_name'
             )} ${sessionStorage.getItem('last_name')}`
           : null,
+      insurer_discounts: this.flexiObject,
     };
     const renewal = sessionStorage.getItem('renewalType');
     if (renewal != null) {

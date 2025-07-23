@@ -173,9 +173,8 @@ export class MotorInsuranceComponent implements OnInit {
     // }
     if (window.innerWidth <= 999) {
       setTimeout(() => {
-        this.partnerValidation()
+        this.partnerValidation();
       }, 3000);
-     
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
@@ -253,6 +252,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (regnNumberValue) {
       sessionStorage.removeItem('registrationNumber');
     }
+    sessionStorage.removeItem('flexiAmount');
     sessionStorage.removeItem('pageLoad');
     sessionStorage.removeItem('renewalRTOData');
     sessionStorage.removeItem('renewalmmvData');
@@ -660,18 +660,25 @@ export class MotorInsuranceComponent implements OnInit {
                 ?.renewal_coverage_type
             )
           );
-          if(res?.previous_policy_details?.previous_policy_details?.policy_no!=null){
+          if (
+            res?.previous_policy_details?.previous_policy_details?.policy_no !=
+            null
+          ) {
             sessionStorage.setItem(
               'renewalPolicyNumber',
               res?.previous_policy_details?.previous_policy_details?.policy_no
             );
-          }else if(res?.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_policy_no){
+          } else if (
+            res?.previous_policy_details?.previous_policy_details
+              ?.tp_policy_details?.tp_policy_no
+          ) {
             sessionStorage.setItem(
               'renewalPolicyNumber',
-              res?.previous_policy_details?.previous_policy_details?.tp_policy_details?.tp_policy_no
+              res?.previous_policy_details?.previous_policy_details
+                ?.tp_policy_details?.tp_policy_no
             );
           }
-          
+
           sessionStorage.setItem(
             'previousInsurer',
             res?.vehicle_details?.previous_insurer_code
@@ -1111,18 +1118,15 @@ export class MotorInsuranceComponent implements OnInit {
     this.sharedDataService.selectedVehicleTypeObject(selectedVehicle);
   }
 
-
-  partnerValidation(){
-    const employee_code=sessionStorage.getItem('employee_code');
-    const partner_code=sessionStorage.getItem('partner_code');
-    if(partner_code){
+  partnerValidation() {
+    const employee_code = sessionStorage.getItem('employee_code');
+    const partner_code = sessionStorage.getItem('partner_code');
+    if (partner_code) {
       this.apiService
-      .getRequestedResponse(
-        `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
-      )
-      .subscribe((res: any) => {
-      })
+        .getRequestedResponse(
+          `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
+        )
+        .subscribe((res: any) => {});
     }
-    
   }
 }
