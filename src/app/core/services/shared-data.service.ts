@@ -1836,15 +1836,30 @@ export class SharedDataService {
     if (flexiDetails) {
       flexiValues = JSON.parse(flexiDetails);
       this.flexiObject = {};
-      for (let key in flexiValues) {
-        console.log(flexiValues[key]);
-        if (key == 'insurerCode') {
-          let objectValue = {
-            [flexiValues[key]]: flexiValues.discount_percentage,
-          };
-          this.flexiObject = objectValue;
-        }
-      }
+      // for (let key in flexiValues) {
+      //   console.log(flexiValues[key]);
+      //   if (key == 'insurerCode') {
+      //     let insurerData =
+      //       flexiValues.is_payd == true
+      //         ? `${flexiValues[key]}_is_payd`
+      //         : flexiValues[key];
+      //     let objectValue = {
+      //       [insurerData]: flexiValues.discount_percentage,
+      //     };
+      //     this.flexiObject = objectValue;
+      //   }
+      // }
+
+      let result: { [key: string]: number } = {};
+
+      flexiValues.forEach((item: any) => {
+        const code = item.insurerCode?.toLowerCase();
+        if (!code) return;
+
+        const key = item.is_payd ? `${code}_payd` : code;
+        result[key] = item.discount_percentage;
+      });
+      this.flexiObject = result;
     }
     console.log(this.flexiObject);
     let setectedAddons;

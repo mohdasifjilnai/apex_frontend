@@ -19,7 +19,7 @@ import {
 } from '@angular/material/bottom-sheet';
 
 import { ChooseIDVComponent } from '../choose-idv/choose-idv.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddOnsComponent } from '../add-ons/add-ons.component';
 import { QuotesDropdownComponent } from '../quotes-dropdown/quotes-dropdown.component';
 import { ShareQuotesComponent } from '../../shared/components/dialog-components/share-quotes/share-quotes.component';
@@ -172,7 +172,7 @@ export class QuotesListingComponent implements OnInit {
   sortObjectkey: any;
   totalIdvData: any;
   flexiButton = false;
-
+  flexiAmountArray: any = [];
   nonPOSJSON: {
     modalName: any;
     widthObtained: string;
@@ -206,9 +206,6 @@ export class QuotesListingComponent implements OnInit {
   insurerLogoData: any;
   insurerNameData: any;
   gstEarningShow: boolean = false;
-  flexiDiscountForm: FormGroup = new FormGroup({
-    flexiDiscount: new FormControl(''),
-  });
   flexiLoader: boolean = false;
   loaderOnCardId: any;
   // isPageRefresh = true;
@@ -262,13 +259,53 @@ export class QuotesListingComponent implements OnInit {
     });
     this.sharedDataService.enableCarLoader.subscribe((idvData) => {
       this.carLoader = true;
-      for (let i = 0; i <= this.quotationData.length - 1; i++) {
-        if (this.quotationData[i]?.flexi_discounting?.is_active) {
+      for (let i = 0; i < this.quotationData.length; i++) {
+        const quote = this.quotationData[i];
+
+        if (quote?.flexi_discounting?.is_active) {
+          // Set applyButton based on your logic
           this.quotationData[i].applyButton = true;
+          this.quotationData[i].applyInputButton = true;
+          const formGroup = this.flexiDiscountFormArray.at(i);
+          const flexiControl = formGroup.get('flexiDiscount');
+
+          // Enable/disable input based on applyButton flag
           if (this.quotationData[i].applyButton) {
-            this.flexiDiscountForm.get('flexiDiscount')?.disable();
+            flexiControl?.disable();
           } else {
-            this.flexiDiscountForm.get('flexiDiscount')?.enable();
+            flexiControl?.enable();
+          }
+
+          // Load value from session or use default
+          const flexiDetails = sessionStorage.getItem('flexiAmount');
+          if (flexiDetails) {
+            const flexiValues = JSON.parse(flexiDetails); // This is now an array
+
+            const insurerCode = quote?.insurer_code?.toLowerCase();
+            const isPayd = quote?.payd?.status;
+
+            // Find the matching entry in the array
+            const matched = flexiValues.find(
+              (item: any) =>
+                item.insurerCode?.toLowerCase() === insurerCode &&
+                item.is_payd === isPayd
+            );
+
+            if (matched) {
+              // Patch the matched discount value
+              flexiControl?.patchValue(matched.discount_percentage);
+              this.quotationData[i].flexi_discounting.discount_percentage =
+                matched.discount_percentage;
+            } else {
+              // Fallback to min_discount
+              flexiControl?.patchValue(
+                quote?.flexi_discounting?.discount_percentage
+              );
+            }
+          } else {
+            flexiControl?.patchValue(
+              quote?.flexi_discounting?.discount_percentage
+            );
           }
         }
       }
@@ -280,30 +317,55 @@ export class QuotesListingComponent implements OnInit {
       }
       setTimeout(() => {
         if (this.carLoader) {
-          for (let i = 0; i <= this.quotationData.length - 1; i++) {
-            if (this.quotationData[i]?.flexi_discounting?.is_active) {
+          for (let i = 0; i < this.quotationData.length; i++) {
+            const quote = this.quotationData[i];
+
+            if (quote?.flexi_discounting?.is_active) {
+              // Reset applyButton logic (default is false)
               this.quotationData[i].applyButton = false;
-              if (this.quotationData[i].applyButton) {
-                this.flexiDiscountForm.get('flexiDiscount')?.disable();
-              } else {
-                this.flexiDiscountForm.get('flexiDiscount')?.enable();
-              }
-              let flexiDetails = sessionStorage.getItem('flexiAmount');
+              this.quotationData[i].applyInputButton = false;
+
+              const formGroup = this.flexiDiscountFormArray.at(i);
+              const flexiControl = formGroup.get('flexiDiscount');
+
+              // Enable or disable the control
+              flexiControl?.enable(); // or conditionally disable if needed
+
+              // Load all stored flexi discount values from sessionStorage
+              const flexiDetails = sessionStorage.getItem('flexiAmount');
               if (flexiDetails) {
-                let flexiValues = JSON.parse(flexiDetails);
-                this.flexiDiscountForm.patchValue({
-                  flexiDiscount: flexiValues.discount_percentage,
-                });
-                this.quotationData[i].flexi_discounting.discount_percentage =
-                  flexiValues.discount_percentage;
+                const flexiValues = JSON.parse(flexiDetails); // This is now an array
+
+                const insurerCode = quote?.insurer_code?.toLowerCase();
+                const isPayd = quote?.payd?.status;
+
+                // Find the matching entry in the array
+                const matched = flexiValues.find(
+                  (item: any) =>
+                    item.insurerCode?.toLowerCase() === insurerCode &&
+                    item.is_payd === isPayd
+                );
+
+                if (matched) {
+                  // Patch the matched discount value
+                  flexiControl?.patchValue(matched.discount_percentage);
+                  this.quotationData[i].flexi_discounting.discount_percentage =
+                    matched.discount_percentage;
+                } else {
+                  // Fallback to min_discount
+                  flexiControl?.patchValue(
+                    quote?.flexi_discounting?.discount_percentage
+                  );
+                }
               } else {
-                this.flexiDiscountForm.patchValue({
-                  flexiDiscount:
-                    this.quotationData[i]?.flexi_discounting?.min_discount,
-                });
+                // No session data; use default min_discount
+                flexiControl?.patchValue(
+                  quote?.flexi_discounting?.discount_percentage
+                );
               }
             }
           }
+
           this.flexiButton = true;
           this.carLoader = false;
           const mmv_data = JSON.parse(
@@ -446,7 +508,7 @@ export class QuotesListingComponent implements OnInit {
                   }
                 }
               );
-              // console.log(quotesValueList,"555555")
+
               if (quotesValueList == -1) {
                 this.quotationData.push(this.quotationArray[i]);
               } else {
@@ -496,31 +558,73 @@ export class QuotesListingComponent implements OnInit {
           if (b.insurer_priority === null) return -1;
           return a.insurer_priority - b.insurer_priority;
         });
+        this.flexiDiscountFormArray.clear(); // clear existing if reinitializing
+        if (this.quotationData.length > 0) {
+          this.quotationData.forEach((quote: any, index: number) => {
+            const control = new FormGroup({
+              flexiDiscount: new FormControl({
+                value: quote?.flexi_discounting?.min_discount || '', // or initial value
+                disabled: quote?.applyButton || false,
+                applyInputButton: false,
+              }),
+            });
 
-        for (let i = 0; i <= this.quotationData.length - 1; i++) {
-          if (this.quotationData[i]?.flexi_discounting?.is_active) {
+            this.flexiDiscountFormArray.push(control);
+          });
+        }
+
+        for (let i = 0; i < this.quotationData.length; i++) {
+          const quote = this.quotationData[i];
+
+          if (quote?.flexi_discounting?.is_active) {
+            // Set applyButton based on your logic
             this.quotationData[i].applyButton = true;
+            this.quotationData[i].applyInputButton = true;
+            const formGroup = this.flexiDiscountFormArray.at(i);
+            const flexiControl = formGroup.get('flexiDiscount');
+
+            // Enable/disable input based on applyButton flag
             if (this.quotationData[i].applyButton) {
-              this.flexiDiscountForm.get('flexiDiscount')?.disable();
+              flexiControl?.disable();
             } else {
-              this.flexiDiscountForm.get('flexiDiscount')?.enable();
+              flexiControl?.enable();
             }
-            let flexiDetails = sessionStorage.getItem('flexiAmount');
+
+            // Load value from session or use default
+            const flexiDetails = sessionStorage.getItem('flexiAmount');
             if (flexiDetails) {
-              let flexiValues = JSON.parse(flexiDetails);
-              this.flexiDiscountForm.patchValue({
-                flexiDiscount: flexiValues.discount_percentage,
-              });
-              this.quotationData[i].flexi_discounting.discount_percentage =
-                flexiValues.discount_percentage;
+              const flexiValues = JSON.parse(flexiDetails); // This is now an array
+
+              const insurerCode = quote?.insurer_code?.toLowerCase();
+              const isPayd = quote?.payd?.status;
+
+              // Find the matching entry in the array
+              const matched = flexiValues.find(
+                (item: any) =>
+                  item.insurerCode?.toLowerCase() === insurerCode &&
+                  item.is_payd === isPayd
+              );
+
+              if (matched) {
+                // Patch the matched discount value
+                flexiControl?.patchValue(matched.discount_percentage);
+                this.quotationData[i].flexi_discounting.discount_percentage =
+                  matched.discount_percentage;
+              } else {
+                // Fallback to min_discount
+                flexiControl?.patchValue(
+                  quote?.flexi_discounting?.discount_percentage
+                );
+              }
             } else {
-              this.flexiDiscountForm.patchValue({
-                flexiDiscount:
-                  this.quotationData[i]?.flexi_discounting?.min_discount,
-              });
+              flexiControl?.patchValue(
+                quote?.flexi_discounting?.discount_percentage
+              );
             }
           }
         }
+
+        console.log(this.flexiDiscountFormArray);
         console.log(this.quotationData);
 
         this.quotationData
@@ -536,7 +640,6 @@ export class QuotesListingComponent implements OnInit {
         if (window.innerWidth <= 999) {
           this.sharedDataService?.sendQuoteData(this.quotationData);
         }
-        // console.log(this.quotationData);
       }
     });
 
@@ -613,7 +716,6 @@ export class QuotesListingComponent implements OnInit {
 
     // let currentPageUrl = this.router.url;
     // if (window.performance.navigation.type === 1) {
-    //   console.log('Page was refreshed');
 
     //   let vehicledetailPopup = sessionStorage.getItem('vehiclePopup');
     //   if (vehicledetailPopup) {
@@ -630,7 +732,7 @@ export class QuotesListingComponent implements OnInit {
     //     );
     //   }
     // } else {
-    //   console.log('Page was not refreshed');
+
     //   this.isPageRefresh = true;
     //   sessionStorage.setItem('pageRefresh', JSON.stringify(this.isPageRefresh));
     // }
@@ -1675,20 +1777,40 @@ export class QuotesListingComponent implements OnInit {
     return ((value - this.minIdv) / (this.maxIdv - this.minIdv)) * 100;
   }
 
-  flexiApply(quotes: any) {
+  flexiApply(quotes: any, index: any) {
     const transactionId = sessionStorage.getItem('transaction_id');
     this.flexiLoader = true;
     this.loaderOnCardId = quotes?.quote_id;
+
     let flexiApplyObject = {
       insurerCode: quotes?.insurer_code,
-      discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
-      is_payd:quotes?.payd?.status      
+      discount_percentage:
+        this.quotationData[index].flexi_discounting.discount_percentage,
+      is_payd: quotes?.payd?.status,
     };
-    sessionStorage.setItem('flexiAmount', JSON.stringify(flexiApplyObject));
+    // Check if a matching entry already exists
+    const existingIndex = this.flexiAmountArray.findIndex(
+      (item: any) =>
+        item.insurerCode === flexiApplyObject.insurerCode &&
+        item.is_payd === flexiApplyObject.is_payd
+    );
+
+    if (existingIndex !== -1) {
+      //  Update existing item
+      this.flexiAmountArray[existingIndex] = flexiApplyObject;
+    } else {
+      //  Push new item
+      this.flexiAmountArray.push(flexiApplyObject);
+    }
+    sessionStorage.setItem(
+      'flexiAmount',
+      JSON.stringify(this.flexiAmountArray)
+    );
     let flexiObject = {
       transaction_id: transactionId,
-      discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
-      is_payd:quotes?.payd?.status
+      discount_percentage:
+        this.quotationData[index].flexi_discounting.discount_percentage,
+      is_payd: quotes?.payd?.status,
     };
     this.apiService
       .postRequestedResponse(
@@ -1707,35 +1829,54 @@ export class QuotesListingComponent implements OnInit {
       });
   }
 
-  onFlexiSliderInput(event: any) {
+  flexiAmountValue(quotes: any, index: number): void {
+    if (this.flexiButton) {
+      const flexiSliderValue = this.flexiDiscountFormArray
+        .at(index)
+        .get('flexiDiscount')?.value;
+
+      // Update the discount percentage in your quotationData
+      this.quotationData[index].flexi_discounting.discount_percentage =
+        flexiSliderValue;
+
+      // Enable/disable applyButton based on max_discount check
+      const maxDiscount = quotes?.flexi_discounting?.max_discount;
+      this.quotationData[index].applyButton = flexiSliderValue > maxDiscount;
+      this.quotationData[index].applyInputButton =
+        flexiSliderValue > maxDiscount;
+    }
+  }
+
+  onFlexiSliderInput(event: any, index: number): void {
     const value = event.value;
 
-    this.flexiDiscountForm
-      .get('flexiDiscount')
-      ?.setValue(value, { emitEvent: false });
-  }
+    // Optionally update quotationData
+    this.quotationData[index].flexi_discounting.discount_percentage = value;
 
-  onFlexiSliderRangeAmount(value: number) {
-    this.flexiDiscountForm
-      .get('flexiDiscount')
-      ?.setValue(value, { emitEvent: false });
-  }
-
-  flexiAmountValue(quotes: any) {
-    if (this.flexiButton) {
-      let flexiSliderValue = this.flexiDiscountForm.value.flexiDiscount;
-
-      for (let i = 0; i <= this.quotationData.length - 1; i++) {
-        if (this.quotationData[i]?.insurer_code == quotes?.insurer_code) {
-          this.quotationData[i].flexi_discounting.discount_percentage =
-            flexiSliderValue;
-          if (flexiSliderValue > quotes?.flexi_discounting?.max_discount) {
-            this.quotationData[i].applyButton = true;
-          } else {
-            this.quotationData[i].applyButton = false;
-          }
-        }
-      }
+    if (this.flexiDiscountFormArray.at(index)) {
+      this.flexiDiscountFormArray
+        .at(index)
+        .get('flexiDiscount')
+        ?.setValue(value, { emitEvent: false });
     }
+  }
+
+  onFlexiSliderRangeAmount(value: number, index: number): void {
+    this.quotationData[index].flexi_discounting.discount_percentage = value;
+
+    if (this.flexiDiscountFormArray.at(index)) {
+      this.flexiDiscountFormArray
+        .at(index)
+        .get('flexiDiscount')
+        ?.setValue(value, { emitEvent: false });
+    }
+  }
+
+  flexiForm: FormGroup = new FormGroup({
+    flexiDiscountFormArray: new FormArray<FormGroup>([]),
+  });
+
+  get flexiDiscountFormArray(): FormArray<FormGroup> {
+    return this.flexiForm.get('flexiDiscountFormArray') as FormArray<FormGroup>;
   }
 }

@@ -206,17 +206,21 @@
       </div>
     </div> -->
     <div class="quotation-listing" *ngIf="showComprehensiveDiv">
-      <div *ngFor="let quotes of quotationData">
-        <div class="row comprehensive-card mt-3">
-          <div class="comprehensive-tab ps-4 pe-4 pt-4">
-            <div
-              [ngClass]="
-                payout
-                  ? 'd-flex justify-content-between'
-                  : 'd-flex justify-content-end'
-              "
-            >
-              <!-- <div class="payout" *ngIf="payout">
+      <form [formGroup]="flexiForm">
+        <div
+          *ngFor="let quotes of quotationData; let i = index"
+          [formGroup]="flexiDiscountFormArray.at(i)"
+        >
+          <div class="row comprehensive-card mt-3">
+            <div class="comprehensive-tab ps-4 pe-4 pt-4">
+              <div
+                [ngClass]="
+                  payout
+                    ? 'd-flex justify-content-between'
+                    : 'd-flex justify-content-end'
+                "
+              >
+                <!-- <div class="payout" *ngIf="payout">
                 <ng-container
                   *ngIf="
                     quotes?.payout_response && quotes?.payout_response != 'NA'
@@ -251,16 +255,16 @@
                 </div>
               </div> -->
 
-              <!-- break in case banner-->
-              <div class="d-flex justify-content-end">
-                <div class="break-in me-3" *ngIf="quotes?.is_breakin">
-                  <ng-container>
-                    <div class="break-inside">
-                      <div class="break-value pb-2">Inspection Reqd.</div>
-                    </div>
-                  </ng-container>
+                <!-- break in case banner-->
+                <div class="d-flex justify-content-end">
+                  <div class="break-in me-3" *ngIf="quotes?.is_breakin">
+                    <ng-container>
+                      <div class="break-inside">
+                        <div class="break-value pb-2">Inspection Reqd.</div>
+                      </div>
+                    </ng-container>
 
-                  <!-- <div class="payout-inside cursor-pointer">
+                    <!-- <div class="payout-inside cursor-pointer">
                 <div class="payout-value pb-2">
                   <img
                     src="assets/icon/info.svg"
@@ -272,71 +276,73 @@
                   *T&C
                 </div>
               </div> -->
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row" *ngIf="quotes?.renewal_url == null">
-              <div class="col-lg-3 col-md-3 col-12 insurer-img">
-                <div class="d-flex justify-content-between">
-                  <img
-                    [src]="quotes?.insurer_logo"
-                    class="insurer-logo"
-                    alt=""
-                  />
-                  <!-- <div *ngIf="addShare" class="responsive-checkbox">
+              <div class="row" *ngIf="quotes?.renewal_url == null">
+                <div class="col-lg-3 col-md-3 col-12 insurer-img">
+                  <div class="d-flex justify-content-between">
+                    <img
+                      [src]="quotes?.insurer_logo"
+                      class="insurer-logo"
+                      alt=""
+                    />
+                    <!-- <div *ngIf="addShare" class="responsive-checkbox">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
-                  <div
-                    class="payout-new responsive-checkbox"
-                    *ngIf="payout && defaultEarning"
-                  >
-                    <ng-container
-                      *ngIf="
-                        quotes?.payout_response &&
-                        quotes?.payout_response != 'NA'
-                      "
+                    <div
+                      class="payout-new responsive-checkbox"
+                      *ngIf="payout && defaultEarning"
                     >
-                      <div
-                        class="payout-inside-new"
-                        *ngIf="quotes?.payout_response != 0"
+                      <ng-container
+                        *ngIf="
+                          quotes?.payout_response &&
+                          quotes?.payout_response != 'NA'
+                        "
                       >
-                        <div class="payout-rupees">
-                          <img
-                            src="assets/icon/rupee-payout.svg"
-                            class="me-2"
-                            alt=""
-                          />
-                          You Earn ₹ {{ quotes?.payout_response }}*
+                        <div
+                          class="payout-inside-new"
+                          *ngIf="quotes?.payout_response != 0"
+                        >
+                          <div class="payout-rupees">
+                            <img
+                              src="assets/icon/rupee-payout.svg"
+                              class="me-2"
+                              alt=""
+                            />
+                            You Earn ₹ {{ quotes?.payout_response }}*
+                          </div>
                         </div>
-                      </div>
-                    </ng-container>
+                      </ng-container>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- {{quotes.insurer_name}} -->
-              <div class="col-lg-6 col-md-6 col-6 idv-range">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <span class="idv-amount">
-                      IDV (&#8377;
-                      {{ quotes?.premium_details?.min_idv | number : "2." }}-
-                      &#8377;
-                      {{
-                        quotes?.premium_details?.max_idv | number : "2."
-                      }}) </span
-                    ><br />
-                    <span class="idv-choose-amount mt-1">
-                      &#8377;
-                      {{ quotes?.premium_details?.idv | number : "2." }} </span
-                    ><br />
-                  </div>
-                  <!-- <div *ngIf="addShare" class="web-checkbox">
+                <!-- {{quotes.insurer_name}} -->
+                <div class="col-lg-6 col-md-6 col-6 idv-range">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <span class="idv-amount">
+                        IDV (&#8377;
+                        {{ quotes?.premium_details?.min_idv | number : "2." }}-
+                        &#8377;
+                        {{
+                          quotes?.premium_details?.max_idv | number : "2."
+                        }}) </span
+                      ><br />
+                      <span class="idv-choose-amount mt-1">
+                        &#8377;
+                        {{
+                          quotes?.premium_details?.idv | number : "2."
+                        }} </span
+                      ><br />
+                    </div>
+                    <!-- <div *ngIf="addShare" class="web-checkbox">
                     <mat-checkbox
                       (change)="onCheckboxChange(quotes, $event)"
                       [checked]="isCheckboxChecked"
@@ -344,90 +350,91 @@
                       >Add to Share</mat-checkbox
                     >
                   </div> -->
-                  <div
-                    class="payout-new web-checkbox"
-                    *ngIf="payout && defaultEarning"
-                  >
-                    <ng-container
-                      *ngIf="
-                        quotes?.payout_response &&
-                        quotes?.payout_response != 'NA'
-                      "
+                    <div
+                      class="payout-new web-checkbox"
+                      *ngIf="payout && defaultEarning"
                     >
-                      <div
-                        class="payout-inside-new"
-                        *ngIf="quotes?.payout_response != 0"
+                      <ng-container
+                        *ngIf="
+                          quotes?.payout_response &&
+                          quotes?.payout_response != 'NA'
+                        "
                       >
-                        <div class="payout-rupees">
-                          <img
-                            src="assets/icon/rupee-payout.svg"
-                            class="me-2"
-                            alt=""
-                          />
-                          You Earn ₹ {{ quotes?.payout_response }}*
+                        <div
+                          class="payout-inside-new"
+                          *ngIf="quotes?.payout_response != 0"
+                        >
+                          <div class="payout-rupees">
+                            <img
+                              src="assets/icon/rupee-payout.svg"
+                              class="me-2"
+                              alt=""
+                            />
+                            You Earn ₹ {{ quotes?.payout_response }}*
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div *ngIf="quotes?.payd?.status" class="payd-web">
+                    <div class="pay-drive mb-2">
+                      <div class="d-flex">
+                        <img
+                          src="assets/icon/payDrive.svg"
+                          class="drive-img me-2"
+                          alt=""
+                        />
+                        <span class="drive-text">PAY AS YOU DRIVE</span>
+                      </div>
+                      <span class="pay-drive-message mb-2">{{
+                        quotes?.payd?.message
+                      }}</span>
+                      <div
+                        class="km-buttons"
+                        *ngIf="quotes?.payd?.payd_range != null"
+                      >
+                        <div *ngFor="let data of quotes?.payd?.payd_range">
+                          <button
+                            class="km-value"
+                            value="data?.value"
+                            (click)="
+                              selectedKms(data?.value, quotes?.insurer_code)
+                            "
+                            [class.active]="selectedKmsValue == data?.value"
+                          >
+                            {{ data?.label }}
+                          </button>
                         </div>
                       </div>
-                    </ng-container>
-                  </div>
-                </div>
-                <div *ngIf="quotes?.payd?.status" class="payd-web">
-                  <div class="pay-drive mb-2">
-                    <div class="d-flex">
-                      <img
-                        src="assets/icon/payDrive.svg"
-                        class="drive-img me-2"
-                        alt=""
-                      />
-                      <span class="drive-text">PAY AS YOU DRIVE</span>
-                    </div>
-                    <span class="pay-drive-message mb-2">{{
-                      quotes?.payd?.message
-                    }}</span>
-                    <div
-                      class="km-buttons"
-                      *ngIf="quotes?.payd?.payd_range != null"
-                    >
-                      <div *ngFor="let data of quotes?.payd?.payd_range">
-                        <button
-                          class="km-value"
-                          value="data?.value"
-                          (click)="
-                            selectedKms(data?.value, quotes?.insurer_code)
-                          "
-                          [class.active]="selectedKmsValue == data?.value"
-                        >
-                          {{ data?.label }}
-                        </button>
-                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-6 premium-btn">
-                <div
-                  class="renewal-card"
-                  (click)="getProposalDetails(quotes)"
-                  *ngIf="quotes?.is_rb_renewal"
-                >
-                  <span class="text">Renewal Quote</span>
-                  <button
-                    tabindex="0"
-                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                <div class="col-lg-3 col-md-3 col-6 premium-btn">
+                  <div
+                    class="renewal-card"
+                    (click)="getProposalDetails(quotes)"
+                    *ngIf="quotes?.is_rb_renewal"
                   >
-                    <span class="d-none">{{ quotes?.insurer_name }}</span>
-                    &#8377;
-                    {{
-                      defaultGST
-                        ? (quotes.premium_details?.gross_premium
-                          | number : "2.")
-                        : (quotes.premium_details?.net_premium | number : "2.")
-                    }}
-                    <p class="inc">
-                      {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
-                    </p>
-                  </button>
-                </div>
-                <!-- <button
+                    <span class="text">Renewal Quote</span>
+                    <button
+                      tabindex="0"
+                      class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                    >
+                      <span class="d-none">{{ quotes?.insurer_name }}</span>
+                      &#8377;
+                      {{
+                        defaultGST
+                          ? (quotes.premium_details?.gross_premium
+                            | number : "2.")
+                          : (quotes.premium_details?.net_premium
+                            | number : "2.")
+                      }}
+                      <p class="inc">
+                        {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                      </p>
+                    </button>
+                  </div>
+                  <!-- <button
                   *ngIf="
                   quotes?.is_rb_renewal
                   "
@@ -447,95 +454,95 @@
                     {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
                   </p>
                 </button> -->
-                <button
-                  tabindex="0"
-                  class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
-                  (click)="getProposalDetails(quotes)"
-                  *ngIf="!quotes?.is_rb_renewal"
-                >
-                  <span class="d-none">{{ quotes?.insurer_name }}</span>
-                  &#8377;
+                  <button
+                    tabindex="0"
+                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                    (click)="getProposalDetails(quotes)"
+                    *ngIf="!quotes?.is_rb_renewal"
+                  >
+                    <span class="d-none">{{ quotes?.insurer_name }}</span>
+                    &#8377;
 
-                  {{
-                    defaultGST
-                      ? (quotes.premium_details.gross_premium | number : "2.")
-                      : (quotes.premium_details.net_premium | number : "2.")
-                  }}
-                  <p class="inc">
-                    {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                    {{
+                      defaultGST
+                        ? (quotes.premium_details.gross_premium | number : "2.")
+                        : (quotes.premium_details.net_premium | number : "2.")
+                    }}
+                    <p class="inc">
+                      {{ defaultGST ? "(Incl. GST)" : "(Excl. GST)" }}
+                    </p>
+                  </button>
+                  <p>
+                    <span>
+                      <button
+                        (click)="openPremiumBreakupModal(quotes, $event)"
+                        class="premium-breakup"
+                      >
+                        Premium Breakup
+                      </button>
+                    </span>
                   </p>
-                </button>
-                <p>
-                  <span>
-                    <button
-                      (click)="openPremiumBreakupModal(quotes, $event)"
-                      class="premium-breakup"
-                    >
-                      Premium Breakup
-                    </button>
-                  </span>
-                </p>
-              </div>
-              <div class="col-12 payd-res">
-                <div *ngIf="quotes?.payd?.status">
-                  <div class="pay-drive mb-2">
-                    <div class="d-flex">
-                      <img
-                        src="assets/icon/payDrive.svg"
-                        class="drive-img me-2"
-                        alt=""
-                      />
-                      <span class="drive-text">PAY AS YOU DRIVE</span>
-                    </div>
-                    <span class="pay-drive-message mb-2">{{
-                      quotes?.payd?.message
-                    }}</span>
-                    <div
-                      class="km-buttons"
-                      *ngIf="quotes?.payd?.payd_range != null"
-                    >
-                      <div *ngFor="let data of quotes?.payd?.payd_range">
-                        <button
-                          class="km-value"
-                          value="data?.value"
-                          (click)="
-                            selectedKms(data?.value, quotes?.insurer_code)
-                          "
-                          [class.active]="selectedKmsValue == data?.value"
-                        >
-                          {{ data?.label }}
-                        </button>
+                </div>
+                <div class="col-12 payd-res">
+                  <div *ngIf="quotes?.payd?.status">
+                    <div class="pay-drive mb-2">
+                      <div class="d-flex">
+                        <img
+                          src="assets/icon/payDrive.svg"
+                          class="drive-img me-2"
+                          alt=""
+                        />
+                        <span class="drive-text">PAY AS YOU DRIVE</span>
+                      </div>
+                      <span class="pay-drive-message mb-2">{{
+                        quotes?.payd?.message
+                      }}</span>
+                      <div
+                        class="km-buttons"
+                        *ngIf="quotes?.payd?.payd_range != null"
+                      >
+                        <div *ngFor="let data of quotes?.payd?.payd_range">
+                          <button
+                            class="km-value"
+                            value="data?.value"
+                            (click)="
+                              selectedKms(data?.value, quotes?.insurer_code)
+                            "
+                            [class.active]="selectedKmsValue == data?.value"
+                          >
+                            {{ data?.label }}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row" *ngIf="quotes?.renewal_url != null">
-              <div class="col-lg-3 col-md-3 col-6 insurer-img">
-                <div class="d-flex justify-content-between mt-2">
-                  <img
-                    [src]="quotes?.insurer_logo"
-                    class="insurer-logo"
-                    alt=""
-                  />
+              <div class="row" *ngIf="quotes?.renewal_url != null">
+                <div class="col-lg-3 col-md-3 col-6 insurer-img">
+                  <div class="d-flex justify-content-between mt-2">
+                    <img
+                      [src]="quotes?.insurer_logo"
+                      class="insurer-logo"
+                      alt=""
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-9 col-md-9 col-6 premium-btn">
-                <div
-                  class="renewal-card"
-                  (click)="renewalRedirection(quotes?.renewal_url)"
-                  *ngIf="quotes?.is_rb_renewal"
-                >
-                  <span class="text">Renewal Quote</span>
-                  <button
-                    tabindex="0"
-                    class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                <div class="col-lg-9 col-md-9 col-6 premium-btn">
+                  <div
+                    class="renewal-card"
+                    (click)="renewalRedirection(quotes?.renewal_url)"
+                    *ngIf="quotes?.is_rb_renewal"
                   >
-                    Renew
-                  </button>
-                </div>
-                <!-- <p>
+                    <span class="text">Renewal Quote</span>
+                    <button
+                      tabindex="0"
+                      class="premium-breakup-amount cursor-pointer text-center premium-breakup-amount-btn"
+                    >
+                      Renew
+                    </button>
+                  </div>
+                  <!-- <p>
                   <span>
                     <button
                       class="premium-breakup"
@@ -544,173 +551,176 @@
                     </button>
                   </span>
                 </p> -->
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="comprehensive-tab ps-4 pe-4 pb-2"
-            *ngIf="quotes?.flexi_discounting != null"
-          >
             <div
-              class="flexi-card"
-              *ngIf="quotes?.flexi_discounting?.is_active"
+              class="comprehensive-tab ps-4 pe-4 pb-2"
+              *ngIf="quotes?.flexi_discounting != null"
             >
-              <div class="row">
-                <div class="col-lg-2 flexi-text">
-                  <img
-                    src="assets/icon/discount-flexi.svg"
-                    class="drive-img me-2"
-                    alt=""
-                  />
-                  <span>Flexi Discount</span>
-                </div>
-                <div class="col-lg-10">
-                  <div class="custom-sider">
-                    <div class="row">
-                      <span class="col-lg-2 col-12 d-flex align-items-center"
-                        >Choose your discount!
-                      </span>
-                      <div
-                        class="col-lg-6 col-12 d-flex"
-                        [ngClass]="
-                          quotes.applyButton ? 'addonBlur' : 'addonShow'
-                        "
-                      >
-                        <span class="me-3 d-flex align-items-center"
-                          >{{ quotes?.flexi_discounting?.min_discount }}%</span
+              <div
+                class="flexi-card"
+                *ngIf="quotes?.flexi_discounting?.is_active"
+              >
+                <div class="row">
+                  <div class="col-lg-2 flexi-text">
+                    <img
+                      src="assets/icon/discount-flexi.svg"
+                      class="drive-img me-2"
+                      alt=""
+                    />
+                    <span>Flexi Discount</span>
+                  </div>
+                  <div class="col-lg-10">
+                    <div class="custom-sider">
+                      <div class="row">
+                        <span class="col-lg-2 col-12 d-flex align-items-center"
+                          >Choose your discount!
+                        </span>
+                        <div
+                          class="col-lg-6 col-12 d-flex"
+                          [ngClass]="
+                            quotes.applyButton ? 'addonBlur' : 'addonShow'
+                          "
                         >
-                        <div class="slider-wrapper">
-                          <mat-slider
-                            class="custom-slider"
-                            #event
-                            [min]="quotes?.flexi_discounting?.min_discount"
-                            [max]="quotes?.flexi_discounting?.max_discount"
-                            [step]="1"
-                            [value]="
-                              quotes?.flexi_discounting?.discount_percentage
-                            "
-                            (input)="onFlexiSliderInput($event)"
-                            (slideend)="onFlexiSliderRangeAmount(event.value)"
-                            (pointerup)="onFlexiSliderRangeAmount(event.value)"
-                            aria-readonly="true"
-                            [disabled]="quotes?.applyButton"
-                          ></mat-slider>
+                          <span class="me-3 d-flex align-items-center"
+                            >{{
+                              quotes?.flexi_discounting?.min_discount
+                            }}%</span
+                          >
+                          <div class="slider-wrapper">
+                            <mat-slider
+                              class="custom-slider"
+                              #event
+                              [min]="quotes?.flexi_discounting?.min_discount"
+                              [max]="quotes?.flexi_discounting?.max_discount"
+                              [step]="1"
+                              [value]="
+                                quotes?.flexi_discounting?.discount_percentage
+                              "
+                              (input)="onFlexiSliderInput($event, i)"
+                              (slideend)="
+                                onFlexiSliderRangeAmount(event.value, i)
+                              "
+                              (pointerup)="
+                                onFlexiSliderRangeAmount(event.value, i)
+                              "
+                              aria-readonly="true"
+                              [disabled]="quotes?.applyButton"
+                              [id]="'slider' + i"
+                            ></mat-slider>
+                          </div>
+
+                          <span class="d-flex align-items-center"
+                            >{{
+                              quotes?.flexi_discounting?.max_discount
+                            }}%</span
+                          >
                         </div>
 
-                        <span class="d-flex align-items-center"
-                          >{{ quotes?.flexi_discounting?.max_discount }}%</span
+                        <div
+                          class="col-lg-2 col-6"
+                          [ngClass]="
+                            quotes.applyButton ? 'addonBlur' : 'addonShow'
+                          "
                         >
-                      </div>
-
-                      <div
-                        class="col-lg-2 col-6"
-                        [ngClass]="
-                          quotes.applyButton ? 'addonBlur' : 'addonShow'
-                        "
-                      >
-                        <div class="flexi-input">
-                          <form
-                            [formGroup]="flexiDiscountForm"
-                            class="col-lg-12 mt-2"
-                          >
+                          <div class="flexi-input">
                             <input
                               matInput
                               type="text"
-                              appNumbersOnly
                               maxlength="3"
                               formControlName="flexiDiscount"
-                              (ngModelChange)="flexiAmountValue(quotes)"
+                              (ngModelChange)="flexiAmountValue(quotes, i)"
                               [disabled]="quotes?.applyButton"
                             />
-                          </form>
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="col-lg-2 col-6 flexi-btn">
-                        <button
-                          class="submit-btn"
-                          (click)="flexiApply(quotes)"
-                          [disabled]="quotes.applyButton"
-                        >
-                          <span>Apply </span>
-                        </button>
+                        <div class="col-lg-2 col-6 flexi-btn">
+                          <button
+                            class="submit-btn"
+                            (click)="flexiApply(quotes, i)"
+                            [disabled]="quotes.applyButton"
+                          >
+                            <span>Apply </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="flexi-loader-overlay"
-            *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id"
-          >
-            <img
-              class="flexi-loader"
-              src="assets/gif/flexi_loader.gif"
-              alt=""
-            />
-          </div>
-        </div>
-
-        <!-- comprehensive key feature web view -->
-        <div class="comprehensive-key-features">
-          <div class="comprehensive-key-features-value">
             <div
-              class="key-features-value me-3"
-              *ngFor="
-                let data of quotes?.premium_details?.addon_premium_details
-              "
+              class="flexi-loader-overlay"
+              *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id"
             >
-              <span
-                *ngIf="data?.add_on_name && data?.is_offered"
-                class="key-features-value"
-              >
-                <img src="assets/icon/insurer-key-feature.svg" class="me-1" />
-
-                {{ data?.add_on_name }}
-              </span>
-              <span
-                *ngIf="data?.add_on_name && !data?.is_offered"
-                class="key-features-value-not-offered"
-              >
-                <img src="assets/icon/quotes_cross.svg" />
-
-                {{ data?.add_on_name }}
-              </span>
+              <img
+                class="flexi-loader"
+                src="assets/gif/flexi_loader.gif"
+                alt=""
+              />
             </div>
           </div>
-        </div>
-        <!-- comprehensive key feature mobile view -->
-        <div class="row res-comprehensive-key-features">
-          <span class="key-features">
-            <div
-              class="key-features-value me-3"
-              *ngFor="
-                let data of quotes?.premium_details?.addon_premium_details
-              "
-            >
-              <span
-                *ngIf="data?.add_on_name && data?.is_offered"
-                class="key-features-value"
-              >
-                <img src="assets/icon/insurer-key-feature.svg" class="me-1" />
 
-                {{ data?.add_on_name }}
-              </span>
-              <span
-                *ngIf="data?.add_on_name && !data?.is_offered"
-                class="key-features-value-not-offered"
+          <!-- comprehensive key feature web view -->
+          <div class="comprehensive-key-features">
+            <div class="comprehensive-key-features-value">
+              <div
+                class="key-features-value me-3"
+                *ngFor="
+                  let data of quotes?.premium_details?.addon_premium_details
+                "
               >
-                <img src="assets/icon/quotes_cross.svg" />
+                <span
+                  *ngIf="data?.add_on_name && data?.is_offered"
+                  class="key-features-value"
+                >
+                  <img src="assets/icon/insurer-key-feature.svg" class="me-1" />
 
-                {{ data?.add_on_name }}
-              </span>
+                  {{ data?.add_on_name }}
+                </span>
+                <span
+                  *ngIf="data?.add_on_name && !data?.is_offered"
+                  class="key-features-value-not-offered"
+                >
+                  <img src="assets/icon/quotes_cross.svg" />
+
+                  {{ data?.add_on_name }}
+                </span>
+              </div>
             </div>
-          </span>
-        </div>
-      </div>
+          </div>
+          <!-- comprehensive key feature mobile view -->
+          <div class="row res-comprehensive-key-features">
+            <span class="key-features">
+              <div
+                class="key-features-value me-3"
+                *ngFor="
+                  let data of quotes?.premium_details?.addon_premium_details
+                "
+              >
+                <span
+                  *ngIf="data?.add_on_name && data?.is_offered"
+                  class="key-features-value"
+                >
+                  <img src="assets/icon/insurer-key-feature.svg" class="me-1" />
 
+                  {{ data?.add_on_name }}
+                </span>
+                <span
+                  *ngIf="data?.add_on_name && !data?.is_offered"
+                  class="key-features-value-not-offered"
+                >
+                  <img src="assets/icon/quotes_cross.svg" />
+
+                  {{ data?.add_on_name }}
+                </span>
+              </div>
+            </span>
+          </div>
+        </div>
+      </form>
       <br />
       <div class="changeIDV-sort-btn" *ngIf="!isChecked">
         <div
@@ -1019,7 +1029,7 @@
               </div>
             </div>
           </div>
-          <div
+          <!-- <div
             class="comprehensive-tab ps-4 pe-4 pb-2"
             *ngIf="quotes?.flexi_discounting != null"
           >
@@ -1112,7 +1122,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div
             class="flexi-loader-overlay"
             *ngIf="flexiLoader && loaderOnCardId == quotes?.quote_id"
