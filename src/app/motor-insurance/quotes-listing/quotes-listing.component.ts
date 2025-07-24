@@ -1254,12 +1254,8 @@ export class QuotesListingComponent implements OnInit {
       this.refreshPageApiHandling = false;
     }
     this.sharedDataService.addOnsChange(mmvFormData);
-    // console.log(mmvFormData, '00000');
     this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
-    // } else {
-    //   this.proposalTypeOninit = false;
-    // }
   }
 
   quotesTabData(notSendTransactionId?: any) {
@@ -1686,11 +1682,13 @@ export class QuotesListingComponent implements OnInit {
     let flexiApplyObject = {
       insurerCode: quotes?.insurer_code,
       discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
+      is_payd:quotes?.payd?.status      
     };
     sessionStorage.setItem('flexiAmount', JSON.stringify(flexiApplyObject));
     let flexiObject = {
       transaction_id: transactionId,
       discount_percentage: this.flexiDiscountForm.value.flexiDiscount,
+      is_payd:quotes?.payd?.status
     };
     this.apiService
       .postRequestedResponse(
