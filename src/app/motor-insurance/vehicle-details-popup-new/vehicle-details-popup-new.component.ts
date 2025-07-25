@@ -224,6 +224,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           'yyyy-MM-dd'
         ),
         // manufacture_date: new Date(this.vehcileFormData?.value?.manufacture_date),
+        manufacture_date: this.datePipe.transform(
+          this.vehcileFormData?.value?.manufacture_date,
+          'yyyy-MM'
+        ),
         previous_claimed: this.vehcileFormData?.value?.previous_claimed,
         user_car: this.vehcileFormData?.value?.user_car,
         previous_insurer:
@@ -267,7 +271,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.sharedDataService.vehicleDetails(registration_number);
     }
     this.sharedDataService.regNumberData.subscribe((numberData) => {
-      if (numberData != null && this.journeyType == 'registrationNumber') {
+      if (numberData != null && this.journeyType == 'registrationNumber' && !this.editVehicleDetails) {
         this.registrationNumberData = numberData;
         this.isNewVehicle = false;
         this.vehicleMMV(this.registrationNumberData?.rb_mmv_id);
@@ -1614,6 +1618,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   onRegistrationDateChange(journeyType: any) {
+    if(!this.editVehicleDetails){
+      this.vehicleDetailsForm.get('manufacture_date')?.reset();
+    }
     if (journeyType == 'rollover') {
       this.isNewVehicle = false;
       this.vehicleDetailsForm
