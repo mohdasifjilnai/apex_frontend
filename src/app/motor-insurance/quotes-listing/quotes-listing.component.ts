@@ -1842,8 +1842,10 @@ export class QuotesListingComponent implements OnInit {
       // Enable/disable applyButton based on max_discount check
       const maxDiscount = quotes?.flexi_discounting?.max_discount;
       this.quotationData[index].applyButton = flexiSliderValue > maxDiscount;
-      this.quotationData[index].applyInputButton =
-        flexiSliderValue > maxDiscount;
+
+      if (flexiSliderValue > maxDiscount) {
+        this.quotationData[index].applyInputButton = false;
+      }
     }
   }
 
