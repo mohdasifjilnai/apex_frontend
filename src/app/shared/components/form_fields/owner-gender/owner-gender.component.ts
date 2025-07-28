@@ -26,15 +26,15 @@ export class OwnerGenderComponent implements OnInit {
     this.genderList = [
       {
         id: 1,
-        name: 'Male',
+        name: 'male',
       },
       {
         id: 2,
-        name: 'Female',
+        name: 'female',
       },
       {
         id: 3,
-        name: 'Others',
+        name: 'others',
       },
     ];
   }

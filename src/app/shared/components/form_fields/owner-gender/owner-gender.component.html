@@ -15,7 +15,15 @@
     <mat-label>Select Gender</mat-label>
     <mat-select [formControlName]="formControlNameData">
       <mat-option *ngFor="let gender of genderList" [value]="gender?.name">
-        {{ gender?.name }}
+        <!-- {{ gender?.name }} -->
+        <!-- <p> -->
+        {{
+          gender?.name
+            ? gender?.name.charAt(0).toUpperCase() +
+              gender?.name.slice(1).toLowerCase()
+            : ""
+        }}
+        <!-- </p> -->
       </mat-option>
     </mat-select>
     <mat-error

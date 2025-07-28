@@ -269,7 +269,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             customerDetails[dataField] !== undefined
           ) {
             this.owenerVehicleDetailsForm.patchValue({
-              [formField]: customerDetails[dataField],
+              [formField]:
+                dataField == 'gender'
+                  ? customerDetails[dataField].toLowerCase()
+                  : customerDetails[dataField],
             });
           }
         });

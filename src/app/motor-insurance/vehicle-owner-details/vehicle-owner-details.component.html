@@ -122,7 +122,13 @@
         >
           Invalid Additional Contact
         </mat-error>
-        <mat-error *ngIf="owenerVehicleDetailsForm.controls['additional_contact']?.hasError('invalidAdditionalContactNumber')">
+        <mat-error
+          *ngIf="
+            owenerVehicleDetailsForm.controls['additional_contact']?.hasError(
+              'invalidAdditionalContactNumber'
+            )
+          "
+        >
           Please enter a valid Additional Contact
         </mat-error>
       </mat-form-field>
