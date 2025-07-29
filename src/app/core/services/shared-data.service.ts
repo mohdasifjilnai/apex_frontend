@@ -930,6 +930,8 @@ export class SharedDataService {
       }
     }
     if (flag === 'vehicle_owner_detail') {
+      const gender = formData?.get('owner_gender')?.value || '';
+      const formattedGender = gender.charAt(0).toUpperCase() + gender.slice(1).toLowerCase();
       this.proposalDataItem['customer_details'] = {
         full_name: formData?.get('owner_full_Name')?.value || '',
         mobile_number: formData?.get('contact_number')?.value || '',
@@ -940,7 +942,7 @@ export class SharedDataService {
         gst_no: formData?.get('owner_gstin')?.value || '',
         additional_mobile_number:
           formData?.get('additional_contact')?.value || '',
-        gender: formData?.get('owner_gender')?.value || '',
+        gender: formattedGender || '',
         marital_status: formData?.get('marital_status')?.value || null,
         salutation: formData?.get('ownner_salutation_type')?.value || '',
         nationality: 'INDIAN',
