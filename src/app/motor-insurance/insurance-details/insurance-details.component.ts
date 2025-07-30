@@ -343,7 +343,7 @@ export class InsuranceDetailsComponent implements OnInit {
       window.ReactNativeWebView.postMessage(messageJSON);
     }
     this.downloadLoader = true;
-
+    
     let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
     this.sharedDataService.downloadBreakupResponse.subscribe(

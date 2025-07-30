@@ -74,9 +74,7 @@
       </button>
     </div>
   </div>
-  <!-- Dialog content -->
   <div *ngIf="isWaitingTime && !isCustomerDetails">
-    <!-- Dialog title -->
     <div mat-dialog-title>
       <div class="success-popup-header d-flex justify-content-end">
         <img
@@ -153,78 +151,5 @@
       />
     </div>
   </div>
-  <!-- <iframe width="100%" height="490" [src]="safeUrl" frameborder="1" allowfullscreen></iframe> -->
 </div>
 
-<!-- <div mat-dialog-content *ngIf="isWaitingTime && isCustomerDetails && isUpload">
-  <div class="row">
-    <div class="col-12 text-center">
-      <p>Please upload {{ documentName | uppercase }} Card</p>
-    </div>
-    <div class="col-12 mt-2 text-center" *ngIf="!isShowPhoto">
-      <div class="form-group">
-        <div class="fileUpload">
-          <input
-            type="file"
-            class="upload"
-            id="fileInput"
-            (change)="onFileSelected($event)"
-          />
-          <label for="fileInput">
-            <img
-              src="assets/icon/upload-document.svg"
-              class="uploadIcon"
-              alt="Upload Document"
-            />
-            <img [src]="uploadedImage" alt="browseFile" class="centerImage" />
-            <p
-              class="browserText"
-              *ngIf="isDocumentUploaded && !isDcocumentUploadProceesing"
-            >
-              Click here to <span class="text-light-blue">browse</span> files
-            </p>
-            <ng-container
-              *ngIf="isDocumentUploaded && isDcocumentUploadProceesing"
-            >
-              <p class="browserText">Uploading...</p>
-               <img
-                src="assets/gif/uploading.gif"
-                alt="uploadingFile"
-                class="uploadingFile"
-              /> -->
-<!-- </ng-container>
-          </label>
-        </div>
-      </div>
-    </div> -->
-<!-- <div class="col-12 mt-2 text-center" *ngIf="isShowPhoto">
-      <img
-        [src]="document_image_url"
-        class="uploadIcon"
-        alt="Uploaded Document"
-      />
-    </div>
-    <div
-      class="col-12 mt-3 text-center"
-      *ngIf="!isDocumentUploaded && !isDcocumentUploadProceesing"
-    >
-      <p class="text-light-green">
-        {{ fileName }}
-        <a (click)="viewPics(fileName)" *ngIf="!isShowPhoto">view</a>
-      </p>
-    </div>
-    <div class="col-12 mt-3 text-center">
-      <button
-        class="document-upload-btn"
-        [ngClass]="{
-          'document-upload-btn-pending': isDocumentUploaded,
-          'document-upload-btn-success': !isDocumentUploaded
-        }"
-        type="submit"
-        (click)="uploadDocument()"
-      >
-        Continue
-      </button>
-    </div>
-  </div>
-</div> -->

@@ -140,16 +140,6 @@ export class CkycComponent implements OnInit {
     if (this.quoteData?.insurer_code) {
       this.getDocumentType();
     }
-    // if (sessionStorage.getItem('withoutVehicleNumber') == 'true') {
-    //   this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-    //     if (res?.customer_details != null) {
-    //       this.ckycFormGroup.patchValue({
-    //         document_number_based_field: res?.customer_details?.pan_number,
-    //         dob: res?.customer_details?.dob,
-    //       });
-    //     }
-    //   });
-    // }
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
       this.proposalData = proposal;
@@ -165,7 +155,6 @@ export class CkycComponent implements OnInit {
         this.isCkycDone = true;
         this.ckycData = proposal?.ckyc_details?.document_code;
         this.ckycFormGroup.patchValue({
-          // document_type_based_field: proposal?.ckyc_details?.document_type,
           document_number_based_field: proposal?.ckyc_details?.document_number,
           dob: moment(proposal?.ckyc_details?.dob, 'DD/MM/YYYY').toDate(),
           ckyc_full_name: proposal?.ckyc_details?.full_name,
@@ -197,31 +186,6 @@ export class CkycComponent implements OnInit {
             this.documentNumberValidation();
           }
         }
-        // let renewalDataType = sessionStorage.getItem('renewalType');
-        // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-        // if (renewalDataType == 'renewal' && !isSubmitCkycFormGroupCalled) {
-        //   if (this.ckycFormGroup.valid) {
-        //     let isCkycDone = sessionStorage.getItem('isCKycDOne');
-        //     if (!isCkycDone) {
-        //       if (!kycData?.verification_status) {
-        //         this.submitCkycFormGroup(true);
-        //       }
-        //       isSubmitCkycFormGroupCalled = true;
-        //     }
-        //   }
-        // }
-        // let previous_insurer = JSON.parse(
-        //   sessionStorage.getItem('previous_insurerCode') || ''
-        // );
-        // if (
-        //   kycData?.insurer_code == this.quoteData?.insurer_code &&
-        //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-        //   proposal?.ckyc_details?.is_verification
-        // ) {
-        //   this.isDisableCKyc = true;
-        // } else if (previous_insurer == this.proposalData?.insurer_code) {
-        //   this.isDisableCKyc = true;
-        // }
       } else {
         this.isDisableCKyc = false;
       }
@@ -232,99 +196,6 @@ export class CkycComponent implements OnInit {
         this.isEnableCKyc = false;
       }
     });
-    // const kycData = JSON.parse(sessionStorage.getItem('kycData') || '{}');
-    // const renewalType = sessionStorage.getItem('renewalType');
-    // if (renewalType != 'rollover' && renewalType != 'renewal') {
-    //   // if (
-    //   //   kycData?.insurer_code === this.quoteData['insurer_code'] &&
-    //   //   sessionStorage.getItem('proposerType') === kycData?.proposer_type &&
-    //   //   kycData?.verification_status === true
-    //   // ) {
-    //   //   this.isDisableCKyc = true;
-    //   // } else if (
-    //   //   kycData?.insurer_code !== this.quoteData['insurer_code'] &&
-    //   //   sessionStorage.getItem('proposerType') !== kycData?.proposer_type &&
-    //   //   kycData?.verification_status === true
-    //   // ) {
-    //   //   this.sharedDataService.openSnackBar(
-    //   //     'As you have change the insurer company you need to do your ckyc again.',
-    //   //     true,
-    //   //     10000
-    //   //   );
-    //   // }
-    // } else {
-    //   // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    //   // this.details = JSON.parse(this.previousDetails);
-    //   // if (this.details == null) {
-    //   //   this.regNo = sessionStorage.getItem('registrationNumber');
-
-    //   //   let apiUrl;
-
-    //   //   apiUrl = `?registration_number=${this.regNo?.toUpperCase()}`;
-
-    //   //   this.apiService
-    //   //     .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
-    //   //     .subscribe((res: any) => {
-    //   //       if (res?.status) {
-    //   //         sessionStorage.setItem(
-    //   //           'RenewalPreviousDetails',
-    //   //           JSON.stringify(res)
-    //   //         );
-    //   //         this.previousDetails = sessionStorage.getItem(
-    //   //           'RenewalPreviousDetails'
-    //   //         );
-    //   //         this.sharedDataService.getRenewalData(res);
-    //   //         this.details = JSON.parse(this.previousDetails);
-    //   //         const ckycDetails =
-    //   //           this.details?.previous_policy_details?.ckyc_details;
-    //   //         this.ckycFormGroup.patchValue({
-    //   //           document_type_based_field: ckycDetails?.document_type,
-    //   //           document_number_based_field: ckycDetails?.document_number,
-    //   //           dob: ckycDetails?.dob,
-    //   //           ckyc_full_name: ckycDetails?.full_name,
-    //   //           ckyc_gender: ckycDetails?.gender,
-    //   //           ckyc_download_data: ckycDetails?.is_verification,
-    //   //         });
-    //   //       }
-    //   //     });
-    //   // } else {
-    //   //   const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
-    //   //   this.ckycFormGroup.patchValue({
-    //   //     document_type_based_field: ckycDetails?.document_type,
-    //   //     document_number_based_field: ckycDetails?.document_number,
-    //   //     dob: ckycDetails?.dob,
-    //   //     ckyc_full_name: ckycDetails?.full_name,
-    //   //     ckyc_gender: ckycDetails?.gender,
-    //   //     ckyc_download_data: ckycDetails?.is_verification,
-    //   //   });
-    //   // }
-    // }
-    // this.sharedDataService?.fetchedCkycData.subscribe((kyc) => {
-    //   if (kyc?.customer_details?.dob) {
-    //     this.ckycFormGroup.patchValue({
-    //       dob: moment(kyc?.customer_details?.dob, 'DD/MM/YYYY').toDate(),
-    //     });
-    //   }
-    //   if (kyc?.verification_status === true) {
-    //     this.isDisableCKyc = true;
-    //   }
-    // });
-    // this.renewalDetails = sessionStorage.getItem('renewalDetails');
-    // const parsedRenewalDetails = JSON.parse(this.renewalDetails);
-    
-
-    // this.previousDetails = sessionStorage.getItem('RenewalPreviousDetails');
-    // this.details = JSON.parse(this.previousDetails);
-
-    // const ckycDetails = this.details?.previous_policy_details?.ckyc_details;
-    // this.ckycFormGroup.patchValue({
-    //   document_type_based_field: ckycDetails?.document_type,
-    //   document_number_based_field: ckycDetails?.document_number,
-    //   dob: ckycDetails?.dob,
-    //   ckyc_full_name: ckycDetails?.full_name,
-    //   ckyc_gender: ckycDetails?.gender,
-    //   ckyc_download_data: ckycDetails?.is_verification,
-    // });
     this.sharedDataService.errorEngineNumberValue.subscribe((res)=>{
       if (res === 'ckyc_document') {
         const engineControl = this.ckycFormGroup.get('document_number_based_field');
@@ -355,26 +226,6 @@ export class CkycComponent implements OnInit {
     this.ckycFormGroup.get('dob')?.setValidators([Validators.required]);
     this.ckycFormGroup.get('dob')?.updateValueAndValidity();
   }
-  /**
-   *  with ckyc number get value from form controler
-   */
-  // withCkycNumber() {
-  //   // this.ckycFormGroup.patchValue({
-  //   //   ckyc_id: [1],
-  //   // });
-  //   this.ckycFormGroup.get('ckyc_number')?.setValidators([Validators.required]);
-  //   this.ckycFormGroup.get('ckyc_number')?.updateValueAndValidity();
-  //   this.ckycFormGroup.get('document_type_based_field')?.setValidators([]);
-  //   this.ckycFormGroup
-  //     .get('document_type_based_field')
-  //     ?.updateValueAndValidity();
-  //   this.ckycFormGroup.get('document_number_based_field')?.setValidators([]);
-  //   this.ckycFormGroup
-  //     .get('document_number_based_field')
-  //     ?.updateValueAndValidity();
-  //   this.ckycFormGroup.get('dob')?.setValidators([]);
-  //   this.ckycFormGroup.get('dob')?.updateValueAndValidity();
-  // }
   submitCkycFormGroup(isValid: boolean) {
     const token = sessionStorage.getItem('token');
     webengage.track('CKYC_details_Submitted', {
@@ -539,20 +390,6 @@ export class CkycComponent implements OnInit {
         }
       });
   }
-
-  /**
-   * get ckyc number
-   */
-  // checkKycNumber(event: any) {
-  //   if (event.value == 1) {
-  //     this.withCkycNumber();
-  //     this.isCheckKyc = true;
-  //   } else {
-  //     this.validationAddCkycForm();
-  //     this.isCheckKyc = false;
-  //   }
-  // }
-
   /**
    * this fucntion use wait ckyc verification modal
    */
@@ -866,7 +703,7 @@ export class CkycComponent implements OnInit {
     const control = this.ckycFormGroup.get('document_number_based_field');
     const value = control?.value;
     if (value && value.includes('***')) {
-      control?.setValue(null, { emitEvent: false }); // Update the value to null without triggering `valueChanges` again
+      control?.setValue(null, { emitEvent: false });
     }
   }
 }

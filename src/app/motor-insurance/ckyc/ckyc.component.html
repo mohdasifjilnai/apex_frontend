@@ -5,25 +5,6 @@
     novalidate
   >
     <div class="row" [ngClass]="{ 'ckyc-field': isDisableCKyc }">
-      <!-- <div class="col-lg-4 col-md-6 col-12">
-        <label class="kyc-header">Do you have CKYC Number?</label>
-        <div>
-          <mat-radio-group
-            aria-label="Select an option"
-            class="ckyc_number"
-            formControlName="ckyc_id"
-            (change)="checkKycNumber($event)"
-          >
-            <mat-radio-button
-              *ngFor="let ckyc of ckycList"
-              [ngClass]="{
-                'is-kyc': ckyc?.name === 'No'
-              }"
-              >{{ ckyc?.name }}</mat-radio-button
-            >
-          </mat-radio-group>
-        </div>
-      </div> -->
       <ng-container *ngIf="!isCheckKyc">
         <div class="col-lg-4 col-md-6 col-12" *ngIf="isEnableCKyc">
           <mat-form-field

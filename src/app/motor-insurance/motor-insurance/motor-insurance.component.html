@@ -17,7 +17,6 @@
       alt=""
     />
   </div>
-  <!-- <app-breadcrumb></app-breadcrumb> -->
   <div class="body-content">
     <div class="container p-5 content">
       <div class="col-12 text-center mt-4">
@@ -60,31 +59,6 @@
 
               <!-- Fields Without Vehicle Number  -->
               <ng-container *ngIf="!isPolicyNumber">
-                <!-- <ng-container *ngIf="selectedvehicleType=='commercial_vehicle'">
-                  <div
-                    class="col-lg-4 col-md-6 col-12 mt-2"
-                    *ngIf="withoutVehicleNumber && isResponsive()"
-                    [@slideUp]>
-                    <mat-form-field appearance="outline" >
-                      <mat-label>Select Vehicle Type</mat-label>
-                      <mat-select formControlName="cv_vehicle_type"  (selectionChange)="onVehicleTypeSelect($event)"
-                      >
-                        <mat-option *ngFor="let data of cvVehicleTypeList" [value]="data">{{data?.vehicle_name}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="col-lg-4 col-md-6 col-12 mt-2"
-                    *ngIf="withoutVehicleNumber && !isResponsive()">
-                    <mat-form-field appearance="outline">
-                      <mat-label>Select Vehicle Type</mat-label>
-                      <mat-select formControlName="cv_vehicle_type"  (selectionChange)="onVehicleTypeSelect($event)"
-                      >
-                      <mat-option *ngFor="let data of cvVehicleTypeList" [value]="data">{{data?.vehicle_name}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                </ng-container> -->
                 <div
                   class="col-lg-4 col-md-6 col-12 mt-2"
                   *ngIf="withoutVehicleNumber && isResponsive()"
@@ -268,58 +242,6 @@
               </button>
             </div>
           </div>
-
-          <!-- <div class="col-12 text-center">
-            <span>
-              <span *ngIf="!isPolicyNumber" class="already-text"
-                >Already insured?</span
-              >
-              <span
-                tabindex="0"
-                class="text-primary without-vehicle-no cursor-pointer"
-                id-automation="withoutVehicleNumberText"
-                (click)="getPolicyNumber()"
-                *ngIf="!withoutVehicleNumber"
-              >
-                {{
-                  !isPolicyNumber
-                    ? "Click Here"
-                    : "Continue with Registration Number"
-                }}
-              </span>
-              <span
-                tabindex="0"
-                class="text-primary without-vehicle-no cursor-pointer"
-                id-automation="withoutVehicleNumberText"
-                (click)="getPolicyNumber()"
-                *ngIf="withoutVehicleNumber"
-              >
-                {{
-                  !isPolicyNumber
-                    ? "Click Here"
-                    : "Proceed without Vehicle Number"
-                }}
-              </span>
-              <span *ngIf="!isPolicyNumber" class="already-text">to renew</span>
-            </span>
-          </div> -->
-          <!-- </div> -->
-          <!-- <div class="col-12 text-center mb-5">
-            <span>
-              <span
-                tabindex="0"
-                class="text-primary without-vehicle-no cursor-pointer"
-                id-automation="withoutVehicleNumberText"
-                (click)="getVehicleNumber()"
-              >
-                {{
-                  withoutVehicleNumber
-                    ? "Proceed with Vehicle Number"
-                    : "Proceed without Vehicle Number"
-                }}
-              </span>
-            </span>
-          </div> -->
           <div class="quickLInks mt-3">
             <mat-card>
               <div class="row">

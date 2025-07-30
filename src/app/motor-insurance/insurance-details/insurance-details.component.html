@@ -44,30 +44,6 @@
         {{ mmvFOrmData?.registration_city?.display_name | titlecase }}
       </p>
     </div>
-    <!-- <div class="d-flex" *ngIf="mmvItem">
-      <img
-        src="assets/icon/four-wheeler.svg"
-        alt=""
-        class="vehicle-icon"
-        *ngIf="vehicleTypeValue == 'private_car'"
-      />
-      <img
-        src="assets/icon/two-wheeler-icon.svg"
-        alt=""
-        class="vehicle-icon"
-        *ngIf="vehicleTypeValue == 'two_wheeler'"
-      />
-      <p class="pt-3">
-        {{ this.mmvItem?.[0]?.rb_make_name }}
-        {{ this.mmvItem?.[0]?.rb_model_name }}
-        {{ this.mmvItem?.[0]?.rb_variant_name }},
-        {{ this.mmvItem?.[0]?.cubic_capacity }}cc, {{ this.mmvItem?.[0]?.fuel }},
-        {{
-          this.redirectInsurerData?.customer_details?.communication_address
-            ?.rb_city_name
-        }}
-      </p>
-    </div> -->
   </div>
 
   <div class="col-lg-12 col-md-12 plan-details mt-3">
@@ -110,16 +86,6 @@
         }}
       </span>
     </div>
-    <!-- <div class="d-flex justify-content-between mt-2">
-      <p class="od-value od-name">Basic Own Damage</p>
-      <p class="od-value">
-        &#x20B9;
-        {{
-          quoteData?.premium_details?.od_premium_details?.basic_od_premium
-            | number : "2."
-        }}
-      </p>
-    </div> -->
     <div
       class="d-flex justify-content-between mt-2"
       *ngIf="!mmvParseData?.previous_claimed"
@@ -142,16 +108,6 @@
         }}</span
       >
     </div>
-    <!-- <div class="d-flex justify-content-between mt-2">
-      <p class="od-value od-name">Own Damage Discount</p>
-      <p class="od-value">
-        &#x20B9;
-        {{
-          quoteData?.premium_details?.od_premium_details?.od_discount
-            | number : "2."
-        }}
-      </p>
-    </div> -->
   </div>
 
   <div class="col-lg-12 col-md-12 policy">
@@ -167,16 +123,6 @@
         }}
       </span>
     </div>
-    <!-- <div class="d-flex justify-content-between mt-2">
-      <p class="od-value od-name">Basic Third Party</p>
-      <p class="od-value">
-        &#x20B9;
-        {{
-          quoteData?.premium_details?.tp_premium_details?.basic_tp_premium
-           | number : "2."
-        }}
-      </p>
-    </div> -->
   </div>
 
   <div class="col-lg-12 col-md-12 policy">
@@ -188,9 +134,6 @@
       >
       <span class="plan-type"
         >&#x20B9;
-        <!-- {{
-          quoteData?.premium_details?.total_addon_premium | number : "2."
-        }} -->
         {{
           quoteData?.premium_details?.total_addon_premium !== 0
             ? (quoteData?.premium_details?.total_addon_premium | number : "2.")
@@ -221,56 +164,6 @@
       </ng-container>
     </div>
   </div>
-  <!-- <div class="col-12 policy" *ngIf="!reviewURL">
-    <div class="d-flex justify-content-between mt-2">
-      <section class="my-2 d-grid cpa-cover-section">
-        <mat-checkbox
-          id-automation="cpa_cover"
-          [checked]="
-            quoteData?.premium_details?.addon_premium_details[0]
-              ?.add_on_name === 'Compulsory Personal Accident'
-          "
-          (change)="onCpaChange($event)"
-        >
-          <span class="cpa-cover-section"
-            >Add CPA cover
-            <img
-              src="assets/icon/cpa-hover.svg"
-              (mouseenter)="showCard = true"
-              (mouseleave)="showCard = false"
-              alt=""
-              class="cpa-hover-image"
-            />
-          </span>
-        </mat-checkbox>
-      </section>
-    </div>
-    <div class="d-flex justify-content-end">
-      <div class="card-popup" *ngIf="showCard">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-8">
-                <div class="cover-tag-text">Personal Accident Cover</div>
-                <div class="cover-content-text">
-                  Cover of 15 Lakh in the event of vehicle owner's death or
-                  disability.
-                </div>
-
-                <div class="increase-total-premium">
-                  *adding CPA will increase total premium
-                </div>
-              </div>
-
-              <div class="col-4">
-                <img src="assets/icon/cpa-cover.svg" class="cpa-cover-image" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="col-12 policy">
     <div class="d-flex justify-content-between mt-2">
       <p class="plan-type">GST (18%)(C)</p>

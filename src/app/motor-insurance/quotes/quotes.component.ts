@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { VehicleDetailsPopupComponent } from '../vehicle-details-popup/vehicle-details-popup.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';

@@ -710,27 +710,6 @@ export class MotorInsuranceComponent implements OnInit {
             )
           );
           sessionStorage.setItem('isRbRenewal', res?.is_rb_renewal);
-
-          // if (res.transactional_details && res?.ckyc_status) {
-          //   this.transactionDetails = res.transactional_details;
-          //   sessionStorage.setItem('renewalType', 'renewal');
-          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}/review`;
-          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
-          //   this.router.navigate([url]);
-          // } else if (res.transactional_details && !res?.ckyc_status) {
-          //   this.transactionDetails = res.transactional_details;
-          //   sessionStorage.setItem('renewalDetails', JSON.stringify(res));
-          //   sessionStorage.setItem('renewalType', 'renewal');
-          //   // let url = `quotes/proposal/${this.transactionDetails.transaction_id}`;
-          //   let url = `quotes/${this.transactionDetails.transaction_id}/`;
-          //   this.router.navigate([url]);
-          // } else {
-          //   this.vehicleDetailsRollover = res.vehicle_details;
-          //   sessionStorage.setItem('renewalType', 'rollover');
-          //   this.sharedDataService.vehicleDetailsRenewal(
-          //     this.vehicleDetailsRollover
-          //   );
-          // }
         } else {
           this.sharedDataService.openSnackBar(res?.error_message, false, 3000);
           this.loader = false;
@@ -879,18 +858,6 @@ export class MotorInsuranceComponent implements OnInit {
         this.motorInsurance.get('policy_number')?.setValidators([]);
         this.motorInsurance.get('policy_number')?.clearValidators();
         this.motorInsurance.get('policy_number')?.updateValueAndValidity();
-        // this.motorInsurance
-        //   .get('vehicle')
-        //   ?.setValidators([Validators.required]);
-        // this.motorInsurance.get('vehicle')?.updateValueAndValidity();
-        // this.motorInsurance
-        //   .get('rto_city')
-        //   ?.setValidators([Validators.required]);
-        // this.motorInsurance.get('rto_city')?.updateValueAndValidity();
-        // this.motorInsurance
-        //   .get('registration_date')
-        //   ?.setValidators([Validators.required]);
-        // this.motorInsurance.get('registration_date')?.updateValueAndValidity();
       }, 0);
     }
   }
@@ -1101,17 +1068,6 @@ export class MotorInsuranceComponent implements OnInit {
         }
       );
   }
-  /**
-   * Commercial Vehicle Api Integrations
-   */
-
-  // commercialVehicleTypeList() {
-  //   this.apiService
-  //     .getRequestedResponse(`${ApiConstants.cv_vehicle_type}`)
-  //     .subscribe((res: any) => {
-  //       this.cvVehicleTypeList = res;
-  //     });
-  // }
 
   onVehicleTypeSelect(event: any) {
     const selectedVehicle = event.value;
