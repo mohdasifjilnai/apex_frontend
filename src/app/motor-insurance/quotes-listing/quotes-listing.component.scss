@@ -638,6 +638,9 @@
   }
   
 }
+.flexi-error-card{
+  border: 1px solid #FF6D6C;
+}
 .flexi-loader-overlay {
   position: absolute;
   top: 0;
@@ -654,6 +657,11 @@
 .flexi-loader {
   width: 100px; /* Or adjust as needed */
   height: 100px;
+}
+.flexi-error{
+  font-size: 12px;
+  font-weight: 600;
+  color: #FF6D6C;
 }
 @media screen and (max-width: 999px) {
   .payd-res {

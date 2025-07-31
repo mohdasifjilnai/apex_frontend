@@ -208,7 +208,8 @@ export class QuotesListingComponent implements OnInit {
   gstEarningShow: boolean = false;
   flexiLoader: boolean = false;
   loaderOnCardId: any;
-  // isPageRefresh = true;
+  FlexiError: boolean[] = [];
+    // isPageRefresh = true;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -268,7 +269,7 @@ export class QuotesListingComponent implements OnInit {
           this.quotationData[i].applyInputButton = true;
           const formGroup = this.flexiDiscountFormArray.at(i);
           const flexiControl = formGroup.get('flexiDiscount');
-
+          this.FlexiError[i] = false;
           // Enable/disable input based on applyButton flag
           if (this.quotationData[i].applyButton) {
             flexiControl?.disable();
@@ -1802,10 +1803,7 @@ export class QuotesListingComponent implements OnInit {
       //  Push new item
       this.flexiAmountArray.push(flexiApplyObject);
     }
-    sessionStorage.setItem(
-      'flexiAmount',
-      JSON.stringify(this.flexiAmountArray)
-    );
+    
     let flexiObject = {
       transaction_id: transactionId,
       discount_percentage:
@@ -1825,6 +1823,12 @@ export class QuotesListingComponent implements OnInit {
               this.quotationData[i] = res;
             }
           }
+          sessionStorage.setItem(
+            'flexiAmount',
+            JSON.stringify(this.flexiAmountArray)
+          );
+        }else{
+          this.FlexiError[index]=true
         }
       });
   }
@@ -1864,6 +1868,7 @@ export class QuotesListingComponent implements OnInit {
   }
 
   onFlexiSliderRangeAmount(value: number, index: number): void {
+    this.FlexiError[index]=false
     this.quotationData[index].flexi_discounting.discount_percentage = value;
 
     if (this.flexiDiscountFormArray.at(index)) {
