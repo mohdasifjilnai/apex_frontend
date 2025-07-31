@@ -349,16 +349,6 @@ export class ProposalShareComponent implements OnInit {
           } else {
             this.openModal(sendCommunicationObject, this.otpDialog);
           }
-          // if (res['message'] == 'Success') {
-          //   if (window.innerWidth <= 999) {
-          //     const bottomSheetConfig: MatBottomSheetConfig = {
-          //       data: sendCommunicationObject, // Pass your data here
-          //     };
-          //     this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-          //   } else {
-          //     this.openModal(sendCommunicationObject, this.otpDialog);
-          //   }
-          // }
         });
     } else {
       let sendCommunicationObject = {
@@ -390,36 +380,7 @@ export class ProposalShareComponent implements OnInit {
           // }
         });
     }
-    // else {
-    //   let sendCommunicationObject = {
-    //     transaction_id: this.quoteData?.transaction_id,
-    //     share_type: 'otp',
-    //     partner_name: this.generateProposalData?.customer_details?.full_name,
-    //     URL: `${environment['apex']}motor/quotes/proposal/${this.quoteData?.transaction_id}/review`,
-    //     mail_id: this.generateProposalData?.customer_details?.email_id,
-    //     mobile_no: this.generateProposalData?.customer_details?.mobile_number,
-    //     quote_id: [this.quoteData?.quote_id],
-    //     quote_request_id: this.quoteData?.quote_request_id,
-    //   };
-    //   this.apiService
-    //     .postRequestedResponse(
-    //       `${ApiConstants.send_communication()}`,
-    //       sendCommunicationObject
-    //     )
-    //     .subscribe((res) => {
-    //       this.loader = false;
-    //       if (window.innerWidth <= 999) {
-    //         const bottomSheetConfig: MatBottomSheetConfig = {
-    //           data: sendCommunicationObject, // Pass your data here
-    //         };
-    //         this.bottomSheet.open(OtpComponent, bottomSheetConfig);
-    //       } else {
-    //         this.openModal(sendCommunicationObject, this.otpDialog);
-    //       }
-    //       // }
-    //     });
-    // }
-    // }
+    
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';

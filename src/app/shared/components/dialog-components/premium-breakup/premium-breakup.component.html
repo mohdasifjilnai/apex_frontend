@@ -70,17 +70,6 @@
         }}</span
       >
     </div>
-
-    <!-- <div class="d-flex justify-content-between">
-      <span class="own-damage-text"> Own Damage Discount </span>
-      <span class="own-damage-amount">
-        &#8377;
-        {{
-          initiateQuotes.premium_details.od_premium_details.od_discount
-           | number : "2."
-        }}
-      </span>
-    </div> -->
   </div>
 
   <div class="d-flex justify-content-between mt-2">
@@ -95,16 +84,6 @@
       }}
     </span>
   </div>
-  <!-- <div class="d-flex justify-content-between">
-    <span class="own-damage-text"> Basic Third Party </span>
-    <span class="own-damage-amount"
-      >&#8377;
-      {{
-        initiateQuotes.premium_details.tp_premium_details.basic_tp_premium
-          | number : "2."
-      }}</span
-    >
-  </div> -->
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold">
       <div class="d-flex cursor-pointer" (mouseenter)="showCard = true"
@@ -137,7 +116,6 @@
             | number : "2.")
           : 0
       }}
-      <!-- {{ initiateQuotes?.premium_details?.total_addon_premium | number : "2." }} -->
     </span>
   </div>
   <ng-container
@@ -223,13 +201,6 @@
       </div>
     </div>
   </div>
-  <!-- <div class="d-flex justify-content-between">
-    <span class="d-flex justify-content-start own-damage-text">
-      Zero Depreciation
-    </span>
-    <span class="d-flex justify-content-end own-damage-amount">&#8377;  </span>
-  </div>-->
-
   <div class="d-flex justify-content-between mt-2">
     <span class="own-damage-text text-bold"> GST (18%) (C) </span>
     <span class="own-damage-amount text-bold">

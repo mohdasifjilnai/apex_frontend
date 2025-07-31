@@ -15,7 +15,7 @@ export class SetHeaderService {
   }
 
   getHeaders(isToken: boolean) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     {
       /**

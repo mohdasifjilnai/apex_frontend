@@ -123,8 +123,8 @@ export class ApiService {
   /**
    * method for post request api
    **/
-  postRequestedResponse(url: any, body: any) {
-    return this.httpService.postRequest(url, body).pipe(
+  postRequestedResponse(url: any, body: any,productModuleName?:any) {
+    return this.httpService.postRequest(url, body,productModuleName).pipe(
       map((response: any) => response),
       catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );

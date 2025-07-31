@@ -1815,7 +1815,7 @@ export class QuotesListingComponent implements OnInit {
     this.apiService
       .postRequestedResponse(
         `${ApiConstants.flexi_discount_api}?insurer=${quotes?.insurer_code}`,
-        flexiObject
+        flexiObject,true
       )
       .subscribe((res) => {
         this.flexiLoader = false;
