@@ -1834,6 +1834,7 @@ export class QuotesListingComponent implements OnInit {
   }
 
   flexiAmountValue(quotes: any, index: number): void {
+    this.FlexiError[index]=false
     if (this.flexiButton) {
       const flexiSliderValue = this.flexiDiscountFormArray
         .at(index)
