@@ -12,7 +12,7 @@ export class NumberWithDecimalDirective {
     let currentValue = inputElement.value;
 
     // Remove any non-numeric and non-decimal characters, except the first '-'
-    currentValue = currentValue.replace(/[^0-9.-]/g, '');
+    currentValue = currentValue.replace(/[^0-9.]/g, '');
 
     // Remove leading zeros
     currentValue = currentValue.replace(/^(-)?0+(?=[1-9])/, '$1');
