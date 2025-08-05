@@ -931,7 +931,8 @@ export class SharedDataService {
     }
     if (flag === 'vehicle_owner_detail') {
       const gender = formData?.get('owner_gender')?.value || '';
-      const formattedGender = gender.charAt(0).toUpperCase() + gender.slice(1).toLowerCase();
+      const formattedGender =
+        gender.charAt(0).toUpperCase() + gender.slice(1).toLowerCase();
       this.proposalDataItem['customer_details'] = {
         full_name: formData?.get('owner_full_Name')?.value || '',
         mobile_number: formData?.get('contact_number')?.value || '',
@@ -1833,9 +1834,11 @@ export class SharedDataService {
     const vehcile_type = sessionStorage.getItem('vehicleType');
     this.addOn = sessionStorage.getItem('selectedAddons');
     let flexiDetails = sessionStorage.getItem('flexiAmount');
+    let idTranscation = sessionStorage.getItem('transaction_id');
     let flexiValues;
     this.flexiObject = null;
-    if (flexiDetails) {
+
+    if (flexiDetails && idTranscation) {
       flexiValues = JSON.parse(flexiDetails);
       this.flexiObject = {};
       // for (let key in flexiValues) {
