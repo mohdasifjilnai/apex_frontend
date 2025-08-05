@@ -1837,7 +1837,9 @@ export class SharedDataService {
     let idTranscation = sessionStorage.getItem('transaction_id');
     let flexiValues;
     this.flexiObject = null;
-
+    if (idTranscation == null) {
+      sessionStorage.removeItem('flexiAmount');
+    }
     if (flexiDetails && idTranscation) {
       flexiValues = JSON.parse(flexiDetails);
       this.flexiObject = {};
