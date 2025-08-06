@@ -567,7 +567,7 @@ export class QuotesListingComponent implements OnInit {
               flexiDiscount: new FormControl({
                 value: quote?.flexi_discounting?.min_discount || 0, // or initial value
                 disabled: quote?.applyButton || false,
-                applyInputButton: false,
+                // applyInputButton: false,
               }),
             });
 

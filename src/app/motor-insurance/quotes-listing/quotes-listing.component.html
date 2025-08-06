@@ -196,10 +196,7 @@
     </div> -->
     <div class="quotation-listing" *ngIf="showComprehensiveDiv">
       <form [formGroup]="flexiForm">
-        <div
-          *ngFor="let quotes of quotationData; let i = index"
-          [formGroup]="flexiDiscountFormArray.at(i)"
-        >
+        <div *ngFor="let quotes of quotationData; let i = index">
           <div class="row comprehensive-card mt-3">
             <div class="comprehensive-tab ps-4 pe-4 pt-4">
               <div>
@@ -546,7 +543,11 @@
                 *ngIf="quotes?.flexi_discounting?.is_active"
                 [ngClass]="FlexiError[i] ? 'flexi-error-card' : 'flexi-card'"
               >
-                <div class="row">
+                <div
+                  class="row"
+                  *ngIf="flexiDiscountFormArray.at(i)"
+                  [formGroup]="flexiDiscountFormArray.at(i)"
+                >
                   <div class="col-lg-2 flexi-text">
                     <img
                       src="assets/icon/discount-flexi.svg"
@@ -747,10 +748,7 @@
 
     <div class="quotation-listing" *ngIf="!showComprehensiveDiv">
       <form [formGroup]="flexiForm">
-        <div
-          *ngFor="let quotes of quotationData; let i = index"
-          [formGroup]="flexiDiscountFormArray.at(i)"
-        >
+        <div *ngFor="let quotes of quotationData; let i = index">
           <div class="row comprehensive-card mt-3">
             <div class="comprehensive-tab ps-4 pe-4 pt-4">
               <!-- <div class="payout" *ngIf="payout">
