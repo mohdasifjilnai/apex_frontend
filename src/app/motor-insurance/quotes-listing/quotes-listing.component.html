@@ -202,9 +202,7 @@
         >
           <div class="row comprehensive-card mt-3">
             <div class="comprehensive-tab ps-4 pe-4 pt-4">
-              <div
-                
-              >
+              <div>
                 <!-- <div class="payout" *ngIf="payout">
                 <ng-container
                   *ngIf="
@@ -546,7 +544,7 @@
               <div
                 class="flexi-card"
                 *ngIf="quotes?.flexi_discounting?.is_active"
-                [ngClass]="FlexiError[i]?'flexi-error-card':'flexi-card'"
+                [ngClass]="FlexiError[i] ? 'flexi-error-card' : 'flexi-card'"
               >
                 <div class="row">
                   <div class="col-lg-2 flexi-text">
@@ -566,7 +564,7 @@
                         <div
                           class="col-lg-6 col-12 d-flex"
                           [ngClass]="
-                            quotes.applyButton ? 'addonBlur' : 'addonShow'
+                            quotes?.applyButton ? 'addonBlur' : 'addonShow'
                           "
                         >
                           <span class="me-3 d-flex align-items-center"
@@ -607,7 +605,7 @@
                         <div
                           class="col-lg-2 col-6"
                           [ngClass]="
-                            quotes.applyInputButton ? 'addonBlur' : 'addonShow'
+                            quotes?.applyInputButton ? 'addonBlur' : 'addonShow'
                           "
                         >
                           <div class="flexi-input">
@@ -627,7 +625,7 @@
                           <button
                             class="submit-btn"
                             (click)="flexiApply(quotes, i)"
-                            [disabled]="quotes.applyButton"
+                            [disabled]="quotes?.applyButton"
                           >
                             <span>Apply </span>
                           </button>
@@ -637,9 +635,12 @@
                   </div>
                 </div>
               </div>
-              <div class="d-flex justify-content-end flexi-error" *ngIf="FlexiError[i]">
+              <div
+                class="d-flex justify-content-end flexi-error"
+                *ngIf="FlexiError[i]"
+              >
                 Discount couldn't be applied. Please try again.
-               </div>
+              </div>
             </div>
             <div
               class="flexi-loader-overlay"
@@ -1051,7 +1052,7 @@
                         <div
                           class="col-lg-6 col-12 d-flex"
                           [ngClass]="
-                            quotes.applyButton ? 'addonBlur' : 'addonShow'
+                            quotes?.applyButton ? 'addonBlur' : 'addonShow'
                           "
                         >
                           <span class="me-3 d-flex align-items-center"
@@ -1092,7 +1093,7 @@
                         <div
                           class="col-lg-2 col-6"
                           [ngClass]="
-                            quotes.applyInputButton ? 'addonBlur' : 'addonShow'
+                            quotes?.applyInputButton ? 'addonBlur' : 'addonShow'
                           "
                         >
                           <div class="flexi-input">
@@ -1112,7 +1113,7 @@
                           <button
                             class="submit-btn"
                             (click)="flexiApply(quotes, i)"
-                            [disabled]="quotes.applyButton"
+                            [disabled]="quotes?.applyButton"
                           >
                             <span>Apply </span>
                           </button>
