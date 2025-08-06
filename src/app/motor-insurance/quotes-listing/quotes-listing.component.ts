@@ -562,7 +562,10 @@ export class QuotesListingComponent implements OnInit {
         this.flexiDiscountFormArray.clear(); // clear existing if reinitializing
         if (this.quotationData.length > 0) {
           this.quotationData.forEach((quote: any, index: number) => {
-            if (quote?.flexi_discounting?.min_discount) {
+            if (
+              quote?.flexi_discounting?.min_discount ||
+              quote?.flexi_discounting?.min_discount == 0
+            ) {
               const control = new FormGroup({
                 flexiDiscount: new FormControl({
                   value: quote?.flexi_discounting?.min_discount || '', // or initial value
