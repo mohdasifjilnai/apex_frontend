@@ -209,7 +209,7 @@ export class QuotesListingComponent implements OnInit {
   flexiLoader: boolean = false;
   loaderOnCardId: any;
   FlexiError: boolean[] = [];
-    // isPageRefresh = true;
+  // isPageRefresh = true;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -562,15 +562,17 @@ export class QuotesListingComponent implements OnInit {
         this.flexiDiscountFormArray.clear(); // clear existing if reinitializing
         if (this.quotationData.length > 0) {
           this.quotationData.forEach((quote: any, index: number) => {
-            const control = new FormGroup({
-              flexiDiscount: new FormControl({
-                value: quote?.flexi_discounting?.min_discount || '', // or initial value
-                disabled: quote?.applyButton || false,
-                applyInputButton: false,
-              }),
-            });
+            if (quote?.flexi_discounting?.min_discount) {
+              const control = new FormGroup({
+                flexiDiscount: new FormControl({
+                  value: quote?.flexi_discounting?.min_discount || '', // or initial value
+                  disabled: quote?.applyButton || false,
+                  applyInputButton: false,
+                }),
+              });
 
-            this.flexiDiscountFormArray.push(control);
+              this.flexiDiscountFormArray.push(control);
+            }
           });
         }
 
@@ -1803,7 +1805,7 @@ export class QuotesListingComponent implements OnInit {
       //  Push new item
       this.flexiAmountArray.push(flexiApplyObject);
     }
-    
+
     let flexiObject = {
       transaction_id: transactionId,
       discount_percentage:
@@ -1813,7 +1815,8 @@ export class QuotesListingComponent implements OnInit {
     this.apiService
       .postRequestedResponse(
         `${ApiConstants.flexi_discount_api}?insurer=${quotes?.insurer_code}`,
-        flexiObject,true
+        flexiObject,
+        true
       )
       .subscribe((res) => {
         this.flexiLoader = false;
@@ -1827,14 +1830,14 @@ export class QuotesListingComponent implements OnInit {
             'flexiAmount',
             JSON.stringify(this.flexiAmountArray)
           );
-        }else{
-          this.FlexiError[index]=true
+        } else {
+          this.FlexiError[index] = true;
         }
       });
   }
 
   flexiAmountValue(quotes: any, index: number): void {
-    this.FlexiError[index]=false
+    this.FlexiError[index] = false;
     if (this.flexiButton) {
       const flexiSliderValue = this.flexiDiscountFormArray
         .at(index)
@@ -1869,7 +1872,7 @@ export class QuotesListingComponent implements OnInit {
   }
 
   onFlexiSliderRangeAmount(value: number, index: number): void {
-    this.FlexiError[index]=false
+    this.FlexiError[index] = false;
     this.quotationData[index].flexi_discounting.discount_percentage = value;
 
     if (this.flexiDiscountFormArray.at(index)) {
