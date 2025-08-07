@@ -628,7 +628,16 @@
                             (click)="flexiApply(quotes, i)"
                             [disabled]="quotes?.applyButton"
                           >
-                            <span>Apply </span>
+                            <span
+                              >Apply
+                              <p hidden>
+                                {{
+                                  flexiDiscountFormArray
+                                    .at(i)
+                                    .get("flexiDiscount")?.value
+                                }}
+                              </p>
+                            </span>
                           </button>
                         </div>
                       </div>
