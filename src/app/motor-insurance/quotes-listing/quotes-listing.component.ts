@@ -307,6 +307,7 @@ export class QuotesListingComponent implements OnInit {
             flexiControl?.patchValue(
               quote?.flexi_discounting?.discount_percentage
             );
+            console.log(flexiControl);
           }
         }
       }
@@ -363,6 +364,7 @@ export class QuotesListingComponent implements OnInit {
                 flexiControl?.patchValue(
                   quote?.flexi_discounting?.discount_percentage
                 );
+                console.log(flexiControl);
               }
             }
           }
@@ -624,6 +626,7 @@ export class QuotesListingComponent implements OnInit {
                 flexiControl?.patchValue(
                   quote?.flexi_discounting?.discount_percentage
                 );
+                console.log(flexiControl);
               }
             }
           }
