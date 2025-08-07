@@ -1737,6 +1737,72 @@ export class QuotesListingComponent implements OnInit {
           );
         }
       }
+
+      // Flexi change
+      this.flexiDiscountFormArray.clear(); // clear existing if reinitializing
+      this.quotationData.forEach((quote: any, index: number) => {
+        const control = new FormGroup({
+          flexiDiscount: new FormControl({
+            value: quote?.flexi_discounting?.min_discount || 0, // or initial value
+            disabled: false,
+          }),
+        });
+
+        this.flexiDiscountFormArray.push(control);
+      });
+
+      for (let i = 0; i < this.quotationData.length; i++) {
+        const quote = this.quotationData[i];
+
+        if (quote?.flexi_discounting?.is_active) {
+          // Set applyButton based on your logic
+          this.quotationData[i].applyButton = false;
+          this.quotationData[i].applyInputButton = false;
+          const formGroup = this.flexiDiscountFormArray.at(i);
+          if (formGroup) {
+            const flexiControl = formGroup.get('flexiDiscount');
+
+            // Enable/disable input based on applyButton flag
+            if (this.quotationData[i].applyButton) {
+              flexiControl?.disable();
+            } else {
+              flexiControl?.enable();
+            }
+
+            // Load value from session or use default
+            const flexiDetails = sessionStorage.getItem('flexiAmount');
+            if (flexiDetails) {
+              const flexiValues = JSON.parse(flexiDetails); // This is now an array
+
+              const insurerCode = quote?.insurer_code?.toLowerCase();
+              const isPayd = quote?.payd?.status;
+
+              // Find the matching entry in the array
+              const matched = flexiValues.find(
+                (item: any) =>
+                  item.insurerCode?.toLowerCase() === insurerCode &&
+                  item.is_payd === isPayd
+              );
+
+              if (matched) {
+                // Patch the matched discount value
+                flexiControl?.patchValue(matched.discount_percentage);
+                this.quotationData[i].flexi_discounting.discount_percentage =
+                  matched.discount_percentage;
+              } else {
+                // Fallback to min_discount
+                flexiControl?.patchValue(
+                  quote?.flexi_discounting?.discount_percentage
+                );
+              }
+            } else {
+              flexiControl?.patchValue(
+                quote?.flexi_discounting?.discount_percentage
+              );
+            }
+          }
+        }
+      }
     }
   }
 

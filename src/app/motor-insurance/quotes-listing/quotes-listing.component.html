@@ -628,17 +628,7 @@
                             (click)="flexiApply(quotes, i)"
                             [disabled]="quotes?.applyButton"
                           >
-                            <span
-                              >Apply
-                              <p hidden>
-                                indexValue : {{ i }}
-                                {{
-                                  flexiDiscountFormArray
-                                    .at(i)
-                                    .get("flexiDiscount")?.value
-                                }}
-                              </p>
-                            </span>
+                            <span>Apply </span>
                           </button>
                         </div>
                       </div>
@@ -1041,8 +1031,13 @@
               <div
                 class="flexi-card"
                 *ngIf="quotes?.flexi_discounting?.is_active"
+                [ngClass]="FlexiError[i] ? 'flexi-error-card' : 'flexi-card'"
               >
-                <div class="row">
+                <div
+                  class="row"
+                  *ngIf="flexiDiscountFormArray.at(i)"
+                  [formGroup]="flexiDiscountFormArray.at(i)"
+                >
                   <div class="col-lg-2 flexi-text">
                     <img
                       src="assets/icon/discount-flexi.svg"
