@@ -18,7 +18,7 @@ export class SseService {
         this.currentPageUrl = event.url;
       }
     });
-    this.tokenValue = localStorage.getItem('token');
+    this.tokenValue = sessionStorage.getItem('token');
   }
 
   getServerSentEvent(url: string): Observable<MessageEvent> {
