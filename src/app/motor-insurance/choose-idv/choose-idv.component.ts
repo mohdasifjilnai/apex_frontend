@@ -118,6 +118,11 @@ export class ChooseIDVComponent implements OnInit {
         this.changeToCurrency();
       }
     });
+    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+      if (this.enableIdvCard) {
+        this.enableIdvCard = false;
+      }
+    });
     this.chooseIdvValue = sessionStorage.getItem('idvData');
     if (window.innerWidth <= 999) {
       if (this.chooseIdvValue != null) {

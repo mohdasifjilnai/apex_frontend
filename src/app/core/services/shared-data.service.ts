@@ -1634,13 +1634,10 @@ export class SharedDataService {
         const parsedQuotesArray = quotesArray.map((quote: string) =>
           JSON.parse(quote)
         );
-        console.log(parsedQuotesArray);
+
         this.quotesCount = '';
         this.quotesCount = parsedQuotesArray;
         this.quotationListing.next(parsedQuotesArray);
-        // setTimeout(() => {
-        //   this.enableQuotesAction.next(true);
-        // }, 25000);
       },
       complete: () => {
         // When the Observable completes, dataArray contains all emitted values
@@ -1669,39 +1666,43 @@ export class SharedDataService {
       .subscribe(
         (eventSource) => {
           if (eventSource.data != 'null') {
-            let quotesEvent = JSON.parse(eventSource.data);
+            if (eventSource.type == 'quotes') {
+              let quotesEvent = JSON.parse(eventSource.data);
 
-            this.quotesConnectionData.push(quotesEvent);
+              this.quotesConnectionData.push(quotesEvent);
 
-            this.allQuotes = this.quotesConnectionData;
+              this.allQuotes = this.quotesConnectionData;
 
-            this.quotesValue = this.quotesConnectionData;
-            // console.log(this.allQuotes, '-----');
-            this.quotesListData = {};
-            this.quotesValue.forEach((item: any) => {
-              if (item.status) {
-                const uniqueKey = `${item.insurer_code}_${item.payd?.status}`;
-                this.quotesListData[uniqueKey] = item;
-                // console.log(uniqueKey,"1111")
-              } else {
-                const uniqueKey = item.payd?.status
-                  ? `${item.insurer_code}_true`
-                  : `${item.insurer_code}_false`;
-                this.quotesListData[uniqueKey] = item;
-                // console.log(uniqueKey,"22222")
-              }
-            });
-            // console.log(this.quotesListData);
-            this.uniqueDataList = Object.values(this.quotesListData);
-            this.allQuotes = this.uniqueDataList;
-            this.quotesCount = '';
-            this.quotesCount = this.allQuotes;
-            // console.log(this.allQuotes,"33333");
-            setTimeout(() => {
+              this.quotesValue = this.quotesConnectionData;
+
+              this.quotesListData = {};
+              this.quotesValue.forEach((item: any) => {
+                if (item.status) {
+                  const uniqueKey = `${item.insurer_code}_${item.payd?.status}`;
+                  this.quotesListData[uniqueKey] = item;
+                } else {
+                  const uniqueKey = item.payd?.status
+                    ? `${item.insurer_code}_true`
+                    : `${item.insurer_code}_false`;
+                  this.quotesListData[uniqueKey] = item;
+                }
+              });
+
+              this.uniqueDataList = Object.values(this.quotesListData);
+              this.allQuotes = this.uniqueDataList;
+              this.quotesCount = '';
+              this.quotesCount = this.allQuotes;
+
+              const timeout = environment.dev ? 50000 : 10000;
+              setTimeout(() => {
+                this.enableQuotesAction.next(this.quotesCount);
+              }, timeout);
+
+              this.quotationListing.next(this.allQuotes);
+            }
+            if (eventSource.type == 'end') {
               this.enableQuotesAction.next(this.quotesCount);
-            }, 10000);
-            // console.log(this.allQuotes);
-            this.quotationListing.next(this.allQuotes);
+            }
           }
         },
         (error) => {
@@ -1843,19 +1844,6 @@ export class SharedDataService {
     if (flexiDetails && idTranscation) {
       flexiValues = JSON.parse(flexiDetails);
       this.flexiObject = {};
-      // for (let key in flexiValues) {
-      //   console.log(flexiValues[key]);
-      //   if (key == 'insurerCode') {
-      //     let insurerData =
-      //       flexiValues.is_payd == true
-      //         ? `${flexiValues[key]}_is_payd`
-      //         : flexiValues[key];
-      //     let objectValue = {
-      //       [insurerData]: flexiValues.discount_percentage,
-      //     };
-      //     this.flexiObject = objectValue;
-      //   }
-      // }
 
       let result: { [key: string]: number } = {};
 
@@ -1868,7 +1856,7 @@ export class SharedDataService {
       });
       this.flexiObject = result;
     }
-    console.log(this.flexiObject);
+
     let setectedAddons;
     let addOnsList;
     this.selected_addons = {};
@@ -1891,14 +1879,6 @@ export class SharedDataService {
     } else {
       selectIdv = null;
     }
-    //  let idvValue = null;
-    // if (data?.vehicle_idv) {
-    //   if (/,/.test(data?.vehicle_idv)) {
-    //     idvValue = data?.vehicle_idv.replace(/,/g, '');
-    //   } else {
-    //     idvValue = data?.vehicle_idv;
-    //   }
-    // }
 
     let meta_data = {
       selectedAddons: null,
@@ -2058,14 +2038,8 @@ export class SharedDataService {
           (typeof value === 'object' && Object.keys(value).length === 0);
 
         if (isEmpty) {
-          // console.log(
-          //   `Enabling ${controlName} (value: ${JSON.stringify(value)})`
-          // );
           control.enable({ emitEvent: false });
         } else {
-          // console.log(
-          //   `Disabling ${controlName} (value: ${JSON.stringify(value)})`
-          // );
           control.disable({ emitEvent: false });
         }
       }

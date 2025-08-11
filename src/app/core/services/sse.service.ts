@@ -21,44 +21,91 @@ export class SseService {
     this.tokenValue = sessionStorage.getItem('token');
   }
 
+  // getServerSentEvent(url: string): Observable<MessageEvent> {
+  //   return new Observable((observer) => {
+  //     const eventSource = this.getEventSource(url);
+  //     eventSource.onopen = (ev) => {
+  //       console.log('Connection to server opened.', ev);
+  //       if (!this.currentPageUrl.includes('/quotes')) {
+  //         eventSource.close();
+  //       } else if (this.currentPageUrl.includes('/proposal')) {
+  //         eventSource.close();
+  //       }
+  //     };
+  //     eventSource.onerror = (ev) => {
+  //       console.log('EventSource failed.', ev);
+  //     };
+  //     eventSource.addEventListener('quotes', (event) => {
+  //       this.zone.run(() => {
+  //         observer.next(event);
+  //         if (!this.currentPageUrl.includes('/quotes')) {
+  //           // console.log('Connection Drop', event);
+  //           eventSource.close();
+  //         } else if (this.currentPageUrl.includes('/proposal')) {
+  //           eventSource.close();
+  //         }
+  //         if (environment.dev) {
+  //           setTimeout(() => {
+  //             // console.log('Connection Drop', event);
+  //             eventSource.close();
+  //           }, 50000);
+  //         } else {
+  //           setTimeout(() => {
+  //             // console.log('Connection Drop', event);
+  //             eventSource.close();
+  //           }, 10000);
+  //         }
+  //       });
+  //     });
+  //   });
+  // }
   getServerSentEvent(url: string): Observable<MessageEvent> {
     return new Observable((observer) => {
       const eventSource = this.getEventSource(url);
+
       eventSource.onopen = (ev) => {
         console.log('Connection to server opened.', ev);
-        if (!this.currentPageUrl.includes('/quotes')) {
-          eventSource.close();
-        } else if (this.currentPageUrl.includes('/proposal')) {
+        if (
+          !this.currentPageUrl.includes('/quotes') ||
+          this.currentPageUrl.includes('/proposal')
+        ) {
           eventSource.close();
         }
       };
+
       eventSource.onerror = (ev) => {
         console.log('EventSource failed.', ev);
       };
+
+      // Handle quotes event
       eventSource.addEventListener('quotes', (event) => {
         this.zone.run(() => {
           observer.next(event);
-          if (!this.currentPageUrl.includes('/quotes')) {
-            // console.log('Connection Drop', event);
-            eventSource.close();
-          } else if (this.currentPageUrl.includes('/proposal')) {
+
+          if (
+            !this.currentPageUrl.includes('/quotes') ||
+            this.currentPageUrl.includes('/proposal')
+          ) {
             eventSource.close();
           }
-          if (environment.dev) {
-            setTimeout(() => {
-              // console.log('Connection Drop', event);
-              eventSource.close();
-            }, 50000);
-          } else {
-            setTimeout(() => {
-              // console.log('Connection Drop', event);
-              eventSource.close();
-            }, 10000);
-          }
+
+          const timeout = environment.dev ? 50000 : 10000;
+          setTimeout(() => eventSource.close(), timeout);
+        });
+      });
+
+      // Handle end event
+      eventSource.addEventListener('end', (event: any) => {
+        this.zone.run(() => {
+          // console.log('End event received:', event);
+          observer.next(event); // Send it to component
+          observer.complete(); // Complete the observable
+          eventSource.close(); // Close the connection
         });
       });
     });
   }
+
   private getEventSource(url: string): EventSource {
     if (this.eventSource) {
       console.log('EventSource closed.');
