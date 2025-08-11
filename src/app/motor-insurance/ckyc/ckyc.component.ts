@@ -196,13 +196,15 @@ export class CkycComponent implements OnInit {
         this.isEnableCKyc = false;
       }
     });
-    this.sharedDataService.errorEngineNumberValue.subscribe((res)=>{
+    this.sharedDataService.errorEngineNumberValue.subscribe((res) => {
       if (res === 'ckyc_document') {
-        const engineControl = this.ckycFormGroup.get('document_number_based_field');
+        const engineControl = this.ckycFormGroup.get(
+          'document_number_based_field'
+        );
         engineControl?.setErrors({ invalidDocumentNumber: true });
         engineControl?.markAsTouched(); // ensures mat-error displays
       }
-    })
+    });
   }
 
   /**
@@ -295,10 +297,15 @@ export class CkycComponent implements OnInit {
             this.ckycFormGroup.get('ckyc_full_name')?.value != ''
               ? this.ckycFormGroup.get('ckyc_full_name')?.value
               : null;
+          const ckyc_gender =
+            this.ckycFormGroup?.get('ckyc_gender')?.value || '';
+          const formattedCkycGender =
+            ckyc_gender.charAt(0).toUpperCase() +
+            ckyc_gender.slice(1).toLowerCase();
           ckycData['gender'] =
             this.ckycFormGroup.get('ckyc_gender')?.value != undefined &&
             this.ckycFormGroup.get('ckyc_gender')?.value != ''
-              ? String(this.ckycFormGroup.get('ckyc_gender')?.value)
+              ? String(formattedCkycGender)
               : null;
           this.openWaitCkycVerificationPopup(ckycData);
           this.sharedDataService?.sendCkycFormData(this.ckycFormGroup);
@@ -688,9 +695,13 @@ export class CkycComponent implements OnInit {
     const alternateControl = this.ckycFormGroup.get(
       'document_number_based_field'
     )?.value;
-    if (alternateControl && alternateControl.includes('*') && !this.proposalData?.ckyc_details?.is_accordion_completed) {
-      this.sharedDataService.errorEngineNumber('ckyc_document')
-    }else{
+    if (
+      alternateControl &&
+      alternateControl.includes('*') &&
+      !this.proposalData?.ckyc_details?.is_accordion_completed
+    ) {
+      this.sharedDataService.errorEngineNumber('ckyc_document');
+    } else {
       this.ckycFormGroup
         .get('document_number_based_field')
         ?.setValidators([this.sharedDataService.customFieldValidator('pan')]);
