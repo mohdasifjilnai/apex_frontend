@@ -910,6 +910,11 @@ export class SharedDataService {
         : null,
     };
     if (flag === 'ckyc') {
+      const ckyc_gender = formData?.get('ckyc_gender')?.value || '';
+      const formattedCkycGender =
+        ckyc_gender.charAt(0).toUpperCase() +
+        ckyc_gender.slice(1).toLowerCase();
+
       this.proposalDataItem['ckyc_details'] = {
         full_name: formData?.get('ckyc_full_name')?.value || '',
         dob:
@@ -917,7 +922,7 @@ export class SharedDataService {
             formData?.get('dob')?.value,
             'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
           ) || '',
-        gender: formData?.get('ckyc_gender')?.value || '',
+        gender: formattedCkycGender || '',
         is_verification: fetchCkyc?.verification_status,
         document_type: formData?.get('document_type_based_field')?.value || '',
         document_number:
