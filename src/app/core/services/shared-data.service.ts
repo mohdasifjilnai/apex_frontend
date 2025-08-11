@@ -1674,7 +1674,6 @@ export class SharedDataService {
               this.allQuotes = this.quotesConnectionData;
 
               this.quotesValue = this.quotesConnectionData;
-
               this.quotesListData = {};
               this.quotesValue.forEach((item: any) => {
                 if (item.status) {
@@ -1692,7 +1691,6 @@ export class SharedDataService {
               this.allQuotes = this.uniqueDataList;
               this.quotesCount = '';
               this.quotesCount = this.allQuotes;
-
               const timeout = environment.dev ? 50000 : 10000;
               setTimeout(() => {
                 this.enableQuotesAction.next(this.quotesCount);

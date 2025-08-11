@@ -271,7 +271,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.sharedDataService.vehicleDetails(registration_number);
     }
     this.sharedDataService.regNumberData.subscribe((numberData) => {
-      if (numberData != null && this.journeyType == 'registrationNumber' && !this.editVehicleDetails) {
+      if (
+        numberData != null &&
+        this.journeyType == 'registrationNumber' &&
+        !this.editVehicleDetails
+      ) {
         this.registrationNumberData = numberData;
         this.isNewVehicle = false;
         this.vehicleMMV(this.registrationNumberData?.rb_mmv_id);
@@ -722,7 +726,13 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.variantDataNotAvailable = false;
             this.fuelList = res;
             this.variantList = res;
-            if (this.variantList[0]?.rb_variant_name == variant) {
+            let variantName = this.variantList.find((item: any) => {
+              if (item?.rb_variant_name == variant) {
+                return item;
+              }
+            });
+
+            if (variantName?.rb_variant_name == variant) {
               this.mmvBaseButtonDisable = false;
             }
           }
@@ -1618,7 +1628,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   onRegistrationDateChange(journeyType: any) {
-    if(!this.editVehicleDetails && this.journeyType == 'registrationNumber'){
+    if (!this.editVehicleDetails && this.journeyType == 'registrationNumber') {
       this.vehicleDetailsForm.get('manufacture_date')?.reset();
     }
     if (journeyType == 'rollover') {
