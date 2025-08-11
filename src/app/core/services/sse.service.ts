@@ -97,7 +97,7 @@ export class SseService {
       // Handle end event
       eventSource.addEventListener('end', (event: any) => {
         this.zone.run(() => {
-          // console.log('End event received:', event);
+          console.log('End event received:', event);
           observer.next(event); // Send it to component
           observer.complete(); // Complete the observable
           eventSource.close(); // Close the connection
