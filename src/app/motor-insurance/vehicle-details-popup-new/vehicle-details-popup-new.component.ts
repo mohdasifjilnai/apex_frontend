@@ -742,9 +742,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             });
           } else {
             if (this.fuelList) {
-              this.vehicleDetailsForm.patchValue({
-                vehicle_fuel: this.fuelList[0],
+              let variantName = this.variantList.find((item: any) => {
+                if (item?.rb_variant_name == variant) {
+                  return item;
+                }
               });
+
+              if (variantName?.rb_variant_name == variant) {
+                this.vehicleDetailsForm.patchValue({
+                  vehicle_fuel: variantName,
+                });
+              }
             }
           }
         });
@@ -1000,66 +1008,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         sessionStorage.removeItem('idvData');
       }
       this.vehicleDetailsForm.get('ncb_discount')?.enable();
-      // this.vehicleDetailsForm.value.NoExpiryPolicy = this.NoExpiryPolicy;
-      // this.vehicleDetailsForm.value.hidePreviousClaimed =
-      //   this.hidePreviousClaimed;
 
-      // if (
-      //   this.vehicleDetailsForm.value?.policy_expiry != 'IDK' &&
-      //   this.vehicleDetailsForm.value?.policy_expiry != '' &&
-      //   this.vehicleDetailsForm.value?.policy_expiry != 'satp' &&
-      //   this.vehicleDetailsForm.value?.policy_expiry != 'bundled_tp' &&
-      // ) {
-      //   if (
-      //     this.vehicleDetailsForm.value?.ncb_discount ||
-      //     this.vehicleDetailsForm.value?.ncb_discount == 0
-      //   ) {
-      //     for (let i = 0; i <= this.expiryListData.length - 1; i++) {
-      //       if (
-      //         this.expiryListData[i].old_ncb_value ==
-      //         this.vehicleDetailsForm.value.ncb_discount
-      //       ) {
-      //         this.ncbAllData = this.expiryListData[i];
-      //       }
-      //     }
-      //     this.vehicleDetailsForm.value.addNcbBoth = this.ncbAllData;
-      //   }
-      // } else {
-      //   this.vehicleDetailsForm.value.ncb_discount = 0;
-      // }
-
-      // if (this.vehicleDetailsForm.value?.policy_expiry) {
-      //   for (let i = 0; i <= this.expiryList?.length - 1; i++) {
-      //     if (
-      //       this.expiryList[i]?.rb_expiring_policy_type_code ==
-      //       this.vehicleDetailsForm.value?.policy_expiry
-      //     ) {
-      //       this.vehicleDetailsForm.value.policy_expiry_id_data =
-      //         this.expiryList[i]?.rb_expiring_policy_type_id;
-      //     }
-      //   }
-      //   if (this.renewalType == 'renewal') {
-      //     let coverageType = JSON.parse(
-      //       sessionStorage.getItem('coverageType') || ''
-      //     );
-      //     if (coverageType?.coverage_policy_type_id) {
-      //       this.vehicleDetailsForm.value.policy_expiry_id_data =
-      //         coverageType?.coverage_policy_type_id;
-      //     }
-      //   }
-      // }
       let vehicleFrom: any;
-      // if (this.renewalType != 'renewal') {
-      // this.vehicleDetailsForm.value.isNewVehicleUpdate = this.isNewVehicle;
-      // if (!this.isNewVehicle) {
-      //   this.vehicleDetailsForm.value.offeredNCBValue = JSON.stringify(
-      //     this.policyTypeBaseNCB
-      //   );
-      // } else {
-      //   // this.vehicleDetailsForm.value.policy_expiry = '';
-      //   this.vehicleDetailsForm.value.offeredNCBValue = '';
-      //   this.vehicleDetailsForm.value.policy_expiry = '';
-      // }
+
       vehicleFrom = JSON.stringify(this.vehicleDetailsForm.value);
       if (this.isNewVehicle) {
         this.bussiness_type = 'new';
