@@ -18,6 +18,8 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { WindowRef } from 'src/app/core/services/window-ref.service';
+import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 declare const webengage: any;
 
 @Component({
@@ -75,7 +77,21 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   hidePreviousClaimed: boolean = false;
   traceIdAllData: any;
   is_renewal: boolean = false;
-
+  notCertifiedComponentJSON: {
+    modalName: any;
+    widthObtained: string;
+    heightObtained: string;
+    topObtained: string;
+    isOutSideClose: boolean;
+    classObtained: string;
+  } = {
+    modalName: NotCertifiedComponent,
+    widthObtained: 'auto',
+    heightObtained: 'auto',
+    topObtained: 'auto',
+    isOutSideClose: true,
+    classObtained: 'not-certifiedComponent-class',
+  };
   mmvBaseButtonDisable: boolean = false;
   vehiclePopupList: any;
 
@@ -98,7 +114,8 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     private renderer: Renderer2,
     public router: Router,
     private FormBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private matDialog: WindowRef
   ) {
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
@@ -589,7 +606,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     apiUrl = `?trace_id=${trace_id}`;
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
-      .subscribe((res: any) => {});
+      .subscribe((res: any) => {
+        if (res?.message == 'Partner not found') {
+          this.openNotCertifiedPopup('');
+        }
+      });
   }
 
   onClose(): void {
@@ -808,8 +829,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
-        this.vehcileModelDetails = res;
-        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        if (res?.message != 'Partner not found') {
+          this.vehcileModelDetails = res;
+          sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        } else if (res?.message == 'Partner not found') {
+          this.openNotCertifiedPopup('');
+        }
       });
   }
   /*
@@ -1645,6 +1670,33 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       return new Date(year, month - 1, 1); // JS months are 0-indexed
     }
     return null;
+  }
+
+  openNotCertifiedPopup(ObjData: any) {
+    let resWidth;
+    let resTop;
+    if (window.screen.width <= 767) {
+      resWidth = 'auto';
+      resTop = '5%';
+    } else {
+      resWidth = 'auto';
+      resTop = '5%';
+    }
+
+    const obj: any = {
+      modalName: this.notCertifiedComponentJSON['modalName'],
+      width: this.notCertifiedComponentJSON['widthObtained'],
+      height: this.notCertifiedComponentJSON['heightObtained'],
+      classNameObtained: this.notCertifiedComponentJSON['classObtained'],
+      isOutSideClose: this.notCertifiedComponentJSON['isOutSideClose'],
+      minWidth: resWidth,
+      dataInfo: {
+        data: ObjData,
+        top: resTop,
+      },
+    };
+
+    this.matDialog.openDialog(obj);
   }
   ngOnDestroy(): void {
     this.destroy$.next();

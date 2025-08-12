@@ -980,7 +980,7 @@ export class MotorInsuranceComponent implements OnInit {
       .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
       .subscribe(
         (res: any) => {
-          if (res.trace_id) {
+          if (res?.message != 'Partner not found') {
             this.traceId = res.trace_id;
             this.sharedDataService.getTraceIdDetails(res);
             sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
@@ -1041,30 +1041,34 @@ export class MotorInsuranceComponent implements OnInit {
       .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
       .subscribe(
         (res: any) => {
-          this.traceId = res.trace_id;
-          this.sharedDataService.getTraceIdDetails(res);
-          sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
-          this.loader = true;
-          if (this.vehicleCheck) {
-            this.vehicleCheck = false;
-          }
-          sessionStorage.setItem(
-            'withoutVehicleNumber',
-            `${this.withoutVehicleNumber}`
-          );
-          sessionStorage.setItem('quotesUrl', 'true');
+          if (res?.message != 'Partner not found') {
+            this.traceId = res.trace_id;
+            this.sharedDataService.getTraceIdDetails(res);
+            sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+            this.loader = true;
+            if (this.vehicleCheck) {
+              this.vehicleCheck = false;
+            }
+            sessionStorage.setItem(
+              'withoutVehicleNumber',
+              `${this.withoutVehicleNumber}`
+            );
+            sessionStorage.setItem('quotesUrl', 'true');
 
-          // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
-          sessionStorage.removeItem('isPayment');
-          if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
-            this.getVehicleDetailsInfo();
-            // this.motorInsurance.reset();
-          } else if (this.isPolicyNumber) {
-            this.getRenewalPolicyData();
-          } else {
-            let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
-            sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
-            this.router.navigate([`quotes/${this.traceId}`]);
+            // sessionStorage.setItem('policyNumber', JSON.stringify(this.isPolicyNumber));
+            sessionStorage.removeItem('isPayment');
+            if (!this.withoutVehicleNumber && !this.isPolicyNumber) {
+              this.getVehicleDetailsInfo();
+              // this.motorInsurance.reset();
+            } else if (this.isPolicyNumber) {
+              this.getRenewalPolicyData();
+            } else {
+              let vehicleMMVValue = JSON.stringify(this.motorInsurance?.value);
+              sessionStorage.setItem('vehicleMMVData', vehicleMMVValue);
+              this.router.navigate([`quotes/${this.traceId}`]);
+            }
+          } else if (res?.message == 'Partner not found') {
+            this.openNotCertifiedPopup('');
           }
         },
         (error) => {

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet,
+  MatBottomSheetConfig,
+} from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
@@ -92,8 +95,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
     private router: Router,
-    private routerData: ActivatedRoute,
-
+    private routerData: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -121,7 +123,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       const urlSegments = segments.map((segment) => segment.path);
       if (urlSegments[1]) {
         this.traceIdUrl = urlSegments[1];
-        if(this.traceIdUrl !='proposal'){
+        if (this.traceIdUrl != 'proposal') {
           this.getTraceIdData(this.traceIdUrl);
         }
       }
@@ -139,7 +141,10 @@ export class VehicleDetailsCardComponent implements OnInit {
       } else {
         this.showZeroNCB = false;
       }
-      if (this.parsedVehicleData?.policy_expiry == 'satp' || this.parsedVehicleData?.policy_expiry == 'bundled_tp') {
+      if (
+        this.parsedVehicleData?.policy_expiry == 'satp' ||
+        this.parsedVehicleData?.policy_expiry == 'bundled_tp'
+      ) {
         this.showZeroNCB = true;
       } else {
         this.showZeroNCB = false;
@@ -159,7 +164,10 @@ export class VehicleDetailsCardComponent implements OnInit {
         } else {
           this.showZeroNCB = false;
         }
-        if (this.parsedVehicleData?.policy_expiry == 'satp' || this.parsedVehicleData?.policy_expiry == 'bundled_tp') {
+        if (
+          this.parsedVehicleData?.policy_expiry == 'satp' ||
+          this.parsedVehicleData?.policy_expiry == 'bundled_tp'
+        ) {
           this.showZeroNCB = true;
         } else {
           this.showZeroNCB = false;
@@ -265,9 +273,9 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
 
   vehicleCardData(data: any) {
-    if(data?.form_value){
+    if (data?.form_value) {
       this.parsedVehicleData = data?.form_value;
-    }else{
+    } else {
       this.parsedVehicleData = data;
     }
     this.policyDate = '';
@@ -313,7 +321,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     if (!this.parsedVehicleData?.user_car) {
       this.previousNCB = this.parsedVehicleData?.ncb_discount?.old_ncb_name;
 
-      if (this.parsedVehicleData?.previous_claimed || diffrenceDays>90) {
+      if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
         this.showZeroNCB = true;
       } else {
         this.newNCB = this.parsedVehicleData?.ncb_discount?.new_ncb_name;
@@ -323,11 +331,11 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.showZeroNCB = true;
     }
   }
-  openDialog(popData:any): void {
-    const cardData:any={
-      dialog_type:'edit',
-      value:popData
-    }
+  openDialog(popData: any): void {
+    const cardData: any = {
+      dialog_type: 'edit',
+      value: popData,
+    };
     this.isPopUpClose = true;
     // if(this.subdomain=='d2c'){
     //   this.openVehicleDetailsPopup(null);
@@ -346,7 +354,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       const bottomSheetConfig: MatBottomSheetConfig = {
         data: cardData,
       };
-      this.bottomSheet.open(VehicleDetailsPopupNewComponent,bottomSheetConfig);
+      this.bottomSheet.open(VehicleDetailsPopupNewComponent, bottomSheetConfig);
     } else {
       this.openVehicleDetailsPopup(cardData);
     }
@@ -544,23 +552,23 @@ export class VehicleDetailsCardComponent implements OnInit {
    *  this function use when use come through email to the quotes page
    */
   // getNcbList(previousYearNCB: any) {
-    // this.apiservice
-    //   .getRequestedResponse(ApiConstants.ncb_list())
-    //   .subscribe((res) => {
-    //     this.expiryListData = res;
-    //     this.vehicleValueForm = sessionStorage.getItem('mmv_data');
-    //     let vehicleFormUpdate = JSON.parse(this.vehicleValueForm);
+  // this.apiservice
+  //   .getRequestedResponse(ApiConstants.ncb_list())
+  //   .subscribe((res) => {
+  //     this.expiryListData = res;
+  //     this.vehicleValueForm = sessionStorage.getItem('mmv_data');
+  //     let vehicleFormUpdate = JSON.parse(this.vehicleValueForm);
 
-    //     for (let data of this.expiryListData) {
-    //       if (data.old_ncb_value === previousYearNCB) {
-    //         this.previousNCB = data.old_ncb_name;
-    //         this.newNCB = data.new_ncb_name;
-    //         vehicleFormUpdate.addNcbBoth = data;
-    //       }
-    //     }
+  //     for (let data of this.expiryListData) {
+  //       if (data.old_ncb_value === previousYearNCB) {
+  //         this.previousNCB = data.old_ncb_name;
+  //         this.newNCB = data.new_ncb_name;
+  //         vehicleFormUpdate.addNcbBoth = data;
+  //       }
+  //     }
 
-    //     // sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
-    //   });
+  //     // sessionStorage.setItem('mmv_data', JSON.stringify(vehicleFormUpdate));
+  //   });
   // }
   /**
    * this fucntion use open Not Certified Popup modal
@@ -617,14 +625,18 @@ export class VehicleDetailsCardComponent implements OnInit {
     this.apiservice
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
-        if(res.quote_data?.quotes_data?.vehicle_fuel){
-          this.sharedDataService.getTraceIdDetails(res);
-        this.vehicleCardData(res?.quote_data?.quotes_data);
-        this.sharedDataService.vehicleCardTypeData(
-          JSON.stringify(res.quote_data?.quotes_data)
-        );
-        this.parsedVehicleData=res?.quote_data?.quotes_data
-        sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+        if (res?.message != 'Partner not found') {
+          if (res.quote_data?.quotes_data?.vehicle_fuel) {
+            this.sharedDataService.getTraceIdDetails(res);
+            this.vehicleCardData(res?.quote_data?.quotes_data);
+            this.sharedDataService.vehicleCardTypeData(
+              JSON.stringify(res.quote_data?.quotes_data)
+            );
+            this.parsedVehicleData = res?.quote_data?.quotes_data;
+            sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
+          }
+        } else if (res?.message == 'Partner not found') {
+          this.openNotCertifiedPopup('');
         }
       });
   }
