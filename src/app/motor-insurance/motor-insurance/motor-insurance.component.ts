@@ -171,11 +171,11 @@ export class MotorInsuranceComponent implements OnInit {
     // } else if (environment?.apexD2C === this.fullUrl + '/') {
     //   this.devUrl = true;
     // }
-    if (window.innerWidth <= 999) {
-      setTimeout(() => {
-        this.partnerValidation();
-      }, 3000);
-    }
+    // if (window.innerWidth <= 999) {
+    // setTimeout(() => {
+    this.partnerValidation();
+    // }, 3000);
+    // }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.sharedDataService.getSelectedvehicle.subscribe((res) => {
       this.vehcileType = res;
@@ -210,7 +210,7 @@ export class MotorInsuranceComponent implements OnInit {
         }
       }
       if (pos_status == 'false' && !this.isPartnerPOSStatus) {
-        this.openNotCertifiedPopup('');
+        // this.openNotCertifiedPopup('');
       }
     }
 
@@ -1082,7 +1082,11 @@ export class MotorInsuranceComponent implements OnInit {
         .getRequestedResponse(
           `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
         )
-        .subscribe((res: any) => {});
+        .subscribe((res: any) => {
+          if (res?.message == 'Partner not found') {
+            this.openNotCertifiedPopup('');
+          }
+        });
     }
   }
 }
