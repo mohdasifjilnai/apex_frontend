@@ -14,7 +14,7 @@
               : "Edit Vehicle Details"
           }}</span
         >
-        <img  
+        <img
           src="assets/icon/cross.svg"
           class="cursor-pointer"
           alt="close"
@@ -146,35 +146,85 @@
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
-          <mat-form-field
-            appearance="outline"
-            class="vehicle-details-dropdown"
-            [ngClass]="is_renewal ? 'visually-disabled' : ''"
-          >
-            <mat-label>Registration City</mat-label>
-            <input
-              matInput
-              aria-label="registration_city"
-              #autoCompleteInput
-              appAlphaNumeric
-              [matAutocomplete]="autoRegistrationCity"
-              formControlName="registration_city"
-              (ngModelChange)="vehcileRegistration($event)"
-              (keydown)="onKeyDown($event)"
-            />
-            <mat-autocomplete
-              #autoRegistrationCity="matAutocomplete"
-              [displayWith]="displayRTOName"
+          <div class="border-rto-group d-flex">
+            <div class="rto-prefix" [ngClass]="rtoInvalid ? 'rto-invalid' : ''">
+              <span>{{ stateCode }}</span>
+            </div>
+
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown rto-field"
+              [ngClass]="{
+                'visually-disabled': is_renewal,
+                'mat-form-field-invalid': rtoInvalid
+              }"
             >
-              <ng-container>
-                <span>
-                  <mat-option *ngFor="let rtoData of rtoList" [value]="rtoData">
-                    <span>{{ rtoData?.display_name }}</span>
-                  </mat-option>
-                </span>
-              </ng-container>
-            </mat-autocomplete>
-          </mat-form-field>
+              <mat-label>RTO</mat-label>
+              <input
+                matInput
+                aria-label="registration_rto"
+                #autoCompleteInput
+                appNumbersOnly
+                [matAutocomplete]="autoRegistrationRto"
+                formControlName="registration_rto"
+                maxlength="2"
+                (input)="onRtoInput($event)"
+              />
+              <mat-autocomplete
+                #autoRegistrationRto="matAutocomplete"
+                [displayWith]="displayRTOName"
+                (optionSelected)="onRtoSelected($event.option)"
+              >
+                <ng-container>
+                  <span>
+                    <mat-option
+                      *ngFor="let rtoData of rtoList"
+                      [value]="rtoData"
+                    >
+                      <span>{{ rtoData?.display_name }}</span>
+                    </mat-option>
+                  </span>
+                </ng-container>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              class="vehicle-details-dropdown city-field"
+              [ngClass]="{
+                'visually-disabled': is_renewal,
+                'mat-form-field-invalid': rtoInvalid
+              }"
+            >
+              <mat-label>City</mat-label>
+              <input
+                matInput
+                aria-label="registration_city"
+                #autoCompleteInput
+                appAlphabetOnly
+                [matAutocomplete]="autoRegistrationCity"
+                formControlName="registration_city"
+                (input)="onCityInput($event)"
+                (keydown)="onKeyDown($event)"
+              />
+
+              <mat-autocomplete
+                #autoRegistrationCity="matAutocomplete"
+                [displayWith]="displayCityName"
+                (optionSelected)="onCitySelected($event.option)"
+              >
+                <ng-container>
+                  <span>
+                    <mat-option
+                      *ngFor="let cityData of cityList"
+                      [value]="cityData"
+                    >
+                      <span>{{ cityData?.rb_city_name }}</span>
+                    </mat-option>
+                  </span>
+                </ng-container>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
         </div>
         <!-- Registration Date -->
         <div class="col-lg-6 col-md-6 col-12">
@@ -329,12 +379,12 @@
               vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
             "
           >
-          <img
-          src="assets/gif/button-loader.gif"
-          alt="close"
-          class="loader me-2"
-          *ngIf="editButton"
-        />
+            <img
+              src="assets/gif/button-loader.gif"
+              alt="close"
+              class="loader me-2"
+              *ngIf="editButton"
+            />
             {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
         </div>
@@ -349,12 +399,13 @@
         [disabled]="
           vehicleDetailsForm.invalid || mmvBaseButtonDisable || editButton
         "
-      > <img
-      src="assets/gif/button-loader.gif"
-      alt="close"
-      class="loader me-2"
-      *ngIf="editButton"
-    />
+      >
+        <img
+          src="assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-2"
+          *ngIf="editButton"
+        />
         {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
       </button>
       <span class="mandatory">* Mandatory Fields</span>

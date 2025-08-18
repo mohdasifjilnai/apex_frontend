@@ -5,6 +5,7 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
+import { MatOption } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -13,7 +14,7 @@ import {
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import moment from 'moment';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -46,6 +47,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   makeList: any;
   modelList: any;
   variantList: any;
+  cityList: any;
   rtoList: any;
   mmvData: any;
   rtoSelected: any;
@@ -92,6 +94,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'not-certifiedComponent-class',
   };
+  rtoInvalid: boolean = false;
   mmvBaseButtonDisable: boolean = false;
   vehiclePopupList: any;
 
@@ -104,6 +107,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   policyExpiryDate: any;
   editButton = false;
   renewalVehicleDetails: any;
+  stateCode: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -225,12 +229,18 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name,
         true
       );
+      this.stateCode =
+        this.vehcileFormData?.value?.registration_city?.rb_rto_code?.slice(
+          0,
+          2
+        );
 
       this.vehicleDetailsForm.patchValue({
         vehicle_make: this.vehcileFormData?.value?.vehicle_fuel?.rb_make_name,
         vehicle_model: this.vehcileFormData?.value?.vehicle_fuel?.rb_model_name,
         vehicle_variant:
           this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name,
+        registration_rto: this.vehcileFormData?.value?.registration_city,
         registration_city: this.vehcileFormData?.value?.registration_city,
         vehicle_fuel: this.vehcileFormData?.value?.vehicle_fuel,
         type_of_exp_policy_id:
@@ -247,8 +257,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ),
         previous_claimed: this.vehcileFormData?.value?.previous_claimed,
         user_car: this.vehcileFormData?.value?.user_car,
-        previous_insurer:
-          this.vehcileFormData?.value?.previous_insurer?.rb_insurer_code,
+        previous_insurer: this.vehcileFormData?.value?.previous_insurer,
         policy_expiry_date: this.vehcileFormData?.value?.policy_expiry_date
           ? this.datePipe.transform(
               this.vehcileFormData?.value?.policy_expiry_date,
@@ -256,7 +265,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             )
           : '',
       });
-      this.patchPreviousInsurer();
+      if (this.vehcileFormData?.dialog_type !== 'edit') {
+        this.patchPreviousInsurer();
+      }
       this.ncbDiscount = this.vehcileFormData?.value?.ncb_discount;
       sessionStorage.setItem(
         'registrationDetails',
@@ -498,6 +509,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     //     }
     //   }
     // );
+    this.onChangeCIty();
   }
 
   patchdate(renewalData: any) {
@@ -535,12 +547,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       });
     }
 
+    this.stateCode = traceIDData?.rto_city?.rb_rto_code?.slice(0, 2);
     if (business_type == 'new') {
       this.isNewVehicle = true;
       this.vehicleDetailsForm.patchValue({
         vehicle_make: traceIDData?.vehicle?.rb_make_name,
         vehicle_model: traceIDData?.vehicle?.rb_model_name,
         vehicle_variant: traceIDData?.vehicle?.rb_variant_name,
+        registration_rto: traceIDData?.rto_city,
         registration_city: traceIDData?.rto_city,
         vehicle_fuel: traceIDData?.vehicle,
         registration_date: this.datePipe.transform(
@@ -633,6 +647,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       vehicle_variant: ['', Validators.required],
       vehicle_fuel: ['', Validators.required],
       registration_city: ['', Validators.required],
+      registration_rto: ['', Validators.required],
       user_car: [false],
       policy_expiry_date: [''],
       policy_expiry: [''],
@@ -786,7 +801,60 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   /**
    *  this function use for get variant listing
    */
-  vehcileRegistration(rto_code: any, rtoByRegistration?: any) {
+  onCityInput(event: any): void {
+    const inputValue = event?.target?.value || '';
+    this.vehicleDetailsForm.get('registration_rto')?.setValue(null);
+    this.vehicleDetailsForm.get('registration_rto')?.markAsUntouched();
+
+    const rtoControl = this.vehicleDetailsForm.get('registration_rto');
+    const cityControl = this.vehicleDetailsForm.get('registration_city');
+
+    if (
+      typeof inputValue === 'object' &&
+      typeof this.vehicleDetailsForm.value.registration_city === 'object'
+    ) {
+      this.rtoInvalid = false;
+      rtoControl?.setErrors(null);
+      cityControl?.setErrors(null);
+    } else {
+      this.rtoInvalid = true;
+      rtoControl?.setErrors({ cityRequired: true });
+      rtoControl?.markAsTouched();
+      cityControl?.setErrors({ rtoRequired: true });
+      cityControl?.markAsTouched();
+    }
+
+    if (inputValue?.length >= 3) {
+      const apiData = `?rto_code=${this.stateCode}&&rto_city=${inputValue}`;
+      this.apiservice
+        .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
+        .subscribe((res) => {
+          if (!res?.message) {
+            this.cityList = res.map((item: any) => ({
+              ...item,
+              display_name: item.display_name || item.rb_rto_code || 'No Name',
+            }));
+            this.rtoList = [...this.cityList];
+            const value = this.cityList[0]?.rb_rto_code;
+            this.stateCode = value.slice(0, 2);
+          } else {
+            this.cityList = [
+              {
+                rb_rto_code: '',
+                rb_city_name: 'No Data',
+                display_name: 'No Data',
+              },
+            ];
+          }
+        });
+    }
+  }
+
+  vehcileRegistration(
+    rto_code: any,
+    rtoByRegistration?: any,
+    registrationName?: any
+  ) {
     rto_code =
       typeof rto_code === 'string'
         ? rto_code.replace(/[^a-zA-Z0-9 ]/g, '')
@@ -800,11 +868,28 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
         .subscribe((res) => {
           if (!res?.message) {
-            this.rtoList = res;
+            this.cityList = res.map((item: any) => ({
+              ...item,
+              display_name: item.display_name || item.rb_rto_code || 'No Name',
+            }));
+            this.rtoList = [...this.cityList];
+            const value = this.cityList[0]?.rb_rto_code;
+            this.stateCode = value.slice(0, 2);
+            this.vehicleDetailsForm.patchValue({
+              registration_rto: this.rtoList[0], // full object, not just rb_rto_code
+            });
+
             if (rtoByRegistration) {
               this.vehicleDetailsForm.patchValue({
-                registration_city: this.rtoList[0],
+                registration_city: this.cityList[0],
               });
+              setTimeout(() => {
+                this.vehicleDetailsForm.patchValue({
+                  registration_rto: this.rtoList[0],
+                  registration_city: this.cityList[0],
+                });
+                this.rtoInvalid = false;
+              }, 0);
             }
           }
         });
@@ -818,9 +903,71 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.mmvBaseButtonDisable = true;
     }
   }
+  onRtoInput(event: any): void {
+    const inputValue = event?.target?.value || '';
+    this.vehicleDetailsForm.get('registration_city')?.reset();
+
+    const cityControl = this.vehicleDetailsForm?.get('registration_city');
+    const rtoControl = this.vehicleDetailsForm?.get('registration_rto');
+
+    if (
+      typeof inputValue === 'object' &&
+      typeof this.vehicleDetailsForm.value.registration_city === 'object'
+    ) {
+      this.rtoInvalid = false;
+      rtoControl?.setErrors(null);
+      cityControl?.setErrors(null);
+    } else {
+      this.rtoInvalid = true;
+      rtoControl?.setErrors({ cityRequired: true });
+      rtoControl?.markAsTouched();
+      cityControl?.setErrors({ rtoRequired: true });
+      cityControl?.markAsTouched();
+    }
+
+    if (inputValue?.length >= 2) {
+      const apiData = `?rto_code=${this.stateCode}&rto_code_number=${inputValue}`;
+
+      this.apiservice
+        .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
+        .subscribe((res) => {
+          if (!res?.message) {
+            this.cityList = res.map((item: any) => ({
+              ...item,
+              display_name: item.display_name || item.rb_rto_code || 'No Name',
+            }));
+            this.rtoList = [...this.cityList];
+          }
+        });
+    } else {
+      this.rtoList = [
+        {
+          rb_rto_code: '',
+          rb_city_name: 'No Data',
+          display_name: 'No Data',
+        },
+      ];
+    }
+  }
   // Function to display the value in the input box
   displayRTOName(rto: any): string {
-    return rto?.display_name || '';
+    // 🔍 Safety check: if rto is string or null, try to find the object in rtoList
+    if (!rto || typeof rto !== 'object') {
+      const match = this.rtoList?.find(
+        (item: any) => item?.rb_rto_code?.slice(2) === rto
+      );
+      return match?.rb_rto_code?.slice(2) || '';
+    }
+
+    return rto?.rb_rto_code?.slice(2) || '';
+  }
+
+  displayCityName(city: any): any {
+    if (city?.rb_city_name === 'No Data') {
+      return '';
+    } else {
+      return city?.rb_city_name || '';
+    }
   }
 
   getVehicleDetails(trace_id: any) {
@@ -836,6 +983,43 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           this.openNotCertifiedPopup('');
         }
       });
+  }
+  // Call this when an RTO is selected from the dropdown
+  onRtoSelected(event: MatOption) {
+    const selectedValue = event.value;
+    if (selectedValue?.rb_city_name === 'No Data') {
+      this.rtoList = [];
+      const cityControl = this.vehicleDetailsForm.get('registration_city');
+      const rtoControl = this.vehicleDetailsForm.get('registration_rto');
+      rtoControl?.setErrors({ cityRequired: true });
+      rtoControl?.markAsTouched();
+      cityControl?.setErrors({ rtoRequired: true });
+      cityControl?.markAsTouched();
+    } else {
+      this.vehicleDetailsForm.patchValue({
+        registration_city: selectedValue,
+      });
+      this.rtoInvalid = false;
+    }
+  }
+
+  // Call this when a City is selected from the dropdown
+  onCitySelected(event: MatOption) {
+    const selectedValue = event.value;
+    if (selectedValue?.rb_city_name === 'No Data') {
+      this.cityList = [];
+      const cityControl = this.vehicleDetailsForm.get('registration_city');
+      const rtoControl = this.vehicleDetailsForm.get('registration_rto');
+      rtoControl?.setErrors({ cityRequired: true });
+      rtoControl?.markAsTouched();
+      cityControl?.setErrors({ rtoRequired: true });
+      cityControl?.markAsTouched();
+    } else {
+      this.vehicleDetailsForm.patchValue({
+        registration_rto: selectedValue,
+      });
+      this.rtoInvalid = false;
+    }
   }
   /*
    *
@@ -1670,6 +1854,32 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       return new Date(year, month - 1, 1); // JS months are 0-indexed
     }
     return null;
+  }
+  onChangeCIty() {
+    this.vehicleDetailsForm
+      .get('registration_city')
+      ?.valueChanges?.pipe(take(1))
+      .subscribe((value) => {
+        this.vehicleDetailsForm?.get('registration_rto')?.reset();
+        const rtoControl = this.vehicleDetailsForm?.get('registration_rto');
+        const cityControl = this.vehicleDetailsForm?.get('registration_city');
+
+        if (value !== null && typeof value === 'object' && rtoControl?.value) {
+          this.rtoInvalid = false;
+          if (rtoControl?.hasError('cityRequired')) {
+            rtoControl.setErrors(null);
+            rtoControl.updateValueAndValidity();
+          }
+        } else {
+          // if (rtoControl) {
+          this.rtoInvalid = true;
+          rtoControl?.setErrors({ cityRequired: true });
+          rtoControl?.markAsTouched();
+          cityControl?.setErrors({ rtoRequired: true });
+          cityControl?.markAsTouched();
+          // }
+        }
+      });
   }
 
   openNotCertifiedPopup(ObjData: any) {
