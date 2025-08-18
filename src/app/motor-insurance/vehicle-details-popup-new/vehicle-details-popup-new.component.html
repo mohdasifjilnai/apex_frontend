@@ -164,10 +164,10 @@
                 matInput
                 aria-label="registration_rto"
                 #autoCompleteInput
-                appNumbersOnly
+                appAlphaNumeric
                 [matAutocomplete]="autoRegistrationRto"
                 formControlName="registration_rto"
-                maxlength="2"
+                maxlength="3"
                 (input)="onRtoInput($event)"
               />
               <mat-autocomplete
@@ -218,7 +218,7 @@
                       *ngFor="let cityData of cityList"
                       [value]="cityData"
                     >
-                      <span>{{ cityData?.rb_city_name }}</span>
+                      <span>{{ cityData?.display_name }}</span>
                     </mat-option>
                   </span>
                 </ng-container>
