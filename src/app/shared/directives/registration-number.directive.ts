@@ -84,9 +84,28 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 export class RegistrationNumberDirective {
   constructor(private el: ElementRef) {}
 
-  // Prevent typing a dot directly
+  // Prevent typing a dot or special characters directly
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent): void {
+    // Block dot
     if (event.key === '.') {
+      event.preventDefault();
+    }
+
+    // Allow only letters, numbers, Backspace, Tab, Arrow keys, and Hyphen
+    const allowedKeys = [
+      'Backspace',
+      'Tab',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowDown',
+      'Delete',
+      'Shift',
+      '-',
+    ];
+    const isAlphaNumeric = /^[a-zA-Z0-9]$/.test(event.key);
+
+    if (!isAlphaNumeric && !allowedKeys.includes(event.key)) {
       event.preventDefault();
     }
   }
@@ -95,8 +114,8 @@ export class RegistrationNumberDirective {
     const input = event.target as HTMLInputElement;
     let value = input.value;
 
-    // Remove spaces and dots
-    value = value.replace(/\s/g, '').replace(/\./g, '');
+    // Remove spaces, dots, and special characters (only keep letters, numbers, hyphen)
+    value = value.replace(/[^a-zA-Z0-9-]/g, '').replace(/\./g, '');
 
     if (sessionStorage.getItem('registration_form_isValid') === 'false') {
       const sanitizedValue = value.replace(/-/g, '');
@@ -123,8 +142,8 @@ export class RegistrationNumberDirective {
     if (clipboardData) {
       let pastedText = clipboardData.getData('text');
 
-      // Remove dots and hyphens
-      let sanitizedValue = pastedText.replace(/[\.\-]/g, '');
+      // Remove dots, hyphens, and special characters
+      let sanitizedValue = pastedText.replace(/[^a-zA-Z0-9]/g, '');
 
       let formattedText = '';
 
