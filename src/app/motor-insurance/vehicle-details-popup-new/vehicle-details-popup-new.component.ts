@@ -563,12 +563,13 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ),
       });
     } else if (business_type == 'renewal') {
+      this.stateCode = traceIDData?.rto_city?.rb_rto_code?.slice(0, 2);
       this.isNewVehicle = false;
-
       this.vehicleDetailsForm.patchValue({
         vehicle_make: traceIDData?.vehicle?.rb_make_name,
         vehicle_model: traceIDData?.vehicle?.rb_model_name,
         vehicle_variant: traceIDData?.vehicle?.rb_variant_name,
+        registration_rto: traceIDData?.rto_city,
         registration_city: traceIDData?.rto_city,
         vehicle_fuel: traceIDData?.vehicle,
         previous_insurer: traceIDData?.previous_insurer,
