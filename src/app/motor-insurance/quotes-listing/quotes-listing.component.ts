@@ -209,6 +209,7 @@ export class QuotesListingComponent implements OnInit {
   flexiLoader: boolean = false;
   loaderOnCardId: any;
   FlexiError: boolean[] = [];
+  isDisableFlexiAmount: boolean[] = [];
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -1461,6 +1462,7 @@ export class QuotesListingComponent implements OnInit {
     // if (!this.proposalTypeOninit) {
     // this.progressValue = 0;
     // this.startProgress(0);
+    sessionStorage.removeItem('flexiAmount');
     let event = eventData?.value;
     let proposarTypeData = sessionStorage.getItem('proposerType');
     let selectedProposarType = this.proposalList.filter(
@@ -2064,6 +2066,9 @@ export class QuotesListingComponent implements OnInit {
 
       if (flexiSliderValue > maxDiscount) {
         this.quotationData[index].applyInputButton = false;
+      }
+      if (flexiSliderValue === '' || flexiSliderValue === '.') {
+        this.quotationData[index].applyButton = true;
       }
     }
   }
