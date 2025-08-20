@@ -926,7 +926,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       cityControl?.markAsTouched();
     }
 
-    if (inputValue?.length >= 2) {
+    if (inputValue?.length > 0) {
       const apiData = `?rto_code=${this.stateCode}&rto_code_number=${inputValue}`;
 
       this.apiservice
@@ -938,6 +938,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               display_name: item.display_name || item.rb_rto_code || 'No Name',
             }));
             this.rtoList = [...this.cityList];
+          } else {
+            this.rtoList = [
+              {
+                rb_rto_code: '',
+                rb_city_name: 'No Data',
+                display_name: 'No Data',
+              },
+            ];
           }
         });
     } else {

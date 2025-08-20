@@ -66,6 +66,7 @@ import { RevisedPremiumBreakupComponent } from './components/dialog-components/r
 import { VehicleRegistrationNumberComponent } from './components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
 import { RefreshPageComponent } from './components/dialog-components/refresh-page/refresh-page.component';
 import { NoMaskedValueDirective } from './directives/no-masked-value.directive';
+import { SingleSpaceDirective } from './directives/single-space.directive';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { NoMaskedValueDirective } from './directives/no-masked-value.directive';
     VehicleRegistrationNumberComponent,
     RefreshPageComponent,
     NoMaskedValueDirective,
+    SingleSpaceDirective,
   ],
   imports: [
     CommonModule,
@@ -183,6 +185,7 @@ import { NoMaskedValueDirective } from './directives/no-masked-value.directive';
     RemoveZeroFromStartingDirective,
     NotAllowDotDirective,
     AlphanumericWithSlashDirective,
+    SingleSpaceDirective,
   ],
 })
 export class SharedModule {}
