@@ -34,19 +34,22 @@ export class PolicyExpiredDateComponent implements OnInit {
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   policyExpiryDateSubscription: any;
   regDateValue: any;
-  renewalType:any;
+  renewalType: any;
   @Input() urlDate: any;
-  visuallyDisabledFields: any =  false;
-
+  visuallyDisabledFields: any = false;
+  fieldShow = false;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private sharedDataService: SharedDataService,
     private router: Router,
-    private shareDataService:SharedDataService
+    private shareDataService: SharedDataService
   ) {}
 
   ngOnInit(): void {
     // add form control for the Policy Expiry Date
+    if (this.urlDate == 'instantQuotation') {
+      this.fieldShow = true;
+    }
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(
@@ -91,22 +94,25 @@ export class PolicyExpiredDateComponent implements OnInit {
     });
     this.renewalType = sessionStorage.getItem('renewalType');
     const previousInsurer = sessionStorage.getItem('previousInsurer');
-    if(this.renewalType == 'renewal'){
-      this.isExpiryDateDisbaled=false
+    if (this.renewalType == 'renewal') {
+      this.isExpiryDateDisbaled = false;
     }
-    if((this.renewalType === 'rollover' || this.renewalType == 'renewal') && (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')){
+    if (
+      (this.renewalType === 'rollover' || this.renewalType == 'renewal') &&
+      (previousInsurer == 'digit' || previousInsurer == 'hdfc_ergo')
+    ) {
       const currentDate = new Date();
       const minDateOffset = -1; // Subtract 20 years from current date
       const maxDateOffset = 91; //add days to current date
       this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
-    }else {
+    } else {
       const currentDate = new Date();
       const minDateOffset = -1; // Subtract 20 years from current date
       const maxDateOffset = 60;
       this.maxDate = this.getDateOffset(currentDate, maxDateOffset);
     }
 
-    // this.visuallyDisabledFields = this.shareDataService.disableVisually(['policy_expiry_date'], this.form);    
+    // this.visuallyDisabledFields = this.shareDataService.disableVisually(['policy_expiry_date'], this.form);
   }
 
   ngOnDestroy(): void {

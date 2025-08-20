@@ -7,6 +7,7 @@ import { VehicleInspectionComponent } from './vehicle-inspection/vehicle-inspect
 import { ProposalReviewComponent } from './proposal-review/proposal-review.component';
 import { PaymentComponent } from './payment/payment.component';
 import { AuthGuard } from '../core/guards/auth.guard';
+import { InstantQuotationComponent } from './instant-quotation/instant-quotation.component';
 const routes: Routes = [
   {
     path: '',
@@ -26,6 +27,7 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard],
   },
+
   {
     path: 'quotes/proposal/:transactionId',
     component: ProposalComponent,
@@ -72,6 +74,17 @@ const routes: Routes = [
     // data: {
     //   breadcrumb: [{ name: 'Motor Insurance', path: ['motor'] }],
     // },
+  },
+  {
+    path: 'instantQuotation',
+    component: InstantQuotationComponent,
+    data: {
+      breadcrumb: [
+        { name: 'Get Quotation', path: ['instantQuotation'] },
+        // { name: 'Quotes Listing', path: ['quotes'] },
+      ],
+    },
+    // canActivate: [AuthGuard],
   },
 ];
 

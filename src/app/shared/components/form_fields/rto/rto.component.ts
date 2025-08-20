@@ -41,7 +41,8 @@ export class RTOComponent implements OnInit {
 
   form!: FormGroup;
   rtoList: any;
-
+  @Input() urlDate: any;
+  fieldShow = false;
   filteredRtoList!: any;
   @ViewChild(MatAutocompleteTrigger)
   autocomplete!: MatAutocompleteTrigger;
@@ -58,6 +59,9 @@ export class RTOComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.urlDate == 'instantQuotation') {
+      this.fieldShow = true;
+    }
     /**
      *add form control for the RTO city
      */
@@ -180,7 +184,7 @@ export class RTOComponent implements OnInit {
       value &&
       typeof value === 'object'
     ) {
-      control?.reset(); 
+      control?.reset();
       event.preventDefault();
     }
   }

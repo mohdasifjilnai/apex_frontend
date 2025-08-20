@@ -1,0 +1,467 @@
+<form
+  [formGroup]="instantDetailsForm"
+  (ngSubmit)="submitDetails(instantDetailsForm.valid)"
+>
+  <div class="row instantQuotation">
+    <p class="quotes-text">Instant Quotation Request</p>
+    <div class="col-lg-8 col-md-12 formFields">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="label-text mb-2">Product Type</label>
+
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown inputFieldRadius"
+          >
+            <mat-select formControlName="product_type">
+              <mat-option
+                *ngFor="let productType of vehicleTypeList"
+                [value]="productType?.value"
+              >
+                {{ productType?.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                instantDetailsForm.get('product_type')?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="vehicle-mmvcustom-floating mb-3 position-relative">
+            <label for="vehicleMMV" class="label-text mb-2"
+              >Search Vehicle</label
+            >
+            <input
+              type="text"
+              id="vehicleMMV"
+              class="form-control vehicle-input"
+              placeholder="Search Vehicle"
+              formControlName="vehicle_MMV"
+              (input)="vehcileMMV()"
+              [ngClass]="{
+                'is-invalid':
+                  instantDetailsForm.get('vehicle_MMV')?.invalid &&
+                  instantDetailsForm.get('vehicle_MMV')?.touched
+              }"
+            />
+
+            <!-- Autocomplete List -->
+            <ul
+              class="autocomplete-list"
+              *ngIf="
+                vehicleSearchDataLength > 2 &&
+                (filteredMMVList?.length || mmvDataNotAvailable)
+              "
+            >
+              <!-- No results -->
+              <li
+                class="no-result"
+                *ngIf="mmvDataNotAvailable === 'No result found'"
+              >
+                {{ mmvDataNotAvailable }}
+              </li>
+
+              <!-- Results -->
+              <li
+                *ngFor="let mmvData of filteredMMVList"
+                (click)="selectVehicle(mmvData)"
+                [title]="
+                  mmvData.rb_make_name +
+                  ' | ' +
+                  mmvData.rb_model_name +
+                  ' | ' +
+                  mmvData.rb_variant_name +
+                  ' (' +
+                  mmvData.cubic_capacity +
+                  'cc, ' +
+                  mmvData.fuel +
+                  ')'
+                "
+              >
+                {{ mmvData.rb_make_name }} | {{ mmvData.rb_model_name }} |
+                {{ mmvData.rb_variant_name }} | (
+                {{ mmvData.cubic_capacity }} cc , {{ mmvData.fuel }} )
+              </li>
+            </ul>
+
+            <!-- Validation -->
+            <div
+              class="custom-error"
+              *ngIf="
+                instantDetailsForm.get('vehicle_MMV')?.hasError('required') &&
+                instantDetailsForm.get('vehicle_MMV')?.touched
+              "
+            >
+              Vehicle MMV is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-12 position-relative">
+          <app-rto
+            [urlDate]="urlValue"
+            (responseEvent)="rtoComponentResponse($event)"
+          ></app-rto>
+        </div>
+        <!-- for both new and roolover case handling  -->
+        <!-- <div class="col-lg-6 col-md-6 col-12">
+          <label for="registration_year_id" class="form-label label-text mb-2">
+            Select Registration Date
+          </label>
+
+          <mat-form-field
+            appearance="outline"
+            class="w-100 registration-year"
+            [ngClass]="
+              visuallyDisabledFields['registration_date']
+                ? 'visually-disabled'
+                : ''
+            "
+          >
+            <input
+              matInput
+              id="registration_year_id"
+              tabindex="1"
+              #registrationInput
+              [matDatepicker]="registrationYear"
+              formControlName="registration_date"
+              appDateFormat
+              [min]="minDate"
+              [max]="maxDate"
+              [readonly]="true"
+              [matDatepickerFilter]="dateFilter"
+              [disabled]="disabledRegistrationYear"
+              (click)="
+                !visuallyDisabledFields['registration_date'] &&
+                  registrationYear.open()
+              "
+              (keyup.enter)="
+                !visuallyDisabledFields['registration_date'] && EnterKey($event)
+              "
+            />
+
+            <mat-datepicker-toggle matSuffix [for]="registrationYear">
+              <img
+                src="assets/icon/calendar.svg"
+                class="cursor-pointer"
+                alt="calendar"
+                style="width: 20px; height: 20px"
+              />
+            </mat-datepicker-toggle>
+
+            <mat-datepicker
+              #registrationYear
+              id-automation="datepicker_registration_year_id"
+              startView="multi-year"
+              [disabled]="disabledRegistrationYear"
+            ></mat-datepicker>
+            <mat-error
+              *ngIf="
+                instantDetailsForm
+                  .get('registration_date')
+                  ?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+
+        <!-- for roolover handling only -->
+        <div class="col-lg-6 col-md-6 col-12" *ngIf="!isNewVehicle">
+          <label for="registration_year_id" class="form-label label-text mb-2">
+            Select Registration Date
+          </label>
+
+          <mat-form-field
+            appearance="outline"
+            class="w-100 registration-year"
+            [ngClass]="
+              visuallyDisabledFields['registration_date']
+                ? 'visually-disabled'
+                : ''
+            "
+          >
+            <input
+              matInput
+              id="registration_year_id"
+              tabindex="1"
+              #registrationInput
+              [matDatepicker]="registrationYear"
+              formControlName="registration_date"
+              appDateFormat
+              [min]="minDate"
+              [max]="maxDate"
+              [readonly]="true"
+              [matDatepickerFilter]="dateFilter"
+              [disabled]="disabledRegistrationYear"
+              (click)="
+                !visuallyDisabledFields['registration_date'] &&
+                  registrationYear.open()
+              "
+              (keyup.enter)="(!visuallyDisabledFields['registration_date'])"
+            />
+
+            <mat-datepicker-toggle matSuffix [for]="registrationYear">
+              <img
+                src="assets/icon/calendar.svg"
+                class="cursor-pointer"
+                alt="calendar"
+                style="width: 20px; height: 20px"
+              />
+            </mat-datepicker-toggle>
+
+            <mat-datepicker
+              #registrationYear
+              id-automation="datepicker_registration_year_id"
+              startView="multi-year"
+              [disabled]="disabledRegistrationYear"
+            ></mat-datepicker>
+            <mat-error
+              *ngIf="
+                instantDetailsForm
+                  .get('registration_date')
+                  ?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- for new handling only -->
+        <div class="col-lg-6 col-md-6 col-12" *ngIf="isNewVehicle">
+          <label for="registration_year_id" class="form-label label-text mb-2">
+            Select Registration Date
+          </label>
+
+          <mat-form-field
+            appearance="outline"
+            class="w-100 registration-year"
+            [ngClass]="
+              visuallyDisabledFields['registration_date']
+                ? 'visually-disabled'
+                : ''
+            "
+          >
+            <input
+              matInput
+              id="registration_year_id"
+              tabindex="1"
+              #registrationInput
+              [matDatepicker]="registrationYear"
+              formControlName="registration_date"
+              appDateFormat
+              [min]="minDate"
+              [max]="maxDate"
+              [readonly]="true"
+              [matDatepickerFilter]="dateFilter"
+              [disabled]="disabledRegistrationYear"
+              (click)="
+                !visuallyDisabledFields['registration_date'] &&
+                  registrationYear.open()
+              "
+              (keyup.enter)="(!visuallyDisabledFields['registration_date'])"
+            />
+
+            <mat-datepicker-toggle matSuffix [for]="registrationYear">
+              <img
+                src="assets/icon/calendar.svg"
+                class="cursor-pointer"
+                alt="calendar"
+                style="width: 20px; height: 20px"
+              />
+            </mat-datepicker-toggle>
+
+            <mat-datepicker
+              #registrationYear
+              id-automation="datepicker_registration_year_id"
+              startView="multi-year"
+              [disabled]="disabledRegistrationYear"
+            ></mat-datepicker>
+            <mat-error
+              *ngIf="
+                instantDetailsForm
+                  .get('registration_date')
+                  ?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-12">
+          <app-manufacture-date
+            [urlDate]="urlValue"
+            [customManufactureDate]="'manufacture-date'"
+          ></app-manufacture-date>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-12" *ngIf="!isNewVehicle">
+          <label class="radio-label label-text mb-2">Used / RC Transfer</label>
+          <mat-radio-group
+            formControlName="user_car"
+            class="vehicle-radio-group radionbuttonText"
+          >
+            <mat-radio-button
+              *ngFor="let rc of rcList"
+              [value]="rc?.value"
+              (click)="onRCTransferChange(rc?.value)"
+            >
+              {{ rc?.rcName }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-12" *ngIf="!isNewVehicle">
+          <label class="label-text mb-2">Type of Expiring Policy</label>
+
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown inputFieldRadius"
+          >
+            <mat-select
+              formControlName="policy_expiry"
+              (selectionChange)="onExpiryPolicyChange($event.value)"
+            >
+              <mat-option
+                *ngFor="let expiry of expiryList"
+                [value]="expiry?.rb_expiring_policy_type_code"
+              >
+                {{ expiry?.rb_expiring_policy_type }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                instantDetailsForm.get('policy_expiry')?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!iDKSelected && !isNewVehicle">
+        <div class="col-lg-3 col-md-3 col-12">
+          <app-policy-expired-date
+            [required]="true"
+            [urlDate]="urlValue"
+            [policyExpiryDate]="'expiry-date'"
+            [formControlNameData]="'policy_expiry_date'"
+          ></app-policy-expired-date>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-12">
+          <app-previous-insurer
+            [required]="true"
+            [urlDate]="urlValue"
+            [previousInsurer]="'previous-insurer'"
+            [formControlNameData]="'previous_insurer'"
+            [label]="'Search Previous Insurer'"
+          ></app-previous-insurer>
+        </div>
+        <div class="col-lg-3 col-md-3 col-12" *ngIf="!hidePreviousClaimed">
+          <label class="radio-label label-text mb-2"
+            >Is Previous Policy Claimed?</label
+          >
+          <mat-radio-group
+            formControlName="previous_claimed"
+            class="vehicle-radio-group label-text radionbuttonText"
+          >
+            <mat-radio-button
+              *ngFor="let claimed of claimedList"
+              [value]="claimed?.value"
+            >
+              {{ claimed?.claimedName }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-12" *ngIf="!hidePreviousClaimed">
+          <label class="label-text mb-2">Previous Year NCB Discount</label>
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown ncbDiscountInstant"
+          >
+            <!-- <mat-label>Previous Year NCB Discount</mat-label> -->
+            <mat-select formControlName="ncb_discount">
+              <mat-option *ngFor="let ncb of ncbListData" [value]="ncb">
+                {{ ncb?.old_ncb_name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                instantDetailsForm.get('ncb_discount')?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+          <label class="center-block label-text mb-2"
+            >Required Coverage Type</label
+          >
+
+          <mat-form-field
+            appearance="outline"
+            class="vehicle-details-dropdown inputFieldRadius"
+          >
+            <mat-select formControlName="req_coverage_type">
+              <mat-option
+                *ngFor="let coverageValue of coverageList"
+                [value]="coverageValue.code"
+              >
+                {{ coverageValue.name | titlecase }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                instantDetailsForm
+                  .get('req_coverage_type')
+                  ?.hasError('required')
+              "
+            >
+              This is a required field.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-lg-6 col-12 web-button">
+          <button
+            mat-raised-button
+            color="primary"
+            class="submit-btn mb-2"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 d-none d-lg-block mt-3 mt-lg-0">
+      <img
+        src="assets/images/sideImage.png"
+        class="img-fluid ms-3"
+        alt="side image"
+      />
+    </div>
+  </div>
+</form>

@@ -1,0 +1,261 @@
+.instantQuotation {
+  background-color: #fff;
+  .quotes-text {
+    color: #535353;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 44px; /* 244.444% */
+  }
+  .label-text {
+    color: #282828;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.48px;
+  }
+  .vehicle-input {
+    height: 50px;
+  }
+  .product-type-dropdown {
+    border-radius: 26.58px;
+    border: 0.984px solid #aaa;
+    background: #fff;
+    font-size: 12px;
+  }
+
+  .custom-floating {
+    position: relative;
+  }
+
+  .floating-label {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: #fff;
+    padding: 0 4px;
+    font-size: 12px;
+    color: #6c757d;
+    z-index: 1;
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    border-radius: 26px;
+    padding: 10px 12px;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  }
+
+  /* Autocomplete dropdown */
+  .autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ddd;
+    background: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  .autocomplete-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .autocomplete-list li:hover {
+    background-color: #f1f1f1;
+  }
+
+  .no-result {
+    padding: 8px 12px;
+    color: #999;
+  }
+
+  /* Ensure parent has relative position for absolute dropdown */
+  .position-relative {
+    position: relative;
+  }
+
+  /* Input styling (Bootstrap form-control is already applied) */
+  #registration_city {
+    padding: 8px 10px;
+    font-size: 12px;
+    height: 50px;
+  }
+
+  /* Dropdown container */
+  .list-group {
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Dropdown items */
+  .list-group-item {
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+
+  /* Hover effect */
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+  }
+
+  /* Active/clicked state */
+  .list-group-item:active {
+    background-color: #e9ecef;
+  }
+
+  /* Scrollbar style for dropdown */
+  .list-group::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .list-group::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+
+  .list-group::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+
+  .radio-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .vehicle-radio-group {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .date-picker-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .date-picker-wrapper input {
+    flex: 1;
+    padding-right: 40px;
+  }
+
+  .calendar-btn {
+    position: absolute;
+    right: 5px;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .calendar-btn img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .date-picker-wrapper input:disabled,
+  .calendar-btn:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+
+  ////
+  // .registration-year .mat-form-field-flex {
+  //   // height: 38px !important; /* match Bootstrap input */
+  //   // padding: 0 10px !important;
+  //   align-items: center;
+  // }
+
+  // .registration-year input.mat-input-element {
+  //   margin-top: 0 !important;
+  //   padding: 0 !important;
+  //   font-size: 14px; /* same as Bootstrap */
+  // }
+
+  ::ng-deep .registration-year .mat-form-field-outline-end {
+    border-radius: 0 26px 26px 0 !important;
+  }
+  ::ng-deep .registration-year .mat-form-field-outline-start,
+  ::ng-deep .registration-year .mat-form-field-outline-gap {
+    border-radius: 26px 0 0 26px !important;
+  }
+  ::ng-deep .registration-year .mat-form-field-outline-start {
+    min-width: 40px !important;
+  }
+
+  ::ng-deep .inputFieldRadius .mat-form-field-outline-end {
+    border-radius: 0 26px 26px 0 !important;
+  }
+  ::ng-deep .inputFieldRadius .mat-form-field-outline-start,
+  ::ng-deep .inputFieldRadius .mat-form-field-outline-gap {
+    border-radius: 26px 0 0 26px !important;
+  }
+  ::ng-deep .inputFieldRadius .mat-form-field-outline-start {
+    min-width: 40px !important;
+  }
+  .inputFieldRadius {
+    width: 100%;
+  }
+  ::ng-deep .inputFieldRadius .mat-form-field-outline-gap {
+    width: 0px !important;
+  }
+
+  .ncbDiscountInstant {
+    width: 100% !important;
+  }
+  ::ng-deep .ncbDiscountInstant .mat-form-field-outline-end {
+    border-radius: 0 26px 26px 0 !important;
+  }
+  ::ng-deep .ncbDiscountInstant .mat-form-field-outline-start,
+  ::ng-deep .ncbDiscountInstant .mat-form-field-outline-gap {
+    border-radius: 26px 0 0 26px !important;
+  }
+  ::ng-deep .ncbDiscountInstant .mat-form-field-outline-start {
+    min-width: 40px !important;
+  }
+
+  .formFields {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .radionbuttonText {
+    height: 50px;
+  }
+
+  .is-invalid {
+    border-color: #f44336 !important; /* Material red */
+    box-shadow: 0 0 0 1px #f44336 !important;
+    background-image: none !important; /* remove the ❌ icon */
+  }
+
+  .custom-error {
+    font-size: 10px;
+    color: #f44336;
+    margin-top: 4px;
+  }
+}

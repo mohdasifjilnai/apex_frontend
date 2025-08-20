@@ -1,41 +1,89 @@
-<mat-form-field class="drop-down-fields" appearance="outline">
-  <mat-label>Search RTO/City</mat-label>
-  <input
-    matInput
-    (keydown)="onKeyDown($event)"
-    id-automation="rtoData"
-    aria-label="rto_city"
-    (ngModelChange)="rtoBlankData($event)"
-    #autoCompleteInput
-    [matAutocomplete]="autoRTO"
-    formControlName="rto_city"
-    appAlphaNumeric
-    class="text-uppercase"
-  />
-  <mat-autocomplete
-    #autoRTO="matAutocomplete"
-    [displayWith]="displayRto.bind(this)"
-    (opened)="onOpened()"
-    (closed)="onClosed()"
+<span *ngIf="!fieldShow">
+  <mat-form-field class="drop-down-fields" appearance="outline">
+    <mat-label>Search RTO/City</mat-label>
+    <input
+      matInput
+      (keydown)="onKeyDown($event)"
+      id-automation="rtoData"
+      aria-label="rto_city"
+      (ngModelChange)="rtoBlankData($event)"
+      #autoCompleteInput
+      [matAutocomplete]="autoRTO"
+      formControlName="rto_city"
+      appAlphaNumeric
+      class="text-uppercase"
+    />
+    <mat-autocomplete
+      #autoRTO="matAutocomplete"
+      [displayWith]="displayRto.bind(this)"
+      (opened)="onOpened()"
+      (closed)="onClosed()"
+    >
+      <ng-container *ngIf="rtoDataLength > 1">
+        <span *ngIf="rtoDataNotAvailable == ''">
+          <mat-option
+            *ngFor="let rto of filteredRtoList | async"
+            [value]="rto"
+            id-automation="searchRtoDropdown"
+          >
+            <span>{{ rto.display_name }}</span>
+          </mat-option>
+        </span>
+        <span *ngIf="rtoDataNotAvailable">
+          <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto">
+            <span>{{ rto }}</span>
+          </mat-option>
+        </span>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.controls['rto_city']?.hasError('required')">
+      This is a required field.
+    </mat-error>
+  </mat-form-field>
+</span>
+
+<span *ngIf="fieldShow">
+  <label for="registration_city" class="form-label label-text mb-2"
+    >Registration City</label
   >
-    <ng-container *ngIf="rtoDataLength > 1">
-      <span *ngIf="rtoDataNotAvailable == ''">
-        <mat-option
-          *ngFor="let rto of filteredRtoList | async"
-          [value]="rto"
-          id-automation="searchRtoDropdown"
-        >
-          <span>{{ rto.display_name }}</span>
-        </mat-option>
-      </span>
-      <span *ngIf="rtoDataNotAvailable">
-        <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto">
-          <span>{{ rto }}</span>
-        </mat-option>
-      </span>
-    </ng-container>
-  </mat-autocomplete>
-  <mat-error *ngIf="form.controls['rto_city']?.hasError('required')">
-    This is a required field.
-  </mat-error>
-</mat-form-field>
+  <mat-form-field class="drop-down-fields instatrto" appearance="outline">
+    <input
+      matInput
+      (keydown)="onKeyDown($event)"
+      id-automation="rtoData"
+      aria-label="rto_city"
+      (ngModelChange)="rtoBlankData($event)"
+      #autoCompleteInput
+      [matAutocomplete]="autoRTO"
+      formControlName="rto_city"
+      appAlphaNumeric
+      class="text-uppercase"
+    />
+    <mat-autocomplete
+      #autoRTO="matAutocomplete"
+      [displayWith]="displayRto.bind(this)"
+      (opened)="onOpened()"
+      (closed)="onClosed()"
+    >
+      <ng-container *ngIf="rtoDataLength > 1">
+        <span *ngIf="rtoDataNotAvailable == ''">
+          <mat-option
+            *ngFor="let rto of filteredRtoList | async"
+            [value]="rto"
+            id-automation="searchRtoDropdown"
+          >
+            <span>{{ rto.display_name }}</span>
+          </mat-option>
+        </span>
+        <span *ngIf="rtoDataNotAvailable">
+          <mat-option *ngFor="let rto of filteredRtoList | async" [value]="rto">
+            <span>{{ rto }}</span>
+          </mat-option>
+        </span>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.controls['rto_city']?.hasError('required')">
+      This is a required field.
+    </mat-error>
+  </mat-form-field>
+</span>

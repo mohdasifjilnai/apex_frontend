@@ -66,7 +66,8 @@ export class ManufactureDateComponent implements OnInit {
   vehicleMMVItem: any;
   visuallyDisabledFields: any = false;
   manufactureDateReset: any;
-
+  @Input() urlDate: any;
+  fieldShow = false;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private shared: SharedDataService,
@@ -77,6 +78,10 @@ export class ManufactureDateComponent implements OnInit {
     /**
      * add form control for the Manufacture Date
      */
+
+    if (this.urlDate == 'instantQuotation') {
+      this.fieldShow = true;
+    }
     this.form = this.ctrlContainer.form;
     if (this.isRequired) {
       this.form.addControl(

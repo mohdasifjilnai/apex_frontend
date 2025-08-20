@@ -244,4 +244,8 @@ export class ApiConstants {
   public static validate_partner = `/api/v1/auth/validate_partner/`;
 
   public static flexi_discount_api = `/api/v1/initiate_insurer_quotes_for_discount/`;
+
+  public static get_instant_quotes = `/api/v2/perform_action/check_apex_link_expiry/`;
+
+  public static submit_instant_quotes = `/api/v2/perform_action/send_hsm_whatsapp_communications/`;
 }

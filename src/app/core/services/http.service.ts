@@ -48,6 +48,12 @@ export class HttpService {
     const productHeaders = productModules ? productModules : '';
     return this.http.get(url, this.getHeaderAsProductModule(productHeaders));
   }
+
+  // getRequestInstant(url: string, productModules?: string) {
+  //   let returnValue;
+  //   const productHeaders = productModules ? productModules : '';
+  //   return this.http.get(url, this.getHeaderAsProductModule(productHeaders));
+  // }
   /**
    * Invokes HTTP header data Request
    **/
@@ -86,16 +92,43 @@ export class HttpService {
     return this.http.delete(url, this.getHeaderAsProductModule(productHeaders));
   }
 
-  getData(url:any): Observable<any> {
+  getData(url: any): Observable<any> {
     // Create custom headers
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',  // Make sure content type is set correctly
-      'Authorization': environment?.token,  // Use token from localStorage or sessionStorage
+      'Content-Type': 'application/json', // Make sure content type is set correctly
+      Authorization: environment?.token, // Use token from localStorage or sessionStorage
       'key-1': environment?.key_1, // Example of custom headers
-      'key-2': environment?.key_2
+      'key-2': environment?.key_2,
     });
 
     // Make HTTP GET request with headers
     return this.http.get<any>(url, { headers });
+  }
+
+  getDataInstant(url: string, productModules?: string) {
+    const headers = new HttpHeaders({
+      'App-Id': environment.instantQuotesAppId, // Make sure content type is set correctly
+
+      'API-SECRET-KEY': environment?.instantQuotesApiKey, // Example of custom headers
+    });
+
+    // Make HTTP GET request with headers
+    return this.http.get<any>(url, { headers });
+  }
+
+  postRequestInstant(url: string, dataObtained: any, productModules?: string) {
+    const data = dataObtained ? dataObtained : {};
+    const productHeaders = productModules ? productModules : '';
+    return this.http.post(url, data, this.getHeaderValue());
+  }
+
+  getHeaderValue() {
+    const headers = new HttpHeaders({
+      'App-Id': environment.instantQuotesAppId, // Make sure content type is set correctly
+
+      'API-SECRET-KEY': environment?.instantQuotesApiKey, // Example of custom headers
+    });
+
+    return { headers };
   }
 }

@@ -4,8 +4,32 @@
     .mat-form-field-infix {
       width: 300px !important;
     }
-    .mat-form-field-label-wrapper{
+    .mat-form-field-label-wrapper {
       left: 10px;
     }
   }
+}
+
+.label-text {
+  color: #282828;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.48px;
+  display: flex;
+}
+.instatrto {
+  width: 100% !important;
+}
+::ng-deep .instatrto .mat-form-field-outline-end {
+  border-radius: 0 26px 26px 0 !important;
+}
+::ng-deep .instatrto .mat-form-field-outline-start,
+::ng-deep .instatrto .mat-form-field-outline-gap {
+  border-radius: 26px 0 0 26px !important;
+}
+::ng-deep .instatrto .mat-form-field-outline-start {
+  min-width: 40px !important;
 }

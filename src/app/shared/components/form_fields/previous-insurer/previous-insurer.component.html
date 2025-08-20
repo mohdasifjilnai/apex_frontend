@@ -1,58 +1,134 @@
-<mat-form-field [class]="previousInsurer" appearance="outline" 
-[ngClass]="visuallyDisabledFields['previous_insurer'] ? 'visually-disabled' : ''" 
-[ngClass]="visuallyDisabledFields['previous_insurer'] ? 'readonly-select' : ''"  >
-  <mat-label>{{ label }}</mat-label>
-  <input
-    matInput
-    id-automation="previousInsuranceId"
-    (ngModelChange)="previousInsurerBlankData($event)"
-    (focus)="inputClicked()"
-    aria-label="previous_insurer"
-    #autoCompleteInput
-    [matAutocomplete]="autoInsurer"
-    [formControlName]="formControlNameData"
-    appAlphabetOnly
-    [readonly]="visuallyDisabledFields['previous_insurer']"
-  />
-  <mat-autocomplete
-    #autoInsurer="matAutocomplete"
-    [displayWith]="displayPreviousInsurer.bind(this)"
-    (opened)="onOpened()"
-    (closed)="onClosed()"
+<span *ngIf="!fieldShow">
+  <mat-form-field
+    [class]="previousInsurer"
+    appearance="outline"
+    [ngClass]="
+      visuallyDisabledFields['previous_insurer'] ? 'visually-disabled' : ''
+    "
+    [ngClass]="
+      visuallyDisabledFields['previous_insurer'] ? 'readonly-select' : ''
+    "
   >
-    <ng-container *ngIf="insururDataLength > 2">
-      <span *ngIf="previousInsurerNoData == ''">
-        <mat-option
-          *ngFor="let insurer of filteredInsurerList | async"
-          [value]="insurer"
-          [matTooltip]="
-            insurer.rb_insurer_name.length > 36 ? insurer.rb_insurer_name! : ''
-          "
-          matTooltipPosition="right"
-        >
-          <span>{{ insurer.rb_insurer_name }}</span>
-        </mat-option>
-      </span>
-      <span *ngIf="previousInsurerNoData">
-        <mat-option
-          *ngIf="previousInsurerNoData === 'No result found'"
-          [value]="'No result found'"
-        >
-          {{ previousInsurerNoData }}
-        </mat-option>
-      </span>
-    </ng-container>
-  </mat-autocomplete>
-  <mat-error
-    *ngIf="form.controls[formControlNameData]?.hasError('required')"
-   
-  >
-    This is a required field.
-  </mat-error>
-  <!-- <mat-error
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      id-automation="previousInsuranceId"
+      (ngModelChange)="previousInsurerBlankData($event)"
+      (focus)="inputClicked()"
+      aria-label="previous_insurer"
+      #autoCompleteInput
+      [matAutocomplete]="autoInsurer"
+      [formControlName]="formControlNameData"
+      appAlphabetOnly
+      [readonly]="visuallyDisabledFields['previous_insurer']"
+    />
+    <mat-autocomplete
+      #autoInsurer="matAutocomplete"
+      [displayWith]="displayPreviousInsurer.bind(this)"
+      (opened)="onOpened()"
+      (closed)="onClosed()"
+    >
+      <ng-container *ngIf="insururDataLength > 2">
+        <span *ngIf="previousInsurerNoData == ''">
+          <mat-option
+            *ngFor="let insurer of filteredInsurerList | async"
+            [value]="insurer"
+            [matTooltip]="
+              insurer.rb_insurer_name.length > 36
+                ? insurer.rb_insurer_name!
+                : ''
+            "
+            matTooltipPosition="right"
+          >
+            <span>{{ insurer.rb_insurer_name }}</span>
+          </mat-option>
+        </span>
+        <span *ngIf="previousInsurerNoData">
+          <mat-option
+            *ngIf="previousInsurerNoData === 'No result found'"
+            [value]="'No result found'"
+          >
+            {{ previousInsurerNoData }}
+          </mat-option>
+        </span>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+      This is a required field.
+    </mat-error>
+    <!-- <mat-error
     *ngIf="form.controls[formControlNameData]?.hasError('validPreviousInsurer')"
     class="ms-4"
   >
     Please enter the correct {{ label }} name.
   </mat-error> -->
-</mat-form-field>
+  </mat-form-field>
+</span>
+
+<span *ngIf="fieldShow">
+  <label class="center-block label-text mb-2">{{ label }}</label>
+  <mat-form-field
+    [class]="previousInsurer"
+    appearance="outline"
+    [ngClass]="
+      visuallyDisabledFields['previous_insurer'] ? 'visually-disabled' : ''
+    "
+    [ngClass]="
+      visuallyDisabledFields['previous_insurer'] ? 'readonly-select' : ''
+    "
+    class="instatPreviousInsurer"
+  >
+    <input
+      matInput
+      id-automation="previousInsuranceId"
+      (ngModelChange)="previousInsurerBlankData($event)"
+      (focus)="inputClicked()"
+      aria-label="previous_insurer"
+      #autoCompleteInput
+      [matAutocomplete]="autoInsurer"
+      [formControlName]="formControlNameData"
+      appAlphabetOnly
+      [readonly]="visuallyDisabledFields['previous_insurer']"
+    />
+    <mat-autocomplete
+      #autoInsurer="matAutocomplete"
+      [displayWith]="displayPreviousInsurer.bind(this)"
+      (opened)="onOpened()"
+      (closed)="onClosed()"
+    >
+      <ng-container *ngIf="insururDataLength > 2">
+        <span *ngIf="previousInsurerNoData == ''">
+          <mat-option
+            *ngFor="let insurer of filteredInsurerList | async"
+            [value]="insurer"
+            [matTooltip]="
+              insurer.rb_insurer_name.length > 36
+                ? insurer.rb_insurer_name!
+                : ''
+            "
+            matTooltipPosition="right"
+          >
+            <span>{{ insurer.rb_insurer_name }}</span>
+          </mat-option>
+        </span>
+        <span *ngIf="previousInsurerNoData">
+          <mat-option
+            *ngIf="previousInsurerNoData === 'No result found'"
+            [value]="'No result found'"
+          >
+            {{ previousInsurerNoData }}
+          </mat-option>
+        </span>
+      </ng-container>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+      This is a required field.
+    </mat-error>
+    <!-- <mat-error
+    *ngIf="form.controls[formControlNameData]?.hasError('validPreviousInsurer')"
+    class="ms-4"
+  >
+    Please enter the correct {{ label }} name.
+  </mat-error> -->
+  </mat-form-field>
+</span>

@@ -28,6 +28,22 @@ export class ApiService {
       catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
   }
+
+  // getRequestedResponseInstant
+
+  getRequestedResponseInstant(
+    url: string,
+    productModuleName?: string,
+    queryParamsUrl?: string
+  ) {
+    if (queryParamsUrl) {
+      url = url + queryParamsUrl;
+    }
+    return this.httpService.getDataInstant(url, productModuleName).pipe(
+      map((response: any) => response),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
+    );
+  }
   errorHandler(err: any) {
     let error;
     const status = err;
@@ -123,8 +139,8 @@ export class ApiService {
   /**
    * method for post request api
    **/
-  postRequestedResponse(url: any, body: any,productModuleName?:any) {
-    return this.httpService.postRequest(url, body,productModuleName).pipe(
+  postRequestedResponse(url: any, body: any, productModuleName?: any) {
+    return this.httpService.postRequest(url, body, productModuleName).pipe(
       map((response: any) => response),
       catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
@@ -145,6 +161,17 @@ export class ApiService {
 
   postRequestedResponseCreateProposal(url: any, body: any) {
     return this.httpService.postRequest(url, body).pipe(
+      map((response: any) => response),
+      catchError((err: HttpErrorResponse) => {
+        JSON.stringify(err);
+        JSON.stringify(this.errorHandler(err));
+        return throwError(err);
+      })
+    );
+  }
+
+  postRequestedInstantQUotes(url: any, body: any) {
+    return this.httpService.postRequestInstant(url, body).pipe(
       map((response: any) => response),
       catchError((err: HttpErrorResponse) => {
         JSON.stringify(err);
