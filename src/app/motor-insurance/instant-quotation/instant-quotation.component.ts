@@ -17,6 +17,7 @@ import {
 import { MatDatepicker } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { BreadcrumbService } from 'src/app/ui/breadcrumb/breadcrumb.service';
 
 @Component({
   selector: 'app-instant-quotation',
@@ -74,6 +75,8 @@ export class InstantQuotationComponent implements OnInit {
   vehicleTypeList: any;
   private destroy$ = new Subject<void>();
   lastStatus = '';
+  breadcrumbLabel: any;
+  responsiveData = false;
   constructor(
     private FormBuilder: FormBuilder,
     private apiservice: ApiService,
@@ -150,6 +153,12 @@ export class InstantQuotationComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.sessionId = params['session_id'];
     });
+
+    if (window.screen.width >= 999) {
+      this.responsiveData = false;
+    } else {
+      this.responsiveData = true;
+    }
   }
 
   ngOnInit(): void {
@@ -757,6 +766,18 @@ export class InstantQuotationComponent implements OnInit {
             product_type: res?.data?.product_type,
           });
           this.instantDetailsForm.get('product_type')?.disable();
+
+          // 🔹 Update breadcrumb dynamically here
+          const productType = res.data.product_type;
+          this.breadcrumbLabel = 'Instant Quote';
+
+          if (productType === 'private_car') {
+            this.breadcrumbLabel = 'Pvt Car - Instant Quote';
+          } else if (productType === 'two_wheeler') {
+            this.breadcrumbLabel = 'TW - Instant Quote';
+          }
+
+          this.sharedata.changeBreadCrumb(this.breadcrumbLabel);
         }
       });
   }

@@ -31,6 +31,7 @@ declare const webengage: any;
 export class SharedDataService {
   getVehicleDetails: Subject<any> = new Subject();
   getRegistrationData = new BehaviorSubject<any>(null);
+  getBreadCrumb = new BehaviorSubject<any>(null);
   getResetManufactureDate: Subject<any> = new Subject();
   getSelectedvehicle: Subject<any> = new Subject();
   getSelectedvehicleTypeObject: Subject<any> = new Subject();
@@ -859,6 +860,10 @@ export class SharedDataService {
   }
   getRegistrationDate(data: any) {
     this.getRegistrationData.next(data);
+  }
+
+  changeBreadCrumb(data: any) {
+    this.getBreadCrumb.next(data);
   }
 
   resetManufactureDate(data: any) {

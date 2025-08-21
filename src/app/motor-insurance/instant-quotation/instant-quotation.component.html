@@ -7,6 +7,14 @@
     <p class="quotes-text">Instant Quotation Request</p>
     <div class="col-lg-8 col-md-12 formFields">
       <div class="row">
+        <div
+          class="responsive-text mb-3"
+          [ngClass]="responsiveData ? 'd-block' : 'd-none'"
+        >
+          <img src="assets/icon/home.svg" class="mx-2 cursor-pointer" />
+          <img src="assets/icon/right-arrow.svg" class="mx-2" />
+          {{ breadcrumbLabel }}
+        </div>
         <div class="col-lg-6 col-md-6 col-12">
           <label class="label-text mb-2">Product Type</label>
 

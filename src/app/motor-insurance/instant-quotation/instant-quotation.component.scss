@@ -262,4 +262,17 @@
   .no-zoom {
     touch-action: manipulation;
   }
+
+  /* Hide by default (desktop) */
+  .responsive-text {
+    display: none;
+  }
+
+  /* Show only on small screens */
+  @media (max-width: 768px) {
+    .responsive-text {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
 }

@@ -79,12 +79,8 @@ const routes: Routes = [
     path: 'instantQuotation',
     component: InstantQuotationComponent,
     data: {
-      breadcrumb: [
-        { name: 'Get Quotation', path: ['instantQuotation'] },
-        // { name: 'Quotes Listing', path: ['quotes'] },
-      ],
+      breadcrumb: [{ name: '', path: ['instantQuotation'] }],
     },
-    // canActivate: [AuthGuard],
   },
 ];
 

@@ -26,7 +26,7 @@ export class BreadcrumbService {
     this.router.events
       .pipe(
         // Filter the NavigationEnd events as the breadcrumb is updated only when the route reaches its end
-        filter((event) => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd)
       )
       .subscribe((event) => {
         // Construct the breadcrumb hierarchy
@@ -42,13 +42,15 @@ export class BreadcrumbService {
   private addBreadcrumb(
     route: ActivatedRouteSnapshot | null,
     parentUrl: string[],
-    breadcrumbs: Breadcrumb[],
+    breadcrumbs: Breadcrumb[]
   ) {
     if (route) {
       // Construct the route URL
       const routeUrl = parentUrl.concat(route.url.map((url) => url.path));
-      this.partnerCodeTraceId = JSON.parse(sessionStorage.getItem('partnerCodeTraceId') || '{}');
-      this.traceId=this.partnerCodeTraceId?.trace_id
+      this.partnerCodeTraceId = JSON.parse(
+        sessionStorage.getItem('partnerCodeTraceId') || '{}'
+      );
+      this.traceId = this.partnerCodeTraceId?.trace_id;
       // Add an element for the current route part
       if (route.data['breadcrumb']) {
         if (Array.isArray(route.data['breadcrumb'])) {
@@ -56,10 +58,12 @@ export class BreadcrumbService {
             const breadcrumbUrl = bc['path']
               ? '/' + bc['path'].join('/')
               : '/' + routeUrl.join('/');
-                                                                                  // Add this.traceId to the URL if path contains 'quotes'
-            const finalUrl = breadcrumbUrl.includes('quotes') && !breadcrumbUrl.includes('proposal')
-              ? `${breadcrumbUrl}/${this.traceId}`
-              : breadcrumbUrl;
+            // Add this.traceId to the URL if path contains 'quotes'
+            const finalUrl =
+              breadcrumbUrl.includes('quotes') &&
+              !breadcrumbUrl.includes('proposal')
+                ? `${breadcrumbUrl}/${this.traceId}`
+                : breadcrumbUrl;
             const breadcrumb = {
               label: this.getLabel({ breadcrumb: bc['name'] }),
               url: finalUrl,
@@ -68,11 +72,13 @@ export class BreadcrumbService {
           });
         } else {
           const breadcrumbUrl = '/' + routeUrl.join('/');
-          
+
           // Add traceId to the URL if path contains 'quotes'
-          const finalUrl = breadcrumbUrl.includes('quotes') && !breadcrumbUrl.includes('proposal')
-            ? `${breadcrumbUrl}/${this.traceId}`
-            : breadcrumbUrl;
+          const finalUrl =
+            breadcrumbUrl.includes('quotes') &&
+            !breadcrumbUrl.includes('proposal')
+              ? `${breadcrumbUrl}/${this.traceId}`
+              : breadcrumbUrl;
 
           const breadcrumb = {
             label: this.getLabel(route.data),
@@ -94,13 +100,13 @@ export class BreadcrumbService {
       : data['breadcrumb'];
   }
   transferLocalStorageToSessionStorage(): void {
-    for (let i = 0; i < localStorage.length+1; i++) {
-      const key = localStorage.key(i); 
+    for (let i = 0; i < localStorage.length + 1; i++) {
+      const key = localStorage.key(i);
       if (key) {
-        const value = localStorage.getItem(key); 
+        const value = localStorage.getItem(key);
         if (value !== null) {
           sessionStorage.setItem(key, value);
-          // localStorage.removeItem(key)   
+          // localStorage.removeItem(key)
         }
       }
     }
