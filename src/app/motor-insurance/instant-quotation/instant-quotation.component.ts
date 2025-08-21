@@ -421,6 +421,9 @@ export class InstantQuotationComponent implements OnInit {
       .getRequestedResponse(ApiConstants.ncb_list())
       .subscribe((res) => {
         this.ncbListData = res;
+        this.instantDetailsForm.patchValue({
+          ncb_discount: this.ncbListData[0],
+        });
       });
   }
 
