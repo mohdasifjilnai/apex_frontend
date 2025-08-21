@@ -581,12 +581,23 @@ export class InstantQuotationComponent implements OnInit {
   /**
    * Function to handle the value change
    */
-  onRegistrationDateChange(value: Moment): void {
+  onRegistrationDateChange(value: any): void {
     /**
      * Perform specific action based on the value change
      */
     this.sharedata.getRegistrationDate(value);
-    this.sharedata.resetManufactureDate(value);
+    let dateValue = value;
+    const registrationDate = new Date(dateValue);
+    const manufactureDate = new Date(
+      registrationDate.getFullYear(),
+      registrationDate.getMonth() - 1
+    );
+    if (manufactureDate) {
+      this.instantDetailsForm.patchValue({
+        manufacture_date: manufactureDate,
+      });
+    }
+    // this.sharedata.resetManufactureDate(value);
     this.visuallyDisabledFields = this.sharedata.disableVisually(
       ['registration_date'],
       this.instantDetailsForm
