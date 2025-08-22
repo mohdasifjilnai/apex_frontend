@@ -661,13 +661,15 @@ export class QuotesListingComponent implements OnInit {
                   this.quotationArray[i]
                 ).includes('payout_response');
                 if (checkCurrentDataKey === true) {
-                  //now check previous data key exis tor no t
-                  const checkPreviousDataKey = Object.keys(
-                    this.quotationData[quotesValueList]
-                  ).includes('payout_response');
-                  if (checkPreviousDataKey === false) {
+                  const newPayout = this.quotationArray[i]['payout_response'];
+
+                  if (
+                    newPayout !== null &&
+                    newPayout !== undefined &&
+                    newPayout !== 'NA'
+                  ) {
                     this.quotationData[quotesValueList]['payout_response'] =
-                      this.quotationArray[i]['payout_response'];
+                      newPayout;
                   }
                 }
               }
