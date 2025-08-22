@@ -156,7 +156,8 @@
               class="vehicle-details-dropdown rto-field"
               [ngClass]="{
                 'visually-disabled': is_renewal,
-                'mat-form-field-invalid': rtoInvalid
+                'mat-form-field-invalid': rtoInvalid,
+                disabledRto: isRtoDisabled
               }"
             >
               <mat-label>RTO</mat-label>
@@ -197,10 +198,23 @@
             >
               <mat-label>City</mat-label>
               <input
+                *ngIf="!isRtoDisabled"
                 matInput
                 aria-label="registration_city"
                 #autoCompleteInput
                 appAlphabetOnly
+                appSingleSpace
+                [matAutocomplete]="autoRegistrationCity"
+                formControlName="registration_city"
+                (input)="onCityInput($event)"
+                (keydown)="onKeyDown($event)"
+              />
+              <input
+                *ngIf="isRtoDisabled"
+                matInput
+                aria-label="registration_city"
+                #autoCompleteInput
+                appAlphaNumeric
                 appSingleSpace
                 [matAutocomplete]="autoRegistrationCity"
                 formControlName="registration_city"

@@ -79,6 +79,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   hidePreviousClaimed: boolean = false;
   traceIdAllData: any;
   is_renewal: boolean = false;
+  isRtoDisabled: boolean = false;
   notCertifiedComponentJSON: {
     modalName: any;
     widthObtained: string;
@@ -826,7 +827,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
 
     if (inputValue?.length >= 3) {
-      const apiData = `?rto_code=${this.stateCode}&&rto_city=${inputValue}`;
+      if (this.isRtoDisabled) {
+        var apiData = `?search_element=${inputValue}`;
+      } else {
+        var apiData = `?rto_code=${this.stateCode}&rto_city=${inputValue}`;
+      }
       this.apiservice
         .getRequestedResponse(`${ApiConstants.get_rto_list()}${apiData}`)
         .subscribe((res) => {
@@ -892,6 +897,16 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 this.rtoInvalid = false;
               }, 0);
             }
+          } else {
+            const cityControl =
+              this.vehicleDetailsForm?.get('registration_city');
+            const rtoControl = this.vehicleDetailsForm?.get('registration_rto');
+            this.isRtoDisabled = true;
+            this.rtoInvalid = true;
+            rtoControl?.setErrors({ cityRequired: true });
+            rtoControl?.markAsTouched();
+            cityControl?.setErrors({ rtoRequired: true });
+            cityControl?.markAsTouched();
           }
         });
     }
@@ -974,9 +989,19 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   displayCityName(city: any): any {
     if (city?.rb_city_name === 'No Data') {
       return '';
+    } else if (city === null) {
+      this.getCityRtoInvalid();
     } else {
       return city?.rb_city_name || '';
     }
+  }
+  getCityRtoInvalid() {
+    const cityControl = this.vehicleDetailsForm?.get('registration_city');
+    const rtoControl = this.vehicleDetailsForm?.get('registration_rto');
+    rtoControl?.setErrors({ cityRequired: true });
+    rtoControl?.markAsTouched();
+    cityControl?.setErrors({ rtoRequired: true });
+    cityControl?.markAsTouched();
   }
 
   getVehicleDetails(trace_id: any) {
@@ -1024,6 +1049,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       cityControl?.setErrors({ rtoRequired: true });
       cityControl?.markAsTouched();
     } else {
+      this.isRtoDisabled = false;
       this.vehicleDetailsForm.patchValue({
         registration_rto: selectedValue,
       });

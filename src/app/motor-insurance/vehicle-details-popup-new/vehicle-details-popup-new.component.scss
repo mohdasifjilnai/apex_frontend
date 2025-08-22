@@ -253,3 +253,12 @@
   color: red !important;
   opacity: 0.8 !important;
 }
+.disabledRto {
+  opacity: 0.6;
+  pointer-events: none;
+}
+::ng-deep
+  .mat-form-field-appearance-outline.disabledRto
+  .mat-form-field-outline {
+  background-color: #d9d9d9;
+}
