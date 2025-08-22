@@ -279,6 +279,7 @@ export class InstantQuotationComponent implements OnInit {
         direct_mobile: [this.getAllIdData.data.mobile_no],
         whatsapp_attachments: {},
         context: instantQuotesObject,
+        form_submitted: true,
       };
 
       this.apiService
@@ -290,7 +291,7 @@ export class InstantQuotationComponent implements OnInit {
           (res) => {
             if (res) {
               console.log(res);
-              window.location.href = `${environment.whatsappLink}/${this.getAllIdData.data.mobile_no}`;
+              window.location.href = `${environment.whatsappLink}/9810972473`;
             }
           },
           (error: any) => {
