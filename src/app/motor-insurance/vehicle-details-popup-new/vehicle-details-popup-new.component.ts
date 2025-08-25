@@ -312,13 +312,22 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           this.registrationNumberData?.rb_rto_code,
           'rtoByRegistration'
         );
+        const manufactureDate =
+          this.registrationNumberData?.vehicle_details?.manufacture_date;
+
         this.vehicleDetailsForm.patchValue({
           registration_date: this.formatDDMMYYYYToDate(
             this.registrationNumberData?.vehicle_details?.registration_date
           ),
-          manufacture_date: new Date(
-            this.registrationNumberData?.vehicle_details?.manufacture_date
-          ),
+          manufacture_date: manufactureDate
+            ? new Date(
+                manufactureDate.split('/')[1] +
+                  '/' + // MM
+                  manufactureDate.split('/')[0] +
+                  '/' + // DD
+                  manufactureDate.split('/')[2]
+              )
+            : null,
           // previous_claimed: this.registrationNumberData?.previous_claimed,
           previous_insurer: this.registrationNumberData?.previous_insurer_code,
           // policy_expiry_date: this.formatDDMMYYYYToDate(
