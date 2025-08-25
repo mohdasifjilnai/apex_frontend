@@ -8,9 +8,10 @@ export const environment = {
   profile_redirection: 'https://partners.renewbuy.com/v2/',
   backend_url: 'https://apex.renewbuyinsurance.com',
   partner_v2: 'https://partners.renewbuy.com/v2/',
-  token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IlJCMDA4NTkxOTUiLCJleHAiOjE3NzM4MTQyMDZ9.-PPV2iiv09hZyc4_fi0lyDIo0Jp599TGjbnlMpAhW9E',
-  key_1:'ffa896a3-b472-43a4-afd7-4997edd1c12a',
-  key_2:'zNH398Mqs4OosBrNMnAvSxQrdjkS80o9',
+  token:
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IlJCMDA4NTkxOTUiLCJleHAiOjE3NzM4MTQyMDZ9.-PPV2iiv09hZyc4_fi0lyDIo0Jp599TGjbnlMpAhW9E',
+  key_1: 'ffa896a3-b472-43a4-afd7-4997edd1c12a',
+  key_2: 'zNH398Mqs4OosBrNMnAvSxQrdjkS80o9',
   partnerswithoutPOS: [
     'EI00347646',
     'EI00237385',
@@ -61,4 +62,8 @@ export const environment = {
     'EI00330135',
     'EI00151631',
   ],
+
+  instantQuotesApiKey: '5Jrhac55y21d71M5e6wAZtkrprvZq6Fh',
+  instantQuotesAppId: '8f9c77db-2ac7-4235-b296-711e6a14521e',
+  whatsappLink: 'https://wa.me/9810972573',
 };

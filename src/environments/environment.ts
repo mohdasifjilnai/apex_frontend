@@ -69,5 +69,5 @@ export const environment = {
   ],
   instantQuotesApiKey: 'HTdtmtVjco0z3wIEhj1MsFPjOMRYKD0v',
   instantQuotesAppId: '5a52b07f-d8ad-4b12-ba80-def5fcf16d8c',
-  whatsappLink: 'https://wa.me/',
+  whatsappLink: 'https://wa.me/9810972473',
 };

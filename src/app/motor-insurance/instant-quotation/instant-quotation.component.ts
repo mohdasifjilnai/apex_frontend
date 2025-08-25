@@ -291,7 +291,7 @@ export class InstantQuotationComponent implements OnInit {
           (res) => {
             if (res) {
               console.log(res);
-              window.location.href = `${environment.whatsappLink}/9810972473`;
+              window.location.href = `${environment.whatsappLink}`;
             }
           },
           (error: any) => {
