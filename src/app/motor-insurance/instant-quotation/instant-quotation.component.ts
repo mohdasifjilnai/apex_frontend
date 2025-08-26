@@ -290,7 +290,6 @@ export class InstantQuotationComponent implements OnInit {
         .subscribe(
           (res) => {
             if (res) {
-              console.log(res);
               window.location.href = `${environment.whatsappLink}`;
             }
           },

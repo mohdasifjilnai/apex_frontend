@@ -41,13 +41,14 @@ export class ProposalComponent implements OnInit {
   proposerType: any;
   isNotShowNomineeDetails: boolean = false;
   @ViewChild(MatStepper) stepper!: MatStepper;
-  @ViewChild('previousPolicyDetailsPanel') previousPolicyDetailsPanel!: MatExpansionPanel;
+  @ViewChild('previousPolicyDetailsPanel')
+  previousPolicyDetailsPanel!: MatExpansionPanel;
   // previousPolicyDetailsPanel!: ElementRef;
-  @ViewChild('vehilceOwnerPanel') vehilceOwnerPanel!:MatExpansionPanel
+  @ViewChild('vehilceOwnerPanel') vehilceOwnerPanel!: MatExpansionPanel;
   // vehilceOwnerPanel!: ElementRef;
   @ViewChild('nomineDetailsPanel', { read: ElementRef })
   nomineDetailsPanel!: ElementRef;
-  @ViewChild('vehicleDetailPanel') vehicleDetailPanel!:MatExpansionPanel
+  @ViewChild('vehicleDetailPanel') vehicleDetailPanel!: MatExpansionPanel;
   // vehicleDetailPanel!: ElementRef;
   fethedCkycData: boolean = false;
   vehicleType: any;
@@ -197,7 +198,8 @@ export class ProposalComponent implements OnInit {
           (isCpa?.add_on_code === 'CPA' ||
             isCpa?.add_on_code === 'CPA3' ||
             isCpa?.add_on_code === 'CPA5') &&
-          this.proposerType !== 'corporate'
+          this.proposerType !== 'corporate' &&
+          isCpa?.is_offered == true
         ) {
           this.isNotShowNomineeDetails = true;
         }
@@ -259,7 +261,6 @@ export class ProposalComponent implements OnInit {
   //       }
   //     });
   // }
-
 
   /**
    * Method to handle step change in the stepper component
@@ -398,7 +399,7 @@ export class ProposalComponent implements OnInit {
   }
   getProposalDataForPatch() {
     this.sharedData.getProposalDetails.subscribe((proposal) => {
-      this.checkAccordionStatus(proposal)
+      this.checkAccordionStatus(proposal);
       if (!sessionStorage.getItem('kycData')) {
         const kycData: any = {
           verification_status: proposal?.ckyc_details?.is_verification,
@@ -651,7 +652,6 @@ export class ProposalComponent implements OnInit {
   //  * get united Ckyc Token api
   //  */
 
-  
   getInsurerQuoteId(transaction_Id: any) {
     this.transactionId = transaction_Id;
     this.apiService
@@ -991,90 +991,116 @@ export class ProposalComponent implements OnInit {
     //   this.isNotShowNomineeDetails = true;
     // }
     // Check CKYC Accordion
-    if (!proposalData.ckyc_details || !proposalData.ckyc_details.is_accordion_completed) {
-      this.openAccordion('ckyc',proposalData);
+    if (
+      !proposalData.ckyc_details ||
+      !proposalData.ckyc_details.is_accordion_completed
+    ) {
+      this.openAccordion('ckyc', proposalData);
       this.accordianExpanded = 'ckyc';
       this.setAccordionAccess('ckyc');
       return;
     }
-  
+
     // Check Customer Details Accordion
-    if (!proposalData.customer_details || !proposalData.customer_details.is_accordion_completed) {
-      this.openAccordion('vehicleOwnerDetails',proposalData);
+    if (
+      !proposalData.customer_details ||
+      !proposalData.customer_details.is_accordion_completed
+    ) {
+      this.openAccordion('vehicleOwnerDetails', proposalData);
       this.accordianExpanded = 'vehicleOwnerDetails';
       this.setAccordionAccess('customer_details');
       return;
     }
-  // Check Nominee Details Accordion
-    if (proposalData.nominee_details!=null && !proposalData.nominee_details?.is_accordion_completed) {
-      this.openAccordion('nomineeDetails',proposalData);
+    // Check Nominee Details Accordion
+    if (
+      proposalData.nominee_details != null &&
+      !proposalData.nominee_details?.is_accordion_completed
+    ) {
+      this.openAccordion('nomineeDetails', proposalData);
       this.accordianExpanded = 'nomineeDetails';
       this.setAccordionAccess('nominee_details');
 
-      this.showNomineeDetails = true
+      this.showNomineeDetails = true;
       return;
     }
-  
+
     // Check Vehicle Details Accordion
-    if (!proposalData.vehicle_details || !proposalData.vehicle_details.is_accordion_completed) {
-      this.openAccordion('vehicleDetails',proposalData);
+    if (
+      !proposalData.vehicle_details ||
+      !proposalData.vehicle_details.is_accordion_completed
+    ) {
+      this.openAccordion('vehicleDetails', proposalData);
       this.accordianExpanded = 'vehicleDetails';
-      this.showVehicleDetails = true
+      this.showVehicleDetails = true;
       this.setAccordionAccess('vehicle_details');
       this.vehicleDetailPanel.open();
       return;
     }
     const nomineeDetails = proposalData.nominee_details;
     const previousPolicyNull = !proposalData.previous_policy_details;
-  
+
     const nomineeCompletedOrNull =
       !nomineeDetails || nomineeDetails.is_accordion_completed;
-  
+
     const ckycComplete = proposalData.ckyc_details?.is_accordion_completed;
     const customerComplete = proposalData.customer_details;
-    const vehicleComplete = proposalData.vehicle_details?.is_accordion_completed;
-  
-    if (previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
-      this.openAccordion('vehicleDetails',proposalData);
+    const vehicleComplete =
+      proposalData.vehicle_details?.is_accordion_completed;
+
+    if (
+      previousPolicyNull &&
+      nomineeCompletedOrNull &&
+      ckycComplete &&
+      customerComplete &&
+      vehicleComplete
+    ) {
+      this.openAccordion('vehicleDetails', proposalData);
       this.accordianExpanded = 'vehicleDetails';
       this.setAccordionAccess('vehicle_details');
-      this.showVehicleDetails = true
+      this.showVehicleDetails = true;
       this.vehicleDetailPanel.open();
       return;
     }
-    
-  
+
     // Check Previous Policy Accordion
-    if (proposalData.previous_policy_details!=null && !proposalData.previous_policy_details.is_accordion_completed) {
-      this.openAccordion('previousPolicyDetails',proposalData);
+    if (
+      proposalData.previous_policy_details != null &&
+      !proposalData.previous_policy_details.is_accordion_completed
+    ) {
+      this.openAccordion('previousPolicyDetails', proposalData);
       this.accordianExpanded = 'previousPolicyDetails';
-      this.showPreviousPolicyDetails=true
+      this.showPreviousPolicyDetails = true;
       this.setAccordionAccess('previous_policy');
       this.previousPolicyDetailsPanel.open();
 
       return;
     }
-    if (!previousPolicyNull && nomineeCompletedOrNull && ckycComplete && customerComplete && vehicleComplete) {
-      this.openAccordion('previousPolicyDetails',proposalData);
+    if (
+      !previousPolicyNull &&
+      nomineeCompletedOrNull &&
+      ckycComplete &&
+      customerComplete &&
+      vehicleComplete
+    ) {
+      this.openAccordion('previousPolicyDetails', proposalData);
       this.accordianExpanded = 'previousPolicyDetails';
-      this.showPreviousPolicyDetails=true
+      this.showPreviousPolicyDetails = true;
       this.setAccordionAccess('previous_policy');
       this.previousPolicyDetailsPanel.open();
       return;
     }
-    
   }
-  accordionStatus:any = {
+  accordionStatus: any = {
     ckyc: false,
     customer_details: false,
     nominee_details: false,
     vehicle_details: false,
-    previous_policy: false
+    previous_policy: false,
   };
   setAccordionAccess(active: string) {
     let keys = Object.keys(this.accordionStatus);
     let activeFound = false;
-    
+
     keys.forEach((key) => {
       if (key === active) {
         this.accordionStatus[key] = false; // this one is open
@@ -1084,57 +1110,61 @@ export class ProposalComponent implements OnInit {
       }
     });
   }
-  openAccordion(data: string,proposalData:any) {
+  openAccordion(data: string, proposalData: any) {
     // console.log(`Open ${section} accordion`);
 
     if (data === 'ckyc') {
       setTimeout(() => {
         this.currentStepIndex = 0;
-        this.showVehicleOwnerDetails=true
+        this.showVehicleOwnerDetails = true;
       }, 500);
-    }else if(data === 'vehicleOwnerDetails'){
+    } else if (data === 'vehicleOwnerDetails') {
       setTimeout(() => {
         this.currentStepIndex = 1;
-        if(proposalData?.nomine_details!=null){
-          this.showNomineeDetails=true
-        }else{
-          this.showVehicleDetails=true
+        if (proposalData?.nomine_details != null) {
+          this.showNomineeDetails = true;
+        } else {
+          this.showVehicleDetails = true;
         }
       }, 500);
-    }
-    else if(data === 'nomineeDetails'){
+    } else if (data === 'nomineeDetails') {
       setTimeout(() => {
         this.currentStepIndex = 2;
-        this.showVehicleDetails=true
+        this.showVehicleDetails = true;
       }, 500);
-    }
-    else if(data === 'vehicleDetails' && proposalData?.nomine_details==undefined ){
+    } else if (
+      data === 'vehicleDetails' &&
+      proposalData?.nomine_details == undefined
+    ) {
       setTimeout(() => {
         this.currentStepIndex = 2;
-        this.showPreviousPolicyDetails=true
+        this.showPreviousPolicyDetails = true;
       }, 500);
-    }
-    else if(data === 'vehicleDetails'){
+    } else if (data === 'vehicleDetails') {
       setTimeout(() => {
         this.currentStepIndex = 3;
-        this.showPreviousPolicyDetails=true
+        this.showPreviousPolicyDetails = true;
       }, 500);
-    }
-  else if(data === 'previousPolicyDetails' && proposalData?.nomine_details==undefined){
+    } else if (
+      data === 'previousPolicyDetails' &&
+      proposalData?.nomine_details == undefined
+    ) {
       setTimeout(() => {
         this.currentStepIndex = 3;
-        
       }, 500);
-    }
-    else if(data === 'previousPolicyDetails'){
+    } else if (data === 'previousPolicyDetails') {
       setTimeout(() => {
         this.currentStepIndex = 4;
       }, 500);
     }
-    if(proposalData?.ckyc_details?.is_accordion_completed && proposalData?.customer_details?.is_accordion_completed && proposalData?.vehicle_details?.is_accordion_completed){
-      this.showVehicleOwnerDetails=true
-      this.showVehicleDetails=true
-      this.showPreviousPolicyDetails=true
+    if (
+      proposalData?.ckyc_details?.is_accordion_completed &&
+      proposalData?.customer_details?.is_accordion_completed &&
+      proposalData?.vehicle_details?.is_accordion_completed
+    ) {
+      this.showVehicleOwnerDetails = true;
+      this.showVehicleDetails = true;
+      this.showPreviousPolicyDetails = true;
     }
     // You can write logic to open specific accordion based on section value
   }
