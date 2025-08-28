@@ -137,6 +137,7 @@
                     [label]="'Search Previous Insurer'"
                     [formControlNameData]="'previous_insurer'"
                     (responseEvent)="previousInsurerComponentResponse($event)"
+                    [urlDate]="url"
                   ></app-previous-insurer>
                 </div>
                 <div
@@ -162,6 +163,7 @@
                       [formControlNameData]="'previous_insurer'"
                       [label]="'Search Previous Insurer'"
                       (responseEvent)="previousInsurerComponentResponse($event)"
+                      [urlDate]="url"
                     ></app-previous-insurer>
                   </div>
                 </ng-container>
@@ -247,46 +249,60 @@
               <div class="row">
                 <div
                   class="quick-actions-text col-lg-3 col-12 d-flex justify-content-center"
-                 >
-                Quick Actions
+                >
+                  Quick Actions
                 </div>
-                <hr class="responsive-line">
+                <hr class="responsive-line" />
                 <div class="col-lg-5 col-12">
                   <div
-                  class="continue-vehicle-number d-flex justify-content-center m-2" (click)="getVehicleNumber()"
-                >
-                {{
-                  withoutVehicleNumber
-                    ? "Proceed with Vehicle Number"
-                    : "Proceed without Vehicle Number"
-                }}
-                  <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
-                </div>
-                </div>
-                <div class="col-lg-4 col-12">
-                 <div class="continue-vehicle-number click d-flex justify-content-center  m-2" (click)="getPolicyNumber()">
-                  <ng-container *ngIf="withoutVehicleNumber">
+                    class="continue-vehicle-number d-flex justify-content-center m-2"
+                    (click)="getVehicleNumber()"
+                  >
                     {{
-                      !isPolicyNumber
-                        ? "Click Here for Renewal"
+                      withoutVehicleNumber
+                        ? "Proceed with Vehicle Number"
                         : "Proceed without Vehicle Number"
                     }}
-                     <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
-                  </ng-container>
-                  <ng-container *ngIf="!withoutVehicleNumber">
-                    {{
-                      !isPolicyNumber
-                        ? "Click Here for Renewal"
-                        : "Proceed with Vehicle Number"
-                    }}                  
-                     <img src="assets/icon/quick_link_icons.svg" alt="" class="icons" />
-                  </ng-container>
-                  
-                 </div> 
+                    <img
+                      src="assets/icon/quick_link_icons.svg"
+                      alt=""
+                      class="icons"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                  <div
+                    class="continue-vehicle-number click d-flex justify-content-center m-2"
+                    (click)="getPolicyNumber()"
+                  >
+                    <ng-container *ngIf="withoutVehicleNumber">
+                      {{
+                        !isPolicyNumber
+                          ? "Click Here for Renewal"
+                          : "Proceed without Vehicle Number"
+                      }}
+                      <img
+                        src="assets/icon/quick_link_icons.svg"
+                        alt=""
+                        class="icons"
+                      />
+                    </ng-container>
+                    <ng-container *ngIf="!withoutVehicleNumber">
+                      {{
+                        !isPolicyNumber
+                          ? "Click Here for Renewal"
+                          : "Proceed with Vehicle Number"
+                      }}
+                      <img
+                        src="assets/icon/quick_link_icons.svg"
+                        alt=""
+                        class="icons"
+                      />
+                    </ng-container>
+                  </div>
                 </div>
               </div>
             </mat-card>
-            
           </div>
         </form>
       </div>

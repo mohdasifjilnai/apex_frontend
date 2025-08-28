@@ -266,6 +266,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             )
           : '',
       });
+      // 👇 force show errors for empty fields
+      Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+        const controlValue = this.vehicleDetailsForm.get(key);
+        if (!controlValue?.value) {
+          controlValue?.markAsTouched();
+          controlValue?.updateValueAndValidity();
+        }
+      });
       if (this.vehcileFormData?.dialog_type !== 'edit') {
         this.patchPreviousInsurer();
       }
@@ -334,6 +342,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           //   this.registrationNumberData?.previous_policy_exp_date
           // ),
         });
+        // 👇 force show errors for empty fields
+        Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+          const controlValue = this.vehicleDetailsForm.get(key);
+          if (!controlValue?.value) {
+            controlValue?.markAsTouched();
+            controlValue?.updateValueAndValidity();
+          }
+        });
         if (this.registrationNumberData?.previous_policy_exp_date) {
           let inputDate = this.registrationNumberData?.previous_policy_exp_date;
           let [day, month, year] = inputDate.split('/');
@@ -365,6 +381,15 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             if (!this.vehiclePopupList) {
               this.vehicleDetailsForm.patchValue({
                 policy_expiry_date: parsedInputDate,
+              });
+
+              // 👇 force show errors for empty fields
+              Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+                const controlValue = this.vehicleDetailsForm.get(key);
+                if (!controlValue?.value) {
+                  controlValue?.markAsTouched();
+                  controlValue?.updateValueAndValidity();
+                }
               });
             }
           }
@@ -410,6 +435,15 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               res?.vehicle_details?.previous_policy_exp_date
             ),
             policy_expiry: this.coverageType?.coverage_type_code,
+          });
+
+          // 👇 force show errors for empty fields
+          Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+            const controlValue = this.vehicleDetailsForm.get(key);
+            if (!controlValue?.value) {
+              controlValue?.markAsTouched();
+              controlValue?.updateValueAndValidity();
+            }
           });
 
           this.patchPreviousInsurer();
@@ -470,11 +504,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           this.getExpiringPolicy(true);
         }
       });
-    // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res:any)=>{
-    //   if(res){
-    //     this.mmvBaseButtonDisable=res
-    //   }
-    // })
+
     this.vehicleDetailsForm
       .get('policy_expiry_date')
       ?.valueChanges.subscribe((value) => {
@@ -483,42 +513,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
       });
 
-    // Renewal Details Data Patching
-    // this.sharedDataService.renewalDataResponseValue.subscribe(
-    //   (res: any ) => {
-    //     if(res && renewalType=='renewal'){
-
-    //     this.renewalData = res?.previous_policy_details?.vehicle_details;
-    //     this.coverageType=res?.previous_policy_details?.previous_policy_details?.renewal_coverage_type
-    //     if(this.coverageType!=null){
-    //       this.showErrorMessage=false
-    //     }
-    //     if(res?.is_rb_renewal){
-    //       this.isNewVehicle=false
-    //       // this.sharedDataService.disableIfHasValueEnableIfEmpty(this.vehicleDetailsForm)
-    //     }
-    //     if(res?.vehicle_details?.rb_mmv_id){
-    //       this.vehicleMMV(res?.vehicle_details?.rb_mmv_id)
-    //     }
-    //     if (res?.vehicle_details?.rb_rto_code) {
-    //       this.vehcileRegistration(
-    //         res?.vehicle_details?.rb_rto_code,
-    //         'rtoByRegistration'
-    //       );
-    //     }
-    //     this.vehicleDetailsForm.patchValue({
-    //       registration_date: this.renewalData?.registration_date,
-    //       manufacture_date: this.renewalData?.manufacture_date,
-    //       previous_insurer: res?.vehicle_details?.previous_insurer_code,
-    //       policy_expiry_date: this.formatDDMMYYYYToDate(
-    //         res?.vehicle_details?.previous_policy_exp_date
-    //       ),
-    //       policy_expiry: this.coverageType.coverage_type_code,
-    //     });
-    //     this.getExpiringPolicy();
-    //     }
-    //   }
-    // );
     this.onChangeCIty();
   }
 
@@ -526,6 +520,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.vehicleDetailsForm.patchValue({
       registration_date: renewalData?.registration_date,
       manufacture_date: renewalData?.manufacture_date,
+    });
+    // 👇 force show errors for empty fields
+    Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+      const controlValue = this.vehicleDetailsForm.get(key);
+      if (!controlValue?.value) {
+        controlValue?.markAsTouched();
+        controlValue?.updateValueAndValidity();
+      }
     });
   }
 
@@ -535,6 +537,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       policy_expiry_date: this.formatDDMMYYYYToDate(
         data?.vehicle_details?.previous_policy_exp_date
       ),
+    });
+    // 👇 force show errors for empty fields
+    Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+      const controlValue = this.vehicleDetailsForm.get(key);
+      if (!controlValue?.value) {
+        controlValue?.markAsTouched();
+        controlValue?.updateValueAndValidity();
+      }
     });
   }
 
@@ -556,7 +566,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         manufacture_date: new Date(traceIDData?.manufacture_date),
       });
     }
-
+    // 👇 force show errors for empty fields
+    Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+      const controlValue = this.vehicleDetailsForm.get(key);
+      if (!controlValue?.value) {
+        controlValue?.markAsTouched();
+        controlValue?.updateValueAndValidity();
+      }
+    });
     this.stateCode = traceIDData?.rto_city?.rb_rto_code?.slice(0, 2);
     if (business_type == 'new') {
       this.isNewVehicle = true;
@@ -571,6 +588,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           traceIDData?.registration_date,
           'yyyy-MM-dd'
         ),
+      });
+      // 👇 force show errors for empty fields
+      Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+        const controlValue = this.vehicleDetailsForm.get(key);
+        if (!controlValue?.value) {
+          controlValue?.markAsTouched();
+          controlValue?.updateValueAndValidity();
+        }
       });
     } else if (business_type == 'renewal') {
       this.stateCode = traceIDData?.rto_city?.rb_rto_code?.slice(0, 2);
@@ -590,6 +615,15 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 'yyyy-MM-dd'
               )
             : '',
+      });
+
+      // 👇 force show errors for empty fields
+      Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+        const controlValue = this.vehicleDetailsForm.get(key);
+        if (!controlValue?.value) {
+          controlValue?.markAsTouched();
+          controlValue?.updateValueAndValidity();
+        }
       });
       this.patchPreviousInsurer();
       sessionStorage.setItem(
@@ -719,6 +753,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             vehicle_fuel: this.fuelList[0],
           });
           this.cubicCapacitor = res[0]?.cubic_capacity;
+          // 👇 force show errors for empty fields
+          Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+            const controlValue = this.vehicleDetailsForm.get(key);
+            if (!controlValue?.value) {
+              controlValue?.markAsTouched();
+              controlValue?.updateValueAndValidity();
+            }
+          });
         });
     }
   }
@@ -787,6 +829,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.vehicleDetailsForm.patchValue({
               vehicle_fuel: this.fuelList[0],
             });
+            // 👇 force show errors for empty fields
+            Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+              const controlValue = this.vehicleDetailsForm.get(key);
+              if (!controlValue?.value) {
+                controlValue?.markAsTouched();
+                controlValue?.updateValueAndValidity();
+              }
+            });
           } else {
             if (this.fuelList) {
               let variantName = this.variantList.find((item: any) => {
@@ -798,6 +848,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               if (variantName?.rb_variant_name == variant) {
                 this.vehicleDetailsForm.patchValue({
                   vehicle_fuel: variantName,
+                });
+                // 👇 force show errors for empty fields
+                Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+                  const controlValue = this.vehicleDetailsForm.get(key);
+                  if (!controlValue?.value) {
+                    controlValue?.markAsTouched();
+                    controlValue?.updateValueAndValidity();
+                  }
                 });
               }
             }
@@ -893,6 +951,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.vehicleDetailsForm.patchValue({
               registration_rto: this.rtoList[0], // full object, not just rb_rto_code
             });
+            // 👇 force show errors for empty fields
+            Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+              const controlValue = this.vehicleDetailsForm.get(key);
+              if (!controlValue?.value) {
+                controlValue?.markAsTouched();
+                controlValue?.updateValueAndValidity();
+              }
+            });
 
             if (rtoByRegistration) {
               this.vehicleDetailsForm.patchValue({
@@ -905,6 +971,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 });
                 this.rtoInvalid = false;
               }, 0);
+              // 👇 force show errors for empty fields
+              Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+                const controlValue = this.vehicleDetailsForm.get(key);
+                if (!controlValue?.value) {
+                  controlValue?.markAsTouched();
+                  controlValue?.updateValueAndValidity();
+                }
+              });
             }
           } else {
             const cityControl =
@@ -1043,6 +1117,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         registration_city: selectedValue,
       });
       this.rtoInvalid = false;
+      // 👇 force show errors for empty fields
+      Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+        const controlValue = this.vehicleDetailsForm.get(key);
+        if (!controlValue?.value) {
+          controlValue?.markAsTouched();
+          controlValue?.updateValueAndValidity();
+        }
+      });
     }
   }
 
@@ -1061,6 +1143,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.isRtoDisabled = false;
       this.vehicleDetailsForm.patchValue({
         registration_rto: selectedValue,
+      });
+      // 👇 force show errors for empty fields
+      Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+        const controlValue = this.vehicleDetailsForm.get(key);
+        if (!controlValue?.value) {
+          controlValue?.markAsTouched();
+          controlValue?.updateValueAndValidity();
+        }
       });
       this.rtoInvalid = false;
     }
@@ -1195,6 +1285,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.vehicleDetailsForm.patchValue({
               type_of_exp_policy_id:
                 this.expiryList[i]?.rb_expiring_policy_type_id,
+            });
+            // 👇 force show errors for empty fields
+            Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+              const controlValue = this.vehicleDetailsForm.get(key);
+              if (!controlValue?.value) {
+                controlValue?.markAsTouched();
+                controlValue?.updateValueAndValidity();
+              }
             });
           }
         }
@@ -1390,6 +1488,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.vehicleDetailsForm.patchValue({
           type_of_exp_policy_id: this.expiryList[i]?.rb_expiring_policy_type_id,
         });
+        // 👇 force show errors for empty fields
+        Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+          const controlValue = this.vehicleDetailsForm.get(key);
+          if (!controlValue?.value) {
+            controlValue?.markAsTouched();
+            controlValue?.updateValueAndValidity();
+          }
+        });
       }
     }
   }
@@ -1410,6 +1516,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       if (renewalInsurer != 'No result found') {
         this.vehicleDetailsForm.patchValue({
           previous_insurer: renewalInsurer,
+        });
+        // 👇 force show errors for empty fields
+        Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+          const controlValue = this.vehicleDetailsForm.get(key);
+          if (!controlValue?.value) {
+            controlValue?.markAsTouched();
+            controlValue?.updateValueAndValidity();
+          }
         });
         sessionStorage.setItem(
           'renewalPreviousInsurer',
@@ -1472,11 +1586,29 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                   ) {
                     this.iDKSelected = true;
                   }
+                  // 👇 force show errors for empty fields
+                  Object.keys(this.vehicleDetailsForm.controls).forEach(
+                    (key) => {
+                      const controlValue = this.vehicleDetailsForm.get(key);
+                      if (!controlValue?.value) {
+                        controlValue?.markAsTouched();
+                        controlValue?.updateValueAndValidity();
+                      }
+                    }
+                  );
                 }
               }
             } else if (isRbRenewal == 'true') {
               this.vehicleDetailsForm.patchValue({
                 policy_expiry: this.coverageType.coverage_type_code,
+              });
+              // 👇 force show errors for empty fields
+              Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
+                const controlValue = this.vehicleDetailsForm.get(key);
+                if (!controlValue?.value) {
+                  controlValue?.markAsTouched();
+                  controlValue?.updateValueAndValidity();
+                }
               });
             }
             if (this.traceIdAllData?.policy_expiry_date == 'Not Sure') {
@@ -1487,6 +1619,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                     policy_expiry:
                       this.expiryList[i]?.rb_expiring_policy_type_code,
                   });
+
                   this.iDKSelected = true;
                   this.vehicleDetailsForm
                     .get('policy_expiry_date')
@@ -1512,6 +1645,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                   this.vehicleDetailsForm
                     .get('policy_expiry_date')
                     ?.updateValueAndValidity();
+
+                  // 👇 force show errors for empty fields
+                  Object.keys(this.vehicleDetailsForm.controls).forEach(
+                    (key) => {
+                      const controlValue = this.vehicleDetailsForm.get(key);
+                      if (!controlValue?.value) {
+                        controlValue?.markAsTouched();
+                        controlValue?.updateValueAndValidity();
+                      }
+                    }
+                  );
                 }
               }
             }
@@ -1635,6 +1779,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                   this.vehicleDetailsForm
                     .get('policy_expiry_date')
                     ?.updateValueAndValidity();
+
+                  // 👇 force show errors for empty fields
+                  Object.keys(this.vehicleDetailsForm.controls).forEach(
+                    (key) => {
+                      const controlValue = this.vehicleDetailsForm.get(key);
+                      if (!controlValue?.value) {
+                        controlValue?.markAsTouched();
+                        controlValue?.updateValueAndValidity();
+                      }
+                    }
+                  );
                 }
               }
             }

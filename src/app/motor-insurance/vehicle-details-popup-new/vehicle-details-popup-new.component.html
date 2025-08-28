@@ -59,6 +59,15 @@
                 <mat-option> No Data Available </mat-option>
               </span>
             </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                vehicleDetailsForm.get('vehicle_make')?.hasError('required') &&
+                (vehicleDetailsForm.get('vehicle_make')?.touched ||
+                  vehicleDetailsForm.get('vehicle_make')?.dirty)
+              "
+            >
+              This is a required field.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
@@ -92,6 +101,15 @@
                 <mat-option> No Data Available </mat-option>
               </span>
             </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                vehicleDetailsForm.get('vehicle_model')?.hasError('required') &&
+                (vehicleDetailsForm.get('vehicle_model')?.touched ||
+                  vehicleDetailsForm.get('vehicle_model')?.dirty)
+              "
+            >
+              This is a required field.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
@@ -126,6 +144,17 @@
                 <mat-option> No Data Available </mat-option>
               </span>
             </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                vehicleDetailsForm
+                  .get('vehicle_variant')
+                  ?.hasError('required') &&
+                (vehicleDetailsForm.get('vehicle_variant')?.touched ||
+                  vehicleDetailsForm.get('vehicle_variant')?.dirty)
+              "
+            >
+              This is a required field.
+            </mat-error>
           </mat-form-field>
           <div class="d-flex justify-content-end">
             <span class="fuel-capacitor">{{ cubicCapacitor }} cc</span>
@@ -143,6 +172,15 @@
                 {{ fuel?.fuel }}
               </mat-option>
             </mat-select>
+            <mat-error
+              *ngIf="
+                vehicleDetailsForm.get('vehicle_fuel')?.hasError('required') &&
+                (vehicleDetailsForm.get('vehicle_fuel')?.touched ||
+                  vehicleDetailsForm.get('vehicle_fuel')?.dirty)
+              "
+            >
+              This is a required field.
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-lg-6 col-md-6 col-12">
@@ -187,6 +225,17 @@
                   </span>
                 </ng-container>
               </mat-autocomplete>
+              <mat-error
+                *ngIf="
+                  vehicleDetailsForm
+                    .get('registration_rto')
+                    ?.hasError('required') &&
+                  (vehicleDetailsForm.get('registration_rto')?.touched ||
+                    vehicleDetailsForm.get('registration_rto')?.dirty)
+                "
+              >
+                This is a required field.
+              </mat-error>
             </mat-form-field>
             <mat-form-field
               appearance="outline"
@@ -238,6 +287,17 @@
                   </span>
                 </ng-container>
               </mat-autocomplete>
+              <mat-error
+                *ngIf="
+                  vehicleDetailsForm
+                    .get('registration_city')
+                    ?.hasError('required') &&
+                  (vehicleDetailsForm.get('registration_city')?.touched ||
+                    vehicleDetailsForm.get('registration_city')?.dirty)
+                "
+              >
+                This is a required field.
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
@@ -274,6 +334,15 @@
                   {{ rc?.rcName }}
                 </mat-option>
               </mat-select>
+              <mat-error
+                *ngIf="
+                  vehicleDetailsForm.get('user_car')?.hasError('required') &&
+                  (vehicleDetailsForm.get('user_car')?.touched ||
+                    vehicleDetailsForm.get('user_car')?.dirty)
+                "
+              >
+                This is a required field.
+              </mat-error>
             </mat-form-field>
           </div>
           <!-- Type of Expiring Policy dropdown -->
@@ -304,16 +373,19 @@
               </mat-select>
               <mat-error
                 *ngIf="
-                  vehicleDetailsForm.get('policy_expiry')?.hasError('required')
+                  vehicleDetailsForm
+                    .get('policy_expiry')
+                    ?.hasError('required') &&
+                  (vehicleDetailsForm.get('policy_expiry')?.touched ||
+                    vehicleDetailsForm.get('policy_expiry')?.dirty)
                 "
-                [hidden]="showErrorMessage"
               >
                 This is a required field.
               </mat-error>
             </mat-form-field>
-            <div *ngIf="showErrorMessage" class="error ms-4 mb-2">
+            <!-- <div *ngIf="showErrorMessage" class="error ms-4 mb-2">
               This is a required field
-            </div>
+            </div> -->
           </div>
 
           <!-- Expiry -->
@@ -326,9 +398,9 @@
                 [urlDate]="url"
               ></app-policy-expired-date>
 
-              <div *ngIf="showExpiryDateErrorMessage" class="error ms-4 mb-2">
+              <!-- <div *ngIf="showExpiryDateErrorMessage" class="error ms-4 mb-2">
                 This is a required field
-              </div>
+              </div> -->
             </div>
             <!-- Previous Insurer dropdown -->
             <div class="col-lg-6 col-md-6 col-12">
@@ -338,6 +410,7 @@
                 [formControlNameData]="'previous_insurer'"
                 [label]="'Search Previous Insurer'"
                 (keydown.enter)="handlePreviousInsurerKeyPress($event)"
+                [urlDate]="url"
               ></app-previous-insurer>
             </div>
             <!-- Is Previous Policy Claimed dropdown -->
@@ -360,6 +433,17 @@
                       {{ claimed?.claimedName }}
                     </mat-option>
                   </mat-select>
+                  <mat-error
+                    *ngIf="
+                      vehicleDetailsForm
+                        .get('previous_claimed')
+                        ?.hasError('required') &&
+                      (vehicleDetailsForm.get('previous_claimed')?.touched ||
+                        vehicleDetailsForm.get('previous_claimed')?.dirty)
+                    "
+                  >
+                    This is a required field.
+                  </mat-error>
                 </mat-form-field>
               </div>
               <!-- Previous Year NCB Discount dropdown -->
@@ -379,6 +463,17 @@
                         {{ ncb?.old_ncb_name }}
                       </mat-option>
                     </mat-select>
+                    <mat-error
+                      *ngIf="
+                        vehicleDetailsForm
+                          .get('ncb_discount')
+                          ?.hasError('required') &&
+                        (vehicleDetailsForm.get('ncb_discount')?.touched ||
+                          vehicleDetailsForm.get('ncb_discount')?.dirty)
+                      "
+                    >
+                      This is a required field.
+                    </mat-error>
                   </mat-form-field>
                 </div>
               </ng-container>

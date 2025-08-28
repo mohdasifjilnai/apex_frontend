@@ -9,7 +9,7 @@
       visuallyDisabledFields['previous_insurer'] ? 'readonly-select' : ''
     "
   >
-    <mat-label>{{ label }}</mat-label>
+    <mat-label>{{ label }} </mat-label>
     <input
       matInput
       id-automation="previousInsuranceId"
@@ -53,15 +53,15 @@
         </span>
       </ng-container>
     </mat-autocomplete>
-    <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+    <mat-error
+      *ngIf="
+        form.get(formControlNameData)?.hasError('required') &&
+        (form.get(formControlNameData)?.touched ||
+          form.get(formControlNameData)?.dirty)
+      "
+    >
       This is a required field.
     </mat-error>
-    <!-- <mat-error
-    *ngIf="form.controls[formControlNameData]?.hasError('validPreviousInsurer')"
-    class="ms-4"
-  >
-    Please enter the correct {{ label }} name.
-  </mat-error> -->
   </mat-form-field>
 </span>
 

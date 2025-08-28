@@ -334,16 +334,17 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             });
         }
         let renewalDataType = sessionStorage.getItem('renewalType');
-        if (renewalDataType == 'renewal' && proposal?.vehicle_details?.registration_no!=null) {
+        if (
+          renewalDataType == 'renewal' &&
+          proposal?.vehicle_details?.registration_no != null
+        ) {
           let regFirstDigit = proposal?.vehicle_details?.registration_no?.slice(
             0,
             2
           );
-          let regSecondDigit = proposal?.vehicle_details?.registration_no?.slice(
-            3,
-            5
-          );
-          let combineRegData = regFirstDigit +'-'+ regSecondDigit+'-';
+          let regSecondDigit =
+            proposal?.vehicle_details?.registration_no?.slice(3, 5);
+          let combineRegData = regFirstDigit + '-' + regSecondDigit + '-';
           let regLastDigit =
             proposal?.vehicle_details?.registration_no?.split(combineRegData);
           // if (regLastDigit) {
@@ -408,32 +409,31 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             proposal?.vehicle_details?.registration_address?.address_line,
           is_vehicle_address: proposal?.vehicle_details?.is_same_location,
         });
-        const engineControl = this.proposalVehilceDetailsForm.get('engine_number');
-        const chassisControl = this.proposalVehilceDetailsForm.get('chassis_number');
+        const engineControl =
+          this.proposalVehilceDetailsForm.get('engine_number');
+        const chassisControl =
+          this.proposalVehilceDetailsForm.get('chassis_number');
         if (engineControl?.value?.includes('***')) {
-          this.shareData.errorEngineNumber('engine')
+          this.shareData.errorEngineNumber('engine');
         }
         if (chassisControl?.value?.includes('***')) {
-          this.shareData.errorEngineNumber('chassis')
+          this.shareData.errorEngineNumber('chassis');
         }
-        const renewalType=sessionStorage.getItem('renewalType')
-        if(renewalType=='renewal' ){
+        const renewalType = sessionStorage.getItem('renewalType');
+        if (renewalType == 'renewal') {
           this.proposalVehilceDetailsForm.get('engine_number')?.disable();
           this.proposalVehilceDetailsForm.get('chassis_number')?.disable();
         }
         // this.shareData.isFinancedAddress(
         //   proposal?.vehicle_details?.is_vehicle_financed
         // );
-        if(proposal?.vehicle_details?.is_vehicle_financed==true){
-          this.getFinacedValue()
+        if (proposal?.vehicle_details?.is_vehicle_financed == true) {
+          this.getFinacedValue();
         }
         if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${
-                this.proposalData?.vehicle_details?.registration_address
-                  ?.pincode
-              }&insurer_code=${proposal?.insurer_code}`
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.vehicle_details?.registration_address?.pincode}&insurer_code=${proposal?.insurer_code}`
             )
             .subscribe((res) => {
               if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
@@ -832,9 +832,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       }
     }
     let registrationNumberFirst =
-      this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[0] +
+      this.divideString(
+        this.mmvItem?.form_value?.registration_city?.rb_rto_code
+      )[0] +
       '-' +
-      this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[1] +
+      this.divideString(
+        this.mmvItem?.form_value?.registration_city?.rb_rto_code
+      )[1] +
       '-' +
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
     let registrationNumber;
@@ -857,7 +861,8 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
     if (
       isValid &&
-      (this.vehicleType === 'new' || this.mmvItem?.form_value?.policy_expiry === 'IDK')
+      (this.vehicleType === 'new' ||
+        this.mmvItem?.form_value?.policy_expiry === 'IDK')
     ) {
       const formValues = this.proposalVehilceDetailsForm.value;
       const proposal_id = sessionStorage.getItem('proposal_Id');
@@ -941,9 +946,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.proposalVehilceDetailsForm.value.registration_number_last_digit
       ) {
         let registrationNumberFirst =
-          this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[0] +
+          this.divideString(
+            this.mmvItem?.form_value?.registration_city?.rb_rto_code
+          )[0] +
           '-' +
-          this.divideString(this.mmvItem?.form_value?.registration_city?.rb_rto_code)[1] +
+          this.divideString(
+            this.mmvItem?.form_value?.registration_city?.rb_rto_code
+          )[1] +
           '-' +
           this.proposalVehilceDetailsForm.value.registration_number_last_digit;
         this.proposalVehilceDetailsForm.patchValue({
@@ -1180,7 +1189,6 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
           )
           .subscribe((res) => {
-            console.log(res[0].rb_state_name);
             this.proposalVehilceDetailsForm.patchValue({
               vehicle_pincode: res[0],
               vehilce_city: res[0].rb_city_name,
@@ -1228,11 +1236,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
              */
             return of([]);
           }
-        })
-        ,
+        }),
         tap((response: any[]) => {
           if (response.length === 1) {
-            this.getSepratedPincodeData(response[0])
+            this.getSepratedPincodeData(response[0]);
           }
         })
       );
@@ -1246,7 +1253,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   getSepratedPincodeData(pincodeData: any) {
     if (pincodeData) {
       this.proposalVehilceDetailsForm.patchValue({
-        vehicle_pincode:pincodeData,
+        vehicle_pincode: pincodeData,
         vehilce_city: pincodeData.rb_city_name,
         vehicle_state: pincodeData.rb_state_name,
       });

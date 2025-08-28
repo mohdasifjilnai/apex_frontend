@@ -89,6 +89,12 @@ export class PreviousInsurerComponent implements OnInit {
     } else {
       this.form.addControl(this.formControlNameData, new FormControl());
     }
+    if (
+      !this.form.get(this.formControlNameData)?.value &&
+      this.urlDate == 'quotes'
+    ) {
+      this.form.get(this.formControlNameData)?.markAsTouched();
+    }
     // this.getInsurerData('');
     this.debounceSubject
       .pipe(debounceTime(300)) // Adjust the debounce time as needed (in milliseconds)
