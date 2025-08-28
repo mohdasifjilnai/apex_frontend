@@ -636,10 +636,9 @@
     border: 1px solid #5b6477;
     border-radius: 10px;
   }
-  
 }
-.flexi-error-card{
-  border: 1px solid #FF6D6C;
+.flexi-error-card {
+  border: 1px solid #ff6d6c;
 }
 .flexi-loader-overlay {
   position: absolute;
@@ -658,10 +657,10 @@
   width: 100px; /* Or adjust as needed */
   height: 100px;
 }
-.flexi-error{
+.flexi-error {
   font-size: 12px;
   font-weight: 600;
-  color: #FF6D6C;
+  color: #ff6d6c;
 }
 @media screen and (max-width: 999px) {
   .payd-res {
@@ -857,6 +856,7 @@
 }
 .addonBlur {
   opacity: 0.5;
+  pointer-events: none;
 }
 .addonShow {
   opacity: none;
