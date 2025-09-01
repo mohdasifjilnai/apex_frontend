@@ -767,7 +767,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.vehicleDetailsForm.get('vehicle_model')?.reset();
     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-
+    if (this.makeValueSelected == '') {
+      this.vehicleDetailsForm.get('vehicle_model')?.markAsTouched();
+      this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
+      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    }
     if (
       typeof this.makeValueSelected != 'object' &&
       this.makeValueSelected?.length >= 3
@@ -825,6 +829,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.modelValueSelected = model?.value;
     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+    if (this.modelValueSelected == '') {
+      this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
+      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    }
     if (
       typeof this.modelValueSelected != 'object' &&
       this.modelValueSelected?.length >= 2
@@ -848,6 +856,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
    */
   vehicleVariant(variant: any, variant_code: any) {
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
+    if (this.vehicleDetailsForm.value.vehicle_variant == '') {
+      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    }
     this.mmvBaseButtonDisable = true;
     if (
       typeof this.variantValueSelected != 'object' &&
@@ -879,9 +890,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             }
           }
           if (this.fuelList?.length == 1) {
-            this.vehicleDetailsForm.patchValue({
-              vehicle_fuel: this.fuelList[0],
-            });
+            if (this.vehicleDetailsForm.value.vehicle_variant != '') {
+              this.vehicleDetailsForm.patchValue({
+                vehicle_fuel: this.fuelList[0],
+              });
+            }
+
             // 👇 force show errors for empty fields
             Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
               const controlValue = this.vehicleDetailsForm.get(key);
