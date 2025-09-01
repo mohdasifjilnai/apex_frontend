@@ -109,6 +109,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   editButton = false;
   renewalVehicleDetails: any;
   stateCode: any;
+  currentDateReg: any;
+  minDateReg: any;
+  disableFromDateReg: any;
+  maxDateReg: any;
+  regDatePatch: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -301,6 +306,27 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       } else {
         this.onRegistrationDateChange('new');
       }
+      this.currentDateReg = new Date();
+      this.minDateReg = new Date(
+        this.currentDateReg.getFullYear() - 20,
+        this.currentDateReg.getMonth(),
+        this.currentDateReg.getDate()
+      );
+      this.disableFromDateReg = new Date(this.currentDateReg);
+      this.disableFromDateReg.setDate(this.disableFromDateReg.getDate() - 270);
+      this.maxDateReg = new Date(this.currentDateReg);
+      this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
+
+      this.regDatePatch = inputDate;
+
+      // ✅ Check if regDatePatch is valid and in range
+      if (
+        this.regDatePatch &&
+        (this.regDatePatch < this.minDateReg ||
+          this.regDatePatch > this.maxDateReg)
+      ) {
+        this.regDatePatch = ''; // or '' if you prefer empty string
+      }
     });
     const registration_number = sessionStorage.getItem('registrationNumber');
 
@@ -323,6 +349,33 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         const manufactureDate =
           this.registrationNumberData?.vehicle_details?.manufacture_date;
 
+        this.currentDateReg = new Date();
+        this.minDateReg = new Date(
+          this.currentDateReg.getFullYear() - 20,
+          this.currentDateReg.getMonth(),
+          this.currentDateReg.getDate()
+        );
+        this.disableFromDateReg = new Date(this.currentDateReg);
+        this.disableFromDateReg.setDate(
+          this.disableFromDateReg.getDate() - 270
+        );
+        this.maxDateReg = new Date(this.currentDateReg);
+        this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
+
+        this.regDatePatch = this.formatDDMMYYYYToDate(
+          this.registrationNumberData?.vehicle_details?.registration_date
+        );
+
+        // ✅ Check if regDatePatch is valid and in range
+        if (
+          this.regDatePatch &&
+          (this.regDatePatch < this.minDateReg ||
+            this.regDatePatch > this.maxDateReg)
+        ) {
+          this.regDatePatch = ''; // or '' if you prefer empty string
+        }
+
+        // this.regDatePatch = regDatePatch; // assign to component variable
         this.vehicleDetailsForm.patchValue({
           registration_date: this.formatDDMMYYYYToDate(
             this.registrationNumberData?.vehicle_details?.registration_date

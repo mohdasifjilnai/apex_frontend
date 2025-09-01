@@ -304,6 +304,9 @@
         <!-- Registration Date -->
         <div class="col-lg-6 col-md-6 col-12">
           <app-registration-year [urlDate]="url"></app-registration-year>
+          <div *ngIf="regDatePatch == ''" class="error ms-4 mb-2">
+            Please Enter valid date
+          </div>
         </div>
         <!-- Manufacture Date  -->
         <div class="col-lg-6 col-md-6 col-12">
@@ -495,6 +498,7 @@
               class="loader me-2"
               *ngIf="editButton"
             />
+
             {{ !editVehicleDetails ? "Above details are correct" : "Save" }}
           </button>
         </div>
