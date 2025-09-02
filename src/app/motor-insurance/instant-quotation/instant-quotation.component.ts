@@ -276,6 +276,7 @@ export class InstantQuotationComponent implements OnInit {
           : null,
 
         session_id: JSON.parse(this.sessionId),
+        coverage_type: this.instantDetailsForm.value?.req_coverage_type,
       };
 
       let sendDataForQuotes = {
