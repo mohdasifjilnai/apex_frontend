@@ -2056,6 +2056,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   onRegistrationDateChange(journeyType: any) {
     if (!this.editVehicleDetails && this.journeyType == 'registrationNumber') {
       this.vehicleDetailsForm.get('manufacture_date')?.reset();
+      this.vehicleDetailsForm.get('manufacture_date')?.markAsTouched();
     }
     if (journeyType == 'rollover') {
       this.isNewVehicle = false;

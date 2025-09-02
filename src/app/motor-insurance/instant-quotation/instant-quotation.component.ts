@@ -232,7 +232,6 @@ export class InstantQuotationComponent implements OnInit {
       this.instantDetailsForm.valid &&
       this.instantDetailsForm.value.req_coverage_type
     ) {
-      // gg
       const registrationValue = new Date(
         this.instantDetailsForm.value.registration_date
       );
@@ -270,16 +269,22 @@ export class InstantQuotationComponent implements OnInit {
           this.instantDetailsForm.value?.ncb_discount != null
             ? this.instantDetailsForm.value?.ncb_discount?.new_ncb_value
             : 0,
+        form_submitted: true,
+        previous_policy_type: this.instantDetailsForm?.value
+          .type_of_exp_policy_id
+          ? this.instantDetailsForm?.value.type_of_exp_policy_id
+          : null,
+
+        session_id: JSON.parse(this.sessionId),
       };
 
       let sendDataForQuotes = {
         action_code: 'send_online_quotation',
-        user_id: JSON.parse(this.sessionId),
+        user_id: null,
         user_type: 'direct',
         direct_mobile: [this.getAllIdData.data.mobile_no],
         whatsapp_attachments: {},
         context: instantQuotesObject,
-        form_submitted: true,
       };
 
       this.apiService
