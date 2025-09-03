@@ -2057,6 +2057,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     if (!this.editVehicleDetails && this.journeyType == 'registrationNumber') {
       this.vehicleDetailsForm.get('manufacture_date')?.reset();
       this.vehicleDetailsForm.get('manufacture_date')?.markAsTouched();
+      this.vehicleDetailsForm.get('manufacture_date')?.updateValueAndValidity();
     }
     if (journeyType == 'rollover') {
       this.isNewVehicle = false;

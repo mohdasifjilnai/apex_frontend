@@ -113,6 +113,8 @@ export class ManufactureDateComponent implements OnInit {
       (data) => {
         if (data != null) {
           this.form.controls['manufacture_date']?.reset();
+          this.form.get('manufacture_date')?.markAsTouched();
+          this.form.get('manufacture_date')?.updateValueAndValidity();
           this.manufactureDateReset.unsubscribe();
         }
       }
@@ -180,6 +182,8 @@ export class ManufactureDateComponent implements OnInit {
     this.shared.getRegistrationData.subscribe((data) => {
       this.registrationDate = new Date(data);
       this.form.controls['manufacture_date']?.reset();
+      this.form.get('manufacture_date')?.markAsTouched();
+      this.form.get('manufacture_date')?.updateValueAndValidity();
       const minDateYear = this.registrationDate.getFullYear() - 4;
       const minDateMonth = this.registrationDate.getMonth();
       this.minDate = new Date(minDateYear, minDateMonth);
