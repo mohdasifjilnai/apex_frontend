@@ -78,6 +78,7 @@ export class InstantQuotationComponent implements OnInit {
   breadcrumbLabel: any;
   responsiveData = false;
   submitButtonDisable = false;
+  showmessage = '';
   constructor(
     private FormBuilder: FormBuilder,
     private apiservice: ApiService,
@@ -786,6 +787,9 @@ export class InstantQuotationComponent implements OnInit {
           }
 
           this.sharedata.changeBreadCrumb(this.breadcrumbLabel);
+        } else {
+          this.submitButtonDisable = true;
+          this.showmessage = res.msg;
         }
       });
   }
