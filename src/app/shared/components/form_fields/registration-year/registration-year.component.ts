@@ -257,6 +257,7 @@ export class RegistrationYearComponent implements OnInit {
   };
 
   registrationDateSelected(date: any) {
+    // console.log(date);
     // let registrationDate = this.form.controls['registration_date'].value;
     // if (this.urlDate == 'motor') {
     //   this.sharedDataService.registrationYearData(

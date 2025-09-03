@@ -34,10 +34,12 @@
   </mat-datepicker>
 </mat-form-field> -->
 
-<mat-form-field 
-appearance="outline" 
-class="registration-year" 
-[ngClass]="visuallyDisabledFields['registration_date'] ? 'visually-disabled' : ''"
+<mat-form-field
+  appearance="outline"
+  class="registration-year"
+  [ngClass]="
+    visuallyDisabledFields['registration_date'] ? 'visually-disabled' : ''
+  "
 >
   <mat-label>Select Registration Date</mat-label>
   <input
@@ -50,18 +52,20 @@ class="registration-year"
     appDateFormat
     [min]="minDate"
     [max]="maxDate"
-    [readonly]="true"
-    (click)="!visuallyDisabledFields['registration_date'] && registrationYear.open()"
+    (click)="
+      !visuallyDisabledFields['registration_date'] && registrationYear.open()
+    "
     (dateChange)="registrationDateSelected(registrationInput.value)"
-    (keyup.enter)="!visuallyDisabledFields['registration_date'] && EnterKey($event)"
+    (keyup.enter)="
+      !visuallyDisabledFields['registration_date'] && EnterKey($event)
+    "
     [matDatepickerFilter]="dateFilter"
     [readonly]="visuallyDisabledFields['registration_date']"
     [disabled]="disabledRegistrationYear"
-    [ngClass]="disabledRegistrationYear?'visually-disabled':''"
+    [ngClass]="disabledRegistrationYear ? 'visually-disabled' : ''"
   />
   <mat-datepicker-toggle matSuffix [for]="registrationYear"
-    ><mat-icon matDatepickerToggleIcon disabled="disabledRegistrationYear"
-    >
+    ><mat-icon matDatepickerToggleIcon disabled="disabledRegistrationYear">
       <img
         src="assets/icon/calendar.svg"
         class="cursor-pointer mb-2"
@@ -74,7 +78,6 @@ class="registration-year"
     id-automation="datepicker_registration_year_id"
     startView="multi-year"
     [disabled]="disabledRegistrationYear"
-
   ></mat-datepicker>
   <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
     This is a required field.

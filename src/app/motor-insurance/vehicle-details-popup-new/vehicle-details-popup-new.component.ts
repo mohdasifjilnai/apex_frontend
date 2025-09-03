@@ -328,6 +328,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.regDatePatch = ''; // or '' if you prefer empty string
       }
     });
+
     const registration_number = sessionStorage.getItem('registrationNumber');
 
     if (registration_number && !this.editVehicleDetails) {
@@ -451,6 +452,14 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.patchPreviousInsurer();
       }
     });
+
+    this.vehicleDetailsForm
+      .get('registration_date')
+      ?.valueChanges.subscribe((value) => {
+        if (value == null) {
+          this.regDatePatch = 'new';
+        }
+      });
 
     // Renewal Details Data Patching
 
@@ -767,11 +776,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.vehicleDetailsForm.get('vehicle_model')?.reset();
     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-    if (this.makeValueSelected == '') {
-      this.vehicleDetailsForm.get('vehicle_model')?.markAsTouched();
-      this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
-      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
-    }
+    // if (this.makeValueSelected == '') {
+    this.vehicleDetailsForm.get('vehicle_model')?.markAsTouched();
+    this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
+    this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    // }
     if (
       typeof this.makeValueSelected != 'object' &&
       this.makeValueSelected?.length >= 3
@@ -829,10 +838,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.modelValueSelected = model?.value;
     this.vehicleDetailsForm.get('vehicle_variant')?.reset();
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-    if (this.modelValueSelected == '') {
-      this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
-      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
-    }
+    // if (this.modelValueSelected == '') {
+    this.vehicleDetailsForm.get('vehicle_variant')?.markAsTouched();
+    this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    // }
     if (
       typeof this.modelValueSelected != 'object' &&
       this.modelValueSelected?.length >= 2
@@ -856,9 +865,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
    */
   vehicleVariant(variant: any, variant_code: any) {
     this.vehicleDetailsForm.get('vehicle_fuel')?.reset();
-    if (this.vehicleDetailsForm.value.vehicle_variant == '') {
-      this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
-    }
+    // if (this.vehicleDetailsForm.value.vehicle_variant == '') {
+    this.vehicleDetailsForm.get('vehicle_fuel')?.markAsTouched();
+    // }
     this.mmvBaseButtonDisable = true;
     if (
       typeof this.variantValueSelected != 'object' &&
