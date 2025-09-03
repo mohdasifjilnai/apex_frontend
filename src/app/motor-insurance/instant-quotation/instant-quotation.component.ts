@@ -298,9 +298,9 @@ export class InstantQuotationComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            if (res) {
-              window.location.href = `${environment.whatsappLink}`;
-            }
+            // if (res) {
+            window.location.href = `${environment.whatsappLink}`;
+            // }
           },
           (error: any) => {
             // this.sendErrorProposalData(error?.error);
