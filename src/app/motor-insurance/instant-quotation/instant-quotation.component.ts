@@ -77,6 +77,7 @@ export class InstantQuotationComponent implements OnInit {
   lastStatus = '';
   breadcrumbLabel: any;
   responsiveData = false;
+  submitButtonDisable = false;
   constructor(
     private FormBuilder: FormBuilder,
     private apiservice: ApiService,
@@ -287,6 +288,7 @@ export class InstantQuotationComponent implements OnInit {
         whatsapp_attachments: {},
         context: instantQuotesObject,
       };
+      this.submitButtonDisable = true;
 
       this.apiService
         .postRequestedInstantQUotes(
