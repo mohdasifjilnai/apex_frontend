@@ -205,7 +205,11 @@ export class ProposalReviewComponent implements OnInit {
     let isFirstCall = true;
 
     this.shareData.getProposalDetails.subscribe((proposal) => {
-      if (proposal?.previous_policy_details !== null && proposal?.is_accordion_completed && isFirstCall) {
+      if (
+        proposal?.previous_policy_details !== null &&
+        proposal?.is_accordion_completed &&
+        isFirstCall
+      ) {
         proposal.previous_policy_details.is_consent =
           this.isAcknowledgedConsent;
         this.shareData.createProposalId(
@@ -327,9 +331,10 @@ export class ProposalReviewComponent implements OnInit {
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
     let CheckId = JSON.parse(this.isExistCustomerId || '{}');
     if (CheckId) {
-      const transformedRegistrationDate = requestValue?.registration_date
+      const transformedRegistrationDate = requestValue?.form_value
+        .registration_date
         ? this.datePipe.transform(
-            requestValue?.registration_date,
+            requestValue?.form_value.registration_date,
             'yyyy-MM-ddTHH:mm:ss.SSSZ'
           )
         : '';
@@ -337,9 +342,9 @@ export class ProposalReviewComponent implements OnInit {
         ? new Date(transformedRegistrationDate as string)
         : '';
 
-      const transformedMgfDate = requestValue?.manufacture_date
+      const transformedMgfDate = requestValue?.form_value.manufacture_date
         ? this.datePipe.transform(
-            requestValue?.manufacture_date,
+            requestValue?.form_value.manufacture_date,
             'yyyy-MM-ddTHH:mm:ss.SSSZ'
           )
         : '';
@@ -347,9 +352,10 @@ export class ProposalReviewComponent implements OnInit {
         ? new Date(transformedMgfDate as string)
         : '';
 
-      const transformedPolicyExpiry = requestValue?.policy_expiry_date
+      const transformedPolicyExpiry = requestValue?.form_value
+        .policy_expiry_date
         ? this.datePipe.transform(
-            requestValue?.policy_expiry_date,
+            requestValue?.form_value.policy_expiry_date,
             'yyyy-MM-ddTHH:mm:ss.SSSZ'
           )
         : '';
@@ -366,22 +372,23 @@ export class ProposalReviewComponent implements OnInit {
         Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
         Insurer_Logo: vehicleProposalDetails?.insurer_logo,
         Product_id: vehicleProposalDetails?.quote_id,
-        Make: requestValue.vehicle_variant?.rb_make_name,
-        Model: requestValue.vehicle_variant?.rb_model_name,
-        Variant: requestValue.vehicle_variant?.rb_variant_name,
-        Fuel: requestValue?.vehicle_variant?.fuel,
-        Registration_City: requestValue.registration_city?.display_name,
+        Make: requestValue.form_value.vehicle_fuel?.rb_make_name,
+        Model: requestValue.form_value.vehicle_fuel?.rb_model_name,
+        Variant: requestValue.form_value.vehicle_fuel?.rb_variant_name,
+        Fuel: requestValue?.form_value.vehicle_fuel?.fuel,
+        Registration_City:
+          requestValue.form_value.registration_city?.display_name,
         Registration_Date: regDate,
         Manufacture_Date: mgfDate,
-        Used_Car_RC_Transfer: requestValue?.user_car ? 'Yes' : 'No',
-        Type_of_Expiring_Policy: requestValue?.policy_expiry,
+        Used_Car_RC_Transfer: requestValue?.form_value.user_car ? 'Yes' : 'No',
+        Type_of_Expiring_Policy: requestValue?.form_value.policy_expiry,
         Policy_Expiring_Date: policyExpDate,
         Search_previous_Insurer:
-          requestValue?.previous_insurer?.rb_insurer_name,
-        Is_previous_Policy_claimed: requestValue?.previous_claimed
+          requestValue?.form_value.previous_insurer?.rb_insurer_name,
+        Is_previous_Policy_claimed: requestValue?.form_value.previous_claimed
           ? 'Yes'
           : 'No',
-        Previous_year_NCB: requestValue?.ncb_discount,
+        Previous_year_NCB: requestValue?.form_value.ncb_discount,
         Customer_id: CheckId?.customer_id,
         Perform_by: sessionStorage.getItem('partner_code')
           ? 'Partner'
@@ -393,7 +400,10 @@ export class ProposalReviewComponent implements OnInit {
                 'middle_name'
               )} ${sessionStorage.getItem('last_name')}`
             : '',
-        Partner_id: sessionStorage.getItem('partner_code'),
+        Partner_id:
+          sessionStorage.getItem('partner_code') != null
+            ? sessionStorage.getItem('partner_code')
+            : '',
       });
     } else {
       if (environment?.dev) {
