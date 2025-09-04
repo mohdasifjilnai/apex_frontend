@@ -297,35 +297,39 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
 
     this.sharedDataService.getRegistrationData.subscribe((res) => {
-      const inputDate = new Date(res); // assumes value is in yyyy-MM or full date format
-      const currentDate = new Date();
-      inputDate.setHours(0, 0, 0, 0);
-      currentDate.setHours(0, 0, 0, 0);
-      if (inputDate < currentDate) {
-        this.onRegistrationDateChange('rollover'); // custom function
-      } else {
-        this.onRegistrationDateChange('new');
-      }
-      this.currentDateReg = new Date();
-      this.minDateReg = new Date(
-        this.currentDateReg.getFullYear() - 20,
-        this.currentDateReg.getMonth(),
-        this.currentDateReg.getDate()
-      );
-      this.disableFromDateReg = new Date(this.currentDateReg);
-      this.disableFromDateReg.setDate(this.disableFromDateReg.getDate() - 270);
-      this.maxDateReg = new Date(this.currentDateReg);
-      this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
+      if (res) {
+        const inputDate = new Date(res); // assumes value is in yyyy-MM or full date format
+        const currentDate = new Date();
+        inputDate.setHours(0, 0, 0, 0);
+        currentDate.setHours(0, 0, 0, 0);
+        if (inputDate < currentDate) {
+          this.onRegistrationDateChange('rollover'); // custom function
+        } else {
+          this.onRegistrationDateChange('new');
+        }
+        this.currentDateReg = new Date();
+        this.minDateReg = new Date(
+          this.currentDateReg.getFullYear() - 20,
+          this.currentDateReg.getMonth(),
+          this.currentDateReg.getDate()
+        );
+        this.disableFromDateReg = new Date(this.currentDateReg);
+        this.disableFromDateReg.setDate(
+          this.disableFromDateReg.getDate() - 270
+        );
+        this.maxDateReg = new Date(this.currentDateReg);
+        this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
 
-      this.regDatePatch = inputDate;
+        this.regDatePatch = inputDate;
 
-      // ✅ Check if regDatePatch is valid and in range
-      if (
-        this.regDatePatch &&
-        (this.regDatePatch < this.minDateReg ||
-          this.regDatePatch > this.maxDateReg)
-      ) {
-        this.regDatePatch = ''; // or '' if you prefer empty string
+        // ✅ Check if regDatePatch is valid and in range
+        if (
+          this.regDatePatch &&
+          (this.regDatePatch < this.minDateReg ||
+            this.regDatePatch > this.maxDateReg)
+        ) {
+          this.regDatePatch = ''; // or '' if you prefer empty string
+        }
       }
     });
 
