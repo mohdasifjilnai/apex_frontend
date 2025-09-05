@@ -1633,14 +1633,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     let previousClaimed = this.vehicleDetailsForm.value.previous_claimed
       ? this.vehicleDetailsForm.value.previous_claimed
       : false;
+    if (expiry_date == null) {
+      expiry_date = '';
+    }
     let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${expiry_date}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
-    if (
-      this.regDateObj != null &&
-      this.regDateObj != '' &&
-      expiry_date != null &&
-      expiry_date != '' &&
-      !regDateChange
-    ) {
+    if (this.regDateObj != null && this.regDateObj != '' && !regDateChange) {
       this.apiservice
         .getRequestedResponse(
           `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
@@ -1753,9 +1750,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     } else if (
       regDateChange &&
       this.regDateObj != null &&
-      this.regDateObj != '' &&
-      expiry_date != null &&
-      expiry_date != ''
+      this.regDateObj != ''
     ) {
       this.apiservice
         .getRequestedResponse(
