@@ -327,9 +327,9 @@ export class QuotesListingComponent implements OnInit {
           const sortObjectkey = sessionStorage.getItem('sortObjectkey');
           const token = sessionStorage.getItem('token');
           let proposarTypeData = sessionStorage.getItem('proposerType');
-          const transformedDateString = mmv_data?.registration_date
+          const transformedDateString = mmv_data?.form_value.registration_date
             ? this.datePipe.transform(
-                mmv_data?.registration_date,
+                mmv_data?.form_value.registration_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -338,9 +338,9 @@ export class QuotesListingComponent implements OnInit {
             ? new Date(transformedDateString as string)
             : '';
 
-          const transformedMgfDate = mmv_data?.manufacture_date
+          const transformedMgfDate = mmv_data?.form_value.manufacture_date
             ? this.datePipe.transform(
-                mmv_data?.manufacture_date,
+                mmv_data?.form_value.manufacture_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -348,9 +348,10 @@ export class QuotesListingComponent implements OnInit {
             ? new Date(transformedMgfDate as string)
             : '';
 
-          const transformedPolicyExpiry = mmv_data?.policy_expiry_date
+          const transformedPolicyExpiry = mmv_data?.form_value
+            .policy_expiry_date
             ? this.datePipe.transform(
-                mmv_data?.policy_expiry_date,
+                mmv_data?.form_value.policy_expiry_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -359,22 +360,23 @@ export class QuotesListingComponent implements OnInit {
             : '';
           const formData = {
             Vehicle_Variant:
-              mmv_data?.vehicle_variant?.rb_make_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_make_name +
               ' ' +
-              mmv_data?.vehicle_variant?.rb_model_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_model_name +
               ' ' +
-              mmv_data?.vehicle_variant?.rb_variant_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
               ' ' +
-              mmv_data?.vehicle_variant?.cubic_capacity +
+              mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
               ' cc',
-            Fuel: mmv_data?.vehicle_variant?.fuel,
-            Registration_City: mmv_data?.registration_city?.display_name,
+            Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
+            Registration_City:
+              mmv_data?.form_value.registration_city?.display_name,
             'Mfg._Year': mgfDate,
             Registration_Date: regDate,
             Policy_Expiry_Date: policyExpDate,
-            Previous_Insurer: mmv_data?.previous_insurer,
-            Previous_NCB: mmv_data?.ncb_discount,
-            New_NCB: mmv_data?.offeredNCBValue,
+            Previous_Insurer: mmv_data?.form_value.previous_insurer,
+            Previous_NCB: mmv_data?.form_value.ncb_discount,
+            New_NCB: mmv_data?.form_value.ncb_discount.new_ncb_value,
             Trace_ID: sessionStorage.getItem('transaction_id'),
             IDV: idvData,
             Add_Ons: addons,
@@ -530,9 +532,9 @@ export class QuotesListingComponent implements OnInit {
           const sortObjectkey = sessionStorage.getItem('sortObjectkey');
           const token = sessionStorage.getItem('token');
           let proposarTypeData = sessionStorage.getItem('proposerType');
-          const transformedDateString = mmv_data?.registration_date
+          const transformedDateString = mmv_data?.form_value.registration_date
             ? this.datePipe.transform(
-                mmv_data?.registration_date,
+                mmv_data?.form_value.registration_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -541,9 +543,9 @@ export class QuotesListingComponent implements OnInit {
             ? new Date(transformedDateString as string)
             : '';
 
-          const transformedMgfDate = mmv_data?.manufacture_date
+          const transformedMgfDate = mmv_data?.form_value.manufacture_date
             ? this.datePipe.transform(
-                mmv_data?.manufacture_date,
+                mmv_data?.form_value.manufacture_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -551,9 +553,10 @@ export class QuotesListingComponent implements OnInit {
             ? new Date(transformedMgfDate as string)
             : '';
 
-          const transformedPolicyExpiry = mmv_data?.policy_expiry_date
+          const transformedPolicyExpiry = mmv_data?.form_value
+            .policy_expiry_date
             ? this.datePipe.transform(
-                mmv_data?.policy_expiry_date,
+                mmv_data?.form_value.policy_expiry_date,
                 'yyyy-MM-ddTHH:mm:ss.SSSZ'
               )
             : '';
@@ -562,22 +565,23 @@ export class QuotesListingComponent implements OnInit {
             : '';
           const formData = {
             Vehicle_Variant:
-              mmv_data?.vehicle_variant?.rb_make_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_make_name +
               ' ' +
-              mmv_data?.vehicle_variant?.rb_model_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_model_name +
               ' ' +
-              mmv_data?.vehicle_variant?.rb_variant_name +
+              mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
               ' ' +
-              mmv_data?.vehicle_variant?.cubic_capacity +
+              mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
               ' cc',
-            Fuel: mmv_data?.vehicle_variant?.fuel,
-            Registration_City: mmv_data?.registration_city?.display_name,
+            Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
+            Registration_City:
+              mmv_data?.form_value.registration_city?.display_name,
             'Mfg._Year': mgfDate,
             Registration_Date: regDate,
             Policy_Expiry_Date: policyExpDate,
-            Previous_Insurer: mmv_data?.previous_insurer,
-            Previous_NCB: mmv_data?.ncb_discount,
-            New_NCB: mmv_data?.offeredNCBValue,
+            Previous_Insurer: mmv_data?.form_value.previous_insurer,
+            Previous_NCB: mmv_data?.form_value.ncb_discount,
+            New_NCB: mmv_data?.form_value.ncb_discount.new_ncb_value,
             Trace_ID: sessionStorage.getItem('transaction_id'),
             IDV: idvData,
             Add_Ons: addons,
