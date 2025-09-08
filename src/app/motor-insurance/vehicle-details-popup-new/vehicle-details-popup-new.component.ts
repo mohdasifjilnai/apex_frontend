@@ -349,6 +349,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             this.patched < this.minDateReg || this.patched > this.maxDateReg;
           this.regDatePatch = isOutOfRange ? '' : this.patched;
         }
+        this.sharedDataService.registrationDateError(this.regDatePatch);
       }
     });
 
@@ -389,15 +390,31 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.regDatePatch = this.formatDDMMYYYYToDate(
           this.registrationNumberData?.vehicle_details?.registration_date
         );
+        this.patched = this.regDatePatch;
+        const isInDisabled =
+          this.patched &&
+          this.patched >= this.disableFromDateReg &&
+          this.patched <= this.currentDateReg;
 
-        // ✅ Check if regDatePatch is valid and in range
-        if (
-          this.regDatePatch &&
-          (this.regDatePatch < this.minDateReg ||
-            this.regDatePatch > this.maxDateReg)
-        ) {
-          this.regDatePatch = ''; // or '' if you prefer empty string
+        if (isInDisabled) {
+          // clear because it’s inside disabled range
+          this.regDatePatch = ''; // or '' if your form expects string
+        } else {
+          // keep if valid and inside global min–max
+          const isOutOfRange =
+            this.patched < this.minDateReg || this.patched > this.maxDateReg;
+          this.regDatePatch = isOutOfRange ? '' : this.patched;
         }
+        this.sharedDataService.registrationDateError(this.regDatePatch);
+
+        // // ✅ Check if regDatePatch is valid and in range
+        // if (
+        //   this.regDatePatch &&
+        //   (this.regDatePatch < this.minDateReg ||
+        //     this.regDatePatch > this.maxDateReg)
+        // ) {
+        //   this.regDatePatch = ''; // or '' if you prefer empty string
+        // }
 
         // this.regDatePatch = regDatePatch; // assign to component variable
         this.vehicleDetailsForm.patchValue({

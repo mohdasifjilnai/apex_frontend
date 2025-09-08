@@ -82,4 +82,13 @@
   <mat-error *ngIf="form.controls['registration_date']?.hasError('required')">
     This is a required field.
   </mat-error>
+
+  <mat-error
+    *ngIf="
+      form.get('registration_date')?.touched &&
+      form.get('registration_date')?.hasError('invalid')
+    "
+  >
+    <!-- Please enter a valid date. -->
+  </mat-error>
 </mat-form-field>

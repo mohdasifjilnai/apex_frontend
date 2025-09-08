@@ -101,6 +101,7 @@ export class RegistrationYearComponent implements OnInit {
      * add form control for the Registration Year
      */
     // console.log(this.invalidDate);
+
     this.form = this.ctrlContainer.form;
 
     if (this.isRequired) {
@@ -111,6 +112,7 @@ export class RegistrationYearComponent implements OnInit {
     } else {
       this.form.addControl('registration_date', new FormControl());
     }
+
     const renewalType = sessionStorage.getItem('renewalType');
     if (renewalType == 'renewal') {
       this.disabledRegistrationYear = true;
@@ -182,6 +184,13 @@ export class RegistrationYearComponent implements OnInit {
         } else {
           this.onRegistrationDateChange(value);
         }
+      }
+    });
+
+    this.sharedDataService.getRegDateError.subscribe((res) => {
+      if (res == '') {
+        this.form.get('registration_date')?.setErrors({ invalid: true });
+        this.form.get('registration_date')?.markAsTouched();
       }
     });
   }

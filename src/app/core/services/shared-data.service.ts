@@ -106,6 +106,7 @@ export class SharedDataService {
   getIsNotCertifiedData: Subject<any> = new Subject();
   disableChangeInsurer: Subject<any> = new Subject();
   getIdvValue: Subject<any> = new Subject();
+  getRegDateError: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
@@ -183,6 +184,10 @@ export class SharedDataService {
 
   sendVehicleEditData(data: any) {
     this.getVehicleDetails.next(data);
+  }
+
+  registrationDateError(data: any) {
+    this.getRegDateError.next(data);
   }
   disabledChangeInsurerButton(data: any) {
     this.disableChangeInsurer.next(data);
