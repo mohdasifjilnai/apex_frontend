@@ -1415,10 +1415,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       }
       const formData = {
         Motor_Type: this.vehicleTypeValue,
-        Make: this.vehicleDetailsForm.value?.vehicle_fuel?.rb_make_name,
-        Model: this.vehicleDetailsForm.value?.vehicle_fuel?.rb_model_name,
-        Variant: this.vehicleDetailsForm.value?.vehicle_fuel?.rb_variant_name,
-        Fuel: this.vehicleDetailsForm.value?.vehicle_fuel?.fuel,
+        Make: this.vehicleDetailsForm.value?.vehicle_variant?.rb_make_name,
+        Model: this.vehicleDetailsForm.value?.vehicle_variant?.rb_model_name,
+        Variant:
+          this.vehicleDetailsForm.value?.vehicle_variant?.rb_variant_name,
+        Fuel: this.vehicleDetailsForm.value?.vehicle_variant?.fuel,
         Registration_City:
           this.vehicleDetailsForm.value?.registration_city?.display_name,
         Registration_Date: regDate,

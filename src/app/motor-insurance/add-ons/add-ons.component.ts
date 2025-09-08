@@ -575,11 +575,10 @@ export class AddOnsComponent implements OnInit {
       JSON.stringify(this.selectedCheckedArray)
     );
     if (this.idvAmount) {
-      let idvValueData = JSON.parse(this.idvAmount);
       webengage.track('IDV_filter_Applied', {
         User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
         Motor_Type: this.vehicleTypeValue,
-        IDV_Value: idvValueData.chooseIdv,
+        IDV_Value: this.idvAmount,
       });
     }
 
