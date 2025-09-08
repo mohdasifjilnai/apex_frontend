@@ -63,6 +63,7 @@ export class RegistrationYearComponent implements OnInit {
   @ViewChild('registrationYear') registrationYear!: MatDatepicker<Date>;
   @ViewChild('registrationInput') registrationInput!: ElementRef;
   @Input() urlDate: any;
+  @Input() invalidDate: any;
   registrationDate: any;
   disableFromDate: any;
   visuallyDisabledFields: any = false;
@@ -99,6 +100,7 @@ export class RegistrationYearComponent implements OnInit {
     /**
      * add form control for the Registration Year
      */
+    // console.log(this.invalidDate);
     this.form = this.ctrlContainer.form;
 
     if (this.isRequired) {

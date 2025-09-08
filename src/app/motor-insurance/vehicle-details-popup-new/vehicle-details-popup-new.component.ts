@@ -114,6 +114,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   disableFromDateReg: any;
   maxDateReg: any;
   regDatePatch: any;
+  patched: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -320,15 +321,33 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.maxDateReg = new Date(this.currentDateReg);
         this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
 
-        this.regDatePatch = inputDate;
+        // this.regDatePatch = inputDate;
 
-        // ✅ Check if regDatePatch is valid and in range
-        if (
-          this.regDatePatch &&
-          (this.regDatePatch < this.minDateReg ||
-            this.regDatePatch > this.maxDateReg)
-        ) {
-          this.regDatePatch = ''; // or '' if you prefer empty string
+        // // ✅ Check if regDatePatch is valid and in range
+        // if (
+        //   this.regDatePatch &&
+        //   (this.regDatePatch < this.minDateReg ||
+        //     this.regDatePatch > this.maxDateReg)
+        // ) {
+        //   this.regDatePatch = ''; // or '' if you prefer empty string
+        // }
+
+        this.patched = inputDate ? new Date(inputDate) : null;
+
+        // check whether date is in the disabled window
+        const isInDisabled =
+          this.patched &&
+          this.patched >= this.disableFromDateReg &&
+          this.patched <= this.currentDateReg;
+
+        if (isInDisabled) {
+          // clear because it’s inside disabled range
+          this.regDatePatch = ''; // or '' if your form expects string
+        } else {
+          // keep if valid and inside global min–max
+          const isOutOfRange =
+            this.patched < this.minDateReg || this.patched > this.maxDateReg;
+          this.regDatePatch = isOutOfRange ? '' : this.patched;
         }
       }
     });
@@ -1873,11 +1892,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     }
     if (
       this.policyExpiryDate != null &&
-      expiry_date == '' &&
       this.regDateObj != null &&
       this.regDateObj != ''
     ) {
-      let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${this.policyExpiryDate}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
+      let expiringPolicyType = `?registration_date=${this.regDateObj}&vehicle_type=${this.vehicleTypeValue}&previous_policy_expiry_date=${expiry_date}&is_claimed=${previousClaimed}&is_ownership_transfer=${userRCtransfer}`;
 
       this.apiservice
         .getRequestedResponse(
