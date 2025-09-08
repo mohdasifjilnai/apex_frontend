@@ -29,20 +29,6 @@ export class ApiService {
     );
   }
 
-  getRequestedResponseCustomer(
-    url: string,
-    productModuleName?: string,
-    queryParamsUrl?: string
-  ) {
-    if (queryParamsUrl) {
-      url = url + queryParamsUrl;
-    }
-    return this.httpService.getRequestCustomer(url, productModuleName).pipe(
-      map((response: any) => response),
-      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
-    );
-  }
-
   // getRequestedResponseInstant
 
   getRequestedResponseInstant(
