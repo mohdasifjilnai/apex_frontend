@@ -46,7 +46,11 @@ export class HttpService {
   getRequest(url: string, productModules?: string) {
     let returnValue;
     const productHeaders = productModules ? productModules : '';
-    return this.http.get(url, this.getHeaderAsProductModule(productHeaders));
+
+    return this.http.get(
+      url,
+      this.getHeaderAsProductModule(productHeaders, url)
+    );
   }
 
   // getRequestInstant(url: string, productModules?: string) {
@@ -57,9 +61,19 @@ export class HttpService {
   /**
    * Invokes HTTP header data Request
    **/
-  getHeaderAsProductModule(isToken?: any) {
-    this.headersFormulated = this.setHeader.getHeaders(isToken);
-    return this.headersFormulated;
+  getHeaderAsProductModule(isToken?: any, urlValue?: any) {
+    if (urlValue) {
+      if (!urlValue.includes('/customer/events/get_or_create_customer')) {
+        this.headersFormulated = this.setHeader.getHeaders(isToken);
+        return this.headersFormulated;
+      } else {
+        this.headersFormulated = '';
+        return this.headersFormulated;
+      }
+    } else {
+      this.headersFormulated = this.setHeader.getHeaders(isToken);
+      return this.headersFormulated;
+    }
   }
   /**
    * Invokes HTTP put Request
