@@ -280,7 +280,9 @@ export class SharedDataService {
       ? sessionStorage.getItem('partner_code')
       : '';
     const token = sessionStorage.getItem('token');
-    const mobileNumber = sessionStorage.getItem('customer_mobile_number');
+    const mobileNumber = sessionStorage.getItem('customer_mobile_number')
+      ? sessionStorage.getItem('customer_mobile_number')
+      : '';
     if (
       this.regNumber != null &&
       this.renewalType != 'renewal' &&

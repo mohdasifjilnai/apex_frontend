@@ -122,7 +122,9 @@ export class VehicleRegistrationNumberComponent implements OnInit {
       ? sessionStorage.getItem('partner_code')
       : '';
     const token = sessionStorage.getItem('token');
-    const mobileNumber = sessionStorage.getItem('customer_mobile_number');
+    const mobileNumber = sessionStorage.getItem('customer_mobile_number')
+      ? sessionStorage.getItem('customer_mobile_number')
+      : '';
     const regestrationNumber =
       this.vehicleRegistrationNumberForm
         .get('registration_number_first')
