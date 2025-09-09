@@ -311,6 +311,7 @@ export class ChooseIDVComponent implements OnInit {
     this.idvBaseQuotes();
     webengage.track('IDV_filter_Applied', {
       // Option_Selected: option,
+
       User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       IDV_Value: this.investedAmount,
