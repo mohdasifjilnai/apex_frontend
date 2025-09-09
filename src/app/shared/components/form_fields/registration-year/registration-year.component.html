@@ -55,7 +55,6 @@
     (click)="
       !visuallyDisabledFields['registration_date'] && registrationYear.open()
     "
-    (dateChange)="registrationDateSelected(registrationInput.value)"
     (keyup.enter)="
       !visuallyDisabledFields['registration_date'] && EnterKey($event)
     "

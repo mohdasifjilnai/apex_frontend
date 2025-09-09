@@ -82,6 +82,7 @@ export class PolicyExpiredDateComponent implements OnInit {
         const minDateYear = this.regDateValue.getFullYear();
         const minDateMonth = this.regDateValue.getMonth() - 6;
         this.minDate = new Date(minDateYear, minDateMonth);
+        this.form.get(this.formControlNameData)?.markAsTouched();
       }
     });
     this.sharedDataService.sendRegDatePolicyExpiry.subscribe((res) => {

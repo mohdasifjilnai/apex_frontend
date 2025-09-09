@@ -283,7 +283,7 @@ export class PreviousInsurerComponent implements OnInit {
         .get(this.formControlNameData)
         ?.setErrors({ validPreviousInsurer: true });
     }
-    this.insururDataLength = data.length;
+    this.insururDataLength = data?.length;
     this.sendResponse(data);
 
     // if (typeof data == 'object') {

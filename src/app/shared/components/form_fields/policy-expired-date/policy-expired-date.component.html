@@ -51,7 +51,13 @@
       id-automation="date_picker_expiry_date_id"
       [disabled]="visuallyDisabledFields['policy_expiry_date']"
     ></mat-datepicker>
-    <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+    <mat-error
+      *ngIf="
+        form.get(formControlNameData)?.hasError('required') &&
+        (form.get(formControlNameData)?.touched ||
+          form.get(formControlNameData)?.dirty)
+      "
+    >
       This is a required field.
     </mat-error>
   </mat-form-field>
@@ -120,7 +126,13 @@
       id-automation="date_picker_expiry_date_id"
       [disabled]="visuallyDisabledFields['policy_expiry_date']"
     ></mat-datepicker>
-    <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
+    <mat-error
+      *ngIf="
+        form.get(formControlNameData)?.hasError('required') &&
+        (form.get(formControlNameData)?.touched ||
+          form.get(formControlNameData)?.dirty)
+      "
+    >
       This is a required field.
     </mat-error>
   </mat-form-field>

@@ -115,6 +115,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   maxDateReg: any;
   regDatePatch: any;
   patched: any;
+  currentDateRegValue: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -321,34 +322,27 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.maxDateReg = new Date(this.currentDateReg);
         this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
 
-        // this.regDatePatch = inputDate;
-
-        // // ✅ Check if regDatePatch is valid and in range
-        // if (
-        //   this.regDatePatch &&
-        //   (this.regDatePatch < this.minDateReg ||
-        //     this.regDatePatch > this.maxDateReg)
-        // ) {
-        //   this.regDatePatch = ''; // or '' if you prefer empty string
-        // }
-
         this.patched = inputDate ? new Date(inputDate) : null;
+        this.currentDateRegValue = this.normalizeDate(this.currentDateReg);
+        if (this.patched) {
+          // Case 1: date is inside disabled range (between disableFromDateReg and currentDateReg)
+          const isInDisabled =
+            this.patched >= this.disableFromDateReg &&
+            this.patched < this.currentDateRegValue;
 
-        // check whether date is in the disabled window
-        const isInDisabled =
-          this.patched &&
-          this.patched >= this.disableFromDateReg &&
-          this.patched <= this.currentDateReg;
+          if (isInDisabled) {
+            this.regDatePatch = ''; // clear if inside disabled window
+          } else {
+            // Case 2: outside disabled range → check global min/max
+            const isOutOfRange =
+              this.patched < this.minDateReg || this.patched > this.maxDateReg;
 
-        if (isInDisabled) {
-          // clear because it’s inside disabled range
-          this.regDatePatch = ''; // or '' if your form expects string
+            this.regDatePatch = isOutOfRange ? '' : this.patched;
+          }
         } else {
-          // keep if valid and inside global min–max
-          const isOutOfRange =
-            this.patched < this.minDateReg || this.patched > this.maxDateReg;
-          this.regDatePatch = isOutOfRange ? '' : this.patched;
+          this.regDatePatch = ''; // no input provided
         }
+
         this.sharedDataService.registrationDateError(this.regDatePatch);
       }
     });
@@ -390,23 +384,26 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.regDatePatch = this.formatDDMMYYYYToDate(
           this.registrationNumberData?.vehicle_details?.registration_date
         );
-        this.patched = this.regDatePatch;
-        const isInDisabled =
-          this.patched &&
-          this.patched >= this.disableFromDateReg &&
-          this.patched <= this.currentDateReg;
+        this.currentDateRegValue = this.normalizeDate(this.currentDateReg);
 
-        if (isInDisabled) {
-          // clear because it’s inside disabled range
-          this.regDatePatch = ''; // or '' if your form expects string
+        if (this.patched) {
+          // Case 1: date is inside disabled range (between disableFromDateReg and currentDateReg)
+          const isInDisabled =
+            this.patched >= this.disableFromDateReg &&
+            this.patched < this.currentDateRegValue;
+
+          if (isInDisabled) {
+            this.regDatePatch = ''; // clear if inside disabled window
+          } else {
+            // Case 2: outside disabled range → check global min/max
+            const isOutOfRange =
+              this.patched < this.minDateReg || this.patched > this.maxDateReg;
+
+            this.regDatePatch = isOutOfRange ? '' : this.patched;
+          }
         } else {
-          // keep if valid and inside global min–max
-          const isOutOfRange =
-            this.patched < this.minDateReg || this.patched > this.maxDateReg;
-          this.regDatePatch = isOutOfRange ? '' : this.patched;
+          this.regDatePatch = ''; // no input provided
         }
-        this.sharedDataService.registrationDateError(this.regDatePatch);
-
         // // ✅ Check if regDatePatch is valid and in range
         // if (
         //   this.regDatePatch &&
@@ -743,6 +740,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm.get('policy_expiry_date')?.markAsTouched();
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
@@ -1563,6 +1561,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm.get('policy_expiry_date')?.markAsTouched();
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
@@ -1580,6 +1579,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm.get('policy_expiry_date')?.markAsTouched();
       this.vehicleDetailsForm
         .get('previous_insurer')
         ?.setValidators([Validators.required]);
@@ -2111,6 +2111,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.setValidators([Validators.required]);
+      this.vehicleDetailsForm.get('policy_expiry_date')?.markAsTouched();
       this.vehicleDetailsForm
         .get('policy_expiry_date')
         ?.updateValueAndValidity();
@@ -2223,5 +2224,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
     this.renewalPopup.unsubscribe();
+  }
+
+  normalizeDate(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 }
