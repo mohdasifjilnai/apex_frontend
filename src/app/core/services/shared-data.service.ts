@@ -280,6 +280,7 @@ export class SharedDataService {
       ? sessionStorage.getItem('partner_code')
       : '';
     const token = sessionStorage.getItem('token');
+    const mobileNumber = sessionStorage.getItem('customer_mobile_number');
     if (
       this.regNumber != null &&
       this.renewalType != 'renewal' &&
@@ -289,7 +290,7 @@ export class SharedDataService {
         .getRequestedResponse(
           `${ApiConstants.registration_number()}?regn_no=${
             this.regNumber
-          }&partner_code=${partner_code}`
+          }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex`
         )
         .subscribe(
           (res: any) => {
