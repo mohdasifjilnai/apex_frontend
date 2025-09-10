@@ -652,7 +652,7 @@ export class AddOnsComponent implements OnInit {
 
       this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
     }
-    webengage.track('Motor_Filter_Applied', {
+    webengage.track('Motor_Add_Ons_Applied', {
       User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       Add_Ons: this.selectedCheckedArray,

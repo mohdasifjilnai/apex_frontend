@@ -219,7 +219,7 @@ export class MotorInsuranceComponent implements OnInit {
       const end = new Date(res.value);
       let monthGap = this.monthDiff(start, end);
 
-      if (monthGap >= 10) {
+      if (monthGap >= 9) {
         this.insurerDisable = false;
         this.disableInsurer = this.insurerDisable;
         this.sharedDataService.insurerData(this.insurerDisable);
