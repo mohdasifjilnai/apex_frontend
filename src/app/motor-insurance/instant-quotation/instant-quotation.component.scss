@@ -254,7 +254,7 @@
   }
 
   .custom-error {
-    font-size: 10px;
+    font-size: 11px;
     color: #f44336;
     margin-top: 4px;
   }
@@ -282,5 +282,15 @@
     font-size: 13px;
     font-weight: 500;
     // line-height: 11px;
+  }
+
+  ::ng-deep .error-border .mat-form-field-outline-start,
+  ::ng-deep .error-border .mat-form-field-outline-end,
+  ::ng-deep .error-border .mat-form-field-outline-gap {
+    border-color: red !important; /* color */
+    border-width: 2px !important; /* thickness */
+  }
+  .coverageTypeMargin {
+    margin-top: -8px;
   }
 }

@@ -103,10 +103,11 @@
               class="custom-error"
               *ngIf="
                 instantDetailsForm.get('vehicle_MMV')?.hasError('required') &&
-                instantDetailsForm.get('vehicle_MMV')?.touched
+                (instantDetailsForm.get('vehicle_MMV')?.touched ||
+                  instantDetailsForm.get('vehicle_MMV')?.dirty)
               "
             >
-              Vehicle MMV is required.
+              This is a required field.
             </div>
           </div>
         </div>
@@ -429,8 +430,14 @@
           <mat-form-field
             appearance="outline"
             class="vehicle-details-dropdown inputFieldRadius"
+            [ngClass]="{
+              'error-border': coverageSubmit
+            }"
           >
-            <mat-select formControlName="req_coverage_type">
+            <mat-select
+              formControlName="req_coverage_type"
+              (selectionChange)="selectCoverage($event.value)"
+            >
               <mat-option
                 *ngFor="let coverageValue of coverageList"
                 [value]="coverageValue.code"
@@ -438,7 +445,7 @@
                 {{ coverageValue.name | titlecase }}
               </mat-option>
             </mat-select>
-            <mat-error
+            <!-- <mat-error
               *ngIf="
                 instantDetailsForm
                   .get('req_coverage_type')
@@ -446,8 +453,12 @@
               "
             >
               This is a required field.
-            </mat-error>
+            </mat-error> -->
           </mat-form-field>
+
+          <div *ngIf="coverageSubmit" class="custom-error coverageTypeMargin">
+            This is a required field.
+          </div>
         </div>
       </div>
 

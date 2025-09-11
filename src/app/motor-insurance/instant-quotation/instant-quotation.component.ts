@@ -18,6 +18,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { BreadcrumbService } from 'src/app/ui/breadcrumb/breadcrumb.service';
+import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-instant-quotation',
@@ -79,13 +81,15 @@ export class InstantQuotationComponent implements OnInit {
   responsiveData = false;
   submitButtonDisable = false;
   showmessage = '';
+  coverageSubmit = false;
   constructor(
     private FormBuilder: FormBuilder,
     private apiservice: ApiService,
     private datePipe: DatePipe,
     private sharedata: SharedDataService,
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.rcList = [
       {
@@ -192,12 +196,6 @@ export class InstantQuotationComponent implements OnInit {
         }
       });
 
-    // this.instantDetailsForm.statusChanges.subscribe((status) => {
-    //   if (status === 'VALID') {
-    //     this.getcoverageType();
-    //   }
-    // });
-
     this.instantDetailsForm.statusChanges.subscribe((status) => {
       if (status === 'VALID' && this.lastStatus !== 'VALID') {
         this.lastStatus = status;
@@ -230,6 +228,19 @@ export class InstantQuotationComponent implements OnInit {
   }
 
   submitDetails(valid: any) {
+    this.coverageSubmit = false;
+    if (this.instantDetailsForm.invalid) {
+      this.instantDetailsForm.markAllAsTouched();
+      this.coverageSubmit = true;
+      return;
+    }
+    if (
+      this.instantDetailsForm.valid &&
+      !this.instantDetailsForm.value.req_coverage_type
+    ) {
+      this.coverageSubmit = true;
+      return;
+    }
     if (
       this.instantDetailsForm.valid &&
       this.instantDetailsForm.value.req_coverage_type
@@ -689,16 +700,6 @@ export class InstantQuotationComponent implements OnInit {
         ?.setValidators([Validators.required]);
       this.instantDetailsForm.get('ncb_discount')?.updateValueAndValidity();
     } else {
-      //   this.currentDate = new Date();
-      // this.minDate = new Date(
-      //   this.currentDate.getFullYear() - 20,
-      //   this.currentDate.getMonth(),
-      //   this.currentDate.getDate()
-      // );
-      // this.disableFromDate = new Date(this.currentDate);
-      // this.disableFromDate.setDate(this.disableFromDate.getDate() - 270);
-      // // this.maxDate = new Date(this.currentDate);
-      // // this.maxDate.setDate(this.maxDate.getDate() + 10);
       this.minDate = new Date(this.currentDate);
       this.maxDate = new Date(this.currentDate);
       this.maxDate.setDate(this.maxDate.getDate() + 10);
@@ -788,9 +789,23 @@ export class InstantQuotationComponent implements OnInit {
 
           this.sharedata.changeBreadCrumb(this.breadcrumbLabel);
         } else {
+          const dialogRef = this.dialog.open(FailureDialogComponent, {
+            width: 'auto',
+            height: 'auto',
+            data: {
+              errorData: res.msg,
+              statusdata: status,
+            },
+            panelClass: 'failure-dialog-class',
+          });
+          dialogRef.afterClosed().subscribe((result: any) => {});
           this.submitButtonDisable = true;
           this.showmessage = res.msg;
         }
       });
+  }
+
+  selectCoverage(event: any) {
+    this.coverageSubmit = false;
   }
 }
