@@ -317,7 +317,7 @@ export class ProposalComponent implements OnInit {
         }
         break;
       case 4:
-        if (this.isNotShowInNewPolicyDetails) {
+        if (this.isNotShowInNewPolicyDetails && !this.isNotShowNomineeDetails) {
           this.stepHeader = 'Previous Policy Details';
           this.stepImage = 'assets/icon/step-5.svg';
         } else {

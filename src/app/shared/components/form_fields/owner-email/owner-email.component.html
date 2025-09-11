@@ -8,15 +8,17 @@
     maxlength="80"
     [readonly]="readonly"
     (input)="onFieldChange()"
-
   />
   <mat-error *ngIf="form.controls['owner_email']?.hasError('required')">
     This is a required field.
   </mat-error>
-  <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
+  <!-- <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
     Invalid email
-  </mat-error>
-  <mat-error *ngIf="form.controls['owner_email']?.hasError('invalidEmail')">
+  </mat-error> -->
+  <mat-error
+    *ngIf="form.controls['owner_email']?.hasError('invalidEmail')"
+    [hidden]="form.controls['owner_email']?.hasError('required')"
+  >
     Please enter a valid Email
   </mat-error>
 </mat-form-field>
