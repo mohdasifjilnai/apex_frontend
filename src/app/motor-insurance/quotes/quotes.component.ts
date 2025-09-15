@@ -81,6 +81,12 @@ export class QuotesComponent implements OnInit {
       }
     });
 
+    this.route.queryParams.subscribe((params) => {
+      if (params['source']) {
+        sessionStorage.setItem('source', params['source']);
+      }
+    });
+
     this.checkWheeler = JSON.parse(
       sessionStorage.getItem('checkWheeler') || '{}'
     );
