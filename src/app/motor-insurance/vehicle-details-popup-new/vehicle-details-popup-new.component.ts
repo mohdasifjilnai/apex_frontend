@@ -295,6 +295,25 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.onExpiryPolicyChange(this.vehcileFormData?.value?.policy_expiry);
       setTimeout(() => {
         this.editButton = false;
+        if (this.vehcileFormData?.value?.policy_expiry == 'IDK') {
+          this.vehicleDetailsForm.get('policy_expiry_date')?.clearValidators();
+          this.vehicleDetailsForm.get('previous_insurer')?.clearValidators();
+          this.vehicleDetailsForm.get('previous_claimed')?.clearValidators();
+          this.vehicleDetailsForm.get('previous_claimed')?.setValue(false);
+          this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
+          this.vehicleDetailsForm.get('ncb_discount')?.reset();
+          this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
+          this.vehicleDetailsForm
+            .get('previous_claimed')
+            ?.updateValueAndValidity();
+          this.vehicleDetailsForm
+            .get('previous_insurer')
+            ?.updateValueAndValidity();
+          this.vehicleDetailsForm.get('previous_insurer')?.reset();
+          this.vehicleDetailsForm
+            .get('policy_expiry_date')
+            ?.updateValueAndValidity();
+        }
       }, 4000);
     }
 
@@ -1613,6 +1632,8 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         });
       }
     }
+
+    console.log(this.vehicleDetailsForm);
   }
 
   /**
@@ -1771,14 +1792,16 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 }
               }
             }
-            if (
-              !(
-                this.ExpiryPolicyType == 'bundled_tp' ||
-                this.ExpiryPolicyType == 'satp'
-              )
-            ) {
-              this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
-              this.getNcbList();
+            if (this.ExpiryPolicyType != undefined) {
+              if (
+                !(
+                  this.ExpiryPolicyType == 'bundled_tp' ||
+                  this.ExpiryPolicyType == 'satp'
+                )
+              ) {
+                this.ncbDiscount = this.expiryList[0]?.offered_ncb_value;
+                this.getNcbList();
+              }
             }
           }
         });

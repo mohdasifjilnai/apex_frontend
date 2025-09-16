@@ -301,6 +301,7 @@ export class InstantQuotationComponent implements OnInit {
         context: instantQuotesObject,
       };
       this.submitButtonDisable = true;
+      window.location.href = `${environment.whatsappLink}`;
 
       this.apiService
         .postRequestedInstantQUotes(
@@ -310,8 +311,8 @@ export class InstantQuotationComponent implements OnInit {
         .subscribe(
           (res) => {
             // if (res) {
-            window.location.href = `${environment.whatsappLink}`;
-            // }
+            // window.location.href = `${environment.whatsappLink}`;
+            // // }
           },
           (error: any) => {
             // this.sendErrorProposalData(error?.error);
