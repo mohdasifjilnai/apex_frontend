@@ -215,9 +215,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.proposalData = proposal;
       if (
         proposal?.customer_details?.full_name &&
-        proposal?.insurer_code != 'digit'
+        proposal?.insurer_code != 'digit' &&
+        proposal?.insurer_code != 'bajaj'
       ) {
         this.vehicleOwnerName = true;
+      } else if (proposal?.insurer_code == 'bajaj') {
+        this.vehicleOwnerName = false;
       }
       if (
         proposal?.insurer_code == 'digit' &&

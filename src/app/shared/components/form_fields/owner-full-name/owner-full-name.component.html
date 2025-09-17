@@ -1,4 +1,8 @@
-<mat-form-field appearance="outline" class="mat-input-custom">
+<mat-form-field
+  appearance="outline"
+  class="mat-input-custom"
+  [ngClass]="readonly ? 'disbalestate' : ''"
+>
   <mat-label>{{ label }}</mat-label>
   <input
     matInput
