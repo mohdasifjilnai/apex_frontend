@@ -53,6 +53,7 @@ export class CheckQuotesDialogComponent implements OnInit {
     webengage.track('Change_Insurer_Inititaed', {
       User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     // sessionStorage.setItem('vehiclePopup', 'true');
     if (this.data == 'renewal') {
@@ -113,6 +114,7 @@ export class CheckQuotesDialogComponent implements OnInit {
         this.insurerData?.premium_details.idv != 0
           ? this.insurerData?.premium_details.idv
           : 0,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
 }

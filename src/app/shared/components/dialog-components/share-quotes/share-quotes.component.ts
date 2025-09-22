@@ -143,6 +143,7 @@ export class ShareQuotesComponent implements OnInit {
         this.sharePopupData[0]?.premium_details.idv != 0
           ? this.sharePopupData[0]?.premium_details.idv
           : 0,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {

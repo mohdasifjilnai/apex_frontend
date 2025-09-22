@@ -554,6 +554,7 @@ export class AddOnsComponent implements OnInit {
       Option_Selected: addOnValue,
       User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
   update() {
@@ -577,6 +578,7 @@ export class AddOnsComponent implements OnInit {
         User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
         Motor_Type: this.vehicleTypeValue,
         IDV_Value: idvValue.chooseIdv,
+        Partner_id: sessionStorage.getItem('partner_code'),
       });
     }
 
@@ -656,6 +658,7 @@ export class AddOnsComponent implements OnInit {
       User_Type: token != null ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       Add_Ons: this.selectedCheckedArray,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
   /**

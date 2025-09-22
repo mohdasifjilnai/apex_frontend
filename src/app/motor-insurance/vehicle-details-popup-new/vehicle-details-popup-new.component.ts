@@ -1455,6 +1455,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         User_Type: token != null ? 'Partner' : 'Customer',
         type_of_exp_policy_id:
           this.vehicleDetailsForm.value?.type_of_exp_policy_id,
+        Partner_id: sessionStorage.getItem('partner_code'),
       };
       const filteredData = Object.fromEntries(
         Object.entries(formData).filter(([key, value]) => {

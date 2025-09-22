@@ -315,6 +315,7 @@ export class ChooseIDVComponent implements OnInit {
       User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       IDV_Value: this.investedAmount,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     // }
   }

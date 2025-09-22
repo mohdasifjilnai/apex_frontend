@@ -388,6 +388,7 @@ export class QuotesListingComponent implements OnInit {
             User_Type: token != null ? 'Partner' : 'Customer',
             Motor_Type: this.vehicleTypeValue,
             Partner_code: sessionStorage.getItem('partner_code'),
+            Partner_id: sessionStorage.getItem('partner_code'),
           };
           const filteredData = Object.fromEntries(
             Object.entries(formData).filter(([key, value]) => {
@@ -593,6 +594,7 @@ export class QuotesListingComponent implements OnInit {
             User_Type: token != null ? 'Partner' : 'Customer',
             Motor_Type: this.vehicleTypeValue,
             Partner_code: sessionStorage.getItem('partner_code'),
+            Partner_id: sessionStorage.getItem('partner_code'),
           };
           const filteredData = Object.fromEntries(
             Object.entries(formData).filter(([key, value]) => {
@@ -1024,6 +1026,7 @@ export class QuotesListingComponent implements OnInit {
       Total_Premium: quotes_data?.premium_details?.gross_premium,
       Insurer_Logo: quotes_data?.insurer_logo,
       Product_id: quotes_data.quote_id,
+      Partner_id: sessionStorage.getItem('partner_code'),
     };
     webengage.track('Motor_Policy_details_Viewed', quotesPremium);
 
@@ -1313,6 +1316,7 @@ export class QuotesListingComponent implements OnInit {
       Total_Premium: initiateQuotes?.premium_details?.gross_premium,
       Insurer_Name: initiateQuotes?.insurer_name,
       Insurer_Logo: initiateQuotes?.insurer_logo,
+      Partner_id: sessionStorage.getItem('partner_code'),
     };
     webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
   }
@@ -1328,6 +1332,7 @@ export class QuotesListingComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
   @ViewChild('checkboxRef')
@@ -1381,6 +1386,7 @@ export class QuotesListingComponent implements OnInit {
         Total_IDV: this.totalIdvData.join(', '),
         Total_Premium: this.totalPremiumData.join(', '),
         Insurer_Logo: this.insurerLogoData.join(', '),
+        Partner_id: sessionStorage.getItem('partner_code'),
       });
       webengage.track('Quotes_selected', {
         Plan_Details: this.selectedQuotes,
@@ -1392,6 +1398,7 @@ export class QuotesListingComponent implements OnInit {
         Total_Premium: this.totalPremiumData.join(', '),
         Insurer_Logo: this.insurerLogoData.join(', '),
         Insurer_Name: this.insurerNameData.join(', '),
+        Partner_id: sessionStorage.getItem('partner_code'),
       });
     } else {
       this.isCheckboxChecked = false;
@@ -1423,6 +1430,7 @@ export class QuotesListingComponent implements OnInit {
         Total_Premium: this.totalPremiumData.join(', '),
         Insurer_Logo: this.insurerLogoData.join(', '),
         Insurer_Name: this.insurerNameData.join(', '),
+        Partner_id: sessionStorage.getItem('partner_code'),
       });
     } else {
       const index = this.selectedQuotes.indexOf(quotes);
@@ -1844,6 +1852,7 @@ export class QuotesListingComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: this.vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
   earningToggle(event: any) {

@@ -294,6 +294,7 @@ handles the form submit for uploading the required documents
       Insurer_Name: parseCkycData.insurer_name,
       Insurer_Logo: parseCkycData.insurer_logo,
       Document_type: this.uploadDocumentsForm.value.document_type_based_field,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     if (valid && !this.loader) {
       this.loader = true;

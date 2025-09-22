@@ -238,6 +238,7 @@ export class CkycComponent implements OnInit {
       Total_Premium: this.quoteData?.premium_details?.gross_premium,
       Insurer_Logo: this.quoteData?.insurer_logo,
       Document_type: this.ckycFormGroup.get('document_type_based_field')?.value,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
@@ -557,6 +558,7 @@ export class CkycComponent implements OnInit {
       Total_Premium: this.quoteData?.premium_details?.gross_premium,
       Insurer_Logo: this.quoteData?.insurer_logo,
       Document_type: this.documentName,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
   /**

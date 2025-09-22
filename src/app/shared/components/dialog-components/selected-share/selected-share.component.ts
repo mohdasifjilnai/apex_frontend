@@ -60,6 +60,7 @@ export class SelectedShareComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: quotes,

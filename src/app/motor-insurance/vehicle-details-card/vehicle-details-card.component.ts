@@ -349,6 +349,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: this.vehicleType,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     if (window.innerWidth <= 999) {
       const bottomSheetConfig: MatBottomSheetConfig = {

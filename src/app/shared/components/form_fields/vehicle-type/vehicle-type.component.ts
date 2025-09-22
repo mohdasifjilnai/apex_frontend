@@ -43,6 +43,7 @@ export class VehicleTypeComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
   }
 
@@ -59,6 +60,7 @@ export class VehicleTypeComponent implements OnInit {
         ? 'Partner'
         : 'Customer',
       Motor_Type: vehicleTypeValue,
+      Partner_id: sessionStorage.getItem('partner_code'),
     });
     this.sharedata.selectedvehicle(this.selectedVehicleType.optionNameValue);
     if (vehicle?.optionNameValue == 'commercial_vehicle') {
