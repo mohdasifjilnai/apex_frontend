@@ -156,13 +156,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (this.quoteData) {
       this.insurerCode = JSON.parse(this.quoteData)['insurer_code'];
     }
-    if (this.insurerCode == 'oriental') {
-      this.proposalVehilceDetailsForm
-        .get('vehicle_colour')
-        ?.setValidators(Validators.required);
-      this.proposalVehilceDetailsForm.get('vehicle_colour')
-        ?.updateValueAndValidity;
-    }
+    // if (this.insurerCode == 'oriental') {
+    //   this.proposalVehilceDetailsForm
+    //     .get('vehicle_colour')
+    //     ?.setValidators(Validators.required);
+    //   this.proposalVehilceDetailsForm.get('vehicle_colour')
+    //     ?.updateValueAndValidity;
+    // }
     this.previousInsurerCode = sessionStorage.getItem('previous_insurerCode');
     if (this.insurerCode === 'sbi_general') {
       this.getVehicleColourList();
