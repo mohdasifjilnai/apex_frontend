@@ -91,7 +91,8 @@ export class ProposalComponent implements OnInit {
   partnerCodewithTraceId: any;
   isPrevoiusInsurer: any;
   renewalPolicyDetailsMessage: boolean = false;
-
+  loadVehicleDetails = false;
+  renewalTypeloadValue: any;
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -191,24 +192,25 @@ export class ProposalComponent implements OnInit {
       this.isNotShowInNewPolicyDetails = false;
     }
     this.proposerType = sessionStorage.getItem('proposerType');
-    if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
-      for (let isCpa of this.quoteData?.premium_details
-        ?.addon_premium_details) {
-        if (
-          (isCpa?.add_on_code === 'CPA' ||
-            isCpa?.add_on_code === 'CPA3' ||
-            isCpa?.add_on_code === 'CPA5') &&
-          this.proposerType !== 'corporate' &&
-          isCpa?.is_offered == true
-        ) {
-          this.isNotShowNomineeDetails = true;
-        }
-      }
-    } else if (this.proposerType === 'corporate') {
-      this.isNotShowNomineeDetails = false;
-    } else {
-      this.isNotShowNomineeDetails = false;
-    }
+    this.getAccordianData();
+    // if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
+    //   for (let isCpa of this.quoteData?.premium_details
+    //     ?.addon_premium_details) {
+    //     if (
+    //       (isCpa?.add_on_code === 'CPA' ||
+    //         isCpa?.add_on_code === 'CPA3' ||
+    //         isCpa?.add_on_code === 'CPA5') &&
+    //       this.proposerType !== 'corporate' &&
+    //       isCpa?.is_offered == true
+    //     ) {
+    //       this.isNotShowNomineeDetails = true;
+    //     }
+    //   }
+    // } else if (this.proposerType === 'corporate') {
+    //   this.isNotShowNomineeDetails = false;
+    // } else {
+    //   this.isNotShowNomineeDetails = false;
+    // }
     this.getProposalDataForPatch();
     if (window.innerWidth <= 999) {
       this.isMobileView = true;
@@ -736,7 +738,9 @@ export class ProposalComponent implements OnInit {
           if (productType) {
             sessionStorage.setItem('productType', productType);
           }
+
           let renewalTypeData = response?.quote_request?.is_rb_renewal;
+          this.renewalTypeloadValue = renewalTypeData;
           if (renewalTypeData) {
             sessionStorage.setItem('renewalType', 'renewal');
             this.isPrevoiusInsurer = true;
@@ -744,35 +748,6 @@ export class ProposalComponent implements OnInit {
             let registartionNumber = response?.quote_request?.registration_no;
             let policy_number = response?.quote_request?.policy_number;
             this.sharedData.createProposalId();
-
-            // let apiUrl;
-            // if (
-            //   registartionNumber != null &&
-            //   registartionNumber != '' &&
-            //   registartionNumber != undefined
-            // ) {
-            //   apiUrl = `?registration_number=${registartionNumber.toUpperCase()}`;
-            // } else {
-            //   apiUrl = `?previous_policy_number=${policy_number}`;
-            // }
-            // this.apiService
-            //   .getRequestedResponse(
-            //     `${ApiConstants.get_renewal_policy}${apiUrl}`
-            //   )
-            //   .subscribe((res: any) => {
-            //     if (res?.status) {
-            //       sessionStorage.setItem(
-            //         'RenewalPreviousDetails',
-            //         JSON.stringify(res)
-            //       );
-            //       this.sharedData.getRenewalData(res);
-            //       this.sharedData?.getAddressValidation(
-            //         this.quoteData?.insurer_code
-            //       );
-
-            //       this.sharedData.createProposalId();
-            //     }
-            //   });
           }
           if (
             sessionStorage.getItem('withoutVehicleNumber') == 'true' &&
@@ -829,11 +804,11 @@ export class ProposalComponent implements OnInit {
                 }
               }
             });
-          if (!renewalTypeData) {
-            this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
+          // if (!renewalTypeData) {
+          //   this.sharedData?.getAddressValidation(this.quoteData?.insurer_code);
 
-            this.sharedData.createProposalId();
-          }
+          //   this.sharedData.createProposalId();
+          // }
         }
       });
   }
@@ -937,6 +912,15 @@ export class ProposalComponent implements OnInit {
               this.getInsurerData?.quote_request?.meta_data?.selectedTabIndex
             );
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvFormData));
+            this.loadVehicleDetails = true;
+
+            if (!this.renewalTypeloadValue) {
+              this.sharedData?.getAddressValidation(
+                this.quoteData?.insurer_code
+              );
+            }
+            this.sharedData.createProposalId();
+            this.getAccordianData();
           }
           // if (mmvData) {
           //   sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
@@ -944,7 +928,7 @@ export class ProposalComponent implements OnInit {
           let pageLoadData = sessionStorage.getItem('pageLoad');
           if (!pageLoadData) {
             sessionStorage.setItem('pageLoad', 'true');
-            window.location.reload();
+            // window.location.reload();
           }
           this.sharedData.sendRenewalMmv(mmvData);
         }
@@ -1167,5 +1151,26 @@ export class ProposalComponent implements OnInit {
       this.showPreviousPolicyDetails = true;
     }
     // You can write logic to open specific accordion based on section value
+  }
+
+  getAccordianData() {
+    if (this.quoteData?.premium_details?.addon_premium_details?.length > 0) {
+      for (let isCpa of this.quoteData?.premium_details
+        ?.addon_premium_details) {
+        if (
+          (isCpa?.add_on_code === 'CPA' ||
+            isCpa?.add_on_code === 'CPA3' ||
+            isCpa?.add_on_code === 'CPA5') &&
+          this.proposerType !== 'corporate' &&
+          isCpa?.is_offered == true
+        ) {
+          this.isNotShowNomineeDetails = true;
+        }
+      }
+    } else if (this.proposerType === 'corporate') {
+      this.isNotShowNomineeDetails = false;
+    } else {
+      this.isNotShowNomineeDetails = false;
+    }
   }
 }

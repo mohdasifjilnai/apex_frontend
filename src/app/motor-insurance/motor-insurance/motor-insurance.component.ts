@@ -553,6 +553,7 @@ export class MotorInsuranceComponent implements OnInit {
           ? 'Partner'
           : 'Customer',
         Motor_Type: vehicleTypeValue,
+        Partner_id: sessionStorage.getItem('partner_code'),
       });
     }
     this.isPolicyNumber = false;
@@ -952,6 +953,7 @@ export class MotorInsuranceComponent implements OnInit {
           ? 'Partner'
           : 'Customer',
         Motor_Type: vehicleTypeValue,
+        Partner_id: sessionStorage.getItem('partner_code'),
       };
       const filteredSubmitData = Object.fromEntries(
         Object.entries(submitDetails).filter(([key, value]) => {

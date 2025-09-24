@@ -5,7 +5,10 @@
     }}</span>
   </div>
   <div class="inspectionData mb-3" *ngIf="renewalPolicyDetailsMessage">
-    <span class="col-lg-12 inspectionCase details ms-2">The edited information will not be reflected in the renewal policy copy.</span>
+    <span class="col-lg-12 inspectionCase details ms-2"
+      >The edited information will not be reflected in the renewal policy
+      copy.</span
+    >
   </div>
   <div class="col-lg-3 col-md-4">
     <app-insurance-details></app-insurance-details>
@@ -39,6 +42,7 @@
         <app-vehicle-owner-details
           [fetchCkycData]="proceedData"
           (afterVehicleOwnerData)="getVehicleOwnerData($event)"
+          *ngIf="loadVehicleDetails"
         ></app-vehicle-owner-details>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -59,7 +63,7 @@
           (afterNomineeGetData)="getNomineeData($event)"
         ></app-nominee-details>
       </mat-expansion-panel>
-      
+
       <mat-expansion-panel
         #vehicleDetailPanel
         id-automation="vehicle_details"
@@ -75,6 +79,7 @@
         <app-proposal-vehicle-details
           [fetchNomineeDetails]="proceedData"
           (afterVehicleData)="getVehicleData($event)"
+          *ngIf="loadVehicleDetails"
         ></app-proposal-vehicle-details>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -104,9 +109,9 @@
     <div (click)="back()">
       <img src="assets/icon/back.png" alt="" class="back-image me-2" />Proposal
     </div>
-    <div >
+    <div>
       <span class="cse"
-        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span><br/>
+        ><span *ngIf="is_cse == 'true'">CSE ({{ employee_code }})</span><br />
         <span *ngIf="partner_code">PC({{ partner_code }})</span></span
       >
     </div>
@@ -185,6 +190,5 @@
         </mat-horizontal-stepper>
       </div>
     </div>
-
   </div>
 </div>
