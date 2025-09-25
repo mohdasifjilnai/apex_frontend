@@ -93,6 +93,7 @@ export class ProposalComponent implements OnInit {
   renewalPolicyDetailsMessage: boolean = false;
   loadVehicleDetails = false;
   renewalTypeloadValue: any;
+  loadOwnerDetails = false;
   constructor(
     public matDialog: WindowRef,
     private sharedData: SharedDataService,
@@ -913,6 +914,11 @@ export class ProposalComponent implements OnInit {
             );
             sessionStorage.setItem('mmv_data', JSON.stringify(mmvFormData));
             this.loadVehicleDetails = true;
+            this.loadOwnerDetails = true;
+            this.vehicleType = sessionStorage.getItem('newVehicleType');
+            if (this.vehicleType === 'new') {
+              this.isNotShowInNewPolicyDetails = false;
+            }
 
             if (!this.renewalTypeloadValue) {
               this.sharedData?.getAddressValidation(
@@ -993,6 +999,7 @@ export class ProposalComponent implements OnInit {
       this.openAccordion('vehicleOwnerDetails', proposalData);
       this.accordianExpanded = 'vehicleOwnerDetails';
       this.setAccordionAccess('customer_details');
+      this.loadOwnerDetails = true;
       return;
     }
     // Check Nominee Details Accordion
@@ -1018,6 +1025,7 @@ export class ProposalComponent implements OnInit {
       this.showVehicleDetails = true;
       this.setAccordionAccess('vehicle_details');
       this.vehicleDetailPanel.open();
+      this.loadVehicleDetails = true;
       return;
     }
     const nomineeDetails = proposalData.nominee_details;
