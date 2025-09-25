@@ -151,6 +151,8 @@ export class ProposalComponent implements OnInit {
       if (Object.keys(this.quoteData).length > 0) {
         const renewalType = sessionStorage.getItem('renewalType');
         if (renewalType == 'renewal') {
+          this.loadVehicleDetails = true;
+          this.loadOwnerDetails = true;
           if (this.quoteData.insurer_code == 'cholamandalam') {
             this.renewalPolicyDetailsMessage = true;
           }
@@ -745,6 +747,7 @@ export class ProposalComponent implements OnInit {
           if (renewalTypeData) {
             sessionStorage.setItem('renewalType', 'renewal');
             this.isPrevoiusInsurer = true;
+
             sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
             let registartionNumber = response?.quote_request?.registration_no;
             let policy_number = response?.quote_request?.policy_number;
