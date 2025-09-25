@@ -146,63 +146,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       this.getPincodeList();
       this.getSalutationType();
     }
-    // this.vahaanDetailsUnsubscribe =
-    //   this.sharedDataService.getVahaanDetails.subscribe((res: any) => {
-    //     if (res?.customer_details != null) {
-    //       this.owenerVehicleDetailsForm.patchValue({
-    //         owner_full_Name: res?.customer_details?.full_name,
-    //         contact_number: res?.customer_details?.mobile_number,
-    //         owner_email: res?.customer_details?.email_id,
-    //         owner_gstin: res?.customer_details?.gst_no,
-    //         additional_contact: res?.customer_details?.additional_mobile_number,
-    //         owner_gender: res?.customer_details?.gender,
-    //         owner_communication_addres:
-    //           res?.customer_details?.communication_address?.address_line,
-    //       });
-    //       sessionStorage.setItem(
-    //         'mobileNumber',
-    //         this.owenerVehicleDetailsForm.get('contact_number')?.value
-    //       );
-    //     }
 
-    //     if (res?.customer_details?.communication_address?.pincode) {
-    //       this.apiService
-    //         .getRequestedResponse(
-    //           `${ApiConstants.pincode}?pincode=${
-    //             res?.customer_details?.communication_address?.pincode
-    //           }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-    //         )
-    //         .subscribe((response) => {
-    //           this.owenerVehicleDetailsForm.patchValue({
-    //             owner_pincode: response[0],
-    //             owner_city: response[0].rb_city_name,
-    //             owner_state: response[0].rb_state_name,
-    //           });
-    //           this.sharedDataService?.sendOwnnerAddres(
-    //             this.owenerVehicleDetailsForm.valid
-    //           );
-    //         });
-    //     }
-
-    //     if (res?.customer_details?.communication_address?.pincode) {
-    //       this.apiService
-    //         .getRequestedResponse(
-    //           `${ApiConstants.pincode}?pincode=${
-    //             res?.customer_details?.communication_address?.pincode
-    //           }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
-    //         )
-    //         .subscribe((response) => {
-    //           this.owenerVehicleDetailsForm.patchValue({
-    //             owner_pincode: response[0],
-    //             owner_city: response[0].rb_city_name,
-    //             owner_state: response[0].rb_state_name,
-    //           });
-    //           this.sharedDataService?.sendOwnnerAddres(
-    //             this.owenerVehicleDetailsForm.valid
-    //           );
-    //         });
-    //     }
-    //   });
     this.owenerVehicleDetailsForm
       .get('document_number_based_field')
       ?.updateValueAndValidity();
@@ -230,20 +174,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         this.vehicleOwnerName = true;
       }
       if (proposal?.customer_details !== null) {
-        // this.owenerVehicleDetailsForm.patchValue({
-        //   owner_full_Name: proposal?.customer_details?.full_name,
-        //   owner_email: proposal?.customer_details?.email_id,
-        //   contact_number: proposal?.customer_details?.mobile_number,
-        //   owner_gstin: proposal?.customer_details?.gst_no,
-        //   additional_contact:
-        //     proposal?.customer_details?.additional_mobile_number,
-        //   // ownner_occupation_type:
-        //   //   proposal?.customer_details?.occupation_type_id,
-        //   // owner_communication_addres:
-        //   //   proposal?.customer_details?.communication_address?.address_line,
-        //   marital_status: proposal?.customer_details?.marital_status,
-        //   owner_gender: proposal?.customer_details?.gender,
-        // });
         const customerDetails = proposal?.customer_details || {};
         Object.keys(customerDetails).forEach((key) => {
           if (
@@ -360,40 +290,6 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               );
             });
         }
-        // if (
-        //   this.owenerVehicleDetailsForm.get('owner_pincode')?.value != null &&
-        //   this.owenerVehicleDetailsForm.get('owner_pincode')?.value != '' &&
-        //   this.owenerVehicleDetailsForm.get('owner_pincode')?.value != undefined
-        // ) {
-        //   let pincodeValue;
-        //   if (
-        //     typeof this.owenerVehicleDetailsForm.get('owner_pincode')?.value ==
-        //     'object'
-        //   ) {
-        //     pincodeValue =
-        //       this.owenerVehicleDetailsForm.get('owner_pincode')?.value
-        //         ?.rb_pincode;
-        //   } else {
-        //     pincodeValue =
-        //       this.owenerVehicleDetailsForm.get('owner_pincode')?.value;
-        //   }
-        //   this.apiService
-        //     .getRequestedResponse(
-        //       `${ApiConstants.pincode}?pincode=${pincodeValue}&insurer_code=${
-        //         JSON.parse(this.quoteData)['insurer_code']
-        //       }`
-        //     )
-        //     .subscribe((response) => {
-        //       this.owenerVehicleDetailsForm.patchValue({
-        //         owner_pincode: response[0],
-        //         owner_city: response[0].rb_city_name,
-        //         owner_state: response[0].rb_state_name,
-        //       });
-        //       this.sharedDataService?.sendOwnnerAddres(
-        //         this.owenerVehicleDetailsForm.valid
-        //       );
-        //     });
-        // }
       }
       if (proposal?.ckyc_details !== null) {
         if (proposal?.ckyc_details?.document_type == 'pan_number') {

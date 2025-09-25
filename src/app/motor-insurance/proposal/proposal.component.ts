@@ -1029,6 +1029,7 @@ export class ProposalComponent implements OnInit {
       this.setAccordionAccess('vehicle_details');
       this.vehicleDetailPanel.open();
       this.loadVehicleDetails = true;
+      this.loadOwnerDetails = true;
       return;
     }
     const nomineeDetails = proposalData.nominee_details;
@@ -1054,6 +1055,8 @@ export class ProposalComponent implements OnInit {
       this.setAccordionAccess('vehicle_details');
       this.showVehicleDetails = true;
       this.vehicleDetailPanel.open();
+      this.loadVehicleDetails = true;
+      this.loadOwnerDetails = true;
       return;
     }
 

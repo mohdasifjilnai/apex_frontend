@@ -52,7 +52,7 @@ export class SharedDataService {
   detailNotFound: Subject<any> = new Subject();
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
-  getProposalDetails: Subject<any> = new Subject();
+  getProposalDetails = new BehaviorSubject<any>(null);
   getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
