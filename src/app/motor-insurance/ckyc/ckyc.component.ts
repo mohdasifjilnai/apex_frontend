@@ -194,6 +194,8 @@ export class CkycComponent implements OnInit {
       }
       if (proposal?.insurer_code == 'united_india') {
         this.isEnableCKyc = false;
+      } else {
+        this.isEnableCKyc = true;
       }
     });
     this.sharedDataService.errorEngineNumberValue.subscribe((res) => {
