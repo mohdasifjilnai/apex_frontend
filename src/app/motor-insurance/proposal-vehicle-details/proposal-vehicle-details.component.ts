@@ -795,7 +795,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   ngOnDestroy(): void {
     // this.vahaanDetailsUnsubscribe.unsubscribe();
     this.getCustomerIdDetails.unsubscribe();
-    this.proposalDetailsSubscription.unsubscribe();
+    if (this.proposalDetailsSubscription) {
+      this.proposalDetailsSubscription.unsubscribe();
+    }
   }
   filterInsurer(name: string) {}
 

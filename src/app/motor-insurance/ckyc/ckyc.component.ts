@@ -122,9 +122,12 @@ export class CkycComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.setCalenderRange();
     this.proposerType = sessionStorage.getItem('proposerType');
-    this.proposerType == 'individual'
-      ? this.dobPlaceholder
-      : (this.dobPlaceholder = 'Select Date of Incorporation');
+    if (this.proposerType != null) {
+      this.proposerType == 'individual'
+        ? this.dobPlaceholder
+        : (this.dobPlaceholder = 'Select Date of Incorporation');
+    }
+
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     if (this.quoteData['insurer_code'] === 'digit') {
@@ -143,6 +146,12 @@ export class CkycComponent implements OnInit {
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
       this.proposalData = proposal;
+      this.proposerType = sessionStorage.getItem('proposerType');
+      if (this.proposerType != null) {
+        this.proposerType == 'individual'
+          ? this.dobPlaceholder
+          : (this.dobPlaceholder = 'Select Date of Incorporation');
+      }
       if (proposal?.ckyc_details !== null) {
         if (this.quoteData?.insurer_code == 'united_india') {
           if (proposal?.ckyc_details?.is_verification) {
