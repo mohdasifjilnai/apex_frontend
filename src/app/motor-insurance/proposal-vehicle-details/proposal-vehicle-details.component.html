@@ -351,6 +351,12 @@
           isVehicleButton
         "
       >
+        <img
+          src="/assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-1"
+          *ngIf="loader"
+        />
         {{
           vehicleType === "new" || mmvItem?.form_value?.policy_expiry === "IDK"
             ? "Confirm & Review"

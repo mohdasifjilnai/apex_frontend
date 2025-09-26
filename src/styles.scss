@@ -207,14 +207,18 @@ th.mat-header-cell:last-of-type {
 
 .submit-btn {
   flex-wrap: wrap;
-  background: linear-gradient(0deg, rgb(255, 148, 61) 0%, rgb(255, 177, 113) 100%);
+  background: linear-gradient(
+    0deg,
+    rgb(255, 148, 61) 0%,
+    rgb(255, 177, 113) 100%
+  );
   // background-color: #ff943d;
   color: white;
   font-size: 14px;
   font-weight: 600;
   border-radius: 12px;
   // width: 150px;
-  border: 1px solid #FFB171;
+  border: 1px solid #ffb171;
   padding: 5px 15px 5px 15px;
 }
 .mat-tooltip {
@@ -255,7 +259,7 @@ th.mat-header-cell:last-of-type {
   border-radius: 16px 0 0 16px !important;
   min-width: 15px !important;
 }
-.mat-form-field-prefix .mat-icon{
+.mat-form-field-prefix .mat-icon {
   font-size: 16px !important;
 }
 /* Set top-right and bottom-right corner radius */
@@ -474,23 +478,23 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .mat-autocomplete-panel.mat-autocomplete-visible {
   padding-left: 5px;
 }
-.mat-option{
-  border-bottom: 2px solid #EAEAEA;
+.mat-option {
+  border-bottom: 2px solid #eaeaea;
   border-radius: 4px;
   height: min-content !important;
   min-height: 48px !important;
 }
-.mat-option:hover{
-  background: #F5F8FE !important;
-  color: #5384EA  ;
+.mat-option:hover {
+  background: #f5f8fe !important;
+  color: #5384ea;
   padding: 5px;
 }
-.mat-option-text{
+.mat-option-text {
   // height: 36px;
   // display: flex;
   // justify-content: center;
-  word-wrap: break-word;  /* Allows long words to be broken and wrap onto the next line */
-  white-space: normal;    /* Normalizes white-space handling to wrap text */
+  word-wrap: break-word; /* Allows long words to be broken and wrap onto the next line */
+  white-space: normal; /* Normalizes white-space handling to wrap text */
   overflow-wrap: break-word;
   line-height: 1.2;
 }
@@ -511,7 +515,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
-.revised-quotes-class{
+.revised-quotes-class {
   .mat-dialog-container {
     border-radius: 30px !important;
     overflow: unset !important;
@@ -595,7 +599,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
-.payout-info-class{
+.payout-info-class {
   .mat-dialog-container {
     border-radius: 30px !important;
     overflow: unset !important;
@@ -607,7 +611,7 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     overflow: unset !important;
   }
 }
-.vehicle-registration{
+.vehicle-registration {
   .mat-dialog-container {
     border-radius: 30px !important;
     overflow: unset !important;
@@ -647,16 +651,16 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     border-radius: 20px 20px 0px 0px;
   }
 }
-.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple){
-  background:#F5F8FE;
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #f5f8fe;
   border-radius: 5px;
   margin: 4px;
-  color: #5384EA !important;
+  color: #5384ea !important;
 }
- .mat-option-text:hover{
-  background:#F5F8FE;
+.mat-option-text:hover {
+  background: #f5f8fe;
   border-radius: 5px;
-  color: #5384EA !important;
+  color: #5384ea !important;
 }
 .wait-ckyc-verification-class {
   // margin-left: 50%;
@@ -686,12 +690,11 @@ mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
     width: 100%;
   }
 }
-.addons-renewal-class{
+.addons-renewal-class {
   .mat-dialog-container {
     border-radius: 20px !important;
     width: 580px !important;
   }
- 
 }
 .failure-dialog-class {
   .mat-dialog-container {
@@ -831,16 +834,16 @@ textarea.mat-input-element {
   border-radius: 20px 20px 0px 0px;
   // padding-top: 10px 0px 10px 0px;
 }
-.mat-form-field.mat-focused .mat-form-field-label{
+.mat-form-field.mat-focused .mat-form-field-label {
   color: #282828 !important;
 }
-.mat-form-field-required-marker{
+.mat-form-field-required-marker {
   color: #282828 !important;
 }
 .mat-form-field-invalid .mat-form-field-required-marker {
   color: #f44336 !important;
 }
-.mat-form-field.mat-form-field-invalid .mat-form-field-label{
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
   color: #f44336 !important;
 }
 .mat-select-value-text {
@@ -849,25 +852,25 @@ textarea.mat-input-element {
 }
 
 .visually-disabled {
-  position: relative; 
+  position: relative;
   opacity: 0.5;
   pointer-events: none;
 }
 
 .visually-disabled::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; 
+  top: 0;
   left: 0;
   right: 0;
   background: #ffffff;
   border: none;
-  border-radius: 15px; 
-  z-index: -1; 
+  border-radius: 15px;
+  z-index: -1;
 }
 .readonly-select {
-  pointer-events: none; 
-  opacity: 0.5; 
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 // for mobile devices
@@ -875,4 +878,9 @@ textarea.mat-input-element {
   .insurance-details-class {
     margin-left: 1%;
   }
+}
+.loader {
+  width: 28px;
+  height: 16px;
+  margin-bottom: 6px;
 }

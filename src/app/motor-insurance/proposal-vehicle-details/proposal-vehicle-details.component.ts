@@ -103,6 +103,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     isOutSideClose: true,
     classObtained: 'nonPOS-class',
   };
+  loader: boolean = false;
   private getCustomerIdDetails!: Subscription;
   constructor(
     private apiservice: ApiService,
@@ -279,6 +280,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     this.shareData.getProposalDetails.subscribe((proposal) => {
       this.proposalData = proposal;
       const is_new_vehcile = sessionStorage.getItem('newVehicleType');
+      this.loader = false;
       if (proposal?.insurer_code != 'digit') {
         if (is_new_vehcile == 'new') {
           if (proposal?.ckyc_details?.is_verification) {
@@ -793,6 +795,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
   ngOnDestroy(): void {
     // this.vahaanDetailsUnsubscribe.unsubscribe();
     this.getCustomerIdDetails.unsubscribe();
+    this.proposalDetailsSubscription.unsubscribe();
   }
   filterInsurer(name: string) {}
 
@@ -814,6 +817,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
   }
   getProposalVehicleData(isValid: any) {
+    this.loader = true;
     const vehcileType = sessionStorage.getItem('vehicleType');
     // webengage.track('Motor_Details_Submitted', {
     //   Option_Selected: vehcileType,
