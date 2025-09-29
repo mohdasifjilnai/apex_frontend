@@ -924,7 +924,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
              * subscribe to getProposalDetails and navigate after the response
              */
             this.proposalDetailsSubscription =
-              this.shareData.getProposalDetails.subscribe((proposal) => {
+              this.shareData.getProposalDetailsData.subscribe((proposal) => {
                 if (
                   (this.vehicleType === 'new' ||
                     (this.isBreakIn && this.productTypeValue === 'satp') ||
@@ -987,7 +987,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
        * subscribe to getProposalDetails and navigate after the response
        */
       this.proposalDetailsSubscription =
-        this.shareData.getProposalDetails.subscribe((proposal) => {
+        this.shareData.getProposalDetailsData.subscribe((proposal) => {
           if (
             (this.vehicleType === 'new' ||
               (this.isBreakIn && this.productTypeValue === 'satp') ||

@@ -53,6 +53,7 @@ export class SharedDataService {
   vehicleCardValue: Subject<any> = new Subject();
   longPollingInfo!: any;
   getProposalDetails = new BehaviorSubject<any>(null);
+  getProposalDetailsData: Subject<any> = new Subject();
   getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
@@ -1318,6 +1319,7 @@ export class SharedDataService {
   }
   sendProposalData(data: any) {
     this.getProposalDetails.next(data);
+    this.getProposalDetailsData.next(data);
   }
   sendErrorProposalData(data: any) {
     this.getErrorProposalDetails.next(data);
