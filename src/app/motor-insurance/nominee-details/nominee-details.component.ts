@@ -67,8 +67,17 @@ export class NomineeDetailsComponent implements OnInit {
     this.getCustomerIdDetails = this.sharedData.getCustomerId.subscribe(
       (idValue) => {
         if (idValue == 'Nominee Details') {
+          let nomieeRelation = '';
+          for (let i = 0; i <= this.relationshipList.length - 1; i++) {
+            if (
+              this.relationshipList[i].rb_id ==
+              this.nominneForm.value.nominne_relation
+            ) {
+              nomieeRelation = this.relationshipList[i].rb_nominee_relation;
+            }
+          }
           webengage.track('Motor_Nominee_Details_Submitted', {
-            Nominee_Relation: this.nominneForm.value.nominne_relation,
+            Nominee_Relation: nomieeRelation,
             Age: this.nominneForm.value.age,
             User_Type: sessionStorage.getItem('partner_code')
               ? 'Partner'
@@ -125,8 +134,17 @@ export class NomineeDetailsComponent implements OnInit {
       this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
       let CheckId = JSON.parse(this.isExistCustomerId || '{}');
       if (CheckId) {
+        let nomieeRelation = '';
+        for (let i = 0; i <= this.relationshipList.length - 1; i++) {
+          if (
+            this.relationshipList[i].rb_id ==
+            this.nominneForm.value.nominne_relation
+          ) {
+            nomieeRelation = this.relationshipList[i].rb_nominee_relation;
+          }
+        }
         webengage.track('Motor_Nominee_Details_Submitted', {
-          Nominee_Relation: this.nominneForm.value.nominne_relation,
+          Nominee_Relation: nomieeRelation,
           Age: this.nominneForm.value.age,
           User_Type: sessionStorage.getItem('partner_code')
             ? 'Partner'

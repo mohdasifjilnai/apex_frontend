@@ -590,7 +590,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           Email: 'Yes',
           Occupation_type: formValues?.ownner_occupation_type,
           GSTIN: formValues?.owner_gstin,
-          Additional_contact_number: `+91${formValues?.additional_contact}`,
+          Additional_contact_number: formValues?.additional_contact
+            ? 'Yes'
+            : 'NO',
           Gender: formValues?.owner_gender,
           Matrital_Status: formValues?.marital_status,
           Insurer_Name: vehicleDetailsValue?.insurer_name,

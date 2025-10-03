@@ -555,6 +555,16 @@ export class MotorInsuranceComponent implements OnInit {
         Motor_Type: vehicleTypeValue,
         Partner_id: sessionStorage.getItem('partner_code'),
       });
+    } else if (!this.withoutVehicleNumber) {
+      let vehicleTypeValue = sessionStorage.getItem('vehicleType');
+
+      webengage.track('Proceed_With_Vehicle', {
+        User_Type: sessionStorage.getItem('partner_code')
+          ? 'Partner'
+          : 'Customer',
+        Motor_Type: vehicleTypeValue,
+        Partner_id: sessionStorage.getItem('partner_code'),
+      });
     }
     this.isPolicyNumber = false;
     this.disableInsurer = true;
