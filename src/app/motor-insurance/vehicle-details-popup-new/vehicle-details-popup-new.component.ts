@@ -1366,7 +1366,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   updateVehicleDetail(isValid: any) {
     if (isValid) {
       let title;
-      if (this.editVehicleDetails) {
+      if (!this.editVehicleDetails) {
         title = 'Motor_details_verified';
         sessionStorage.removeItem('transaction_id');
       } else {
