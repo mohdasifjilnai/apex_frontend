@@ -1815,7 +1815,7 @@ export class SharedDataService {
 
         case 'pan':
           const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
-          return panPattern.test(value.toUpperCase())
+          return panPattern.test(value?.toUpperCase())
             ? null
             : { invalidPAN: true };
 
