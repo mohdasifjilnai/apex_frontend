@@ -210,6 +210,8 @@ export class QuotesListingComponent implements OnInit {
   loaderOnCardId: any;
   FlexiError: boolean[] = [];
   isDisableFlexiAmount: boolean[] = [];
+  enableQuotesActionValue: any;
+  enableCarValue: any;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -247,367 +249,398 @@ export class QuotesListingComponent implements OnInit {
     if (this.sortObjectkey) {
       this.lowHighSelected = this.sortObjectkey;
     }
-    this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
-      if (this.enableIdvCard) {
-        this.enableIdvCard = false;
-        this.tabChangeOninit = false;
-        this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
-        if (this.sortObjectkey) {
-          this.lowHighSelected = this.sortObjectkey;
-        }
+    this.enableQuotesActionValue =
+      this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
+        if (this.enableIdvCard) {
+          this.enableIdvCard = false;
+          this.tabChangeOninit = false;
+          this.sortObjectkey = sessionStorage.getItem('sortObjectkey');
+          if (this.sortObjectkey) {
+            this.lowHighSelected = this.sortObjectkey;
+          }
 
-        this.sorting(this.sortObjectkey);
-        if (this.carLoader) {
-          for (let i = 0; i < this.quotationData.length; i++) {
-            const quote = this.quotationData[i];
+          this.sorting(this.sortObjectkey);
+          if (this.carLoader) {
+            for (let i = 0; i < this.quotationData.length; i++) {
+              const quote = this.quotationData[i];
 
-            if (quote?.flexi_discounting?.is_active) {
-              // Reset applyButton logic (default is false)
-              this.quotationData[i].applyButton = false;
-              this.quotationData[i].applyInputButton = false;
+              if (quote?.flexi_discounting?.is_active) {
+                // Reset applyButton logic (default is false)
+                this.quotationData[i].applyButton = false;
+                this.quotationData[i].applyInputButton = false;
 
-              const formGroup = this.flexiDiscountFormArray.at(i);
-              const flexiControl = formGroup.get('flexiDiscount');
+                const formGroup = this.flexiDiscountFormArray.at(i);
+                const flexiControl = formGroup.get('flexiDiscount');
 
-              // Enable or disable the control
-              flexiControl?.enable(); // or conditionally disable if needed
+                // Enable or disable the control
+                flexiControl?.enable(); // or conditionally disable if needed
 
-              // Load all stored flexi discount values from sessionStorage
-              const flexiDetails = sessionStorage.getItem('flexiAmount');
-              if (flexiDetails) {
-                const flexiValues = JSON.parse(flexiDetails); // This is now an array
+                // Load all stored flexi discount values from sessionStorage
+                const flexiDetails = sessionStorage.getItem('flexiAmount');
+                if (flexiDetails) {
+                  const flexiValues = JSON.parse(flexiDetails); // This is now an array
 
-                const insurerCode = quote?.insurer_code?.toLowerCase();
-                const isPayd = quote?.payd?.status;
+                  const insurerCode = quote?.insurer_code?.toLowerCase();
+                  const isPayd = quote?.payd?.status;
 
-                // Find the matching entry in the array
-                const matched = flexiValues.find(
-                  (item: any) =>
-                    item.insurerCode?.toLowerCase() === insurerCode &&
-                    item.is_payd === isPayd
-                );
+                  // Find the matching entry in the array
+                  const matched = flexiValues.find(
+                    (item: any) =>
+                      item.insurerCode?.toLowerCase() === insurerCode &&
+                      item.is_payd === isPayd
+                  );
 
-                if (matched) {
-                  // Patch the matched discount value
-                  flexiControl?.patchValue(matched.discount_percentage);
-                  this.quotationData[i].flexi_discounting.discount_percentage =
-                    matched.discount_percentage;
+                  if (matched) {
+                    // Patch the matched discount value
+                    flexiControl?.patchValue(matched.discount_percentage);
+                    this.quotationData[
+                      i
+                    ].flexi_discounting.discount_percentage =
+                      matched.discount_percentage;
+                  } else {
+                    // Fallback to min_discount
+                    flexiControl?.patchValue(
+                      quote?.flexi_discounting?.discount_percentage
+                    );
+                  }
                 } else {
-                  // Fallback to min_discount
+                  // No session data; use default min_discount
                   flexiControl?.patchValue(
                     quote?.flexi_discounting?.discount_percentage
                   );
                 }
+              }
+            }
+
+            this.flexiButton = true;
+            this.carLoader = false;
+            const mmv_data = JSON.parse(
+              sessionStorage.getItem('mmv_data') || '{}'
+            );
+            const addons = JSON.parse(
+              sessionStorage.getItem('selectedAddons') || '{}'
+            );
+            let idvValue = JSON.parse(
+              sessionStorage.getItem('idvData') || '{}'
+            );
+            let idvData;
+            if (idvValue?.minIdv) {
+              idvData = idvValue?.minIdv;
+            } else if (idvValue?.maxIdv) {
+              idvData = idvValue?.maxIdv;
+            } else {
+              idvData = idvValue?.chooseIdv;
+            }
+            const sortObjectkey = sessionStorage.getItem('sortObjectkey');
+            const token = sessionStorage.getItem('token');
+            let proposarTypeData = sessionStorage.getItem('proposerType');
+            const transformedDateString = mmv_data?.form_value.registration_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.registration_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+
+            let regDate = transformedDateString
+              ? new Date(transformedDateString as string)
+              : '';
+
+            const transformedMgfDate = mmv_data?.form_value.manufacture_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.manufacture_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+            let mgfDate = transformedMgfDate
+              ? new Date(transformedMgfDate as string)
+              : '';
+
+            const transformedPolicyExpiry = mmv_data?.form_value
+              .policy_expiry_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.policy_expiry_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+            let policyExpDate = transformedPolicyExpiry
+              ? new Date(transformedPolicyExpiry as string)
+              : '';
+            const formData = {
+              Vehicle_Variant:
+                mmv_data?.form_value.vehicle_fuel?.rb_make_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.rb_model_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
+                ' cc',
+              Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
+              Registration_City:
+                mmv_data?.form_value.registration_city?.display_name,
+              'Mfg._Year': mgfDate,
+              Registration_Date: regDate,
+              Policy_Expiry_Date: policyExpDate,
+              Previous_Insurer: mmv_data?.form_value.previous_insurer,
+              Previous_NCB:
+                mmv_data?.form_value?.ncb_discount != null
+                  ? mmv_data?.form_value?.ncb_discount
+                  : '',
+              New_NCB:
+                mmv_data?.form_value?.ncb_discount?.new_ncb_value != null
+                  ? mmv_data?.form_value.ncb_discount.new_ncb_value
+                  : '',
+              Trace_ID: sessionStorage.getItem('transaction_id'),
+              IDV: idvData,
+              Add_Ons: addons,
+
+              Customer_sort_by: proposarTypeData,
+              Price_sort_by:
+                sortObjectkey == 'low' ? 'Low to High' : 'High to Low',
+              Plan_Details: this.quotationData,
+              User_Type: token != null ? 'Partner' : 'Customer',
+              Motor_Type: this.vehicleTypeValue,
+              Partner_code: sessionStorage.getItem('partner_code')
+                ? sessionStorage.getItem('partner_code')
+                : '',
+              Partner_id: sessionStorage.getItem('partner_code')
+                ? sessionStorage.getItem('partner_code')
+                : '',
+            };
+            const filteredData = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => {
+                if (value == null || value === '') {
+                  return false;
+                }
+                return true;
+              })
+            );
+            webengage.track('Motor_Insurance_Plans_Found', filteredData);
+          }
+        }
+      });
+    this.enableCarValue = this.sharedDataService.enableCarLoader.subscribe(
+      (idvData) => {
+        this.carLoader = true;
+        for (let i = 0; i < this.quotationData.length; i++) {
+          const quote = this.quotationData[i];
+
+          if (quote?.flexi_discounting?.is_active) {
+            // Set applyButton based on your logic
+            this.quotationData[i].applyButton = true;
+            this.quotationData[i].applyInputButton = true;
+            const formGroup = this.flexiDiscountFormArray.at(i);
+            const flexiControl = formGroup.get('flexiDiscount');
+            this.FlexiError[i] = false;
+            // Enable/disable input based on applyButton flag
+            if (this.quotationData[i].applyButton) {
+              flexiControl?.disable();
+            } else {
+              flexiControl?.enable();
+            }
+
+            // Load value from session or use default
+            const flexiDetails = sessionStorage.getItem('flexiAmount');
+            if (flexiDetails) {
+              const flexiValues = JSON.parse(flexiDetails); // This is now an array
+
+              const insurerCode = quote?.insurer_code?.toLowerCase();
+              const isPayd = quote?.payd?.status;
+
+              // Find the matching entry in the array
+              const matched = flexiValues.find(
+                (item: any) =>
+                  item.insurerCode?.toLowerCase() === insurerCode &&
+                  item.is_payd === isPayd
+              );
+
+              if (matched) {
+                // Patch the matched discount value
+                flexiControl?.patchValue(matched.discount_percentage);
+                this.quotationData[i].flexi_discounting.discount_percentage =
+                  matched.discount_percentage;
               } else {
-                // No session data; use default min_discount
+                // Fallback to min_discount
                 flexiControl?.patchValue(
                   quote?.flexi_discounting?.discount_percentage
                 );
               }
-            }
-          }
-
-          this.flexiButton = true;
-          this.carLoader = false;
-          const mmv_data = JSON.parse(
-            sessionStorage.getItem('mmv_data') || '{}'
-          );
-          const addons = JSON.parse(
-            sessionStorage.getItem('selectedAddons') || '{}'
-          );
-          let idvValue = JSON.parse(sessionStorage.getItem('idvData') || '{}');
-          let idvData;
-          if (idvValue?.minIdv) {
-            idvData = idvValue?.minIdv;
-          } else if (idvValue?.maxIdv) {
-            idvData = idvValue?.maxIdv;
-          } else {
-            idvData = idvValue?.chooseIdv;
-          }
-          const sortObjectkey = sessionStorage.getItem('sortObjectkey');
-          const token = sessionStorage.getItem('token');
-          let proposarTypeData = sessionStorage.getItem('proposerType');
-          const transformedDateString = mmv_data?.form_value.registration_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.registration_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-
-          let regDate = transformedDateString
-            ? new Date(transformedDateString as string)
-            : '';
-
-          const transformedMgfDate = mmv_data?.form_value.manufacture_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.manufacture_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-          let mgfDate = transformedMgfDate
-            ? new Date(transformedMgfDate as string)
-            : '';
-
-          const transformedPolicyExpiry = mmv_data?.form_value
-            .policy_expiry_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.policy_expiry_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-          let policyExpDate = transformedPolicyExpiry
-            ? new Date(transformedPolicyExpiry as string)
-            : '';
-          const formData = {
-            Vehicle_Variant:
-              mmv_data?.form_value.vehicle_fuel?.rb_make_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.rb_model_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
-              ' cc',
-            Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
-            Registration_City:
-              mmv_data?.form_value.registration_city?.display_name,
-            'Mfg._Year': mgfDate,
-            Registration_Date: regDate,
-            Policy_Expiry_Date: policyExpDate,
-            Previous_Insurer: mmv_data?.form_value.previous_insurer,
-            Previous_NCB: mmv_data?.form_value.ncb_discount,
-            New_NCB: mmv_data?.form_value.ncb_discount.new_ncb_value,
-            Trace_ID: sessionStorage.getItem('transaction_id'),
-            IDV: idvData,
-            Add_Ons: addons,
-
-            Customer_sort_by: proposarTypeData,
-            Price_sort_by:
-              sortObjectkey == 'low' ? 'Low to High' : 'High to Low',
-            Plan_Details: this.quotationData,
-            User_Type: token != null ? 'Partner' : 'Customer',
-            Motor_Type: this.vehicleTypeValue,
-            Partner_code: sessionStorage.getItem('partner_code'),
-            Partner_id: sessionStorage.getItem('partner_code'),
-          };
-          const filteredData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => {
-              if (value == null || value === '') {
-                return false;
-              }
-              return true;
-            })
-          );
-          webengage.track('Motor_Insurance_Plans_Found', filteredData);
-        }
-      }
-    });
-    this.sharedDataService.enableCarLoader.subscribe((idvData) => {
-      this.carLoader = true;
-      for (let i = 0; i < this.quotationData.length; i++) {
-        const quote = this.quotationData[i];
-
-        if (quote?.flexi_discounting?.is_active) {
-          // Set applyButton based on your logic
-          this.quotationData[i].applyButton = true;
-          this.quotationData[i].applyInputButton = true;
-          const formGroup = this.flexiDiscountFormArray.at(i);
-          const flexiControl = formGroup.get('flexiDiscount');
-          this.FlexiError[i] = false;
-          // Enable/disable input based on applyButton flag
-          if (this.quotationData[i].applyButton) {
-            flexiControl?.disable();
-          } else {
-            flexiControl?.enable();
-          }
-
-          // Load value from session or use default
-          const flexiDetails = sessionStorage.getItem('flexiAmount');
-          if (flexiDetails) {
-            const flexiValues = JSON.parse(flexiDetails); // This is now an array
-
-            const insurerCode = quote?.insurer_code?.toLowerCase();
-            const isPayd = quote?.payd?.status;
-
-            // Find the matching entry in the array
-            const matched = flexiValues.find(
-              (item: any) =>
-                item.insurerCode?.toLowerCase() === insurerCode &&
-                item.is_payd === isPayd
-            );
-
-            if (matched) {
-              // Patch the matched discount value
-              flexiControl?.patchValue(matched.discount_percentage);
-              this.quotationData[i].flexi_discounting.discount_percentage =
-                matched.discount_percentage;
             } else {
-              // Fallback to min_discount
               flexiControl?.patchValue(
                 quote?.flexi_discounting?.discount_percentage
               );
+              console.log(flexiControl);
             }
-          } else {
-            flexiControl?.patchValue(
-              quote?.flexi_discounting?.discount_percentage
-            );
-            console.log(flexiControl);
           }
         }
-      }
-      let timeout: any;
-      if (environment.dev) {
-        timeout = 50000;
-      } else {
-        timeout = 10000;
-      }
-      setTimeout(() => {
-        if (this.carLoader) {
-          for (let i = 0; i < this.quotationData.length; i++) {
-            const quote = this.quotationData[i];
+        let timeout: any;
+        if (environment.dev) {
+          timeout = 50000;
+        } else {
+          timeout = 10000;
+        }
+        setTimeout(() => {
+          if (this.carLoader) {
+            for (let i = 0; i < this.quotationData.length; i++) {
+              const quote = this.quotationData[i];
 
-            if (quote?.flexi_discounting?.is_active) {
-              // Reset applyButton logic (default is false)
-              this.quotationData[i].applyButton = false;
-              this.quotationData[i].applyInputButton = false;
+              if (quote?.flexi_discounting?.is_active) {
+                // Reset applyButton logic (default is false)
+                this.quotationData[i].applyButton = false;
+                this.quotationData[i].applyInputButton = false;
 
-              const formGroup = this.flexiDiscountFormArray.at(i);
-              const flexiControl = formGroup.get('flexiDiscount');
+                const formGroup = this.flexiDiscountFormArray.at(i);
+                const flexiControl = formGroup.get('flexiDiscount');
 
-              // Enable or disable the control
-              flexiControl?.enable(); // or conditionally disable if needed
+                // Enable or disable the control
+                flexiControl?.enable(); // or conditionally disable if needed
 
-              // Load all stored flexi discount values from sessionStorage
-              const flexiDetails = sessionStorage.getItem('flexiAmount');
-              if (flexiDetails) {
-                const flexiValues = JSON.parse(flexiDetails); // This is now an array
+                // Load all stored flexi discount values from sessionStorage
+                const flexiDetails = sessionStorage.getItem('flexiAmount');
+                if (flexiDetails) {
+                  const flexiValues = JSON.parse(flexiDetails); // This is now an array
 
-                const insurerCode = quote?.insurer_code?.toLowerCase();
-                const isPayd = quote?.payd?.status;
+                  const insurerCode = quote?.insurer_code?.toLowerCase();
+                  const isPayd = quote?.payd?.status;
 
-                // Find the matching entry in the array
-                const matched = flexiValues.find(
-                  (item: any) =>
-                    item.insurerCode?.toLowerCase() === insurerCode &&
-                    item.is_payd === isPayd
-                );
+                  // Find the matching entry in the array
+                  const matched = flexiValues.find(
+                    (item: any) =>
+                      item.insurerCode?.toLowerCase() === insurerCode &&
+                      item.is_payd === isPayd
+                  );
 
-                if (matched) {
-                  // Patch the matched discount value
-                  flexiControl?.patchValue(matched.discount_percentage);
-                  this.quotationData[i].flexi_discounting.discount_percentage =
-                    matched.discount_percentage;
+                  if (matched) {
+                    // Patch the matched discount value
+                    flexiControl?.patchValue(matched.discount_percentage);
+                    this.quotationData[
+                      i
+                    ].flexi_discounting.discount_percentage =
+                      matched.discount_percentage;
+                  } else {
+                    // Fallback to min_discount
+                    flexiControl?.patchValue(
+                      quote?.flexi_discounting?.discount_percentage
+                    );
+                  }
                 } else {
-                  // Fallback to min_discount
+                  // No session data; use default min_discount
                   flexiControl?.patchValue(
                     quote?.flexi_discounting?.discount_percentage
                   );
+                  console.log(flexiControl);
                 }
-              } else {
-                // No session data; use default min_discount
-                flexiControl?.patchValue(
-                  quote?.flexi_discounting?.discount_percentage
-                );
-                console.log(flexiControl);
               }
             }
+
+            this.flexiButton = true;
+            this.carLoader = false;
+            const mmv_data = JSON.parse(
+              sessionStorage.getItem('mmv_data') || '{}'
+            );
+            const addons = JSON.parse(
+              sessionStorage.getItem('selectedAddons') || '{}'
+            );
+            let idvValue = JSON.parse(
+              sessionStorage.getItem('idvData') || '{}'
+            );
+            let idvData;
+            if (idvValue?.minIdv) {
+              idvData = idvValue?.minIdv;
+            } else if (idvValue?.maxIdv) {
+              idvData = idvValue?.maxIdv;
+            } else {
+              idvData = idvValue?.chooseIdv;
+            }
+            const sortObjectkey = sessionStorage.getItem('sortObjectkey');
+            const token = sessionStorage.getItem('token');
+            let proposarTypeData = sessionStorage.getItem('proposerType');
+            const transformedDateString = mmv_data?.form_value.registration_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.registration_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+
+            let regDate = transformedDateString
+              ? new Date(transformedDateString as string)
+              : '';
+
+            const transformedMgfDate = mmv_data?.form_value.manufacture_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.manufacture_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+            let mgfDate = transformedMgfDate
+              ? new Date(transformedMgfDate as string)
+              : '';
+
+            const transformedPolicyExpiry = mmv_data?.form_value
+              .policy_expiry_date
+              ? this.datePipe.transform(
+                  mmv_data?.form_value.policy_expiry_date,
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                )
+              : '';
+            let policyExpDate = transformedPolicyExpiry
+              ? new Date(transformedPolicyExpiry as string)
+              : '';
+            const formData = {
+              Vehicle_Variant:
+                mmv_data?.form_value.vehicle_fuel?.rb_make_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.rb_model_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
+                ' ' +
+                mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
+                ' cc',
+              Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
+              Registration_City:
+                mmv_data?.form_value.registration_city?.display_name,
+              'Mfg._Year': mgfDate,
+              Registration_Date: regDate,
+              Policy_Expiry_Date: policyExpDate,
+              Previous_Insurer: mmv_data?.form_value.previous_insurer,
+              Previous_NCB:
+                mmv_data?.form_value?.ncb_discount != null
+                  ? mmv_data?.form_value?.ncb_discount
+                  : '',
+              New_NCB:
+                mmv_data?.form_value?.ncb_discount?.new_ncb_value != null
+                  ? mmv_data?.form_value?.ncb_discount?.new_ncb_value
+                  : '',
+              Trace_ID: sessionStorage.getItem('transaction_id'),
+              IDV: idvData,
+              Add_Ons: addons,
+
+              Customer_sort_by: proposarTypeData,
+              Price_sort_by:
+                sortObjectkey == 'low' ? 'Low to High' : 'High to Low',
+              Plan_Details: this.quotationData,
+              User_Type: token != null ? 'Partner' : 'Customer',
+              Motor_Type: this.vehicleTypeValue,
+              Partner_code: sessionStorage.getItem('partner_code')
+                ? sessionStorage.getItem('partner_code')
+                : '',
+              Partner_id: sessionStorage.getItem('partner_code')
+                ? sessionStorage.getItem('partner_code')
+                : '',
+            };
+            const filteredData = Object.fromEntries(
+              Object.entries(formData).filter(([key, value]) => {
+                if (value == null || value === '') {
+                  return false;
+                }
+                return true;
+              })
+            );
+            // webengage.track('Motor_Insurance_Plans_Found', filteredData);
           }
-
-          this.flexiButton = true;
-          this.carLoader = false;
-          const mmv_data = JSON.parse(
-            sessionStorage.getItem('mmv_data') || '{}'
-          );
-          const addons = JSON.parse(
-            sessionStorage.getItem('selectedAddons') || '{}'
-          );
-          let idvValue = JSON.parse(sessionStorage.getItem('idvData') || '{}');
-          let idvData;
-          if (idvValue?.minIdv) {
-            idvData = idvValue?.minIdv;
-          } else if (idvValue?.maxIdv) {
-            idvData = idvValue?.maxIdv;
-          } else {
-            idvData = idvValue?.chooseIdv;
-          }
-          const sortObjectkey = sessionStorage.getItem('sortObjectkey');
-          const token = sessionStorage.getItem('token');
-          let proposarTypeData = sessionStorage.getItem('proposerType');
-          const transformedDateString = mmv_data?.form_value.registration_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.registration_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-
-          let regDate = transformedDateString
-            ? new Date(transformedDateString as string)
-            : '';
-
-          const transformedMgfDate = mmv_data?.form_value.manufacture_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.manufacture_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-          let mgfDate = transformedMgfDate
-            ? new Date(transformedMgfDate as string)
-            : '';
-
-          const transformedPolicyExpiry = mmv_data?.form_value
-            .policy_expiry_date
-            ? this.datePipe.transform(
-                mmv_data?.form_value.policy_expiry_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
-              )
-            : '';
-          let policyExpDate = transformedPolicyExpiry
-            ? new Date(transformedPolicyExpiry as string)
-            : '';
-          const formData = {
-            Vehicle_Variant:
-              mmv_data?.form_value.vehicle_fuel?.rb_make_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.rb_model_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.rb_variant_name +
-              ' ' +
-              mmv_data?.form_value.vehicle_fuel?.cubic_capacity +
-              ' cc',
-            Fuel: mmv_data?.form_value.vehicle_fuel?.fuel,
-            Registration_City:
-              mmv_data?.form_value.registration_city?.display_name,
-            'Mfg._Year': mgfDate,
-            Registration_Date: regDate,
-            Policy_Expiry_Date: policyExpDate,
-            Previous_Insurer: mmv_data?.form_value.previous_insurer,
-            Previous_NCB: mmv_data?.form_value.ncb_discount,
-            New_NCB: mmv_data?.form_value.ncb_discount.new_ncb_value,
-            Trace_ID: sessionStorage.getItem('transaction_id'),
-            IDV: idvData,
-            Add_Ons: addons,
-
-            Customer_sort_by: proposarTypeData,
-            Price_sort_by:
-              sortObjectkey == 'low' ? 'Low to High' : 'High to Low',
-            Plan_Details: this.quotationData,
-            User_Type: token != null ? 'Partner' : 'Customer',
-            Motor_Type: this.vehicleTypeValue,
-            Partner_code: sessionStorage.getItem('partner_code'),
-            Partner_id: sessionStorage.getItem('partner_code'),
-          };
-          const filteredData = Object.fromEntries(
-            Object.entries(formData).filter(([key, value]) => {
-              if (value == null || value === '') {
-                return false;
-              }
-              return true;
-            })
-          );
-          webengage.track('Motor_Insurance_Plans_Found', filteredData);
-        }
-      }, timeout);
-    });
+        }, timeout);
+      }
+    );
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
       this.quotationData = [];
@@ -1996,6 +2029,8 @@ export class QuotesListingComponent implements OnInit {
   ngOnDestroy() {
     this.vehicleCardMultipleCall.unsubscribe();
     this.traceIdTab.unsubscribe();
+    this.enableQuotesActionValue.unsubscribe();
+    this.enableCarValue.unsubscribe();
   }
   renewalRedirection(url: any) {
     window.open(url, '_blank');
