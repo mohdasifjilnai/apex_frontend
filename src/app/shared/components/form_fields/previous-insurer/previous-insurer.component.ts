@@ -136,13 +136,14 @@ export class PreviousInsurerComponent implements OnInit {
         this.registrationNumber = JSON.parse(
           sessionStorage.getItem('registrationDetails') || '{}'
         );
-
-        let insurerCode = this.registrationNumber?.previous_insurer_code
-          ? this.registrationNumber?.previous_insurer_code
-          : (this.registrationNumber.previous_insurer_code =
-              this.registrationNumber?.rb_insurer_code);
-        if (insurerCode != undefined) {
-          this.getInsurerData(insurerCode);
+        if (this.registrationNumber?.previous_insurer_code) {
+          let insurerCode = this.registrationNumber?.previous_insurer_code
+            ? this.registrationNumber?.previous_insurer_code
+            : (this.registrationNumber.previous_insurer_code =
+                this.registrationNumber?.rb_insurer_code);
+          if (insurerCode != undefined) {
+            this.getInsurerData(insurerCode);
+          }
         }
       }
     });

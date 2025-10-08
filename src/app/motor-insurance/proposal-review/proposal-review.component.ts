@@ -323,7 +323,7 @@ export class ProposalReviewComponent implements OnInit {
   }
   submitReview() {
     const vehcileType = sessionStorage.getItem('vehicleType');
-
+    this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     let vehicleProposalDetails = this.quoteData;
     this.quotesRequestData = sessionStorage.getItem('mmv_data');
     let requestValue = JSON.parse(this.quotesRequestData);
