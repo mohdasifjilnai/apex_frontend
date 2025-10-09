@@ -579,6 +579,19 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         const proposerType = sessionStorage.getItem('proposerType');
         let vehicleDetailsValue = JSON.parse(this.quoteData);
         const formValues = this.owenerVehicleDetailsForm.value;
+        let occuptionValue;
+        let maritalValue;
+        for (let data of this.occupationList) {
+          if (data?.rb_id === formValues?.ownner_occupation_type) {
+            occuptionValue = data.rb_occupation;
+          }
+        }
+        for (let i = 0; i <= this.maritalStatusList.length - 1; i++) {
+          if (this.maritalStatusList[i].id == formValues?.marital_status) {
+            maritalValue = this.maritalStatusList[i].name;
+          }
+        }
+
         let vehicleOwnerWebengage = {
           User_Type: sessionStorage.getItem('partner_code')
             ? 'Partner'
@@ -588,13 +601,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           Owner_Full_Name: 'Yes',
           Contact_Number: 'Yes',
           Email: 'Yes',
-          Occupation_type: formValues?.ownner_occupation_type,
+          Occupation_type: occuptionValue,
           GSTIN: formValues?.owner_gstin,
           Additional_contact_number: formValues?.additional_contact
             ? 'Yes'
             : 'NO',
           Gender: formValues?.owner_gender,
-          Matrital_Status: formValues?.marital_status,
+          Matrital_Status: maritalValue,
           Insurer_Name: vehicleDetailsValue?.insurer_name,
           Total_IDV: vehicleDetailsValue?.premium_details?.idv,
           Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,
