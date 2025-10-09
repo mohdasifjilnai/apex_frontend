@@ -56,6 +56,7 @@ export class SharedDataService {
   getProposalDetailsData: Subject<any> = new Subject();
   getCustomerId: Subject<any> = new Subject();
   getErrorProposalDetails: Subject<any> = new Subject();
+  sendProposalError: Subject<any> = new Subject();
   getValueWithoutRegistration: Subject<any> = new Subject();
   fetchKycData: Subject<any> = new Subject();
   quotesData: Subject<any> = new Subject();
@@ -1284,6 +1285,7 @@ export class SharedDataService {
         },
         (error: any) => {
           // this.sendErrorProposalData(error?.error);
+          this.sendProposalError.next(error?.error);
         }
       );
   }

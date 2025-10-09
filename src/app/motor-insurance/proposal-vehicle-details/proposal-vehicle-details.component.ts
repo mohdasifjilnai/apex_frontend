@@ -168,6 +168,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     if (this.insurerCode === 'sbi_general') {
       this.getVehicleColourList();
     }
+    this.shareData.sendProposalError.subscribe((proposalError) => {
+      if (proposalError) {
+        this.loader = false;
+      }
+    });
     this.isBreakIn = JSON.parse(this.quoteData)['is_breakin'];
     this.productTypeValue = sessionStorage.getItem('productType');
     this.mmvData = sessionStorage.getItem('mmv_data');
