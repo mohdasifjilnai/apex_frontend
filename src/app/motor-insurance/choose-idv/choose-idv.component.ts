@@ -309,10 +309,11 @@ export class ChooseIDVComponent implements OnInit {
     let mmvFormData = sessionStorage.getItem('mmv_data');
     // this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
     this.idvBaseQuotes();
+    let userDetails = JSON.parse(this.userType);
     webengage.track('IDV_filter_Applied', {
       // Option_Selected: option,
 
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
       IDV_Value: this.investedAmount,
       Partner_id: sessionStorage.getItem('partner_code'),
@@ -320,8 +321,9 @@ export class ChooseIDVComponent implements OnInit {
     // }
   }
   cancelIdv() {
+    let userDetails = JSON.parse(this.userType);
     webengage.track('IDV_filter_cleared', {
-      User_Type: this.userType?.partner_code ? 'Partner' : 'Customer',
+      User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
       Motor_Type: this.vehicleTypeValue,
     });
     // this.sharedDataService.sendCarLoaderMessage(0);
