@@ -1616,7 +1616,7 @@ export class SharedDataService {
       }
       this.apiService
         .getRequestedResponseCustomer(
-          `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}`
+          `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${formValues?.owner_email}`
         )
         .subscribe((res) => {
           this.webEngageCustomerDetails = res;
