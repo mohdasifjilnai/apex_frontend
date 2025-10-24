@@ -383,6 +383,20 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     //   //   }
     //   // }
     // });
+
+    this.owenerVehicleDetailsForm
+      ?.get('owner_communication_addres')
+      ?.valueChanges.pipe(
+        debounceTime(700), // waits 500ms after user stops typing
+        distinctUntilChanged() // only emits if value actually changed
+      )
+      .subscribe((addressValue) => {
+        this.addresLength = addressValue;
+        this.sharedDataService?.getAddressValidation(
+          JSON.parse(this.quoteData)['insurer_code']
+        );
+      });
+
     this.sharedDataService.getErrorProposalDetails.subscribe((errData) => {
       if (errData?.min_length) {
         this.maxlength = errData?.max_length;
