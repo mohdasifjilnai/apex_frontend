@@ -58,15 +58,15 @@ export class ChooseIDVComponent implements OnInit {
       // this.quotesCount = idvData;
       this.enableIdvCard = true;
       if (this.enableIdvCard) {
-        if (environment.dev) {
-          setTimeout(() => {
-            this.enableIdvCard = false;
-          }, 50000);
-        } else {
-          setTimeout(() => {
-            this.enableIdvCard = false;
-          }, 10000);
-        }
+        // if (environment.dev) {
+        //   setTimeout(() => {
+        //     this.enableIdvCard = false;
+        //   }, 50000);
+        // } else {
+        //   setTimeout(() => {
+        //     this.enableIdvCard = false;
+        //   }, 10000);
+        // }
 
         this.quotationData = [];
         if (idvData?.length > 0) {
@@ -280,15 +280,15 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     this.enableIdvCard = true;
-    if (environment.dev) {
-      setTimeout(() => {
-        this.enableIdvCard = false;
-      }, 50000);
-    } else {
-      setTimeout(() => {
-        this.enableIdvCard = false;
-      }, 10000);
-    }
+    // if (environment.dev) {
+    //   setTimeout(() => {
+    //     this.enableIdvCard = false;
+    //   }, 50000);
+    // } else {
+    //   setTimeout(() => {
+    //     this.enableIdvCard = false;
+    //   }, 10000);
+    // }
     // if (this.selectedIDVOption) {
     // this.sharedDataService.sendCarLoaderMessage(0);
     if (window.innerWidth <= 999) {
