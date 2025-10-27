@@ -56,7 +56,7 @@ export class ChooseIDVComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.sharedDataService.quotationListing.subscribe((idvData) => {
       // this.quotesCount = idvData;
-      this.enableIdvCard = true;
+      // this.enableIdvCard = true;
       if (this.enableIdvCard) {
         // if (environment.dev) {
         //   setTimeout(() => {
@@ -120,6 +120,7 @@ export class ChooseIDVComponent implements OnInit {
     });
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
+        console.log('take1', this.enableIdvCard);
         this.enableIdvCard = false;
       }
     });

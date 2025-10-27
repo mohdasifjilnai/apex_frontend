@@ -209,6 +209,7 @@
       <button
         class="submit-btn"
         (click)="update()"
+        [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'"
         [disabled]="ischeckInput || isMultiCheckbox || isTab"
       >
         Update
@@ -434,6 +435,7 @@
         class="submit-btn col-6"
         *ngIf="showButtons"
         (click)="update()"
+        [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'"
         [disabled]="ischeckInput || isMultiCheckbox || isTab"
       >
         Update

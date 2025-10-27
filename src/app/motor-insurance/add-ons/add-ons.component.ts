@@ -558,109 +558,111 @@ export class AddOnsComponent implements OnInit {
     });
   }
   update() {
-    const token = sessionStorage.getItem('token');
-    // this.sharedDataService.sendCarLoaderMessage(0);
+    if (!this.enableAddOns) {
+      const token = sessionStorage.getItem('token');
+      // this.sharedDataService.sendCarLoaderMessage(0);
 
-    this.selected_addons = {};
+      this.selected_addons = {};
 
-    for (let key of this.selectedCheckedArray) {
-      const keys = Object.keys(key);
-      let variableValue = keys[0];
-      this.selected_addons[variableValue] = key[variableValue];
-    }
-    sessionStorage.setItem(
-      'selectedAddons',
-      JSON.stringify(this.selectedCheckedArray)
-    );
-    if (this.idvAmount) {
-      let idvValue = JSON.parse(this.idvAmount);
-      let userDetails = JSON.parse(this.userType);
-      webengage.track('IDV_filter_Applied', {
-        User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
+      for (let key of this.selectedCheckedArray) {
+        const keys = Object.keys(key);
+        let variableValue = keys[0];
+        this.selected_addons[variableValue] = key[variableValue];
+      }
+      sessionStorage.setItem(
+        'selectedAddons',
+        JSON.stringify(this.selectedCheckedArray)
+      );
+      if (this.idvAmount) {
+        let idvValue = JSON.parse(this.idvAmount);
+        let userDetails = JSON.parse(this.userType);
+        webengage.track('IDV_filter_Applied', {
+          User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
+          Motor_Type: this.vehicleTypeValue,
+          IDV_Value: idvValue.chooseIdv,
+          Partner_id: sessionStorage.getItem('partner_code'),
+        });
+      }
+
+      let productTypeValue = sessionStorage.getItem('productType');
+      let mmvFormData = sessionStorage.getItem('mmv_data');
+
+      this.registrationNumber = sessionStorage.getItem('registrationNumber');
+      const count = Object.keys(this.selected_addons).length;
+      let sliderIdv = sessionStorage.getItem('sliderIdvValue');
+      let getChangesThrough = sessionStorage.getItem('throughChange');
+      if (sliderIdv && this.idvAmount == undefined) {
+        let idvObject = {
+          minIdv: '',
+          maxIdv: '',
+          chooseIdv: sliderIdv,
+        };
+        let chooseIdvValue = sessionStorage.setItem(
+          'idvData',
+          JSON.stringify(idvObject)
+        );
+      } else if (getChangesThrough == 'input') {
+        let allIdvData = JSON.parse(this.idvAmount || '{}');
+        let idvObject = {
+          minIdv: '',
+          maxIdv: '',
+          chooseIdv: allIdvData.chooseIdv,
+        };
+        let chooseIdvValue = sessionStorage.setItem(
+          'idvData',
+          JSON.stringify(idvObject)
+        );
+      } else if (getChangesThrough == 'slider') {
+        let idvObject = {
+          minIdv: '',
+          maxIdv: '',
+          chooseIdv: sliderIdv,
+        };
+        let idvData = {
+          chooseIdv: sliderIdv,
+          buttonData: false,
+        };
+        this.idvAmount = JSON.stringify(idvData);
+        let chooseIdvValue = sessionStorage.setItem(
+          'idvData',
+          JSON.stringify(idvObject)
+        );
+      }
+
+      if (count != 0 || this.idvAmount || sliderIdv) {
+        this.sharedDataService.initiate_Quotes_APi(
+          JSON.parse(mmvFormData || '{}')
+        );
+
+        if (window.innerWidth <= 999) {
+          this.bottomSheetRef.dismiss(this.checkBoxValueArray);
+        }
+        this.selectAddOnsOnly = [];
+        for (let i = 0; i <= this.selectedCheckedArray.length - 1; i++) {
+          this.selectAddOnsOnly.push(this.selectedCheckedArray[i].showAddOns);
+        }
+
+        this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
+        this.showButtons = false;
+        this.showUpdateButton = true;
+        this.clearAllButton = true;
+        this.enableAddOns = true;
+        this.updateAddOns = true;
+
+        if (this.checkBoxValueArray.length == 0) {
+          this.showUpdateButton = false;
+          this.clearAllButton = false;
+        }
+
+        this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
+      }
+      webengage.track('Motor_Add_Ons_Applied', {
+        User_Type: token != null ? 'Partner' : 'Customer',
         Motor_Type: this.vehicleTypeValue,
-        IDV_Value: idvValue.chooseIdv,
+        Add_Ons: this.selectedCheckedArray,
         Partner_id: sessionStorage.getItem('partner_code'),
       });
     }
-
-    let productTypeValue = sessionStorage.getItem('productType');
-    let mmvFormData = sessionStorage.getItem('mmv_data');
-
-    this.registrationNumber = sessionStorage.getItem('registrationNumber');
-    const count = Object.keys(this.selected_addons).length;
-    let sliderIdv = sessionStorage.getItem('sliderIdvValue');
-    let getChangesThrough = sessionStorage.getItem('throughChange');
-    if (sliderIdv && this.idvAmount == undefined) {
-      let idvObject = {
-        minIdv: '',
-        maxIdv: '',
-        chooseIdv: sliderIdv,
-      };
-      let chooseIdvValue = sessionStorage.setItem(
-        'idvData',
-        JSON.stringify(idvObject)
-      );
-    } else if (getChangesThrough == 'input') {
-      let allIdvData = JSON.parse(this.idvAmount || '{}');
-      let idvObject = {
-        minIdv: '',
-        maxIdv: '',
-        chooseIdv: allIdvData.chooseIdv,
-      };
-      let chooseIdvValue = sessionStorage.setItem(
-        'idvData',
-        JSON.stringify(idvObject)
-      );
-    } else if (getChangesThrough == 'slider') {
-      let idvObject = {
-        minIdv: '',
-        maxIdv: '',
-        chooseIdv: sliderIdv,
-      };
-      let idvData = {
-        chooseIdv: sliderIdv,
-        buttonData: false,
-      };
-      this.idvAmount = JSON.stringify(idvData);
-      let chooseIdvValue = sessionStorage.setItem(
-        'idvData',
-        JSON.stringify(idvObject)
-      );
-    }
-
-    if (count != 0 || this.idvAmount || sliderIdv) {
-      this.sharedDataService.initiate_Quotes_APi(
-        JSON.parse(mmvFormData || '{}')
-      );
-
-      if (window.innerWidth <= 999) {
-        this.bottomSheetRef.dismiss(this.checkBoxValueArray);
-      }
-      this.selectAddOnsOnly = [];
-      for (let i = 0; i <= this.selectedCheckedArray.length - 1; i++) {
-        this.selectAddOnsOnly.push(this.selectedCheckedArray[i].showAddOns);
-      }
-
-      this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
-      this.showButtons = false;
-      this.showUpdateButton = true;
-      this.clearAllButton = true;
-      this.enableAddOns = true;
-      this.updateAddOns = true;
-
-      if (this.checkBoxValueArray.length == 0) {
-        this.showUpdateButton = false;
-        this.clearAllButton = false;
-      }
-
-      this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
-    }
-    webengage.track('Motor_Add_Ons_Applied', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Add_Ons: this.selectedCheckedArray,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
   }
   /**
    *
