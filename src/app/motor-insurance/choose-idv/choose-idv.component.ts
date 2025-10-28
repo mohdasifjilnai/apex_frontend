@@ -120,7 +120,6 @@ export class ChooseIDVComponent implements OnInit {
     });
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
-        console.log('take1', this.enableIdvCard);
         this.enableIdvCard = false;
       }
     });
@@ -281,6 +280,7 @@ export class ChooseIDVComponent implements OnInit {
 
   updateIdv() {
     this.enableIdvCard = true;
+
     // if (environment.dev) {
     //   setTimeout(() => {
     //     this.enableIdvCard = false;
@@ -359,6 +359,7 @@ export class ChooseIDVComponent implements OnInit {
       );
     }
     this.enableIdvCard = true;
+
     this.sharedDataService.disableInitiatesQuotesBase(this.enableIdvCard);
   }
   /**

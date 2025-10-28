@@ -163,6 +163,9 @@ export class SharedDataService {
   customerId: any;
   flexiObject: any;
   variableValueFlexi: any;
+  enableValue = '';
+  timeout: any;
+  onetimeCall: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -1681,6 +1684,8 @@ export class SharedDataService {
     if (this.subdomain == 'd2c') {
       d2c = true;
     }
+    this.enableValue = '';
+    this.onetimeCall = 'new';
     this.sseService
       .getServerSentEvent(
         `${ApiConstants.fetch_quotes()}${transactionId}/${quotesId}/?is_d2c=${d2c}`
@@ -1688,6 +1693,7 @@ export class SharedDataService {
       .subscribe(
         (eventSource) => {
           if (eventSource.data != 'null') {
+            console.log(eventSource);
             if (eventSource.type == 'quotes') {
               let quotesEvent = JSON.parse(eventSource.data);
 
@@ -1713,15 +1719,28 @@ export class SharedDataService {
               this.allQuotes = this.uniqueDataList;
               this.quotesCount = '';
               this.quotesCount = this.allQuotes;
-              const timeout = environment.dev ? 50000 : 10000;
+              this.timeout = environment.dev ? 50000 : 10000;
+
               setTimeout(() => {
-                this.enableQuotesAction.next(this.quotesCount);
-              }, timeout);
+                if (
+                  this.enableValue != 'beforeTimeing' &&
+                  this.onetimeCall == 'new'
+                ) {
+                  this.enableValue = 'done';
+                  this.enableQuotesAction.next(this.quotesCount);
+                  this.onetimeCall = 'called';
+                }
+              }, this.timeout);
 
               this.quotationListing.next(this.allQuotes);
             }
-            if (eventSource.type == 'end') {
+            if (eventSource.type == 'end' && this.enableValue == '') {
+              this.enableValue = 'beforeTimeing';
               this.enableQuotesAction.next(this.quotesCount);
+              if (this.timeout) {
+                clearTimeout(this.timeout);
+                this.timeout = null;
+              }
             }
           }
         },
