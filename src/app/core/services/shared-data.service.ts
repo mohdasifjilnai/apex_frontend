@@ -1212,6 +1212,12 @@ export class SharedDataService {
         this.proposalDataItem.is_rb_renewal = false;
       }
     }
+
+    this.customerId = sessionStorage.getItem('webengageCustomerId');
+    customerValue = JSON.parse(this.customerId);
+    if (customerValue) {
+      this.proposalDataItem.customer_id = customerValue?.customer_id;
+    }
     this.apiService
       .postRequestedResponseCreateProposal(
         ApiConstants.create_proposal,

@@ -70,7 +70,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   addresLength: any;
   previousDetails: any;
   details: any;
-
+  calledValue = true;
   owenerVehicleDetailsForm: FormGroup = new FormGroup({
     owner_full_Name: new FormControl('', Validators.required),
     owner_email: new FormControl('', [
@@ -653,6 +653,18 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         webengage.track('Motor_Owner_details_Submitted', filteredData);
       }
     );
+
+    this.owenerVehicleDetailsForm.statusChanges.subscribe((status) => {
+      if (status === 'VALID' && this.calledValue) {
+        const formValues = this.owenerVehicleDetailsForm.value;
+        this.sharedDataService.getCustomerIdForwebengae(
+          this.owenerVehicleDetailsForm.get('contact_number')?.value,
+          formValues,
+          'Vehicle Owner Details'
+        );
+        this.calledValue = false;
+      }
+    });
   }
   getVehicleDetails(isValid: any) {
     const vehcileType = sessionStorage.getItem('vehicleType');
@@ -699,12 +711,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 this.owenerVehicleDetailsForm.valid
               );
             }, 2000);
-            setTimeout(() => {
-              this.sharedDataService?.createProposalId(
-                'vehicle_owner_detail',
-                this.owenerVehicleDetailsForm
-              );
-            }, 2000);
+            // setTimeout(() => {
+            this.sharedDataService?.createProposalId(
+              'vehicle_owner_detail',
+              this.owenerVehicleDetailsForm
+            );
+            // }, 1000);
             sessionStorage.setItem('isCKycDOne', 'true');
             // if (this.maxlength < this.addresLength?.length) {
             //   this.sharedDataService?.sendOwnnerAddres(this.addresLength);
@@ -760,12 +772,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       setTimeout(() => {
         this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
       }, 2000);
-      setTimeout(() => {
-        this.sharedDataService?.createProposalId(
-          'vehicle_owner_detail',
-          this.owenerVehicleDetailsForm
-        );
-      }, 2000);
+      // setTimeout(() => {
+      this.sharedDataService?.createProposalId(
+        'vehicle_owner_detail',
+        this.owenerVehicleDetailsForm
+      );
+      // }, 1000);
       sessionStorage.setItem('isCKycDOne', 'true');
     }
   }
