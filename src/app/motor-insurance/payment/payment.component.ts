@@ -299,6 +299,7 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+              console.log('Motor_Payment_Status1', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
               webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             } else if (
@@ -377,6 +378,7 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+              console.log('Motor_Payment_Status2', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
               webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
@@ -453,6 +455,7 @@ export class PaymentComponent implements OnInit {
                   return true;
                 })
               );
+              console.log('Motor_Payment_Status3', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
               webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
@@ -680,6 +683,7 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+            console.log('Motor_Payment_Status4', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
             webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           } else if (!paymentStatus) {
@@ -755,6 +759,7 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+            console.log('Motor_Payment_Status5', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
             webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }
@@ -832,6 +837,7 @@ export class PaymentComponent implements OnInit {
                 return true;
               })
             );
+            console.log('Motor_Payment_Status6', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
             webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }

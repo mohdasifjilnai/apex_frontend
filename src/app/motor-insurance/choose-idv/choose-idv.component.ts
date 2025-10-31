@@ -120,7 +120,9 @@ export class ChooseIDVComponent implements OnInit {
     });
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       if (this.enableIdvCard) {
-        this.enableIdvCard = false;
+        setTimeout(() => {
+          this.enableIdvCard = false;
+        }, 2000);
       }
     });
     this.chooseIdvValue = sessionStorage.getItem('idvData');
