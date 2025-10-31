@@ -699,10 +699,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 this.owenerVehicleDetailsForm.valid
               );
             }, 2000);
-            this.sharedDataService?.createProposalId(
-              'vehicle_owner_detail',
-              this.owenerVehicleDetailsForm
-            );
+            setTimeout(() => {
+              this.sharedDataService?.createProposalId(
+                'vehicle_owner_detail',
+                this.owenerVehicleDetailsForm
+              );
+            }, 2000);
             sessionStorage.setItem('isCKycDOne', 'true');
             // if (this.maxlength < this.addresLength?.length) {
             //   this.sharedDataService?.sendOwnnerAddres(this.addresLength);
@@ -758,10 +760,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       setTimeout(() => {
         this.sharedDataService.formCheck(this.owenerVehicleDetailsForm.valid);
       }, 2000);
-      this.sharedDataService?.createProposalId(
-        'vehicle_owner_detail',
-        this.owenerVehicleDetailsForm
-      );
+      setTimeout(() => {
+        this.sharedDataService?.createProposalId(
+          'vehicle_owner_detail',
+          this.owenerVehicleDetailsForm
+        );
+      }, 2000);
       sessionStorage.setItem('isCKycDOne', 'true');
     }
   }
