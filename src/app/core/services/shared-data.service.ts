@@ -1623,9 +1623,10 @@ export class SharedDataService {
       if (transactionId == null) {
         transactionId = transaction_id;
       }
+      let emailId = formValues?.owner_email ? formValues?.owner_email : '';
       this.apiService
         .getRequestedResponseCustomer(
-          `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${formValues?.owner_email}`
+          `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${emailId}`
         )
         .subscribe((res) => {
           this.webEngageCustomerDetails = res;
