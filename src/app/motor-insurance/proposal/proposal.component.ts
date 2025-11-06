@@ -444,7 +444,10 @@ export class ProposalComponent implements OnInit {
           // this.openDesiredStep(this.accordianExpanded);
         }
       }
-      if (proposal.customer_details !== null && !this.isNotShowNomineeDetails) {
+      if (
+        proposal?.customer_details !== null &&
+        !this.isNotShowNomineeDetails
+      ) {
         if (this.reviewData === 'vehilceOwnerPanel') {
           // this.showVehicleDetails = true;
           // this.accordianExpanded = 'vehicleOwnerDetails';

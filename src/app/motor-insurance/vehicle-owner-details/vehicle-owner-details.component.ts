@@ -214,6 +214,9 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             owner_communication_addres:
               customerDetails?.communication_address?.address_line,
           });
+          this.sharedDataService?.getAddressValidation(
+            JSON.parse(this.quoteData)['insurer_code']
+          );
         }
         const contactNUmberControl =
           this.owenerVehicleDetailsForm.get('contact_number');

@@ -271,7 +271,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         const maxDateOffset = 0; //add days to current date
         this.tpStartmaxDate = this.getDateOffset(currentDate, maxDateOffset);
       }
-      if (this.proposalData.previous_policy_details !== null) {
+      if (this.proposalData?.previous_policy_details !== null) {
         const formatDate = (dateString: string) => {
           if (!dateString) return null;
           const [day, month, year] = dateString.split('/');
