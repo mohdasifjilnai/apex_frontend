@@ -212,6 +212,7 @@ export class QuotesListingComponent implements OnInit {
   isDisableFlexiAmount: boolean[] = [];
   enableQuotesActionValue: any;
   enableCarValue: any;
+  previousInsureRenewal: any;
   // isPageRefresh = true;
   constructor(
     private router: Router,
@@ -327,6 +328,8 @@ export class QuotesListingComponent implements OnInit {
             let idvValue = JSON.parse(
               sessionStorage.getItem('idvData') || '{}'
             );
+            this.previousInsureRenewal =
+              mmv_data?.form_value?.previous_insurer?.rb_insurer_code;
             let idvData;
             if (idvValue?.minIdv) {
               idvData = idvValue?.minIdv;

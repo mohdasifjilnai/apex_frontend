@@ -983,7 +983,10 @@
                 <ng-container *ngIf="renewalType == 'renewal'">
                   <span
                     class="renewal-premium"
-                    *ngIf="quotes.insurer_code == 'icici'"
+                    *ngIf="
+                      quotes.insurer_code == 'icici' &&
+                      previousInsureRenewal == 'digit'
+                    "
                     >* The updated premium with selected addons will be shown at
                     the time of payment, this is the base premium.</span
                   >
