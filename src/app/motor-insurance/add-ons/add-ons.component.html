@@ -435,7 +435,6 @@
         class="submit-btn col-6"
         *ngIf="showButtons"
         (click)="update()"
-        [ngClass]="enableAddOns ? 'addonBlur' : 'addonShow'"
         [disabled]="ischeckInput || isMultiCheckbox || isTab"
       >
         Update

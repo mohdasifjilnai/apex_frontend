@@ -558,6 +558,10 @@ export class AddOnsComponent implements OnInit {
     });
   }
   update() {
+    if (this.isMobileView) {
+      this.enableAddOns = false;
+    }
+
     if (!this.enableAddOns) {
       const token = sessionStorage.getItem('token');
       // this.sharedDataService.sendCarLoaderMessage(0);
