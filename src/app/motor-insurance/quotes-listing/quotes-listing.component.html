@@ -464,6 +464,17 @@
                     </span>
                   </p>
                 </div>
+                <ng-container *ngIf="renewalType == 'renewal'">
+                  <span
+                    class="renewal-premium"
+                    *ngIf="
+                      quotes.insurer_code == 'icici' &&
+                      previousInsureRenewal == 'icici'
+                    "
+                    >* The updated premium with selected addons will be shown at
+                    the time of payment, this is the base premium.</span
+                  >
+                </ng-container>
                 <div class="col-12 payd-res">
                   <div *ngIf="quotes?.payd?.status">
                     <div class="pay-drive mb-2">
