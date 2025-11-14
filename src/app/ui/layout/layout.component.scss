@@ -15,11 +15,11 @@
   background: white;
 }
 @media screen and (max-width: 999px) {
-  .breadcrumb{
+  .breadcrumb {
     display: none;
   }
-  
-  .main-body{
+
+  .main-body {
     margin: 0;
     background: #edf2fc;
     padding: 0 !important;
@@ -30,7 +30,7 @@
   .main-content {
     padding-top: 20px;
   }
-  ::ng-deep .mat-progress-spinner{
+  ::ng-deep .mat-progress-spinner {
     width: 40px !important;
     height: 40px !important;
   }
@@ -39,8 +39,14 @@
     height: 40px !important;
     // top: 20px !important;
   }
-  .refresh-bar{
+  .refresh-bar {
     display: flex;
     justify-content: center;
+  }
+
+  .main-body:has(app-motor-insurance-table) {
+    margin: 66px 40px 0px 40px;
+    background: white !important;
+    padding: 10px !important;
   }
 }

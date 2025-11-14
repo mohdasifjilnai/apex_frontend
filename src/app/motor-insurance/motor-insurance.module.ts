@@ -27,6 +27,7 @@ import { SelectedShareComponent } from '../shared/components/dialog-components/s
 import { NonPosPopupComponent } from './non-pos-popup/non-pos-popup.component';
 import { VehicleDetailsPopupNewComponent } from './vehicle-details-popup-new/vehicle-details-popup-new.component';
 import { InstantQuotationComponent } from './instant-quotation/instant-quotation.component';
+import { MotorInsuranceTableComponent } from './motor-insurance-table/motor-insurance-table.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { InstantQuotationComponent } from './instant-quotation/instant-quotation
     NonPosPopupComponent,
     VehicleDetailsPopupNewComponent,
     InstantQuotationComponent,
+    MotorInsuranceTableComponent,
   ],
   imports: [
     CommonModule,

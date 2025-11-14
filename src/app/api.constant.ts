@@ -248,4 +248,6 @@ export class ApiConstants {
   public static get_instant_quotes = `/api/v2/perform_action/check_apex_link_expiry/`;
 
   public static submit_instant_quotes = `/api/v2/perform_action/send_hsm_whatsapp_communications/`;
+  public static insurer_list = `/api/v1/insurer_list`;
+  public static dashboard_renewal = `/api/v1/dashboard/renewal_booster_dashboard`;
 }

@@ -8,6 +8,7 @@ import { ProposalReviewComponent } from './proposal-review/proposal-review.compo
 import { PaymentComponent } from './payment/payment.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { InstantQuotationComponent } from './instant-quotation/instant-quotation.component';
+import { MotorInsuranceTableComponent } from './motor-insurance-table/motor-insurance-table.component';
 const routes: Routes = [
   {
     path: '',
@@ -15,6 +16,13 @@ const routes: Routes = [
     data: {
       breadcrumb: [{ name: 'Motor Insurance', path: [''] }],
     },
+  },
+  {
+    path: 'renewalScreeningDashboard',
+    component: MotorInsuranceTableComponent,
+    // data: {
+    //   breadcrumb: [{ name: 'Motor Insurance', path: [''] }],
+    // },
   },
   {
     path: 'quotes/:traceId',
