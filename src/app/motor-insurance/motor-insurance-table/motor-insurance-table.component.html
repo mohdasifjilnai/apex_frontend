@@ -6,7 +6,7 @@
   <div class="row mt-3">
     <div class="col-lg-2 col-md-2 col-6">
       <mat-form-field appearance="outline" class="mat-input-custom">
-        <mat-label>date</mat-label>
+        <mat-label>Renewal Date</mat-label>
         <input
           id-automation="dob"
           matInput
@@ -203,21 +203,27 @@
           <!-- Total Insurer Quote -->
           <ng-container matColumnDef="totalInsurerQuote">
             <!-- enable mat-sort-header and disable clearing so clicks toggle asc/desc only -->
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="totalInsurerQuote"
+              (click)="handleSort('totalInsurerQuote')"
+              disableClear
+            >
               Total Insurer Quote
             </th>
             <td mat-cell *matCellDef="let element">
               <div class="hover-menu-wrapper">
-                <button mat-button>
+                <p mat-button class="text-primary">
                   {{ element.totalInsurerQuote }}
-                </button>
+                </p>
                 <div class="hover-dropdown">
-                  <button
+                  <p
                     class="mat-option-style"
                     *ngFor="let quote of element.insurerQuotes"
                   >
                     {{ quote }}
-                  </button>
+                  </p>
                 </div>
               </div>
             </td>

@@ -57,6 +57,7 @@
 
   transition: all 0.25s ease;
   z-index: 999;
+  pointer-events: none;
 }
 
 .hover-menu-wrapper:hover .hover-dropdown {

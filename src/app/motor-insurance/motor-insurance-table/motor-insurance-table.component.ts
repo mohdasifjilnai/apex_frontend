@@ -105,14 +105,11 @@ export class MotorInsuranceTableComponent implements OnInit {
         (policy_number && policy_number.trim() !== '');
     });
 
-    // ⭐ FRONTEND SORTING FIX ⭐
     this.dataSource.sortingDataAccessor = (item: any, property: string) => {
-      switch (property) {
-        case 'totalInsurerQuote':
-          return item.totalInsurerQuote; // sort by length
-        default:
-          return item[property];
+      if (property === 'totalInsurerQuote') {
+        return item.insurerQuotes?.length || 0;
       }
+      return item[property];
     };
     // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res) => {
     //   if (!res) {
@@ -151,8 +148,9 @@ export class MotorInsuranceTableComponent implements OnInit {
         totalInsurerQuote: r.quote_insurers?.length || 0,
         renewalQuote: renewal,
         insurerQuotes: formattedQuotes,
-        vehicleType: r.vehicle_type?.split('_').join(' ') || '',
-        productId: r.product_type || '',
+        vehicleType:
+          this.capitalize(r.vehicle_type?.split('_').join(' ')) || '',
+        productId: this.capitalize(r.product_type) || '',
       } as PolicyData;
     });
   }
@@ -196,13 +194,12 @@ export class MotorInsuranceTableComponent implements OnInit {
         this.updateDisplayedData();
       }
     });
+    this.dataSource.sort = this.sort;
 
-    // ⭐ SORT EVENT HANDLER ⭐
-    this.sort.sortChange.subscribe((sort) => {
+    this.sort?.sortChange?.subscribe((sort) => {
       if (sort.active === 'totalInsurerQuote') {
         this.currentSortDirection = sort.direction;
 
-        // reset pagination and buffer
         this.apiPage = 1;
         this.buffer = [];
         this.uiPageIndex = 0;
@@ -291,15 +288,18 @@ export class MotorInsuranceTableComponent implements OnInit {
 
     const dateValue = this.motorInsuranceTableForm.get('date')?.value;
     const formattedDate = this.datePipe.transform(dateValue, 'yyyy-MM-dd');
-    const sortValue =
-      this.currentSortDirection === 'asc'
-        ? 1
-        : this.currentSortDirection === 'desc'
-        ? -1
-        : -1; // default descending
+    let sortValue = '';
+    if (this.currentSortDirection === 'asc') {
+      sortValue = '1';
+    } else if (this.currentSortDirection === 'desc') {
+      sortValue = '-1';
+    } else {
+      sortValue = '-1';
+    }
 
     const url = `${ApiConstants.dashboard_renewal}?insurer_code=${
-      this.motorInsuranceTableForm.get('previous_insurer')?.value || ''
+      this.motorInsuranceTableForm.get('previous_insurer')?.value
+        ?.rb_insurer_code || ''
     }&vehicle_type=${
       this.motorInsuranceTableForm.get('vehicle_type')?.value === 'All Vehicle'
         ? ''
@@ -365,5 +365,18 @@ export class MotorInsuranceTableComponent implements OnInit {
   }
   onVehicleTypeChange() {
     this.vehicleTypeTouched = true;
+  }
+  handleSort(column: string) {
+    if (column !== 'totalInsurerQuote') return;
+    this.currentSortDirection =
+      this.currentSortDirection === 'asc' ? 'desc' : 'asc';
+    this.apiPage = 1;
+    this.buffer = [];
+    this.uiPageIndex = 0;
+    this.getDashboardRenewal(true);
+  }
+  capitalize(value: string): string {
+    if (!value) return '';
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 }
