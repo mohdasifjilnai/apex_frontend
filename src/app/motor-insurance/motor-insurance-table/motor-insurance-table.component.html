@@ -38,22 +38,50 @@
       </mat-form-field>
     </div>
     <div class="col-lg-2 col-md-2 col-6">
-      <mat-form-field appearance="outline" class="mat-input-custom">
+      <!-- <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label>Insurer</mat-label>
-        <mat-select formControlName="policy_insurer">
+
+        <input
+          matInput
+          type="text"
+          formControlName="policy_insurer"
+          [matAutocomplete]="auto"
+          (input)="filterInsurer($event)"
+          placeholder="Search insurer"
+        />
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selectInsurer($event)"
+        >
           <mat-option
-            [value]="insurer?.rb_insurer_code"
-            *ngFor="let insurer of insurerList"
-            >{{ insurer?.rb_insurer_name }}</mat-option
+            *ngFor="let insurer of filteredInsurers"
+            [value]="insurer.rb_insurer_name"
           >
-        </mat-select>
-        <mat-error> This is a required field. </mat-error>
-      </mat-form-field>
+            {{ insurer.rb_insurer_name }}
+          </mat-option>
+
+          <mat-option *ngIf="filteredInsurers.length === 0" disabled>
+            No insurer found
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error>This is a required field.</mat-error>
+      </mat-form-field> -->
+      <app-previous-insurer
+        [previousInsurer]="'previous-insurer'"
+        [label]="'Search Insurer'"
+        [formControlNameData]="'previous_insurer'"
+        (responseEvent)="previousInsurerComponentResponse($event)"
+      ></app-previous-insurer>
     </div>
     <div class="col-lg-2 col-md-2 col-6">
       <mat-form-field appearance="outline" class="mat-input-custom">
         <mat-label>Vehicle Type</mat-label>
-        <mat-select formControlName="vehicle_type">
+        <mat-select
+          formControlName="vehicle_type"
+          (selectionChange)="onVehicleTypeChange()"
+        >
           <mat-option
             [value]="vehicle?.id"
             *ngFor="let vehicle of vehcileType"

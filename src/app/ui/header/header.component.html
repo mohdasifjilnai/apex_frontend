@@ -18,7 +18,7 @@
         />
       </a>
       <div>
-        <div class="d-flex pt-2">
+        <div class="d-flex pt-2" *ngIf="isRenewalDashboard">
           <div class="helpline me-2">
             <div class="d-flex">
               <img
@@ -42,16 +42,20 @@
             />
           </div>
           <div class="class_login ms-1" *ngIf="tokenData">
-            <span class="userProfile" (click)="profile()">{{first_letter}}</span>
+            <span class="userProfile" (click)="profile()">{{
+              first_letter
+            }}</span>
             <div *ngIf="showProfile" class="profile">
               <div class="show">
-                <span class="userFirstname">{{first_name}} <span *ngIf="middle_name!='NULL'">{{middle_name}}</span> {{last_name}}</span><br>
-                <span class="usercode">({{partner_code}})</span>
+                <span class="userFirstname"
+                  >{{ first_name }}
+                  <span *ngIf="middle_name != 'NULL'">{{ middle_name }}</span>
+                  {{ last_name }}</span
+                ><br />
+                <span class="usercode">({{ partner_code }})</span>
               </div>
-              
             </div>
           </div>
-          
         </div>
       </div>
 

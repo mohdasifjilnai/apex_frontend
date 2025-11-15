@@ -64,6 +64,7 @@ export class PreviousInsurerComponent implements OnInit {
   visuallyDisabledFields: any = false;
   fieldShow = false;
   @Input() urlDate: any;
+  isRenewalDashboard = false;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -74,9 +75,11 @@ export class PreviousInsurerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /**
-     *add form control for the Previous Insurer
-     */
+    const url = this.router.url;
+    if (url.includes('renewalScreeningDashboard')) {
+      this.isRenewalDashboard = true;
+      this.getInsurerData('');
+    }
     if (this.urlDate == 'instantQuotation') {
       this.fieldShow = true;
     }
@@ -95,14 +98,16 @@ export class PreviousInsurerComponent implements OnInit {
     ) {
       this.form.get(this.formControlNameData)?.markAsTouched();
     }
-    // this.getInsurerData('');
-    this.debounceSubject
-      .pipe(debounceTime(300)) // Adjust the debounce time as needed (in milliseconds)
-      .subscribe((data) => {
+
+    this.debounceSubject.pipe(debounceTime(300)).subscribe((data) => {
+      if (this.isRenewalDashboard) {
+        this.getInsurerData(data ?? '');
+      } else {
         if (data?.length > 2) {
           this.getInsurerData(data);
         }
-      });
+      }
+    });
 
     this.sharedDataService.disableInsurer.subscribe((res) => {
       this.disableInsurerField = res;

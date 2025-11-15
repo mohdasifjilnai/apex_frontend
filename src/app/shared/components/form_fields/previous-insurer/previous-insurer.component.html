@@ -28,7 +28,7 @@
       (opened)="onOpened()"
       (closed)="onClosed()"
     >
-      <ng-container *ngIf="insururDataLength > 2">
+      <ng-container *ngIf="isRenewalDashboard || insururDataLength > 2">
         <span *ngIf="previousInsurerNoData == ''">
           <mat-option
             *ngFor="let insurer of filteredInsurerList | async"
@@ -96,7 +96,7 @@
       (opened)="onOpened()"
       (closed)="onClosed()"
     >
-      <ng-container *ngIf="insururDataLength > 2">
+      <ng-container *ngIf="isRenewalDashboard || insururDataLength > 2">
         <span *ngIf="previousInsurerNoData == ''">
           <mat-option
             *ngFor="let insurer of filteredInsurerList | async"
@@ -121,6 +121,7 @@
         </span>
       </ng-container>
     </mat-autocomplete>
+
     <mat-error *ngIf="form.controls[formControlNameData]?.hasError('required')">
       This is a required field.
     </mat-error>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -55,6 +55,8 @@ export class MotorInsuranceTableComponent implements OnInit {
   uiPageIndex = 0;
   vehcileType: any;
   currentSortDirection: 'asc' | 'desc' | '' = '';
+  previousInsurerResponse: any;
+  vehicleTypeTouched = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -67,9 +69,9 @@ export class MotorInsuranceTableComponent implements OnInit {
   ) {
     this.motorInsuranceTableForm = this.fb.group({
       date: [''],
-      policy_insurer: [''],
+      previous_insurer: new FormControl(''),
       policy_number: [''],
-      vehicle_type: [''],
+      vehicle_type: ['All Vehicle'],
     });
     this.vehcileType = [
       {
@@ -89,11 +91,17 @@ export class MotorInsuranceTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.motorInsuranceTableForm.valueChanges.subscribe((values) => {
-      const { date, policy_insurer, policy_number, vehicle_type } = values;
+      const { date, previous_insurer, policy_number, vehicle_type } = values;
+
+      const isVehicleFilled =
+        this.vehicleTypeTouched && vehicle_type === 'All Vehicle'
+          ? true
+          : vehicle_type && vehicle_type !== 'All Vehicle';
+
       this.isAnyFieldFilled =
         !!date ||
-        !!policy_insurer ||
-        vehicle_type ||
+        !!previous_insurer ||
+        isVehicleFilled ||
         (policy_number && policy_number.trim() !== '');
     });
 
@@ -106,8 +114,12 @@ export class MotorInsuranceTableComponent implements OnInit {
           return item[property];
       }
     };
-
-    this.getInsurerList();
+    // this.sharedDataService.buttonDisabledPreviousInsurer.subscribe((res) => {
+    //   if (!res) {
+    //     this.getDashboardRenewal();
+    //   }
+    // });
+    this.getDashboardRenewal();
   }
 
   private findInsurerNameByCode(code: string): string {
@@ -257,17 +269,17 @@ export class MotorInsuranceTableComponent implements OnInit {
       this.openTimeout = 0;
     }
   }
-  getInsurerList() {
-    this.loader = true;
-    this.apiService
-      .getRequestedResponse(ApiConstants.insurer_list)
-      .subscribe((insurerList) => {
-        if (insurerList) {
-          this.insurerList = insurerList;
-          this.getDashboardRenewal();
-        }
-      });
-  }
+  // getInsurerList() {
+  //   this.loader = true;
+  //   this.apiService
+  //     .getRequestedResponse(ApiConstants.insurer_list)
+  //     .subscribe((insurerList) => {
+  //       if (insurerList) {
+  //         this.insurerList = insurerList;
+  //         this.getDashboardRenewal();
+  //       }
+  //     });
+  // }
   getDashboardRenewal(isNewSearch: boolean = false) {
     this.loader = true;
     this.errorMessage = '';
@@ -287,7 +299,7 @@ export class MotorInsuranceTableComponent implements OnInit {
         : -1; // default descending
 
     const url = `${ApiConstants.dashboard_renewal}?insurer_code=${
-      this.motorInsuranceTableForm.get('policy_insurer')?.value || ''
+      this.motorInsuranceTableForm.get('previous_insurer')?.value || ''
     }&vehicle_type=${
       this.motorInsuranceTableForm.get('vehicle_type')?.value === 'All Vehicle'
         ? ''
@@ -328,6 +340,30 @@ export class MotorInsuranceTableComponent implements OnInit {
     this.dataSource.data = this.buffer.slice(start, end);
   }
   resetForm() {
-    this.motorInsuranceTableForm.reset();
+    this.motorInsuranceTableForm.reset({
+      date: '',
+      previous_insurer: '',
+      policy_number: '',
+      vehicle_type: 'All Vehicle',
+    });
+
+    this.isAnyFieldFilled = false;
+
+    // Reset data table
+    this.buffer = [];
+    this.dataSource.data = [];
+    this.totalItems = 0;
+    this.getDashboardRenewal();
+  }
+
+  previousInsurerComponentResponse(response: string) {
+    if (typeof response != 'object') {
+      this.previousInsurerResponse = '';
+    } else {
+      this.previousInsurerResponse = response;
+    }
+  }
+  onVehicleTypeChange() {
+    this.vehicleTypeTouched = true;
   }
 }
