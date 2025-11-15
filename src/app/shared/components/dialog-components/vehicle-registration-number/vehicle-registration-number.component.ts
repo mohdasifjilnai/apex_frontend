@@ -140,7 +140,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     this.vehicleRegistrationNumberForm
       .get('registration_number_last_digit')
       ?.value.toUpperCase();
-    queryParams = `?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex`;
+    queryParams = `?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex&originData=false`;
     // if(this.selectedTabIndex==0){
     //   const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     //   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
