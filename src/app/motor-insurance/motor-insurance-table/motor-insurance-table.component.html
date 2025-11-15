@@ -99,8 +99,6 @@
           formControlName="policy_number"
           class="text-uppercase"
           id-automation="policy_number"
-          minlength="6"
-          maxlength="30"
           appNoMaskedValue
         />
       </mat-form-field>
@@ -125,6 +123,7 @@
         class="submit-btn owner-vehicle-submission"
         type="button"
         (click)="resetForm()"
+        [disabled]="!isAnyFieldFilled"
       >
         Reset
       </button>
@@ -193,12 +192,12 @@
           </ng-container>
 
           <!-- Premium -->
-          <!-- <ng-container matColumnDef="Premium">
+          <ng-container matColumnDef="Premium">
             <th mat-header-cell *matHeaderCellDef>Premium</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.Premium }}
+              {{ element.premium }}
             </td>
-          </ng-container> -->
+          </ng-container>
 
           <!-- Total Insurer Quote -->
           <ng-container matColumnDef="totalInsurerQuote">

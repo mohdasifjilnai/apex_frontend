@@ -30,7 +30,7 @@ export class MotorInsuranceTableComponent implements OnInit {
     'policyEndDate',
     'productId',
     'vehicleType',
-
+    'Premium',
     'previousInsurer',
     'totalInsurerQuote',
     'renewalQuote',
@@ -151,6 +151,7 @@ export class MotorInsuranceTableComponent implements OnInit {
         vehicleType:
           this.capitalize(r.vehicle_type?.split('_').join(' ')) || '',
         productId: this.capitalize(r.product_type) || '',
+        premium: r.premium || '',
       } as PolicyData;
     });
   }
