@@ -65,6 +65,7 @@ export class PreviousInsurerComponent implements OnInit {
   fieldShow = false;
   @Input() urlDate: any;
   isRenewalDashboard = false;
+  url: any;
   constructor(
     private ctrlContainer: FormGroupDirective,
     private apiservice: ApiService,
@@ -75,8 +76,8 @@ export class PreviousInsurerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const url = this.router.url;
-    if (url.includes('renewalScreeningDashboard')) {
+    this.url = this.router.url;
+    if (this.url.includes('renewalScreeningDashboard')) {
       this.isRenewalDashboard = true;
       this.getInsurerData('');
     }
@@ -226,9 +227,13 @@ export class PreviousInsurerComponent implements OnInit {
           } else {
             this.previousInsurerNoData = 'No result found';
             this.filteredInsurerList = of(['No result found']);
-            this.form.controls['previous_insurer'].setValidators([
-              Validators.required,
-            ]);
+            if (this.url.includes('renewalScreeningDashboard')) {
+              this.form.get(this.formControlNameData)?.setErrors(null);
+            } else {
+              this.form.controls['previous_insurer'].setValidators([
+                Validators.required,
+              ]);
+            }
             this.sharedDataService.patchInsurer('No result found');
           }
           this.visuallyDisabledFields = this.shareDataService.disableVisually(
@@ -285,17 +290,21 @@ export class PreviousInsurerComponent implements OnInit {
     if (typeof this.form.value[this.formControlNameData] == 'object') {
       this.form.get(this.formControlNameData)?.setErrors(null);
     } else {
-      this.form
-        .get(this.formControlNameData)
-        ?.setErrors({ validPreviousInsurer: true });
-    }
-    this.insururDataLength = data?.length;
-    this.sendResponse(data);
+      if (this.url.includes('renewalScreeningDashboard')) {
+        this.form.get(this.formControlNameData)?.setErrors(null);
+      } else {
+        this.form
+          .get(this.formControlNameData)
+          ?.setErrors({ validPreviousInsurer: true });
+      }
+      this.insururDataLength = data?.length;
+      this.sendResponse(data);
 
-    // if (typeof data == 'object') {
-    //   this.sendResponse(data);
-    // }
-    this.debounceSubject.next(data);
+      // if (typeof data == 'object') {
+      //   this.sendResponse(data);
+      // }
+      this.debounceSubject.next(data);
+    }
   }
   /**
    * Removes the "dropdown-focus" class from the body element.

@@ -354,7 +354,6 @@ export class MotorInsuranceTableComponent implements OnInit {
 
     this.isAnyFieldFilled = false;
 
-    // Reset data table
     this.buffer = [];
     this.dataSource.data = [];
     this.totalItems = 0;

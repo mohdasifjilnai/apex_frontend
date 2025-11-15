@@ -107,7 +107,7 @@
       <div class="combined-icon-box gap-5">
         <!-- Search Icon -->
         <div class="tooltip-wrapper mx-3">
-          <button type="submit" class="icon-btn">
+          <button type="submit" class="icon-btn search-icon">
             <img src="/assets/icon/icons8-search.svg" alt="search" />
           </button>
           <span class="tooltip-text">Search</span>
@@ -118,7 +118,11 @@
 
         <!-- Reset Icon -->
         <div class="tooltip-wrapper">
-          <button type="button" class="icon-btn" (click)="resetForm()">
+          <button
+            type="button"
+            class="icon-btn search-icon"
+            (click)="resetForm()"
+          >
             <img src="/assets/icon/reset2.svg" alt="reset" />
           </button>
           <span class="tooltip-text">Reset</span>

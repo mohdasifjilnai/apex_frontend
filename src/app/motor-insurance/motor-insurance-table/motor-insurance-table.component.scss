@@ -294,13 +294,14 @@
   gap: 10px;
   margin-top: 2px;
   margin-bottom: 12px;
+  background: #ffa55c;
 }
 
 /* Divider line between buttons */
 .divider {
-  width: 1px;
+  width: 1.5px;
   height: 28px;
-  background: #e5e7eb;
+  background: #282828;
 }
 
 /* Standard icon styling */
@@ -357,4 +358,7 @@
 .tooltip-wrapper:hover .tooltip-text {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+.search-icon {
+  background: #ffa55c;
 }
