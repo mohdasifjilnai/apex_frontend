@@ -35,6 +35,7 @@ export class MotorInsuranceTableComponent implements OnInit {
     'totalInsurerQuote',
     'renewalQuote',
   ];
+
   minDate = new Date();
   maxDate = new Date();
   dataSource = new MatTableDataSource<PolicyData>([]);
@@ -43,6 +44,7 @@ export class MotorInsuranceTableComponent implements OnInit {
   private closeTimeout = 0;
   private openTimeout = 0;
   loader: boolean = false;
+  isLoader: boolean = false;
   errorMessage: string = '';
   isAnyFieldFilled = false;
   ress: any = [];
@@ -57,6 +59,7 @@ export class MotorInsuranceTableComponent implements OnInit {
   currentSortDirection: 'asc' | 'desc' | '' = '';
   previousInsurerResponse: any;
   vehicleTypeTouched = false;
+  renewalInsights: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -306,7 +309,8 @@ export class MotorInsuranceTableComponent implements OnInit {
         ? ''
         : this.motorInsuranceTableForm.get('vehicle_type')?.value
     }&expiry_date=${formattedDate || ''}&policy_number=${
-      this.motorInsuranceTableForm.get('policy_number')?.value || ''
+      this.motorInsuranceTableForm.get('policy_number')?.value?.toUpperCase() ||
+      ''
     }&sort=${sortValue}&page_no=${this.apiPage}`;
 
     this.apiService.getRequestedResponse(url).subscribe(
@@ -379,5 +383,55 @@ export class MotorInsuranceTableComponent implements OnInit {
   capitalize(value: string): string {
     if (!value) return '';
     return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+  getRenewalInsights() {
+    this.isLoader = true;
+    const dateValue = this.motorInsuranceTableForm.get('date')?.value;
+    const formattedDate = this.datePipe.transform(dateValue, 'yyyy-MM-dd');
+
+    const url = `${ApiConstants.dashboard_viewInsight}?expiry_date=${
+      formattedDate || ''
+    }`;
+
+    this.apiService.getRequestedResponse(url).subscribe(
+      (res: any) => {
+        this.loader = false;
+
+        if (res) {
+          const data = res;
+          this.isLoader = false;
+          this.renewalInsights = Object.keys(data)
+            .filter((key) => key !== 'Total') // ignore last total
+            .map((key) => {
+              const item = data[key];
+
+              const total = item.Total || 0;
+              const success = item.true || 0;
+              const failure = item.false || 0;
+
+              const successPercent = total
+                ? ((success / total) * 100).toFixed(2)
+                : 0;
+              const failurePercent = total
+                ? ((failure / total) * 100).toFixed(2)
+                : 0;
+
+              return {
+                insurerName: key,
+                totalPolicyNumber: total,
+                successRenewalQuote: successPercent,
+                failureRenewalPercent: failurePercent,
+              };
+            });
+        } else {
+          this.renewalInsights = [];
+        }
+      },
+      (error) => {
+        this.loader = false;
+        this.renewalInsights = [];
+        console.error('❌ Insights API Error:', error);
+      }
+    );
   }
 }

@@ -104,21 +104,29 @@
       </mat-form-field>
     </div>
     <div class="col-lg-2 col-md-2 col-6">
-      <button
-        class="submit-btn owner-vehicle-submission"
-        type="submit"
-        [disabled]="!isAnyFieldFilled || motorInsuranceTableForm.invalid"
-      >
-        <img
-          src="/assets/gif/button-loader.gif"
-          alt="close"
-          class="loader me-1"
-          *ngIf="loader"
-        />
-        Search
-      </button>
+      <div class="combined-icon-box gap-5">
+        <!-- Search Icon -->
+        <div class="tooltip-wrapper mx-3">
+          <button type="submit" class="icon-btn">
+            <img src="/assets/icon/icons8-search.svg" alt="search" />
+          </button>
+          <span class="tooltip-text">Search</span>
+        </div>
+
+        <!-- Border Divider -->
+        <div class="divider"></div>
+
+        <!-- Reset Icon -->
+        <div class="tooltip-wrapper">
+          <button type="button" class="icon-btn" (click)="resetForm()">
+            <img src="/assets/icon/reset2.svg" alt="reset" />
+          </button>
+          <span class="tooltip-text">Reset</span>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-6">
+
+    <!-- <div class="col-lg-2 col-md-2 col-6">
       <button
         class="submit-btn owner-vehicle-submission"
         type="button"
@@ -127,8 +135,28 @@
       >
         Reset
       </button>
+    </div> -->
+    <div class="col-lg-2 col-md-2 col-6">
+      <button
+        class="submit-btn owner-vehicle-submission"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        (click)="getRenewalInsights()"
+      >
+        <img
+          src="/assets/gif/button-loader.gif"
+          alt="close"
+          class="loader me-1"
+          *ngIf="isLoader"
+        />
+        View Insights
+      </button>
     </div>
   </div>
+  <!-- <div class="row d-flex justify-content-end mt-3">
+    
+  </div> -->
   <!-- <div class="row d-flex justify-content-center"></div> -->
   <div class="row mt-3">
     <div class="table-container">
@@ -195,7 +223,7 @@
           <ng-container matColumnDef="Premium">
             <th mat-header-cell *matHeaderCellDef>Premium</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.premium }}
+              {{ element.premium || "-" }}
             </td>
           </ng-container>
 
@@ -260,3 +288,59 @@
     </div>
   </div>
 </form>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Insurer Wise Renewal Insights
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive table-modal">
+          <table
+            class="table table-bordered table-striped text-center align-middle"
+          >
+            <thead>
+              <tr>
+                <th>Insurer Name</th>
+                <th>Total Policy Number</th>
+                <th>Renewal Quote Success %</th>
+                <th>Renewal Quote Failure %</th>
+              </tr>
+            </thead>
+
+            <tbody class="modalTable">
+              <tr *ngFor="let item of renewalInsights">
+                <td>{{ item.insurerName }}</td>
+                <td>{{ item.totalPolicyNumber }}</td>
+                <td>{{ item.successRenewalQuote }}</td>
+                <td>{{ item.failureRenewalPercent }}%</td>
+              </tr>
+
+              <tr *ngIf="renewalInsights?.length === 0">
+                <td colspan="4" class="text-center text-muted py-3">
+                  No data available
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
