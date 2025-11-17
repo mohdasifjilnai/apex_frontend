@@ -57,16 +57,25 @@ export class SetHeaderService {
         headers: new HttpHeaders(''),
       };
     }
-    if (encrypttoken && !token) {
-      this.httpHeaders.headers = this.httpHeaders.headers.append(
-        'Authorization',
-        `${encrypttoken}`
-      );
+    if (url.includes('api/v1/vaahan/registration_number')) {
+      if (encrypttoken) {
+        this.httpHeaders.headers = this.httpHeaders.headers.append(
+          'Authorization',
+          `${encrypttoken}`
+        );
+      }
     } else {
-      this.httpHeaders.headers = this.httpHeaders.headers.append(
-        'Authorization',
-        `Token ${token}`
-      );
+      if (encrypttoken && !token) {
+        this.httpHeaders.headers = this.httpHeaders.headers.append(
+          'Authorization',
+          `${encrypttoken}`
+        );
+      } else {
+        this.httpHeaders.headers = this.httpHeaders.headers.append(
+          'Authorization',
+          `Token ${token}`
+        );
+      }
     }
 
     return this.httpHeaders;

@@ -47,7 +47,7 @@ export class HttpService {
     return this.http.post(
       url,
       data,
-      this.getHeaderAsProductModuleVahaan(productHeaders)
+      this.getHeaderAsProductModuleVahaan(url, productHeaders)
     );
   }
 
@@ -74,7 +74,7 @@ export class HttpService {
     const productHeaders = productModules ? productModules : '';
     return this.http.get(
       url,
-      this.getHeaderAsProductModuleVahaan(productHeaders)
+      this.getHeaderAsProductModuleVahaan(url, productHeaders)
     );
   }
 
