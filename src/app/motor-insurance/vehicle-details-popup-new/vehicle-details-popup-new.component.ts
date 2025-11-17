@@ -116,6 +116,8 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   regDatePatch: any;
   patched: any;
   currentDateRegValue: any;
+  employee_code: any;
+  partner_code: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleDetailsPopupNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -781,7 +783,16 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
   getTraceIdData(trace_id: any) {
     let apiUrl;
-    apiUrl = `?trace_id=${trace_id}`;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    this.partner_code = sessionStorage.getItem('partner_code');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
+    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
     this.apiservice
       .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
@@ -1222,7 +1233,16 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
   getVehicleDetails(trace_id: any) {
     let apiUrl;
-    apiUrl = `?trace_id=${trace_id}`;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    this.partner_code = sessionStorage.getItem('partner_code');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
+    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
     this.apiservice
       .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {

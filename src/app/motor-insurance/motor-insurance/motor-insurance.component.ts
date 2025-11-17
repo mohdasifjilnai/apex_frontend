@@ -979,7 +979,14 @@ export class MotorInsuranceComponent implements OnInit {
         filteredSubmitData
       );
     }
-
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
     const data = {
       partner_code: this.partner_code,
       bussiness_type:
@@ -987,6 +994,7 @@ export class MotorInsuranceComponent implements OnInit {
           ? 'new'
           : 'renewal',
       quotes_data: this.motorInsurance.value,
+      source: sourceData,
     };
     if (this.motorInsurance.value?.registration_number != null) {
       data.bussiness_type = 'renewal';
@@ -1052,9 +1060,18 @@ export class MotorInsuranceComponent implements OnInit {
       : '';
 
     apiUrl = `?partner_code=${this.partner_code}`;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
     const data = {
       partner_code: this.partner_code,
       quotes_data: this.motorInsurance.value,
+      source: sourceData,
     };
     this.apiService
       .postRequestedResponseTraceId(

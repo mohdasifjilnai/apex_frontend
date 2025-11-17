@@ -166,6 +166,8 @@ export class SharedDataService {
   enableValue = '';
   timeout: any;
   onetimeCall: any;
+  partner_code: any;
+  employee_code: any;
   // isPageRefresh: boolean = true;
 
   constructor(
@@ -288,6 +290,15 @@ export class SharedDataService {
     const mobileNumber = sessionStorage.getItem('customer_mobile_number')
       ? sessionStorage.getItem('customer_mobile_number')
       : '';
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    this.partner_code = sessionStorage.getItem('partner_code');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
     if (
       this.regNumber != null &&
       this.renewalType != 'renewal' &&
@@ -297,7 +308,7 @@ export class SharedDataService {
         .getRequestedResponseVahaan(
           `${ApiConstants.registration_number()}?regn_no=${
             this.regNumber
-          }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex&originData=false`
+          }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=${sourceData}&originData=false`
         )
         .subscribe(
           (res: any) => {

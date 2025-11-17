@@ -64,6 +64,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   mmvFromDataEmail: any;
   openVehicleValuePopup = true;
   subscription: any;
+  partner_code: any;
   notCertifiedComponentJSON: {
     modalName: any;
     widthObtained: string;
@@ -85,6 +86,7 @@ export class VehicleDetailsCardComponent implements OnInit {
   currentPageUrl: any;
   subdomain: any;
   traceIdUrl: any;
+  employee_code: any;
 
   constructor(
     private matDialog: WindowRef,
@@ -622,7 +624,16 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
   getTraceIdData(trace_id: any) {
     let apiUrl;
-    apiUrl = `?trace_id=${trace_id}`;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    this.partner_code = sessionStorage.getItem('partner_code');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
+    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
     this.apiservice
       .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {

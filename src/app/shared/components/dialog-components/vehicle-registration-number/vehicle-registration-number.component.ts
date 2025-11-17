@@ -49,6 +49,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
   selectedTabIndex = 0;
   twoWheelerJourney: boolean = false;
   commercialVehicleMessage: boolean = false;
+  employee_code: any;
   constructor(
     public dialogRef: MatDialogRef<VehicleRegistrationNumberComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -121,6 +122,15 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     const partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')
       : '';
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+
+    let sourceData;
+    if ((soureceData || this.employee_code) && partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
     const token = sessionStorage.getItem('token');
     const mobileNumber = sessionStorage.getItem('customer_mobile_number')
       ? sessionStorage.getItem('customer_mobile_number')
@@ -140,7 +150,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     this.vehicleRegistrationNumberForm
       .get('registration_number_last_digit')
       ?.value.toUpperCase();
-    queryParams = `?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex&originData=false`;
+    queryParams = `?regn_no=${regestrationNumber}&quote_request_id=${this.quotes_data?.quote_request_id}&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=${sourceData}&originData=false`;
     // if(this.selectedTabIndex==0){
     //   const regestrationNumber=this.vehicleRegistrationNumberForm.get('registration_number_first')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_second')?.value.toUpperCase()+`-`+this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
     //   this.vehicleRegistrationNumberForm.get('registration_number_last_digit')?.value.toUpperCase()
