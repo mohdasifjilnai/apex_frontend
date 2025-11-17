@@ -565,6 +565,23 @@ export class PaymentComponent implements OnInit {
         if (res?.employee_code != null) {
           sessionStorage.setItem('employee_code', res?.employee_code);
         }
+        if (res?.trace_id) {
+          this.getTraceIdData(res.trace_id);
+        }
+      });
+  }
+
+  getTraceIdData(trace_id: any) {
+    let apiUrl;
+
+    apiUrl = `?trace_id=${trace_id}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.message != 'Partner not found') {
+          sessionStorage.setItem('encrypttoken', res?.encrypted_token);
+          sessionStorage.setItem('sourceValue', res?.source);
+        }
       });
   }
   getTransactionPremiumDetails(
