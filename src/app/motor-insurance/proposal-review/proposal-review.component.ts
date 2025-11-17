@@ -791,6 +791,8 @@ export class ProposalReviewComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
+            sessionStorage.setItem('partner_code', traceId.partner_code);
+            this.getTraceIdData(traceId.trace_id);
             this.shareData.partnerCode(response?.quote_request?.partner_code);
           }
           if (
@@ -919,6 +921,27 @@ export class ProposalReviewComponent implements OnInit {
           }
         });
     });
+  }
+
+  getTraceIdData(trace_id: any) {
+    let apiUrl;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
+    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.message != 'Partner not found') {
+          sessionStorage.setItem('encrypttoken', res?.encrypted_token);
+          sessionStorage.setItem('sourceValue', res?.source);
+        }
+      });
   }
   showAddons() {
     if (this.preAddons) {
