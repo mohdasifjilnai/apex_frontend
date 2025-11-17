@@ -912,11 +912,19 @@ export class MotorInsuranceComponent implements OnInit {
   getTraceId() {
     this.loader = true;
     let apiUrl;
+    this.employee_code = sessionStorage.getItem('employee_code');
+    let soureceData = sessionStorage.getItem('sourceValue');
+    let sourceData;
+    if ((soureceData || this.employee_code) && this.partner_code) {
+      sourceData = 'sales_portal_apex';
+    } else {
+      sourceData = 'apex';
+    }
     this.partner_code = sessionStorage.getItem('partner_code')
       ? sessionStorage.getItem('partner_code')
       : '';
 
-    apiUrl = `?partner_code=${this.partner_code}`;
+    apiUrl = `?partner_code=${this.partner_code}&source=${sourceData}`;
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (this.motorInsurance.value.registration_number) {
       webengage.track('Motor_Quotes_Initiated', {
@@ -979,14 +987,7 @@ export class MotorInsuranceComponent implements OnInit {
         filteredSubmitData
       );
     }
-    this.employee_code = sessionStorage.getItem('employee_code');
-    let soureceData = sessionStorage.getItem('sourceValue');
-    let sourceData;
-    if ((soureceData || this.employee_code) && this.partner_code) {
-      sourceData = 'sales_portal_apex';
-    } else {
-      sourceData = 'apex';
-    }
+
     const data = {
       partner_code: this.partner_code,
       bussiness_type:
@@ -994,7 +995,6 @@ export class MotorInsuranceComponent implements OnInit {
           ? 'new'
           : 'renewal',
       quotes_data: this.motorInsurance.value,
-      source: sourceData,
     };
     if (this.motorInsurance.value?.registration_number != null) {
       data.bussiness_type = 'renewal';
@@ -1055,11 +1055,6 @@ export class MotorInsuranceComponent implements OnInit {
 
   postTraceIdCommercialVehicle() {
     let apiUrl;
-    this.partner_code = sessionStorage.getItem('partner_code')
-      ? sessionStorage.getItem('partner_code')
-      : '';
-
-    apiUrl = `?partner_code=${this.partner_code}`;
     this.employee_code = sessionStorage.getItem('employee_code');
     let soureceData = sessionStorage.getItem('sourceValue');
     let sourceData;
@@ -1068,10 +1063,15 @@ export class MotorInsuranceComponent implements OnInit {
     } else {
       sourceData = 'apex';
     }
+    this.partner_code = sessionStorage.getItem('partner_code')
+      ? sessionStorage.getItem('partner_code')
+      : '';
+
+    apiUrl = `?partner_code=${this.partner_code}&source=${sourceData}`;
+
     const data = {
       partner_code: this.partner_code,
       quotes_data: this.motorInsurance.value,
-      source: sourceData,
     };
     this.apiService
       .postRequestedResponseTraceId(

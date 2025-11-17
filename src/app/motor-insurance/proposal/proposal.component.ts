@@ -832,7 +832,7 @@ export class ProposalComponent implements OnInit {
     } else {
       sourceData = 'apex';
     }
-    apiUrl = `?trace_id=${trace_id}&source${sourceData}`;
+    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
