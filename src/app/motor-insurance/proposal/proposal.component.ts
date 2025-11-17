@@ -706,6 +706,8 @@ export class ProposalComponent implements OnInit {
               'partnerCodeTraceId',
               JSON.stringify(traceId)
             );
+            sessionStorage.setItem('partner_code', traceId.partner_code);
+            this.getTraceIdData(traceId.trace_id);
             this.sharedData.partnerCode(
               this.getInsurerData?.quote_request?.partner_code
             );
@@ -820,6 +822,17 @@ export class ProposalComponent implements OnInit {
       });
   }
 
+  getTraceIdData(trace_id: any) {
+    let apiUrl;
+    apiUrl = `?trace_id=${trace_id}`;
+    this.apiService
+      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .subscribe((res: any) => {
+        if (res?.message != 'Partner not found') {
+          sessionStorage.setItem('encrypttoken', res?.encrypted_token);
+        }
+      });
+  }
   getRTOData(type?: any, rb_rto_code?: any) {
     let apiData;
 

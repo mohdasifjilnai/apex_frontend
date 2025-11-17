@@ -294,7 +294,7 @@ export class SharedDataService {
       this.renewalType != 'rollover'
     ) {
       this.apiService
-        .getRequestedResponse(
+        .getRequestedResponseVahaan(
           `${ApiConstants.registration_number()}?regn_no=${
             this.regNumber
           }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=apex&originData=false`

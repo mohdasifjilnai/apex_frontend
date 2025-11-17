@@ -40,6 +40,26 @@ export class HttpService {
       this.getHeaderAsProductModule(productHeaders)
     );
   }
+
+  postRequestTraceId(url: string, dataObtained: any, productModules?: string) {
+    const data = dataObtained ? dataObtained : {};
+    const productHeaders = productModules ? productModules : '';
+    return this.http.post(
+      url,
+      data,
+      this.getHeaderAsProductModuleVahaan(productHeaders)
+    );
+  }
+
+  postRequestVahaan(url: string, dataObtained: any, productModules?: string) {
+    const data = dataObtained ? dataObtained : {};
+    const productHeaders = productModules ? productModules : '';
+    return this.http.post(
+      url,
+      data,
+      this.getHeaderAsProductModuleVahaan(url, productHeaders)
+    );
+  }
   /**
    * Invokes HTTP get Request
    **/
@@ -47,6 +67,15 @@ export class HttpService {
     let returnValue;
     const productHeaders = productModules ? productModules : '';
     return this.http.get(url, this.getHeaderAsProductModule(productHeaders));
+  }
+
+  getRequestVahaan(url: string, productModules?: string) {
+    let returnValue;
+    const productHeaders = productModules ? productModules : '';
+    return this.http.get(
+      url,
+      this.getHeaderAsProductModuleVahaan(productHeaders)
+    );
   }
 
   getRequestCustomer(url: string, productModules?: string) {
@@ -68,6 +97,11 @@ export class HttpService {
    **/
   getHeaderAsProductModule(isToken?: any) {
     this.headersFormulated = this.setHeader.getHeaders(isToken);
+    return this.headersFormulated;
+  }
+
+  getHeaderAsProductModuleVahaan(url?: any, isToken?: any) {
+    this.headersFormulated = this.setHeader.getHeadersVahaan(url, isToken);
     return this.headersFormulated;
   }
 

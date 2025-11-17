@@ -149,7 +149,7 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     //   queryParams=`?engine_no=${this.vehicleRegistrationNumberForm.get('engine_number')?.value.toUpperCase()}&chassis_no=${this.vehicleRegistrationNumberForm.get('chassis_number')?.value.toUpperCase()}&vehicle_type=${this.quotes_data?.vehicle_type}&partner_code=${partner_code}`
     // }
     this.apiservice
-      .getRequestedResponse(
+      .getRequestedResponseVahaan(
         `${ApiConstants.registration_number()}${queryParams}`
       )
       .subscribe(

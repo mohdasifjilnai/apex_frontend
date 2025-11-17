@@ -29,6 +29,20 @@ export class ApiService {
     );
   }
 
+  getRequestedResponseVahaan(
+    url: string,
+    productModuleName?: string,
+    queryParamsUrl?: string
+  ) {
+    if (queryParamsUrl) {
+      url = url + queryParamsUrl;
+    }
+    return this.httpService.getRequestVahaan(url, productModuleName).pipe(
+      map((response: any) => response),
+      catchError((err: any) => JSON.stringify(this.errorHandler(err)))
+    );
+  }
+
   getRequestedResponseCustomer(
     url: string,
     productModuleName?: string,
@@ -158,6 +172,15 @@ export class ApiService {
       map((response: any) => response),
       catchError((err: any) => JSON.stringify(this.errorHandler(err)))
     );
+  }
+
+  postRequestedResponseTraceId(url: any, body: any, productModuleName?: any) {
+    return this.httpService
+      .postRequestTraceId(url, body, productModuleName)
+      .pipe(
+        map((response: any) => response),
+        catchError((err: any) => JSON.stringify(this.errorHandler(err)))
+      );
   }
 
   /**

@@ -624,7 +624,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     let apiUrl;
     apiUrl = `?trace_id=${trace_id}`;
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.message != 'Partner not found') {
           if (res.quote_data?.quotes_data?.vehicle_fuel) {

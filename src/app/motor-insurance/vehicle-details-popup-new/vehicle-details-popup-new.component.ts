@@ -783,7 +783,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     let apiUrl;
     apiUrl = `?trace_id=${trace_id}`;
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.message == 'Partner not found') {
           this.openNotCertifiedPopup('');
@@ -1224,7 +1224,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     let apiUrl;
     apiUrl = `?trace_id=${trace_id}`;
     this.apiservice
-      .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
+      .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.message != 'Partner not found') {
           this.vehcileModelDetails = res;

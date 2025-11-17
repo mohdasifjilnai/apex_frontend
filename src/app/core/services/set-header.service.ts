@@ -39,4 +39,36 @@ export class SetHeaderService {
 
     return this.httpHeaders;
   }
+
+  getHeadersVahaan(url: any, isToken: boolean) {
+    const token = sessionStorage.getItem('token');
+    const encrypttoken = sessionStorage.getItem('encrypttoken');
+
+    {
+      /**
+       * product type will get from http headers
+       * As this has to be maintain at UI end
+       * So that product headers can be configurable according to prodct need
+       * Thus it will be avoidabel to maintain at http end
+       */
+      // const token = localStorage.getItem('token');
+
+      this.httpHeaders = {
+        headers: new HttpHeaders(''),
+      };
+    }
+    if (encrypttoken && !token) {
+      this.httpHeaders.headers = this.httpHeaders.headers.append(
+        'Authorization',
+        `${encrypttoken}`
+      );
+    } else {
+      this.httpHeaders.headers = this.httpHeaders.headers.append(
+        'Authorization',
+        `Token ${token}`
+      );
+    }
+
+    return this.httpHeaders;
+  }
 }

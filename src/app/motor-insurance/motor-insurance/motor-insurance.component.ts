@@ -992,11 +992,15 @@ export class MotorInsuranceComponent implements OnInit {
       data.bussiness_type = 'renewal';
     }
     this.apiService
-      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
+      .postRequestedResponseTraceId(
+        `${ApiConstants.get_trace_Id()}${apiUrl}`,
+        data
+      )
       .subscribe(
         (res: any) => {
           if (res?.message != 'Partner not found') {
             this.traceId = res.trace_id;
+            sessionStorage.setItem('encrypttoken', res?.encrypted_token);
             this.sharedDataService.getTraceIdDetails(res);
             sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
             this.loader = true;
@@ -1053,7 +1057,10 @@ export class MotorInsuranceComponent implements OnInit {
       quotes_data: this.motorInsurance.value,
     };
     this.apiService
-      .postRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`, data)
+      .postRequestedResponseTraceId(
+        `${ApiConstants.get_trace_Id()}${apiUrl}`,
+        data
+      )
       .subscribe(
         (res: any) => {
           if (res?.message != 'Partner not found') {
