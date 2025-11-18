@@ -294,7 +294,7 @@ export class SharedDataService {
     let soureceData = sessionStorage.getItem('sourceValue');
     this.partner_code = sessionStorage.getItem('partner_code');
     let sourceData;
-    if ((soureceData || this.employee_code) && this.partner_code) {
+    if ((soureceData != undefined || this.employee_code) && this.partner_code) {
       sourceData = 'sales_portal_apex';
     } else {
       sourceData = 'apex';

@@ -925,21 +925,16 @@ export class ProposalReviewComponent implements OnInit {
 
   getTraceIdData(trace_id: any) {
     let apiUrl;
-    this.employee_code = sessionStorage.getItem('employee_code');
-    let soureceData = sessionStorage.getItem('sourceValue');
-    let sourceData;
-    if ((soureceData || this.employee_code) && this.partner_code) {
-      sourceData = 'sales_portal_apex';
-    } else {
-      sourceData = 'apex';
-    }
-    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
+
+    apiUrl = `?trace_id=${trace_id}`;
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
         if (res?.message != 'Partner not found') {
           sessionStorage.setItem('encrypttoken', res?.encrypted_token);
-          sessionStorage.setItem('sourceValue', res?.source);
+          if (res?.source) {
+            sessionStorage.setItem('sourceValue', res?.source);
+          }
         }
       });
   }

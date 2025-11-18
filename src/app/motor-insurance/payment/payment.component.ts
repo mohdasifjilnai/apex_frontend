@@ -580,7 +580,9 @@ export class PaymentComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.message != 'Partner not found') {
           sessionStorage.setItem('encrypttoken', res?.encrypted_token);
-          sessionStorage.setItem('sourceValue', res?.source);
+          if (res?.source) {
+            sessionStorage.setItem('sourceValue', res?.source);
+          }
         }
       });
   }

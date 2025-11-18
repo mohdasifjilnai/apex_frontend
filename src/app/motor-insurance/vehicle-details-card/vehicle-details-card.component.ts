@@ -624,16 +624,8 @@ export class VehicleDetailsCardComponent implements OnInit {
   }
   getTraceIdData(trace_id: any) {
     let apiUrl;
-    this.employee_code = sessionStorage.getItem('employee_code');
-    let soureceData = sessionStorage.getItem('sourceValue');
-    this.partner_code = sessionStorage.getItem('partner_code');
-    let sourceData;
-    if ((soureceData || this.employee_code) && this.partner_code) {
-      sourceData = 'sales_portal_apex';
-    } else {
-      sourceData = 'apex';
-    }
-    apiUrl = `?trace_id=${trace_id}&source=${sourceData}`;
+
+    apiUrl = `?trace_id=${trace_id}`;
     this.apiservice
       .getRequestedResponseVahaan(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
@@ -648,7 +640,9 @@ export class VehicleDetailsCardComponent implements OnInit {
             sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
           }
           sessionStorage.setItem('encrypttoken', res?.encrypted_token);
-          sessionStorage.setItem('sourceValue', res?.source);
+          if (res?.source) {
+            sessionStorage.setItem('sourceValue', res?.source);
+          }
         } else if (res?.message == 'Partner not found') {
           this.openNotCertifiedPopup('');
         }
