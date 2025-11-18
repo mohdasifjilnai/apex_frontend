@@ -647,6 +647,8 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.parsedVehicleData = res?.quote_data?.quotes_data;
             sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
           }
+          sessionStorage.setItem('encrypttoken', res?.encrypted_token);
+          sessionStorage.setItem('sourceValue', res?.source);
         } else if (res?.message == 'Partner not found') {
           this.openNotCertifiedPopup('');
         }

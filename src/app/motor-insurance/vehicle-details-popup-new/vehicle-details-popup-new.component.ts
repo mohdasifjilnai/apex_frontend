@@ -1248,6 +1248,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.message != 'Partner not found') {
           this.vehcileModelDetails = res;
+          sessionStorage.setItem('encrypttoken', res?.encrypted_token);
+          sessionStorage.setItem('sourceValue', res?.source);
+
           sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));
         } else if (res?.message == 'Partner not found') {
           this.openNotCertifiedPopup('');
