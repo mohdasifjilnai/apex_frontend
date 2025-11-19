@@ -915,9 +915,9 @@ export class MotorInsuranceComponent implements OnInit {
     this.employee_code = sessionStorage.getItem('employee_code');
     let soureceData = sessionStorage.getItem('sourceValue');
     let sourceData;
+
     if (
-      (soureceData != 'apex' ||
-        soureceData != null ||
+      ((soureceData != 'apex' && soureceData != null) ||
         this.employee_code != null) &&
       this.partner_code
     ) {
@@ -1065,8 +1065,7 @@ export class MotorInsuranceComponent implements OnInit {
     let sourceData;
 
     if (
-      (soureceData != 'apex' ||
-        soureceData != null ||
+      ((soureceData != 'apex' && soureceData != null) ||
         this.employee_code != null) &&
       this.partner_code
     ) {

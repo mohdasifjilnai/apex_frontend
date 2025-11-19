@@ -200,7 +200,7 @@ export class ProposalReviewComponent implements OnInit {
         const urlSegments = segments.map((segment) => segment.path);
         this.transaction_Id = urlSegments[urlSegments.length - 2];
         if (this.transaction_Id == 'null') {
-          this.transactionId = sessionStorage.getItem('transaction_id');
+          this.transaction_Id = sessionStorage.getItem('transaction_id');
         }
         this.generateProposal(this.transaction_Id);
       });
