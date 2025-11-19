@@ -1015,6 +1015,8 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     const vehcileType = sessionStorage.getItem('vehicleType');
     let partnerCode = sessionStorage.getItem('partner_code');
     this.loader = true;
+    this.transactionId = sessionStorage.getItem('transaction_id');
+
     // webengage.track('Previous_Policy_details_Submitted', {
     //   Option_Selected: vehcileType,
     //   User_Type: sessionStorage.getItem('partner_code')
@@ -1059,6 +1061,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             /**
              * subscribe to getProposalDetails and navigate after the response
              */
+
             this.previousPolicyDetailsSubscription =
               this.sharedData.getProposalDetailsData.subscribe((proposal) => {
                 if (proposal.vehicle_details !== null) {
