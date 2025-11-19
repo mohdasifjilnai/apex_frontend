@@ -77,9 +77,9 @@ export class PaymentComponent implements OnInit {
           ''
         );
       }
-      if (window.screen.width <= 999) {
-        this.getPartnerCode(this.transactionId);
-      }
+      // if (window.screen.width <= 999) {
+      this.getPartnerCode(this.transactionId);
+      // }
     });
     this.downloadPolicy();
     this.route.queryParamMap.subscribe((params) => {
