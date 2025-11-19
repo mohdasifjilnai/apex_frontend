@@ -99,80 +99,6 @@ export class PaymentComponent implements OnInit {
           'Payment Deducted'
         );
       }
-      // let regnNumberValue = sessionStorage.getItem('isRegistrationNumber');
-      // if (regnNumberValue) {
-      //   sessionStorage.removeItem('isRegistrationNumber');
-      // }
-      // let selectedAddons = sessionStorage.getItem('selectedAddons');
-      // if (selectedAddons) {
-      //   sessionStorage.removeItem('selectedAddons');
-      // }
-      // let vehicleMMVData = sessionStorage.getItem('vehicleMMVData');
-      // if (vehicleMMVData) {
-      //   sessionStorage.removeItem('vehicleMMVData');
-      // }
-      // let vehiclePopup = sessionStorage.getItem('vehiclePopup');
-      // if (vehiclePopup) {
-      //   sessionStorage.removeItem('vehiclePopup');
-      // }
-      // let vehicleMMV = sessionStorage.getItem('mmv_data');
-      // if (vehicleMMV) {
-      //   sessionStorage.removeItem('mmv_data');
-      // }
-
-      // let newVehicleType = sessionStorage.getItem('newVehicleType');
-      // if (newVehicleType) {
-      //   sessionStorage.removeItem('newVehicleType');
-      // }
-
-      // let planType = sessionStorage.getItem('planType');
-      // if (planType) {
-      //   sessionStorage.removeItem('planType');
-      // }
-
-      // let transaction_id = sessionStorage.getItem('transaction_id');
-      // if (transaction_id) {
-      //   sessionStorage.removeItem('transaction_id');
-      // }
-
-      // let idvData = sessionStorage.getItem('idvData');
-      // if (idvData) {
-      //   sessionStorage.removeItem('idvData');
-      // }
-
-      // let productTypeValue = sessionStorage.getItem('productType');
-      // if (productTypeValue) {
-      //   sessionStorage.removeItem('productType');
-      // }
-
-      // let proposalTypeData = sessionStorage.getItem('proposerType');
-      // if (proposalTypeData) {
-      //   sessionStorage.removeItem('proposerType');
-      // }
-      // let proposalParam = sessionStorage.getItem('proposal_param');
-      // if (proposalParam) {
-      //   sessionStorage.removeItem('proposal_param');
-      // }
-      // let proposalId = sessionStorage.getItem('proposal_Id');
-      // if (proposalId) {
-      //   sessionStorage.removeItem('proposal_Id');
-      // }
-      // let breakIn = sessionStorage.getItem('breakIn');
-      // if (breakIn) {
-      //   sessionStorage.removeItem('breakIn');
-      // }
-      // let quote_data = sessionStorage.getItem('quotes_data');
-      // if (quote_data) {
-      //   sessionStorage.removeItem('quotes_data');
-      // }
-      // let insurerCode = sessionStorage.getItem('insurer_code');
-      // if (insurerCode) {
-      //   sessionStorage.removeItem('insurer_code');
-      // }
-      // let kycData = sessionStorage.getItem('kycData');
-      // if (kycData) {
-      //   sessionStorage.removeItem('kycData');
-      // }
 
       let withoutVehicleNumber = sessionStorage.getItem('withoutVehicleNumber');
       if (withoutVehicleNumber) {
@@ -578,7 +504,7 @@ export class PaymentComponent implements OnInit {
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_trace_Id()}${apiUrl}`)
       .subscribe((res: any) => {
-        if (res?.message != 'Partner not found') {
+        if (res) {
           sessionStorage.setItem('encrypttoken', res?.encrypted_token);
           if (res?.source) {
             sessionStorage.setItem('sourceValue', res?.source);
