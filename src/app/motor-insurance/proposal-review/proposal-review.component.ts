@@ -199,6 +199,9 @@ export class ProposalReviewComponent implements OnInit {
       this.router.url.subscribe((segments) => {
         const urlSegments = segments.map((segment) => segment.path);
         this.transaction_Id = urlSegments[urlSegments.length - 2];
+        if (this.transaction_Id == 'null') {
+          this.transactionId = sessionStorage.getItem('transaction_id');
+        }
         this.generateProposal(this.transaction_Id);
       });
     });
