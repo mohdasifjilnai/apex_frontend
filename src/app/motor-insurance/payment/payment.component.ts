@@ -492,7 +492,9 @@ export class PaymentComponent implements OnInit {
           sessionStorage.setItem('employee_code', res?.employee_code);
         }
         if (res?.trace_id) {
-          this.getTraceIdData(res.trace_id);
+          setTimeout(() => {
+            this.getTraceIdData(res.trace_id);
+          }, 1000);
         }
       });
   }
