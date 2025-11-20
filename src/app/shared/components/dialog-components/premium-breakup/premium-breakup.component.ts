@@ -64,7 +64,7 @@ export class PremiumBreakupComponent implements OnInit {
   downloadLoader: any = false;
   mmv_data: any;
   mmvParseData: any;
-  windowlength=window.innerWidth
+  windowlength = window.innerWidth;
 
   constructor(
     public dialogRef: MatDialogRef<PremiumBreakupComponent>,
@@ -76,7 +76,7 @@ export class PremiumBreakupComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     private apiService: ApiService,
     private router: Router
-  ) {    
+  ) {
     if (data['data'] != null) {
       this.initiateQuotes = data.data;
     } else if (dataToBottomSheet != null) {
@@ -164,24 +164,28 @@ export class PremiumBreakupComponent implements OnInit {
 
   downloadPremiumBreakup(data: any) {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    if (window.ReactNativeWebView) {
+    const isInWebView =
+      typeof (window as any).ReactNativeWebView !== 'undefined';
+
+    if (isInWebView) {
       const url = `${environment['backend_url']}/api/v1/docfetch/download_pdf/?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
       const apiUrlObject = {
         downloadQuotes: url,
       };
       const messageJSON = JSON.stringify(apiUrlObject);
-      window.ReactNativeWebView.postMessage(messageJSON);
-    }
-    this.downloadLoader = true;
-    let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
-    this.sharedDataService.downloadPolicy(url);
-    this.sharedDataService.downloadBreakupResponse.subscribe(
-      (response: any) => {
-        if (response) {
-          this.downloadLoader = false;
+      (window as any).ReactNativeWebView.postMessage(messageJSON);
+    } else {
+      this.downloadLoader = true;
+      let url = `?quote_id=${data.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=premium_breakup&transaction_id=${data.transaction_id}`;
+      this.sharedDataService.downloadPolicy(url);
+      this.sharedDataService.downloadBreakupResponse.subscribe(
+        (response: any) => {
+          if (response) {
+            this.downloadLoader = false;
+          }
         }
-      }
-    );
+      );
+    }
   }
   /**
    * Function used for buy Now Button in responsive
