@@ -494,7 +494,7 @@ export class PaymentComponent implements OnInit {
         if (res?.trace_id) {
           setTimeout(() => {
             this.getTraceIdData(res.trace_id);
-          }, 1000);
+          }, 100);
         }
       });
   }
