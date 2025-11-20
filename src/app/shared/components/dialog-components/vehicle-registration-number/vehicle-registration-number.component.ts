@@ -126,7 +126,11 @@ export class VehicleRegistrationNumberComponent implements OnInit {
     let soureceData = sessionStorage.getItem('sourceValue');
 
     let sourceData;
-    if ((soureceData != undefined || this.employee_code) && partner_code) {
+    if (
+      ((soureceData != 'apex' && soureceData != null) ||
+        this.employee_code != null) &&
+      partner_code
+    ) {
       sourceData = 'sales_portal_apex';
     } else {
       sourceData = 'apex';
