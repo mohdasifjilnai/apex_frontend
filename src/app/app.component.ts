@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       //   }
       // });
     } else {
-      webengage.init('');
+      webengage.init('in~76aa1b3');
     }
 
     this.loaderService.isLoading().subscribe((isLoading: any) => {

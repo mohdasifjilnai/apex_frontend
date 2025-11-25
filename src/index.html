@@ -121,9 +121,9 @@
           /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
         ) {
           //window.ReactNativeWebView.postMessage("WE_MOBILE_BRIDGE -> initialising mobile sdk");
-          console.log("WE_MOBILE_BRIDGE -> initialising mobile sdk");
+          // console.log("WE_MOBILE_BRIDGE -> initialising mobile sdk");
           (function (bridge) {
-            console.log("Calling bridge method ");
+            //    console.log("Calling bridge method ");
             window.ReactNativeWebView.postMessage("Calling bridge method");
             try {
               var type = Object.prototype.toString;
@@ -207,7 +207,7 @@
             }
           })();
         } else {
-          console.log("WE_MOBILE_BRIDGE -> initialising web sdk");
+          //  console.log("WE_MOBILE_BRIDGE -> initialising web sdk");
           setTimeout(function () {
             var f = document.createElement("script"),
               d = document.getElementById("_webengage_script_tag");
