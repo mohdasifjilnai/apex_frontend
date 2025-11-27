@@ -170,7 +170,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : webPolicyRenewalDate.partner_name,
+                    : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -199,7 +199,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: webPolicyRenewalDate.vehicle_type,
+                Motor_Type: webPolicyRenewalDate?.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -218,7 +218,7 @@ export class PaymentComponent implements OnInit {
                 })
               );
               paymentData.Renew_Date = this.renewDateValue;
-              paymentData.Tenure = webPolicyRenewalDate.tenure;
+              paymentData.Tenure = webPolicyRenewalDate?.tenure;
 
               const planPurchased = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -249,7 +249,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : webPolicyRenewalDate.partner_name,
+                    : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -278,7 +278,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: webPolicyRenewalDate.vehicle_type,
+                Motor_Type: webPolicyRenewalDate?.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -297,7 +297,7 @@ export class PaymentComponent implements OnInit {
               );
 
               paymentData.Renew_Date = this.renewDateValue;
-              paymentData.Tenure = webPolicyRenewalDate.tenure;
+              paymentData.Tenure = webPolicyRenewalDate?.tenure;
 
               const planPurchased = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -326,7 +326,7 @@ export class PaymentComponent implements OnInit {
                       )} ${sessionStorage.getItem(
                         'middle_name'
                       )} ${sessionStorage.getItem('last_name')}`
-                    : webPolicyRenewalDate.partner_name,
+                    : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
                 Total_IDV: this.premiumDetails.idv,
                 Total_Premium: this.premiumDetails.gross_premium,
@@ -355,7 +355,7 @@ export class PaymentComponent implements OnInit {
                 IDV: this.premiumDetails.gross_premium,
                 Insurer_Name: this.premiumDetails.insurer_name,
                 Insurer_Logo: this.premiumDetails.insurer_logo,
-                Motor_Type: webPolicyRenewalDate.vehicle_type,
+                Motor_Type: webPolicyRenewalDate?.vehicle_type,
                 User_Type: sessionStorage.getItem('partner_code')
                   ? 'Partner'
                   : 'Customer',
@@ -374,7 +374,7 @@ export class PaymentComponent implements OnInit {
               );
 
               paymentData.Renew_Date = this.renewDateValue;
-              paymentData.Tenure = webPolicyRenewalDate.tenure;
+              paymentData.Tenure = webPolicyRenewalDate?.tenure;
 
               const planPurchased = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
