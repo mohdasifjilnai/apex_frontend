@@ -132,7 +132,10 @@ export class PaymentComponent implements OnInit {
           this.policyRenewalDate = sessionStorage.getItem(
             'webengageInformation'
           );
-          let webPolicyRenewalDate = JSON.parse(this.policyRenewalDate || {});
+          let webPolicyRenewalDate;
+          if (this.policyRenewalDate) {
+            webPolicyRenewalDate = JSON.parse(this.policyRenewalDate || {});
+          }
           const inputDateStr = this.premiumDetails?.renewal_date;
 
           let transformedDateString = '';
