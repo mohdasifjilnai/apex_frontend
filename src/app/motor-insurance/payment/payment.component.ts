@@ -54,6 +54,7 @@ export class PaymentComponent implements OnInit {
     classObtained: 'nonPOS-class',
   };
   ngOnInit(): void {
+    this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
     this.route.url.subscribe((params) => {
       this.transactionId = params[2]['path'];
 
@@ -120,14 +121,10 @@ export class PaymentComponent implements OnInit {
         ]);
       }
     });
-
     this.getCustomerIdDetails = this.sharedService.getCustomerId.subscribe(
       (idValue) => {
         if (idValue.buttonType == 'Payment') {
           const vehcileType = sessionStorage.getItem('vehicleType');
-          this.isExistCustomerId = sessionStorage.getItem(
-            'webengageCustomerId'
-          );
           let CheckId = JSON.parse(this.isExistCustomerId || '{}');
           this.policyRenewalDate = sessionStorage.getItem(
             'webengageInformation'
@@ -529,7 +526,6 @@ export class PaymentComponent implements OnInit {
       .subscribe((res: any) => {
         this.premiumDetails = res;
         const vehcileType = sessionStorage.getItem('vehicleType');
-        this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
         sessionStorage.setItem('mobileNumber', res.mobile_number);
         sessionStorage.setItem(
           'webengageInformation',
