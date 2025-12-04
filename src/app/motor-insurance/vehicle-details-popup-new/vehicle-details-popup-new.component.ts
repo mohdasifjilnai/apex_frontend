@@ -1659,7 +1659,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
   patchPreviousInsurer() {
     this.sharedDataService.renewalInsurer.subscribe((renewalInsurer: any) => {
-      if (renewalInsurer != 'No result found') {
+      if (renewalInsurer && renewalInsurer != 'No result found') {
         this.vehicleDetailsForm.patchValue({
           previous_insurer: renewalInsurer,
         });
@@ -1681,12 +1681,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   claimedPolicy(data: any, allData?: any) {}
 
   getExpiringPolicy(regDateChange?: any) {
-    this.regDateObj = this.vehicleDetailsForm.get('registration_date')?.value
-      ? this.datePipe.transform(
-          this.vehicleDetailsForm.get('registration_date')?.value,
-          'MM/YYYY'
-        )
-      : '';
+    const regDate = this.vehicleDetailsForm.get('registration_date')?.value;
+
+    this.regDateObj = regDate ? moment(regDate).format('MM/YYYY') : '';
+
     let expiry_date = this.vehicleDetailsForm.get('policy_expiry_date')?.value
       ? this.datePipe.transform(
           this.vehicleDetailsForm.get('policy_expiry_date')?.value,
