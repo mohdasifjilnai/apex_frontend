@@ -2079,6 +2079,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
         this.mmvBaseButtonDisable = false;
       });
+    const ctrl = this.vehicleDetailsForm.get('policy_expiry');
+    ctrl?.reset();
+    ctrl?.markAsTouched();
+    ctrl?.updateValueAndValidity();
   }
 
   updateVehicleDetailsPOpUpdata(value: any, trace_id: any) {
@@ -2163,8 +2167,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
         this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
         this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
-        this.vehicleDetailsForm.get('policy_expiry')?.clearValidators();
-        this.vehicleDetailsForm.get('policy_expiry')?.updateValueAndValidity();
       }
     } else {
       this.isNewVehicle = true;
