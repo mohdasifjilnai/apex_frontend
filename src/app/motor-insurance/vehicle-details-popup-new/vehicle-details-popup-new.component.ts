@@ -1684,7 +1684,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     const regDate = this.vehicleDetailsForm.get('registration_date')?.value;
 
     this.regDateObj = regDate ? moment(regDate).format('MM/YYYY') : '';
-
     let expiry_date = this.vehicleDetailsForm.get('policy_expiry_date')?.value
       ? this.datePipe.transform(
           this.vehicleDetailsForm.get('policy_expiry_date')?.value,
@@ -1844,6 +1843,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               this.vehicleDetailsForm.patchValue({
                 policy_expiry: this.coverageType.coverage_type_code,
               });
+            } else {
+              const ctrl = this.vehicleDetailsForm.get('policy_expiry');
+              ctrl?.reset();
+              ctrl?.markAsTouched();
+              ctrl?.updateValueAndValidity();
             }
             this.getNcbList();
           }
@@ -2079,10 +2083,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         }
         this.mmvBaseButtonDisable = false;
       });
-    const ctrl = this.vehicleDetailsForm.get('policy_expiry');
-    ctrl?.reset();
-    ctrl?.markAsTouched();
-    ctrl?.updateValueAndValidity();
   }
 
   updateVehicleDetailsPOpUpdata(value: any, trace_id: any) {
@@ -2154,7 +2154,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ?.setValidators([Validators.required]);
       this.vehicleDetailsForm.get('policy_expiry')?.updateValueAndValidity();
       if (
-        this.vehcileFormData?.value?.policy_expiry &&
         this.vehcileFormData?.value?.policy_expiry != 'satp' &&
         this.vehcileFormData?.value?.policy_expiry != 'bundled_tp' &&
         this.vehcileFormData?.value?.policy_expiry != 'IDK'
@@ -2163,10 +2162,6 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           .get('ncb_discount')
           ?.setValidators([Validators.required]);
         this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
-      } else {
-        this.vehicleDetailsForm.get('ncb_discount')?.clearValidators();
-        this.vehicleDetailsForm.get('ncb_discount')?.updateValueAndValidity();
-        this.vehicleDetailsForm.get('ncb_discount')?.setValue(null);
       }
     } else {
       this.isNewVehicle = true;
