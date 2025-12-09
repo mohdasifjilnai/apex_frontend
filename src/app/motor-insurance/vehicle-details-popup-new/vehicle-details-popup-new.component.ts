@@ -610,7 +610,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (this.url == 'quotes') {
-          this.getExpiringPolicy(true);
+          this.getExpiringPolicy(true, true);
           if (res) {
             this.showExpiryDateErrorMessage = false;
           }
@@ -1680,7 +1680,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
   claimedPolicy(data: any, allData?: any) {}
 
-  getExpiringPolicy(regDateChange?: any) {
+  getExpiringPolicy(
+    regDateChange?: any,
+    preservePolicyExpiry: boolean = false
+  ) {
     const regDate = this.vehicleDetailsForm.get('registration_date')?.value;
 
     this.regDateObj = regDate ? moment(regDate).format('MM/YYYY') : '';
@@ -1799,6 +1802,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 }
               }
             }
+
             if (this.ExpiryPolicyType != undefined) {
               if (
                 !(
@@ -1844,10 +1848,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                 policy_expiry: this.coverageType.coverage_type_code,
               });
             } else {
-              const ctrl = this.vehicleDetailsForm.get('policy_expiry');
-              ctrl?.reset();
-              ctrl?.markAsTouched();
-              ctrl?.updateValueAndValidity();
+              if (!preservePolicyExpiry) {
+                const ctrl = this.vehicleDetailsForm.get('policy_expiry');
+                ctrl?.reset();
+                ctrl?.markAsTouched();
+                ctrl?.updateValueAndValidity();
+              }
             }
             this.getNcbList();
           }
