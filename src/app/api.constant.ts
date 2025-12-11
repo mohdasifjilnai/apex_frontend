@@ -250,5 +250,5 @@ export class ApiConstants {
   public static submit_instant_quotes = `/api/v2/perform_action/send_hsm_whatsapp_communications/`;
   public static insurer_list = `/api/v1/insurer_list`;
   public static dashboard_renewal = `/api/v1/dashboard/renewal_booster_dashboard`;
-  public static dashboard_viewInsight = `/api/v1/dashboardrenewal_booster_dashboard/visibility_report/`;
+  public static dashboard_viewInsight = `/api/v1/dashboard/renewal_booster_dashboard/visibility_report/`;
 }

@@ -109,6 +109,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   editButton = false;
   renewalVehicleDetails: any;
   stateCode: any;
+  stateCodeLocked: boolean = false;
   currentDateReg: any;
   minDateReg: any;
   disableFromDateReg: any;
@@ -1244,7 +1245,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       });
   }
   // Call this when an RTO is selected from the dropdown
-  onRtoSelected(event: MatOption) {
+    onRtoSelected(event: MatOption) {
     const selectedValue = event.value;
     if (selectedValue?.rb_city_name === 'No Data') {
       this.rtoList = [];
@@ -1259,6 +1260,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         registration_city: selectedValue,
       });
       this.rtoInvalid = false;
+      this.lockStateCodeFromRtoCode(selectedValue?.rb_rto_code);
       // 👇 force show errors for empty fields
       Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
         const controlValue = this.vehicleDetailsForm.get(key);
@@ -1271,7 +1273,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   // Call this when a City is selected from the dropdown
-  onCitySelected(event: MatOption) {
+    onCitySelected(event: MatOption) {
     const selectedValue = event.value;
     if (selectedValue?.rb_city_name === 'No Data') {
       this.cityList = [];
@@ -1286,6 +1288,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.vehicleDetailsForm.patchValue({
         registration_rto: selectedValue,
       });
+      this.lockStateCodeFromRtoCode(selectedValue?.rb_rto_code);
       // 👇 force show errors for empty fields
       Object.keys(this.vehicleDetailsForm.controls).forEach((key) => {
         const controlValue = this.vehicleDetailsForm.get(key);
@@ -2268,5 +2271,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
   normalizeDate(date: Date): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+  lockStateCodeFromRtoCode(rtoCode?: string) {
+    if (!rtoCode) return;
+    if (!this.stateCodeLocked) {
+      this.stateCode = String(rtoCode).slice(0, 2);
+      this.stateCodeLocked = true;
+    }
   }
 }
