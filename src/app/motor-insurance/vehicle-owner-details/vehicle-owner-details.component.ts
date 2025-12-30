@@ -624,7 +624,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             ? 'Yes'
             : 'NO',
           Gender: formValues?.owner_gender,
-          Matrital_Status: maritalValue,
+          Marital_Status: maritalValue,
           Insurer_Name: vehicleDetailsValue?.insurer_name,
           Total_IDV: vehicleDetailsValue?.premium_details?.idv,
           Total_Premium: vehicleDetailsValue?.premium_details?.gross_premium,

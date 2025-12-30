@@ -1517,6 +1517,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         form_value: this.vehicleDetailsForm.value,
         vehcile_mmv: this.vehicleDetailsForm.value?.vehicle_fuel,
         bussiness_type: this.bussiness_type,
+        notSendTransactionId: this.editVehicleDetails ? true : false,
       };
 
       this.updateVehicleDetailsPOpUpdata(

@@ -2008,7 +2008,9 @@ export class SharedDataService {
       vehicle_name: null,
       source: this.sourceId ? sourceValue : null,
       customer_mobile_number: null,
-      transaction_id: sessionStorage.getItem('transaction_id')
+      transaction_id: mmv_details?.notSendTransactionId
+        ? null
+        : sessionStorage.getItem('transaction_id')
         ? sessionStorage.getItem('transaction_id')
         : null,
 

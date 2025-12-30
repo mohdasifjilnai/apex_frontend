@@ -336,15 +336,22 @@ export class CkycComponent implements OnInit {
     const currentDate = new Date();
     if (sessionStorage.getItem('proposerType') == 'corporate') {
       this.maxDate = new Date(
-        this.maxDate.setFullYear(currentDate.getFullYear() - 0)
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate()
       );
     } else {
       this.maxDate = new Date(
-        this.maxDate.setFullYear(currentDate.getFullYear() - 18)
+        currentDate.getFullYear() - 18,
+        currentDate.getMonth(),
+        currentDate.getDate()
       );
     }
+
     this.minDate = new Date(
-      this.minDate.setFullYear(currentDate.getFullYear() - 124)
+      currentDate.getFullYear() - 124,
+      currentDate.getMonth(),
+      currentDate.getDate()
     );
   }
 
@@ -542,10 +549,10 @@ export class CkycComponent implements OnInit {
       this.ckycFormGroup.get('ckyc_gender')?.setValidators([]);
       this.ckycFormGroup.get('ckyc_gender')?.updateValueAndValidity();
     }
-    if (
-      this.quoteData['insurer_code'] === 'cholamandalam' ||
-      this.quoteData['insurer_code'] === 'bajaj'
-    ) {
+    const insurerCode =
+      this.quoteData?.insurer_code ||
+      this.getInsurerDetails?.quote_response?.insurer_code;
+    if (insurerCode === 'cholamandalam' || insurerCode === 'bajaj') {
       if (this.documentName != 'aadhaar_number') {
         this.showFullName = true;
         this.ckycFormGroup
