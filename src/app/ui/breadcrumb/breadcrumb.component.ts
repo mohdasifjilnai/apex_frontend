@@ -135,4 +135,26 @@ export class BreadcrumbComponent implements OnInit {
         }
       });
   }
+
+  onBreadcrumbClick(value: any): void {
+    this.partnerCodewithTraceId = JSON.parse(
+      sessionStorage.getItem('partnerCodeTraceId') || '{}'
+    );
+
+    // Quotes breadcrumb fix
+    if (value?.url?.includes('quotes/undefined')) {
+      const traceId = this.partnerCodewithTraceId?.trace_id;
+
+      if (traceId) {
+        this.router.navigate(['/quotes', traceId]);
+      }
+
+      return;
+    }
+
+    // Default navigation
+    if (value?.url) {
+      this.router.navigateByUrl(value.url);
+    }
+  }
 }
