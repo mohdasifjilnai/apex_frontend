@@ -521,10 +521,13 @@ export class QuotesComponent implements OnInit {
           } else {
             sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
           }
-          sessionStorage.setItem(
-            'mmv_data',
-            JSON.stringify(res?.meta_data?.mmv_form_data)
-          );
+          const mmvData = {
+            ...res?.meta_data?.mmv_form_data,
+            onEditNotSendTransactionId: null,
+          };
+
+          sessionStorage.setItem('mmv_data', JSON.stringify(mmvData));
+
           sessionStorage.setItem(
             'withoutVehicleNumber',
             res.meta_data.mmv_form_data?.form_value?.withoutVehicleNumber

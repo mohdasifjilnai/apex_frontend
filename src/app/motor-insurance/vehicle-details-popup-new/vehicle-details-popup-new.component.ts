@@ -1245,7 +1245,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       });
   }
   // Call this when an RTO is selected from the dropdown
-    onRtoSelected(event: MatOption) {
+  onRtoSelected(event: MatOption) {
     const selectedValue = event.value;
     if (selectedValue?.rb_city_name === 'No Data') {
       this.rtoList = [];
@@ -1273,7 +1273,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   }
 
   // Call this when a City is selected from the dropdown
-    onCitySelected(event: MatOption) {
+  onCitySelected(event: MatOption) {
     const selectedValue = event.value;
     if (selectedValue?.rb_city_name === 'No Data') {
       this.cityList = [];
@@ -1517,7 +1517,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         form_value: this.vehicleDetailsForm.value,
         vehcile_mmv: this.vehicleDetailsForm.value?.vehicle_fuel,
         bussiness_type: this.bussiness_type,
-        notSendTransactionId: this.editVehicleDetails ? true : false,
+        onEditNotSendTransactionId: this.editVehicleDetails ? true : false,
       };
 
       this.updateVehicleDetailsPOpUpdata(
