@@ -122,7 +122,6 @@ export class CkycComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.setCalenderRange();
     this.proposerType = sessionStorage.getItem('proposerType');
-
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
     if (this.quoteData['insurer_code'] === 'digit') {
@@ -131,6 +130,9 @@ export class CkycComponent implements OnInit {
     this.proposerType == 'individual'
       ? (this.isProposerTrue = true)
       : (this.isProposerTrue = false);
+    if (this.proposerType) {
+      this.getDocumentType();
+    }
     this.sharedDataService?.insurerDetails?.subscribe((getInsurerDetails) => {
       this.getInsurerDetails = getInsurerDetails;
     });
