@@ -122,11 +122,6 @@ export class CkycComponent implements OnInit {
     this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
     this.setCalenderRange();
     this.proposerType = sessionStorage.getItem('proposerType');
-    if (this.proposerType != null) {
-      this.proposerType == 'individual'
-        ? this.dobPlaceholder
-        : (this.dobPlaceholder = 'Select Date of Incorporation');
-    }
 
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.quoteData = JSON.parse(sessionStorage.getItem('quotes_data') || '{}');
@@ -138,11 +133,20 @@ export class CkycComponent implements OnInit {
       : (this.isProposerTrue = false);
     this.sharedDataService?.insurerDetails?.subscribe((getInsurerDetails) => {
       this.getInsurerDetails = getInsurerDetails;
+    });
+    this.sharedDataService.proposerType$.subscribe((type) => {
+      if (!type) return;
+
+      this.proposerType = type;
+      this.isProposerTrue = type === 'individual';
+
+      this.dobPlaceholder =
+        type === 'individual'
+          ? 'Select Date of Birth'
+          : 'Select Date of Incorporation';
+
       this.getDocumentType();
     });
-    if (this.quoteData?.insurer_code) {
-      this.getDocumentType();
-    }
     this.sharedDataService.getProposalDetails.subscribe((proposal) => {
       this.proposalId = proposal?.proposal_id;
       this.proposalData = proposal;

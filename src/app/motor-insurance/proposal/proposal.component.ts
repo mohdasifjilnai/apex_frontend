@@ -740,6 +740,7 @@ export class ProposalComponent implements OnInit {
           const proposerType = response?.quote_request?.customer_type;
           if (proposerType) {
             sessionStorage.setItem('proposerType', proposerType);
+            this.sharedData.setProposerType(proposerType);
           }
 
           const productType = response?.quote_request?.product_type;

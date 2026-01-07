@@ -110,6 +110,8 @@ export class SharedDataService {
   getIdvValue: Subject<any> = new Subject();
   getRegDateError: Subject<any> = new Subject();
   previousPolicyDetails$ = this.previousPolicyDetailsSubject.asObservable();
+  private proposerTypeSubject = new BehaviorSubject<string | null>(null);
+  proposerType$ = this.proposerTypeSubject.asObservable();
   regNumber: any;
   quotesConnectionData: any = [];
   vehicleType: any;
@@ -2107,5 +2109,8 @@ export class SharedDataService {
         }
       }
     });
+  }
+  setProposerType(type: string) {
+    this.proposerTypeSubject.next(type);
   }
 }
