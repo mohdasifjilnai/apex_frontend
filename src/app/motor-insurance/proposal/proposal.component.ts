@@ -153,9 +153,7 @@ export class ProposalComponent implements OnInit {
         if (renewalType == 'renewal') {
           this.loadVehicleDetails = true;
           this.loadOwnerDetails = true;
-          if (this.quoteData.insurer_code == 'cholamandalam') {
-            this.renewalPolicyDetailsMessage = true;
-          }
+        
           this.isPrevoiusInsurer = true;
           sessionStorage.setItem('isprevoiusInsurer', this.isPrevoiusInsurer);
         }
@@ -546,6 +544,9 @@ export class ProposalComponent implements OnInit {
           // this.openDesiredStep(this.accordianExpanded);
         }
       }
+        if (proposal?.insurer_code == 'cholamandalam' && proposal?.is_rb_renewal) {
+            this.renewalPolicyDetailsMessage = true;
+          }
     });
     this.sharedData.fetchKycData.subscribe((data) => {
       if (data) {
