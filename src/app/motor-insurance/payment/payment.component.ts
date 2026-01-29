@@ -205,6 +205,7 @@ export class PaymentComponent implements OnInit {
 
                 Renew_Date: '',
                 Tenure: '',
+                page_url: window.location.href,
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {

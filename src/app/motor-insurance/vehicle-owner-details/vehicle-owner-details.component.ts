@@ -644,6 +644,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 )} ${sessionStorage.getItem('last_name')}`
               : '',
           Partner_id: sessionStorage.getItem('partner_code'),
+          page_url : window.location.href,
         };
         const filteredData = Object.fromEntries(
           Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
