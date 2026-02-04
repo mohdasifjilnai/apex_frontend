@@ -31,7 +31,7 @@ export class PaymentComponent implements OnInit {
     private apiService: ApiService,
     private matDialog: WindowRef,
     private sharedService: SharedDataService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
   policyNumber: any;
   proposalNumber: any;
@@ -68,14 +68,14 @@ export class PaymentComponent implements OnInit {
         this.getTransactionPremiumDetails(
           this.transactionId,
           this.paymentSuccess,
-          ''
+          '',
         );
       } else if (params[4]['path'] == 'payment-failure') {
         this.paymentSuccess = false;
         this.getTransactionPremiumDetails(
           this.transactionId,
           this.paymentSuccess,
-          ''
+          '',
         );
       }
       // if (window.screen.width <= 999) {
@@ -97,7 +97,7 @@ export class PaymentComponent implements OnInit {
         this.getTransactionPremiumDetails(
           this.transactionId,
           '',
-          'Payment Deducted'
+          'Payment Deducted',
         );
       }
 
@@ -127,7 +127,7 @@ export class PaymentComponent implements OnInit {
           const vehcileType = sessionStorage.getItem('vehicleType');
           let CheckId = JSON.parse(this.isExistCustomerId || '{}');
           this.policyRenewalDate = sessionStorage.getItem(
-            'webengageInformation'
+            'webengageInformation',
           );
           let webPolicyRenewalDate;
           if (this.policyRenewalDate) {
@@ -163,9 +163,9 @@ export class PaymentComponent implements OnInit {
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
-                        'first_name'
+                        'first_name',
                       )} ${sessionStorage.getItem(
-                        'middle_name'
+                        'middle_name',
                       )} ${sessionStorage.getItem('last_name')}`
                     : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
@@ -213,7 +213,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
               paymentData.Renew_Date = this.renewDateValue;
               paymentData.Tenure = webPolicyRenewalDate?.tenure;
@@ -224,7 +224,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
               console.log('Motor_Payment_Status1', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
@@ -243,9 +243,9 @@ export class PaymentComponent implements OnInit {
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
-                        'first_name'
+                        'first_name',
                       )} ${sessionStorage.getItem(
-                        'middle_name'
+                        'middle_name',
                       )} ${sessionStorage.getItem('last_name')}`
                     : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
@@ -284,6 +284,7 @@ export class PaymentComponent implements OnInit {
                 Transaction_id: this.transactionId,
                 Renew_Date: '',
                 Tenure: '',
+                page_url: window.location.href,
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -291,7 +292,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
 
               paymentData.Renew_Date = this.renewDateValue;
@@ -303,7 +304,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
               console.log('Motor_Payment_Status2', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
@@ -320,9 +321,9 @@ export class PaymentComponent implements OnInit {
                 Partner_Name:
                   sessionStorage.getItem('first_name') != null
                     ? `${sessionStorage.getItem(
-                        'first_name'
+                        'first_name',
                       )} ${sessionStorage.getItem(
-                        'middle_name'
+                        'middle_name',
                       )} ${sessionStorage.getItem('last_name')}`
                     : webPolicyRenewalDate?.partner_name,
                 Partner_id: sessionStorage.getItem('partner_code'),
@@ -361,6 +362,7 @@ export class PaymentComponent implements OnInit {
                 Transaction_id: this.transactionId,
                 Renew_Date: '',
                 Tenure: '',
+                page_url: window.location.href,
               };
               const filteredData = Object.fromEntries(
                 Object.entries(paymentData).filter(([key, value]) => {
@@ -368,7 +370,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
 
               paymentData.Renew_Date = this.renewDateValue;
@@ -380,7 +382,7 @@ export class PaymentComponent implements OnInit {
                     return false;
                   }
                   return true;
-                })
+                }),
               );
               console.log('Motor_Payment_Status3', filteredData);
               webengage.track('Motor_Payment_Status', filteredData);
@@ -388,7 +390,7 @@ export class PaymentComponent implements OnInit {
             }
           }
         }
-      }
+      },
     );
   }
   /**
@@ -409,7 +411,7 @@ export class PaymentComponent implements OnInit {
   downloadPolicy() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants?.downloadPolicy}?transaction_id=${this.transactionId}`
+        `${ApiConstants?.downloadPolicy}?transaction_id=${this.transactionId}`,
       )
       .subscribe((res: any) => {
         if (res?.err_code != 1) {
@@ -518,11 +520,11 @@ export class PaymentComponent implements OnInit {
   getTransactionPremiumDetails(
     transaction_id: any,
     paymentStatus: any,
-    status?: any
+    status?: any,
   ) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.transaction_premium_details}${transaction_id}`
+        `${ApiConstants.transaction_premium_details}${transaction_id}`,
       )
       .subscribe((res: any) => {
         this.premiumDetails = res;
@@ -530,7 +532,7 @@ export class PaymentComponent implements OnInit {
         sessionStorage.setItem('mobileNumber', res.mobile_number);
         sessionStorage.setItem(
           'webengageInformation',
-          JSON.stringify(this.premiumDetails)
+          JSON.stringify(this.premiumDetails),
         );
         let CheckId = JSON.parse(this.isExistCustomerId || '{}');
         this.paymentStatusValue = paymentStatus;
@@ -568,9 +570,9 @@ export class PaymentComponent implements OnInit {
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
-                      'first_name'
+                      'first_name',
                     )} ${sessionStorage.getItem(
-                      'middle_name'
+                      'middle_name',
                     )} ${sessionStorage.getItem('last_name')}`
                   : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
@@ -609,6 +611,7 @@ export class PaymentComponent implements OnInit {
               Transaction_id: this.transactionId,
               Renew_Date: '',
               Tenure: '',
+              page_url: window.location.href,
             };
             const filteredData = Object.fromEntries(
               Object.entries(paymentData).filter(([key, value]) => {
@@ -616,7 +619,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
 
             paymentData.Renew_Date = this.renewDateValue;
@@ -628,7 +631,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
             console.log('Motor_Payment_Status4', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
@@ -644,9 +647,9 @@ export class PaymentComponent implements OnInit {
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
-                      'first_name'
+                      'first_name',
                     )} ${sessionStorage.getItem(
-                      'middle_name'
+                      'middle_name',
                     )} ${sessionStorage.getItem('last_name')}`
                   : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
@@ -685,6 +688,7 @@ export class PaymentComponent implements OnInit {
               Transaction_id: this.transactionId,
               Renew_Date: '',
               Tenure: '',
+              page_url: window.location.href,
             };
             const filteredData = Object.fromEntries(
               Object.entries(paymentData).filter(([key, value]) => {
@@ -692,7 +696,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
 
             paymentData.Renew_Date = this.renewDateValue;
@@ -704,7 +708,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
             console.log('Motor_Payment_Status5', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
@@ -721,9 +725,9 @@ export class PaymentComponent implements OnInit {
               Partner_Name:
                 sessionStorage.getItem('first_name') != null
                   ? `${sessionStorage.getItem(
-                      'first_name'
+                      'first_name',
                     )} ${sessionStorage.getItem(
-                      'middle_name'
+                      'middle_name',
                     )} ${sessionStorage.getItem('last_name')}`
                   : this.premiumDetails.partner_name,
               Partner_id: sessionStorage.getItem('partner_code'),
@@ -762,6 +766,7 @@ export class PaymentComponent implements OnInit {
               Transaction_id: this.transactionId,
               Renew_Date: '',
               Tenure: '',
+              page_url: window.location.href,
             };
 
             const filteredData = Object.fromEntries(
@@ -770,7 +775,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
 
             paymentData.Renew_Date = this.renewDateValue;
@@ -782,7 +787,7 @@ export class PaymentComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
             console.log('Motor_Payment_Status6', filteredData);
             webengage.track('Motor_Payment_Status', filteredData);
@@ -795,7 +800,7 @@ export class PaymentComponent implements OnInit {
               mobileNumber,
               '',
               'Payment',
-              transaction_id
+              transaction_id,
             );
           }
         }
