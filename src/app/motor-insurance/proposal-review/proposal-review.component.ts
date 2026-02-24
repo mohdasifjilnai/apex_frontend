@@ -19,7 +19,7 @@ import { ReviewAddonsComponent } from 'src/app/shared/components/dialog-componen
 import { TermsComponent } from 'src/app/shared/components/dialog-components/terms/terms.component';
 import { ProposalShareComponent } from 'src/app/shared/components/proposal-share/proposal-share.component';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 @Component({
@@ -147,7 +147,7 @@ export class ProposalReviewComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
     window.addEventListener('load', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -171,7 +171,7 @@ export class ProposalReviewComponent implements OnInit {
       }
     });
     let previousPolicyType = JSON.parse(
-      sessionStorage.getItem('mmv_data') || '{}'
+      sessionStorage.getItem('mmv_data') || '{}',
     );
     if (
       previousPolicyType?.form_value?.policy_expiry === 'saod' ||
@@ -194,7 +194,7 @@ export class ProposalReviewComponent implements OnInit {
       this.proposalParam = params['proposal'] === 'true';
       sessionStorage.setItem(
         'proposal_param',
-        JSON.stringify(this.proposalParam)
+        JSON.stringify(this.proposalParam),
       );
       this.router.url.subscribe((segments) => {
         const urlSegments = segments.map((segment) => segment.path);
@@ -217,7 +217,7 @@ export class ProposalReviewComponent implements OnInit {
           this.isAcknowledgedConsent;
         this.shareData.createProposalId(
           'proposal_review',
-          proposal?.previous_policy_details
+          proposal?.previous_policy_details,
         );
         isFirstCall = false;
       }
@@ -235,7 +235,7 @@ export class ProposalReviewComponent implements OnInit {
         const transformedRegistrationDate = requestValue?.registration_date
           ? this.datePipe.transform(
               requestValue?.registration_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              'yyyy-MM-ddTHH:mm:ss.SSSZ',
             )
           : '';
         let regDate = transformedRegistrationDate
@@ -245,7 +245,7 @@ export class ProposalReviewComponent implements OnInit {
         const transformedMgfDate = requestValue?.manufacture_date
           ? this.datePipe.transform(
               requestValue?.manufacture_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              'yyyy-MM-ddTHH:mm:ss.SSSZ',
             )
           : '';
         let mgfDate = transformedMgfDate
@@ -255,54 +255,54 @@ export class ProposalReviewComponent implements OnInit {
         const transformedPolicyExpiry = requestValue?.policy_expiry_date
           ? this.datePipe.transform(
               requestValue?.policy_expiry_date,
-              'yyyy-MM-ddTHH:mm:ss.SSSZ'
+              'yyyy-MM-ddTHH:mm:ss.SSSZ',
             )
           : '';
         let policyExpDate = transformedPolicyExpiry
           ? new Date(transformedPolicyExpiry as string)
           : '';
-        webengage.track('Motor_Vehicle_details_submitted', {
-          User_Type: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Motor_Type: vehcileType,
-          Insurer_Name: vehicleProposalDetails?.insurer_name,
-          Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-          Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-          Insurer_Logo: vehicleProposalDetails?.insurer_logo,
-          Product_id: vehicleProposalDetails?.quote_id,
-          Make: requestValue.vehicle_variant.rb_make_name,
-          Model: requestValue.vehicle_variant.rb_model_name,
-          Variant: requestValue.vehicle_variant.rb_variant_name,
-          Fuel: requestValue.vehicle_variant.fuel,
-          Registration_City: requestValue.registration_city.display_name,
-          Registration_Date: regDate,
-          Manufacture_Date: mgfDate,
-          Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
-          Type_of_Expiring_Policy: requestValue?.policy_expiry,
-          Policy_Expiring_Date: policyExpDate,
-          Search_previous_Insurer:
-            requestValue?.previous_insurer?.rb_insurer_name,
-          Is_previous_Policy_claimed: requestValue?.previous_claimed
-            ? 'Yes'
-            : 'No',
-          Previous_year_NCB: requestValue?.ncb_discount,
-          Customer_id: idValue.customer_id,
-          Perform_by: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Perform_for: 'Customer',
-          Partner_Name:
-            sessionStorage.getItem('first_name') != null
-              ? `${sessionStorage.getItem(
-                  'first_name'
-                )} ${sessionStorage.getItem(
-                  'middle_name'
-                )} ${sessionStorage.getItem('last_name')}`
-              : '',
-          Partner_id: sessionStorage.getItem('partner_code'),
-        });
-      }
+        // webengage.track('Motor_Vehicle_details_submitted', {
+        //   User_Type: sessionStorage.getItem('partner_code')
+        //     ? 'Partner'
+        //     : 'Customer',
+        //   Motor_Type: vehcileType,
+        //   Insurer_Name: vehicleProposalDetails?.insurer_name,
+        //   Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+        //   Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+        //   Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+        //   Product_id: vehicleProposalDetails?.quote_id,
+        //   Make: requestValue.vehicle_variant.rb_make_name,
+        //   Model: requestValue.vehicle_variant.rb_model_name,
+        //   Variant: requestValue.vehicle_variant.rb_variant_name,
+        //   Fuel: requestValue.vehicle_variant.fuel,
+        //   Registration_City: requestValue.registration_city.display_name,
+        //   Registration_Date: regDate,
+        //   Manufacture_Date: mgfDate,
+        //   Used_Car_RC_Transfer: requestValue.user_car ? 'Yes' : 'No',
+        //   Type_of_Expiring_Policy: requestValue?.policy_expiry,
+        //   Policy_Expiring_Date: policyExpDate,
+        //   Search_previous_Insurer:
+        //     requestValue?.previous_insurer?.rb_insurer_name,
+        //   Is_previous_Policy_claimed: requestValue?.previous_claimed
+        //     ? 'Yes'
+        //     : 'No',
+        //   Previous_year_NCB: requestValue?.ncb_discount,
+        //   Customer_id: idValue.customer_id,
+        //   Perform_by: sessionStorage.getItem('partner_code')
+        //     ? 'Partner'
+        //     : 'Customer',
+        //   Perform_for: 'Customer',
+        //   Partner_Name:
+        //     sessionStorage.getItem('first_name') != null
+        //       ? `${sessionStorage.getItem(
+        //           'first_name'
+        //         )} ${sessionStorage.getItem(
+        //           'middle_name'
+        //         )} ${sessionStorage.getItem('last_name')}`
+        //       : '',
+        //   Partner_id: sessionStorage.getItem('partner_code'),
+        // });
+      },
     );
   }
   navigateToUrl(titleName: string) {
@@ -338,7 +338,7 @@ export class ProposalReviewComponent implements OnInit {
         .registration_date
         ? this.datePipe.transform(
             requestValue?.form_value.registration_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let regDate = transformedRegistrationDate
@@ -348,7 +348,7 @@ export class ProposalReviewComponent implements OnInit {
       const transformedMgfDate = requestValue?.form_value.manufacture_date
         ? this.datePipe.transform(
             requestValue?.form_value.manufacture_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let mgfDate = transformedMgfDate
@@ -359,62 +359,62 @@ export class ProposalReviewComponent implements OnInit {
         .policy_expiry_date
         ? this.datePipe.transform(
             requestValue?.form_value.policy_expiry_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let policyExpDate = transformedPolicyExpiry
         ? new Date(transformedPolicyExpiry as string)
         : '';
-      webengage.track('Motor_Vehicle_details_submitted', {
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: vehcileType,
-        Insurer_Name: vehicleProposalDetails?.insurer_name,
-        Total_IDV: vehicleProposalDetails?.premium_details?.idv,
-        Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
-        Insurer_Logo: vehicleProposalDetails?.insurer_logo,
-        Product_id: vehicleProposalDetails?.quote_id,
-        Make: requestValue.form_value.vehicle_fuel?.rb_make_name,
-        Model: requestValue.form_value.vehicle_fuel?.rb_model_name,
-        Variant: requestValue.form_value.vehicle_fuel?.rb_variant_name,
-        Fuel: requestValue?.form_value.vehicle_fuel?.fuel,
-        Registration_City:
-          requestValue.form_value.registration_city?.display_name,
-        Registration_Date: regDate,
-        Manufacture_Date: mgfDate,
-        Used_Car_RC_Transfer: requestValue?.form_value.user_car ? 'Yes' : 'No',
-        Type_of_Expiring_Policy: requestValue?.form_value.policy_expiry,
-        Policy_Expiring_Date: policyExpDate,
-        Search_previous_Insurer:
-          requestValue?.form_value.previous_insurer?.rb_insurer_name,
-        Is_previous_Policy_claimed: requestValue?.form_value.previous_claimed
-          ? 'Yes'
-          : 'No',
-        Previous_year_NCB: requestValue?.form_value.ncb_discount,
-        Customer_id: CheckId?.customer_id,
-        Perform_by: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Perform_for: 'Customer',
-        Partner_Name:
-          sessionStorage.getItem('first_name') != null
-            ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
-              )} ${sessionStorage.getItem('last_name')}`
-            : '',
-        Partner_id:
-          sessionStorage.getItem('partner_code') != null
-            ? sessionStorage.getItem('partner_code')
-            : '',
-      });
+      // webengage.track('Motor_Vehicle_details_submitted', {
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: vehcileType,
+      //   Insurer_Name: vehicleProposalDetails?.insurer_name,
+      //   Total_IDV: vehicleProposalDetails?.premium_details?.idv,
+      //   Total_Premium: vehicleProposalDetails?.premium_details?.gross_premium,
+      //   Insurer_Logo: vehicleProposalDetails?.insurer_logo,
+      //   Product_id: vehicleProposalDetails?.quote_id,
+      //   Make: requestValue.form_value.vehicle_fuel?.rb_make_name,
+      //   Model: requestValue.form_value.vehicle_fuel?.rb_model_name,
+      //   Variant: requestValue.form_value.vehicle_fuel?.rb_variant_name,
+      //   Fuel: requestValue?.form_value.vehicle_fuel?.fuel,
+      //   Registration_City:
+      //     requestValue.form_value.registration_city?.display_name,
+      //   Registration_Date: regDate,
+      //   Manufacture_Date: mgfDate,
+      //   Used_Car_RC_Transfer: requestValue?.form_value.user_car ? 'Yes' : 'No',
+      //   Type_of_Expiring_Policy: requestValue?.form_value.policy_expiry,
+      //   Policy_Expiring_Date: policyExpDate,
+      //   Search_previous_Insurer:
+      //     requestValue?.form_value.previous_insurer?.rb_insurer_name,
+      //   Is_previous_Policy_claimed: requestValue?.form_value.previous_claimed
+      //     ? 'Yes'
+      //     : 'No',
+      //   Previous_year_NCB: requestValue?.form_value.ncb_discount,
+      //   Customer_id: CheckId?.customer_id,
+      //   Perform_by: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Perform_for: 'Customer',
+      //   Partner_Name:
+      //     sessionStorage.getItem('first_name') != null
+      //       ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+      //           'middle_name'
+      //         )} ${sessionStorage.getItem('last_name')}`
+      //       : '',
+      //   Partner_id:
+      //     sessionStorage.getItem('partner_code') != null
+      //       ? sessionStorage.getItem('partner_code')
+      //       : '',
+      // });
     } else {
       if (environment?.dev) {
         let mobileNumber = sessionStorage.getItem('mobileNumber');
         this.shareData.getCustomerIdForwebengae(
           mobileNumber,
           '',
-          'Previous Policy Details'
+          'Previous Policy Details',
         );
       }
     }
@@ -435,7 +435,7 @@ export class ProposalReviewComponent implements OnInit {
     // }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.generate_proposal}?insurer_code=${this.generateProposalData?.insurer_code}&proposal_id=${this.generateProposalData?.proposal_id}`
+        `${ApiConstants.generate_proposal}?insurer_code=${this.generateProposalData?.insurer_code}&proposal_id=${this.generateProposalData?.proposal_id}`,
       )
       .subscribe(
         (generatedProposal: any) => {
@@ -456,7 +456,7 @@ export class ProposalReviewComponent implements OnInit {
                 };
                 this.bottomSheet.open(
                   ProposalShareComponent,
-                  bottomSheetConfig
+                  bottomSheetConfig,
                 );
                 this.shareData.setPreviousPolicyDetails(this.proposalDataSend);
               } else {
@@ -477,7 +477,7 @@ export class ProposalReviewComponent implements OnInit {
             }
           }
         },
-        (error) => {}
+        (error) => {},
       );
   }
   checkQuotes() {
@@ -546,17 +546,17 @@ export class ProposalReviewComponent implements OnInit {
     if (transactionId) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.get_proposal}/?transaction_id=${transactionId}`
+          `${ApiConstants.get_proposal}/?transaction_id=${transactionId}`,
         )
         .subscribe((res) => {
           this.generateProposalData = res;
           sessionStorage.setItem(
             'proposal_Id',
-            JSON.stringify(this.generateProposalData?.proposal_id)
+            JSON.stringify(this.generateProposalData?.proposal_id),
           );
           sessionStorage.setItem(
             'mobileNumber',
-            this.generateProposalData?.customer_details?.mobile_number
+            this.generateProposalData?.customer_details?.mobile_number,
           );
           this.proposalId = this.generateProposalData?.proposal_id;
           if (this.generateProposalData?.proposal_punched) {
@@ -565,7 +565,7 @@ export class ProposalReviewComponent implements OnInit {
           }
           sessionStorage.setItem(
             'previous_insurerCode',
-            JSON.stringify(this.generateProposalData?.insurer_code)
+            JSON.stringify(this.generateProposalData?.insurer_code),
           );
           let manufactureDateValue =
             this.generateProposalData?.vehicle_details?.manufacture_date;
@@ -591,11 +591,11 @@ export class ProposalReviewComponent implements OnInit {
               this.generateProposalData?.insurer_quote_id;
             sessionStorage.setItem(
               'renewalInsurerQuotesId',
-              this.renewalInsurerQuotesId
+              this.renewalInsurerQuotesId,
             );
             this.getInsurerCode(
               this.generateProposalData?.transaction_id,
-              this.generateProposalData?.insurer_quote_id
+              this.generateProposalData?.insurer_quote_id,
             );
             const dataToStore = {
               transaction_id: this.generateProposalData?.transaction_id,
@@ -604,10 +604,10 @@ export class ProposalReviewComponent implements OnInit {
 
             sessionStorage.setItem(
               'sharable_transactionData',
-              JSON.stringify(dataToStore)
+              JSON.stringify(dataToStore),
             );
             const kycData = JSON.parse(
-              sessionStorage.getItem('kycData') || '{}'
+              sessionStorage.getItem('kycData') || '{}',
             );
             if (!kycData) {
               const kycDataToStore = {
@@ -676,7 +676,7 @@ export class ProposalReviewComponent implements OnInit {
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`,
       )
       .subscribe((response) => {
         if (response) {
@@ -701,7 +701,7 @@ export class ProposalReviewComponent implements OnInit {
           if (response?.quote_request?.vehicle_type) {
             sessionStorage.setItem(
               'vehicleType',
-              response?.quote_request?.vehicle_type
+              response?.quote_request?.vehicle_type,
             );
           }
           if (response?.quote_request?.registration_no != null) {
@@ -712,7 +712,7 @@ export class ProposalReviewComponent implements OnInit {
           if (response?.quote_request?.partner_code != null) {
             sessionStorage.setItem(
               'partner_code',
-              response?.quote_request?.partner_code
+              response?.quote_request?.partner_code,
             );
             if (
               response?.quote_request.meta_data.mmv_form_data?.partner_details
@@ -721,7 +721,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'first_name',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.first_name
+                  ?.first_name,
               );
             }
             if (
@@ -731,7 +731,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'last_name',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.last_name
+                  ?.last_name,
               );
             }
             if (
@@ -741,7 +741,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'middle_name',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.middle_name
+                  ?.middle_name,
               );
             }
             if (
@@ -751,7 +751,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'token',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.token
+                  ?.token,
               );
             }
             if (
@@ -761,7 +761,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'employee_code',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.employee_code
+                  ?.employee_code,
               );
             }
             if (
@@ -771,7 +771,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'is_cse',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.is_cse
+                  ?.is_cse,
               );
             }
             if (
@@ -781,7 +781,7 @@ export class ProposalReviewComponent implements OnInit {
               sessionStorage.setItem(
                 'pos_status',
                 response?.quote_request.meta_data.mmv_form_data?.partner_details
-                  ?.pos_status
+                  ?.pos_status,
               );
             }
           }
@@ -792,7 +792,7 @@ export class ProposalReviewComponent implements OnInit {
             };
             sessionStorage.setItem(
               'partnerCodeTraceId',
-              JSON.stringify(traceId)
+              JSON.stringify(traceId),
             );
             sessionStorage.setItem('partner_code', traceId.partner_code);
             this.getTraceIdData(traceId.trace_id);
@@ -805,14 +805,14 @@ export class ProposalReviewComponent implements OnInit {
               response?.quote_request?.meta_data?.selectedAddons;
             sessionStorage.setItem(
               'selectedAddons',
-              JSON.stringify(addonsValue)
+              JSON.stringify(addonsValue),
             );
           } else {
             sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
           }
           sessionStorage.setItem(
             'lastSelectedTabIndex',
-            response?.quote_request?.meta_data?.selectedTabIndex
+            response?.quote_request?.meta_data?.selectedTabIndex,
           );
           this.shareData.getInsurerDetail(response);
         }
@@ -836,7 +836,7 @@ export class ProposalReviewComponent implements OnInit {
       if (quoteResponseToStore) {
         sessionStorage.setItem(
           'quotes_data',
-          JSON.stringify(quoteResponseToStore)
+          JSON.stringify(quoteResponseToStore),
         );
         this.shareData.quotesADDOnData(JSON.stringify(quoteResponseToStore));
       }
@@ -872,7 +872,7 @@ export class ProposalReviewComponent implements OnInit {
         // Store mmv_data object in session storage
         sessionStorage.setItem('mmv_data', JSON.stringify(mmv_data));
         previousPolicyType = JSON.parse(
-          sessionStorage.getItem('mmv_data') || '{}'
+          sessionStorage.getItem('mmv_data') || '{}',
         );
         if (
           previousPolicyType?.form_value?.policy_expiry === 'saod' ||
@@ -908,7 +908,7 @@ export class ProposalReviewComponent implements OnInit {
             this.proposalData?.quote_request?.vehicle_type
           }&previous_policy_type=${
             previousPolicyType?.form_value?.policy_expiry
-          }&previous_policy_expiry_date=${policyExpiryDate}`
+          }&previous_policy_expiry_date=${policyExpiryDate}`,
         )
         .subscribe((res: any) => {
           if (res) {
@@ -962,7 +962,7 @@ export class ProposalReviewComponent implements OnInit {
     }
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`
+        `${ApiConstants.pre_policy_addons}?insurer_code=${getInsurerData?.quote_response?.insurer_code}&vehicle_type=${getInsurerData?.quote_request?.vehicle_type}&business_type=${getInsurerData?.quote_request?.business_type}&proposer_type=${getInsurerData?.quote_request?.customer_type}&product_type=${getInsurerData?.quote_request?.product_type}&in_diesel=${diesel}&insurer_quote_id=${getInsurerData?.quote_response?.quote_id}`,
       )
       .subscribe((res: any) => {
         this.preAddons = res;

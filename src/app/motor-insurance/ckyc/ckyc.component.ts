@@ -15,7 +15,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 declare var HyperKYCModule: any;
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-ckyc',
   templateUrl: './ckyc.component.html',
@@ -85,7 +85,7 @@ export class CkycComponent implements OnInit {
     private datePipe: DatePipe,
     private matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
   ) {
     this.ckycList = [
       {
@@ -192,7 +192,7 @@ export class CkycComponent implements OnInit {
                   this.proposalData?.ckyc_details?.document_number,
                 dob: moment(
                   this.proposalData?.ckyc_details?.dob,
-                  'DD/MM/YYYY'
+                  'DD/MM/YYYY',
                 ).toDate(),
                 ckyc_full_name: this.proposalData?.ckyc_details?.full_name,
                 ckyc_gender: this.proposalData?.ckyc_details?.gender,
@@ -216,7 +216,7 @@ export class CkycComponent implements OnInit {
     this.sharedDataService.errorEngineNumberValue.subscribe((res) => {
       if (res === 'ckyc_document') {
         const engineControl = this.ckycFormGroup.get(
-          'document_number_based_field'
+          'document_number_based_field',
         );
         engineControl?.setErrors({ invalidDocumentNumber: true });
         engineControl?.markAsTouched(); // ensures mat-error displays
@@ -247,16 +247,16 @@ export class CkycComponent implements OnInit {
   }
   submitCkycFormGroup(isValid: boolean) {
     const token = sessionStorage.getItem('token');
-    webengage.track('CKYC_details_Submitted', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Insurer_Name: this.quoteData?.insurer_name,
-      Total_IDV: this.quoteData?.premium_details?.idv,
-      Total_Premium: this.quoteData?.premium_details?.gross_premium,
-      Insurer_Logo: this.quoteData?.insurer_logo,
-      Document_type: this.ckycFormGroup.get('document_type_based_field')?.value,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('CKYC_details_Submitted', {
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Insurer_Name: this.quoteData?.insurer_name,
+    //   Total_IDV: this.quoteData?.premium_details?.idv,
+    //   Total_Premium: this.quoteData?.premium_details?.gross_premium,
+    //   Insurer_Logo: this.quoteData?.insurer_logo,
+    //   Document_type: this.ckycFormGroup.get('document_type_based_field')?.value,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     if (this.quoteData?.insurer_code == 'united_india') {
       this.getUnitedCkycToken();
     } else {
@@ -265,7 +265,7 @@ export class CkycComponent implements OnInit {
       } else {
         this.changeSubmitCkycName = false;
         this.qoutes_data = JSON.parse(
-          sessionStorage.getItem('quotes_data') || '{}'
+          sessionStorage.getItem('quotes_data') || '{}',
         );
         let ckycData: any = {
           proposal_id: sessionStorage.getItem('proposal_Id'),
@@ -282,32 +282,32 @@ export class CkycComponent implements OnInit {
               this.qoutes_data['insurer_code'] === 'universal_sompo'
             ) {
               let inputString = this.ckycFormGroup.get(
-                'document_number_based_field'
+                'document_number_based_field',
               )?.value;
               this.documentNumber = inputString.substr(inputString.length - 4);
             } else {
               this.documentNumber = this.ckycFormGroup.get(
-                'document_number_based_field'
+                'document_number_based_field',
               )?.value;
             }
           } else {
             this.documentNumber = this.ckycFormGroup.get(
-              'document_number_based_field'
+              'document_number_based_field',
             )?.value;
           }
 
           ckycData['dob'] = this.datePipe.transform(
             this.ckycFormGroup.get('dob')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           );
           ckycData['document_number'] = String(
             this.documentNumber
               ? this.documentNumber
-              : this.ckycFormGroup.get('document_number_based_field')?.value
+              : this.ckycFormGroup.get('document_number_based_field')?.value,
           ).toLocaleUpperCase();
           // ckycData['ckyc_number'] = '';
           ckycData['document_type'] = this.filterDocumentType(
-            this.ckycFormGroup.get('document_type_based_field')?.value
+            this.ckycFormGroup.get('document_type_based_field')?.value,
           );
           ckycData['is_consent_given'] = true;
           ckycData['full_name'] =
@@ -332,7 +332,7 @@ export class CkycComponent implements OnInit {
     }
     sessionStorage.setItem(
       'previous_insurerCode',
-      JSON.stringify(this.quoteData['insurer_code'])
+      JSON.stringify(this.quoteData['insurer_code']),
     );
   }
   /**
@@ -344,20 +344,20 @@ export class CkycComponent implements OnInit {
       this.maxDate = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
-        currentDate.getDate()
+        currentDate.getDate(),
       );
     } else {
       this.maxDate = new Date(
         currentDate.getFullYear() - 18,
         currentDate.getMonth(),
-        currentDate.getDate()
+        currentDate.getDate(),
       );
     }
 
     this.minDate = new Date(
       currentDate.getFullYear() - 124,
       currentDate.getMonth(),
-      currentDate.getDate()
+      currentDate.getDate(),
     );
   }
 
@@ -366,7 +366,7 @@ export class CkycComponent implements OnInit {
    */
   filterDocumentType(document_code: any) {
     const filteredDocuments = this.documentList?.filter(
-      (el: any) => el.document_code == document_code
+      (el: any) => el.document_code == document_code,
     );
     if (filteredDocuments?.length > 0) {
       return filteredDocuments[0].document_code;
@@ -385,7 +385,7 @@ export class CkycComponent implements OnInit {
             ? this.quoteData?.insurer_code
             : this.getInsurerDetails?.quote_response?.insurer_code
         }&is_individual=${this.isProposerTrue}&is_corporate=${!this
-          .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`
+          .isProposerTrue}&is_ckyc=true&is_ckyc_upload=false`,
       )
       .subscribe((res) => {
         this.documentList = res;
@@ -412,7 +412,7 @@ export class CkycComponent implements OnInit {
                   this.proposalData?.ckyc_details?.document_number,
                 dob: moment(
                   this.proposalData?.ckyc_details?.dob,
-                  'DD/MM/YYYY'
+                  'DD/MM/YYYY',
                 ).toDate(),
                 ckyc_full_name: this.proposalData?.ckyc_details?.full_name,
                 ckyc_gender: this.proposalData?.ckyc_details?.gender,
@@ -468,7 +468,7 @@ export class CkycComponent implements OnInit {
   getDocumentTypeValue(event: any) {
     this.documentName = this.filterDocumentType(event);
     const documentNumberBasedField = this.ckycFormGroup.get(
-      'document_number_based_field'
+      'document_number_based_field',
     );
     if (event == 'pan_number') {
       this.documentMaxLength = 10;
@@ -523,7 +523,7 @@ export class CkycComponent implements OnInit {
       documentNumberBasedField?.setValidators([
         Validators.required,
         Validators.pattern(
-          /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i
+          /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i,
         ),
       ]);
     } else {
@@ -574,16 +574,16 @@ export class CkycComponent implements OnInit {
       }
     }
     const token = sessionStorage.getItem('token');
-    webengage.track('CKYC_details_Initiated', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Insurer_Name: this.quoteData?.insurer_name,
-      Total_IDV: this.quoteData?.premium_details?.idv,
-      Total_Premium: this.quoteData?.premium_details?.gross_premium,
-      Insurer_Logo: this.quoteData?.insurer_logo,
-      Document_type: this.documentName,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('CKYC_details_Initiated', {
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Insurer_Name: this.quoteData?.insurer_name,
+    //   Total_IDV: this.quoteData?.premium_details?.idv,
+    //   Total_Premium: this.quoteData?.premium_details?.gross_premium,
+    //   Insurer_Logo: this.quoteData?.insurer_logo,
+    //   Document_type: this.documentName,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
   }
   /**
    *   document validator function
@@ -638,7 +638,7 @@ export class CkycComponent implements OnInit {
   getUnitedCkycToken() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${this.quoteData?.quote_id}&transaction_id=${this.quoteData?.transaction_id}`
+        `${ApiConstants.united_ckyc_token}?insurer_quote_id=${this.quoteData?.quote_id}&transaction_id=${this.quoteData?.transaction_id}`,
       )
       .subscribe((res) => {
         this.unitedTokenValue = res;
@@ -655,7 +655,7 @@ export class CkycComponent implements OnInit {
     const hyperKycConfig = new (window as any).HyperKycConfig(
       accessToken,
       `${workflod_id}`,
-      `${this.proposalId}`
+      `${this.proposalId}`,
     );
     // (window as any).HyperKYCModule.launch(hyperKycConfig, this.handler);
     this.launchHyperKYC(hyperKycConfig);
@@ -671,7 +671,7 @@ export class CkycComponent implements OnInit {
         this.sharedDataService.openSnackBar(
           HyperKycResult['errorMessage'],
           false,
-          3000
+          3000,
         );
         this.unitedCkycResponse(HyperKycResult);
         break;
@@ -679,7 +679,7 @@ export class CkycComponent implements OnInit {
         this.sharedDataService.openSnackBar(
           HyperKycResult['errorMessage'],
           false,
-          3000
+          3000,
         );
         this.unitedCkycResponse(HyperKycResult);
         break;
@@ -719,7 +719,7 @@ export class CkycComponent implements OnInit {
   }
   documentNumberValidation() {
     const alternateControl = this.ckycFormGroup.get(
-      'document_number_based_field'
+      'document_number_based_field',
     )?.value;
     if (
       alternateControl &&

@@ -20,7 +20,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from '../dialog-components/not-certified/not-certified.component';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-proposal-share',
   templateUrl: './proposal-share.component.html',
@@ -96,7 +96,7 @@ export class ProposalShareComponent implements OnInit {
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
     public bottomSheetRef: MatBottomSheetRef<ProposalShareComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any
+    @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
   ) {
     this.shareQuotationForm = this.formBuilder.group({
       whatsApp_number: new FormControl(''),
@@ -143,7 +143,7 @@ export class ProposalShareComponent implements OnInit {
       const currentDate = new Date(
         parseInt(year),
         parseInt(month) - 1,
-        parseInt(day)
+        parseInt(day),
       );
 
       // Get the next day
@@ -220,7 +220,7 @@ export class ProposalShareComponent implements OnInit {
   }
   anyFieldValid() {
     return Object.values(this.shareQuotationForm.controls).some(
-      (control) => control.touched && control.valid
+      (control) => control.touched && control.valid,
     );
   }
   /**
@@ -251,7 +251,7 @@ export class ProposalShareComponent implements OnInit {
         }/review`,
         this.shareQuotationForm.get('email')?.value,
         this.shareQuotationForm.get('contact_number')?.value,
-        [JSON.parse(this.quoteData)['quote_id']]
+        [JSON.parse(this.quoteData)['quote_id']],
       )
       .subscribe(
         (res) => {
@@ -276,7 +276,7 @@ export class ProposalShareComponent implements OnInit {
         },
         (error) => {
           this.shareQuotationForm.reset();
-        }
+        },
       );
   }
   proceedToPayment() {
@@ -308,7 +308,7 @@ export class ProposalShareComponent implements OnInit {
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
+                'middle_name',
               )} ${sessionStorage.getItem('last_name')}`
             : '',
         Partner_id: sessionStorage.getItem('partner_code'),
@@ -319,9 +319,9 @@ export class ProposalShareComponent implements OnInit {
             return false;
           }
           return true;
-        })
+        }),
       );
-      webengage.track('Motor_Payment_Initiated', filteredData);
+      // webengage.track('Motor_Payment_Initiated', filteredData);
 
       let sendCommunicationObject = {
         transaction_id: this.proposalData?.quote_response?.transaction_id,
@@ -336,7 +336,7 @@ export class ProposalShareComponent implements OnInit {
       this.apiService
         .postRequestedResponse(
           `${ApiConstants.send_communication()}`,
-          sendCommunicationObject
+          sendCommunicationObject,
         )
         .subscribe((res) => {
           this.loader = false;
@@ -364,7 +364,7 @@ export class ProposalShareComponent implements OnInit {
       this.apiService
         .postRequestedResponse(
           `${ApiConstants.send_communication()}`,
-          sendCommunicationObject
+          sendCommunicationObject,
         )
         .subscribe((res) => {
           this.loader = false;
@@ -380,7 +380,6 @@ export class ProposalShareComponent implements OnInit {
           // }
         });
     }
-    
   }
   openModal(sendCommunicationObject: any, jsonData: any) {
     sendCommunicationObject['share_type'] = 'resend';
@@ -432,7 +431,7 @@ export class ProposalShareComponent implements OnInit {
         if (response) {
           this.downloadLoader = false;
         }
-      }
+      },
     );
   }
   /**

@@ -29,7 +29,7 @@ import { CheckVehicleTypeComponent } from 'src/app/shared/components/dialog-comp
 import { environment } from 'src/environments/environment';
 import { filter } from 'rxjs';
 import { DatePipe } from '@angular/common';
-declare const webengage: any;
+// declare const webengage: any;
 const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-motor-insurance',
@@ -137,7 +137,7 @@ export class MotorInsuranceComponent implements OnInit {
     public bottomSheet: MatBottomSheet,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // if (window.innerWidth <= 768) {
@@ -147,7 +147,7 @@ export class MotorInsuranceComponent implements OnInit {
     // }
   }
   ngOnInit(): void {
-    webengage.track('Motor_Journey_Initiated', {});
+    // webengage.track('Motor_Journey_Initiated', {});
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -226,11 +226,11 @@ export class MotorInsuranceComponent implements OnInit {
         if (!this.motorInsurance.get('previous_insurer')) {
           this.motorInsurance.addControl(
             'previous_insurer',
-            new FormControl('')
+            new FormControl(''),
           );
           this.motorInsurance.addControl(
             'policy_expiry_date',
-            new FormControl('')
+            new FormControl(''),
           );
         }
         this.motorInsurance
@@ -350,7 +350,7 @@ export class MotorInsuranceComponent implements OnInit {
       sessionStorage.removeItem('sortObjectkey');
     }
     let customer_mobile_number = sessionStorage.getItem(
-      'customer_mobile_number'
+      'customer_mobile_number',
     );
     if (customer_mobile_number) {
       sessionStorage.removeItem('customer_mobile_number');
@@ -370,7 +370,7 @@ export class MotorInsuranceComponent implements OnInit {
     }
 
     let registration_form_isValid = sessionStorage.getItem(
-      'registration_form_isValid'
+      'registration_form_isValid',
     );
     if (registration_form_isValid) {
       sessionStorage.removeItem('registration_form_isValid');
@@ -400,7 +400,7 @@ export class MotorInsuranceComponent implements OnInit {
         if (val && this.vehicleNotFound) {
           this.vehicleNotFound = '';
         }
-      }
+      },
     );
 
     this.motorInsurance.controls['policy_expiry_date'].valueChanges.subscribe(
@@ -410,17 +410,17 @@ export class MotorInsuranceComponent implements OnInit {
         } else {
           this.notSureHide = true;
         }
-      }
+      },
     );
 
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res) {
         this.vehiclePopup = JSON.parse(
-          sessionStorage.getItem('vehicleCheckPopupOpen') || ''
+          sessionStorage.getItem('vehicleCheckPopupOpen') || '',
         );
         if (this.vehiclePopup == 'Call') {
           this.checkWheeler = JSON.parse(
-            sessionStorage.getItem('checkWheeler') || '{}'
+            sessionStorage.getItem('checkWheeler') || '{}',
           );
           if (
             this.checkWheeler &&
@@ -433,7 +433,7 @@ export class MotorInsuranceComponent implements OnInit {
             this.openVehicleDetailsPopup(null);
             sessionStorage.setItem(
               'vehicleCheckPopupOpen',
-              JSON.stringify('Open')
+              JSON.stringify('Open'),
             );
           }
         }
@@ -475,7 +475,7 @@ export class MotorInsuranceComponent implements OnInit {
           const postfix = sanitizedValue.substring(4);
           const formattedPostfix = postfix.replace(
             /([A-Za-z]+|[0-9]+)/g,
-            '$1-'
+            '$1-',
           );
           value = `${prefix}-${prefix2}-${formattedPostfix.replace(/-$/, '')}`;
         }
@@ -549,23 +549,23 @@ export class MotorInsuranceComponent implements OnInit {
     if (this.withoutVehicleNumber) {
       let vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
-      webengage.track('Proceed_Without_Vehicle_Number_Clicked', {
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: vehicleTypeValue,
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Proceed_Without_Vehicle_Number_Clicked', {
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: vehicleTypeValue,
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     } else if (!this.withoutVehicleNumber) {
       let vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
-      webengage.track('Proceed_With_Vehicle', {
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: vehicleTypeValue,
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Proceed_With_Vehicle', {
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: vehicleTypeValue,
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     }
     this.isPolicyNumber = false;
     this.disableInsurer = true;
@@ -636,14 +636,14 @@ export class MotorInsuranceComponent implements OnInit {
       apiUrl = `?registration_number=${this.motorInsurance.value.registration_number.toUpperCase()}`;
     }
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Renewal_Process_Initiated', {
-      Registration_Number: this.motorInsurance.value.registration_number,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehicleTypeValue,
-      Policy_Number: this.motorInsurance.value.policy_number,
-    });
+    // webengage.track('Renewal_Process_Initiated', {
+    //   Registration_Number: this.motorInsurance.value.registration_number,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehicleTypeValue,
+    //   Policy_Number: this.motorInsurance.value.policy_number,
+    // });
     this.apiService
       .getRequestedResponse(`${ApiConstants.get_renewal_policy}${apiUrl}`)
       .subscribe((res: any) => {
@@ -669,8 +669,8 @@ export class MotorInsuranceComponent implements OnInit {
             'coverageType',
             JSON.stringify(
               res?.previous_policy_details?.previous_policy_details
-                ?.renewal_coverage_type
-            )
+                ?.renewal_coverage_type,
+            ),
           );
           if (
             res?.previous_policy_details?.previous_policy_details?.policy_no !=
@@ -678,7 +678,7 @@ export class MotorInsuranceComponent implements OnInit {
           ) {
             sessionStorage.setItem(
               'renewalPolicyNumber',
-              res?.previous_policy_details?.previous_policy_details?.policy_no
+              res?.previous_policy_details?.previous_policy_details?.policy_no,
             );
           } else if (
             res?.previous_policy_details?.previous_policy_details
@@ -687,13 +687,13 @@ export class MotorInsuranceComponent implements OnInit {
             sessionStorage.setItem(
               'renewalPolicyNumber',
               res?.previous_policy_details?.previous_policy_details
-                ?.tp_policy_details?.tp_policy_no
+                ?.tp_policy_details?.tp_policy_no,
             );
           }
 
           sessionStorage.setItem(
             'previousInsurer',
-            res?.vehicle_details?.previous_insurer_code
+            res?.vehicle_details?.previous_insurer_code,
           );
           this.partnerCodeData = sessionStorage.getItem('partnerCodeTraceId');
           const parsedValue = JSON.parse(this.partnerCodeData);
@@ -706,20 +706,20 @@ export class MotorInsuranceComponent implements OnInit {
           ) {
             sessionStorage.setItem(
               'registrationNumber',
-              res?.previous_policy_details?.vehicle_details?.registration_no
+              res?.previous_policy_details?.vehicle_details?.registration_no,
             );
           }
 
           sessionStorage.setItem(
             'previousInsurerCode',
-            res?.previous_policy_details?.insurer_code
+            res?.previous_policy_details?.insurer_code,
           );
           sessionStorage.setItem(
             'coverageType',
             JSON.stringify(
               res?.previous_policy_details?.previous_policy_details
-                ?.renewal_coverage_type
-            )
+                ?.renewal_coverage_type,
+            ),
           );
           sessionStorage.setItem('isRbRenewal', res?.is_rb_renewal);
         } else {
@@ -751,7 +751,7 @@ export class MotorInsuranceComponent implements OnInit {
         },
         (error) => {
           this.loader = false;
-        }
+        },
       );
       this.sharedDataService.detailNotFound.subscribe((numberData) => {
         if (numberData) {
@@ -806,12 +806,12 @@ export class MotorInsuranceComponent implements OnInit {
   getPolicyNumber() {
     this.isPolicyNumber = !this.isPolicyNumber;
     if (this.isPolicyNumber) {
-      webengage.track('Motor_Renew_Initiated', {
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Motor_Renew_Initiated', {
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     }
     this.motorInsurance.reset();
     this.vehicleResponse = null;
@@ -932,14 +932,14 @@ export class MotorInsuranceComponent implements OnInit {
     apiUrl = `?partner_code=${this.partner_code}&source=${sourceData}`;
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
     if (this.motorInsurance.value.registration_number) {
-      webengage.track('Motor_Quotes_Initiated', {
-        Registration_Number: this.motorInsurance.value.registration_number,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: vehicleTypeValue,
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Motor_Quotes_Initiated', {
+      //   Registration_Number: this.motorInsurance.value.registration_number,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: vehicleTypeValue,
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     } else if (
       this.motorInsurance.value.vehicle?.rb_mmv_id &&
       this.motorInsurance.value?.policy_expiry_date != 'Not Sure'
@@ -947,7 +947,7 @@ export class MotorInsuranceComponent implements OnInit {
       const transformedRegDate = this.motorInsurance.value?.registration_date
         ? this.datePipe.transform(
             this.motorInsurance.value?.registration_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
 
@@ -958,7 +958,7 @@ export class MotorInsuranceComponent implements OnInit {
         ?.policy_expiry_date
         ? this.datePipe.transform(
             this.motorInsurance.value?.policy_expiry_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
 
@@ -985,12 +985,12 @@ export class MotorInsuranceComponent implements OnInit {
             return false;
           }
           return true;
-        })
+        }),
       );
-      webengage.track(
-        'Proceed_Without_Vehicle_Number_Details_Submitted',
-        filteredSubmitData
-      );
+      // webengage.track(
+      //   'Proceed_Without_Vehicle_Number_Details_Submitted',
+      //   filteredSubmitData
+      // );
     }
 
     const data = {
@@ -1007,7 +1007,7 @@ export class MotorInsuranceComponent implements OnInit {
     this.apiService
       .postRequestedResponseTraceId(
         `${ApiConstants.get_trace_Id()}${apiUrl}`,
-        data
+        data,
       )
       .subscribe(
         (res: any) => {
@@ -1022,7 +1022,7 @@ export class MotorInsuranceComponent implements OnInit {
             }
             sessionStorage.setItem(
               'withoutVehicleNumber',
-              `${this.withoutVehicleNumber}`
+              `${this.withoutVehicleNumber}`,
             );
             sessionStorage.setItem('quotesUrl', 'true');
             let vehicleTypeValue = sessionStorage.getItem('vehicleType');
@@ -1054,7 +1054,7 @@ export class MotorInsuranceComponent implements OnInit {
         },
         (error) => {
           this.loader = false;
-        }
+        },
       );
   }
 
@@ -1086,7 +1086,7 @@ export class MotorInsuranceComponent implements OnInit {
     this.apiService
       .postRequestedResponseTraceId(
         `${ApiConstants.get_trace_Id()}${apiUrl}`,
-        data
+        data,
       )
       .subscribe(
         (res: any) => {
@@ -1100,7 +1100,7 @@ export class MotorInsuranceComponent implements OnInit {
             }
             sessionStorage.setItem(
               'withoutVehicleNumber',
-              `${this.withoutVehicleNumber}`
+              `${this.withoutVehicleNumber}`,
             );
             sessionStorage.setItem('quotesUrl', 'true');
 
@@ -1122,7 +1122,7 @@ export class MotorInsuranceComponent implements OnInit {
         },
         (error) => {
           this.loader = false;
-        }
+        },
       );
   }
 
@@ -1137,7 +1137,7 @@ export class MotorInsuranceComponent implements OnInit {
     if (partner_code) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`
+          `${ApiConstants.validate_partner}?employee_code=${employee_code}&partner_code=${partner_code}`,
         )
         .subscribe((res: any) => {
           if (res?.message == 'Partner not found') {

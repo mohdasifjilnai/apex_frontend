@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 import { VehicleDetailsPopupNewComponent } from '../vehicle-details-popup-new/vehicle-details-popup-new.component';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-vehicle-details-card',
   templateUrl: './vehicle-details-card.component.html',
@@ -97,13 +97,13 @@ export class VehicleDetailsCardComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private apiservice: ApiService,
     private router: Router,
-    private routerData: ActivatedRoute
+    private routerData: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     this.route.url.subscribe((segments) => {
       const proposalSegment = segments.find(
-        (segment) => segment.path === 'proposal'
+        (segment) => segment.path === 'proposal',
       );
       if (proposalSegment) {
         const proposalValue = proposalSegment.path;
@@ -135,7 +135,7 @@ export class VehicleDetailsCardComponent implements OnInit {
       this.parsedVehicleData = JSON.parse(this.vehicleData);
       this.vehicleCardData(this.parsedVehicleData);
       const diffrenceDays = this.daysCountsFromToday(
-        this.parsedVehicleData?.policy_expiry_date
+        this.parsedVehicleData?.policy_expiry_date,
       );
       // this.getNcbList(this.parsedVehicleData?.ncb_discount)
       if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
@@ -159,7 +159,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.vehicleCardData(this.parsedVehicleData);
         const diffrenceDays = this.daysCountsFromToday(
-          this.parsedVehicleData?.policy_expiry_date
+          this.parsedVehicleData?.policy_expiry_date,
         );
         if (this.parsedVehicleData?.previous_claimed || diffrenceDays > 90) {
           this.showZeroNCB = true;
@@ -202,7 +202,7 @@ export class VehicleDetailsCardComponent implements OnInit {
 
           this.isPopUpClose = false;
         }
-      }
+      },
     );
     this.sharedDataService.enableQuotesAction.subscribe((idvData) => {
       // if (this.enableIdvCard) {
@@ -296,7 +296,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         : this.registartionDate;
     if (this.parsedVehicleData?.manufacture_date) {
       let manufactureDateValue = new Date(
-        this.parsedVehicleData?.manufacture_date
+        this.parsedVehicleData?.manufacture_date,
       );
       this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
       let manufactureMonth = moment(this.manufactureDate).month();
@@ -305,7 +305,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     }
     if (this.parsedVehicleData?.policy_expiry_date) {
       let policyExpiryDate = new Date(
-        this.parsedVehicleData?.policy_expiry_date
+        this.parsedVehicleData?.policy_expiry_date,
       );
       this.policyDate = moment(policyExpiryDate).format('DD-MMM-YYYY');
     }
@@ -318,7 +318,7 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.previousNCB = this.parsedVehicleData?.ncb_discount;
     // }
     const diffrenceDays = this.daysCountsFromToday(
-      this.parsedVehicleData?.policy_expiry_date
+      this.parsedVehicleData?.policy_expiry_date,
     );
     if (!this.parsedVehicleData?.user_car) {
       this.previousNCB = this.parsedVehicleData?.ncb_discount?.old_ncb_name;
@@ -346,13 +346,13 @@ export class VehicleDetailsCardComponent implements OnInit {
     //   this.openNotCertifiedPopup('Partner_Mapped');
     //   this.sharedData.sendLoginPartner('edit');
     // }
-    webengage.track('Motor_details_edited', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: this.vehicleType,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Motor_details_edited', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: this.vehicleType,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     if (window.innerWidth <= 999) {
       const bottomSheetConfig: MatBottomSheetConfig = {
         data: cardData,
@@ -420,7 +420,7 @@ export class VehicleDetailsCardComponent implements OnInit {
         : this.registartionDate;
     if (data.allQuotesRequest?.manufacture_date) {
       let manufactureDateValue = new Date(
-        data.allQuotesRequest?.manufacture_date
+        data.allQuotesRequest?.manufacture_date,
       );
       this.manufactureDate = moment(manufactureDateValue, 'MM/YYYY');
       let manufactureMonth = moment(this.manufactureDate).month();
@@ -505,19 +505,19 @@ export class VehicleDetailsCardComponent implements OnInit {
         }
         sessionStorage.setItem(
           'idvData',
-          this.parsedVehicleData?.allQuotesRequest.meta_data.idvData
+          this.parsedVehicleData?.allQuotesRequest.meta_data.idvData,
         );
         let addonValue;
         if (this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons) {
           addonValue = JSON.parse(
-            this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons
+            this.parsedVehicleData?.allQuotesRequest.meta_data.selectedAddons,
           );
         }
         sessionStorage.setItem('selectedAddons', JSON.stringify(addonValue));
         let vehicleFrom = JSON.stringify(vehicleEmailData);
         sessionStorage.setItem(
           'newVehicleType',
-          this.parsedVehicleData?.allQuotesRequest.business_type
+          this.parsedVehicleData?.allQuotesRequest.business_type,
         );
         // sessionStorage.setItem('mmv_data', vehicleFrom);
         this.sharedDataService.vehicleCardEmailData(vehicleFrom);
@@ -546,7 +546,7 @@ export class VehicleDetailsCardComponent implements OnInit {
           // vehicleFormUpdate.previous_insurer = previousInsurerObject;
           sessionStorage.setItem(
             'mmv_data_email',
-            JSON.stringify(throughEmailInsurer)
+            JSON.stringify(throughEmailInsurer),
           );
         }
       });
@@ -634,7 +634,7 @@ export class VehicleDetailsCardComponent implements OnInit {
             this.sharedDataService.getTraceIdDetails(res);
             this.vehicleCardData(res?.quote_data?.quotes_data);
             this.sharedDataService.vehicleCardTypeData(
-              JSON.stringify(res.quote_data?.quotes_data)
+              JSON.stringify(res.quote_data?.quotes_data),
             );
             this.parsedVehicleData = res?.quote_data?.quotes_data;
             sessionStorage.setItem('partnerCodeTraceId', JSON.stringify(res));

@@ -28,7 +28,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { RevisedPremiumBreakupComponent } from '../revised-premium-breakup/revised-premium-breakup.component';
 
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.component.html',
@@ -106,7 +106,7 @@ export class OtpComponent implements OnInit {
     private matDialog: WindowRef,
     private renderer: Renderer2,
     public bottomSheet: MatBottomSheet,
-    private matDialogs: MatDialog
+    private matDialogs: MatDialog,
   ) {
     this.transactionId = sessionStorage.getItem('transaction_id');
     this.proposalId = sessionStorage.getItem('proposal_Id');
@@ -211,28 +211,28 @@ export class OtpComponent implements OnInit {
     let vehicleValue = JSON.parse(this.vehicleProposalDetails);
     this.isExistCustomerId = sessionStorage.getItem('webengageCustomerId');
     let CheckId = JSON.parse(this.isExistCustomerId || '{}');
-    webengage.track('Payment_OTP_submitted', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehcileType,
-      Insurer_Name: vehicleValue?.insurer_name,
-      Total_IDV: vehicleValue?.premium_details?.idv,
-      Total_Premium: vehicleValue?.premium_details?.gross_premium,
-      Insurer_Logo: vehicleValue?.insurer_logo,
-      Customer_id: CheckId.customer_id,
-      Perform_by: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Perform_for: 'Customer',
-      Partner_Name:
-        sessionStorage.getItem('first_name') != null
-          ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-              'middle_name'
-            )} ${sessionStorage.getItem('last_name')}`
-          : '',
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Payment_OTP_submitted', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehcileType,
+    //   Insurer_Name: vehicleValue?.insurer_name,
+    //   Total_IDV: vehicleValue?.premium_details?.idv,
+    //   Total_Premium: vehicleValue?.premium_details?.gross_premium,
+    //   Insurer_Logo: vehicleValue?.insurer_logo,
+    //   Customer_id: CheckId.customer_id,
+    //   Perform_by: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Perform_for: 'Customer',
+    //   Partner_Name:
+    //     sessionStorage.getItem('first_name') != null
+    //       ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
+    //           'middle_name',
+    //         )} ${sessionStorage.getItem('last_name')}`
+    //       : '',
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     this.loader = true;
 
     let url = `${ApiConstants.verify_otp}?transaction_id=${this.transactionId}&otp=${this.otp}`;
@@ -241,7 +241,7 @@ export class OtpComponent implements OnInit {
         this.sharedDataService.openSnackBar(
           'Please enter valid otp',
           false,
-          3000
+          3000,
         );
         this.loader = false;
         this.ngOtpInput.setValue('');
@@ -256,7 +256,7 @@ export class OtpComponent implements OnInit {
             .getRequestedResponse(
               `${
                 ApiConstants['redirection_payment_getway']
-              }${this.proposalId.replace(/['"]+/g, '')}`
+              }${this.proposalId.replace(/['"]+/g, '')}`,
             )
             .subscribe(
               (payment_getway_response) => {
@@ -268,13 +268,13 @@ export class OtpComponent implements OnInit {
                   } else {
                     let paymentObjectValue = this.paymentObject.form.replace(
                       '<html><head></head><body>',
-                      ''
+                      '',
                     );
                     // </body></html>
                     let paymentObjectValueData =
                       this.paymentObject.form.replace(
                         '</form></body></html>',
-                        `<input  type='submit'   value=''></form>`
+                        `<input  type='submit'   value=''></form>`,
                       );
                     this.paymentObject.form = paymentObjectValueData;
 
@@ -302,14 +302,14 @@ export class OtpComponent implements OnInit {
                 } else {
                   this.dialogRef.close();
                 }
-              }
+              },
             );
         } else {
           this.apiService
             .getRequestedResponse(
               `${
                 ApiConstants['redirection_payment_getway']
-              }${this.proposalId.replace(/['"]+/g, '')}`
+              }${this.proposalId.replace(/['"]+/g, '')}`,
             )
             .subscribe(
               (payment_getway_response) => {
@@ -323,13 +323,13 @@ export class OtpComponent implements OnInit {
                   } else {
                     let paymentObjectValue = this.paymentObject.form.replace(
                       '<html><head></head><body>',
-                      ''
+                      '',
                     );
                     // </body></html>
                     let paymentObjectValueData =
                       this.paymentObject.form.replace(
                         '</form></body></html>',
-                        `<input  type='submit'   value=''></form>`
+                        `<input  type='submit'   value=''></form>`,
                       );
                     this.paymentObject.form = paymentObjectValueData;
 
@@ -354,7 +354,7 @@ export class OtpComponent implements OnInit {
                 } else {
                   this.dialogRef.close();
                 }
-              }
+              },
             );
         }
       }
@@ -367,7 +367,7 @@ export class OtpComponent implements OnInit {
     this.apiService
       .postRequestedResponse(
         `${ApiConstants.send_communication()}`,
-        this.communicationData
+        this.communicationData,
       )
       .subscribe((res) => {
         if (res) {
@@ -375,7 +375,7 @@ export class OtpComponent implements OnInit {
           this.sharedDataService.openSnackBar(
             'The otp send successfully',
             true,
-            3000
+            3000,
           );
         }
       });

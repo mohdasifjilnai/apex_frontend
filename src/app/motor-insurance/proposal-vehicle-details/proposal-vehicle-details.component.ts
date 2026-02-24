@@ -35,7 +35,7 @@ import { ErrorDialogComponent } from 'src/app/shared/components/dialog-component
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-proposal-vehicle-details',
   templateUrl: './proposal-vehicle-details.component.html',
@@ -112,7 +112,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     private formBuild: FormBuilder,
     public dialogRef: MatDialogRef<ProposalVehicleDetailsComponent>,
     private matDialog: WindowRef,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
     this.proposalForm();
   }
@@ -188,10 +188,10 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         registration_date: this.mmvItem?.form_value?.registration_date,
         manufacture_date: this.mmvItem?.form_value?.manufacture_date,
         registration_number_first: this.divideString(
-          this.mmvItem?.form_value?.registration_city?.rb_rto_code
+          this.mmvItem?.form_value?.registration_city?.rb_rto_code,
         )[0],
         registration_number_second: this.divideString(
-          this.mmvItem?.form_value?.registration_city?.rb_rto_code
+          this.mmvItem?.form_value?.registration_city?.rb_rto_code,
         )[1],
       });
       this.proposalVehilceDetailsForm
@@ -305,21 +305,21 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           this.proposalVehilceDetailsForm.patchValue({
             registration_date: moment(
               proposal?.vehicle_details?.registration_date,
-              'DD/MM/YYYY'
+              'DD/MM/YYYY',
             ).toDate(),
             manufacture_date: moment(
               proposal?.vehicle_details?.insurerCodeemanufacture_date,
-              'DD/MM/YYYY'
+              'DD/MM/YYYY',
             ).toDate(),
           });
         }
         if (proposal.vehicle_details?.is_same_location) {
           this.getRegistrationAddressValue(
-            proposal.vehicle_details?.is_same_location
+            proposal.vehicle_details?.is_same_location,
           );
         } else {
           this.getRegistrationAddressValue(
-            proposal.vehicle_details?.is_same_location
+            proposal.vehicle_details?.is_same_location,
           );
         }
         // this.getRegistrationAddressValue();
@@ -332,7 +332,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               }&financier_id=${
                 this.proposalData?.vehicle_details?.financer_details
                   ?.financer_id
-              }`
+              }`,
             )
             .subscribe((response) => {
               this.proposalVehilceDetailsForm.patchValue({
@@ -347,7 +347,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ) {
           let regFirstDigit = proposal?.vehicle_details?.registration_no?.slice(
             0,
-            2
+            2,
           );
           let regSecondDigit =
             proposal?.vehicle_details?.registration_no?.slice(3, 5);
@@ -440,13 +440,13 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
           this.apiservice
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${this.proposalData?.vehicle_details?.registration_address?.pincode}&insurer_code=${proposal?.insurer_code}`
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.vehicle_details?.registration_address?.pincode}&insurer_code=${proposal?.insurer_code}`,
             )
             .subscribe((res) => {
               if (!this.proposalVehilceDetailsForm.get('vehicle_state')) {
                 this.proposalVehilceDetailsForm.addControl(
                   'vehicle_state',
-                  new FormControl('')
+                  new FormControl(''),
                 );
               }
               this.proposalVehilceDetailsForm.patchValue({
@@ -490,7 +490,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         // }
       }
       let previous_insurer = JSON.parse(
-        sessionStorage.getItem('previous_insurerCode') || '{}'
+        sessionStorage.getItem('previous_insurerCode') || '{}',
       );
       //
       // if (
@@ -726,7 +726,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ?.registration_date
             ? this.datePipe.transform(
                 this.proposalVehilceDetailsForm.value?.registration_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                'yyyy-MM-ddTHH:mm:ss.SSSZ',
               )
             : '';
 
@@ -738,7 +738,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ?.manufacture_date
             ? this.datePipe.transform(
                 this.proposalVehilceDetailsForm.value?.manufacture_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                'yyyy-MM-ddTHH:mm:ss.SSSZ',
               )
             : '';
           let mgfDate = transformedMgfDate
@@ -777,9 +777,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             Partner_Name:
               sessionStorage.getItem('first_name') != null
                 ? `${sessionStorage.getItem(
-                    'first_name'
+                    'first_name',
                   )} ${sessionStorage.getItem(
-                    'middle_name'
+                    'middle_name',
                   )} ${sessionStorage.getItem('last_name')}`
                 : '',
             Partner_id: sessionStorage.getItem('partner_code'),
@@ -790,11 +790,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 return false;
               }
               return true;
-            })
+            }),
           );
-          webengage.track('Motor_Details_Submitted', filteredData);
+          // webengage.track('Motor_Details_Submitted', filteredData);
         }
-      }
+      },
     );
   }
   ngOnDestroy(): void {
@@ -836,7 +836,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     let partnerCode = sessionStorage.getItem('partner_code');
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(
-        sessionStorage.getItem('partnerCodeTraceId') || '{}'
+        sessionStorage.getItem('partnerCodeTraceId') || '{}',
       );
       if (this.partnerCodewithTraceId?.partner_code) {
         partnerCode = this.partnerCodewithTraceId?.partner_code;
@@ -844,11 +844,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
     }
     let registrationNumberFirst =
       this.divideString(
-        this.mmvItem?.form_value?.registration_city?.rb_rto_code
+        this.mmvItem?.form_value?.registration_city?.rb_rto_code,
       )[0] +
       '-' +
       this.divideString(
-        this.mmvItem?.form_value?.registration_city?.rb_rto_code
+        this.mmvItem?.form_value?.registration_city?.rb_rto_code,
       )[1] +
       '-' +
       this.proposalVehilceDetailsForm.value.registration_number_last_digit;
@@ -883,7 +883,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ApiConstants.renewal_partner_validation
           }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${registrationNumber}&partner_code=${
             partnerCode ? partnerCode : ''
-          }`
+          }`,
         )
         .subscribe((res) => {
           if (res?.status) {
@@ -894,11 +894,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             ) {
               let registrationNumberFirst =
                 this.divideString(
-                  this.mmvItem?.form_value?.registration_city?.rb_rto_code
+                  this.mmvItem?.form_value?.registration_city?.rb_rto_code,
                 )[0] +
                 '-' +
                 this.divideString(
-                  this.mmvItem?.form_value?.registration_city?.rb_rto_code
+                  this.mmvItem?.form_value?.registration_city?.rb_rto_code,
                 )[1] +
                 '-' +
                 this.proposalVehilceDetailsForm.value
@@ -915,7 +915,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             this.afterVehicleData.emit(formValues);
             this.shareData.createProposalId(
               'vehilce_details',
-              this.proposalVehilceDetailsForm
+              this.proposalVehilceDetailsForm,
             );
 
             /**
@@ -958,11 +958,11 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       ) {
         let registrationNumberFirst =
           this.divideString(
-            this.mmvItem?.form_value?.registration_city?.rb_rto_code
+            this.mmvItem?.form_value?.registration_city?.rb_rto_code,
           )[0] +
           '-' +
           this.divideString(
-            this.mmvItem?.form_value?.registration_city?.rb_rto_code
+            this.mmvItem?.form_value?.registration_city?.rb_rto_code,
           )[1] +
           '-' +
           this.proposalVehilceDetailsForm.value.registration_number_last_digit;
@@ -978,7 +978,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       this.afterVehicleData.emit(formValues);
       this.shareData.createProposalId(
         'vehilce_details',
-        this.proposalVehilceDetailsForm
+        this.proposalVehilceDetailsForm,
       );
 
       /**
@@ -1015,7 +1015,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ?.registration_date
         ? this.datePipe.transform(
             this.proposalVehilceDetailsForm.value?.registration_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
 
@@ -1027,7 +1027,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         ?.manufacture_date
         ? this.datePipe.transform(
             this.proposalVehilceDetailsForm.value?.manufacture_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let mgfDate = transformedMgfDate
@@ -1062,7 +1062,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
+                'middle_name',
               )} ${sessionStorage.getItem('last_name')}`
             : '',
         Partner_id: sessionStorage.getItem('partner_code'),
@@ -1073,16 +1073,16 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             return false;
           }
           return true;
-        })
+        }),
       );
-      webengage.track('Motor_Details_Submitted', filteredData);
+      // webengage.track('Motor_Details_Submitted', filteredData);
     } else {
       if (environment?.dev) {
         let mobileNumber = sessionStorage.getItem('mobileNumber');
         this.shareData.getCustomerIdForwebengae(
           mobileNumber,
           '',
-          'Vehicle Details'
+          'Vehicle Details',
         );
       }
     }
@@ -1186,10 +1186,9 @@ export class ProposalVehicleDetailsComponent implements OnInit {
         this.proposalVehilceDetailsForm.addControl(
           'vehicle_state',
           new FormControl(
-            this.proposalVehilceDetailsForm.get(
-              'vehicle_pincode'
-            )?.value?.rb_state_name
-          )
+            this.proposalVehilceDetailsForm.get('vehicle_pincode')?.value
+              ?.rb_state_name,
+          ),
         );
       }
       if (this.proposalData?.vehicle_details?.registration_address?.pincode) {
@@ -1197,7 +1196,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           .getRequestedResponse(
             `${ApiConstants.pincode}?pincode=${
               this.proposalData?.vehicle_details?.registration_address?.pincode
-            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`
+            }&insurer_code=${JSON.parse(this.quoteData)['insurer_code']}`,
           )
           .subscribe((res) => {
             this.proposalVehilceDetailsForm.patchValue({
@@ -1206,7 +1205,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
               vehicle_state: res[0].rb_state_name,
             });
             this.shareData?.sendOwnnerAddres(
-              this.proposalVehilceDetailsForm.valid
+              this.proposalVehilceDetailsForm.valid,
             );
           });
         this.shareData?.sendOwnnerAddres(this.proposalVehilceDetailsForm.valid);
@@ -1239,7 +1238,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             return this.apiservice.getRequestedResponse(
               `${ApiConstants.pincode}?pincode=${value}&insurer_code=${
                 JSON.parse(this.quoteData)['insurer_code']
-              }`
+              }`,
             );
           } else {
             /**
@@ -1252,7 +1251,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
           if (response.length === 1) {
             this.getSepratedPincodeData(response[0]);
           }
-        })
+        }),
       );
     }
   }
@@ -1278,7 +1277,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.aggreement_type}?insurer_code=${
           JSON.parse(this.quoteData)['insurer_code']
-        }`
+        }`,
       )
       .subscribe((response) => {
         this.agreementList = response;
@@ -1304,7 +1303,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
             return this.apiservice.getRequestedResponse(
               `${ApiConstants.financier_List}?insurer_code=${
                 JSON.parse(this.quoteData)['insurer_code']
-              }&search_element=${value}`
+              }&search_element=${value}`,
             );
           } else {
             /**
@@ -1312,7 +1311,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
              */
             return of([]);
           }
-        })
+        }),
       );
     }
   }
@@ -1410,7 +1409,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
                 ?.value +
               '-' +
               this.proposalVehilceDetailsForm.get(
-                'registration_number_last_digit'
+                'registration_number_last_digit',
               )?.value
             : '',
       });
@@ -1470,7 +1469,7 @@ export class ProposalVehicleDetailsComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.vehicle_color}?insurer_code=${
           JSON.parse(this.quoteData)['insurer_code']
-        }`
+        }`,
       )
       .subscribe((vehicleColor) => {
         this.vehicleColor = vehicleColor;

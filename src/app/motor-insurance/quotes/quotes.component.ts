@@ -10,7 +10,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
 import { IdleService } from 'src/app/core/services/idle.service';
 import { VehicleDetailsPopupNewComponent } from '../vehicle-details-popup-new/vehicle-details-popup-new.component';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-quotes',
   templateUrl: './quotes.component.html',
@@ -72,7 +72,7 @@ export class QuotesComponent implements OnInit {
     private apiService: ApiService,
     private shareDataService: SharedDataService,
     private routerData: ActivatedRoute,
-    private idleService: IdleService
+    private idleService: IdleService,
   ) {
     this.loaderService.isLoading().subscribe((isLoading: any) => {
       this.isLoading = isLoading;
@@ -88,7 +88,7 @@ export class QuotesComponent implements OnInit {
     });
 
     this.checkWheeler = JSON.parse(
-      sessionStorage.getItem('checkWheeler') || '{}'
+      sessionStorage.getItem('checkWheeler') || '{}',
     );
     if (sessionStorage.getItem('registrationNumber')) {
       if (
@@ -145,7 +145,7 @@ export class QuotesComponent implements OnInit {
           // );
         } else {
           let shareData = JSON.parse(
-            sessionStorage.getItem('sharable_transactionData') || '{}'
+            sessionStorage.getItem('sharable_transactionData') || '{}',
           );
           let shareabableObject = Object.keys(shareData);
           if (shareabableObject.length > 0) {
@@ -197,7 +197,7 @@ export class QuotesComponent implements OnInit {
       ) {
         this.getInsurerCode(
           quotesValue?.transaction_id,
-          quotesValue?.insurer_quote_id
+          quotesValue?.insurer_quote_id,
         );
       }
     });
@@ -264,7 +264,7 @@ export class QuotesComponent implements OnInit {
     });
     sessionStorage.removeItem('kycData');
     const partnerCodeTraceId = JSON.parse(
-      sessionStorage.getItem('partnerCodeTraceId') || '{}'
+      sessionStorage.getItem('partnerCodeTraceId') || '{}',
     );
     if (partnerCodeTraceId) {
       // this.getTraceIdCommercialVehicle(partnerCodeTraceId?.trace_id)
@@ -320,30 +320,30 @@ export class QuotesComponent implements OnInit {
   getInsurerCode(transaction_id: any, insurer_quote_id: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`
+        `${ApiConstants.get_insurer_code}/${transaction_id}/${insurer_quote_id}`,
       )
       .subscribe((response: any) => {
         if (response) {
           this.quotesRequest = response.quote_request;
           sessionStorage.setItem(
             'vehicleType',
-            this.quotesRequest.vehicle_type
+            this.quotesRequest.vehicle_type,
           );
           sessionStorage.setItem(
             'newVehicleType',
-            this.quotesRequest.business_type
+            this.quotesRequest.business_type,
           );
           sessionStorage.setItem(
             'proposerType',
-            this.quotesRequest.customer_type
+            this.quotesRequest.customer_type,
           );
           sessionStorage.setItem(
             'productType',
-            this.quotesRequest.product_type
+            this.quotesRequest.product_type,
           );
           sessionStorage.setItem(
             'lastSelectedTabIndex',
-            this.quotesRequest?.meta_data?.selectedTabIndex
+            this.quotesRequest?.meta_data?.selectedTabIndex,
           );
           let traceId = {
             trace_id: this.quotesRequest?.trace_id,
@@ -364,7 +364,7 @@ export class QuotesComponent implements OnInit {
               '',
               this.quotesRequest.rb_mmv_id,
               this.quotesRequest.vehicle_type,
-              this.quotesRequest
+              this.quotesRequest,
             );
           }
         }
@@ -422,7 +422,7 @@ export class QuotesComponent implements OnInit {
           };
           sessionStorage.setItem(
             'partnerCodeTraceId',
-            JSON.stringify(traceIdValue)
+            JSON.stringify(traceIdValue),
           );
           this.shareDataService.partnerCode(res.partner_code);
           sessionStorage.setItem('quotesUrl', 'true');
@@ -460,7 +460,7 @@ export class QuotesComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'first_name',
-                res.meta_data.mmv_form_data?.partner_details?.first_name
+                res.meta_data.mmv_form_data?.partner_details?.first_name,
               );
             }
             if (
@@ -468,7 +468,7 @@ export class QuotesComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'last_name',
-                res.meta_data.mmv_form_data?.partner_details?.last_name
+                res.meta_data.mmv_form_data?.partner_details?.last_name,
               );
             }
             if (
@@ -476,13 +476,13 @@ export class QuotesComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'middle_name',
-                res.meta_data.mmv_form_data?.partner_details?.middle_name
+                res.meta_data.mmv_form_data?.partner_details?.middle_name,
               );
             }
             if (res.meta_data.mmv_form_data?.partner_details?.token != null) {
               sessionStorage.setItem(
                 'token',
-                res.meta_data.mmv_form_data?.partner_details?.token
+                res.meta_data.mmv_form_data?.partner_details?.token,
               );
             }
             if (
@@ -491,13 +491,13 @@ export class QuotesComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'employee_code',
-                res.meta_data.mmv_form_data?.partner_details?.employee_code
+                res.meta_data.mmv_form_data?.partner_details?.employee_code,
               );
             }
             if (res.meta_data.mmv_form_data?.partner_details?.is_cse != null) {
               sessionStorage.setItem(
                 'is_cse',
-                res.meta_data.mmv_form_data?.partner_details?.is_cse
+                res.meta_data.mmv_form_data?.partner_details?.is_cse,
               );
             }
             if (
@@ -505,7 +505,7 @@ export class QuotesComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'pos_status',
-                res.meta_data.mmv_form_data?.partner_details?.pos_status
+                res.meta_data.mmv_form_data?.partner_details?.pos_status,
               );
             }
           }
@@ -516,7 +516,7 @@ export class QuotesComponent implements OnInit {
             let addonsValue = res?.meta_data?.selectedAddons;
             sessionStorage.setItem(
               'selectedAddons',
-              JSON.stringify(addonsValue)
+              JSON.stringify(addonsValue),
             );
           } else {
             sessionStorage.setItem('selectedAddons', JSON.stringify(undefined));
@@ -530,18 +530,18 @@ export class QuotesComponent implements OnInit {
 
           sessionStorage.setItem(
             'withoutVehicleNumber',
-            res.meta_data.mmv_form_data?.form_value?.withoutVehicleNumber
+            res.meta_data.mmv_form_data?.form_value?.withoutVehicleNumber,
           );
           this.shareDataService.getVehicleType(res.vehicle_type);
           this.shareDataService.vehicleCardEmailData(
-            JSON.stringify(res.meta_data.mmv_form_data)
+            JSON.stringify(res.meta_data.mmv_form_data),
           );
           this.shareDataService.vehicleCardTypeData(
-            JSON.stringify(res.meta_data.mmv_form_data)
+            JSON.stringify(res.meta_data.mmv_form_data),
           );
           sessionStorage.setItem(
             'lastSelectedTabIndex',
-            res.meta_data?.selectedTabIndex
+            res.meta_data?.selectedTabIndex,
           );
           let throughEmail = sessionStorage.getItem('throughEmail');
           if (throughEmail) {
@@ -600,8 +600,8 @@ export class QuotesComponent implements OnInit {
             'coverageType',
             JSON.stringify(
               res?.previous_policy_details?.previous_policy_details
-                ?.renewal_coverage_type
-            )
+                ?.renewal_coverage_type,
+            ),
           );
           this.shareDataService.getRenewalData(res);
           this.shareDataService.renewalDataResponse(res);

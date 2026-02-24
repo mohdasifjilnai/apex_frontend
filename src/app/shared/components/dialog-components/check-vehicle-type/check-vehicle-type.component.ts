@@ -3,7 +3,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Component({
   selector: 'app-check-vehicle-type',
@@ -17,7 +17,7 @@ export class CheckVehicleTypeComponent implements OnInit {
     private renderer: Renderer2,
     public router: Router,
     public dialogRef: MatDialogRef<CheckVehicleTypeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
   isCheckWheeler: boolean = true;
   vaahanName: any;
@@ -27,7 +27,7 @@ export class CheckVehicleTypeComponent implements OnInit {
   vehiclePopup: any;
   ngOnInit(): void {
     this.vehiclePopup = JSON.parse(
-      sessionStorage.getItem('vehicleCheckPopupOpen') || ''
+      sessionStorage.getItem('vehicleCheckPopupOpen') || '',
     );
     this.sharedDataService.checkVehicleType.subscribe((res) => {
       if (res && this.vehiclePopup == 'Open') {
@@ -35,7 +35,7 @@ export class CheckVehicleTypeComponent implements OnInit {
           this.isCheckWheeler = res.isCheckWheeler;
           this.vaahanName = res.vaahanName;
           this.checkWheeler = JSON.parse(
-            sessionStorage.getItem('checkWheeler') || '{}'
+            sessionStorage.getItem('checkWheeler') || '{}',
           );
           sessionStorage.setItem('vehicleCheckPopupOpen', 'true');
         }
@@ -49,12 +49,12 @@ export class CheckVehicleTypeComponent implements OnInit {
   newNumber() {
     this.dialogRef.close();
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Motor_Quotes_Intiated_ Entered_New_Number', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehicleTypeValue,
-    });
+    // webengage.track('Motor_Quotes_Intiated_ Entered_New_Number', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehicleTypeValue,
+    // });
   }
 
   /**
@@ -62,12 +62,12 @@ export class CheckVehicleTypeComponent implements OnInit {
    */
   proccedToCurrentJourney(checkWheeler: any) {
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Proceed_to_Motor_Journey_Clicked', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehicleTypeValue,
-    });
+    // webengage.track('Proceed_to_Motor_Journey_Clicked', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehicleTypeValue,
+    // });
 
     if (checkWheeler['is_commercial_vehicle']) {
       sessionStorage.setItem('vehicleType', 'commercial_vehicle');

@@ -6,7 +6,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-choose-idv',
   templateUrl: './choose-idv.component.html',
@@ -46,7 +46,7 @@ export class ChooseIDVComponent implements OnInit {
   constructor(
     public bottomSheetRef: MatBottomSheetRef<ChooseIDVComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
   ) {}
   enableIdvCard = true;
   ngOnInit(): void {
@@ -260,7 +260,7 @@ export class ChooseIDVComponent implements OnInit {
       };
       let chooseIdvValue = sessionStorage.setItem(
         'idvData',
-        JSON.stringify(idvObject)
+        JSON.stringify(idvObject),
       );
       this.idvBaseQuotes();
     } else if (option == 'max') {
@@ -274,7 +274,7 @@ export class ChooseIDVComponent implements OnInit {
       };
       let chooseIdvValue = sessionStorage.setItem(
         'idvData',
-        JSON.stringify(idvObject)
+        JSON.stringify(idvObject),
       );
       this.idvBaseQuotes();
     }
@@ -306,29 +306,29 @@ export class ChooseIDVComponent implements OnInit {
     };
     let chooseIdvValue = sessionStorage.setItem(
       'idvData',
-      JSON.stringify(idvObject)
+      JSON.stringify(idvObject),
     );
     this.updateIdvButton = true;
     let mmvFormData = sessionStorage.getItem('mmv_data');
     // this.sharedDataService.initiate_Quotes_APi(JSON.parse(mmvFormData || '{}'));
     this.idvBaseQuotes();
     let userDetails = JSON.parse(this.userType);
-    webengage.track('IDV_filter_Applied', {
-      // Option_Selected: option,
+    // webengage.track('IDV_filter_Applied', {
+    //   // Option_Selected: option,
 
-      User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      IDV_Value: this.investedAmount,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    //   User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   IDV_Value: this.investedAmount,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     // }
   }
   cancelIdv() {
     let userDetails = JSON.parse(this.userType);
-    webengage.track('IDV_filter_cleared', {
-      User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('IDV_filter_cleared', {
+    //   User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     // this.sharedDataService.sendCarLoaderMessage(0);
 
     this.avgIdv = sessionStorage.getItem('averageIdv');
@@ -353,11 +353,11 @@ export class ChooseIDVComponent implements OnInit {
     this.registrationNumber = sessionStorage.getItem('registrationNumber');
     if (this.registrationNumber) {
       this.sharedDataService.initiate_Quotes_APi(
-        JSON.parse(mmvFormData || '{}')
+        JSON.parse(mmvFormData || '{}'),
       );
     } else {
       this.sharedDataService.initiate_Quotes_APi(
-        JSON.parse(mmvFormData || '{}')
+        JSON.parse(mmvFormData || '{}'),
       );
     }
     this.enableIdvCard = true;

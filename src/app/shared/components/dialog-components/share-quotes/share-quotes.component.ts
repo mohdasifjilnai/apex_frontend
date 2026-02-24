@@ -9,7 +9,7 @@ import {
 } from '@angular/material/bottom-sheet';
 import { environment } from 'src/environments/environment';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-share-quotes',
   templateUrl: './share-quotes.component.html',
@@ -34,7 +34,7 @@ export class ShareQuotesComponent implements OnInit {
     private apiService: ApiService,
     public bottomSheetRef: MatBottomSheetRef<ShareQuotesComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
-    public sharedDataService: SharedDataService
+    public sharedDataService: SharedDataService,
   ) {
     this.shareQuotationForm = this.formBuilder.group({
       whatsApp_number: [
@@ -110,41 +110,41 @@ export class ShareQuotesComponent implements OnInit {
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
 
     this.quoteData = sessionStorage.getItem('quotes_data');
-    webengage.track('Quote_shared_successfully', {
-      Option_Selected: shareType,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehicleTypeValue,
-      Insurer_Name: this.sharePopupData[0]?.insurer_name,
-      Total_IDV: this.sharePopupData[0]?.premium_details?.idv,
-      Total_Premium: this.sharePopupData[0]?.premium_details?.gross_premium,
-      Insurer_Logo: this.sharePopupData[0]?.insurer_logo,
-      Product_id: this.sharePopupData[0]?.quote_id,
-      'Total_Own_Damage_(A)':
-        this.sharePopupData[0]?.premium_details.od_premium_details
-          .total_od_premium,
-      NCB_Discount:
-        this.sharePopupData[0]?.premium_details.od_premium_details.ncb_discount,
-      'Third_Party_(B)':
-        this.sharePopupData[0]?.premium_details.tp_premium_details
-          .total_tp_premium,
-      // Selected_Addons:
-      Total_Addons: this.sharePopupData[0]?.premium_details?.is_addon_addition,
-      'GST_(18%)_(C)':
-        this.sharePopupData[0]?.premium_details.total_gst != 0
-          ? this.sharePopupData[0]?.premium_details.total_gst
-          : 0,
-      'Total_Premium_(A+B+C)':
-        this.sharePopupData[0]?.premium_details.gross_premium != 0
-          ? this.sharePopupData[0]?.premium_details.gross_premium
-          : 0,
-      IDV:
-        this.sharePopupData[0]?.premium_details.idv != 0
-          ? this.sharePopupData[0]?.premium_details.idv
-          : 0,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Quote_shared_successfully', {
+    //   Option_Selected: shareType,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehicleTypeValue,
+    //   Insurer_Name: this.sharePopupData[0]?.insurer_name,
+    //   Total_IDV: this.sharePopupData[0]?.premium_details?.idv,
+    //   Total_Premium: this.sharePopupData[0]?.premium_details?.gross_premium,
+    //   Insurer_Logo: this.sharePopupData[0]?.insurer_logo,
+    //   Product_id: this.sharePopupData[0]?.quote_id,
+    //   'Total_Own_Damage_(A)':
+    //     this.sharePopupData[0]?.premium_details.od_premium_details
+    //       .total_od_premium,
+    //   NCB_Discount:
+    //     this.sharePopupData[0]?.premium_details.od_premium_details.ncb_discount,
+    //   'Third_Party_(B)':
+    //     this.sharePopupData[0]?.premium_details.tp_premium_details
+    //       .total_tp_premium,
+    //   // Selected_Addons:
+    //   Total_Addons: this.sharePopupData[0]?.premium_details?.is_addon_addition,
+    //   'GST_(18%)_(C)':
+    //     this.sharePopupData[0]?.premium_details.total_gst != 0
+    //       ? this.sharePopupData[0]?.premium_details.total_gst
+    //       : 0,
+    //   'Total_Premium_(A+B+C)':
+    //     this.sharePopupData[0]?.premium_details.gross_premium != 0
+    //       ? this.sharePopupData[0]?.premium_details.gross_premium
+    //       : 0,
+    //   IDV:
+    //     this.sharePopupData[0]?.premium_details.idv != 0
+    //       ? this.sharePopupData[0]?.premium_details.idv
+    //       : 0,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     let message: any;
     if (this.shareQuotationForm.get('email')?.value != '') {
       if (shareType == 'whatsapp') {
@@ -169,7 +169,7 @@ export class ShareQuotesComponent implements OnInit {
             }/review`,
             this.shareQuotationForm.get('email')?.value,
             this.shareQuotationForm.get('contact_number')?.value,
-            [JSON.parse(this.quoteData)['quote_id']]
+            [JSON.parse(this.quoteData)['quote_id']],
           )
           .subscribe(
             (res) => {
@@ -194,7 +194,7 @@ export class ShareQuotesComponent implements OnInit {
               } else if (shareType == 'mobile') {
                 this.mobileShareLoader = false;
               }
-            }
+            },
           );
       } else {
         this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
@@ -207,7 +207,7 @@ export class ShareQuotesComponent implements OnInit {
             `motor/quotes/${traceValue.trace_id}/?transaction_id_share=${this.quotesData[0]['transaction_id']}&insurer_quote_id=${this.quotes_id[0]}`,
             this.shareQuotationForm.get('email')?.value,
             this.shareQuotationForm.get('contact_number')?.value,
-            this.quotes_id
+            this.quotes_id,
           )
           .subscribe(
             (res) => {
@@ -232,7 +232,7 @@ export class ShareQuotesComponent implements OnInit {
               } else if (shareType == 'mobile') {
                 this.mobileShareLoader = false;
               }
-            }
+            },
           );
       }
     } else if (this.shareQuotationForm.get('contact_number')?.value != '') {
@@ -258,7 +258,7 @@ export class ShareQuotesComponent implements OnInit {
             }/review`,
             this.shareQuotationForm.get('email')?.value,
             this.shareQuotationForm.get('contact_number')?.value,
-            [JSON.parse(this.quoteData)['quote_id']]
+            [JSON.parse(this.quoteData)['quote_id']],
           )
           .subscribe(
             (res) => {
@@ -283,7 +283,7 @@ export class ShareQuotesComponent implements OnInit {
               } else if (shareType == 'mobile') {
                 this.mobileShareLoader = false;
               }
-            }
+            },
           );
       } else {
         this.traceIdData = sessionStorage.getItem('partnerCodeTraceId');
@@ -296,7 +296,7 @@ export class ShareQuotesComponent implements OnInit {
             `motor/quotes/${traceValue.trace_id}/?transaction_id_share=${this.quotesData[0]['transaction_id']}&insurer_quote_id=${this.quotes_id[0]}`,
             this.shareQuotationForm.get('email')?.value,
             this.shareQuotationForm.get('contact_number')?.value,
-            this.quotes_id
+            this.quotes_id,
           )
           .subscribe(
             (res) => {
@@ -321,7 +321,7 @@ export class ShareQuotesComponent implements OnInit {
               } else if (shareType == 'mobile') {
                 this.mobileShareLoader = false;
               }
-            }
+            },
           );
       }
     }

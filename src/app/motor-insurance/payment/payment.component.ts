@@ -8,7 +8,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -227,8 +227,8 @@ export class PaymentComponent implements OnInit {
                 }),
               );
               console.log('Motor_Payment_Status1', filteredData);
-              webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+              // webengage.track('Motor_Payment_Status', filteredData);
+              // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             } else if (
               !this.paymentStatusValue &&
               this.payemntDeducted != 'Payment Deducted'
@@ -307,8 +307,8 @@ export class PaymentComponent implements OnInit {
                 }),
               );
               console.log('Motor_Payment_Status2', filteredData);
-              webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+              // webengage.track('Motor_Payment_Status', filteredData);
+              // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
             if (this.payemntDeducted == 'Payment Deducted') {
               let paymentData = {
@@ -385,8 +385,8 @@ export class PaymentComponent implements OnInit {
                 }),
               );
               console.log('Motor_Payment_Status3', filteredData);
-              webengage.track('Motor_Payment_Status', filteredData);
-              webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+              // webengage.track('Motor_Payment_Status', filteredData);
+              // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
             }
           }
         }
@@ -634,8 +634,8 @@ export class PaymentComponent implements OnInit {
               }),
             );
             console.log('Motor_Payment_Status4', filteredData);
-            webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+            // webengage.track('Motor_Payment_Status', filteredData);
+            // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           } else if (!paymentStatus) {
             let paymentData = {
               Status: 'Payment Faliure',
@@ -711,8 +711,8 @@ export class PaymentComponent implements OnInit {
               }),
             );
             console.log('Motor_Payment_Status5', filteredData);
-            webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+            // webengage.track('Motor_Payment_Status', filteredData);
+            // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }
           if (status == 'Payment Deducted') {
             let paymentData = {
@@ -789,9 +789,9 @@ export class PaymentComponent implements OnInit {
                 return true;
               }),
             );
-            console.log('Motor_Payment_Status6', filteredData);
-            webengage.track('Motor_Payment_Status', filteredData);
-            webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
+            // console.log('Motor_Payment_Status6', filteredData);
+            // webengage.track('Motor_Payment_Status', filteredData);
+            // webengage.track('Motor_Plan_Purchased_Successful', planPurchased);
           }
         } else {
           if (environment?.dev) {

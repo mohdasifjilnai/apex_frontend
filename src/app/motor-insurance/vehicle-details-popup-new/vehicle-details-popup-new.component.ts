@@ -21,7 +21,7 @@ import { HttpService } from 'src/app/core/services/http.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { NotCertifiedComponent } from 'src/app/shared/components/dialog-components/not-certified/not-certified.component';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Component({
   selector: 'app-vehicle-details-popup-new',
@@ -130,7 +130,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     public router: Router,
     private FormBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
   ) {
     /**
      * Sample data for the Used Car/RC Transfer dropdown list
@@ -186,7 +186,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.patchVehicleDetailsForm(traceIDData, this.bussiness_type);
     } else if (this.registrationNumberData == null) {
       let partnerCodetrace_id = JSON.parse(
-        sessionStorage.getItem('partnerCodeTraceId') || '{}'
+        sessionStorage.getItem('partnerCodeTraceId') || '{}',
       );
       this.trace_id = partnerCodetrace_id?.trace_id;
 
@@ -238,12 +238,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name;
       this.vehicleVariant(
         this.vehcileFormData?.value?.vehicle_fuel?.rb_variant_name,
-        true
+        true,
       );
       this.stateCode =
         this.vehcileFormData?.value?.registration_city?.rb_rto_code?.slice(
           0,
-          2
+          2,
         );
 
       this.vehicleDetailsForm.patchValue({
@@ -259,12 +259,12 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ncb_discount: this.vehcileFormData?.value?.ncb_discount,
         registration_date: this.datePipe.transform(
           this.vehcileFormData?.value?.registration_date,
-          'yyyy-MM-dd'
+          'yyyy-MM-dd',
         ),
         // manufacture_date: new Date(this.vehcileFormData?.value?.manufacture_date),
         manufacture_date: this.datePipe.transform(
           this.vehcileFormData?.value?.manufacture_date,
-          'yyyy-MM'
+          'yyyy-MM',
         ),
         previous_claimed: this.vehcileFormData?.value?.previous_claimed,
         user_car: this.vehcileFormData?.value?.user_car,
@@ -272,7 +272,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         policy_expiry_date: this.vehcileFormData?.value?.policy_expiry_date
           ? this.datePipe.transform(
               this.vehcileFormData?.value?.policy_expiry_date,
-              'yyyy-MM-dd'
+              'yyyy-MM-dd',
             )
           : '',
       });
@@ -290,7 +290,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.ncbDiscount = this.vehcileFormData?.value?.ncb_discount;
       sessionStorage.setItem(
         'registrationDetails',
-        JSON.stringify(this.vehcileFormData?.value?.previous_insurer)
+        JSON.stringify(this.vehcileFormData?.value?.previous_insurer),
       );
       this.vehiclePopupList = sessionStorage.getItem('mmv_data');
 
@@ -335,11 +335,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.minDateReg = new Date(
           this.currentDateReg.getFullYear() - 20,
           this.currentDateReg.getMonth(),
-          this.currentDateReg.getDate()
+          this.currentDateReg.getDate(),
         );
         this.disableFromDateReg = new Date(this.currentDateReg);
         this.disableFromDateReg.setDate(
-          this.disableFromDateReg.getDate() - 270
+          this.disableFromDateReg.getDate() - 270,
         );
         this.maxDateReg = new Date(this.currentDateReg);
         this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
@@ -385,7 +385,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.vehicleMMV(this.registrationNumberData?.rb_mmv_id);
         this.vehcileRegistration(
           this.registrationNumberData?.rb_rto_code,
-          'rtoByRegistration'
+          'rtoByRegistration',
         );
         const manufactureDate =
           this.registrationNumberData?.vehicle_details?.manufacture_date;
@@ -394,17 +394,17 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         this.minDateReg = new Date(
           this.currentDateReg.getFullYear() - 20,
           this.currentDateReg.getMonth(),
-          this.currentDateReg.getDate()
+          this.currentDateReg.getDate(),
         );
         this.disableFromDateReg = new Date(this.currentDateReg);
         this.disableFromDateReg.setDate(
-          this.disableFromDateReg.getDate() - 270
+          this.disableFromDateReg.getDate() - 270,
         );
         this.maxDateReg = new Date(this.currentDateReg);
         this.maxDateReg.setDate(this.maxDateReg.getDate() + 10);
 
         this.regDatePatch = this.formatDDMMYYYYToDate(
-          this.registrationNumberData?.vehicle_details?.registration_date
+          this.registrationNumberData?.vehicle_details?.registration_date,
         );
         this.currentDateRegValue = this.normalizeDate(this.currentDateReg);
 
@@ -438,7 +438,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         // this.regDatePatch = regDatePatch; // assign to component variable
         this.vehicleDetailsForm.patchValue({
           registration_date: this.formatDDMMYYYYToDate(
-            this.registrationNumberData?.vehicle_details?.registration_date
+            this.registrationNumberData?.vehicle_details?.registration_date,
           ),
           manufacture_date: manufactureDate
             ? new Date(
@@ -446,7 +446,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                   '/' + // MM
                   manufactureDate.split('/')[0] +
                   '/' + // DD
-                  manufactureDate.split('/')[2]
+                  manufactureDate.split('/')[2],
               )
             : null,
           // previous_claimed: this.registrationNumberData?.previous_claimed,
@@ -470,7 +470,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           let parsedInputDate = new Date(reformattedDate);
           this.policyExpiryDate = this.datePipe.transform(
             parsedInputDate,
-            'dd/MM/yyyy'
+            'dd/MM/yyyy',
           );
           // Get the current date and add 60 days
           let currentDate = new Date();
@@ -545,7 +545,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           if (res?.vehicle_details?.rb_rto_code) {
             this.vehcileRegistration(
               res?.vehicle_details?.rb_rto_code,
-              'rtoByRegistration'
+              'rtoByRegistration',
             );
           }
           this.vehicleDetailsForm.patchValue({
@@ -553,7 +553,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             manufacture_date: this.renewalData?.manufacture_date,
             previous_insurer: res?.vehicle_details?.previous_insurer_code,
             policy_expiry_date: this.formatDDMMYYYYToDate(
-              res?.vehicle_details?.previous_policy_exp_date
+              res?.vehicle_details?.previous_policy_exp_date,
             ),
             policy_expiry: this.coverageType?.coverage_type_code,
           });
@@ -656,7 +656,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.vehicleDetailsForm.patchValue({
       previous_insurer: data?.vehicle_details?.previous_insurer_code,
       policy_expiry_date: this.formatDDMMYYYYToDate(
-        data?.vehicle_details?.previous_policy_exp_date
+        data?.vehicle_details?.previous_policy_exp_date,
       ),
     });
     // 👇 force show errors for empty fields
@@ -673,7 +673,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     const registrationDate = new Date(traceIDData?.registration_date);
     const manufactureDate = new Date(
       registrationDate.getFullYear(),
-      registrationDate.getMonth() - 1
+      registrationDate.getMonth() - 1,
     );
     this.vehicleDetailsForm.patchValue({
       registration_date: new Date(registrationDate),
@@ -707,7 +707,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         vehicle_fuel: traceIDData?.vehicle,
         registration_date: this.datePipe.transform(
           traceIDData?.registration_date,
-          'yyyy-MM-dd'
+          'yyyy-MM-dd',
         ),
       });
       // 👇 force show errors for empty fields
@@ -733,7 +733,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           traceIDData?.policy_expiry_date != 'Not Sure'
             ? this.datePipe.transform(
                 traceIDData?.policy_expiry_date,
-                'yyyy-MM-dd'
+                'yyyy-MM-dd',
               )
             : '',
       });
@@ -749,10 +749,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.patchPreviousInsurer();
       sessionStorage.setItem(
         'registrationDetails',
-        JSON.stringify(traceIDData?.previous_insurer)
+        JSON.stringify(traceIDData?.previous_insurer),
       );
       this.sharedDataService.getRegistrationDate(
-        traceIDData?.registration_date
+        traceIDData?.registration_date,
       );
 
       this.vehicleDetailsForm
@@ -869,9 +869,9 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       this.apiservice
         .getRequestedResponse(`${ApiConstants.get_vehicle_mmv()}${apiData}`)
         .subscribe((res) => {
-          (this.makeValueSelected = res[0]?.rb_make_name),
+          ((this.makeValueSelected = res[0]?.rb_make_name),
             (this.modelValueSelected = res[0]?.rb_model_name),
-            (this.variantValueSelected = res[0]?.rb_variant_name);
+            (this.variantValueSelected = res[0]?.rb_variant_name));
           this.fuelList = res;
           this.vehicleDetailsForm.patchValue({
             vehicle_make: res[0]?.rb_make_name,
@@ -1063,7 +1063,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
   vehcileRegistration(
     rto_code: any,
     rtoByRegistration?: any,
-    registrationName?: any
+    registrationName?: any,
   ) {
     rto_code =
       typeof rto_code === 'string'
@@ -1198,7 +1198,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     // 🔍 Safety check: if rto is string or null, try to find the object in rtoList
     if (!rto || typeof rto !== 'object') {
       const match = this.rtoList?.find(
-        (item: any) => item?.rb_rto_code?.slice(2) === rto
+        (item: any) => item?.rb_rto_code?.slice(2) === rto,
       );
       return match?.rb_rto_code?.slice(2) || '';
     }
@@ -1389,7 +1389,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ?.registration_date
         ? this.datePipe.transform(
             this.vehicleDetailsForm.value?.registration_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
 
@@ -1400,7 +1400,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       const transformedMgfDate = this.vehicleDetailsForm.value?.manufacture_date
         ? this.datePipe.transform(
             this.vehicleDetailsForm.value?.manufacture_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let mgfDate = transformedMgfDate
@@ -1411,7 +1411,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         ?.policy_expiry_date
         ? this.datePipe.transform(
             this.vehicleDetailsForm.value?.policy_expiry_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let policyExpDate = transformedPolicyExpiry
@@ -1483,10 +1483,10 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
             return false;
           }
           return true;
-        })
+        }),
       );
 
-      webengage.track(title, filteredData);
+      // webengage.track(title, filteredData);
       // this.sharedDataService.sendCarLoaderMessage(0);
       this.renderer.removeClass(document.body, 'dropdown-focus');
       if (window.innerWidth <= 999) {
@@ -1522,11 +1522,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
       this.updateVehicleDetailsPOpUpdata(
         this.vehicleDetailsForm.value,
-        this.trace_id
+        this.trace_id,
       );
       sessionStorage.setItem(
         'mmv_data',
-        JSON.stringify(initiate_quotes_payload)
+        JSON.stringify(initiate_quotes_payload),
       );
       sessionStorage.setItem('newVehicleType', this.bussiness_type);
 
@@ -1534,13 +1534,13 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
       sessionStorage.removeItem('proposal_Id');
       this.sharedDataService.vehicleCardData(vehicleFrom);
       // this.sharedDataService.initiate_Quotes_APi(initiate_quotes_payload)
-      webengage.track('Motor_Type', {
-        Option_Selected: this.vehicleTypeValue,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? sessionStorage.getItem('partner_code')
-          : null,
-        Motor_Type: this.vehicleTypeValue,
-      });
+      // webengage.track('Motor_Type', {
+      //   Option_Selected: this.vehicleTypeValue,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? sessionStorage.getItem('partner_code')
+      //     : null,
+      //   Motor_Type: this.vehicleTypeValue,
+      // });
     } else {
       this.showErrorMessage = false;
     }
@@ -1677,7 +1677,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         });
         sessionStorage.setItem(
           'renewalPreviousInsurer',
-          JSON.stringify(renewalInsurer)
+          JSON.stringify(renewalInsurer),
         );
       }
     });
@@ -1686,7 +1686,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
   getExpiringPolicy(
     regDateChange?: any,
-    preservePolicyExpiry: boolean = false
+    preservePolicyExpiry: boolean = false,
   ) {
     const regDate = this.vehicleDetailsForm.get('registration_date')?.value;
 
@@ -1694,7 +1694,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     let expiry_date = this.vehicleDetailsForm.get('policy_expiry_date')?.value
       ? this.datePipe.transform(
           this.vehicleDetailsForm.get('policy_expiry_date')?.value,
-          'dd/MM/YYYY'
+          'dd/MM/YYYY',
         )
       : '';
     let userRCtransfer = this.vehicleDetailsForm.value.user_car
@@ -1710,7 +1710,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     if (this.regDateObj != null && this.regDateObj != '' && !regDateChange) {
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`,
         )
         ?.subscribe((res) => {
           if (res) {
@@ -1741,7 +1741,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                         controlValue?.markAsTouched();
                         controlValue?.updateValueAndValidity();
                       }
-                    }
+                    },
                   );
                 }
               }
@@ -1801,7 +1801,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                         controlValue?.markAsTouched();
                         controlValue?.updateValueAndValidity();
                       }
-                    }
+                    },
                   );
                 }
               }
@@ -1827,7 +1827,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     ) {
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`,
         )
         ?.subscribe((res) => {
           if (res) {
@@ -1868,7 +1868,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     ) {
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`,
         )
         ?.subscribe((res) => {
           if (res) {
@@ -1943,7 +1943,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
                         controlValue?.markAsTouched();
                         controlValue?.updateValueAndValidity();
                       }
-                    }
+                    },
                   );
                 }
               }
@@ -1960,7 +1960,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
 
       this.apiservice
         .getRequestedResponse(
-          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`
+          `${ApiConstants.getExpiringPolicy()}${expiringPolicyType}`,
         )
         ?.subscribe((res) => {
           if (res) {
@@ -2051,7 +2051,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
               ? incomingNCB
               : incomingNCB.old_ncb_value;
           const matchedNCB = this.ncbListData.find(
-            (item: any) => item.old_ncb_value === getNcbValue
+            (item: any) => item.old_ncb_value === getNcbValue,
           );
 
           if (matchedNCB) {
@@ -2065,7 +2065,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
           const matchedNCB = this.ncbListData.find(
             (item: any) =>
               item.old_ncb_value ===
-              this.renewalVehicleDetails?.previous_year_ncb
+              this.renewalVehicleDetails?.previous_year_ncb,
           );
           if (matchedNCB) {
             this.vehicleDetailsForm.patchValue({
@@ -2076,7 +2076,7 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
         } else {
           for (let data of this.expiryList) {
             const matchedNCB = this.ncbListData.find(
-              (item: any) => item.old_ncb_value === data.offered_ncb_value
+              (item: any) => item.old_ncb_value === data.offered_ncb_value,
             );
 
             if (matchedNCB) {
@@ -2105,11 +2105,11 @@ export class VehicleDetailsPopupNewComponent implements OnInit {
     this.apiservice
       .patchRequestedResponse(
         `${ApiConstants.update_trace_id_data}${apiUrl}/`,
-        data
+        data,
       )
       .subscribe((res: any) => {
         this.sharedDataService.vehicleCardTypeData(
-          JSON.stringify(res.quote_data?.quotes_data)
+          JSON.stringify(res.quote_data?.quotes_data),
         );
         this.sharedDataService.getTraceIdDetails(res);
       });

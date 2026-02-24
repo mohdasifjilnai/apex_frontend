@@ -32,7 +32,7 @@ import { NonPosPopupComponent } from '../non-pos-popup/non-pos-popup.component';
 import { PayoutInfoComponent } from 'src/app/shared/components/dialog-components/payout-info/payout-info.component';
 import { VehicleRegistrationNumberComponent } from 'src/app/shared/components/dialog-components/vehicle-registration-number/vehicle-registration-number.component';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-quotes-listing',
   templateUrl: './quotes-listing.component.html',
@@ -222,7 +222,7 @@ export class QuotesListingComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private renderer: Renderer2,
     private el: ElementRef,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
     // this.postListInitiateQuotes(initiate_quotes_payload);
   }
@@ -288,7 +288,7 @@ export class QuotesListingComponent implements OnInit {
                   const matched = flexiValues.find(
                     (item: any) =>
                       item.insurerCode?.toLowerCase() === insurerCode &&
-                      item.is_payd === isPayd
+                      item.is_payd === isPayd,
                   );
 
                   if (matched) {
@@ -301,13 +301,13 @@ export class QuotesListingComponent implements OnInit {
                   } else {
                     // Fallback to min_discount
                     flexiControl?.patchValue(
-                      quote?.flexi_discounting?.discount_percentage
+                      quote?.flexi_discounting?.discount_percentage,
                     );
                   }
                 } else {
                   // No session data; use default min_discount
                   flexiControl?.patchValue(
-                    quote?.flexi_discounting?.discount_percentage
+                    quote?.flexi_discounting?.discount_percentage,
                   );
                 }
               }
@@ -320,13 +320,13 @@ export class QuotesListingComponent implements OnInit {
               this.stopProgress();
             }, 2000);
             const mmv_data = JSON.parse(
-              sessionStorage.getItem('mmv_data') || '{}'
+              sessionStorage.getItem('mmv_data') || '{}',
             );
             const addons = JSON.parse(
-              sessionStorage.getItem('selectedAddons') || '{}'
+              sessionStorage.getItem('selectedAddons') || '{}',
             );
             let idvValue = JSON.parse(
-              sessionStorage.getItem('idvData') || '{}'
+              sessionStorage.getItem('idvData') || '{}',
             );
             this.previousInsureRenewal =
               mmv_data?.form_value?.previous_insurer?.rb_insurer_code;
@@ -344,7 +344,7 @@ export class QuotesListingComponent implements OnInit {
             const transformedDateString = mmv_data?.form_value.registration_date
               ? this.datePipe.transform(
                   mmv_data?.form_value.registration_date,
-                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ',
                 )
               : '';
 
@@ -355,7 +355,7 @@ export class QuotesListingComponent implements OnInit {
             const transformedMgfDate = mmv_data?.form_value.manufacture_date
               ? this.datePipe.transform(
                   mmv_data?.form_value.manufacture_date,
-                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ',
                 )
               : '';
             let mgfDate = transformedMgfDate
@@ -366,7 +366,7 @@ export class QuotesListingComponent implements OnInit {
               .policy_expiry_date
               ? this.datePipe.transform(
                   mmv_data?.form_value.policy_expiry_date,
-                  'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                  'yyyy-MM-ddTHH:mm:ss.SSSZ',
                 )
               : '';
             let policyExpDate = transformedPolicyExpiry
@@ -420,9 +420,9 @@ export class QuotesListingComponent implements OnInit {
                   return false;
                 }
                 return true;
-              })
+              }),
             );
-            webengage.track('Motor_Insurance_Plans_Found', filteredData);
+            // webengage.track('Motor_Insurance_Plans_Found', filteredData);
           }
         }
         // if (this.carLoader) {
@@ -613,7 +613,7 @@ export class QuotesListingComponent implements OnInit {
               const matched = flexiValues.find(
                 (item: any) =>
                   item.insurerCode?.toLowerCase() === insurerCode &&
-                  item.is_payd === isPayd
+                  item.is_payd === isPayd,
               );
 
               if (matched) {
@@ -624,12 +624,12 @@ export class QuotesListingComponent implements OnInit {
               } else {
                 // Fallback to min_discount
                 flexiControl?.patchValue(
-                  quote?.flexi_discounting?.discount_percentage
+                  quote?.flexi_discounting?.discount_percentage,
                 );
               }
             } else {
               flexiControl?.patchValue(
-                quote?.flexi_discounting?.discount_percentage
+                quote?.flexi_discounting?.discount_percentage,
               );
               console.log(flexiControl);
             }
@@ -644,7 +644,7 @@ export class QuotesListingComponent implements OnInit {
         // setTimeout(() => {
 
         // }, timeout);
-      }
+      },
     );
     this.sharedDataService.disableInitiatesQuotes.subscribe((idvData) => {
       this.enableIdvCard = true;
@@ -694,7 +694,7 @@ export class QuotesListingComponent implements OnInit {
                   ) {
                     return item;
                   }
-                }
+                },
               );
 
               if (quotesValueList == -1) {
@@ -702,7 +702,7 @@ export class QuotesListingComponent implements OnInit {
               } else {
                 ////////////////check key exist or not
                 const checkCurrentDataKey = Object.keys(
-                  this.quotationArray[i]
+                  this.quotationArray[i],
                 ).includes('payout_response');
                 if (checkCurrentDataKey === true) {
                   const newPayout = this.quotationArray[i]['payout_response'];
@@ -795,7 +795,7 @@ export class QuotesListingComponent implements OnInit {
                 const matched = flexiValues.find(
                   (item: any) =>
                     item.insurerCode?.toLowerCase() === insurerCode &&
-                    item.is_payd === isPayd
+                    item.is_payd === isPayd,
                 );
 
                 if (matched) {
@@ -806,12 +806,12 @@ export class QuotesListingComponent implements OnInit {
                 } else {
                   // Fallback to min_discount
                   flexiControl?.patchValue(
-                    quote?.flexi_discounting?.discount_percentage
+                    quote?.flexi_discounting?.discount_percentage,
                   );
                 }
               } else {
                 flexiControl?.patchValue(
-                  quote?.flexi_discounting?.discount_percentage
+                  quote?.flexi_discounting?.discount_percentage,
                 );
                 console.log(flexiControl);
               }
@@ -824,7 +824,8 @@ export class QuotesListingComponent implements OnInit {
 
         this.quotationData
           ?.filter(
-            (item: any) => item.payout_response && item.payout_response !== 'NA'
+            (item: any) =>
+              item.payout_response && item.payout_response !== 'NA',
           )
           .map((item: any) => item.payout_response)
           .forEach((payout: any) => {
@@ -882,11 +883,11 @@ export class QuotesListingComponent implements OnInit {
       this.showRenewalQuotes = true;
       const insurerName = sessionStorage.getItem('previousInsurerCode');
       const RenewalPreviousDetails: any = JSON.parse(
-        sessionStorage.getItem('RenewalPreviousDetails') || '{}'
+        sessionStorage.getItem('RenewalPreviousDetails') || '{}',
       );
       sessionStorage.setItem(
         'proposerType',
-        RenewalPreviousDetails?.vehicle_details?.customer_type
+        RenewalPreviousDetails?.vehicle_details?.customer_type,
       );
       this.insurerCode = insurerName;
     }
@@ -906,7 +907,7 @@ export class QuotesListingComponent implements OnInit {
           }
           this.quotesTabData();
         }
-      }
+      },
     );
 
     // let currentPageUrl = this.router.url;
@@ -959,7 +960,7 @@ export class QuotesListingComponent implements OnInit {
               } else {
                 sessionStorage.setItem(
                   'proposerType',
-                  this.proposalList[0]?.proposer_name
+                  this.proposalList[0]?.proposer_name,
                 );
               }
             } else {
@@ -1024,7 +1025,7 @@ export class QuotesListingComponent implements OnInit {
       this.sharedDataService.chooseIdvData(
         minIdv,
         maxIdv,
-        averageIdv.toFixed(0)
+        averageIdv.toFixed(0),
       );
     }
   }
@@ -1066,11 +1067,11 @@ export class QuotesListingComponent implements OnInit {
       Product_id: quotes_data.quote_id,
       Partner_id: sessionStorage.getItem('partner_code'),
     };
-    webengage.track('Motor_Policy_details_Viewed', quotesPremium);
+    // webengage.track('Motor_Policy_details_Viewed', quotesPremium);
 
     const is_new_vehcile = sessionStorage.getItem('newVehicleType');
     const vehcileWithoutRegistration = sessionStorage.getItem(
-      'withoutVehicleNumber'
+      'withoutVehicleNumber',
     );
     const registration_number = sessionStorage.getItem('registrationNumber');
     sessionStorage.setItem('BuyNowClick', 'true');
@@ -1086,7 +1087,7 @@ export class QuotesListingComponent implements OnInit {
         };
         this.bottomSheet.open(
           VehicleRegistrationNumberComponent,
-          bottomSheetConfig
+          bottomSheetConfig,
         );
       } else {
         this.openModal(quotes_data, this.vehicleRegistrationNUmber);
@@ -1139,7 +1140,7 @@ export class QuotesListingComponent implements OnInit {
     };
     const bottomSheetRef = this.bottomSheet.open(
       ChooseIDVComponent,
-      bottomSheetConfig
+      bottomSheetConfig,
     );
     bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {});
     ``;
@@ -1153,7 +1154,7 @@ export class QuotesListingComponent implements OnInit {
     };
     const bottomSheetRef = this.bottomSheet.open(
       AddOnsComponent,
-      bottomSheetConfig
+      bottomSheetConfig,
     );
     bottomSheetRef.afterDismissed().subscribe((data) => {
       // this.receivedCheckBoxValue = data;
@@ -1168,7 +1169,7 @@ export class QuotesListingComponent implements OnInit {
     };
     const bottomSheetRef = this.bottomSheet.open(
       QuotesDropdownComponent,
-      bottomSheetConfig
+      bottomSheetConfig,
     );
     bottomSheetRef.afterDismissed().subscribe((dataReceived: any) => {
       this.progressValue = 0;
@@ -1231,7 +1232,7 @@ export class QuotesListingComponent implements OnInit {
     if (!this.tabChangeOninit) {
       sessionStorage.setItem(
         'lastSelectedTabIndex',
-        JSON.stringify(event.index)
+        JSON.stringify(event.index),
       );
       sessionStorage.removeItem('selectedAddons');
       sessionStorage.removeItem('flexiAmount');
@@ -1276,7 +1277,7 @@ export class QuotesListingComponent implements OnInit {
         this.inspectionCase = 'Inspection';
       } else if (mmvFormValue?.policy_expiry_date) {
         this.policyExpiryInspection = new Date(
-          mmvFormValue?.policy_expiry_date
+          mmvFormValue?.policy_expiry_date,
         );
 
         this.currentDate = new Date();
@@ -1356,7 +1357,7 @@ export class QuotesListingComponent implements OnInit {
       Insurer_Logo: initiateQuotes?.insurer_logo,
       Partner_id: sessionStorage.getItem('partner_code'),
     };
-    webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
+    // webengage.track('Motor_Policy_Premiun_Break_Up_Viewed', premiumCardData);
   }
   // (click)="shareQuotesOpen(null, shareQuotesJSON)"
   shareQuotesOpen(shareData: any, jsonData: any) {
@@ -1364,14 +1365,14 @@ export class QuotesListingComponent implements OnInit {
   }
   shareQuotesDropdown() {
     this.shareQuotesDropdownValue = !this.shareQuotesDropdownValue;
-    webengage.track('Shared_Quotes_clicked', {
-      Option_Selected: this.vehicleTypeValue,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Shared_Quotes_clicked', {
+    //   Option_Selected: this.vehicleTypeValue,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
   }
   @ViewChild('checkboxRef')
   checkboxRef!: MatCheckbox;
@@ -1415,29 +1416,29 @@ export class QuotesListingComponent implements OnInit {
           this.insurerNameData.push(value['insurer_name']);
         }
       }
-      webengage.track('Shared_Quotes_clicked', {
-        Option_Selected: count,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: this.vehicleTypeValue,
-        Total_IDV: this.totalIdvData.join(', '),
-        Total_Premium: this.totalPremiumData.join(', '),
-        Insurer_Logo: this.insurerLogoData.join(', '),
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
-      webengage.track('Quotes_selected', {
-        Plan_Details: this.selectedQuotes,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: this.vehicleTypeValue,
-        Total_IDV: this.totalIdvData.join(', '),
-        Total_Premium: this.totalPremiumData.join(', '),
-        Insurer_Logo: this.insurerLogoData.join(', '),
-        Insurer_Name: this.insurerNameData.join(', '),
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Shared_Quotes_clicked', {
+      //   Option_Selected: count,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: this.vehicleTypeValue,
+      //   Total_IDV: this.totalIdvData.join(', '),
+      //   Total_Premium: this.totalPremiumData.join(', '),
+      //   Insurer_Logo: this.insurerLogoData.join(', '),
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
+      // webengage.track('Quotes_selected', {
+      //   Plan_Details: this.selectedQuotes,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: this.vehicleTypeValue,
+      //   Total_IDV: this.totalIdvData.join(', '),
+      //   Total_Premium: this.totalPremiumData.join(', '),
+      //   Insurer_Logo: this.insurerLogoData.join(', '),
+      //   Insurer_Name: this.insurerNameData.join(', '),
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     } else {
       this.isCheckboxChecked = false;
       this.selectedQuotes = [];
@@ -1458,18 +1459,18 @@ export class QuotesListingComponent implements OnInit {
     if (event.checked) {
       this.isChecked = true;
       this.selectedQuotes.push(quotes);
-      webengage.track('Quotes_selected', {
-        Plan_Details: this.selectedQuotes,
-        User_Type: sessionStorage.getItem('partner_code')
-          ? 'Partner'
-          : 'Customer',
-        Motor_Type: this.vehicleTypeValue,
-        Total_IDV: this.totalIdvData.join(', '),
-        Total_Premium: this.totalPremiumData.join(', '),
-        Insurer_Logo: this.insurerLogoData.join(', '),
-        Insurer_Name: this.insurerNameData.join(', '),
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Quotes_selected', {
+      //   Plan_Details: this.selectedQuotes,
+      //   User_Type: sessionStorage.getItem('partner_code')
+      //     ? 'Partner'
+      //     : 'Customer',
+      //   Motor_Type: this.vehicleTypeValue,
+      //   Total_IDV: this.totalIdvData.join(', '),
+      //   Total_Premium: this.totalPremiumData.join(', '),
+      //   Insurer_Logo: this.insurerLogoData.join(', '),
+      //   Insurer_Name: this.insurerNameData.join(', '),
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     } else {
       const index = this.selectedQuotes.indexOf(quotes);
       if (index !== -1) {
@@ -1518,7 +1519,7 @@ export class QuotesListingComponent implements OnInit {
     let event = eventData?.value;
     let proposarTypeData = sessionStorage.getItem('proposerType');
     let selectedProposarType = this.proposalList.filter(
-      (res: any) => res.proposer_id == event
+      (res: any) => res.proposer_id == event,
     )[0]['proposer_name'];
 
     if (selectedProposarType != proposarTypeData) {
@@ -1566,18 +1567,18 @@ export class QuotesListingComponent implements OnInit {
     if (this.parsedVehicleData != undefined) {
       this.vehicleTypeValue = sessionStorage.getItem('vehicleType');
       let registrationDate = new Date(
-        this.parsedVehicleData?.registration_date
+        this.parsedVehicleData?.registration_date,
       );
       let dateObj = moment(registrationDate, 'MM/YYYY');
       let registrationMonth = moment(dateObj).month();
       this.registrationDateMonth = moment(registrationMonth + 1, 'MM').format(
-        'MM'
+        'MM',
       );
       this.registrationDateYear = moment(dateObj).year();
       let expiredDate;
       if (this.parsedVehicleData?.policy_expiry_date) {
         let policyExpired = new Date(
-          this.parsedVehicleData?.policy_expiry_date
+          this.parsedVehicleData?.policy_expiry_date,
         );
         expiredDate = moment(policyExpired).format('DD/MM/YYYY');
       } else if (this.parsedVehicleData?.policy_expiry_date_email) {
@@ -1603,7 +1604,7 @@ export class QuotesListingComponent implements OnInit {
               this.registrationDateYear
             }&vehicle_type=${this.vehicleTypeValue}&previous_policy_type=${
               this.parsedVehicleData?.policy_expiry
-            }&previous_policy_expiry_date=${expiredDate}`
+            }&previous_policy_expiry_date=${expiredDate}`,
           )
           .subscribe((res: any) => {
             this.tabDataList = res;
@@ -1615,12 +1616,12 @@ export class QuotesListingComponent implements OnInit {
             ) {
               sessionStorage.setItem(
                 'productType',
-                this.parsedVehicleData?.policy_expiry
+                this.parsedVehicleData?.policy_expiry,
               );
             }
             let productTypeValue = sessionStorage.getItem('productType');
             let tabData = this.tabDataList.findIndex(
-              (item: any) => item.code === productTypeValue
+              (item: any) => item.code === productTypeValue,
             );
             if (tabData !== -1) {
               this.selectedTabIndex = tabData;
@@ -1649,7 +1650,7 @@ export class QuotesListingComponent implements OnInit {
               this.inspectionCase = 'Inspection';
             } else if (mmvFormValue?.policy_expiry_date) {
               this.policyExpiryInspection = new Date(
-                mmvFormValue?.policy_expiry_date
+                mmvFormValue?.policy_expiry_date,
               );
 
               this.currentDate = new Date();
@@ -1684,7 +1685,7 @@ export class QuotesListingComponent implements OnInit {
               this.renewalDetails = sessionStorage.getItem('renewalDetails');
               if (!this.renewalDetails) {
                 this.sharedDataService.getQuotesOnTransactionId(
-                  this.parsedVehicleData?.allQuotesRequest
+                  this.parsedVehicleData?.allQuotesRequest,
                 );
               }
 
@@ -1695,7 +1696,7 @@ export class QuotesListingComponent implements OnInit {
               let reformattedDate = `${month}/${day}/${year}`;
 
               this.parsedVehicleData.policy_expiry_date = new Date(
-                reformattedDate
+                reformattedDate,
               );
 
               this.emailInsurer = sessionStorage.getItem('mmv_data_email');
@@ -1710,7 +1711,7 @@ export class QuotesListingComponent implements OnInit {
               sessionStorage.setItem('mmv_data', vehicleForm);
             } else {
               let mmvIdData = JSON.parse(
-                sessionStorage.getItem('mmv_data') || '{}'
+                sessionStorage.getItem('mmv_data') || '{}',
               );
               let objectValue = Object.keys(mmvIdData);
 
@@ -1734,7 +1735,7 @@ export class QuotesListingComponent implements OnInit {
             }
             this.sharedDataService.addOnsChange(this.mmvFormData);
             this.sharedDataService.disableInitiatesQuotesBase(
-              this.enableIdvCard
+              this.enableIdvCard,
             );
           });
       }
@@ -1892,13 +1893,13 @@ export class QuotesListingComponent implements OnInit {
     }
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
     sessionStorage.setItem('gstValue', JSON.stringify(this.defaultGST));
-    webengage.track('GST_enabled', {
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('GST_enabled', {
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
   }
   earningToggle(event: any) {
     this.defaultEarning = event.checked;
@@ -1918,24 +1919,24 @@ export class QuotesListingComponent implements OnInit {
         if (data == 'low' || data?.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
-              a.premium_details.gross_premium - b.premium_details.gross_premium
+              a.premium_details.gross_premium - b.premium_details.gross_premium,
           );
         } else {
           this.quotationData.sort(
             (a: any, b: any) =>
-              b.premium_details.gross_premium - a.premium_details.gross_premium
+              b.premium_details.gross_premium - a.premium_details.gross_premium,
           );
         }
       } else {
         if (data == 'low' || data?.value == 'low') {
           this.quotationData.sort(
             (a: any, b: any) =>
-              a.premium_details.net_premium - b.premium_details.net_premium
+              a.premium_details.net_premium - b.premium_details.net_premium,
           );
         } else {
           this.quotationData.sort(
             (a: any, b: any) =>
-              b.premium_details.net_premium - a.premium_details.net_premium
+              b.premium_details.net_premium - a.premium_details.net_premium,
           );
         }
       }
@@ -1983,7 +1984,7 @@ export class QuotesListingComponent implements OnInit {
               const matched = flexiValues.find(
                 (item: any) =>
                   item.insurerCode?.toLowerCase() === insurerCode &&
-                  item.is_payd === isPayd
+                  item.is_payd === isPayd,
               );
 
               if (matched) {
@@ -1994,12 +1995,12 @@ export class QuotesListingComponent implements OnInit {
               } else {
                 // Fallback to min_discount
                 flexiControl?.patchValue(
-                  quote?.flexi_discounting?.discount_percentage
+                  quote?.flexi_discounting?.discount_percentage,
                 );
               }
             } else {
               flexiControl?.patchValue(
-                quote?.flexi_discounting?.discount_percentage
+                quote?.flexi_discounting?.discount_percentage,
               );
             }
           }
@@ -2070,7 +2071,7 @@ export class QuotesListingComponent implements OnInit {
     const existingIndex = this.flexiAmountArray.findIndex(
       (item: any) =>
         item.insurerCode === flexiApplyObject.insurerCode &&
-        item.is_payd === flexiApplyObject.is_payd
+        item.is_payd === flexiApplyObject.is_payd,
     );
 
     if (existingIndex !== -1) {
@@ -2091,7 +2092,7 @@ export class QuotesListingComponent implements OnInit {
       .postRequestedResponse(
         `${ApiConstants.flexi_discount_api}?insurer=${quotes?.insurer_code}`,
         flexiObject,
-        true
+        true,
       )
       .subscribe((res) => {
         this.flexiLoader = false;
@@ -2103,7 +2104,7 @@ export class QuotesListingComponent implements OnInit {
           }
           sessionStorage.setItem(
             'flexiAmount',
-            JSON.stringify(this.flexiAmountArray)
+            JSON.stringify(this.flexiAmountArray),
           );
         } else {
           this.FlexiError[index] = true;

@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-check-quotes-dialog',
   templateUrl: './check-quotes-dialog.component.html',
@@ -26,7 +26,7 @@ export class CheckQuotesDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(MAT_BOTTOM_SHEET_DATA) public dataToBottomSheet: any,
     public bottomSheet: MatBottomSheet,
-    public bottomSheetRef: MatBottomSheetRef<CheckQuotesDialogComponent>
+    public bottomSheetRef: MatBottomSheetRef<CheckQuotesDialogComponent>,
   ) {
     console.log(data);
     this.insurerData = data['cardData'];
@@ -50,11 +50,11 @@ export class CheckQuotesDialogComponent implements OnInit {
   quotesChange() {
     const token = sessionStorage.getItem('token');
 
-    webengage.track('Change_Insurer_Inititaed', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Change_Insurer_Inititaed', {
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     // sessionStorage.setItem('vehiclePopup', 'true');
     if (this.data == 'renewal') {
       sessionStorage.removeItem('vehiclePopup');
@@ -83,38 +83,38 @@ export class CheckQuotesDialogComponent implements OnInit {
       let traceValue = JSON.parse(this.traceIdData);
       this.route.navigate([`quotes/${traceValue.trace_id}`]);
     }
-    webengage.track('Change_Insurer_Clicked', {
-      Option_Selected: this.vehicleTypeValue,
-      User_Type: sessionStorage.getItem('partnerCodeTraceId')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Total_IDV: this.insurerData.premium_details.idv,
-      Total_Premium: this.insurerData.premium_details.gross_premium,
-      Insurer_Name: this.insurerData.insurer_name,
-      Insurer_Logo: this.insurerData.insurer_logo,
-      Product_id: this.insurerData?.quote_id,
-      'Total_Own_Damage_(A)':
-        this.insurerData?.premium_details.od_premium_details.total_od_premium,
-      NCB_Discount:
-        this.insurerData?.premium_details.od_premium_details.ncb_discount,
-      'Third_Party_(B)':
-        this.insurerData?.premium_details.tp_premium_details.total_tp_premium,
-      // Selected_Addons:
-      Total_Addons: this.insurerData?.premium_details?.is_addon_addition,
-      'GST_(18%)_(C)':
-        this.insurerData?.premium_details.total_gst != 0
-          ? this.insurerData?.premium_details.total_gst
-          : 0,
-      'Total_Premium_(A+B+C)':
-        this.insurerData?.premium_details.gross_premium != 0
-          ? this.insurerData?.premium_details.gross_premium
-          : 0,
-      IDV:
-        this.insurerData?.premium_details.idv != 0
-          ? this.insurerData?.premium_details.idv
-          : 0,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Change_Insurer_Clicked', {
+    //   Option_Selected: this.vehicleTypeValue,
+    //   User_Type: sessionStorage.getItem('partnerCodeTraceId')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Total_IDV: this.insurerData.premium_details.idv,
+    //   Total_Premium: this.insurerData.premium_details.gross_premium,
+    //   Insurer_Name: this.insurerData.insurer_name,
+    //   Insurer_Logo: this.insurerData.insurer_logo,
+    //   Product_id: this.insurerData?.quote_id,
+    //   'Total_Own_Damage_(A)':
+    //     this.insurerData?.premium_details.od_premium_details.total_od_premium,
+    //   NCB_Discount:
+    //     this.insurerData?.premium_details.od_premium_details.ncb_discount,
+    //   'Third_Party_(B)':
+    //     this.insurerData?.premium_details.tp_premium_details.total_tp_premium,
+    //   // Selected_Addons:
+    //   Total_Addons: this.insurerData?.premium_details?.is_addon_addition,
+    //   'GST_(18%)_(C)':
+    //     this.insurerData?.premium_details.total_gst != 0
+    //       ? this.insurerData?.premium_details.total_gst
+    //       : 0,
+    //   'Total_Premium_(A+B+C)':
+    //     this.insurerData?.premium_details.gross_premium != 0
+    //       ? this.insurerData?.premium_details.gross_premium
+    //       : 0,
+    //   IDV:
+    //     this.insurerData?.premium_details.idv != 0
+    //       ? this.insurerData?.premium_details.idv
+    //       : 0,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
   }
 }

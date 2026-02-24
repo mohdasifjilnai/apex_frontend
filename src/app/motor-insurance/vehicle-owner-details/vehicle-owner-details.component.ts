@@ -28,7 +28,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { environment } from 'src/environments/environment';
 
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-vehicle-owner-details',
   templateUrl: './vehicle-owner-details.component.html',
@@ -84,7 +84,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     document_number_based_field: new FormControl(''),
     owner_gstin: new FormControl('', [
       Validators.pattern(
-        new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')
+        new RegExp('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'),
       ),
     ]),
     additional_contact: new FormControl('', []),
@@ -110,7 +110,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
     private sharedDataService: SharedDataService,
     private apiService: ApiService,
     private httpService: HttpService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.maritalStatusList = [
       {
@@ -215,7 +215,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               customerDetails?.communication_address?.address_line,
           });
           this.sharedDataService?.getAddressValidation(
-            JSON.parse(this.quoteData)['insurer_code']
+            JSON.parse(this.quoteData)['insurer_code'],
           );
         }
         const contactNUmberControl =
@@ -280,7 +280,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         ) {
           this.apiService
             .getRequestedResponse(
-              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}&insurer_code=${proposal?.insurer_code}`
+              `${ApiConstants.pincode}?pincode=${this.proposalData?.customer_details?.communication_address?.pincode}&insurer_code=${proposal?.insurer_code}`,
             )
             .subscribe((res) => {
               this.owenerVehicleDetailsForm.patchValue({
@@ -289,7 +289,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
                 owner_state: res[0]?.rb_state_name,
               });
               this.sharedDataService?.sendOwnnerAddres(
-                this.owenerVehicleDetailsForm.valid
+                this.owenerVehicleDetailsForm.valid,
               );
             });
         }
@@ -391,12 +391,12 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       ?.get('owner_communication_addres')
       ?.valueChanges.pipe(
         debounceTime(700), // waits 500ms after user stops typing
-        distinctUntilChanged() // only emits if value actually changed
+        distinctUntilChanged(), // only emits if value actually changed
       )
       .subscribe((addressValue) => {
         this.addresLength = addressValue;
         this.sharedDataService?.getAddressValidation(
-          JSON.parse(this.quoteData)['insurer_code']
+          JSON.parse(this.quoteData)['insurer_code'],
         );
       });
 
@@ -638,13 +638,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           Partner_Name:
             sessionStorage.getItem('first_name') != null
               ? `${sessionStorage.getItem(
-                  'first_name'
+                  'first_name',
                 )} ${sessionStorage.getItem(
-                  'middle_name'
+                  'middle_name',
                 )} ${sessionStorage.getItem('last_name')}`
               : '',
           Partner_id: sessionStorage.getItem('partner_code'),
-          page_url : window.location.href,
+          page_url: window.location.href,
         };
         const filteredData = Object.fromEntries(
           Object.entries(vehicleOwnerWebengage).filter(([key, value]) => {
@@ -652,10 +652,10 @@ export class VehicleOwnerDetailsComponent implements OnInit {
               return false;
             }
             return true;
-          })
+          }),
         );
-        webengage.track('Motor_Owner_details_Submitted', filteredData);
-      }
+        // webengage.track('Motor_Owner_details_Submitted', filteredData);
+      },
     );
 
     this.owenerVehicleDetailsForm.statusChanges.subscribe((status) => {
@@ -664,7 +664,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         this.sharedDataService.getCustomerIdForwebengae(
           this.owenerVehicleDetailsForm.get('contact_number')?.value,
           formValues,
-          'Vehicle Owner Details'
+          'Vehicle Owner Details',
         );
         this.calledValue = false;
       }
@@ -682,13 +682,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       // );
       sessionStorage.setItem(
         'mobileNumber',
-        this.owenerVehicleDetailsForm.get('contact_number')?.value
+        this.owenerVehicleDetailsForm.get('contact_number')?.value,
       );
 
       this.sharedDataService.getCustomerIdForwebengae(
         this.owenerVehicleDetailsForm.get('contact_number')?.value,
         formValues,
-        'Vehicle Owner Details'
+        'Vehicle Owner Details',
       );
     }
     if (isValid && proposerType == 'individual') {
@@ -697,7 +697,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           `${ApiConstants.validate_customer_details}?email=` +
             this.owenerVehicleDetailsForm.get('owner_email')?.value +
             `&phone=` +
-            this.owenerVehicleDetailsForm.get('contact_number')?.value
+            this.owenerVehicleDetailsForm.get('contact_number')?.value,
         )
         .subscribe((response) => {
           if (response?.valid) {
@@ -712,13 +712,13 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             this.afterVehicleOwnerData.emit(formValues);
             setTimeout(() => {
               this.sharedDataService.formCheck(
-                this.owenerVehicleDetailsForm.valid
+                this.owenerVehicleDetailsForm.valid,
               );
             }, 2000);
             // setTimeout(() => {
             this.sharedDataService?.createProposalId(
               'vehicle_owner_detail',
-              this.owenerVehicleDetailsForm
+              this.owenerVehicleDetailsForm,
             );
             // }, 1000);
             sessionStorage.setItem('isCKycDOne', 'true');
@@ -779,7 +779,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       // setTimeout(() => {
       this.sharedDataService?.createProposalId(
         'vehicle_owner_detail',
-        this.owenerVehicleDetailsForm
+        this.owenerVehicleDetailsForm,
       );
       // }, 1000);
       sessionStorage.setItem('isCKycDOne', 'true');
@@ -804,7 +804,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
       .getRequestedResponse(
         `${ApiConstants.occupation_type}?insurer_code=${
           JSON.parse(this.quoteData)['insurer_code']
-        }`
+        }`,
       )
       .subscribe((occupation) => {
         this.occupationList = occupation;
@@ -864,7 +864,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
             return this.apiService.getRequestedResponse(
               `${ApiConstants.pincode}?pincode=${value}&insurer_code=${
                 JSON.parse(this.quoteData)['insurer_code']
-              }`
+              }`,
             );
           } else {
             /**
@@ -877,7 +877,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
           if (response.length === 1) {
             this.getSepratedPincodeData(response[0]);
           }
-        })
+        }),
       );
     }
   }
@@ -891,7 +891,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
         `${ApiConstants.salutation}?insurer_code=${
           JSON.parse(this.quoteData)['insurer_code']
         }&is_individual=${this.isProposerTrue}&is_corporate=${!this
-          .isProposerTrue}`
+          .isProposerTrue}`,
       )
       .subscribe((salutation) => {
         this.salutationList = salutation;
@@ -968,7 +968,7 @@ export class VehicleOwnerDetailsComponent implements OnInit {
   }
   updateMaxLengthValidator(maxLength: number, minLength: number) {
     const ownerCommunicationAddressControl = this.owenerVehicleDetailsForm.get(
-      'owner_communication_addres'
+      'owner_communication_addres',
     );
 
     if (ownerCommunicationAddressControl) {

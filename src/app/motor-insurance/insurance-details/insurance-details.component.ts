@@ -13,7 +13,7 @@ import { CheckQuotesDialogComponent } from 'src/app/shared/components/dialog-com
 import { PremiumBreakupComponent } from 'src/app/shared/components/dialog-components/premium-breakup/premium-breakup.component';
 import { ShareQuotesComponent } from 'src/app/shared/components/dialog-components/share-quotes/share-quotes.component';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-insurance-details',
   templateUrl: './insurance-details.component.html',
@@ -88,11 +88,11 @@ export class InsuranceDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private sharedData: SharedDataService,
     private apiservice: ApiService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
   ) {
     this.route.url.subscribe((segments) => {
       const proposalSegment = segments.find(
-        (segment) => segment.path === 'review'
+        (segment) => segment.path === 'review',
       );
       if (proposalSegment) {
         const proposalValue = proposalSegment.path;
@@ -127,7 +127,7 @@ export class InsuranceDetailsComponent implements OnInit {
         this.quoteData = res?.quote_response;
         this.getVehicleMMVPopup(
           res?.quote_request?.vehicle_type,
-          res?.quote_request?.rb_mmv_id
+          res?.quote_request?.rb_mmv_id,
         );
       }
     });
@@ -181,7 +181,7 @@ export class InsuranceDetailsComponent implements OnInit {
     this.sharedData?.sendQuotesADDOnData.subscribe((res) => {
       if (res) {
         this.quoteData = JSON.parse(
-          sessionStorage.getItem('quotes_data') || '{}'
+          sessionStorage.getItem('quotes_data') || '{}',
         );
 
         if (this.quoteData) {
@@ -343,7 +343,7 @@ export class InsuranceDetailsComponent implements OnInit {
       window.ReactNativeWebView.postMessage(messageJSON);
     }
     this.downloadLoader = true;
-    
+
     let url = `?quote_id=${this.quoteData.quote_id}&vehicle_type=${this.vehicleTypeValue}&share_type=proposal_form&transaction_id=${this.quoteData?.transaction_id}`;
     this.sharedDataService.downloadPolicy(url);
     this.sharedDataService.downloadBreakupResponse.subscribe(
@@ -351,7 +351,7 @@ export class InsuranceDetailsComponent implements OnInit {
         if (response) {
           this.downloadLoader = false;
         }
-      }
+      },
     );
   }
 }

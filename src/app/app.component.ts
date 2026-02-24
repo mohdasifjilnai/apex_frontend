@@ -3,7 +3,7 @@ import { LoaderService } from './core/services/loader.service';
 import { SseService } from './core/services/sse.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Component({
   selector: 'app-root',
@@ -21,26 +21,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     private sseService: SseService,
     private loaderService: LoaderService,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {}
 
   ngOnInit(): void {
     if (environment?.dev) {
-      webengage.init('in~~10a5cbbcb');
-      // if (
-      //   webengage.util.getWebengageCookie().cuid == undefined &&
-      //   sessionStorage.getItem('partner_code') != null
-      // ) {
-      //   webengage.user.login(sessionStorage.getItem('partner_code'));
-      // }
-
-      // webengage.onReady(function () {
-      //   if (webengage.util?.getWebengageCookie?.().cuid === undefined) {
-      //     webengage.user.login(sessionStorage.getItem('partner_code'));
-      //   }
-      // });
+      // webengage.init('in~~10a5cbbcb');
     } else {
-      webengage.init('in~76aa1b3');
+      // webengage.init('in~76aa1b3');
     }
 
     this.loaderService.isLoading().subscribe((isLoading: any) => {
@@ -75,22 +63,23 @@ export class AppComponent implements OnInit, AfterViewInit {
       //   });
     }
   }
+
   ngAfterViewInit() {
-    if (typeof webengage !== 'undefined' && webengage.onReady) {
-      webengage.onReady(() => {
-        const cookie = webengage.util?.getWebengageCookie?.();
-        if (!cookie?.cuid) {
-          const partnerCode = sessionStorage.getItem('partner_code');
-          this.useridData = sessionStorage.getItem('userid');
-          let userIdValue = JSON.parse(this.useridData);
-          if (partnerCode) {
-            webengage.user.login(partnerCode);
-          } else if (userIdValue) {
-            webengage.user.login(userIdValue);
-          }
-        }
-      });
-    }
+    // if (typeof webengage !== 'undefined' && webengage.onReady) {
+    //   webengage.onReady(() => {
+    //     const cookie = webengage.util?.getWebengageCookie?.();
+    //     if (!cookie?.cuid) {
+    //       const partnerCode = sessionStorage.getItem('partner_code');
+    //       this.useridData = sessionStorage.getItem('userid');
+    //       let userIdValue = JSON.parse(this.useridData);
+    //       if (partnerCode) {
+    //         webengage.user.login(partnerCode);
+    //       } else if (userIdValue) {
+    //         webengage.user.login(userIdValue);
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   // loadWebEngage() {
@@ -185,7 +174,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.renderer.setAttribute(
       iframe,
       'src',
-      'https://www.googletagmanager.com/ns.html?id=GTM-MGJ88B'
+      'https://www.googletagmanager.com/ns.html?id=GTM-MGJ88B',
     );
     this.renderer.setAttribute(iframe, 'height', '0');
     this.renderer.setAttribute(iframe, 'width', '0');

@@ -4,7 +4,7 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { ApiConstants } from 'src/app/api.constant';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { take } from 'rxjs';
-declare const webengage: any;
+// declare const webengage: any;
 export class dropdown {
   value: any;
   viewValue: any;
@@ -77,7 +77,7 @@ export class AddOnsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private sharedDataService: SharedDataService,
-    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>
+    public bottomSheetRef: MatBottomSheetRef<AddOnsComponent>,
   ) {}
 
   ngOnInit(): void {
@@ -92,7 +92,7 @@ export class AddOnsComponent implements OnInit {
         this.parsedVehicleData = JSON.parse(this.vehicleData);
         this.getAddonList(
           this.vehicleTypeValue,
-          this.parsedVehicleData?.policy_expiry
+          this.parsedVehicleData?.policy_expiry,
         );
       }
     });
@@ -140,7 +140,7 @@ export class AddOnsComponent implements OnInit {
                 if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
                   this.addOnsArray[i].fe_template[k].checked = true;
                   this.checkBoxValueArray.push(
-                    this.addOnsArray[i].fe_template[k].name
+                    this.addOnsArray[i].fe_template[k].name,
                   );
                   if (
                     this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
@@ -224,7 +224,7 @@ export class AddOnsComponent implements OnInit {
         // if (!allIdvData.buttonData) {
         let chooseIdvValue = sessionStorage.setItem(
           'idvData',
-          JSON.stringify(idvObject)
+          JSON.stringify(idvObject),
         );
         // }
       }
@@ -297,14 +297,14 @@ export class AddOnsComponent implements OnInit {
       if (this.vehicleData != null) {
         this.getAddonList(
           this.vehicleTypeValue,
-          this.parsedVehicleData?.policy_expiry
+          this.parsedVehicleData?.policy_expiry,
         );
       }
     });
     if (window.innerWidth <= 999) {
       this.getAddonList(
         this.vehicleTypeValue,
-        this.parsedVehicleData?.policy_expiry
+        this.parsedVehicleData?.policy_expiry,
       );
       this.isMobileView = true;
     }
@@ -320,10 +320,10 @@ export class AddOnsComponent implements OnInit {
     // this.sharedDataService.sendCarLoaderMessage(0);
     const token = sessionStorage.getItem('token');
 
-    webengage.track('Motor_Filter_Cleared', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-    });
+    // webengage.track('Motor_Filter_Cleared', {
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    // });
     for (let i = 0; i <= this.addOnsArray.length - 1; i++) {
       for (let j = 0; j <= this.addOnsArray[i].fe_template.length - 1; j++) {
         this.addOnsArray[i].fe_template[j].checked = false;
@@ -377,7 +377,7 @@ export class AddOnsComponent implements OnInit {
           //   this.selected_addons
           // );
           this.sharedDataService.initiate_Quotes_APi(
-            JSON.parse(mmvFormData || '{}')
+            JSON.parse(mmvFormData || '{}'),
           );
         } else {
           // this.sharedDataService.vehicleMMVDetails(
@@ -387,7 +387,7 @@ export class AddOnsComponent implements OnInit {
           //   this.selected_addons
           // );
           this.sharedDataService.initiate_Quotes_APi(
-            JSON.parse(mmvFormData || '{}')
+            JSON.parse(mmvFormData || '{}'),
           );
         }
         this.sharedDataService.selectedADDOns(this.selectAddOnsOnly);
@@ -400,7 +400,7 @@ export class AddOnsComponent implements OnInit {
         //   this.selected_addons
         // );
         this.sharedDataService.initiate_Quotes_APi(
-          JSON.parse(mmvFormData || '{}')
+          JSON.parse(mmvFormData || '{}'),
         );
       }
     }
@@ -414,7 +414,7 @@ export class AddOnsComponent implements OnInit {
     displayName: any,
     rb_code: any,
     tagType: any = null,
-    addons?: any
+    addons?: any,
   ) {
     //
     let checkboxValue;
@@ -423,11 +423,11 @@ export class AddOnsComponent implements OnInit {
     if (event.checked) {
       if (tagType == 'radio') {
         let readionValue = addons?.fe_template.findIndex(
-          (item: { checked: any }) => item.checked
+          (item: { checked: any }) => item.checked,
         );
         if (readionValue != -1) {
           let selectedData = this.selectedCheckedArray.findIndex(
-            (item: any) => item?.type === 'radio'
+            (item: any) => item?.type === 'radio',
           );
           if (selectedData != -1) {
             this.selectedCheckedArray.splice(selectedData, 1);
@@ -454,7 +454,7 @@ export class AddOnsComponent implements OnInit {
     } else {
       const valueToRemove = rb_code;
       this.checkBoxValueArray = this.checkBoxValueArray.filter(
-        (item) => item !== value
+        (item) => item !== value,
       );
 
       /**
@@ -550,12 +550,12 @@ export class AddOnsComponent implements OnInit {
 
     let addOnValue = this.selectedCheckedArray;
     const token = sessionStorage.getItem('token');
-    webengage.track('Motor_Add_Ons_Clicked', {
-      Option_Selected: addOnValue,
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Motor_Add_Ons_Clicked', {
+    //   Option_Selected: addOnValue,
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
   }
   update() {
     if (this.isMobileView) {
@@ -575,17 +575,17 @@ export class AddOnsComponent implements OnInit {
       }
       sessionStorage.setItem(
         'selectedAddons',
-        JSON.stringify(this.selectedCheckedArray)
+        JSON.stringify(this.selectedCheckedArray),
       );
       if (this.idvAmount) {
         let idvValue = JSON.parse(this.idvAmount);
         let userDetails = JSON.parse(this.userType);
-        webengage.track('IDV_filter_Applied', {
-          User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
-          Motor_Type: this.vehicleTypeValue,
-          IDV_Value: idvValue.chooseIdv,
-          Partner_id: sessionStorage.getItem('partner_code'),
-        });
+        // webengage.track('IDV_filter_Applied', {
+        //   User_Type: userDetails?.partner_code ? 'Partner' : 'Customer',
+        //   Motor_Type: this.vehicleTypeValue,
+        //   IDV_Value: idvValue.chooseIdv,
+        //   Partner_id: sessionStorage.getItem('partner_code'),
+        // });
       }
 
       let productTypeValue = sessionStorage.getItem('productType');
@@ -603,7 +603,7 @@ export class AddOnsComponent implements OnInit {
         };
         let chooseIdvValue = sessionStorage.setItem(
           'idvData',
-          JSON.stringify(idvObject)
+          JSON.stringify(idvObject),
         );
       } else if (getChangesThrough == 'input') {
         let allIdvData = JSON.parse(this.idvAmount || '{}');
@@ -614,7 +614,7 @@ export class AddOnsComponent implements OnInit {
         };
         let chooseIdvValue = sessionStorage.setItem(
           'idvData',
-          JSON.stringify(idvObject)
+          JSON.stringify(idvObject),
         );
       } else if (getChangesThrough == 'slider') {
         let idvObject = {
@@ -629,13 +629,13 @@ export class AddOnsComponent implements OnInit {
         this.idvAmount = JSON.stringify(idvData);
         let chooseIdvValue = sessionStorage.setItem(
           'idvData',
-          JSON.stringify(idvObject)
+          JSON.stringify(idvObject),
         );
       }
 
       if (count != 0 || this.idvAmount || sliderIdv) {
         this.sharedDataService.initiate_Quotes_APi(
-          JSON.parse(mmvFormData || '{}')
+          JSON.parse(mmvFormData || '{}'),
         );
 
         if (window.innerWidth <= 999) {
@@ -660,12 +660,12 @@ export class AddOnsComponent implements OnInit {
 
         this.sharedDataService.disableInitiatesQuotesBase(this.enableAddOns);
       }
-      webengage.track('Motor_Add_Ons_Applied', {
-        User_Type: token != null ? 'Partner' : 'Customer',
-        Motor_Type: this.vehicleTypeValue,
-        Add_Ons: this.selectedCheckedArray,
-        Partner_id: sessionStorage.getItem('partner_code'),
-      });
+      // webengage.track('Motor_Add_Ons_Applied', {
+      //   User_Type: token != null ? 'Partner' : 'Customer',
+      //   Motor_Type: this.vehicleTypeValue,
+      //   Add_Ons: this.selectedCheckedArray,
+      //   Partner_id: sessionStorage.getItem('partner_code'),
+      // });
     }
   }
   /**
@@ -695,7 +695,7 @@ export class AddOnsComponent implements OnInit {
     if (bussinessType != null) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants?.addonsApi()}?vehicle_type=${vehicleTypeData}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`
+          `${ApiConstants?.addonsApi()}?vehicle_type=${vehicleTypeData}&business_type=${bussinessType}&proposer_type=${proposalType}&product_type=${productType}&in_diesel=${diesel}`,
         )
         .subscribe((res: any) => {
           this.addonList = res;
@@ -704,7 +704,7 @@ export class AddOnsComponent implements OnInit {
           this.addOnsArray = [];
           for (let value of this.addonList) {
             const checkIndex = this.addOnsArray.findIndex(
-              (type: any) => type['rb_type'] === value['rb_type']
+              (type: any) => type['rb_type'] === value['rb_type'],
             );
             if (checkIndex === -1) {
               value['fe_template'].checked = false;
@@ -727,7 +727,7 @@ export class AddOnsComponent implements OnInit {
               value['fe_template'].addOnsValue = '';
               value['fe_template'].rb_code = value['rb_code'];
               this.addOnsArray[checkIndex]['fe_template'].push(
-                value['fe_template']
+                value['fe_template'],
               );
             }
           }
@@ -785,7 +785,7 @@ export class AddOnsComponent implements OnInit {
                     if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
                       this.addOnsArray[i].fe_template[k].checked = true;
                       this.checkBoxValueArray.push(
-                        this.addOnsArray[i].fe_template[k].name
+                        this.addOnsArray[i].fe_template[k].name,
                       );
                       if (
                         this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
@@ -835,7 +835,7 @@ export class AddOnsComponent implements OnInit {
                     if (keys[0] == this.addOnsArray[i].fe_template[k].rb_code) {
                       this.addOnsArray[i].fe_template[k].checked = true;
                       this.checkBoxValueArray.push(
-                        this.addOnsArray[i].fe_template[k].name
+                        this.addOnsArray[i].fe_template[k].name,
                       );
                       if (
                         this.addOnsArray[i].fe_template[k]?.addOnsValue == '' &&
@@ -954,7 +954,7 @@ export class AddOnsComponent implements OnInit {
     index: number,
     name?: any,
     rb_code?: any,
-    multiCheckbox_name?: any
+    multiCheckbox_name?: any,
   ) {
     this.showButtons = true;
     if (event != '' && type == 'int_input') {
@@ -987,7 +987,7 @@ export class AddOnsComponent implements OnInit {
           if (item === event?.source?.id) {
             return item;
           }
-        }
+        },
       );
       if (indexMultiCheckoxRemove != -1) {
         this.subCheckBox.splice(indexMultiCheckoxRemove, 1);
@@ -1028,7 +1028,7 @@ export class AddOnsComponent implements OnInit {
     isChecked: boolean,
     type: any,
     index: number,
-    tagType: any
+    tagType: any,
   ) {
     if (isChecked && type == 'int_input') {
       this.inputFlagIndex[index] = true;

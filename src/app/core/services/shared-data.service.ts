@@ -23,7 +23,7 @@ import {
   ValidatorFn,
   FormControl,
 } from '@angular/forms';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Injectable({
   providedIn: 'root',
@@ -159,7 +159,7 @@ export class SharedDataService {
   renewalPolicyNumber: any;
   sourceId: any;
   customer_mobile_number: any;
-  webEngageCustomerDetails: any;
+  // webEngageCustomerDetails: any;
   mobileNumber: any;
   addOn: any;
   customerId: any;
@@ -182,7 +182,7 @@ export class SharedDataService {
     private snackbar: MatSnackBar,
     private http: HttpClient,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     // Extract the base URL
     const currentBaseUrl = window.location.href;
@@ -273,7 +273,7 @@ export class SharedDataService {
   crossSellRecomendation(proposal_number: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.crosssell_recommendation}${proposal_number}`
+        `${ApiConstants.crosssell_recommendation}${proposal_number}`,
       )
       .subscribe((res: any) => {});
   }
@@ -314,7 +314,7 @@ export class SharedDataService {
         .getRequestedResponseVahaan(
           `${ApiConstants.registration_number()}?regn_no=${
             this.regNumber
-          }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=${sourceData}&originData=false`
+          }&partner_code=${partner_code}&mobile_no=${mobileNumber}&source=${sourceData}&originData=false`,
         )
         .subscribe(
           (res: any) => {
@@ -338,7 +338,7 @@ export class SharedDataService {
               };
               sessionStorage.setItem(
                 'checkWheeler',
-                JSON.stringify(checkWheeler)
+                JSON.stringify(checkWheeler),
               );
               if (res['is_four_wheeler'] && data == 'reg_no') {
                 sessionStorage.setItem('vehicleType', `private_car`);
@@ -360,14 +360,14 @@ export class SharedDataService {
           },
           (error) => {
             this.loader.next('false');
-          }
+          },
         );
     }
   }
 
   checkWheelerType(editVehicleDetails: boolean) {
     this.checkWheeler = JSON.parse(
-      sessionStorage.getItem('checkWheeler') || '{}'
+      sessionStorage.getItem('checkWheeler') || '{}',
     );
     if (editVehicleDetails && Object.keys(this.checkWheeler).length > 0) {
       if (!this.checkWheeler['is_commercial_vehicle']) {
@@ -394,14 +394,14 @@ export class SharedDataService {
             isCheckWheeler: this.isCheckWheeler,
             vaahanName: this.vaahanName,
           };
-          webengage.track('Vehicle_Number_Entered_Banner_Popup', {
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-          });
+          // webengage.track('Vehicle_Number_Entered_Banner_Popup', {
+          //   User_Type: sessionStorage.getItem('partner_code')
+          //     ? 'Partner'
+          //     : 'Customer',
+          // });
           sessionStorage.setItem(
             'vehicleCheckPopupOpen',
-            JSON.stringify('Call')
+            JSON.stringify('Call'),
           );
           this.checkVehicleType.next(vehicledata);
         }
@@ -432,7 +432,7 @@ export class SharedDataService {
     data?: any,
     productType?: any,
     value?: any,
-    notTransactionId?: any
+    notTransactionId?: any,
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.renewalPolicyNumber = sessionStorage.getItem('renewalPolicyNumber');
@@ -448,7 +448,7 @@ export class SharedDataService {
     let setectedAddons;
     this.addonsValue = sessionStorage.getItem('selectedAddons');
     this.customer_mobile_number = sessionStorage.getItem(
-      'customer_mobile_number'
+      'customer_mobile_number',
     );
     let addOnsList;
     if (this.addonsValue == 'undefined') {
@@ -592,13 +592,13 @@ export class SharedDataService {
         partner_name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
+                'middle_name',
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
       const mmv_data = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
       const diffrenceDays = this.daysCountsFromToday(
-        mmv_data?.policy_expiry_date
+        mmv_data?.policy_expiry_date,
       );
       if (!data?.user_car) {
         if (data?.previous_claimed || diffrenceDays > 90) {
@@ -667,13 +667,13 @@ export class SharedDataService {
         partner_name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
+                'middle_name',
               )} ${sessionStorage.getItem('last_name')}`
             : null,
       };
       const mmv_data = JSON.parse(sessionStorage.getItem('mmv_data') || '{}');
       const diffrenceDays = this.daysCountsFromToday(
-        mmv_data?.policy_expiry_date
+        mmv_data?.policy_expiry_date,
       );
       if (!data?.user_car) {
         if (data?.previous_claimed || diffrenceDays > 90) {
@@ -754,7 +754,7 @@ export class SharedDataService {
     mmvFromData?: any,
     data?: any,
     selectedAddOns?: any,
-    notSendTransactionId?: any
+    notSendTransactionId?: any,
   ) {
     if (mmvFromData) {
       let mmvData;
@@ -770,7 +770,7 @@ export class SharedDataService {
         pos_status: sessionStorage.getItem('pos_status'),
       };
       const withoutVehicleNumber = JSON.parse(
-        sessionStorage.getItem('withoutVehicleNumber') || '{}'
+        sessionStorage.getItem('withoutVehicleNumber') || '{}',
       );
       mmvData.partner_details = partner_details;
       mmvData.withoutVehicleNumber = withoutVehicleNumber;
@@ -785,7 +785,7 @@ export class SharedDataService {
         mmvData?.policy_expiry_date != null
       ) {
         policyExpiryDate = moment(mmvData.policy_expiry_date).format(
-          'DD/MM/YYYY'
+          'DD/MM/YYYY',
         );
       } else {
         policyExpiryDate = '';
@@ -859,7 +859,7 @@ export class SharedDataService {
         mmvValues,
         producttype,
         data,
-        notSendTransactionId
+        notSendTransactionId,
       );
     }
   }
@@ -910,7 +910,7 @@ export class SharedDataService {
     flag?: any,
     formData?: any,
     fetchCkyc?: any,
-    show_tp_details?: any
+    show_tp_details?: any,
   ) {
     this.proposerType = sessionStorage.getItem('proposerType');
     this.vehicleType = sessionStorage.getItem('vehicleType');
@@ -955,7 +955,7 @@ export class SharedDataService {
         dob:
           this.datePipe.transform(
             formData?.get('dob')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         gender: formattedCkycGender || '',
         is_verification: fetchCkyc?.verification_status,
@@ -1021,12 +1021,12 @@ export class SharedDataService {
         registration_date:
           this.datePipe.transform(
             formData?.get('registration_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         manufacture_date:
           this.datePipe.transform(
             formData?.get('manufacture_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         vehicle_color: formData?.get('vehicle_colour')?.value || '',
         is_vehicle_financed:
@@ -1077,7 +1077,7 @@ export class SharedDataService {
       }
     }
     let previousPolicyType = JSON.parse(
-      sessionStorage.getItem('mmv_data') || '{}'
+      sessionStorage.getItem('mmv_data') || '{}',
     );
     if (
       flag === 'previous_policy_details' &&
@@ -1092,7 +1092,7 @@ export class SharedDataService {
         policy_expiry_date:
           this.datePipe.transform(
             formData?.get('policy_expiry_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
         show_tp_details: show_tp_details,
@@ -1100,7 +1100,7 @@ export class SharedDataService {
 
       let productTypeValue = sessionStorage.getItem('productType');
       let previousPolicyType = JSON.parse(
-        sessionStorage.getItem('mmv_data') || '{}'
+        sessionStorage.getItem('mmv_data') || '{}',
       );
       if (
         previousPolicyType?.form_value?.policy_expiry === 'saod' ||
@@ -1113,12 +1113,12 @@ export class SharedDataService {
           tp_policy_expiry_date:
             this.datePipe.transform(
               formData?.get('tp_policy_end_date')?.value,
-              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+              'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
             ) || '',
           tp_policy_start_date:
             this.datePipe.transform(
               formData?.get('tp_policy_start_date')?.value,
-              'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+              'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
             ) || '',
         };
       } else {
@@ -1130,12 +1130,13 @@ export class SharedDataService {
         previousPolicyType?.form_value?.policy_expiry === 'bundled_tp')
     ) {
       this.proposalDataItem['previous_policy_details'] = {};
-      (this.proposalDataItem['previous_policy_details'].is_accordion_completed =
-        true),
+      ((this.proposalDataItem[
+        'previous_policy_details'
+      ].is_accordion_completed = true),
         (this.proposalDataItem['previous_policy_details'].show_tp_details =
           show_tp_details),
         (this.proposalDataItem['previous_policy_details'].tp_policy_details =
-          {});
+          {}));
       this.proposalDataItem['previous_policy_details'].tp_policy_details = {
         tp_insurer_code: formData?.get('tp_insurance_company')?.value
           ?.rb_insurer_code,
@@ -1143,12 +1144,12 @@ export class SharedDataService {
         tp_policy_expiry_date:
           this.datePipe.transform(
             formData?.get('tp_policy_end_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         tp_policy_start_date:
           this.datePipe.transform(
             formData?.get('tp_policy_start_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
       };
     } else if (
@@ -1171,7 +1172,7 @@ export class SharedDataService {
         policy_expiry_date:
           this.datePipe.transform(
             formData?.get('policy_expiry_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         is_accordion_completed: true,
         show_tp_details: show_tp_details,
@@ -1183,17 +1184,17 @@ export class SharedDataService {
         tp_policy_expiry_date:
           this.datePipe.transform(
             formData?.get('policy_expiry_date')?.value,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
         tp_policy_start_date:
           this.datePipe.transform(
             tpStartDate,
-            'dd/MM/yyyy' // corrected format to 'dd/MM/yyyy'
+            'dd/MM/yyyy', // corrected format to 'dd/MM/yyyy'
           ) || '',
       };
       let productTypeValue = sessionStorage.getItem('productType');
       let previousPolicyType = JSON.parse(
-        sessionStorage.getItem('mmv_data') || '{}'
+        sessionStorage.getItem('mmv_data') || '{}',
       );
       // if (previousPolicyType?.form_value?.policy_expiry === 'comprehensive') {
       //   this.proposalDataItem['previous_policy_details'].tp_policy_details = {
@@ -1238,7 +1239,7 @@ export class SharedDataService {
     this.apiService
       .postRequestedResponseCreateProposal(
         ApiConstants.create_proposal,
-        this.proposalDataItem
+        this.proposalDataItem,
       )
       .subscribe(
         (res) => {
@@ -1312,7 +1313,7 @@ export class SharedDataService {
         (error: any) => {
           // this.sendErrorProposalData(error?.error);
           this.sendProposalError.next(error?.error);
-        }
+        },
       );
   }
   shareQuotes(
@@ -1322,7 +1323,7 @@ export class SharedDataService {
     url: any,
     mail_id: any,
     mobile_name: any,
-    quote_id: any
+    quote_id: any,
   ) {
     const baseURL = `${window.location.protocol}//${window.location.hostname}/`;
     let data = {
@@ -1342,7 +1343,7 @@ export class SharedDataService {
     };
     return this.apiService.postRequestedResponse(
       `${ApiConstants.send_communication()}`,
-      data
+      data,
     );
   }
   sendProposalData(data: any) {
@@ -1608,7 +1609,7 @@ export class SharedDataService {
   getAddressValidation(insurerCode: any) {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.address_validation}?insurer_code=${insurerCode}`
+        `${ApiConstants.address_validation}?insurer_code=${insurerCode}`,
       )
       .subscribe((res) => {
         // this.expiryListData = res;
@@ -1620,7 +1621,7 @@ export class SharedDataService {
     mobile_number?: any,
     formValues?: any,
     buttonType?: any,
-    transaction_id?: any
+    transaction_id?: any,
   ) {
     // if (environment.dev) {
     let maskedCheck;
@@ -1643,17 +1644,17 @@ export class SharedDataService {
     let emailId = formValues?.owner_email ? formValues?.owner_email : '';
     this.apiService
       .getRequestedResponseCustomer(
-        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${emailId}`
+        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${emailId}`,
       )
       .subscribe((res) => {
-        this.webEngageCustomerDetails = res;
-        this.webEngageCustomerDetails.buttonType = '';
-        this.webEngageCustomerDetails.buttonType = buttonType;
-        sessionStorage.setItem(
-          'webengageCustomerId',
-          JSON.stringify(this.webEngageCustomerDetails)
-        );
-        this.getCustomerId.next(this.webEngageCustomerDetails);
+        // this.webEngageCustomerDetails = res;
+        // this.webEngageCustomerDetails.buttonType = '';
+        // this.webEngageCustomerDetails.buttonType = buttonType;
+        // sessionStorage.setItem(
+        //   'webengageCustomerId',
+        //   JSON.stringify(this.webEngageCustomerDetails)
+        // );
+        // this.getCustomerId.next(this.webEngageCustomerDetails);
       });
     // }
   }
@@ -1664,7 +1665,7 @@ export class SharedDataService {
   longPollingInformation(transactionId: any, quotesId: any) {
     this.longPollingInfo = this.longPollingService.getAllQuotes(
       transactionId,
-      quotesId
+      quotesId,
     );
 
     // Define an empty array to store emitted values
@@ -1681,7 +1682,7 @@ export class SharedDataService {
 
         // Parse each string element into a JavaScript object
         const parsedQuotesArray = quotesArray.map((quote: string) =>
-          JSON.parse(quote)
+          JSON.parse(quote),
         );
 
         this.quotesCount = '';
@@ -1712,7 +1713,7 @@ export class SharedDataService {
     this.onetimeCall = 'new';
     this.sseService
       .getServerSentEvent(
-        `${ApiConstants.fetch_quotes()}${transactionId}/${quotesId}/?is_d2c=${d2c}`
+        `${ApiConstants.fetch_quotes()}${transactionId}/${quotesId}/?is_d2c=${d2c}`,
       )
       .subscribe(
         (eventSource) => {
@@ -1773,7 +1774,7 @@ export class SharedDataService {
         },
         () => {
           console.log('==> complete');
-        }
+        },
       );
   }
   initiateInsurerQuotePremium(selectedkms: any, insurerCode: any) {
@@ -1781,7 +1782,7 @@ export class SharedDataService {
     this.apiService
       .postRequestedResponse(
         ApiConstants.initiate_insurer_quote + `?insurer=${insurerCode}`,
-        this.initiate_QuotePayload
+        this.initiate_QuotePayload,
       )
       .subscribe((res) => {
         if (res?.status) {
@@ -1881,14 +1882,14 @@ export class SharedDataService {
 
   initiate_Quotes_APi(mmv_details: any) {
     const registrationValue = new Date(
-      mmv_details?.form_value?.registration_date
+      mmv_details?.form_value?.registration_date,
     );
     let registrationMonth = registrationValue?.getMonth() + 1;
     let registrationYear = registrationValue?.getFullYear();
     let registrationDay = registrationValue.getDate();
 
     const manufactureValue = new Date(
-      mmv_details?.form_value?.manufacture_date
+      mmv_details?.form_value?.manufacture_date,
     );
     let manufacture_month = manufactureValue?.getMonth() + 1;
     let manufacture_year = manufactureValue?.getFullYear();
@@ -1972,7 +1973,7 @@ export class SharedDataService {
         mmv_details?.form_value?.previous_insurer?.rb_insurer_code,
       previous_policy_exp_date: this.datePipe.transform(
         mmv_details?.form_value?.policy_expiry_date,
-        'dd/MM/yyyy'
+        'dd/MM/yyyy',
       ),
       previous_year_ncb:
         mmv_details?.form_value?.ncb_discount != null
@@ -2013,13 +2014,13 @@ export class SharedDataService {
       transaction_id: mmv_details?.onEditNotSendTransactionId
         ? null
         : sessionStorage.getItem('transaction_id')
-        ? sessionStorage.getItem('transaction_id')
-        : null,
+          ? sessionStorage.getItem('transaction_id')
+          : null,
 
       partner_name:
         sessionStorage.getItem('first_name') != null
           ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-              'middle_name'
+              'middle_name',
             )} ${sessionStorage.getItem('last_name')}`
           : null,
       insurer_discounts: this.flexiObject,
@@ -2029,7 +2030,7 @@ export class SharedDataService {
       quotesData.is_rb_renewal = true;
     }
     this.customer_mobile_number = sessionStorage.getItem(
-      'customer_mobile_number'
+      'customer_mobile_number',
     );
     if (this.customer_mobile_number != null) {
       quotesData.customer_mobile_number = this.customer_mobile_number;
@@ -2037,7 +2038,7 @@ export class SharedDataService {
     }
 
     const diffrenceDays = this.daysCountsFromToday(
-      mmv_details?.form_value?.policy_expiry_date
+      mmv_details?.form_value?.policy_expiry_date,
     );
     if (!mmv_details?.form_value?.user_car) {
       if (mmv_details?.form_value?.previous_claimed || diffrenceDays > 90) {

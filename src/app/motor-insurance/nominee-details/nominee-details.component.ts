@@ -5,7 +5,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { ApiService } from 'src/app/core/services/api.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Component({
   selector: 'app-nominee-details',
@@ -32,14 +32,14 @@ export class NomineeDetailsComponent implements OnInit {
   private getCustomerIdDetails!: Subscription;
   constructor(
     private sharedData: SharedDataService,
-    private apiService: ApiService
+    private apiService: ApiService,
   ) {
     this.minDate = new Date(1930, 6, 1);
     const currentDate = new Date();
     this.maxDate = new Date(
       currentDate.getFullYear() - 18,
       currentDate.getMonth(),
-      currentDate.getDate()
+      currentDate.getDate(),
     );
   }
 
@@ -76,30 +76,30 @@ export class NomineeDetailsComponent implements OnInit {
               nomieeRelation = this.relationshipList[i].rb_nominee_relation;
             }
           }
-          webengage.track('Motor_Nominee_Details_Submitted', {
-            Nominee_Relation: nomieeRelation,
-            Age: this.nominneForm.value.age,
-            User_Type: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Motor_Type: sessionStorage.getItem('vehicleType'),
-            Customer_id: idValue.customer_id,
-            Perform_by: sessionStorage.getItem('partner_code')
-              ? 'Partner'
-              : 'Customer',
-            Perform_for: 'Customer',
-            Partner_Name:
-              sessionStorage.getItem('first_name') != null
-                ? `${sessionStorage.getItem(
-                    'first_name'
-                  )} ${sessionStorage.getItem(
-                    'middle_name'
-                  )} ${sessionStorage.getItem('last_name')}`
-                : '',
-            Partner_id: sessionStorage.getItem('partner_code'),
-          });
+          // webengage.track('Motor_Nominee_Details_Submitted', {
+          //   Nominee_Relation: nomieeRelation,
+          //   Age: this.nominneForm.value.age,
+          //   User_Type: sessionStorage.getItem('partner_code')
+          //     ? 'Partner'
+          //     : 'Customer',
+          //   Motor_Type: sessionStorage.getItem('vehicleType'),
+          //   Customer_id: idValue.customer_id,
+          //   Perform_by: sessionStorage.getItem('partner_code')
+          //     ? 'Partner'
+          //     : 'Customer',
+          //   Perform_for: 'Customer',
+          //   Partner_Name:
+          //     sessionStorage.getItem('first_name') != null
+          //       ? `${sessionStorage.getItem(
+          //           'first_name'
+          //         )} ${sessionStorage.getItem(
+          //           'middle_name'
+          //         )} ${sessionStorage.getItem('last_name')}`
+          //       : '',
+          //   Partner_id: sessionStorage.getItem('partner_code'),
+          // });
         }
-      }
+      },
     );
   }
 
@@ -143,35 +143,35 @@ export class NomineeDetailsComponent implements OnInit {
             nomieeRelation = this.relationshipList[i].rb_nominee_relation;
           }
         }
-        webengage.track('Motor_Nominee_Details_Submitted', {
-          Nominee_Relation: nomieeRelation,
-          Age: this.nominneForm.value.age,
-          User_Type: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Motor_Type: sessionStorage.getItem('vehicleType'),
-          Customer_id: CheckId.customer_id,
-          Perform_by: sessionStorage.getItem('partner_code')
-            ? 'Partner'
-            : 'Customer',
-          Perform_for: 'Customer',
-          Partner_Name:
-            sessionStorage.getItem('first_name') != null
-              ? `${sessionStorage.getItem(
-                  'first_name'
-                )} ${sessionStorage.getItem(
-                  'middle_name'
-                )} ${sessionStorage.getItem('last_name')}`
-              : '',
-          Partner_id: sessionStorage.getItem('partner_code'),
-        });
+        // webengage.track('Motor_Nominee_Details_Submitted', {
+        //   Nominee_Relation: nomieeRelation,
+        //   Age: this.nominneForm.value.age,
+        //   User_Type: sessionStorage.getItem('partner_code')
+        //     ? 'Partner'
+        //     : 'Customer',
+        //   Motor_Type: sessionStorage.getItem('vehicleType'),
+        //   Customer_id: CheckId.customer_id,
+        //   Perform_by: sessionStorage.getItem('partner_code')
+        //     ? 'Partner'
+        //     : 'Customer',
+        //   Perform_for: 'Customer',
+        //   Partner_Name:
+        //     sessionStorage.getItem('first_name') != null
+        //       ? `${sessionStorage.getItem(
+        //           'first_name'
+        //         )} ${sessionStorage.getItem(
+        //           'middle_name'
+        //         )} ${sessionStorage.getItem('last_name')}`
+        //       : '',
+        //   Partner_id: sessionStorage.getItem('partner_code'),
+        // });
       } else {
         if (environment?.dev) {
           let mobileNumber = sessionStorage.getItem('mobileNumber');
           this.sharedData.getCustomerIdForwebengae(
             mobileNumber,
             '',
-            'Nominee Details'
+            'Nominee Details',
           );
         }
       }
@@ -187,7 +187,7 @@ export class NomineeDetailsComponent implements OnInit {
   getRelationshipsList() {
     this.apiService
       .getRequestedResponse(
-        `${ApiConstants.relation_type}?insurer_code=${this.quoteData?.insurer_code}`
+        `${ApiConstants.relation_type}?insurer_code=${this.quoteData?.insurer_code}`,
       )
       .subscribe((response) => {
         this.relationshipList = response;

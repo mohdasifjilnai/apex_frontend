@@ -17,7 +17,7 @@ import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { ErrorDialogComponent } from 'src/app/shared/components/dialog-components/error-dialog/error-dialog.component';
 import { FailureDialogComponent } from 'src/app/shared/components/dialog-components/failure-dialog/failure-dialog.component';
 import { environment } from 'src/environments/environment';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-previous-policy-details',
   templateUrl: './previous-policy-details.component.html',
@@ -91,7 +91,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     private sharedData: SharedDataService,
     private apiservice: ApiService,
     private datePipe: DatePipe,
-    private matDialog: WindowRef
+    private matDialog: WindowRef,
   ) {
     this.insuranceCompanyList = [
       {
@@ -283,7 +283,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           prev_policy_number:
             this.proposalData.previous_policy_details?.policy_no,
           policy_expiry_date: formatDate(
-            this.proposalData.previous_policy_details?.policy_expiry_date
+            this.proposalData.previous_policy_details?.policy_expiry_date,
           ),
 
           tp_policy_number:
@@ -291,11 +291,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               ?.tp_policy_no,
           tp_policy_start_date: formatDate(
             this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_start_date
+              ?.tp_policy_start_date,
           ),
           tp_policy_end_date: formatDate(
             this.proposalData.previous_policy_details?.tp_policy_details
-              ?.tp_policy_expiry_date
+              ?.tp_policy_expiry_date,
           ),
         });
 
@@ -309,39 +309,39 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               ?.tp_policy_start_date
           ) {
             const selectedDateValue = this.previousPolicyDetailsForm.get(
-              'tp_policy_start_date'
+              'tp_policy_start_date',
             )?.value;
             if (selectedDateValue) {
               const selectedDate = new Date(selectedDateValue);
               const EndMinDate = new Date(
                 selectedDate.getFullYear() + 1,
                 selectedDate.getMonth(),
-                selectedDate.getDate() - 1
+                selectedDate.getDate() - 1,
               );
               this.tpEndminDate = this.datePipe.transform(
                 EndMinDate,
-                'yyyy-MM-dd'
+                'yyyy-MM-dd',
               )!;
 
               if (this.vehicleTypeSelected == 'private_car') {
                 const fourYearsFromNow = new Date(
                   selectedDate.getFullYear() + 3,
                   selectedDate.getMonth(),
-                  selectedDate.getDate()
+                  selectedDate.getDate(),
                 );
                 this.tpEndmaxDate = this.datePipe.transform(
                   fourYearsFromNow,
-                  'yyyy-MM-dd'
+                  'yyyy-MM-dd',
                 )!;
               } else if (this.vehicleTypeSelected == 'two_wheeler') {
                 const fourYearsFromNow = new Date(
                   selectedDate.getFullYear() + 5,
                   selectedDate.getMonth(),
-                  selectedDate.getDate()
+                  selectedDate.getDate(),
                 );
                 this.tpEndmaxDate = this.datePipe.transform(
                   fourYearsFromNow,
-                  'yyyy-MM-dd'
+                  'yyyy-MM-dd',
                 )!;
               }
             }
@@ -860,7 +860,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             ?.tp_policy_start_date
             ? this.datePipe.transform(
                 this.previousPolicyDetailsForm.value?.tp_policy_start_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                'yyyy-MM-ddTHH:mm:ss.SSSZ',
               )
             : '';
           let policyStartDate = transforPolicyStart
@@ -871,7 +871,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             ?.tp_policy_end_date
             ? this.datePipe.transform(
                 this.previousPolicyDetailsForm.value?.tp_policy_end_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                'yyyy-MM-ddTHH:mm:ss.SSSZ',
               )
             : '';
           let policyEndDate = transforPolicyEnd
@@ -882,7 +882,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             ?.policy_expiry_date
             ? this.datePipe.transform(
                 this.previousPolicyDetailsForm.value?.policy_expiry_date,
-                'yyyy-MM-ddTHH:mm:ss.SSSZ'
+                'yyyy-MM-ddTHH:mm:ss.SSSZ',
               )
             : '';
           let policyExpDate = transformedPolicyExpiry
@@ -921,9 +921,9 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             Partner_Name:
               sessionStorage.getItem('first_name') != null
                 ? `${sessionStorage.getItem(
-                    'first_name'
+                    'first_name',
                   )} ${sessionStorage.getItem(
-                    'middle_name'
+                    'middle_name',
                   )} ${sessionStorage.getItem('last_name')}`
                 : '',
             Partner_id: sessionStorage.getItem('partner_code'),
@@ -934,11 +934,11 @@ export class PreviousPolicyDetailsComponent implements OnInit {
                 return false;
               }
               return true;
-            })
+            }),
           );
-          webengage.track('Previous_Policy_details_Submitted', filteredData);
+          // webengage.track('Previous_Policy_details_Submitted', filteredData);
         }
-      }
+      },
     );
   }
 
@@ -953,13 +953,13 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ?.updateValueAndValidity();
       this.previousPolicyDetailsForm.get('tp_policy_end_date')?.reset();
       const selectedDateValue = this.previousPolicyDetailsForm.get(
-        'tp_policy_start_date'
+        'tp_policy_start_date',
       )?.value;
       if (selectedDateValue) {
         const EndMinDate = new Date(
           selectedDateValue.getFullYear() + 1,
           selectedDateValue.getMonth(),
-          selectedDateValue.getDate() - 1
+          selectedDateValue.getDate() - 1,
         );
         this.tpEndminDate = this.datePipe.transform(EndMinDate, 'yyyy-MM-dd')!;
         const selectedDate = new Date(selectedDateValue);
@@ -967,21 +967,21 @@ export class PreviousPolicyDetailsComponent implements OnInit {
           const fourYearsFromNow = new Date(
             selectedDate.getFullYear() + 3,
             selectedDate.getMonth(),
-            selectedDate.getDate()
+            selectedDate.getDate(),
           );
           this.tpEndmaxDate = this.datePipe.transform(
             fourYearsFromNow,
-            'yyyy-MM-dd'
+            'yyyy-MM-dd',
           )!;
         } else if (this.vehicleTypeSelected == 'two_wheeler') {
           const fourYearsFromNow = new Date(
             selectedDate.getFullYear() + 5,
             selectedDate.getMonth(),
-            selectedDate.getDate()
+            selectedDate.getDate(),
           );
           this.tpEndmaxDate = this.datePipe.transform(
             fourYearsFromNow,
-            'yyyy-MM-dd'
+            'yyyy-MM-dd',
           )!;
         }
       }
@@ -1026,7 +1026,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
     // });
     if (!partnerCode) {
       this.partnerCodewithTraceId = JSON.parse(
-        sessionStorage.getItem('partnerCodeTraceId') || '{}'
+        sessionStorage.getItem('partnerCodeTraceId') || '{}',
       );
       if (this.partnerCodewithTraceId?.partner_code) {
         partnerCode = this.partnerCodewithTraceId?.partner_code;
@@ -1039,7 +1039,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             ApiConstants.renewal_partner_validation
           }?vehicle_type=${vehcileType}&proposal_id=${proposal_id}&registration_num=${
             this.proposalData?.vehicle_details?.registration_no
-          }&partner_code=${partnerCode ? partnerCode : ''}`
+          }&partner_code=${partnerCode ? partnerCode : ''}`,
         )
         .subscribe((res) => {
           if (res?.status) {
@@ -1049,7 +1049,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
               'previous_policy_details',
               this.previousPolicyDetailsForm,
               '',
-              this.proposalData?.previous_policy_details?.show_tp_details
+              this.proposalData?.previous_policy_details?.show_tp_details,
             );
             /**
              * Unsubscribe before subscribing to avoid multiple subscriptions
@@ -1091,7 +1091,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ?.tp_policy_start_date
         ? this.datePipe.transform(
             this.previousPolicyDetailsForm.value?.tp_policy_start_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let policyStartDate = transforPolicyStart
@@ -1102,7 +1102,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ?.tp_policy_end_date
         ? this.datePipe.transform(
             this.previousPolicyDetailsForm.value?.tp_policy_end_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let policyEndDate = transforPolicyEnd
@@ -1113,7 +1113,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         ?.policy_expiry_date
         ? this.datePipe.transform(
             this.previousPolicyDetailsForm.value?.policy_expiry_date,
-            'yyyy-MM-ddTHH:mm:ss.SSSZ'
+            'yyyy-MM-ddTHH:mm:ss.SSSZ',
           )
         : '';
       let policyExpDate = transformedPolicyExpiry
@@ -1151,7 +1151,7 @@ export class PreviousPolicyDetailsComponent implements OnInit {
         Partner_Name:
           sessionStorage.getItem('first_name') != null
             ? `${sessionStorage.getItem('first_name')} ${sessionStorage.getItem(
-                'middle_name'
+                'middle_name',
               )} ${sessionStorage.getItem('last_name')}`
             : '',
         Partner_id: sessionStorage.getItem('partner_code'),
@@ -1162,16 +1162,16 @@ export class PreviousPolicyDetailsComponent implements OnInit {
             return false;
           }
           return true;
-        })
+        }),
       );
-      webengage.track('Previous_Policy_details_Submitted', filteredData);
+      // webengage.track('Previous_Policy_details_Submitted', filteredData);
     } else {
       if (environment?.dev) {
         let mobileNumber = sessionStorage.getItem('mobileNumber');
         this.sharedData.getCustomerIdForwebengae(
           mobileNumber,
           '',
-          'Previous Policy Details'
+          'Previous Policy Details',
         );
       }
     }

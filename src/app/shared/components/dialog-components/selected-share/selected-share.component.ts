@@ -14,7 +14,7 @@ import {
   MatBottomSheetConfig,
 } from '@angular/material/bottom-sheet';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-selected-share',
   templateUrl: './selected-share.component.html',
@@ -43,7 +43,7 @@ export class SelectedShareComponent implements OnInit {
     public matDialog: WindowRef,
     public dialogRef: MatDialogRef<SelectedShareComponent>,
     public bottomSheet: MatBottomSheet,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
   ) {}
 
   ngOnInit(): void {
@@ -54,14 +54,14 @@ export class SelectedShareComponent implements OnInit {
    */
   shareQuotes(quotes: any) {
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Shared_Selected_clicked', {
-      Quotes_Selected: quotes.length,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? 'Partner'
-        : 'Customer',
-      Motor_Type: vehicleTypeValue,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Shared_Selected_clicked', {
+    //   Quotes_Selected: quotes.length,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? 'Partner'
+    //     : 'Customer',
+    //   Motor_Type: vehicleTypeValue,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     const bottomSheetConfig: MatBottomSheetConfig = {
       data: quotes,
     };

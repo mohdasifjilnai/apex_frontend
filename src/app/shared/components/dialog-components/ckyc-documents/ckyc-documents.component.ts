@@ -22,7 +22,7 @@ import {
   MAT_BOTTOM_SHEET_DATA,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet';
-declare const webengage: any;
+// declare const webengage: any;
 
 @Component({
   selector: 'app-ckyc-documents',
@@ -97,7 +97,7 @@ export class CkycDocumentsComponent implements OnInit {
     private sharedData: SharedDataService,
     public bottomSheetRef: MatBottomSheetRef<CkycDocumentsComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetdata: any,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     if (window.innerWidth <= 999) {
       this.fetchCkycParam = bottomSheetdata;
@@ -123,11 +123,11 @@ export class CkycDocumentsComponent implements OnInit {
     this.maxDate.setFullYear(currentDate.getFullYear() - 18);
 
     this.maxDoiDate = new Date(
-      this.maxDoiDate.setFullYear(currentDate.getFullYear() - 0)
+      this.maxDoiDate.setFullYear(currentDate.getFullYear() - 0),
     );
 
     this.minDoiDate = new Date(
-      this.minDoiDate.setFullYear(currentDate.getFullYear() - 124)
+      this.minDoiDate.setFullYear(currentDate.getFullYear() - 124),
     );
   }
   /**
@@ -137,7 +137,7 @@ Event handler for when a file is selected.
   onFileSelected(
     event: any,
     fileFormControlName: any,
-    isReupload: boolean = false
+    isReupload: boolean = false,
   ): void {
     const selectedFile: File = event.target.files[0];
     const fileInput = event.target as HTMLInputElement; // Reference to the file input element
@@ -159,7 +159,7 @@ Event handler for when a file is selected.
       case 'poa_doc_url_1':
         doc_type = 'poa';
         isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(
-          fileType
+          fileType,
         );
         this.docTypeData = 'poa';
         break;
@@ -171,7 +171,7 @@ Event handler for when a file is selected.
       case 'poi_doc_url':
         doc_type = 'poi';
         isValidFile = ['image/jpeg', 'image/png', 'application/pdf'].includes(
-          fileType
+          fileType,
         );
         this.docTypeData = 'poi';
         break;
@@ -191,7 +191,7 @@ Event handler for when a file is selected.
     this.apiService
       .postRequestedResponse(
         `${ApiConstants['upload_document']}?transaction_id=${this.transactionId}&proposal_id=${this.proposalId}&document_type=${doc_type}`,
-        formData
+        formData,
       )
       .subscribe(
         (res) => {
@@ -214,7 +214,7 @@ Event handler for when a file is selected.
           fileInput.value = '';
           this.uploadDocumentsForm.get(fileFormControlName)?.reset();
           this.setFileInputError(fileFormControlName, true);
-        }
+        },
       );
   }
 
@@ -255,7 +255,7 @@ Event handler for when a file is selected.
           fetchCkycParam?.insurer_code
         }&is_individual=${
           fetchCkycParam.isProposerTrue
-        }&is_corporate=${!fetchCkycParam.isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`
+        }&is_corporate=${!fetchCkycParam.isProposerTrue}&is_ckyc=false&is_ckyc_upload=true`,
       )
       .subscribe((res) => {
         this.documentList = res;
@@ -286,16 +286,16 @@ handles the form submit for uploading the required documents
     const token = sessionStorage.getItem('token');
     this.ckycdocumentData = sessionStorage.getItem('quotes_data');
     let parseCkycData = JSON.parse(this.ckycdocumentData);
-    webengage.track('Offline_CKYC_details', {
-      User_Type: token != null ? 'Partner' : 'Customer',
-      Motor_Type: this.vehicleTypeValue,
-      Total_IDV: parseCkycData.premium_details.idv,
-      Total_Premium: parseCkycData.premium_details.gross_premium,
-      Insurer_Name: parseCkycData.insurer_name,
-      Insurer_Logo: parseCkycData.insurer_logo,
-      Document_type: this.uploadDocumentsForm.value.document_type_based_field,
-      Partner_id: sessionStorage.getItem('partner_code'),
-    });
+    // webengage.track('Offline_CKYC_details', {
+    //   User_Type: token != null ? 'Partner' : 'Customer',
+    //   Motor_Type: this.vehicleTypeValue,
+    //   Total_IDV: parseCkycData.premium_details.idv,
+    //   Total_Premium: parseCkycData.premium_details.gross_premium,
+    //   Insurer_Name: parseCkycData.insurer_name,
+    //   Insurer_Logo: parseCkycData.insurer_logo,
+    //   Document_type: this.uploadDocumentsForm.value.document_type_based_field,
+    //   Partner_id: sessionStorage.getItem('partner_code'),
+    // });
     if (valid && !this.loader) {
       this.loader = true;
       let body = {
@@ -306,18 +306,18 @@ handles the form submit for uploading the required documents
         dob: this.uploadDocumentsForm.get('dob')?.value
           ? this.datePipe.transform(
               this.uploadDocumentsForm.get('dob')?.value,
-              'dd/MM/yyyy'
+              'dd/MM/yyyy',
             )
           : this.datePipe.transform(
               this.uploadDocumentsForm.get('doi')?.value,
-              'dd/MM/yyyy'
+              'dd/MM/yyyy',
             ),
         family_member_name: this.uploadDocumentsForm.get('family_member_name')
           ?.value
           ? this.uploadDocumentsForm.get('family_member_name')?.value
           : null,
         family_member_relation: this.uploadDocumentsForm.get(
-          'family_member_relation'
+          'family_member_relation',
         )?.value
           ? this.uploadDocumentsForm.get('family_member_relation')?.value
           : null,
@@ -400,7 +400,7 @@ handles the form submit for uploading the required documents
                 this.dialogRef.close();
               }
             }, 300);
-          }
+          },
         );
     }
   }
@@ -420,7 +420,7 @@ handles the form submit for uploading the required documents
     if (this.isUploadDocment) {
       this.apiService
         .getRequestedResponse(
-          `${ApiConstants.get_document_image_url}?document_path=${url}`
+          `${ApiConstants.get_document_image_url}?document_path=${url}`,
         )
         .subscribe((res) => {
           if (res) {
@@ -448,7 +448,7 @@ handles the form submit for uploading the required documents
           this.fetchCkycParam.insurer_code
         }&document_code=${
           this.uploadDocumentsForm.get('document_type_based_field')?.value
-        }`
+        }`,
       )
       .subscribe((res) => {
         this.formGetData = res;
@@ -460,7 +460,7 @@ handles the form submit for uploading the required documents
           for (let field in res['poa']) {
             this.uploadDocumentsForm.addControl(
               res['poa'][field]?.label,
-              new FormControl('', Validators.required)
+              new FormControl('', Validators.required),
             );
           }
         }
@@ -471,7 +471,7 @@ handles the form submit for uploading the required documents
           for (let field in res['poi']) {
             this.uploadDocumentsForm.addControl(
               res['poi'][field]?.label,
-              new FormControl('', Validators.required)
+              new FormControl('', Validators.required),
             );
           }
         }
@@ -486,7 +486,7 @@ handles the form submit for uploading the required documents
             for (let field in res?.other['photograph']) {
               this.uploadDocumentsForm.addControl(
                 res?.other['photograph'][field]?.label,
-                new FormControl('', Validators.required)
+                new FormControl('', Validators.required),
               );
             }
           }
@@ -500,7 +500,7 @@ handles the form submit for uploading the required documents
         const panNumberValidationField =
           this.uploadDocumentsForm.get('pan_number');
         const documentTypeValue = this.uploadDocumentsForm.get(
-          'document_type_based_field'
+          'document_type_based_field',
         )?.value;
         if (documentTypeValue == 'pan_number') {
           this.documentMaxLength = 10;
@@ -548,7 +548,7 @@ handles the form submit for uploading the required documents
           documentNumberBasedField?.setValidators([
             Validators.required,
             Validators.pattern(
-              /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i
+              /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/i,
             ),
           ]);
         } else if (documentTypeValue == 'cin') {

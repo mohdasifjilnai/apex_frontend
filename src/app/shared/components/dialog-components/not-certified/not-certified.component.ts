@@ -12,7 +12,7 @@ import { ApiConstants } from 'src/app/api.constant';
 import { OtpComponent } from '../otp/otp.component';
 import { WindowRef } from 'src/app/core/services/window-ref.service';
 import { Router } from '@angular/router';
-declare const webengage: any;
+// declare const webengage: any;
 @Component({
   selector: 'app-not-certified',
   templateUrl: './not-certified.component.html',
@@ -56,7 +56,7 @@ export class NotCertifiedComponent implements OnInit {
     private apiService: ApiService,
     public matDialog: WindowRef,
     public bottomSheet: MatBottomSheet,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class NotCertifiedComponent implements OnInit {
     });
     this.proposalData = this.sharedDataService.proposalData;
     this.partnerCodeTraceId = JSON.parse(
-      sessionStorage.getItem('partnerCodeTraceId') || '{}'
+      sessionStorage.getItem('partnerCodeTraceId') || '{}',
     );
     const mmvData = sessionStorage.getItem('mmv_data');
     this.first_name = `${sessionStorage.getItem('first_name')}`;
@@ -121,7 +121,7 @@ export class NotCertifiedComponent implements OnInit {
         this.apiService
           .postRequestedResponse(
             `${ApiConstants.send_communication()}`,
-            sendCommunicationObject
+            sendCommunicationObject,
           )
           .subscribe(
             (res) => {
@@ -141,7 +141,7 @@ export class NotCertifiedComponent implements OnInit {
             (error) => {
               this.loader = false;
               this.dialogRef.close();
-            }
+            },
           );
       } else {
         let sendCommunicationObject = {
@@ -157,7 +157,7 @@ export class NotCertifiedComponent implements OnInit {
         this.apiService
           .postRequestedResponse(
             `${ApiConstants.send_communication()}`,
-            sendCommunicationObject
+            sendCommunicationObject,
           )
           .subscribe(
             (res) => {
@@ -176,18 +176,18 @@ export class NotCertifiedComponent implements OnInit {
             },
             (error) => {
               this.loader = false;
-            }
+            },
           );
       }
     }
     let vehicleTypeValue = sessionStorage.getItem('vehicleType');
-    webengage.track('Motor_Proceed', {
-      Option_Selected: vehicleTypeValue,
-      User_Type: sessionStorage.getItem('partner_code')
-        ? sessionStorage.getItem('partner_code')
-        : null,
-      Motor_Type: vehicleTypeValue,
-    });
+    // webengage.track('Motor_Proceed', {
+    //   Option_Selected: vehicleTypeValue,
+    //   User_Type: sessionStorage.getItem('partner_code')
+    //     ? sessionStorage.getItem('partner_code')
+    //     : null,
+    //   Motor_Type: vehicleTypeValue,
+    // });
   }
   login() {
     if (window.innerWidth <= 999) {
