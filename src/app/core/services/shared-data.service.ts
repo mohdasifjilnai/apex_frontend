@@ -1642,20 +1642,20 @@ export class SharedDataService {
       transactionId = transaction_id;
     }
     let emailId = formValues?.owner_email ? formValues?.owner_email : '';
-    this.apiService
-      .getRequestedResponseCustomer(
-        `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${emailId}`,
-      )
-      .subscribe((res) => {
-        // this.webEngageCustomerDetails = res;
-        // this.webEngageCustomerDetails.buttonType = '';
-        // this.webEngageCustomerDetails.buttonType = buttonType;
-        // sessionStorage.setItem(
-        //   'webengageCustomerId',
-        //   JSON.stringify(this.webEngageCustomerDetails)
-        // );
-        // this.getCustomerId.next(this.webEngageCustomerDetails);
-      });
+    // this.apiService
+    //   .getRequestedResponseCustomer(
+    //     `${ApiConstants.get_or_create_customer}?phone_number=${mobile_number}&source=APEX_MOTOR&destination=webengage&is_masked=${maskedValue}&unmask_param=${transactionId}&email=${emailId}`,
+    //   )
+    //   .subscribe((res) => {
+    //     // this.webEngageCustomerDetails = res;
+    //     // this.webEngageCustomerDetails.buttonType = '';
+    //     // this.webEngageCustomerDetails.buttonType = buttonType;
+    //     // sessionStorage.setItem(
+    //     //   'webengageCustomerId',
+    //     //   JSON.stringify(this.webEngageCustomerDetails)
+    //     // );
+    //     // this.getCustomerId.next(this.webEngageCustomerDetails);
+    //   });
     // }
   }
   sendOwnnerAddres(data: any) {
